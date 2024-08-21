@@ -55,6 +55,7 @@ include(BuildInfoGenerator)
 
 find_package(OpenSSL REQUIRED)
 include(InstallBcosUtilities)
+find_package(Boost COMPONENTS unit_test_framework)
 if(BUILD_SDK)
     ##### the sdk-dependencies #####
     # find JNI
@@ -89,7 +90,6 @@ if(NOT BUILD_SDK AND NOT BUILD_UDF)
     ##### the full-dependencies #####
     find_package(TBB REQUIRED)
     find_package(jsoncpp REQUIRED)
-    find_package(Boost REQUIRED unit_test_framework)
 
     find_package(${BCOS_BOOSTSSL_TARGET} REQUIRED)
     # tcmalloc
