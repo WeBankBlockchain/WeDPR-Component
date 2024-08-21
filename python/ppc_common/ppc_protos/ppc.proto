@@ -1,0 +1,160 @@
+syntax = "proto3";
+
+package ppc.proto;
+
+message AlgorithmDetail {
+	string algorithm_description = 1;
+	string algorithm_type = 2;
+	int64 create_time = 3;
+	int64 update_time = 4;
+	string owner_user_name = 5;
+	string owner_agency_id = 6;
+	string owner_agency_name = 7;
+	PpcFlow ppc_flow = 8;
+}
+
+message PpcFlow {
+  // input_count need present '3+'
+  string input_count = 1;
+  string sql_module = 2;
+  string mpc_module = 3;
+  string mpc_model_module = 4;
+  string match_module = 5;
+  string algorithm_subtype = 6;
+  string participant_agency = 7;
+  string model_type = 8;
+}
+
+message DatasetDetail {
+	string dataset_title = 1;
+	string dataset_description = 2;
+	string dataset_hash = 3;
+	int64 column_count = 4;
+	int64 row_count = 5;
+	int64 create_time = 6;
+	string user_name = 7;
+  string data_field_list = 8;
+  int64 dataset_size = 9;
+	int64 update_time = 10;
+}
+
+message DatasetAuthData {
+	bool is_auth = 1;
+	int64 create_time = 2;
+	int64 valid_time = 3;
+}
+
+
+message jobDatasetProvider {
+	string agency_id = 1;
+	string agency_name = 2;
+	string dataset_id = 3;
+	string dataset_title = 4;
+	int64 loading_index = 5;
+	string dataset_description = 6;
+	string owner_user_name = 7;
+  int64 columns_size = 8;
+  int64 is_instant = 9;
+}
+
+message datasourceInstantInfo {
+  string db_ip = 1;
+  string db_name = 2;
+  string db_password = 3;
+  int64 db_port = 4;
+  string db_sql = 5;
+  string db_user_name = 6;
+  string db_type = 7;
+}
+
+message jobDatasetProviderList {
+	repeated jobDatasetProvider provider = 1;
+}
+
+message jobComputationProvider {
+	string agency_id = 1;
+	string agency_name = 2;
+	string agency_url = 3;
+	int64 computing_index = 4;
+}
+
+message jobComputationProviderList {
+	repeated jobComputationProvider provider = 1;
+}
+
+message jobResultReceiverList {
+	repeated string receiver = 1;
+}
+
+
+message JobEvent {
+  string job_id = 1;
+  string job_title = 2;
+  string job_description = 3;
+  int64 job_priority = 4;
+  string job_creator = 5;
+  string initiator_agency_id = 6;
+  string initiator_agency_name = 7;
+  string initiator_signature = 8;
+  string job_algorithm_id = 9;
+  string job_algorithm_title = 10;
+  string job_algorithm_version = 11;
+  string job_algorithm_type = 12;
+  string job_dataset_provider_list_pb = 13;   // jobDatasetProviderList
+  string job_result_receiver_list_pb = 14;   // jobResultReceiverList
+  int64 create_time = 15;
+  int64 update_time = 16;
+  string psi_fields = 17;
+  string job_algorithm_subtype = 18;
+  string match_fields = 19;
+  bool is_cem_encrypt = 20;
+  repeated string dataset_id_list = 21;   // cem encrypt dataset id without username prefix
+  DatasetDetail dataset_detail = 22;    // cem encrypt dataset transfer
+  string tag_provider_agency_id = 23;
+  string job_type = 24;
+}
+
+message AuditItem {
+  string description = 1;
+  string value = 2;
+}
+
+message AuditData {
+  repeated AuditItem audit_item = 1;
+}
+
+message JobOutputPreview {
+  repeated string header = 1;
+  repeated DataLine line = 2;
+}
+
+message DataLine {
+  repeated string value = 1;
+}
+
+message InputStatement {
+  string upstream_unit = 1;
+  int64 output_index = 2;
+}
+
+message JobUnitInputsStatement {
+  repeated InputStatement inputs_statement = 1;
+}
+
+message JobUnitOutputs {
+	repeated string outputs = 1;
+}
+
+message JobUnitUpstream {
+	repeated string upstream_units = 1;
+}
+
+message Algorithm {
+    string algorithm_id = 1;
+    string algorithm_version = 2;
+}
+
+message Algorithms {
+    repeated Algorithm algorithms = 1;
+}
+

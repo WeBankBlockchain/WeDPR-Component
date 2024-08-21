@@ -1,0 +1,43 @@
+HOST: "0.0.0.0"
+HTTP_PORT: 43471
+RPC_PORT: 43472
+
+AGENCY_ID: 'WeBank'
+GATEWAY_ENDPOINT: "127.0.0.1:43454"
+
+PUBLIC_KEY_LENGTH: 2048
+
+MAX_MESSAGE_LENGTH_MB: 100
+TASK_TIMEOUT_H: 1800
+
+SSL_SWITCH: 0
+CA_CRT: "./ca.crt"
+SSL_CRT: "./ssl.crt"
+SSL_KEY: "./ssl.key"
+
+
+PEM_PATH: "/data/app/ppcs-model4ef/wedpr-model-node/ppc_model_service/server.pem"
+SHARE_PATH: "/data/app/ppcs-model4ef/wedpr-model-node/ppc_model_service/dataset_share/"
+
+DB_TYPE: "mysql"
+SQLALCHEMY_DATABASE_URI: "mysql://[*user_ppcsmodeladm]:[*pass_ppcsmodeladm]@[@4346-TDSQL_VIP]:[@4346-TDSQL_PORT]/ppcsmodeladm?autocommit=true&charset=utf8mb4"
+
+# interagency services
+HDFS_ENDPOINT: "http://127.0.0.1:50070"
+# HDFS,
+STORAGE_TYPE: "HDFS"
+HDFS_ENDPOINT: "http://127.0.0.1:9870"
+HDFS_USER: "ppc"
+HDFS_HOME: "/user/ppc/model/webank"
+
+# ECDSA or GM
+CRYPTO_TYPE: "ECDSA"
+private_key: ""
+public_key: ""
+gm_private_key: ""
+gm_public_key: ""
+
+UPLOAD_FOLDER: "./upload_data_folder"
+JOB_TEMP_DIR: ".cache/job"
+
+FE_TIMEOUT_S: 5400

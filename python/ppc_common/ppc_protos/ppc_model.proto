@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+//option java_package = "unknown";
+//option java_outer_classname = "unknown";
+option objc_class_prefix = "PPC";
+
+package ppc.model;
+
+service ModelService {
+  rpc MessageInteraction (ModelRequest) returns (ModelResponse) {}
+}
+
+message ModelRequest {
+  string sender = 1;
+  string receiver = 2;
+  string task_id = 3;
+  string key = 4;
+  int64 seq = 5;
+  int64 slice_num = 6;
+  bytes data = 7;
+}
+
+message BaseResponse {
+  int64 error_code = 1;
+  string message = 2;
+}
+
+message ModelResponse {
+  BaseResponse base_response = 1;
+  bytes data = 2;
+}
+
+message PlainBoolList{
+  repeated bool plain_list = 1;
+}
+
+message BestSplitInfo{
+  int64 tree_id = 1;
+  int64 leaf_id = 2;
+  int64 feature = 3;
+  int64 value = 4;
+  int64 agency_idx = 5;
+  int64 agency_feature = 6;
+  float best_gain = 7;
+  float w_left = 8;
+  float w_right = 9;
+}
+
+message ModelCipher {
+  bytes ciphertext = 1;
+  bytes exponent = 2;
+}
+
+message CipherList {
+  bytes public_key = 1;
+  repeated ModelCipher cipher_list = 2;
+}
+
+message Cipher1DimList {
+  repeated ModelCipher cipher_list = 1;
+}
+
+message Cipher2DimList {
+  bytes public_key = 1;
+  repeated Cipher1DimList cipher_1d_list = 2;
+}
+
+message EncAggrLabels {
+  string field = 1;
+  repeated int64 count_list = 2;
+  repeated ModelCipher cipher_list = 3;
+}
+
+message EncAggrLabelsList {
+  bytes public_key = 1;
+  repeated EncAggrLabels enc_aggr_labels_list = 2;
+}
+
+message IterationRequest {
+  int64 epoch = 1;
+  bool stop = 2;
+}

@@ -1,0 +1,6 @@
+# mysql or dm
+DB_TYPE: "mysql" 
+SQLALCHEMY_DATABASE_URI: "mysql://root:12345678@127.0.0.1:3306/ppc?autocommit=true&charset=utf8"
+# SQLALCHEMY_DATABASE_URI: "dm+dmPython://ppcv16:ppc12345678@127.0.0.1:5236"
+
+MPC_BIT_LENGTH: [@IDC_PPCS_COMMON_MPC_BIT]
