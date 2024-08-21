@@ -21,66 +21,66 @@
 #include "ppc-framework/storage/CacheStorage.h"
 #include <unordered_map>
 
-namespace ppc::mock
-{
-class MockCache : public storage::CacheStorage
-{
+namespace ppc::mock {
+class MockCache : public storage::CacheStorage {
 public:
-    using Ptr = std::shared_ptr<MockCache>;
-    MockCache() = default;
-    ~MockCache() override {}
+  using Ptr = std::shared_ptr<MockCache>;
+  MockCache() = default;
+  ~MockCache() override {}
 
-    /// Note: all these interfaces throws exception when error happened
-    /**
-     * @brief: check whether the key exists
-     * @param _key: key
-     * @return whether the key exists
-     */
-    bool exists(const std::string& _key) override { return m_kv.find(_key) != m_kv.end(); }
+  /// Note: all these interfaces throws exception when error happened
+  /**
+   * @brief: check whether the key exists
+   * @param _key: key
+   * @return whether the key exists
+   */
+  bool exists(const std::string &_key) override {
+    return m_kv.find(_key) != m_kv.end();
+  }
 
-    /**
-     * @brief: set key value
-     * @param _expirationTime: timeout of key, seconds
-     */
-    void setValue(const std::string& _key, const std::string& _value,
-        int32_t _expirationSeconds = -1) override
-    {
-        m_kv.emplace(_key, _value);
+  /**
+   * @brief: set key value
+   * @param _expirationTime: timeout of key, seconds
+   */
+  void setValue(const std::string &_key, const std::string &_value,
+                int32_t _expirationSeconds = -1) override {
+    m_kv.emplace(_key, _value);
+  }
+
+  /**
+   * @brief: get value by key
+   * @param _key: key
+   * @return value
+   */
+  std::optional<std::string> getValue(const std::string &_key) override {
+    auto it = m_kv.find(_key);
+    if (it == m_kv.end()) {
+      return std::nullopt;
     }
 
+    return it->second;
+  }
 
-    /**
-     * @brief: get value by key
-     * @param _key: key
-     * @return value
-     */
-    Optional<std::string> getValue(const std::string& _key) override
-    {
-        auto it = m_kv.find(_key);
-        if (it == m_kv.end())
-        {
-            return std::nullopt;
-        }
+  /**
+   * @brief: set a timeout on key
+   * @param _expirationTime: timeout of key, ms
+   * @return whether setting is successful
+   */
+  bool expireKey(const std::string &_key, uint32_t _expirationTime) override {
+    return true;
+  }
 
-        return it->second;
-    }
-
-    /**
-     * @brief: set a timeout on key
-     * @param _expirationTime: timeout of key, ms
-     * @return whether setting is successful
-     */
-    bool expireKey(const std::string& _key, uint32_t _expirationTime) override { return true; }
-
-    /**
-     * @brief: delete key
-     * @param _key: key
-     * @return the number of key deleted
-     */
-    uint64_t deleteKey(const std::string& _key) override { return m_kv.erase(_key); }
+  /**
+   * @brief: delete key
+   * @param _key: key
+   * @return the number of key deleted
+   */
+  uint64_t deleteKey(const std::string &_key) override {
+    return m_kv.erase(_key);
+  }
 
 private:
-    std::unordered_map<std::string, Optional<std::string>> m_kv;
+  std::unordered_map<std::string, std::optional<std::string>> m_kv;
 };
 
-}  // namespace ppc::mock
+} // namespace ppc::mock

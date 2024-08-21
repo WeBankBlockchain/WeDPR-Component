@@ -19,10 +19,10 @@
  */
 #pragma once
 
+#include "ppc-crypto-core/src/hash/BLAKE2bHash.h"
+#include "ppc-crypto-core/src/hash/Sha512Hash.h"
 #include "ppc-crypto/src/ecc/Ed25519EccCrypto.h"
 #include "ppc-crypto/src/ecc/OpenSSLEccCrypto.h"
-#include "ppc-crypto/src/hash/BLAKE2bHash.h"
-#include "ppc-crypto/src/hash/Sha512Hash.h"
 #include "ppc-framework/crypto/CryptoBox.h"
 #include "ppc-io/src/DataResourceLoaderImpl.h"
 #include "ppc-tools/src/config/PPCConfig.h"
@@ -38,55 +38,51 @@ using namespace ppc::io;
 using namespace ppc::front;
 using namespace ppc::tools;
 
-namespace ppc::test
-{
+namespace ppc::test {
 
-class FakeOtPIRImpl : public OtPIRImpl
-{
+class FakeOtPIRImpl : public OtPIRImpl {
 public:
-    using Ptr = std::shared_ptr<FakeOtPIRImpl>;
-    FakeOtPIRImpl(OtPIRConfig::Ptr const& _config, unsigned _idleTimeMs = 0)
-      : OtPIRImpl(_config, _idleTimeMs)
-    {
-        m_enableOutputExists = true;
-    }
-    ~FakeOtPIRImpl() override = default;
+  using Ptr = std::shared_ptr<FakeOtPIRImpl>;
+  FakeOtPIRImpl(OtPIRConfig::Ptr const &_config, unsigned _idleTimeMs = 0)
+      : OtPIRImpl(_config, _idleTimeMs) {
+    m_enableOutputExists = true;
+  }
+  ~FakeOtPIRImpl() override = default;
 };
 
-class FakeOtPIRFactory : public OtPIRFactory
-{
+class FakeOtPIRFactory : public OtPIRFactory {
 public:
-    using Ptr = std::shared_ptr<FakeOtPIRFactory>;
+  using Ptr = std::shared_ptr<FakeOtPIRFactory>;
 
-    FakeOtPIRFactory()
+  FakeOtPIRFactory()
       : m_front(std::make_shared<FakeFront>()),
         m_dataResourceLoader(std::make_shared<DataResourceLoaderImpl>(
             nullptr, nullptr, nullptr, nullptr, nullptr, nullptr)),
-        m_threadPool(std::make_shared<ThreadPool>("ot-pir", 4))
-    {
-        auto hashImpl = std::make_shared<Sha512Hash>();
-        auto eccCrypto = std::make_shared<OpenSSLEccCrypto>(hashImpl, ppc::protocol::ECCCurve::P256);
-        m_cryptoBox = std::make_shared<ppc::crypto::CryptoBox>(hashImpl, eccCrypto);
-    }
+        m_threadPool(std::make_shared<ThreadPool>("ot-pir", 4)) {
+    auto hashImpl = std::make_shared<Sha512Hash>();
+    auto eccCrypto = std::make_shared<OpenSSLEccCrypto>(
+        hashImpl, ppc::protocol::ECCCurve::P256);
+    m_cryptoBox = std::make_shared<ppc::crypto::CryptoBox>(hashImpl, eccCrypto);
+  }
 
-    ~FakeOtPIRFactory() override = default;
+  ~FakeOtPIRFactory() override = default;
 
-    OtPIRImpl::Ptr createOtPIR(std::string const& _selfParty)
-    {
-        auto config = std::make_shared<OtPIRConfig>(
-            _selfParty, m_front, m_cryptoBox, m_threadPool, m_dataResourceLoader, 1);
+  OtPIRImpl::Ptr createOtPIR(std::string const &_selfParty) {
+    auto config =
+        std::make_shared<OtPIRConfig>(_selfParty, m_front, m_cryptoBox,
+                                      m_threadPool, m_dataResourceLoader, 1);
 
-        return std::make_shared<FakeOtPIRImpl>(config);
-    }
+    return std::make_shared<FakeOtPIRImpl>(config);
+  }
 
-    DataResourceLoaderImpl::Ptr resourceLoader() { return m_dataResourceLoader; }
-    FakeFront::Ptr front() { return m_front; }
-    CryptoBox::Ptr cryptoBox() { return m_cryptoBox; }
+  DataResourceLoaderImpl::Ptr resourceLoader() { return m_dataResourceLoader; }
+  FakeFront::Ptr front() { return m_front; }
+  CryptoBox::Ptr cryptoBox() { return m_cryptoBox; }
 
 private:
-    FakeFront::Ptr m_front;
-    DataResourceLoaderImpl::Ptr m_dataResourceLoader;
-    ThreadPool::Ptr m_threadPool;
-    CryptoBox::Ptr m_cryptoBox;
+  FakeFront::Ptr m_front;
+  DataResourceLoaderImpl::Ptr m_dataResourceLoader;
+  ThreadPool::Ptr m_threadPool;
+  CryptoBox::Ptr m_cryptoBox;
 };
-}  // namespace ppc::test
+} // namespace ppc::test

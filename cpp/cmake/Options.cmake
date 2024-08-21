@@ -93,6 +93,10 @@ elseif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     endif ()
 endif ()
 
+if(ENABLE_SSE)
+    list(APPEND VCPKG_MANIFEST_FEATURES "sse")
+endif()
+
 set(ENABLE_CPU_FEATURES OFF)
 # only ENABLE_CPU_FEATURES for aarch64 and x86
 if ("${ARCHITECTURE}" MATCHES "aarch64")
