@@ -1,0 +1,70 @@
+name: WeDPR-Component ci(cpp)
+on:
+  push:
+    paths-ignore:
+      - "docs/**"
+      - "Changelog.md"
+      - "README.md"
+  pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "Changelog.md"
+      - "README.md"
+  release:
+    types: [published, push]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+
+jobs:
+  build:
+    name: build-all
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-12, ubuntu-20.04]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 5
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly-2022-07-28
+          override: true
+      - name: Prepare vcpkg
+        if: runner.os != 'Windows'
+        uses: friendlyanon/setup-vcpkg@v1
+        with: { committish: 7e3dcf74e37034eea358934a90a11d618520e139 }
+      - uses: actions/cache@v2
+        id: deps_cache
+        with:
+          path: |
+            deps/
+            c:/vcpkg
+            !c:/vcpkg/.git
+            !c:/vcpkg/buildtrees
+            !c:/vcpkg/packages
+            !c:/vcpkg/downloads
+          key: build-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+          restore-keys: |
+            build-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+            build-${{ matrix.os }}-${{ github.base_ref }}-
+            build-${{ matrix.os }}-
+      - name: Build for linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt install -y lcov ccache wget libgmp-dev python3-dev
+          export GCC='gcc-10'
+          export CXX='g++-10'
+          bash cpp/tools/install_depends.sh -o ubuntu
+          mkdir -p cpp/build && cd cpp/build && cmake -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          cmake --build . --parallel 3
+      - name: Build for macos
+        if: runner.os == 'macOS'
+        run: |
+          bash cpp/tools/install_depends.sh -o macos
+          mkdir -p cpp/build && cd cpp/build && cmake -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          cmake --build . --parallel 3
