@@ -1,0 +1,4 @@
+file(GLOB_RECURSE SRCS *.cpp)
+add_library(${HTTP_TARGET} ${SRCS})
+
+target_link_libraries(${HTTP_TARGET} PUBLIC ${TOOLS_TARGET} ${PROTOCOL_TARGET} ${BCOS_BOOSTSSL_TARGET})

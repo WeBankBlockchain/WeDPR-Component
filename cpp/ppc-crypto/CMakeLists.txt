@@ -1,0 +1,11 @@
+project(ppc-crypto VERSION ${VERSION})
+
+add_subdirectory(src)
+if(DEMO)
+    add_subdirectory(demo)
+endif()
+if (TESTS)
+    enable_testing()
+    set(CTEST_OUTPUT_ON_FAILURE TRUE)
+    add_subdirectory(tests)
+endif()

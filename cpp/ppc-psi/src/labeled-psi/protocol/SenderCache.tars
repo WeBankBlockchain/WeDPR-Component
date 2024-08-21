@@ -1,0 +1,42 @@
+#include "LabeledPSI.tars"
+module ppctars {
+    struct BatchedPlaintextPolyn
+    {
+        1 require vector<vector<unsigned byte>> batchedCoeffs;
+    };
+
+    struct BinBundleCache
+    {
+        1 require vector<vector<long>> feltMatchingPolyns;
+        2 require vector<vector<vector<long>>> feltInterpPolyns;
+        3 require BatchedPlaintextPolyn batchedMatchingPolyn;
+        4 require vector<BatchedPlaintextPolyn> batchedInterpPolyns;
+    };
+
+    struct BinBundle
+    {
+        1 require bool cacheInvalid;
+        2 require bool compressed;
+        3 require bool stripped;
+        4 require vector<vector<long>> itemBins;
+        5 require vector<vector<vector<long>>> labelBins;
+        6 require BinBundleCache cache;
+        7 require unsigned int labelSize;
+        8 require unsigned int maxBinSize;
+        9 require unsigned int psLowDegree;
+        10 require unsigned int numBins;
+    };
+
+    struct SenderDB
+    {
+        1 require vector<unsigned byte> oprfKey;
+        2 require vector<vector<BinBundle>> binBundles;
+        3 require bool stripped;
+        4 require bool compressed;
+        5 require unsigned int itemCount;
+        6 require unsigned int nonceByteCount;
+        7 require unsigned int labelByteCount;
+        8 require vector<vector<unsigned byte>> hashedItems;
+        9 require PsiParams psiParams;
+    };
+};

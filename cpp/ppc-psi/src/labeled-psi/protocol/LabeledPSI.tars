@@ -1,0 +1,45 @@
+module ppctars {
+    struct SealParams {
+        1 require unsigned int polyModulusDegree;
+        2 require unsigned int plainModulus;
+        3 require vector<long> coeffModulus;
+    };
+
+    struct PsiParams
+    {
+        1 require unsigned int hashFuncCount;
+        2 require unsigned int tableSize;
+        3 require unsigned int maxItemsPerBin;
+        4 require unsigned int feltsPerItem;
+        5 require unsigned int psLowDegree;
+        6 require vector<unsigned int> queryPowers;
+        7 require SealParams sealParams;
+        8 require unsigned int binBundleCount;
+    };
+
+    struct OprfData
+    {
+        1 require vector<vector<unsigned byte>> data;
+    };
+
+    struct EncryptedPowers
+    {
+        1 require unsigned int power;
+        2 require vector<vector<unsigned byte>> ciphertexts;
+    };
+
+    struct QueryRequest
+    {
+        1 require vector<unsigned byte> relinKeys;
+        2 require vector<EncryptedPowers> encryptedPowers;
+    };
+
+    struct QueryResponse
+    {
+        1 require unsigned int bundleIdx;
+        2 require vector<unsigned byte> ciphertext;
+        3 require unsigned int labelByteCount;
+        4 require unsigned int nonceByteCount;
+        5 require vector<vector<unsigned byte>> labelResults;
+    };
+};

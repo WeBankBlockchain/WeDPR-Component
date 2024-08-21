@@ -1,0 +1,8 @@
+module ppctars {
+    struct CM2020Params {
+        1 require bool enableSyncResults;
+        2 require unsigned int bucketNumber;
+        3 require vector<unsigned byte> seed;
+        4 require bool lowBandwidth;
+    };
+};

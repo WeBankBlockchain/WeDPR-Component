@@ -1,0 +1,208 @@
+[tars]
+tars_pkg_dir = "bin/"
+app_name = "ppc1"
+
+[crypto]
+# the gateway-service enable ssl or not, default enable ssl
+gateway_disable_ssl = false
+# the gateway-service enable sm-ssl or not, default disable sm-ssl
+gateway_sm_ssl = false
+# the rpc use sm-ssl or not
+rpc_sm_ssl = false
+# the rpc disable ssl or not
+rpc_disable_ssl = true
+# use sm-crypto or not
+sm_crypto = false
+
+[[agency]]
+name = "agency0"
+#the time of the gateway holding and waiting to dispatcher the unsynced task, in minutes
+holding_msg_minutes = 30
+
+    [agency.gateway]
+    deploy_ip=["127.0.0.1:2"]
+    # gateway listen ip
+    listen_ip="0.0.0.0"
+    # gateway listen start port
+    listen_port=40300
+    # the thread count
+    thread_count = 4
+    # the cache config for the gateway
+    cache_type = 0
+    cache_proxy = ""
+    cache_obServer = ""
+    cache_cluster = ""
+    cache_host = "127.0.0.1"
+    cache_port = 6379
+    cache_password = ""
+    cache_database = 1
+    cache_pool_size = 16
+    # the redis connection timeout, in ms, default is 500ms
+    cache_connection_timeout = 500
+    # the redis socket timeout, in ms, default is 500ms
+    cache_socket_timeout = 500
+    # the tars config
+    # gateway tars server listen ip
+    tars_listen_ip="0.0.0.0"
+    # gateway tars server listen start port
+    tars_listen_port=40600
+    # gateway connected peers, should be all of the gateway peers info
+    [[agency.gateway.peers]]
+        agency = "agency0"
+        endpoints = ["127.0.0.1:40300", "127.0.0.1:40301"]
+    [[agency.gateway.peers]]
+        agency = "agency1"
+        endpoints = ["127.0.0.1:40320", "127.0.0.1:40321"]
+
+    # configuration for the ppc-node
+    [[agency.node]]
+        # disable the ra2018 psi or not, default enable ra2018
+        disable_ra2018 = false
+        deploy_ip=["127.0.0.1:2"]
+        # node name, Notice: node_name in the same agency and group must be unique
+        node_name = "node0"
+        # node tars server listen ip
+        tars_listen_ip="0.0.0.0"
+        # node tars server listen port
+        tars_listen_port=40402
+        # the rpc config for the node
+        [agency.node.rpc]
+            listen_ip = "0.0.0.0"
+            listen_port = 10200
+            thread_count = 4 
+        # the ra2018 config for the node
+        [agency.node.ra2018psi]
+            # The database used to store cuckoo-filter
+            database = "ra2018_0"
+            # The capacity of the cuckoo filter in MB, the default is 1MB
+            cuckoofilter_capacity = 1
+            # The length of each element of the cuckoo filter (bits), default 64bits
+            cuckoofilter_tagBits = 64
+            # The number of buckets for the cuckoo filter, the default is 4
+            cuckoofilter_buckets_num = 4
+            # When the cuckoo filter replaces an element, the maximum number of element replacements allowed
+            cuckoofilter_max_kick_out_count = 20
+            # The trash-bucket-size for the cuckoo-filter
+            trash_bucket_size = 10000
+            # The cuckoo filter capacity that can be cached in memory in MB
+            cuckoofilter_cache_size = 256
+            # Cache size in MB
+            psi_cache_size = 1024
+            # When reading large files, the line size loaded into memory each time, default is 100w, -1 means load the max-size-of data
+            data_batch_size = 1000000
+            # use hdfs to store the cuckoo-filter or not
+            use_hdfs = false
+        # the storage config
+        [agency.node.storage]
+            host = "127.0.0.1"
+            # the mysqlx_port
+            port = 33060
+            user = "wedpr"
+            password = ""
+            database = ""
+        # the hdfs storage config
+        [agency.node.hdfs_storage]
+            user = ""
+            name_node = "127.0.0.1"
+            name_node_port = 9000
+            token = ""
+        # the gateway config
+        [agency.node.gateway]
+            tars_endpoints = ["127.0.0.1:40600", "127.0.0.1:40601"]
+
+
+[[agency]]
+name = "agency1"
+#the time of the gateway holding and waiting to dispatcher the unsynced task, in minutes
+holding_msg_minutes = 30
+
+    [agency.gateway]
+    deploy_ip=["127.0.0.1:2"]
+    # gateway listen ip
+    listen_ip="0.0.0.0"
+    # gateway listen start port
+    listen_port=40320
+    # the thread count
+    thread_count = 4
+    # the cache config for the gateway
+    cache_type = 0
+    cache_proxy = ""
+    cache_obServer = ""
+    cache_cluster = ""
+    cache_host = "127.0.0.1"
+    cache_port = 6379
+    cache_password = ""
+    cache_database = 2
+    cache_pool_size = 16
+    # the redis connection timeout, in ms, default is 500ms
+    cache_connection_timeout = 500
+    # the redis socket timeout, in ms, default is 500ms
+    cache_socket_timeout = 500
+    # the tars config
+    # gateway tars server listen ip
+    tars_listen_ip="0.0.0.0"
+    # gateway tars server listen start port
+    tars_listen_port=40620
+    # gateway connected peers, should be all of the gateway peers info
+    [[agency.gateway.peers]]
+        agency = "agency0"
+        endpoints = ["127.0.0.1:40300", "127.0.0.1:40301"]
+    [[agency.gateway.peers]]
+        agency = "agency1"
+        endpoints = ["127.0.0.1:40320", "127.0.0.1:40321"]
+
+    # configuration for the ppc-node
+    [[agency.node]]
+        # disable the ra2018 psi or not, default enable ra2018
+        disable_ra2018 = false
+        deploy_ip=["127.0.0.1:2"]
+        # node name, Notice: node_name in the same agency and group must be unique
+        node_name = "node0"
+        # node tars server listen ip
+        tars_listen_ip="0.0.0.0"
+        # node tars server listen port
+        tars_listen_port=40422
+        # the rpc config for the node
+        [agency.node.rpc]
+            listen_ip = "0.0.0.0"
+            listen_port = 10220
+            thread_count = 4 
+        # the ra2018 config for the node
+        [agency.node.ra2018psi]
+            # The database used to store cuckoo-filter
+            database = "ra2018_1"
+            # The capacity of the cuckoo filter in MB, the default is 1MB
+            cuckoofilter_capacity = 1
+            # The length of each element of the cuckoo filter (bits), default 64bits
+            cuckoofilter_tagBits = 64
+            # The number of buckets for the cuckoo filter, the default is 4
+            cuckoofilter_buckets_num = 4
+            # When the cuckoo filter replaces an element, the maximum number of element replacements allowed
+            cuckoofilter_max_kick_out_count = 20
+            # The trash-bucket-size for the cuckoo-filter
+            trash_bucket_size = 10000
+            # The cuckoo filter capacity that can be cached in memory in MB
+            cuckoofilter_cache_size = 256
+            # Cache size in MB
+            psi_cache_size = 1024
+            # When reading large files, the line size loaded into memory each time, default is 100w, -1 means load the max-size-of data
+            data_batch_size = 1000000
+            # use hdfs to store the cuckoo-filter or not
+            use_hdfs = false
+        # the storage config
+        [agency.node.storage]
+            host = "127.0.0.1"
+            # the mysqlx_port
+            port = 33060
+            user = "wedpr"
+            password = ""
+            database = ""
+        # the hdfs storage config
+        [agency.node.hdfs_storage]
+            user = ""
+            name_node = "127.0.0.1"
+            name_node_port = 9000
+            token = ""
+        # the gateway config
+        [agency.node.gateway]
+            tars_endpoints = ["127.0.0.1:40620", "127.0.0.1:40621"]

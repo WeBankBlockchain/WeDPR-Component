@@ -1,0 +1,58 @@
+[agency]
+    ; the agency-id of self-party
+    id = agency0
+    ; the agency info
+
+[cert]
+    ; directory the certificates located in
+    cert_path=./conf
+    
+[gateway]
+    listen_ip=0.0.0.0
+    listen_port=40300
+    ;thread_count = 4
+    ; ssl or sm ssl
+    sm_ssl=false
+    ;ssl connection switch, if disable the ssl connection, default: false
+    disable_ssl = false
+    ;the time of the gateway holding and waiting to dispatcher the unsynced task, in minutes
+    holding_msg_minutes = 30
+    ; disable_cache = false
+[cache]
+    ; the cache type, only support redis now
+    type = 0
+    proxy = 127.0.0.1:20002
+    obServer = 127.0.0.1:10904
+    cluster = REDIS_CLUSTER
+    user = 1194
+    host = 127.0.0.1
+    port = 6379
+    password =
+    database = 1
+    pool_size = 16
+    ; the redis connection timeout, in ms, default is 500ms
+    connection_timeout = 500
+    ; the redis socket timeout, in ms, default is 500ms
+    socket_timeout = 500
+
+[log]
+    enable=true
+    log_path=./log
+    ; info debug trace
+    level=debug
+    ; MB
+    max_log_file_size=200
+    ; LineID, TimeStamp, ProcessID, ThreadName, ThreadID and Message
+    format=%Severity%|ppcs-psi4ef|system-id|%TimeStamp%|%ThreadName%-%ThreadID%|%Message%
+    enable_rotate_by_hour=false
+    log_name_pattern=ppcs-gateway.log
+    ; Y,m,d,H,M,S are supported, N is the sequence number log_%Y%m%d.%H%M%S.%N.log
+    rotate_name_pattern=log_%Y%m%d.%H%M.log
+    ; if archive_path is empty, the archive function will be disabled
+    ; archive_path=./log/
+    compress_archive_file=true
+    ; ; 0: no limit, in MB
+    ; max_archive_files=10
+    ; ; 0: no limit, in MB
+    ; max_archive_size=0
+    ; min_free_space=0

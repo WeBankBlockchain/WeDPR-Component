@@ -1,0 +1,159 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.ajoberstar.grgit' version '4.1.1'
+    id 'java-library'
+    id 'maven-publish'
+    id "de.undercouch.download" version "4.1.2"
+    id 'com.github.sherter.google-java-format' version '0.9'
+}
+
+println("Notice: current gradle version is " + gradle.gradleVersion)
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+ext {
+    if (!project.hasProperty("ossrhUsername")) {
+        ossrhUsername = "xxx"
+    }
+
+    if (!project.hasProperty("ossrhPassword")) {
+        ossrhPassword = "xxx"
+    }
+    toml4jVersion = "0.7.2"
+    hiveExecVersion="2.3.9"
+}
+
+repositories {
+	maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
+    maven { url "https://oss.sonatype.org/service/local/staging/deploy/maven2"}
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven {url "https://plugins.gradle.org/m2/"}
+    mavenCentral()
+    mavenLocal()
+}
+googleJavaFormat {
+    toolVersion = '1.7'
+    options style: 'AOSP'
+    source = sourceSets*.allJava
+    include '**/*.java'
+    exclude '**/*Test.java'
+    exclude '**/Test*.java'
+    exclude '**/Mock*.java'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources  {
+            srcDir 'src/main/resources'
+        }
+    }
+}
+dependencies {
+    api("org.apache.hive:hive-exec:${hiveExecVersion}")
+    api("com.moandjiezana.toml:toml4j:${toml4jVersion}")
+    implementation fileTree(dir:'libs',include:['*.jar'])
+    testImplementation ('junit:junit:4.13.2')
+}
+
+archivesBaseName = 'ppc-hive-udf'
+group = 'com.webank.wedpr'
+version = '1.0.0'
+
+test {
+    dependsOn cleanTest
+    testLogging.showStandardStreams = true
+}
+
+jar {
+    exclude '**/*.xml'
+    exclude '**/*.properties'
+    doLast {
+        copy {
+            from destinationDirectory
+            into 'dist/app'
+        }
+
+        copy {
+            from configurations.runtimeClasspath
+            into 'dist/lib'
+        }
+    }
+}
+
+javadoc {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+    duplicatesStrategy 'exclude'
+}
+tasks.withType(Copy).all {
+    duplicatesStrategy 'exclude'
+}
+
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId project.name
+            groupId project.group
+            version project.version
+
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = 'wedpr'
+                description = 'wedpr ppc-hive-udf'
+                url = 'http://www.fisco-bcos.org'
+
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                scm {
+                    connection = 'http://github.com/WeBankBlockchain/wedpr-components.git'
+                    url = 'http://github.com/WeBankBlockchain/wedpr-components.git'
+                }
+
+                developers {
+                    developer {
+                        id = 'zhangsan'
+                        name = 'zhangsan'
+                        email = 'zhangsan@example.com'
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            def releasesRepoURL = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            def snapshotsRepoURL = "https://oss.sonatype.org/content/repositories/snapshots"
+            allowInsecureProtocol = true
+            url = !version.endsWith("SNAPSHOT") ? releasesRepoURL : snapshotsRepoURL
+
+            credentials {
+                username 'deployment'
+                password 'deployment123'
+            }
+        }
+    }
+}

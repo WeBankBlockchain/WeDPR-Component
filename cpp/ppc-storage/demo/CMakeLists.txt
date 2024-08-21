@@ -1,0 +1,10 @@
+file(GLOB_RECURSE SOURCES "*.cpp" "*.h")
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# cmake settings
+set(STORAGE_DEMO_BINARY_NAME storage_demo)
+
+add_executable(${STORAGE_DEMO_BINARY_NAME} storage_demo.cpp)
+
+target_link_libraries(${STORAGE_DEMO_BINARY_NAME} ${STORAGE_TARGET} ${CPU_FEATURES_LIB} ${BOOST_UNIT_TEST})
+unset(CMAKE_RUNTIME_OUTPUT_DIRECTORY)

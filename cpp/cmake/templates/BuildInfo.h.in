@@ -1,0 +1,29 @@
+/*
+ *  Copyright (C) 2022 WeDPR.
+ *  SPDX-License-Identifier: Apache-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ * @file BuildInfo.h
+ */
+#pragma once
+#define PPC_COMMIT_HASH "@PPC_COMMIT_HASH@"
+#define PPC_CLEAN_REPO "@PPC_CLEAN_REPO@"
+#define PPC_BUILD_TYPE "@PPC_BUILD_TYPE@"
+#define PPC_BUILD_OS "@PPC_BUILD_OS@"
+#define PPC_BUILD_COMPILER "@PPC_BUILD_COMPILER@"
+#define PPC_BUILD_PLATFORM "@PPC_BUILD_PLATFORM@"
+#define PPC_BUILD_NUMBER "@PPC_BUILD_NUMBER@"
+#define PPC_VERSION_SUFFIX "@PPC_VERSION_SUFFIX@"
+#define PPC_BUILD_TIME "@PPC_BUILD_TIME@"
+#define PPC_BUILD_BRANCH "@PPC_BUILD_BRANCH@"
+#define PPC_PROJECT_VERSION "@PROJECT_VERSION@@PPC_VERSION_SUFFIX@"

@@ -1,0 +1,79 @@
+{
+  "name": "fiscobcos",
+  "version-string": "3.7.3",
+  "homepage": "https://github.com/WeBankBlockchain/WeDPR-Component",
+  "description": "FISCO BCOS",
+  "dependencies": [
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    },
+    {
+      "name": "openssl",
+      "version>=": "1.1.1-tassl"
+    },
+    "tarscpp",
+    "libsodium",
+    {
+      "name": "bcos-utilities",
+      "version>=": "1.0.0"
+    }
+    ,
+    {
+      "name": "bcos-boostssl",
+      "version>=": "3.2.3"
+    },
+    {
+      "name": "seal",
+      "version>=": "4.0.0",
+      "features": ["no-throw-tran"]
+    },
+    {
+      "name": "kuku",
+      "version>=": "2.1"
+    },
+    {
+      "name": "redis-plus-plus",
+      "version>=": "1.3.6"
+    },
+    {
+      "name": "mysql-connector-cpp",
+      "version>=": "8.0.32"
+    },
+    {
+      "name": "cpu-features",
+      "version>=": "0.9.0"
+    },
+    "libhdfs3",
+    "tarscpp",
+    "tbb",
+    "libxml2"
+  ],
+  "builtin-baseline": "51b14cd4e1230dd51c11ffeff6f7d53c61cc5297",
+  "overrides": [
+    {
+      "name": "seal",
+      "version": "4.0.0"
+    },
+    { 
+      "name": "kuku", 
+      "version": "2.1#3" 
+    },
+    { 
+      "name": "libhdfs3", 
+      "version": "2024-04-27" 
+    },
+    {
+      "name": "tbb",
+      "version": "2021.8.0"
+    },
+    {
+      "name": "tarscpp",
+      "version": "3.0.3-1#1"
+    }
+  ]
+}

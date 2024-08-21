@@ -1,0 +1,7 @@
+#include "Error.tars"
+module ppctars {
+    interface FrontService {
+        // avoid using unsigned char
+        Error onReceiveMessage(vector<byte> message);
+    };
+};

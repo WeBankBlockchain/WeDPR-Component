@@ -1,0 +1,28 @@
+module ppctars{
+    struct TarsCuckooFilter
+    {
+        1 optional int id;
+        2 optional vector<byte> hash;
+        3 optional vector<byte> data;
+    };
+
+    struct PSIMessage
+    {
+        1 optional int version;
+        2 require int packetType; 
+        3 optional string partyID;
+        4 optional string resourceID;
+        5 optional vector<vector<byte>> data;
+        6 optional map<int, vector<byte>> dataMap;
+        7 optional int errorCode;
+        8 optional string errorMessage;
+        9 optional vector<string> taskList;
+        10 optional vector<TarsCuckooFilter> cuckooFilterInfo;
+        11 optional int cuckooFilterSize;
+        12 optional int dataBatchCount;
+        13 optional vector<int> curves; // for PSIHandshakeRequest
+        14 optional vector<int> hashList; // for PSIHandshakeRequest
+        15 optional int curve; // for PSIHandshakeResponse
+        16 optional int hashType; // for PSIHandshakeResponse
+    };
+};

@@ -1,0 +1,15 @@
+module ppctars {
+    struct SenderMessageParams {
+        1 require vector<unsigned byte> pointX;
+        2 require vector<unsigned byte> pointY;
+        3 require vector<unsigned byte> pointZ;
+        4 require vector<unsigned byte> sendObfuscatedHash;
+        5 require string requestAgencyDataset;
+    };
+
+    struct ReceiverMessageParams {
+        1 require vector<vector<unsigned byte>> pointWList;
+        2 require vector<vector<unsigned byte>> encryptMessagePair;
+        3 require vector<vector<unsigned byte>> encryptCipher;
+    };
+};

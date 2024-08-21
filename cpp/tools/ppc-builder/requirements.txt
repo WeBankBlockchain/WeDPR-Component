@@ -1,0 +1,4 @@
+configparser
+requests
+toml
+uuid

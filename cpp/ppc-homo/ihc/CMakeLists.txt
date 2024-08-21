@@ -1,0 +1,6 @@
+file(GLOB_RECURSE SRCS *.cpp)
+add_library( ${IHC_TARGET} ${SRCS})
+
+find_package(OpenSSL REQUIRED)
+# target_link_libraries(${IHC_TARGET} PUBLIC ${CRYPTO_CODEC_TARGET} ${BCOS_UTILITIES_TARGET} OpenSSL::Crypto ${CPU_FEATURES_LIB})
+target_link_libraries(${IHC_TARGET} PUBLIC ${CRYPTO_CODEC_TARGET} ${BCOS_UTILITIES_TARGET} OpenSSL::Crypto ${CPU_FEATURES_LIB})

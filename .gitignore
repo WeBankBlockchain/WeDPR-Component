@@ -74,7 +74,6 @@ __pycache__/
 logs/
 */service/PSI-DATA/
 static/
-src/
 env/
 build/
 develop-eggs/

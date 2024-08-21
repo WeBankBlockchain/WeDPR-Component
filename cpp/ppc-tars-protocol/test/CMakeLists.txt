@@ -1,0 +1,13 @@
+file(GLOB_RECURSE SOURCES "*.cpp")
+
+# cmake settings
+set(TARS_PROTOCOL_TEST_BINARY_NAME test-ppc-tars-protocol)
+
+add_executable(${TARS_PROTOCOL_TEST_BINARY_NAME} ${SOURCES})
+target_include_directories(${TARS_PROTOCOL_TEST_BINARY_NAME} PRIVATE .)
+
+target_compile_options(${TARS_PROTOCOL_TEST_BINARY_NAME} PRIVATE -Wno-error -Wno-unused-variable)
+
+target_link_libraries(${TARS_PROTOCOL_TEST_BINARY_NAME} ${FRONT_TARGET} ${PROTOCOL_TARGET} ${TARS_PROTOCOL_TARGET} ${BOOST_UNIT_TEST})
+
+add_test(NAME test-tars-protocol WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND ${TARS_PROTOCOL_TEST_BINARY_NAME})

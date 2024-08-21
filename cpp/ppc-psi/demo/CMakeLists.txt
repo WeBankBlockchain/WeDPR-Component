@@ -1,0 +1,7 @@
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+set(HASH_COLLISION_BINARY_NAME hash_collision_bench)
+add_executable(${HASH_COLLISION_BINARY_NAME} hash_collision_bench.cpp)
+target_link_libraries(${HASH_COLLISION_BINARY_NAME} ${CRYPTO_TARGET} ${IO_TARGET})
+
+unset(CMAKE_RUNTIME_OUTPUT_DIRECTORY)
