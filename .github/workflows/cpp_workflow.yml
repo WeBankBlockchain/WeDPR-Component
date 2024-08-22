@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   build:
-    name: build
+    name: build all
     runs-on: ${{ matrix.os }}
     continue-on-error: true
     strategy:
@@ -73,9 +73,64 @@ jobs:
         run: |
           cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE ctest
           make cov
-      - uses: webiny/action-post-run@3.1.0
-        id: post-run-command
+
+  build_sdk:
+    name: build sdk
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, windows-2019, macos-12]
+    steps:
+      - uses: actions/checkout@v2
         with:
-          if: runner.os == 'Linux'
-          run: cat vcpkg/buildtrees/libhdfs3/config-x64-linux-dbg-err.log
-          working-directory: /home/runner/work/WeDPR-Component/WeDPR-Component/
+          fetch-depth: 5
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly-2022-07-28
+          override: true
+      - name: Prepare vcpkg
+        if: runner.os != 'Windows'
+        uses: friendlyanon/setup-vcpkg@v1
+        with: { committish: 51b14cd4e1230dd51c11ffeff6f7d53c61cc5297 }
+      - uses: actions/cache@v2
+        id: deps_cache
+        with:
+          path: |
+            deps/
+            c:/vcpkg
+            !c:/vcpkg/.git
+            !c:/vcpkg/buildtrees
+            !c:/vcpkg/packages
+            !c:/vcpkg/downloads
+          key: build-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+          restore-keys: |
+            build-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+            build-${{ matrix.os }}-${{ github.base_ref }}-
+            build-${{ matrix.os }}-
+      - name: Build for windows
+        if: runner.os == 'Windows'
+        run: |
+          mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Release -DTESTS=OFF -DBUILD_SDK=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake ../
+          cmake --build . --parallel 3
+      - name: Build for linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt install -y lcov ccache wget libgmp-dev python3-dev
+          export GCC='gcc-10'
+          export CXX='g++-10'
+          bash cpp/tools/install_depends.sh -o ubuntu
+          mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON -DBUILD_SDK=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          make -j3
+      - name: Build for macos
+        if: runner.os == 'macOS'
+        run: |
+          bash cpp/tools/install_depends.sh -o macos
+          mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON -DBUILD_SDK=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          make -j3
+      - name: Test
+        if: runner.os != 'Windows'
+        run: |
+          cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+          make cov

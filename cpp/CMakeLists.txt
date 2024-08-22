@@ -65,9 +65,10 @@ include(Dependencies)
 ########### set the sources ########### 
 set(JNI_SOURCE_PATH ppc-crypto-c-sdk/bindings/java/src/main/c)
 set(SDK_SOURCE_LIST ppc-homo ppc-crypto-core ppc-crypto-c-sdk ${JNI_SOURCE_PATH})
+# Note: the udf depends on mysql, not enabled in the full node mode
 set(UDF_SOURCE_LIST ${SDK_SOURCE_LIST} ppc-udf)
 set(ALL_SOURCE_LIST 
-        ${UDF_SOURCE_LIST} ppc-crypto 
+        ${SDK_SOURCE_LIST} ppc-crypto 
         libhelper libinitializer ppc-io ppc-protocol 
         ppc-gateway ppc-front ppc-tars-protocol 
         ppc-tools ppc-storage ppc-psi ppc-rpc 
