@@ -9,6 +9,11 @@ macro(default_option O DEF)
         set(${O} ${DEF})
     endif ()
 endmacro()
+macro(add_sources source_list)
+    foreach(source ${source_list})
+        add_subdirectory(${source})
+    endforeach()
+endmacro()
 
 # common settings
 if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
@@ -44,89 +49,102 @@ macro(configure_project)
 
     default_option(ENABLE_DEMO OFF)
     # sdk
+    default_option(BUILD_ALL ON)
     default_option(BUILD_SDK OFF)
     default_option(BUILD_UDF OFF)
-    if(BUILD_UDF)
-        set(BUILD_SDK ON)
-    endif()
 
     # Suffix like "-rc1" e.t.c. to append to versions wherever needed.
     if (NOT DEFINED VERSION_SUFFIX)
         set(VERSION_SUFFIX "")
     endif ()
-    print_config(${NAME})
+
+    # for boost-ssl enable/disable native
+    set(ARCH_NATIVE OFF)
+    if ("${ARCHITECTURE}" MATCHES "aarch64" OR "${ARCHITECTURE}" MATCHES "arm64")
+        set(ARCH_NATIVE ON)
+    endif ()
+
+    set(VISIBILITY_FLAG " -fvisibility=hidden -fvisibility-inlines-hidden")
+
+    set(MARCH_TYPE "-march=x86-64 -mtune=generic ${VISIBILITY_FLAG}")
+    if (ARCH_NATIVE)
+        set(MARCH_TYPE "-march=native -mtune=native ${VISIBILITY_FLAG}")
+    endif ()
+
+    # for enable sse4.2(hdfs used)
+    set(ENABLE_SSE OFF)
+    # for enable/disable ipp-crypto
+    if (APPLE)
+        EXECUTE_PROCESS(COMMAND sysctl -a COMMAND grep "machdep.cpu.*features" COMMAND tr -d '\n' OUTPUT_VARIABLE SUPPORTED_INSTRUCTIONS)
+        message("* SUPPORTED_INSTRUCTIONS: ${SUPPORTED_INSTRUCTIONS}")
+        # detect sse4.2
+        if (${SUPPORTED_INSTRUCTIONS} MATCHES ".*SSE4.2.*")
+            set(ENABLE_SSE ON)
+        endif ()
+    elseif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+        # detect sse4_2
+        FILE(READ "/proc/cpuinfo" SUPPORTED_INSTRUCTIONS)
+        if (${SUPPORTED_INSTRUCTIONS} MATCHES ".*sse4_2.*")
+            set(ENABLE_SSE ON)
+        endif ()
+    endif ()
+
+    set(ENABLE_CPU_FEATURES OFF)
+    # only ENABLE_CPU_FEATURES for aarch64 and x86
+    if ("${ARCHITECTURE}" MATCHES "aarch64")
+        add_definitions(-DARCH)
+        set(ENABLE_CPU_FEATURES ON)
+    endif ()
+
+    if ("${ARCHITECTURE}" MATCHES "x86_64")
+        add_definitions(-DX86)
+        set(ENABLE_CPU_FEATURES ON)
+    endif ()
+
+    if (ENABLE_CPU_FEATURES)
+        add_definitions(-DENABLE_CPU_FEATURES)
+    endif ()
+
+    # Enable CONN_PSI Joint Running With Ant Company  
+    if (ENABLE_CONN)
+        add_definitions(-DENABLE_CONN)
+    endif ()
+
+    set(ENABLE_IPP_CRYPTO OFF)
+    # Note: only ENABLE_CRYPTO_MB for x86_64
+    # if ("${ARCHITECTURE}" MATCHES "x86_64")
+    #     set(ENABLE_IPP_CRYPTO ON)
+    #     add_definitions(-DENABLE_CRYPTO_MB)
+    # endif ()
+
+    # fix the boost beast build failed for [call to 'async_teardown' is ambiguous]
+    add_definitions(-DBOOST_ASIO_DISABLE_CONCEPTS)
+
+    ####### options settings ######
+    if (BUILD_UDF)
+        set(VISIBILITY_FLAG "")
+        set(BUILD_ALL OFF)
+    endif()
+    if (BUILD_SDK)
+        set(VISIBILITY_FLAG "")
+        set(BUILD_ALL OFF)
+    endif()
+    if (BUILD_ALL)
+        # install all dependencies
+        list(APPEND VCPKG_MANIFEST_FEATURES "all")
+    endif()
+    if(ENABLE_SSE)
+        # enable sse for libhdfs3
+        list(APPEND VCPKG_MANIFEST_FEATURES "sse")
+    endif()
+    # cpp_features
+    if(ENABLE_CPU_FEATURES)
+        list(APPEND VCPKG_MANIFEST_FEATURES "cpufeatures")
+        message("##### append cpp_features: ${VCPKG_MANIFEST_FEATURES}")
+    endif()
+    ####### options settings ######
+    print_config("WeDPR-Component")
 endmacro()
-
-# for boost-ssl enable/disable native
-set(ARCH_NATIVE OFF)
-if ("${ARCHITECTURE}" MATCHES "aarch64" OR "${ARCHITECTURE}" MATCHES "arm64")
-    set(ARCH_NATIVE ON)
-endif ()
-
-set(VISIBILITY_FLAG " -fvisibility=hidden -fvisibility-inlines-hidden")
-if (BUILD_UDF)
-    set(VISIBILITY_FLAG "")
-endif()
-if (BUILD_SDK)
-    set(VISIBILITY_FLAG "")
-endif()
-set(MARCH_TYPE "-march=x86-64 -mtune=generic ${VISIBILITY_FLAG}")
-if (ARCH_NATIVE)
-    set(MARCH_TYPE "-march=native -mtune=native ${VISIBILITY_FLAG}")
-endif ()
-
-# for enable sse4.2(hdfs used)
-set(ENABLE_SSE OFF)
-# for enable/disable ipp-crypto
-if (APPLE)
-    EXECUTE_PROCESS(COMMAND sysctl -a COMMAND grep "machdep.cpu.*features" COMMAND tr -d '\n' OUTPUT_VARIABLE SUPPORTED_INSTRUCTIONS)
-    message("* SUPPORTED_INSTRUCTIONS: ${SUPPORTED_INSTRUCTIONS}")
-    # detect sse4.2
-    if (${SUPPORTED_INSTRUCTIONS} MATCHES ".*SSE4.2.*")
-        set(ENABLE_SSE ON)
-    endif ()
-elseif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    # detect sse4_2
-    FILE(READ "/proc/cpuinfo" SUPPORTED_INSTRUCTIONS)
-    if (${SUPPORTED_INSTRUCTIONS} MATCHES ".*sse4_2.*")
-        set(ENABLE_SSE ON)
-    endif ()
-endif ()
-
-if(ENABLE_SSE)
-    list(APPEND VCPKG_MANIFEST_FEATURES "sse")
-endif()
-
-set(ENABLE_CPU_FEATURES OFF)
-# only ENABLE_CPU_FEATURES for aarch64 and x86
-if ("${ARCHITECTURE}" MATCHES "aarch64")
-    add_definitions(-DARCH)
-    set(ENABLE_CPU_FEATURES ON)
-endif ()
-
-if ("${ARCHITECTURE}" MATCHES "x86_64")
-    add_definitions(-DX86)
-    set(ENABLE_CPU_FEATURES ON)
-endif ()
-
-if (ENABLE_CPU_FEATURES)
-    add_definitions(-DENABLE_CPU_FEATURES)
-endif ()
-
-# Enable CONN_PSI Joint Running With Ant Company  
-if (ENABLE_CONN)
-    add_definitions(-DENABLE_CONN)
-endif ()
-
-set(ENABLE_IPP_CRYPTO OFF)
-# Note: only ENABLE_CRYPTO_MB for x86_64
-# if ("${ARCHITECTURE}" MATCHES "x86_64")
-#     set(ENABLE_IPP_CRYPTO ON)
-#     add_definitions(-DENABLE_CRYPTO_MB)
-# endif ()
-
-# fix the boost beast build failed for [call to 'async_teardown' is ambiguous]
-add_definitions(-DBOOST_ASIO_DISABLE_CONCEPTS)
 
 macro(print_config NAME)
     message("")

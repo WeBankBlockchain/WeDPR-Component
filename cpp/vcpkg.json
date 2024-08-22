@@ -16,42 +16,15 @@
       "name": "openssl",
       "version>=": "1.1.1-tassl"
     },
-    "tarscpp",
     "libsodium",
+    {
+      "name": "libsodium",
+      "version>=": "1.0.18"
+    },
     {
       "name": "bcos-utilities",
       "version>=": "1.0.0"
     }
-    ,
-    {
-      "name": "bcos-boostssl",
-      "version>=": "3.2.3"
-    },
-    {
-      "name": "seal",
-      "version>=": "4.0.0",
-      "features": ["no-throw-tran"]
-    },
-    {
-      "name": "kuku",
-      "version>=": "2.1"
-    },
-    {
-      "name": "redis-plus-plus",
-      "version>=": "1.3.6"
-    },
-    {
-      "name": "mysql-connector-cpp",
-      "version>=": "8.0.32"
-    },
-    {
-      "name": "cpu-features",
-      "version>=": "0.9.0"
-    },
-    "libhdfs3",
-    "tarscpp",
-    "tbb",
-    "libxml2"
   ],
   "builtin-baseline": "51b14cd4e1230dd51c11ffeff6f7d53c61cc5297",
   "overrides": [
@@ -74,11 +47,54 @@
     {
       "name": "tarscpp",
       "version": "3.0.3-1#1"
+    },
+    { 
+      "name": "libsodium",
+      "version": "1.0.18#9" 
     }
   ],
   "features": {
     "sse": {
       "description": "Enable SSE4.2 for libhdfs3"
+    },
+    "cpufeatures":{
+      "description": "Enable cpu features",
+      "dependencies": [
+        {
+        "name": "cpu-features",
+        "version>=": "0.9.0"
+        }
+     ]
+    },
+    "all": {
+      "description": "all dependencies",
+      "dependencies": [
+        {
+          "name": "bcos-boostssl",
+          "version>=": "3.2.3"
+        },
+        {
+          "name": "seal",
+          "version>=": "4.0.0",
+          "features": ["no-throw-tran"]
+        },
+        {
+          "name": "kuku",
+          "version>=": "2.1"
+        },
+        {
+          "name": "redis-plus-plus",
+          "version>=": "1.3.6"
+        },
+        {
+          "name": "mysql-connector-cpp",
+          "version>=": "8.0.32"
+        },
+        "libhdfs3",
+        "tarscpp",
+        "tbb",
+        "libxml2"
+      ]
     }
   }
 }

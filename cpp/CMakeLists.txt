@@ -35,6 +35,13 @@ if(WIN32)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS "ON")
 endif()
 
+
+
+# basic settings
+include(Options)
+configure_project()
+
+
 # vcpkg init
 if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
     find_package(Git REQUIRED)
@@ -46,88 +53,39 @@ endif()
 include(Version)
 project(WeDPR-Component VERSION ${VERSION})
 
-# basic settings
-include(Options)
-configure_project()
 include(CompilerSettings)
 include(BuildInfoGenerator)
 
-
-find_package(OpenSSL REQUIRED)
-include(InstallBcosUtilities)
-find_package(Boost COMPONENTS unit_test_framework)
-if(BUILD_SDK)
-    ##### the sdk-dependencies #####
-    # find JNI
-    set(JAVA_AWT_LIBRARY NotNeeded)
-    set(JAVA_JVM_LIBRARY NotNeeded)
-    find_package(JNI REQUIRED)
-    include_directories(${JNI_INCLUDE_DIRS})
-endif()
-
-# ipp-crypto
-#if(ENABLE_IPP_CRYPTO)
-#    hunter_add_package(ipp-crypto)
-#endif()
-
-if(ENABLE_CPU_FEATURES)
-    find_package(CpuFeatures REQUIRED)
-endif()
-
 include(IncludeDirectories)
+# the target settings
 include(TargetSettings)
+# dependencies
+include(Dependencies)
 
-if(BUILD_SDK)
-    add_subdirectory(ppc-crypto-c-sdk)
-    set(JNI_SOURCE_PATH ppc-crypto-c-sdk/bindings/java/src/main/c)
-    add_subdirectory(${JNI_SOURCE_PATH})
+########### set the sources ########### 
+set(JNI_SOURCE_PATH ppc-crypto-c-sdk/bindings/java/src/main/c)
+set(SDK_SOURCE_LIST ppc-homo ppc-crypto-core ppc-crypto-c-sdk ${JNI_SOURCE_PATH})
+set(UDF_SOURCE_LIST ${SDK_SOURCE_LIST} ppc-udf)
+set(ALL_SOURCE_LIST 
+        ${UDF_SOURCE_LIST} ppc-crypto 
+        libhelper libinitializer ppc-io ppc-protocol 
+        ppc-gateway ppc-front ppc-tars-protocol 
+        ppc-tools ppc-storage ppc-psi ppc-rpc 
+        ppc-http ppc-mpc ppc-pir
+        ${CEM_SOURCE} ppc-main)
+set(CEM_SOURCE "")
+if(BUILD_CEM)
+    set(CEM_SOURCE "ppc-cem")
 endif()
-add_subdirectory(ppc-crypto-core)
-add_subdirectory(ppc-homo)
 
-# when BUILD_SDK, the following modules no need to compile
-if(NOT BUILD_SDK AND NOT BUILD_UDF)
-    ##### the full-dependencies #####
-    find_package(TBB REQUIRED)
-    find_package(jsoncpp REQUIRED)
-
-    find_package(${BCOS_BOOSTSSL_TARGET} REQUIRED)
-    # tcmalloc
-    include(ProjectTCMalloc)
-
-    find_package(SEAL REQUIRED)
-    find_package(Kuku REQUIRED)
-
-    # APSI: Note: APSI depends on seal 4.0 and Kuku 2.1
-    include(ProjectAPSI)
-    # Wedpr Crypto
-    include(ProjectWedprCrypto)
-    include(FindGSasl)
-    include(Installlibhdfs3)
-
-    add_subdirectory(ppc-crypto)
-    add_subdirectory(libhelper)
-    add_subdirectory(libinitializer)
-    add_subdirectory(ppc-io)
-    add_subdirectory(ppc-protocol)
-    add_subdirectory(ppc-gateway)
-    add_subdirectory(ppc-front)
-    add_subdirectory(ppc-tars-protocol)
-    add_subdirectory(ppc-tools)
-    add_subdirectory(ppc-storage)
-    add_subdirectory(ppc-psi)
-    add_subdirectory(ppc-rpc)
-    add_subdirectory(ppc-http)
-    add_subdirectory(ppc-mpc)
-    add_subdirectory(ppc-pir)
-    if(BUILD_CEM)
-        add_subdirectory(ppc-cem)
-    endif ()
-    add_subdirectory(ppc-main)
+if(BUILD_ALL)
+    add_sources("${ALL_SOURCE_LIST}")
+elseif(BUILD_UDF)
+    add_sources("${UDF_SOURCE_LIST}")
+elseif(BUILD_SDK)
+    add_sources("${SDK_SOURCE_LIST}")
 endif()
-if(BUILD_UDF)
-    add_subdirectory(ppc-udf)
-endif()
+########### set the sources end ########### 
 
 if (TESTS)
     enable_testing()
