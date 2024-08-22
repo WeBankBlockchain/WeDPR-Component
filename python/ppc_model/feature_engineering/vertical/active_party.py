@@ -139,7 +139,8 @@ class VerticalFeatureEngineeringActiveParty(VerticalModel):
 
         enc_aggr_labels_list_pb = EncAggrLabelsList()
         utils.bytes_to_pb(enc_aggr_labels_list_pb, data)
-        public_key = self.ctx.codec.decode_enc_key(enc_aggr_labels_list_pb.public_key)
+        public_key = self.ctx.codec.decode_enc_key(
+            enc_aggr_labels_list_pb.public_key)
 
         res = []
         for enc_aggr_labels_pb in enc_aggr_labels_list_pb.enc_aggr_labels_list:
@@ -160,7 +161,8 @@ class VerticalFeatureEngineeringActiveParty(VerticalModel):
         log = self.ctx.components.logger()
         start_time = time.time()
 
-        data = PheMessage.packing_data(self.ctx.codec, self.ctx.phe.public_key, enc_labels)
+        data = PheMessage.packing_data(
+            self.ctx.codec, self.ctx.phe.public_key, enc_labels)
         self.ctx.components.stub.push(PushRequest(
             receiver=receiver,
             task_id=self.ctx.task_id,
@@ -174,8 +176,10 @@ class VerticalFeatureEngineeringActiveParty(VerticalModel):
     def _save_and_sync_fe_results(self):
         log = self.ctx.components.logger()
         task_id = self.ctx.task_id
-        self.woe_iv_df.to_csv(self.ctx.woe_iv_file, sep=',', header=True, index=None)
-        self.iv_selected_df.to_csv(self.ctx.iv_selected_file, sep=',', header=True, index=None)
+        self.woe_iv_df.to_csv(self.ctx.woe_iv_file,
+                              sep=',', header=True, index=None)
+        self.iv_selected_df.to_csv(
+            self.ctx.iv_selected_file, sep=',', header=True, index=None)
         self.ctx.components.storage_client.upload_file(self.ctx.woe_iv_file,
                                                        self.ctx.job_id + os.sep + self.ctx.WOE_IV_FILE)
         log.info(f"Saving fe results finished, task_id: {task_id}")

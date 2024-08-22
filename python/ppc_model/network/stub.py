@@ -47,7 +47,8 @@ class ModelStub:
         self.agency_id = agency_id
         self._thread_event_manager = thread_event_manager
         self._rpc_client = rpc_client
-        self._executor = ThreadPoolExecutor(max_workers=max(1, os.cpu_count() - 1))
+        self._executor = ThreadPoolExecutor(
+            max_workers=max(1, os.cpu_count() - 1))
         self._send_retry_times = send_retry_times
         self._retry_interval_s = retry_interval_s
         # 缓存收到的消息 [task_id:[sender:[key:[seq: data]]]]

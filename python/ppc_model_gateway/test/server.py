@@ -21,7 +21,8 @@ def serve():
     server = grpc.server(futures.ThreadPoolExecutor(
         max_workers=max(1, os.cpu_count() - 1)),
         options=config.grpc_options)
-    ppc_model_pb2_grpc.add_ModelServiceServicer_to_server(ModelService(), server)
+    ppc_model_pb2_grpc.add_ModelServiceServicer_to_server(
+        ModelService(), server)
     server.add_insecure_port(f'[::]:{port}')
     server.start()
     print(f'Start serve successfully at {port}.')

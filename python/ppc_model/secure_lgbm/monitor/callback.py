@@ -42,7 +42,8 @@ class CallbackContainer:
         self.callbacks = set(callbacks)
         for cb in callbacks:
             if not isinstance(cb, TrainingCallback):
-                raise TypeError("callback must be an instance of `TrainingCallback`.")
+                raise TypeError(
+                    "callback must be an instance of `TrainingCallback`.")
 
         msg = (
             "feval must be callable object for monitoring. For builtin metrics"
@@ -79,5 +80,6 @@ class CallbackContainer:
     ) -> bool:
         model.after_iteration(pred, eval_on_test)
         model.eval(self.feval)
-        ret = any(c.after_iteration(model, model.get_epoch()) for c in self.callbacks)
+        ret = any(c.after_iteration(model, model.get_epoch())
+                  for c in self.callbacks)
         return ret

@@ -56,7 +56,7 @@ class TestSaveLoadModel(unittest.TestCase):
 
         booster_predict = VerticalBooster(task_info, dataset=None)
         booster_predict.load_model()
-        
+
         assert x_split == booster_predict._X_split
         assert trees == booster_predict._trees
 
@@ -66,15 +66,15 @@ class TestSaveLoadModel(unittest.TestCase):
         if depth == max_depth:
             return weight
 
-        best_split_info  = BestSplitInfo(
-            feature=np.random.randint(0,10),
-            value=np.random.randint(0,4),
+        best_split_info = BestSplitInfo(
+            feature=np.random.randint(0, 10),
+            value=np.random.randint(0, 4),
             best_gain=np.random.rand(),
             w_left=np.random.rand(),
             w_right=np.random.rand(),
-            agency_idx=np.random.randint(0,2),
-            agency_feature=np.random.randint(0,5)
-            )
+            agency_idx=np.random.randint(0, 2),
+            agency_feature=np.random.randint(0, 5)
+        )
         # print(best_split_info)
 
         if best_split_info.best_gain > 0.2:

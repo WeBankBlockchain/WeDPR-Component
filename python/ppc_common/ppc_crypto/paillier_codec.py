@@ -24,7 +24,7 @@ class PaillierCodec:
     @staticmethod
     def encode_cipher(cipher: EncryptedNumber, be_secure=True) -> Tuple[bytes, bytes]:
         return PaillierCodec._int_to_bytes(cipher.ciphertext(be_secure=be_secure)), \
-               PaillierCodec._int_to_bytes(cipher.exponent)
+            PaillierCodec._int_to_bytes(cipher.exponent)
 
     @staticmethod
     def decode_cipher(public_key: PaillierPublicKey, ciphertext: bytes, exponent: bytes) -> EncryptedNumber:

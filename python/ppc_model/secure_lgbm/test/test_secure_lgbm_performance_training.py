@@ -84,8 +84,10 @@ class TestXgboostTraining(unittest.TestCase):
             send_retry_times=3,
             retry_interval_s=0.1
         )
-        self._active_rpc_client.set_message_handler(self._passive_stub.on_message_received)
-        self._passive_rpc_client.set_message_handler(self._active_stub.on_message_received)
+        self._active_rpc_client.set_message_handler(
+            self._passive_stub.on_message_received)
+        self._passive_rpc_client.set_message_handler(
+            self._active_stub.on_message_received)
 
     def test_fit(self):
         args_a, args_b = mock_args()
@@ -96,7 +98,8 @@ class TestXgboostTraining(unittest.TestCase):
             'JOB_TEMP_DIR': '/tmp/active', 'AGENCY_ID': ACTIVE_PARTY}
         active_components.mock_logger = MockLogger()
         task_info_a = SecureLGBMContext(args_a, active_components)
-        model_data = SecureDataset.simulate_dataset(data_size, feature_dim, has_label=True)
+        model_data = SecureDataset.simulate_dataset(
+            data_size, feature_dim, has_label=True)
         secure_dataset_a = SecureDataset(task_info_a, model_data)
         booster_a = VerticalLGBMActiveParty(task_info_a, secure_dataset_a)
         print(secure_dataset_a.feature_name)
@@ -113,7 +116,8 @@ class TestXgboostTraining(unittest.TestCase):
             'JOB_TEMP_DIR': '/tmp/passive', 'AGENCY_ID': PASSIVE_PARTY}
         passive_components.mock_logger = MockLogger()
         task_info_b = SecureLGBMContext(args_b, passive_components)
-        model_data = SecureDataset.simulate_dataset(data_size, feature_dim, has_label=False)
+        model_data = SecureDataset.simulate_dataset(
+            data_size, feature_dim, has_label=False)
         secure_dataset_b = SecureDataset(task_info_b, model_data)
         booster_b = VerticalLGBMPassiveParty(task_info_b, secure_dataset_b)
         print(secure_dataset_b.feature_name)
@@ -128,14 +132,16 @@ class TestXgboostTraining(unittest.TestCase):
                 booster_a.save_model()
                 train_praba = booster_a.get_train_praba()
                 test_praba = booster_a.get_test_praba()
-                Evaluation(task_info_a, secure_dataset_a, train_praba, test_praba)
+                Evaluation(task_info_a, secure_dataset_a,
+                           train_praba, test_praba)
                 # ModelPlot(booster_a)
                 ResultFileHandling(task_info_a)
                 booster_a.load_model()
                 booster_a.predict()
                 test_praba = booster_a.get_test_praba()
                 task_info_a.algorithm_type = 'PPC_PREDICT'
-                Evaluation(task_info_a, secure_dataset_a, test_praba=test_praba)
+                Evaluation(task_info_a, secure_dataset_a,
+                           test_praba=test_praba)
                 ResultFileHandling(task_info_a)
             except Exception as e:
                 task_info_a.components.logger().info(traceback.format_exc())
@@ -146,14 +152,16 @@ class TestXgboostTraining(unittest.TestCase):
                 booster_b.save_model()
                 train_praba = booster_b.get_train_praba()
                 test_praba = booster_b.get_test_praba()
-                Evaluation(task_info_b, secure_dataset_b, train_praba, test_praba)
+                Evaluation(task_info_b, secure_dataset_b,
+                           train_praba, test_praba)
                 # ModelPlot(booster_b)
                 ResultFileHandling(task_info_b)
                 booster_b.load_model()
                 booster_b.predict()
                 test_praba = booster_b.get_test_praba()
                 task_info_b.algorithm_type = 'PPC_PREDICT'
-                Evaluation(task_info_b, secure_dataset_b, test_praba=test_praba)
+                Evaluation(task_info_b, secure_dataset_b,
+                           test_praba=test_praba)
                 ResultFileHandling(task_info_b)
             except Exception as e:
                 task_info_b.components.logger().info(traceback.format_exc())

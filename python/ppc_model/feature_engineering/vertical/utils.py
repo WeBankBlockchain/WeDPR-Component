@@ -41,9 +41,11 @@ def calculate_woe_iv(feature: np.ndarray, label: np.ndarray, num_bins: int = 10,
     combined = pd.DataFrame({'feature': feature, 'label': label})
     # 按特征值对数据集进行分箱
     if is_continuous:
-        combined['bins'] = FeatureBinning.binning_continuous_feature(feature, num_bins, is_equal_freq)[0]
+        combined['bins'] = FeatureBinning.binning_continuous_feature(
+            feature, num_bins, is_equal_freq)[0]
     else:
-        combined['bins'] = FeatureBinning.binning_categorical_feature(feature)[0]
+        combined['bins'] = FeatureBinning.binning_categorical_feature(feature)[
+            0]
     # 计算每个分箱中的正负样本数量和总体样本数量
     grouped = combined.groupby('bins')['label'].agg(['count', 'sum'])
     grouped = grouped.rename(columns={'sum': 'pos_event'})

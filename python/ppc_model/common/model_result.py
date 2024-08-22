@@ -25,22 +25,27 @@ class ResultFileHandling:
 
         # Synchronization result file
         if (len(ctx.result_receiver_id_list) == 1 and ctx.participant_id_list[0] != ctx.result_receiver_id_list[0]) \
-            or len(ctx.result_receiver_id_list) > 1:
+                or len(ctx.result_receiver_id_list) > 1:
             self._sync_result_files()
- 
+
     def _process_fe_result(self):
         if os.path.exists(self.ctx.preprocessing_result_file):
-            column_info_fm = pd.read_csv(self.ctx.preprocessing_result_file, index_col=0)
+            column_info_fm = pd.read_csv(
+                self.ctx.preprocessing_result_file, index_col=0)
             if os.path.exists(self.ctx.iv_selected_file):
-                column_info_iv_fm = pd.read_csv(self.ctx.iv_selected_file, index_col=0)
-                merged_df = self.union_column_info(column_info_fm, column_info_iv_fm)
+                column_info_iv_fm = pd.read_csv(
+                    self.ctx.iv_selected_file, index_col=0)
+                merged_df = self.union_column_info(
+                    column_info_fm, column_info_iv_fm)
             else:
                 merged_df = column_info_fm
 
             merged_df.fillna("None", inplace=True)
-            merged_df.to_csv(self.ctx.selected_col_file, sep=utils.CSV_SEP, header=True, index_label='id')
+            merged_df.to_csv(self.ctx.selected_col_file,
+                             sep=utils.CSV_SEP, header=True, index_label='id')
             # 存储column_info到hdfs给前端展示
-            self._upload_file(self.ctx.components.storage_client, self.ctx.selected_col_file, self.ctx.remote_selected_col_file)
+            self._upload_file(self.ctx.components.storage_client,
+                              self.ctx.selected_col_file, self.ctx.remote_selected_col_file)
 
     @staticmethod
     def union_column_info(column_info1: pd.DataFrame, column_info2: pd.DataFrame):
@@ -55,10 +60,12 @@ class ResultFileHandling:
             column_info_merge (DataFrame): The union column_info.
         """
         # 将column_info1和column_info2按照left_index=True, right_index=True的方式进行合并 如果列有缺失则赋值为None 行的顺序按照column_info1
-        column_info_conbine = column_info1.merge(column_info2, how='outer', left_index=True, right_index=True, sort=False)
+        column_info_conbine = column_info1.merge(
+            column_info2, how='outer', left_index=True, right_index=True, sort=False)
         col1_index_list = column_info1.index.to_list()
         col2_index_list = column_info2.index.to_list()
-        merged_list = col1_index_list + [item for item in col2_index_list if item not in col1_index_list]
+        merged_list = col1_index_list + \
+            [item for item in col2_index_list if item not in col1_index_list]
         column_info_conbine = column_info_conbine.reindex(merged_list)
         return column_info_conbine
 
@@ -71,6 +78,7 @@ class ResultFileHandling:
     def _download_file(storage_client, local_file, remote_file):
         if storage_client is not None and not os.path.exists(local_file):
             storage_client.download_file(remote_file, local_file)
+
     @staticmethod
     def make_graph_data(components, job_id, graph_file_name):
         graph_format = 'svg+xml'
@@ -119,37 +127,39 @@ class ResultFileHandling:
     def _remove_workspace(self):
         if os.path.exists(self.ctx.workspace):
             shutil.rmtree(self.ctx.workspace)
-            self.log.info(f'job {self.ctx.job_id}: {self.ctx.workspace} has been removed.')
+            self.log.info(
+                f'job {self.ctx.job_id}: {self.ctx.workspace} has been removed.')
         else:
-            self.log.info(f'job {self.ctx.job_id}: {self.ctx.workspace} does not exist.')
+            self.log.info(
+                f'job {self.ctx.job_id}: {self.ctx.workspace} does not exist.')
 
     def _sync_result_files(self):
         if self.ctx.algorithm_type == AlgorithmType.Train.name:
-            self.sync_result_file(self.ctx, self.ctx.metrics_iteration_file, 
+            self.sync_result_file(self.ctx, self.ctx.metrics_iteration_file,
                                   self.ctx.remote_metrics_iteration_file, 'f1')
-            self.sync_result_file(self.ctx, self.ctx.feature_importance_file, 
+            self.sync_result_file(self.ctx, self.ctx.feature_importance_file,
                                   self.ctx.remote_feature_importance_file, 'f2')
-            self.sync_result_file(self.ctx, self.ctx.summary_evaluation_file, 
+            self.sync_result_file(self.ctx, self.ctx.summary_evaluation_file,
                                   self.ctx.remote_summary_evaluation_file, 'f3')
-            self.sync_result_file(self.ctx, self.ctx.train_metric_ks_table, 
+            self.sync_result_file(self.ctx, self.ctx.train_metric_ks_table,
                                   self.ctx.remote_train_metric_ks_table, 'f4')
-            self.sync_result_file(self.ctx, self.ctx.train_metric_roc_file, 
+            self.sync_result_file(self.ctx, self.ctx.train_metric_roc_file,
                                   self.ctx.remote_train_metric_roc_file, 'f5')
-            self.sync_result_file(self.ctx, self.ctx.train_metric_ks_file, 
+            self.sync_result_file(self.ctx, self.ctx.train_metric_ks_file,
                                   self.ctx.remote_train_metric_ks_file, 'f6')
-            self.sync_result_file(self.ctx, self.ctx.train_metric_pr_file, 
+            self.sync_result_file(self.ctx, self.ctx.train_metric_pr_file,
                                   self.ctx.remote_train_metric_pr_file, 'f7')
-            self.sync_result_file(self.ctx, self.ctx.train_metric_acc_file, 
+            self.sync_result_file(self.ctx, self.ctx.train_metric_acc_file,
                                   self.ctx.remote_train_metric_acc_file, 'f8')
-            self.sync_result_file(self.ctx, self.ctx.test_metric_ks_table, 
+            self.sync_result_file(self.ctx, self.ctx.test_metric_ks_table,
                                   self.ctx.remote_test_metric_ks_table, 'f9')
-            self.sync_result_file(self.ctx, self.ctx.test_metric_roc_file, 
+            self.sync_result_file(self.ctx, self.ctx.test_metric_roc_file,
                                   self.ctx.remote_test_metric_roc_file, 'f10')
-            self.sync_result_file(self.ctx, self.ctx.test_metric_ks_file, 
+            self.sync_result_file(self.ctx, self.ctx.test_metric_ks_file,
                                   self.ctx.remote_test_metric_ks_file, 'f11')
-            self.sync_result_file(self.ctx, self.ctx.test_metric_pr_file, 
+            self.sync_result_file(self.ctx, self.ctx.test_metric_pr_file,
                                   self.ctx.remote_test_metric_pr_file, 'f12')
-            self.sync_result_file(self.ctx, self.ctx.test_metric_acc_file, 
+            self.sync_result_file(self.ctx, self.ctx.test_metric_acc_file,
                                   self.ctx.remote_test_metric_acc_file, 'f13')
 
     @staticmethod
@@ -163,11 +173,12 @@ class ResultFileHandling:
                                                 byte_data, partner_index)
         else:
             if ctx.components.config_data['AGENCY_ID'] in ctx.result_receiver_id_list:
-                byte_data = SendMessage._receive_byte_data(ctx.components.stub, ctx, 
+                byte_data = SendMessage._receive_byte_data(ctx.components.stub, ctx,
                                                            f'{CommonMessage.SYNC_FILE.value}_{key_file}', 0)
                 with open(local_file, 'wb') as f:
                     f.write(byte_data)
-                ResultFileHandling._upload_file(ctx.components.storage_client, local_file, remote_file)
+                ResultFileHandling._upload_file(
+                    ctx.components.storage_client, local_file, remote_file)
 
 
 class CommonMessage(Enum):

@@ -534,6 +534,7 @@ def test_process_train_dataframe_with_additional_columns():
     # Assert that the processed DataFrame matches the expected output
     assert processed_df.equals(expected_output)
 
+
 def test_merge_column_info_from_file():
     col_info_file_path = "./test_column_info_merge.csv"
     iv_info_file_path = "./test_column_info_iv.csv"
@@ -548,7 +549,8 @@ def test_merge_column_info_from_file():
     # assert expected_df.equals(union_df)
     column_info_str = json.dumps(column_info_fm.to_dict(orient='index'))
     assert column_info_str == col_str_expected
-    
+
+
 def construct_dataset(num_samples, num_features, file_path):
     np.random.seed(0)
     # 生成标签列
@@ -557,23 +559,25 @@ def construct_dataset(num_samples, num_features, file_path):
     features = np.random.rand(num_samples, num_features)
     # 将标签转换为DataFrame
     labels_df = pd.DataFrame(labels, columns=['Label'])
-    
+
     # 将特征转换为DataFrame
     features_df = pd.DataFrame(features)
-    
+
     # 合并标签和特征DataFrame
     dataset_df = pd.concat([labels_df, features_df], axis=1)
-    
+
     # 将DataFrame写入CSV文件
     dataset_df.to_csv(file_path, index=False)
-    
+
     return labels, features
+
 
 def test_gen_file():
     num_samples = 400000
     num_features = 100
     file_path = "./dataset-{}-{}.csv".format(num_samples, num_features)
     construct_dataset(num_samples, num_features, file_path)
+
 
 def test_large_process_train_dataframe():
     num_samples = 400000
@@ -624,15 +628,13 @@ def test_large_process_train_dataframe():
     column_info1 = process_dataframe(
         df_filled, xgb_dict, "./xgb_data_file_path", utils.AlgorithmType.Train.name, "j-123456")
     end_time = time.time()
-    print(f"test_large_process_train_dataframe time cost:{end_time-start_time}, num_samples: {num_samples}, num_features: {num_features}")
+    print(
+        f"test_large_process_train_dataframe time cost:{end_time-start_time}, num_samples: {num_samples}, num_features: {num_features}")
 
-    
-    
-    
-    
+
 # Run the tests
 # pytest.main()
-if __name__=="__main__":
+if __name__ == "__main__":
     import time
     # test_large_process_train_dataframe()
     time1 = time.time()
@@ -667,6 +669,7 @@ if __name__=="__main__":
     print(f"test_process_psi time cost: {time8-time7}")
     print(f"test_process_dataframe time cost: {time9-time8}")
     print(f"test_process_train_dataframe time cost: {time10-time9}")
-    print(f"test_process_train_dataframe_with_additional_columns time cost: {time11-time10}")
+    print(
+        f"test_process_train_dataframe_with_additional_columns time cost: {time11-time10}")
     print(f"test_merge_column_info_from_file time cost: {time12-time11}")
     print("All tests pass!")

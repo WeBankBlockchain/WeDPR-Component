@@ -66,13 +66,14 @@ class TestXgboostTraining(unittest.TestCase):
     args_a, args_b = mock_args()
 
     def test_active_metrics(self):
-        
+
         active_components = Initializer(log_config_path='', config_path='')
         active_components.config_data = {
             'JOB_TEMP_DIR': '/tmp/active', 'AGENCY_ID': ACTIVE_PARTY}
         active_components.mock_logger = MockLogger()
         task_info_a = SecureLGBMContext(self.args_a, active_components)
-        model_data = SecureDataset.simulate_dataset(data_size, feature_dim, has_label=True)
+        model_data = SecureDataset.simulate_dataset(
+            data_size, feature_dim, has_label=True)
         secure_dataset_a = SecureDataset(task_info_a, model_data)
         booster_a = VerticalLGBMActiveParty(task_info_a, secure_dataset_a)
         print(secure_dataset_a.feature_name)
@@ -86,7 +87,8 @@ class TestXgboostTraining(unittest.TestCase):
         # booster_a._train_praba = np.random.rand(len(secure_dataset_a.train_y))
         booster_a._test_praba = np.random.rand(len(secure_dataset_a.test_y))
 
-        Evaluation(task_info_a, secure_dataset_a, booster_a._train_praba, booster_a._test_praba)
+        Evaluation(task_info_a, secure_dataset_a,
+                   booster_a._train_praba, booster_a._test_praba)
 
     def test_passive_metrics(self):
 
@@ -95,7 +97,8 @@ class TestXgboostTraining(unittest.TestCase):
             'JOB_TEMP_DIR': '/tmp/passive', 'AGENCY_ID': PASSIVE_PARTY}
         passive_components.mock_logger = MockLogger()
         task_info_b = SecureLGBMContext(self.args_b, passive_components)
-        model_data = SecureDataset.simulate_dataset(data_size, feature_dim, has_label=False)
+        model_data = SecureDataset.simulate_dataset(
+            data_size, feature_dim, has_label=False)
         secure_dataset_b = SecureDataset(task_info_b, model_data)
         booster_b = VerticalLGBMPassiveParty(task_info_b, secure_dataset_b)
         print(secure_dataset_b.feature_name)
@@ -107,7 +110,8 @@ class TestXgboostTraining(unittest.TestCase):
         # booster_b._train_praba = np.random.rand(len(secure_dataset_b.train_idx))
         booster_b._test_praba = np.random.rand(len(secure_dataset_b.test_idx))
 
-        Evaluation(task_info_b, secure_dataset_b, booster_b._train_praba, booster_b._test_praba)
+        Evaluation(task_info_b, secure_dataset_b,
+                   booster_b._train_praba, booster_b._test_praba)
 
     def test_model_plot(self):
 
@@ -116,7 +120,8 @@ class TestXgboostTraining(unittest.TestCase):
             'JOB_TEMP_DIR': '/tmp/active', 'AGENCY_ID': ACTIVE_PARTY}
         active_components.mock_logger = MockLogger()
         task_info_a = SecureLGBMContext(self.args_a, active_components)
-        model_data = SecureDataset.simulate_dataset(data_size, feature_dim, has_label=True)
+        model_data = SecureDataset.simulate_dataset(
+            data_size, feature_dim, has_label=True)
         secure_dataset_a = SecureDataset(task_info_a, model_data)
         booster_a = VerticalLGBMActiveParty(task_info_a, secure_dataset_a)
         if os.path.exists(booster_a.ctx.model_data_file):
@@ -128,32 +133,32 @@ class TestXgboostTraining(unittest.TestCase):
         Gtree.add_node(0)
         Gtree.add_nodes_from([1, 2])
         Gtree.add_weighted_edges_from(
-                        [(0, 1, 'left_'+str(2)+'_'+str(3)+'_'+str(0.5)),
-                        (0, 2, 'right_'+str(2)+'_'+str(3)+'_'+str(0.9))])
+            [(0, 1, 'left_'+str(2)+'_'+str(3)+'_'+str(0.5)),
+             (0, 2, 'right_'+str(2)+'_'+str(3)+'_'+str(0.9))])
         Gtree.add_nodes_from([3, 4])
         Gtree.add_weighted_edges_from(
-                        [(1, 3, 'left_'+str(20)+'_'+str(4)+'_'+str(0.5)),
-                        (1, 4, 'right_'+str(20)+'_'+str(4)+'_'+str(0.9))])
+            [(1, 3, 'left_'+str(20)+'_'+str(4)+'_'+str(0.5)),
+             (1, 4, 'right_'+str(20)+'_'+str(4)+'_'+str(0.9))])
         Gtree.add_nodes_from([5, 6])
         Gtree.add_weighted_edges_from(
-                        [(2, 5, 'left_'+str(2)+'_'+str(7)+'_'+str(0.5)),
-                        (2, 6, 'right_'+str(2)+'_'+str(7)+'_'+str(0.9))])
+            [(2, 5, 'left_'+str(2)+'_'+str(7)+'_'+str(0.5)),
+             (2, 6, 'right_'+str(2)+'_'+str(7)+'_'+str(0.9))])
         Gtree.add_nodes_from([7, 8])
         Gtree.add_weighted_edges_from(
-                        [(3, 7, 'left_'+str(1)+'_'+str(11)+'_'+str(0.5)),
-                        (3, 8, 'right_'+str(1)+'_'+str(11)+'_'+str(0.9))])
+            [(3, 7, 'left_'+str(1)+'_'+str(11)+'_'+str(0.5)),
+             (3, 8, 'right_'+str(1)+'_'+str(11)+'_'+str(0.9))])
         Gtree.add_nodes_from([9, 10])
         Gtree.add_weighted_edges_from(
-                        [(4, 9, 'left_'+str(18)+'_'+str(2)+'_'+str(0.5)),
-                        (4, 10, 'right_'+str(18)+'_'+str(2)+'_'+str(0.9))])
+            [(4, 9, 'left_'+str(18)+'_'+str(2)+'_'+str(0.5)),
+             (4, 10, 'right_'+str(18)+'_'+str(2)+'_'+str(0.9))])
         Gtree.add_nodes_from([11, 12])
         Gtree.add_weighted_edges_from(
-                        [(5, 11, 'left_'+str(23)+'_'+str(25)+'_'+str(0.5)),
-                        (5, 12, 'right_'+str(23)+'_'+str(25)+'_'+str(0.9))])
+            [(5, 11, 'left_'+str(23)+'_'+str(25)+'_'+str(0.5)),
+             (5, 12, 'right_'+str(23)+'_'+str(25)+'_'+str(0.9))])
         Gtree.add_nodes_from([13, 14])
         Gtree.add_weighted_edges_from(
-                        [(6, 13, 'left_'+str(16)+'_'+str(10)+'_'+str(0.5)),
-                        (6, 14, 'right_'+str(16)+'_'+str(10)+'_'+str(0.9))])
+            [(6, 13, 'left_'+str(16)+'_'+str(10)+'_'+str(0.5)),
+             (6, 14, 'right_'+str(16)+'_'+str(10)+'_'+str(0.9))])
 
         # Gtree.tree_plot()
         # Gtree.tree_plot(split=False, figsize=(10, 5))

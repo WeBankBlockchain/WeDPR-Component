@@ -51,16 +51,19 @@ class TaskManager:
         job_id = args[0]['job_id']
         with self._rw_lock.gen_wlock():
             if task_id in self._tasks:
-                self.logger.info(f"Task already exists, task_id: {task_id}, status: {self._tasks[task_id][0]}")
+                self.logger.info(
+                    f"Task already exists, task_id: {task_id}, status: {self._tasks[task_id][0]}")
                 return
-            self._tasks[task_id] = [TaskStatus.RUNNING.value, datetime.datetime.now(), 0, args[0]['job_id']]
+            self._tasks[task_id] = [TaskStatus.RUNNING.value,
+                                    datetime.datetime.now(), 0, args[0]['job_id']]
             if job_id in self._jobs:
                 self._jobs[job_id].add(task_id)
             else:
                 self._jobs[job_id] = {task_id}
         self.logger.info(LOG_START_FLAG_FORMATTER.format(job_id=job_id))
         self.logger.info(f"Run task, job_id: {job_id}, task_id: {task_id}")
-        self._async_executor.execute(task_id, self._handlers[task_type.value], self._on_task_finish, args)
+        self._async_executor.execute(
+            task_id, self._handlers[task_type.value], self._on_task_finish, args)
 
     def kill_task(self, job_id: str):
         """
@@ -152,7 +155,8 @@ class TaskManager:
                     del self._jobs[job_id]
                 self._thread_event_manager.remove_event(task_id)
                 self._stub.cleanup_cache(task_id)
-                self.logger.info(f"Cleanup task cache, task_id: {task_id}, job_id: {job_id}")
+                self.logger.info(
+                    f"Cleanup task cache, task_id: {task_id}, job_id: {job_id}")
 
     def record_model_job_log(self, job_id):
         log_file = self._get_log_file_path()

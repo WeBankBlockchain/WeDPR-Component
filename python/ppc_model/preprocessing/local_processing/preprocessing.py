@@ -103,8 +103,10 @@ def process_dataframe(dataset_df: pd.DataFrame, model_setting: ModelSetting, xgb
         if model_setting.eval_set_column is not None:
             if model_setting.eval_set_column in dataset_df.columns:
                 eval_column = model_setting.eval_set_column
-                dataset_df[['id', eval_column]].to_csv(ctx.eval_column_file, index=None)
-                ctx.components.storage_client.upload_file(ctx.eval_column_file, job_id + os.sep + ctx.EVAL_COLUMN_FILE)
+                dataset_df[['id', eval_column]].to_csv(
+                    ctx.eval_column_file, index=None)
+                ctx.components.storage_client.upload_file(
+                    ctx.eval_column_file, job_id + os.sep + ctx.EVAL_COLUMN_FILE)
                 if model_setting.eval_set_column != model_setting.psi_select_col:
                     dataset_df = dataset_df.drop(columns=[eval_column])
 

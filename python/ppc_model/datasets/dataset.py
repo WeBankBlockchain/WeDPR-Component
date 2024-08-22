@@ -112,7 +112,7 @@ class SecureDataset:
     def _customized_split_dataset(self):
         if self.ctx.role == TaskRole.ACTIVE_PARTY:
             for partner_index in range(1, len(self.ctx.participant_id_list)):
-                byte_data = SendMessage._receive_byte_data(self.ctx.components.stub, self.ctx, 
+                byte_data = SendMessage._receive_byte_data(self.ctx.components.stub, self.ctx,
                                                            f'{CommonMessage.EVAL_SET_FILE.value}', partner_index)
                 if not os.path.exists(self.eval_column_file) and byte_data != bytes():
                     with open(self.eval_column_file, 'wb') as f:
@@ -130,15 +130,17 @@ class SecureDataset:
                     byte_data = f.read()
             SendMessage._send_byte_data(self.ctx.components.stub, self.ctx, f'{CommonMessage.EVAL_SET_FILE.value}',
                                         byte_data, 0)
-            byte_data = SendMessage._receive_byte_data(self.ctx.components.stub, self.ctx, 
-                                                        f'{CommonMessage.EVAL_SET_FILE.value}', 0)
+            byte_data = SendMessage._receive_byte_data(self.ctx.components.stub, self.ctx,
+                                                       f'{CommonMessage.EVAL_SET_FILE.value}', 0)
             if not os.path.exists(self.eval_column_file):
                 with open(self.eval_column_file, 'wb') as f:
                     f.write(byte_data)
-        
-        eval_set_df = pd.read_csv(self.eval_column_file, header=0)        
-        train_data = self.model_data[eval_set_df[self.eval_set_column] == self.train_set_value]
-        test_data = self.model_data[eval_set_df[self.eval_set_column] == self.eval_set_value]
+
+        eval_set_df = pd.read_csv(self.eval_column_file, header=0)
+        train_data = self.model_data[eval_set_df[self.eval_set_column]
+                                     == self.train_set_value]
+        test_data = self.model_data[eval_set_df[self.eval_set_column]
+                                    == self.eval_set_value]
 
         return train_data, test_data
 

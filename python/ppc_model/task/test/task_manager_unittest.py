@@ -126,8 +126,10 @@ class TestTaskManager(unittest.TestCase):
             'job_id': '0x123456789',
             'key': 'TEST_MESSAGE',
         }
-        self._task_manager.run_task("my_long_task", ModelTask.XGB_PREDICTING, (args,))
-        self.assertEqual(self._task_manager.status("my_long_task")[0], 'RUNNING')
+        self._task_manager.run_task(
+            "my_long_task", ModelTask.XGB_PREDICTING, (args,))
+        self.assertEqual(self._task_manager.status(
+            "my_long_task")[0], 'RUNNING')
         self._task_manager.kill_task("0x123456789")
         time.sleep(1)
         self.assertEqual(self._task_manager.status(

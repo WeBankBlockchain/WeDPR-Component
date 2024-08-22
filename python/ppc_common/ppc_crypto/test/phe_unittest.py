@@ -30,7 +30,7 @@ class PaillierUtilsTest(unittest.TestCase):
         print("dec_p:", end_time - start_time, "seconds")
 
         self.assertListEqual(list(inputs), list(outputs))
-        
+
     def test_ihc_enc_and_dec_parallel(self):
         ihc = IhcCipher(key_length=256)
         try_size = 100000
@@ -48,17 +48,17 @@ class PaillierUtilsTest(unittest.TestCase):
         cipher_start = ciphers[0]
         for i in range(1, len(ciphers)):
             cipher_left = (cipher_start.c_left + ciphers[i].c_left)
-            cipher_right = (cipher_start.c_right + ciphers[i].c_right )
+            cipher_right = (cipher_start.c_right + ciphers[i].c_right)
             # IhcCiphertext(cipher_left, cipher_right, cipher_start.max_mod)
             IhcCiphertext(cipher_left, cipher_right)
         end_time = time.time()
         print(f"size:{try_size}, add_p raw with class: {end_time - start_time} seconds, average times: {(end_time - start_time)/try_size * 1000 * 1000} us")
-        
+
         start_time = time.time()
         cipher_start = ciphers[0]
         for i in range(1, len(ciphers)):
             cipher_left = (cipher_start.c_left + ciphers[i].c_left)
-            cipher_right = (cipher_start.c_right + ciphers[i].c_right )
+            cipher_right = (cipher_start.c_right + ciphers[i].c_right)
             # IhcCiphertext(cipher_left, cipher_right)
         end_time = time.time()
         print(f"size:{try_size}, add_p raw: {end_time - start_time} seconds, average times: {(end_time - start_time)/try_size * 1000 * 1000} us")

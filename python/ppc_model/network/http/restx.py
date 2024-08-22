@@ -22,7 +22,8 @@ def default_error_handler(e):
     components.logger().exception(e)
     info = e.to_dict()
     response = {'errorCode': info['code'], 'message': info['message']}
-    components.logger().error(f"OnError: code: {info['code']}, message: {info['message']}")
+    components.logger().error(
+        f"OnError: code: {info['code']}, message: {info['message']}")
     return response, 500
 
 

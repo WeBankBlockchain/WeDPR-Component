@@ -48,7 +48,7 @@ class TestSecureDataset(unittest.TestCase):
     iv_selected_file = './iv_selected.csv'
     if not os.path.exists(iv_selected_file):
         iv_selected = pd.DataFrame(
-            {'feature': [f'x{i + 1}' for i in range(30)], 
+            {'feature': [f'x{i + 1}' for i in range(30)],
              'iv_selected': np.random.binomial(n=1, p=0.5, size=30)})
         iv_selected.to_csv(iv_selected_file, index=None)
 
@@ -203,9 +203,11 @@ class TestSecureDataset(unittest.TestCase):
         df = pd.DataFrame(origin_data, columns=columns)
         csv_file = '/tmp/data_x1_to_x10.csv'
         df.to_csv(csv_file, index=False)
-        field_list, label, feature = SecureDataset.read_dataset(csv_file, False, delimiter=',')
+        field_list, label, feature = SecureDataset.read_dataset(
+            csv_file, False, delimiter=',')
         self.assertEqual(['id'] + field_list, columns)
-        field_list, label, feature = SecureDataset.read_dataset(csv_file, True, delimiter=',')
+        field_list, label, feature = SecureDataset.read_dataset(
+            csv_file, True, delimiter=',')
         self.assertEqual(['id'] + field_list, columns)
 
 

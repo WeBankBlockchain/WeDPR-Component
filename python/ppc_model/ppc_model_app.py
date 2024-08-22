@@ -1,30 +1,28 @@
 # Note: here can't be refactored by autopep
+from ppc_model.secure_lgbm.secure_lgbm_training_engine import SecureLGBMTrainingEngine
+from ppc_model.secure_lgbm.secure_lgbm_prediction_engine import SecureLGBMPredictionEngine
+from ppc_model.preprocessing.preprocessing_engine import PreprocessingEngine
+from ppc_model.network.http.restx import api
+from ppc_model.network.http.model_controller import ns2 as log_namespace
+from ppc_model.network.http.model_controller import ns as task_namespace
+from ppc_model.network.grpc.grpc_server import ModelService
+from ppc_model.feature_engineering.feature_engineering_engine import FeatureEngineeringEngine
+from ppc_model.common.protocol import ModelTask
+from ppc_model.common.global_context import components
+from ppc_common.ppc_utils import utils
+from ppc_common.ppc_protos.generated import ppc_model_pb2_grpc
+from paste.translogger import TransLogger
+from flask import Flask, Blueprint
+from cheroot.wsgi import Server as WSGIServer
+from cheroot.ssl.builtin import BuiltinSSLAdapter
+import grpc
+from threading import Thread
+from concurrent import futures
+import os
+import multiprocessing
 import sys
 sys.path.append("../")
 
-import multiprocessing
-import os
-from concurrent import futures
-from threading import Thread
-
-import grpc
-from cheroot.ssl.builtin import BuiltinSSLAdapter
-from cheroot.wsgi import Server as WSGIServer
-from flask import Flask, Blueprint
-from paste.translogger import TransLogger
-
-from ppc_common.ppc_protos.generated import ppc_model_pb2_grpc
-from ppc_common.ppc_utils import utils
-from ppc_model.common.global_context import components
-from ppc_model.common.protocol import ModelTask
-from ppc_model.feature_engineering.feature_engineering_engine import FeatureEngineeringEngine
-from ppc_model.network.grpc.grpc_server import ModelService
-from ppc_model.network.http.model_controller import ns as task_namespace
-from ppc_model.network.http.model_controller import ns2 as log_namespace
-from ppc_model.network.http.restx import api
-from ppc_model.preprocessing.preprocessing_engine import PreprocessingEngine
-from ppc_model.secure_lgbm.secure_lgbm_prediction_engine import SecureLGBMPredictionEngine
-from ppc_model.secure_lgbm.secure_lgbm_training_engine import SecureLGBMTrainingEngine
 
 app = Flask(__name__)
 
@@ -57,7 +55,8 @@ def model_serve():
     if app.config['SSL_SWITCH'] == 0:
         ppc_serve = grpc.server(futures.ThreadPoolExecutor(max_workers=max(1, os.cpu_count() - 1)),
                                 options=components.grpc_options)
-        ppc_model_pb2_grpc.add_ModelServiceServicer_to_server(ModelService(), ppc_serve)
+        ppc_model_pb2_grpc.add_ModelServiceServicer_to_server(
+            ModelService(), ppc_serve)
         address = "[::]:{}".format(app.config['RPC_PORT'])
         ppc_serve.add_insecure_port(address)
     else:
@@ -74,7 +73,8 @@ def model_serve():
 
         ppc_serve = grpc.server(futures.ThreadPoolExecutor(max_workers=max(1, os.cpu_count() - 1)),
                                 options=components.grpc_options)
-        ppc_model_pb2_grpc.add_ModelServiceServicer_to_server(ModelService(), ppc_serve)
+        ppc_model_pb2_grpc.add_ModelServiceServicer_to_server(
+            ModelService(), ppc_serve)
         address = "[::]:{}".format(app.config['RPC_PORT'])
         ppc_serve.add_secure_port(address, server_credentials)
 

@@ -28,7 +28,8 @@ def send_get_request(endpoint, uri, params=None, headers=None):
     else:
         url = f"http://{endpoint}"
     log.debug(f"send a get request, url: {url}, params: {params}")
-    response = requests.get(url=url, params=params, headers=headers, timeout=30)
+    response = requests.get(url=url, params=params,
+                            headers=headers, timeout=30)
     log.debug(f"response: {response.text}")
     check_response(response)
     response_data = json.loads(response.text)
@@ -99,4 +100,3 @@ def send_upload_request(endpoint, uri, params=None, headers=None, data=None):
     except JSONDecodeError:
         response_data = response.text
     return response_data
-

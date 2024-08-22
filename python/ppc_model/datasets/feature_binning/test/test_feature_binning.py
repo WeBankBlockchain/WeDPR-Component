@@ -31,16 +31,17 @@ class TestFeatureBinning(unittest.TestCase):
             'algorithm_type': 'Train',
             'algorithm_subtype': None,
             'model_dict': {
-            'objective': 'regression',
-            'max_bin': 10,
-            'n_estimators': 6,
-            'max_depth': 3,
-            'use_goss': 1
+                'objective': 'regression',
+                'max_bin': 10,
+                'n_estimators': 6,
+                'max_depth': 3,
+                'use_goss': 1
             }
         }
 
         task_info = SecureLGBMContext(args, self.components)
-        model_data = SecureDataset.simulate_dataset(data_size, feature_dim, has_label)
+        model_data = SecureDataset.simulate_dataset(
+            data_size, feature_dim, has_label)
         secure_dataset = SecureDataset(task_info, model_data)
         print(secure_dataset.train_idx.shape)
         print(secure_dataset.train_X.shape)
@@ -79,7 +80,8 @@ class TestFeatureBinning(unittest.TestCase):
         }
 
         task_info = SecureLGBMContext(args, self.components)
-        model_data = SecureDataset.simulate_dataset(data_size, feature_dim, has_label)
+        model_data = SecureDataset.simulate_dataset(
+            data_size, feature_dim, has_label)
         secure_dataset = SecureDataset(task_info, model_data)
         print(secure_dataset.train_idx.shape)
         print(secure_dataset.train_X.shape)

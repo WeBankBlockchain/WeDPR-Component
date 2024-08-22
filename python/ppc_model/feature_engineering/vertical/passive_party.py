@@ -30,7 +30,8 @@ class VerticalFeatureEngineeringPassiveParty(VerticalModel):
             public_key, enc_labels = self._get_enc_labels()
 
             # 根据特征分箱，聚合加密标签
-            aggr_labels_bytes_list = self._binning_and_aggregating_all(public_key, enc_labels)
+            aggr_labels_bytes_list = self._binning_and_aggregating_all(
+                public_key, enc_labels)
 
             # 发送聚合的密文标签
             self._send_all_enc_aggr_labels(public_key, aggr_labels_bytes_list)
@@ -49,7 +50,8 @@ class VerticalFeatureEngineeringPassiveParty(VerticalModel):
             key=FeMessage.ENC_LABELS.value
         ))
 
-        public_key, enc_labels = PheMessage.unpacking_data(self.ctx.codec, data)
+        public_key, enc_labels = PheMessage.unpacking_data(
+            self.ctx.codec, data)
         log.info(f"All enc labels received, task_id: {self.ctx.task_id}, label_num: {len(enc_labels)}, "
                  f"size: {len(data) / 1024}KB, timecost: {time.time() - start_time}s")
         return public_key, enc_labels
@@ -59,7 +61,8 @@ class VerticalFeatureEngineeringPassiveParty(VerticalModel):
         start_time = time.time()
         params = []
         for i in range(self.ctx.feature.shape[1]):
-            is_continuous = is_continuous_feature(self.ctx.categorical, self.ctx.feature_name_list[i])
+            is_continuous = is_continuous_feature(
+                self.ctx.categorical, self.ctx.feature_name_list[i])
             params.append({
                 'is_continuous': is_continuous,
                 'feature_index': i,
@@ -89,7 +92,8 @@ class VerticalFeatureEngineeringPassiveParty(VerticalModel):
     def _binning_and_aggregating_one(param):
         feature = param['feature']
         if param['is_continuous']:
-            bins = FeatureBinning.binning_continuous_feature(feature, param['group_num'])[0]
+            bins = FeatureBinning.binning_continuous_feature(
+                feature, param['group_num'])[0]
         else:
             bins = FeatureBinning.binning_categorical_feature(feature)[0]
 
@@ -103,8 +107,10 @@ class VerticalFeatureEngineeringPassiveParty(VerticalModel):
             else:
                 data_dict[key] = {'count': 1, 'sum': value}
 
-        count_list = [data_dict[key]['count'] for key in sorted(data_dict.keys())]
-        aggr_enc_labels = [data_dict[key]['sum'] for key in sorted(data_dict.keys())]
+        count_list = [data_dict[key]['count']
+                      for key in sorted(data_dict.keys())]
+        aggr_enc_labels = [data_dict[key]['sum']
+                           for key in sorted(data_dict.keys())]
 
         return VerticalFeatureEngineeringPassiveParty._encode_enc_aggr_labels(
             param['codec'], param['field'], count_list, aggr_enc_labels)
@@ -125,12 +131,14 @@ class VerticalFeatureEngineeringPassiveParty(VerticalModel):
     def _send_all_enc_aggr_labels(self, public_key, aggr_labels_bytes_list):
         start_time = time.time()
         enc_aggr_labels_list_pb = EncAggrLabelsList()
-        enc_aggr_labels_list_pb.public_key = self.ctx.codec.encode_enc_key(public_key)
+        enc_aggr_labels_list_pb.public_key = self.ctx.codec.encode_enc_key(
+            public_key)
 
         for aggr_labels_bytes in aggr_labels_bytes_list:
             enc_aggr_labels_pb = EncAggrLabels()
             utils.bytes_to_pb(enc_aggr_labels_pb, aggr_labels_bytes)
-            enc_aggr_labels_list_pb.enc_aggr_labels_list.append(enc_aggr_labels_pb)
+            enc_aggr_labels_list_pb.enc_aggr_labels_list.append(
+                enc_aggr_labels_pb)
 
         data = utils.pb_to_bytes(enc_aggr_labels_list_pb)
 

@@ -17,7 +17,8 @@ class FeatureEngineeringEngine(TaskEngine):
             args['job_id'], components.config_data['JOB_TEMP_DIR'])
 
         if args['is_label_holder']:
-            field_list, label, feature = SecureDataset.read_dataset(input_path, True)
+            field_list, label, feature = SecureDataset.read_dataset(
+                input_path, True)
             context = FeatureEngineeringContext(
                 args=args,
                 components=components,
@@ -28,7 +29,8 @@ class FeatureEngineeringEngine(TaskEngine):
             )
             vfe = VerticalFeatureEngineeringActiveParty(context)
         else:
-            field_list, _, feature = SecureDataset.read_dataset(input_path, False)
+            field_list, _, feature = SecureDataset.read_dataset(
+                input_path, False)
             context = FeatureEngineeringContext(
                 args=args,
                 components=components,

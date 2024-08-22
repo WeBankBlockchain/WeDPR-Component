@@ -15,16 +15,16 @@ class TestPackGH(unittest.TestCase):
 
         result_array = np.array(
             [429496329600000000000000002000, 200000000000000000001500,
-             429496599600000000004294965896, 0, 
+             429496599600000000004294965896, 0,
              4294965616, 429495194200000000000000001235], dtype=object)
-        
+
         assert np.array_equal(gh_list, result_array)
 
     def test_unpack_gh(self):
 
         gh_list = np.array(
             [429496329600000000000000002000, 200000000000000000001500,
-             429496599600000000004294965896, 0, 
+             429496599600000000004294965896, 0,
              4294965616, 429495194200000000000000001235], dtype=object)
 
         gh_sum_list = np.array([sum(gh_list), sum(gh_list)*2])

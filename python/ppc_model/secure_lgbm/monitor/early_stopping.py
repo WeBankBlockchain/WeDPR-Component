@@ -111,7 +111,8 @@ class EarlyStopping(TrainingCallback):
     ) -> bool:
         history = model.get_history()
         if len(history.keys()) < 1:
-            raise ValueError("Must have at least 1 validation dataset for early stopping.")
+            raise ValueError(
+                "Must have at least 1 validation dataset for early stopping.")
 
         metric_name = self.metric_name
         # The latest score

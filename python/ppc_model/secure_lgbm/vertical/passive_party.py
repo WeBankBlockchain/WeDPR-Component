@@ -17,7 +17,8 @@ class VerticalLGBMPassiveParty(VerticalBooster):
         super().__init__(ctx, dataset)
         self.params = ctx.lgbm_params
         self.log = ctx.components.logger()
-        self.log.info(f'task {self.ctx.task_id}: print all params: {self.params.get_all_params()}')
+        self.log.info(
+            f'task {self.ctx.task_id}: print all params: {self.params.get_all_params()}')
 
     def fit(
             self,
@@ -27,31 +28,37 @@ class VerticalLGBMPassiveParty(VerticalBooster):
         self.log.info(
             f'task {self.ctx.task_id}: Starting the lgbm on the passive party.')
         self._init_passive_data()
-        self._test_X_bin = self._split_test_data(self.ctx, self.dataset.test_X, self._X_split)
+        self._test_X_bin = self._split_test_data(
+            self.ctx, self.dataset.test_X, self._X_split)
 
         for _ in range(self.params.n_estimators):
             self._tree_id += 1
             start_time = time.time()
-            self.log.info(f'task {self.ctx.task_id}: Starting n_estimators-{self._tree_id} in passive party.')
+            self.log.info(
+                f'task {self.ctx.task_id}: Starting n_estimators-{self._tree_id} in passive party.')
 
             # 初始化
             instance, used_ghlist, public_key = self._receive_gh_instance_list()
             self.ctx.phe.public_key = public_key
-            self.log.info(f'task {self.ctx.task_id}: Sampling number: {len(instance)}.')
+            self.log.info(
+                f'task {self.ctx.task_id}: Sampling number: {len(instance)}.')
 
             # 构建
             tree = self._build_tree(instance, used_ghlist)
             self._trees.append(tree)
 
             # 预测
-            self._predict_tree(tree, self._X_bin, LGBMMessage.PREDICT_LEAF_MASK.value)
+            self._predict_tree(tree, self._X_bin,
+                               LGBMMessage.PREDICT_LEAF_MASK.value)
             self.log.info(f'task {self.ctx.task_id}: Ending n_estimators-{self._tree_id}, '
                           f'time_costs: {time.time() - start_time}s.')
 
             # 预测验证集
-            self._predict_tree(tree, self._test_X_bin, LGBMMessage.TEST_LEAF_MASK.value)
+            self._predict_tree(tree, self._test_X_bin,
+                               LGBMMessage.TEST_LEAF_MASK.value)
             if self._iteration_early_stop():
-                self.log.info(f"task {self.ctx.task_id}: lgbm early stop after {self._tree_id} iterations.")
+                self.log.info(
+                    f"task {self.ctx.task_id}: lgbm early stop after {self._tree_id} iterations.")
                 break
 
         self._end_passive_data()
@@ -67,11 +74,13 @@ class VerticalLGBMPassiveParty(VerticalBooster):
         self.params.my_categorical_idx = self._get_categorical_idx(
             dataset.feature_name, self.params.categorical_feature)
 
-        test_X_bin = self._split_test_data(self.ctx, dataset.test_X, self._X_split)
+        test_X_bin = self._split_test_data(
+            self.ctx, dataset.test_X, self._X_split)
 
         [self._predict_tree(
             tree, test_X_bin, LGBMMessage.VALID_LEAF_MASK.value) for tree in self._trees]
-        self.log.info(f'task {self.ctx.task_id}: Ending predict, time_costs: {time.time() - start_time}s.')
+        self.log.info(
+            f'task {self.ctx.task_id}: Ending predict, time_costs: {time.time() - start_time}s.')
 
         self._end_passive_data(is_train=False)
 
@@ -116,10 +125,11 @@ class VerticalLGBMPassiveParty(VerticalBooster):
         best_split_info = self._find_best_split(instance, ghlist)
 
         if best_split_info.best_gain > 0 and best_split_info.best_gain > self.params.min_split_gain:
-            left_mask, right_mask = self._get_leaf_mask(best_split_info, instance)
+            left_mask, right_mask = self._get_leaf_mask(
+                best_split_info, instance)
 
             if (abs(best_split_info.w_left) * sum(left_mask) / self.params.lr) < self.params.min_child_weight or \
-                (abs(best_split_info.w_right) * sum(right_mask) / self.params.lr) < self.params.min_child_weight:
+                    (abs(best_split_info.w_right) * sum(right_mask) / self.params.lr) < self.params.min_child_weight:
                 return weight
             if sum(left_mask) < self.params.min_child_samples or sum(right_mask) < self.params.min_child_samples:
                 return weight
@@ -143,9 +153,11 @@ class VerticalLGBMPassiveParty(VerticalBooster):
             if self.ctx.participant_id_list[best_split_info.agency_idx] == \
                     self.ctx.components.config_data['AGENCY_ID']:
                 if best_split_info.agency_feature in self.params.my_categorical_idx:
-                    left_mask = X_bin[:, best_split_info.agency_feature] == best_split_info.value
+                    left_mask = X_bin[:,
+                                      best_split_info.agency_feature] == best_split_info.value
                 else:
-                    left_mask = X_bin[:, best_split_info.agency_feature] <= best_split_info.value
+                    left_mask = X_bin[:,
+                                      best_split_info.agency_feature] <= best_split_info.value
                 self._send_byte_data(
                     self.ctx,
                     f'{key_type}_{best_split_info.tree_id}_{best_split_info.leaf_id}',

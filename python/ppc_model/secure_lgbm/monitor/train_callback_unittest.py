@@ -49,7 +49,8 @@ class TestEarlyStopping(unittest.TestCase):
         self.test_y_true = np.random.randint(0, 2, 10000)
         self.y_pred = np.random.rand(10000)
         self.model = Booster(self.y_true, self.test_y_true)
-        self.early_stopping = EarlyStopping(rounds=4, metric_name='auc', maximize=True)
+        self.early_stopping = EarlyStopping(
+            rounds=4, metric_name='auc', maximize=True)
 
     def test_early_stopping(self):
         stop = False
@@ -58,7 +59,8 @@ class TestEarlyStopping(unittest.TestCase):
             y_pred = np.random.rand(10000)
             self.model.after_iteration(y_pred)
             self.model.eval(fevaluation)
-            stop = self.early_stopping.after_iteration(self.model, self.model.epoch)
+            stop = self.early_stopping.after_iteration(
+                self.model, self.model.epoch)
             print(self.model.epoch, stop)
 
 
@@ -88,9 +90,11 @@ class TestCallbackContainer(unittest.TestCase):
         self.test_y_true = np.random.randint(0, 2, 10000)
         self.y_pred = np.random.rand(10000)
         self.model = Booster(self.y_true, self.test_y_true, 'tmp')
-        self.early_stopping = EarlyStopping(rounds=4, metric_name='auc', maximize=True)
+        self.early_stopping = EarlyStopping(
+            rounds=4, metric_name='auc', maximize=True)
         self.monitor = EvaluationMonitor(log, period=2)
-        self.container = CallbackContainer([self.early_stopping, self.monitor], fevaluation)
+        self.container = CallbackContainer(
+            [self.early_stopping, self.monitor], fevaluation)
 
     def test_callback_container(self):
         stop = False

@@ -35,7 +35,8 @@ class VerticalLGBMActiveParty(VerticalBooster):
         self.storage_client = ctx.components.storage_client
         self.feature_importance_store = FeatureImportanceStore(
             FeatureImportanceStore.DEFAULT_IMPORTANCE_LIST, None, self.log)
-        self.log.info(f'task {self.ctx.task_id}: print all params: {self.params.get_all_params()}')
+        self.log.info(
+            f'task {self.ctx.task_id}: print all params: {self.params.get_all_params()}')
 
     def fit(
             self,
@@ -51,7 +52,8 @@ class VerticalLGBMActiveParty(VerticalBooster):
         for _ in range(self.params.n_estimators):
             self._tree_id += 1
             start_time = time.time()
-            self.log.info(f'task {self.ctx.task_id}: Starting n_estimators-{self._tree_id} in active party.')
+            self.log.info(
+                f'task {self.ctx.task_id}: Starting n_estimators-{self._tree_id} in active party.')
 
             # 初始化
             feature_select, instance, used_glist, used_hlist = self._init_each_tree()
@@ -72,21 +74,27 @@ class VerticalLGBMActiveParty(VerticalBooster):
 
             # 评估
             if not self.params.silent and self.dataset.train_y is not None:
-                auc = Evaluation.fevaluation(self.dataset.train_y, self._train_praba)['auc']
-                self.log.info(f'task {self.ctx.task_id}: n_estimators-{self._tree_id}, auc: {auc}.')
+                auc = Evaluation.fevaluation(
+                    self.dataset.train_y, self._train_praba)['auc']
+                self.log.info(
+                    f'task {self.ctx.task_id}: n_estimators-{self._tree_id}, auc: {auc}.')
             self.log.info(f'task {self.ctx.task_id}: Ending n_estimators-{self._tree_id}, '
                           f'time_costs: {time.time() - start_time}s.')
 
             # 预测验证集
             self._test_weights += self._predict_tree(
-                tree, self._test_X_bin, np.ones(self._test_X_bin.shape[0], dtype=bool),
+                tree, self._test_X_bin, np.ones(
+                    self._test_X_bin.shape[0], dtype=bool),
                 LGBMMessage.TEST_LEAF_MASK.value)
             self._test_praba = self._loss_func.sigmoid(self._test_weights)
             if not self.params.silent and self.dataset.test_y is not None:
-                auc = Evaluation.fevaluation(self.dataset.test_y, self._test_praba)['auc']
-                self.log.info(f'task {self.ctx.task_id}: n_estimators-{self._tree_id}, test auc: {auc}.')
+                auc = Evaluation.fevaluation(
+                    self.dataset.test_y, self._test_praba)['auc']
+                self.log.info(
+                    f'task {self.ctx.task_id}: n_estimators-{self._tree_id}, test auc: {auc}.')
             if self._iteration_early_stop():
-                self.log.info(f"task {self.ctx.task_id}: lgbm early stop after {self._tree_id} iterations.")
+                self.log.info(
+                    f"task {self.ctx.task_id}: lgbm early stop after {self._tree_id} iterations.")
                 break
 
         self._end_active_data()
@@ -103,7 +111,8 @@ class VerticalLGBMActiveParty(VerticalBooster):
             dataset.feature_name, self.params.categorical_feature)
 
         test_weights = self._init_weight(dataset.test_X.shape[0])
-        test_X_bin = self._split_test_data(self.ctx, dataset.test_X, self._X_split)
+        test_X_bin = self._split_test_data(
+            self.ctx, dataset.test_X, self._X_split)
 
         for tree in self._trees:
             test_weights += self._predict_tree(
@@ -114,7 +123,8 @@ class VerticalLGBMActiveParty(VerticalBooster):
         if dataset.test_y is not None:
             auc = Evaluation.fevaluation(dataset.test_y, test_praba)['auc']
             self.log.info(f'task {self.ctx.task_id}: predict test auc: {auc}.')
-        self.log.info(f'task {self.ctx.task_id}: Ending predict, time_costs: {time.time() - start_time}s.')
+        self.log.info(
+            f'task {self.ctx.task_id}: Ending predict, time_costs: {time.time() - start_time}s.')
 
         self._end_active_data(is_train=False)
 
@@ -127,9 +137,12 @@ class VerticalLGBMActiveParty(VerticalBooster):
 
         # 初始化所有参与方的特征
         for i in range(1, len(self.ctx.participant_id_list)):
-            feature_name_bytes = self._receive_byte_data(self.ctx, LGBMMessage.FEATURE_NAME.value, i)
-            self._all_feature_name.append([s.decode('utf-8') for s in feature_name_bytes.split(b' ') if s])
-            self._all_feature_num += len([s.decode('utf-8') for s in feature_name_bytes.split(b' ') if s])
+            feature_name_bytes = self._receive_byte_data(
+                self.ctx, LGBMMessage.FEATURE_NAME.value, i)
+            self._all_feature_name.append(
+                [s.decode('utf-8') for s in feature_name_bytes.split(b' ') if s])
+            self._all_feature_num += len([s.decode('utf-8')
+                                         for s in feature_name_bytes.split(b' ') if s])
 
         self.log.info(f'task {self.ctx.task_id}: total feature number:{self._all_feature_num}, '
                       f'total feature name: {self._all_feature_name}.')
@@ -139,18 +152,21 @@ class VerticalLGBMActiveParty(VerticalBooster):
             self.dataset.feature_name, self.params.categorical_feature)
 
         # 更新feature_importance中的特征列表
-        self.feature_importance_store.set_init(list(itertools.chain(*self._all_feature_name)))
+        self.feature_importance_store.set_init(
+            list(itertools.chain(*self._all_feature_name)))
 
         # 初始化分桶数据集
         feat_bin = FeatureBinning(self.ctx)
-        self._X_bin, self._X_split = feat_bin.data_binning(self.dataset.train_X)
+        self._X_bin, self._X_split = feat_bin.data_binning(
+            self.dataset.train_X)
 
     def _init_each_tree(self):
 
         if self.callback_container:
             self.callback_container.before_iteration(self.model)
 
-        gradient = self._loss_func.compute_gradient(self.dataset.train_y, self._train_praba)
+        gradient = self._loss_func.compute_gradient(
+            self.dataset.train_y, self._train_praba)
         hessian = self._loss_func.compute_hessian(self._train_praba)
 
         feature_select = FeatureSelection.feature_selecting(
@@ -171,7 +187,8 @@ class VerticalLGBMActiveParty(VerticalBooster):
         start_time = time.time()
         self.log.info(f'task {self.ctx.task_id}: Starting n_estimators-{self._tree_id} '
                       f'encrypt g & h in active party.')
-        enc_ghlist = self.ctx.phe.encrypt_batch_parallel((gh_list).astype('object'))
+        enc_ghlist = self.ctx.phe.encrypt_batch_parallel(
+            (gh_list).astype('object'))
         self.log.info(f'task {self.ctx.task_id}: Finished n_estimators-{self._tree_id} '
                       f'encrypt gradient & hessian time_costs: {time.time() - start_time}.')
 
@@ -194,18 +211,22 @@ class VerticalLGBMActiveParty(VerticalBooster):
         if self.params.colsample_bylevel > 0 and self.params.colsample_bylevel < 1:
             feature_select_level = sorted(np.random.choice(
                 feature_select, size=int(len(feature_select) * self.params.colsample_bylevel), replace=False))
-            best_split_info = self._find_best_split(feature_select_level, instance, glist, hlist)
+            best_split_info = self._find_best_split(
+                feature_select_level, instance, glist, hlist)
         else:
-            best_split_info = self._find_best_split(feature_select, instance, glist, hlist)
+            best_split_info = self._find_best_split(
+                feature_select, instance, glist, hlist)
 
         if best_split_info.best_gain > 0 and best_split_info.best_gain > self.params.min_split_gain:
             gain_list = {FeatureImportanceType.GAIN: best_split_info.best_gain,
                          FeatureImportanceType.WEIGHT: 1}
-            self.feature_importance_store.update_feature_importance(best_split_info.feature, gain_list)
-            left_mask, right_mask = self._get_leaf_mask(best_split_info, instance)
+            self.feature_importance_store.update_feature_importance(
+                best_split_info.feature, gain_list)
+            left_mask, right_mask = self._get_leaf_mask(
+                best_split_info, instance)
 
             if (abs(best_split_info.w_left) * sum(left_mask) / self.params.lr) < self.params.min_child_weight or \
-                (abs(best_split_info.w_right) * sum(right_mask) / self.params.lr) < self.params.min_child_weight:
+                    (abs(best_split_info.w_right) * sum(right_mask) / self.params.lr) < self.params.min_child_weight:
                 return weight
             if sum(left_mask) < self.params.min_child_samples or sum(right_mask) < self.params.min_child_samples:
                 return weight
@@ -229,9 +250,11 @@ class VerticalLGBMActiveParty(VerticalBooster):
             if self.ctx.participant_id_list[best_split_info.agency_idx] == \
                     self.ctx.components.config_data['AGENCY_ID']:
                 if best_split_info.agency_feature in self.params.my_categorical_idx:
-                    left_mask = X_bin[:, best_split_info.agency_feature] == best_split_info.value
+                    left_mask = X_bin[:,
+                                      best_split_info.agency_feature] == best_split_info.value
                 else:
-                    left_mask = X_bin[:, best_split_info.agency_feature] <= best_split_info.value
+                    left_mask = X_bin[:,
+                                      best_split_info.agency_feature] <= best_split_info.value
             else:
                 left_mask = np.frombuffer(
                     self._receive_byte_data(
@@ -239,8 +262,10 @@ class VerticalLGBMActiveParty(VerticalBooster):
                         f'{key_type}_{best_split_info.tree_id}_{best_split_info.leaf_id}',
                         best_split_info.agency_idx), dtype='bool')
             right_mask = ~left_mask
-            left_weight = self._predict_tree(left_subtree, X_bin, leaf_mask * left_mask, key_type)
-            right_weight = self._predict_tree(right_subtree, X_bin, leaf_mask * right_mask, key_type)
+            left_weight = self._predict_tree(
+                left_subtree, X_bin, leaf_mask * left_mask, key_type)
+            right_weight = self._predict_tree(
+                right_subtree, X_bin, leaf_mask * right_mask, key_type)
             return left_weight + right_weight
 
     def _find_best_split(self, feature_select, instance, glist, hlist):
@@ -248,7 +273,8 @@ class VerticalLGBMActiveParty(VerticalBooster):
         self.log.info(f'task {self.ctx.task_id}: Starting n_estimators-{self._tree_id} '
                       f'leaf-{self._leaf_id} in active party.')
         grad_hist, hess_hist = self._get_gh_hist(instance, glist, hlist)
-        best_split_info = self._get_best_split_point(feature_select, glist, hlist, grad_hist, hess_hist)
+        best_split_info = self._get_best_split_point(
+            feature_select, glist, hlist, grad_hist, hess_hist)
         # print('grad_hist_sum', [sum(sublist) for sublist in grad_hist])
 
         best_split_info.tree_id = self._tree_id
@@ -271,7 +297,8 @@ class VerticalLGBMActiveParty(VerticalBooster):
         return best_split_info
 
     def _get_gh_hist(self, instance, glist, hlist):
-        ghist, hhist = self._calculate_hist(self._X_bin, instance, glist, hlist)
+        ghist, hhist = self._calculate_hist(
+            self._X_bin, instance, glist, hlist)
 
         for partner_index in range(1, len(self.ctx.participant_id_list)):
             partner_feature_name = self._all_feature_name[partner_index]
@@ -283,7 +310,8 @@ class VerticalLGBMActiveParty(VerticalBooster):
                 partner_index, matrix_data=True)
 
             for feature_index in range(len(partner_feature_name)):
-                ghk_hist = np.array(self.ctx.phe.decrypt_batch(gh_hist[feature_index]), dtype='object')
+                ghk_hist = np.array(self.ctx.phe.decrypt_batch(
+                    gh_hist[feature_index]), dtype='object')
                 gk_hist, hk_hist = self.unpacking_gh(ghk_hist)
                 partner_ghist[feature_index] = gk_hist
                 partner_hhist[feature_index] = hk_hist
@@ -374,7 +402,8 @@ class VerticalLGBMActiveParty(VerticalBooster):
 
     def _init_valid_data(self):
         self._test_weights = self._init_weight(self.dataset.test_X.shape[0])
-        self._test_X_bin = self._split_test_data(self.ctx, self.dataset.test_X, self._X_split)
+        self._test_X_bin = self._split_test_data(
+            self.ctx, self.dataset.test_X, self._X_split)
 
     def _init_early_stop(self):
 
@@ -382,17 +411,20 @@ class VerticalLGBMActiveParty(VerticalBooster):
         early_stopping_rounds = self.params.early_stopping_rounds
         if early_stopping_rounds != 0:
             eval_metric = self.params.eval_metric
-            early_stopping = EarlyStopping(rounds=early_stopping_rounds, metric_name=eval_metric, save_best=True)
+            early_stopping = EarlyStopping(
+                rounds=early_stopping_rounds, metric_name=eval_metric, save_best=True)
             callbacks.append(early_stopping)
 
         verbose_eval = self.params.verbose_eval
         if verbose_eval != 0:
-            evaluation_monitor = EvaluationMonitor(logger=self.log, period=verbose_eval)
+            evaluation_monitor = EvaluationMonitor(
+                logger=self.log, period=verbose_eval)
             callbacks.append(evaluation_monitor)
 
         callback_container = None
         if len(callbacks) != 0:
-            callback_container = CallbackContainer(callbacks=callbacks, feval=Evaluation.fevaluation)
+            callback_container = CallbackContainer(
+                callbacks=callbacks, feval=Evaluation.fevaluation)
 
         model = Booster(y_true=self.dataset.train_y, test_y_true=self.dataset.test_y,
                         workspace=self.ctx.workspace, job_id=self.ctx.job_id,
@@ -419,7 +451,8 @@ class VerticalLGBMActiveParty(VerticalBooster):
             stop = self.callback_container.after_iteration(model=self.model,
                                                            pred=pred,
                                                            eval_on_test=eval_on_test)
-            self.log.info(f"task {self.ctx.task_id}: after iteration {self._tree_id} iterations, stop: {stop}.")
+            self.log.info(
+                f"task {self.ctx.task_id}: after iteration {self._tree_id} iterations, stop: {stop}.")
 
         iteration_request = IterationRequest()
         iteration_request.epoch = self._tree_id - 1

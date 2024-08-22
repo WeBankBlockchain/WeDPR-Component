@@ -25,7 +25,8 @@ def _draw_figure(model: _Model):
         plt.plot(iterations, values, label=metric)
         max_index = values.index(max(values))
         plt.scatter(max_index + 1, values[max_index], color='green')
-        plt.text(max_index + 1, values[max_index], f'{values[max_index]:.4f}', fontsize=9, ha='right')
+        plt.text(max_index + 1, values[max_index],
+                 f'{values[max_index]:.4f}', fontsize=9, ha='right')
 
     plt.legend()
     plt.title('Metrics Over Iterations')

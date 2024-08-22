@@ -30,7 +30,8 @@ class ModelCollection(Resource):
         """
         args = request.get_json()
         task_id = model_id
-        components.logger().info(f"run task request, task_id: {task_id}, args: {args}")
+        components.logger().info(
+            f"run task request, task_id: {task_id}, args: {args}")
         task_type = args['task_type']
         components.task_manager.run_task(
             task_id, ModelTask(task_type), (args,))
@@ -43,7 +44,8 @@ class ModelCollection(Resource):
         """
         response = utils.BASE_RESPONSE
         task_id = model_id
-        status, traffic_volume, time_costs = components.task_manager.status(task_id)
+        status, traffic_volume, time_costs = components.task_manager.status(
+            task_id)
         response['data'] = {
             'status': status,
             'traffic_volume': traffic_volume,

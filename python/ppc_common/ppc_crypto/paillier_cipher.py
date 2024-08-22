@@ -29,17 +29,21 @@ class PaillierCipher(PheCipher):
     def encrypt_batch_parallel(self, numbers) -> list:
         num_cores = os.cpu_count()
         batch_size = math.ceil(len(numbers) / num_cores)
-        batches = [numbers[i:i + batch_size] for i in range(0, len(numbers), batch_size)]
+        batches = [numbers[i:i + batch_size]
+                   for i in range(0, len(numbers), batch_size)]
         with ProcessPoolExecutor(max_workers=num_cores) as executor:
-            futures = [executor.submit(self.encrypt_batch, batch) for batch in batches]
+            futures = [executor.submit(self.encrypt_batch, batch)
+                       for batch in batches]
             result = [future.result() for future in futures]
         return [item for sublist in result for item in sublist]
 
     def decrypt_batch_parallel(self, ciphers) -> list:
         num_cores = os.cpu_count()
         batch_size = math.ceil(len(ciphers) / num_cores)
-        batches = [ciphers[i:i + batch_size] for i in range(0, len(ciphers), batch_size)]
+        batches = [ciphers[i:i + batch_size]
+                   for i in range(0, len(ciphers), batch_size)]
         with ProcessPoolExecutor(max_workers=num_cores) as executor:
-            futures = [executor.submit(self.decrypt_batch, batch) for batch in batches]
+            futures = [executor.submit(self.decrypt_batch, batch)
+                       for batch in batches]
             result = [future.result() for future in futures]
         return [item for sublist in result for item in sublist]

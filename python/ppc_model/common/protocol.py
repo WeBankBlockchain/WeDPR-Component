@@ -37,7 +37,8 @@ class PheMessage:
 
         for cipher in cipher_list:
             model_cipher = ModelCipher()
-            model_cipher.ciphertext, model_cipher.exponent = codec.encode_cipher(cipher)
+            model_cipher.ciphertext, model_cipher.exponent = codec.encode_cipher(
+                cipher)
             enc_data_pb.cipher_list.append(model_cipher)
 
         return utils.pb_to_bytes(enc_data_pb)

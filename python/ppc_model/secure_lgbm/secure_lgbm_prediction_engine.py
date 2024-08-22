@@ -34,5 +34,5 @@ class SecureLGBMPredictionEngine(TaskEngine):
 
         # 获取测试集的预测值评估指标
         Evaluation(task_info, secure_dataset, test_praba=test_praba)
-        
+
         ResultFileHandling(task_info)
