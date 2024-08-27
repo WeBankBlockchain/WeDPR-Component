@@ -297,3 +297,27 @@ void Service::asyncSendMessageByP2PNodeID(uint16_t type, std::string const& dstN
     message->setPayload(payload);
     asyncSendMessageByNodeID(dstNodeID, message, options, callback);
 }
+
+void Service::sendRespMessageBySession(bcos::boostssl::ws::WsSession::Ptr const& session,
+    bcos::boostssl::MessageFace::Ptr msg, std::shared_ptr<bcos::bytes>&& payload)
+{
+    auto respMessage = std::dynamic_pointer_cast<Message>(m_messageFactory->buildMessage());
+    auto requestMsg = std::dynamic_pointer_cast<Message>(msg);
+    if (requestMsg->header() && requestMsg->header()->optionalField())
+    {
+        respMessage->header()->optionalField()->setDstNode(
+            requestMsg->header()->optionalField()->srcNode());
+        respMessage->header()->optionalField()->setSrcNode(
+            requestMsg->header()->optionalField()->dstNode());
+    }
+    respMessage->header()->setTraceID(requestMsg->header()->traceID());
+    respMessage->header()->setRespPacket();
+    respMessage->header()->setRouteType(ppc::protocol::RouteType::ROUTE_THROUGH_NODEID);
+    respMessage->setPayload(std::move(payload));
+
+    WsSessions sessions;
+    sessions.emplace_back(session);
+    WsService::asyncSendMessage(sessions, respMessage);
+    GATEWAY_LOG(TRACE) << "sendRespMessageBySession" << LOG_KV("resp", printMessage(respMessage))
+                       << LOG_KV("payload size", payload->size());
+}

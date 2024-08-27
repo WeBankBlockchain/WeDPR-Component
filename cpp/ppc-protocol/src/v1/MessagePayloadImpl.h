@@ -35,6 +35,7 @@ public:
     int64_t decode(bcos::bytesConstRef data) override;
 
 private:
+    // version + seq + dataLen
     const unsigned int MIN_PAYLOAD_LEN = 6;
 };
 

@@ -19,12 +19,13 @@
  */
 #pragma once
 #include "../Common.h"
+#include "RouteType.h"
 #include <bcos-boostssl/interfaces/MessageFace.h>
 #include <bcos-utilities/Common.h>
+#include <bcos-utilities/Error.h>
 #include <bcos-utilities/Log.h>
 #include <memory>
 #include <sstream>
-
 namespace ppc::protocol
 {
 class MessageOptionalHeader
@@ -38,8 +39,8 @@ public:
     virtual int64_t decode(bcos::bytesConstRef data, uint64_t const _offset) = 0;
 
     // the componentType
-    virtual uint8_t componentType() const { return m_componentType; }
-    virtual void setComponentType(uint8_t componentType) { m_componentType = componentType; }
+    virtual std::string componentType() const { return m_componentType; }
+    virtual void setComponentType(std::string componentType) { m_componentType = componentType; }
 
     // the source nodeID that send the message
     virtual bcos::bytes const& srcNode() const { return m_srcNode; }
@@ -50,18 +51,24 @@ public:
     virtual void setDstNode(bcos::bytes const& dstNode) { m_dstNode = dstNode; }
 
     // the target agency that need receive the message
-    virtual bcos::bytes const& dstInst() const { return m_dstInst; }
-    virtual void setDstInst(bcos::bytes const& dstInst) { m_dstInst = dstInst; }
+    virtual std::string const& dstInst() const { return m_dstInst; }
+    virtual void setDstInst(std::string const& dstInst) { m_dstInst = dstInst; }
+
+    // the topic
+    virtual std::string const& topic() const { return m_topic; }
+    virtual void setTopic(std::string&& topic) { m_topic = std::move(topic); }
+    virtual void setTopic(std::string const& topic) { m_topic = topic; }
 
 protected:
+    std::string m_topic;
     // the componentType
-    uint8_t m_componentType;
+    std::string m_componentType;
     // the source nodeID that send the message
     bcos::bytes m_srcNode;
     // the target nodeID that should receive the message
     bcos::bytes m_dstNode;
     // the target agency that need receive the message
-    bcos::bytes m_dstInst;
+    std::string m_dstInst;
 };
 
 class MessageHeader
@@ -117,9 +124,12 @@ public:
     // Note: only for log
     std::string_view dstP2PNodeIDView() const { return printP2PIDElegantly(m_dstGwNode); }
 
+    virtual uint16_t routeType() const = 0;
+    virtual void setRouteType(ppc::protocol::RouteType type) = 0;
+
 protected:
     // the msg version, used to support compatibility
-    uint8_t m_version;
+    uint8_t m_version = 0;
     // the traceID
     std::string m_traceID;
     // the srcGwNode
@@ -129,7 +139,7 @@ protected:
     // the packetType
     uint16_t m_packetType;
     // the ttl
-    int16_t m_ttl;
+    int16_t m_ttl = 0;
     // the ext(contains the router policy and response flag)
     uint16_t m_ext;
     //// the optional field(used to route between components and nodes)
@@ -187,14 +197,18 @@ public:
     virtual MessageHeader::Ptr build() = 0;
 };
 
-class MessageBuilder
+class MessageBuilder : public bcos::boostssl::MessageFaceFactory
 {
 public:
+    using Ptr = std::shared_ptr<MessageBuilder>;
     MessageBuilder() = default;
-    virtual ~MessageBuilder() = default;
+    ~MessageBuilder() override = default;
 
     virtual Message::Ptr build() = 0;
     virtual Message::Ptr build(bcos::bytesConstRef buffer) = 0;
+    virtual Message::Ptr build(ppc::protocol::RouteType routeType, std::string const& topic,
+        std::string const& dstInst, bcos::bytes const& dstNodeID, std::string const& componentType,
+        bcos::bytes&& payload) = 0;
 };
 
 inline std::string printMessage(Message::Ptr const& _msg)
@@ -217,5 +231,11 @@ inline std::string printWsMessage(bcos::boostssl::MessageFace::Ptr const& _msg)
                  << LOG_KV("packetType", _msg->packetType()) << LOG_KV("length", _msg->length());
     return stringstream.str();
 }
+
+// function to send response
+using SendResponseFunction = std::function<void(ppc::protocol::Message::Ptr msg)>;
+using ReceiveMsgFunc = std::function<void(bcos::Error::Ptr)>;
+using MessageCallback = std::function<void(
+    bcos::Error::Ptr e, ppc::protocol::Message::Ptr msg, SendResponseFunction resFunc)>;
 
 }  // namespace ppc::protocol

@@ -13,37 +13,28 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file Message.h
+ * @file NodeInfoImpl.h
  * @author: yujiechen
- * @date 2024-08-22
+ * @date 2024-08-26
  */
-#pragma once
-#include <stdint.h>
 
-namespace ppc::gateway
-{
-enum class GatewayPacketType : uint16_t
-{
-    P2PMessage = 0x00,
-    BroadcastMessage = 0x01,
-    RouterTableSyncSeq = 0x10,
-    RouterTableResponse = 0x11,
-    RouterTableRequest = 0x12
-};
+#include "NodeInfoImpl.h"
+#include "../Common.h"
 
-enum class GatewayMsgExtFlag : uint16_t
-{
-    Response = 0x1,
-    RouteByNodeID = 0x2,
-    RouteByAgency = 0x4,
-    RouteByComponent = 0x8,
-    RouteByTopic = 0x10
-};
+using namespace ppctars;
+using namespace ppc::protocol;
 
-enum CommonError : int32_t
+void NodeInfoImpl::encode(bcos::bytes& data) const
 {
-    SUCCESS = 0,
-    TIMEOUT = 1000,  // for gateway
-    NotFoundFrontServiceDispatchMsg = 1001
-};
-}  // namespace ppc::gateway
+    tars::TarsOutputStream<ppctars::serialize::BufferWriterByteVector> output;
+    m_inner()->writeTo(output);
+    output.getByteBuffer().swap(data);
+}
+void NodeInfoImpl::decode(bcos::bytesConstRef data)
+{
+    tars::TarsInputStream<tars::BufferReader> input;
+    input.setBuffer((const char*)data.data(), data.size());
+    m_inner()->readFrom(input);
+    m_components =
+        std::set<std::string>(m_inner()->components.begin(), m_inner()->components.end());
+}

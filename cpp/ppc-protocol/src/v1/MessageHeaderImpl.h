@@ -61,6 +61,9 @@ public:
     }
     void setRespPacket() override { m_ext |= (uint16_t)ppc::gateway::GatewayMsgExtFlag::Response; }
 
+    uint16_t routeType() const override;
+    void setRouteType(ppc::protocol::RouteType type) override;
+
 private:
     // version(2) + packetType(2) + ttl(2) + ext(2) + traceIDLen(2) + srcGwNodeLen(2) + dstGwNode(2)
     const size_t MESSAGE_MIN_LENGTH = 14;

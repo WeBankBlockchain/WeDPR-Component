@@ -29,9 +29,10 @@ using namespace ppc;
 void MessageOptionalHeaderImpl::encode(bcos::bytes& buffer) const
 {
     // the componentType
-    uint16_t componentType =
-        boost::asio::detail::socket_ops::host_to_network_short(m_componentType);
-    buffer.insert(buffer.end(), (byte*)&componentType, (byte*)&componentType + 2);
+    uint16_t componentTypeLen =
+        boost::asio::detail::socket_ops::host_to_network_short(m_componentType.size());
+    buffer.insert(buffer.end(), (byte*)&componentTypeLen, (byte*)&componentTypeLen + 2);
+    buffer.insert(buffer.end(), m_componentType.begin(), m_componentType.end());
     // the source nodeID that send the message
     uint16_t srcNodeLen = boost::asio::detail::socket_ops::host_to_network_short(m_srcNode.size());
     buffer.insert(buffer.end(), (byte*)&srcNodeLen, (byte*)&srcNodeLen + 2);
@@ -55,13 +56,17 @@ int64_t MessageOptionalHeaderImpl::decode(bcos::bytesConstRef data, uint64_t con
     // the componentType
     auto pointer = data.data() + offset;
     m_componentType = boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)pointer));
-    pointer += 2;
+    bcos::bytes componentType;
+    offset = decodeNetworkBuffer(componentType, data.data(), data.size(), (pointer - data.data()));
+    m_componentType = std::string(componentType.begin(), componentType.end());
     // srcNode
-    offset = decodeNetworkBuffer(m_srcNode, data.data(), data.size(), (pointer - data.data()));
+    offset = decodeNetworkBuffer(m_srcNode, data.data(), data.size(), offset);
     //  dstNode
     offset = decodeNetworkBuffer(m_dstNode, data.data(), data.size(), offset);
-    // dstInst
-    offset = decodeNetworkBuffer(m_dstInst, data.data(), data.size(), offset);
+    // dstInst, TODO: optimize here
+    bcos::bytes dstInstData;
+    offset = decodeNetworkBuffer(dstInstData, data.data(), data.size(), offset);
+    m_dstInst = std::string(dstInstData.begin(), dstInstData.end());
     return offset;
 }
 
@@ -143,4 +148,48 @@ int64_t MessageHeaderImpl::decode(bcos::bytesConstRef data)
     }
     m_length = offset;
     return offset;
+}
+
+uint16_t MessageHeaderImpl::routeType() const
+{
+    if (m_ext & (uint16_t)ppc::gateway::GatewayMsgExtFlag::RouteByComponent)
+    {
+        return (uint16_t)RouteType::ROUTE_THROUGH_COMPONENT;
+    }
+    if (m_ext & (uint16_t)ppc::gateway::GatewayMsgExtFlag::RouteByAgency)
+    {
+        return (uint16_t)RouteType::ROUTE_THROUGH_AGENCY;
+    }
+    if (m_ext & (uint16_t)ppc::gateway::GatewayMsgExtFlag::RouteByAgency)
+    {
+        return (uint16_t)RouteType::ROUTE_THROUGH_AGENCY;
+    }
+    if (m_ext & (uint16_t)ppc::gateway::GatewayMsgExtFlag::RouteByTopic)
+    {
+        return (uint16_t)RouteType::ROUTE_THROUGH_TOPIC;
+    }
+    // default is route though nodeID
+    return (uint16_t)RouteType::ROUTE_THROUGH_NODEID;
+}
+
+void MessageHeaderImpl::setRouteType(ppc::protocol::RouteType type)
+{
+    switch (type)
+    {
+    case RouteType::ROUTE_THROUGH_NODEID:
+        m_ext |= (uint16_t)ppc::gateway::GatewayMsgExtFlag::RouteByNodeID;
+        break;
+    case RouteType::ROUTE_THROUGH_COMPONENT:
+        m_ext |= (uint16_t)ppc::gateway::GatewayMsgExtFlag::RouteByComponent;
+        break;
+    case RouteType::ROUTE_THROUGH_AGENCY:
+        m_ext |= (uint16_t)ppc::gateway::GatewayMsgExtFlag::RouteByAgency;
+        break;
+    case RouteType::ROUTE_THROUGH_TOPIC:
+        m_ext |= (uint16_t)ppc::gateway::GatewayMsgExtFlag::RouteByTopic;
+        break;
+    default:
+        BOOST_THROW_EXCEPTION(WeDPRException() << errinfo_comment(
+                                  "Invalid route type: " + std::to_string((uint16_t)type)));
+    }
 }

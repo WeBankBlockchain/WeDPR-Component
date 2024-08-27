@@ -28,6 +28,7 @@ namespace ppc::gateway
 class RouterManager
 {
 public:
+    using Ptr = std::shared_ptr<RouterManager>;
     RouterManager(Service::Ptr service);
     virtual ~RouterManager() = default;
 

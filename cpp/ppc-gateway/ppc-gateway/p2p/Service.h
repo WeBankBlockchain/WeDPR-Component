@@ -36,7 +36,8 @@ public:
         bcos::boostssl::MessageFace::Ptr msg,
         bcos::boostssl::ws::Options options = bcos::boostssl::ws::Options(),
         bcos::boostssl::ws::RespCallBack respFunc = bcos::boostssl::ws::RespCallBack());
-    virtual void asyncSendMessageByP2PNodeID(uint16_t type, std::string const& dstNodeID,
+
+    virtual void asyncSendMessageByP2PNodeID(uint16_t packetType, std::string const& dstNodeID,
         std::shared_ptr<bcos::bytes> payload,
         bcos::boostssl::ws::Options options = bcos::boostssl::ws::Options(),
         bcos::boostssl::ws::RespCallBack callback = bcos::boostssl::ws::RespCallBack());
@@ -44,10 +45,17 @@ public:
     virtual void asyncBroadcastMessage(bcos::boostssl::MessageFace::Ptr msg,
         bcos::boostssl::ws::Options options = bcos::boostssl::ws::Options());
 
+    virtual void sendRespMessageBySession(bcos::boostssl::ws::WsSession::Ptr const& session,
+        bcos::boostssl::MessageFace::Ptr msg, std::shared_ptr<bcos::bytes>&& payload);
+
     RouterTableFactory::Ptr const& routerTableFactory() const { return m_routerTableFactory; }
     RouterTableInterface::Ptr const& routerTable() const { return m_routerTable; }
 
     std::string const& nodeID() const { return m_nodeID; }
+    bcos::boostssl::MessageFaceFactory::Ptr const& messageFactory() const
+    {
+        return m_messageFactory;
+    }
 
 protected:
     void onRecvMessage(bcos::boostssl::MessageFace::Ptr _msg,

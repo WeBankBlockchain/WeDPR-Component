@@ -31,10 +31,9 @@ int64_t MessagePayloadImpl::encode(bcos::bytes& buffer) const
     // version
     uint16_t version = boost::asio::detail::socket_ops::host_to_network_short(m_version);
     buffer.insert(buffer.end(), (byte*)&version, (byte*)&version + 2);
-    // topic
-    uint16_t topicLen = boost::asio::detail::socket_ops::host_to_network_short(m_topic.size());
-    buffer.insert(buffer.end(), (byte*)&topicLen, (byte*)&topicLen + 2);
-    buffer.insert(buffer.end(), m_topic.begin(), m_topic.end());
+    // seq
+    uint16_t seq = boost::asio::detail::socket_ops::host_to_network_short(m_seq);
+    buffer.insert(buffer.end(), (byte*)&seq, (byte*)&seq + 2);
     // data
     uint16_t dataLen = boost::asio::detail::socket_ops::host_to_network_short(m_data.size());
     buffer.insert(buffer.end(), (byte*)&dataLen, (byte*)&dataLen + 2);
@@ -56,12 +55,10 @@ int64_t MessagePayloadImpl::decode(bcos::bytesConstRef buffer)
     // the version
     m_version = boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)pointer));
     pointer += 2;
-    // topic
-    bcos::bytes topicData;
-    auto offset =
-        decodeNetworkBuffer(topicData, buffer.data(), buffer.size(), (pointer - buffer.data()));
-    m_topic = std::string(topicData.begin(), topicData.end());
+    // the seq
+    CHECK_OFFSET_WITH_THROW_EXCEPTION((pointer - buffer.data()), buffer.size());
+    m_seq = boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)pointer));
+    pointer += 2;
     // data
-    offset = decodeNetworkBuffer(m_data, buffer.data(), buffer.size(), offset);
-    return offset;
+    return decodeNetworkBuffer(m_data, buffer.data(), buffer.size(), (pointer - buffer.data()));
 }
