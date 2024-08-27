@@ -11,5 +11,6 @@ module ppctars
         1 require string p2pNodeID;
         2 require string agency;
         3 optional vector<NodeInfo> nodeList;
+        4 optional int statusSeq;
     };
 };

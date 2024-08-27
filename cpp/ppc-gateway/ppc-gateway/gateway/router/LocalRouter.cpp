@@ -25,6 +25,7 @@ using namespace bcos;
 using namespace ppc::protocol;
 using namespace ppc::gateway;
 
+// Note: the change of the topic will not trigger router-update
 void LocalRouter::registerTopic(bcos::bytesConstRef _nodeID, std::string const& topic)
 {
     m_routerInfo->registerTopic(_nodeID.toBytes(), topic);
@@ -48,6 +49,7 @@ void LocalRouter::registerTopic(bcos::bytesConstRef _nodeID, std::string const& 
     }
 }
 
+// Note: the change of the topic will not trigger router-update
 void LocalRouter::unRegisterTopic(bcos::bytesConstRef _nodeID, std::string const& topic)
 {
     m_routerInfo->unRegisterTopic(_nodeID.toBytes(), topic);

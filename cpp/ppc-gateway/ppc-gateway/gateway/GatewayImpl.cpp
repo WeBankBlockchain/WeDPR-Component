@@ -51,6 +51,8 @@ GatewayImpl::GatewayImpl(Service::Ptr const& service,
     m_service->registerMsgHandler((uint16_t)GatewayPacketType::BroadcastMessage,
         boost::bind(&GatewayImpl::onReceiveBroadcastMessage, this, boost::placeholders::_1,
             boost::placeholders::_2));
+    m_gatewayRouterManager = std::make_shared<GatewayRouterManager>(
+        m_service, m_gatewayInfoFactory, m_localRouter, m_peerRouter);
 }
 
 void GatewayImpl::start()
@@ -63,6 +65,7 @@ void GatewayImpl::start()
     m_running = true;
     m_service->start();
     m_p2pRouterManager->start();
+    m_gatewayRouterManager->start();
     GATEWAY_LOG(INFO) << LOG_DESC("Start gateway success");
 }
 
@@ -76,6 +79,7 @@ void GatewayImpl::stop()
     m_running = false;
     m_service->stop();
     m_p2pRouterManager->stop();
+    m_gatewayRouterManager->stop();
     GATEWAY_LOG(INFO) << LOG_DESC("Stop gateway success");
 }
 

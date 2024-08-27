@@ -33,7 +33,15 @@ void PeerRouterTable::updateGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo)
     for (auto const& it : nodeList)
     {
         // update nodeID => gatewayInfos
+        if (!m_nodeID2GatewayInfos.count(it.first))
+        {
+            m_nodeID2GatewayInfos.insert(std::make_pair(it.first, GatewayNodeInfos()));
+        }
         m_nodeID2GatewayInfos[it.first].insert(gatewayInfo);
+    }
+    if (!m_agency2GatewayInfos.count(gatewayInfo->agency()))
+    {
+        m_agency2GatewayInfos.insert(std::make_pair(gatewayInfo->agency(), GatewayNodeInfos()));
     }
     // update agency => gatewayInfos
     m_agency2GatewayInfos[gatewayInfo->agency()].insert(gatewayInfo);

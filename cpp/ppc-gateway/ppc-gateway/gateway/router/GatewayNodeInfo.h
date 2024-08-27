@@ -19,7 +19,9 @@
  */
 #pragma once
 #include "ppc-framework/protocol/INodeInfo.h"
+#include <bcos-utilities/Log.h>
 #include <memory>
+#include <sstream>
 namespace ppc::gateway
 {
 class GatewayNodeInfo
@@ -33,6 +35,9 @@ public:
     virtual std::string const& p2pNodeID() const = 0;
     // the agency
     virtual std::string const& agency() const = 0;
+    virtual uint32_t statusSeq() const = 0;
+    virtual void setStatusSeq(uint32_t statusSeq) = 0;
+
     // get the node information by nodeID
     virtual ppc::protocol::INodeInfo::Ptr nodeInfo(bcos::bytes const& nodeID) const = 0;
     virtual bool tryAddNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) = 0;
@@ -51,6 +56,7 @@ public:
     virtual void unRegisterTopic(bcos::bytes const& nodeID, std::string const& topic) = 0;
 
     virtual std::map<bcos::bytes, ppc::protocol::INodeInfo::Ptr> nodeList() const = 0;
+    virtual uint16_t nodeSize() const = 0;
 };
 
 class GatewayNodeInfoFactory
@@ -71,4 +77,13 @@ struct GatewayNodeInfoCmp
     }
 };
 using GatewayNodeInfos = std::set<GatewayNodeInfo::Ptr, GatewayNodeInfoCmp>;
+
+inline std::string printNodeStatus(GatewayNodeInfo::Ptr const& status)
+{
+    std::ostringstream stringstream;
+    stringstream << LOG_KV("p2pNodeID", status->p2pNodeID()) << LOG_KV("agency", status->agency())
+                 << LOG_KV("statusSeq", status->statusSeq())
+                 << LOG_KV("nodeSize", status->nodeSize());
+    return stringstream.str();
+}
 }  // namespace ppc::gateway

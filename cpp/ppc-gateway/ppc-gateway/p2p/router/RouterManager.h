@@ -61,7 +61,6 @@ private:
     // for message forward
     Service::Ptr m_service;
     std::shared_ptr<bcos::Timer> m_routerTimer;
-    std::atomic<uint32_t> m_statusSeq{1};
 
     // called when the given node unreachable
     std::vector<std::function<void(std::string)>> m_unreachableHandlers;
@@ -69,5 +68,7 @@ private:
 
     std::map<std::string, uint32_t> m_node2Seq;
     mutable bcos::SharedMutex x_node2Seq;
+
+    std::atomic<uint32_t> m_statusSeq{1};
 };
 }  // namespace ppc::gateway

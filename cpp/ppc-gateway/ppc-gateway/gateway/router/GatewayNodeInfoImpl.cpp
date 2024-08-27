@@ -36,6 +36,16 @@ std::string const& GatewayNodeInfoImpl::agency() const
 {
     return m_inner()->agency;
 }
+
+uint32_t GatewayNodeInfoImpl::statusSeq() const
+{
+    return m_inner()->statusSeq;
+}
+void GatewayNodeInfoImpl::setStatusSeq(uint32_t statusSeq)
+{
+    m_inner()->statusSeq = statusSeq;
+}
+
 // get the node information by nodeID
 INodeInfo::Ptr GatewayNodeInfoImpl::nodeInfo(bcos::bytes const& nodeID) const
 {

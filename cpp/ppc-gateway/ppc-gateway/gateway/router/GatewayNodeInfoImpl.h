@@ -66,6 +66,10 @@ public:
         bcos::WriteGuard l(x_nodeList);
         return m_nodeList;
     }
+    uint32_t statusSeq() const override;
+    void setStatusSeq(uint32_t statusSeq) override;
+
+    virtual uint16_t nodeSize() const override { return m_nodeList.size(); }
 
 private:
     std::function<ppctars::GatewayNodeInfo*()> m_inner;

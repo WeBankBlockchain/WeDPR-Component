@@ -28,7 +28,10 @@ enum class GatewayPacketType : uint16_t
     BroadcastMessage = 0x01,
     RouterTableSyncSeq = 0x10,
     RouterTableResponse = 0x11,
-    RouterTableRequest = 0x12
+    RouterTableRequest = 0x12,
+    SyncNodeSeq = 0x20,
+    RequestNodeStatus = 0x21,
+    ResponseNodeStatus = 0x22,
 };
 
 enum class GatewayMsgExtFlag : uint16_t

@@ -42,10 +42,19 @@ public:
     virtual bool registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo)
     {
         nodeInfo->setFront(m_frontBuilder->buildClient(nodeInfo->endPoint()));
-        return m_routerInfo->tryAddNodeInfo(nodeInfo);
+        auto ret = m_routerInfo->tryAddNodeInfo(nodeInfo);
+        if (ret)
+        {
+            increaseSeq();
+        }
+        return ret;
     }
 
-    virtual void unRegisterNode(bcos::bytes const& nodeID) { m_routerInfo->removeNodeInfo(nodeID); }
+    virtual void unRegisterNode(bcos::bytes const& nodeID)
+    {
+        m_routerInfo->removeNodeInfo(nodeID);
+        increaseSeq();
+    }
 
     virtual void registerTopic(bcos::bytesConstRef nodeID, std::string const& topic);
     virtual void unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic);
@@ -57,9 +66,27 @@ public:
     virtual bool dispatcherMessage(ppc::protocol::Message::Ptr const& msg,
         ppc::protocol::ReceiveMsgFunc callback, bool holding = true);
 
+    std::shared_ptr<bcos::bytes> generateNodeStatus()
+    {
+        auto data = std::make_shared<bcos::bytes>();
+        m_routerInfo->encode(*data);
+        return data;
+    }
+    uint32_t statusSeq() { return m_statusSeq; }
+
+private:
+    uint32_t increaseSeq()
+    {
+        uint32_t statusSeq = ++m_statusSeq;
+        return statusSeq;
+    }
+
+
 private:
     ppc::front::IFrontBuilder::Ptr m_frontBuilder;
     GatewayNodeInfo::Ptr m_routerInfo;
+
+    std::atomic<uint32_t> m_statusSeq{1};
 
     // NodeID=>topics
     using Topics = std::set<std::string>;

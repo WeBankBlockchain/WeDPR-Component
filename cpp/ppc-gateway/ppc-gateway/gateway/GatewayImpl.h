@@ -22,6 +22,7 @@
 #include "ppc-gateway/gateway/router/GatewayNodeInfo.h"
 #include "ppc-gateway/p2p/Service.h"
 #include "ppc-gateway/p2p/router/RouterManager.h"
+#include "router/GatewayRouterManager.h"
 #include "router/LocalRouter.h"
 #include "router/PeerRouterTable.h"
 
@@ -80,6 +81,7 @@ private:
     std::string m_agency;
 
     RouterManager::Ptr m_p2pRouterManager;
+    GatewayRouterManager::Ptr m_gatewayRouterManager;
 
     GatewayNodeInfoFactory::Ptr m_gatewayInfoFactory;
     LocalRouter::Ptr m_localRouter;
