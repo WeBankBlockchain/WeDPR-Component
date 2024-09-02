@@ -28,6 +28,18 @@ class MessageOptionalHeaderImpl : public MessageOptionalHeader
 public:
     using Ptr = std::shared_ptr<MessageOptionalHeaderImpl>;
     MessageOptionalHeaderImpl() = default;
+    MessageOptionalHeaderImpl(MessageOptionalHeader::Ptr const& optionalHeader)
+    {
+        if (!optionalHeader)
+        {
+            return;
+        }
+        setTopic(optionalHeader->topic());
+        setComponentType(optionalHeader->componentType());
+        setSrcNode(optionalHeader->srcNode());
+        setDstNode(optionalHeader->dstNode());
+        setDstInst(optionalHeader->dstInst());
+    }
     MessageOptionalHeaderImpl(bcos::bytesConstRef data, uint64_t const offset)
     {
         decode(data, offset);
@@ -50,7 +62,7 @@ public:
     void encode(bcos::bytes& buffer) const override;
     int64_t decode(bcos::bytesConstRef data) override;
 
-    virtual bool hasOptionalField() const
+    bool hasOptionalField() const override
     {
         return m_packetType == (uint16_t)ppc::gateway::GatewayPacketType::P2PMessage;
     }
@@ -81,5 +93,21 @@ public:
         return std::make_shared<MessageHeaderImpl>(data);
     }
     MessageHeader::Ptr build() override { return std::make_shared<MessageHeaderImpl>(); }
+    MessageOptionalHeader::Ptr build(MessageOptionalHeader::Ptr const& optionalHeader) override
+    {
+        return std::make_shared<MessageOptionalHeaderImpl>(optionalHeader);
+    }
+};
+class MessageOptionalHeaderBuilderImpl : public MessageOptionalHeaderBuilder
+{
+public:
+    using Ptr = std::shared_ptr<MessageOptionalHeaderBuilderImpl>;
+    MessageOptionalHeaderBuilderImpl() = default;
+    ~MessageOptionalHeaderBuilderImpl() override = default;
+
+    MessageOptionalHeader::Ptr build(MessageOptionalHeader::Ptr const& optionalHeader) override
+    {
+        return std::make_shared<MessageOptionalHeaderImpl>(optionalHeader);
+    }
 };
 }  // namespace ppc::protocol

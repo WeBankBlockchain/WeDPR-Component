@@ -34,6 +34,13 @@ int64_t MessagePayloadImpl::encode(bcos::bytes& buffer) const
     // seq
     uint16_t seq = boost::asio::detail::socket_ops::host_to_network_short(m_seq);
     buffer.insert(buffer.end(), (byte*)&seq, (byte*)&seq + 2);
+    // ext field
+    uint16_t ext = boost::asio::detail::socket_ops::host_to_network_short(m_ext);
+    buffer.insert(buffer.end(), (byte*)&ext, (byte*)&ext + 2);
+    // traceID
+    uint16_t traceIDLen = boost::asio::detail::socket_ops::host_to_network_short(m_traceID.size());
+    buffer.insert(buffer.end(), (byte*)&traceIDLen, (byte*)&traceIDLen + 2);
+    buffer.insert(buffer.end(), m_traceID.begin(), m_traceID.end());
     // data
     uint16_t dataLen = boost::asio::detail::socket_ops::host_to_network_short(m_data.size());
     buffer.insert(buffer.end(), (byte*)&dataLen, (byte*)&dataLen + 2);
@@ -59,6 +66,15 @@ int64_t MessagePayloadImpl::decode(bcos::bytesConstRef buffer)
     CHECK_OFFSET_WITH_THROW_EXCEPTION((pointer - buffer.data()), buffer.size());
     m_seq = boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)pointer));
     pointer += 2;
+    // the ext
+    CHECK_OFFSET_WITH_THROW_EXCEPTION((pointer - buffer.data()), buffer.size());
+    m_ext = boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)pointer));
+    pointer += 2;
+    // the traceID
+    bcos::bytes traceID;
+    auto offset =
+        decodeNetworkBuffer(traceID, buffer.data(), buffer.size(), (pointer - buffer.data()));
+    m_traceID = std::string(traceID.begin(), traceID.end());
     // data
-    return decodeNetworkBuffer(m_data, buffer.data(), buffer.size(), (pointer - buffer.data()));
+    return decodeNetworkBuffer(m_data, buffer.data(), buffer.size(), offset);
 }

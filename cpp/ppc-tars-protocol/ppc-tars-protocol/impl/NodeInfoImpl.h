@@ -61,11 +61,14 @@ public:
     void decode(bcos::bytesConstRef data) override;
     ppctars::NodeInfo const& inner() { return *(m_inner()); }
 
-    void setFront(ppc::front::IFront::Ptr&& front) override { m_front = std::move(front); }
-    ppc::front::IFront::Ptr const& getFront() const override { return m_front; }
+    void setFront(std::shared_ptr<ppc::front::IFront>&& front) override
+    {
+        m_front = std::move(front);
+    }
+    std::shared_ptr<ppc::front::IFront> const& getFront() const override { return m_front; }
 
 private:
-    ppc::front::IFront::Ptr m_front;
+    std::shared_ptr<ppc::front::IFront> m_front;
     std::set<std::string> m_components;
     std::function<ppctars::NodeInfo*()> m_inner;
 };

@@ -23,6 +23,10 @@
 
 namespace ppc::protocol
 {
+enum class FrontMsgExtFlag : uint16_t
+{
+    Response = 0x1
+};
 class MessagePayload
 {
 public:
@@ -46,12 +50,26 @@ public:
     // the length
     virtual int64_t length() const { return m_length; }
 
+    // the traceID
+    virtual std::string const& traceID() const { return m_traceID; }
+    virtual void setTraceID(std::string const& traceID) { m_traceID = traceID; }
+
+    virtual uint16_t ext() const { return m_ext; }
+    virtual void setExt(uint16_t ext) { m_ext = ext; }
+
+    virtual void setRespPacket() { m_ext |= (uint16_t)FrontMsgExtFlag::Response; }
+
+    virtual bool isRespPacket() { return m_ext &= (uint16_t)FrontMsgExtFlag::Response; }
+
 protected:
     // the front payload version, used to support compatibility
     uint8_t m_version;
     // the seq
     uint16_t m_seq;
+    // the traceID
+    std::string m_traceID;
     bcos::bytes m_data;
+    uint16_t m_ext;
     int64_t mutable m_length;
 };
 

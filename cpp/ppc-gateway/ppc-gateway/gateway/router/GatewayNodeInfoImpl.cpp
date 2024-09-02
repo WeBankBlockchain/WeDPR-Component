@@ -96,10 +96,10 @@ void GatewayNodeInfoImpl::removeNodeInfo(bcos::bytes const& nodeID)
     }
 }
 
-std::vector<ppc::front::IFront::Ptr> GatewayNodeInfoImpl::chooseRouteByComponent(
+std::vector<std::shared_ptr<ppc::front::IFront>> GatewayNodeInfoImpl::chooseRouteByComponent(
     bool selectAll, std::string const& component) const
 {
-    std::vector<ppc::front::IFront::Ptr> result;
+    std::vector<std::shared_ptr<ppc::front::IFront>> result;
     bcos::ReadGuard l(x_nodeList);
     for (auto const& it : m_nodeList)
     {
@@ -116,9 +116,10 @@ std::vector<ppc::front::IFront::Ptr> GatewayNodeInfoImpl::chooseRouteByComponent
 }
 
 
-vector<ppc::front::IFront::Ptr> GatewayNodeInfoImpl::chooseRouterByAgency(bool selectAll) const
+vector<std::shared_ptr<ppc::front::IFront>> GatewayNodeInfoImpl::chooseRouterByAgency(
+    bool selectAll) const
 {
-    std::vector<ppc::front::IFront::Ptr> result;
+    std::vector<std::shared_ptr<ppc::front::IFront>> result;
     bcos::ReadGuard l(x_nodeList);
     for (auto const& it : m_nodeList)
     {
@@ -131,10 +132,10 @@ vector<ppc::front::IFront::Ptr> GatewayNodeInfoImpl::chooseRouterByAgency(bool s
     return result;
 }
 
-std::vector<ppc::front::IFront::Ptr> GatewayNodeInfoImpl::chooseRouterByTopic(
+std::vector<std::shared_ptr<ppc::front::IFront>> GatewayNodeInfoImpl::chooseRouterByTopic(
     bool selectAll, std::string const& topic) const
 {
-    std::vector<ppc::front::IFront::Ptr> result;
+    std::vector<std::shared_ptr<ppc::front::IFront>> result;
     bcos::ReadGuard l(x_topicInfo);
     for (auto const& it : m_topicInfo)
     {

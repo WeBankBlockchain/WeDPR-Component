@@ -78,16 +78,12 @@ public:
     {
         return std::make_shared<MessageImpl>(m_msgHeaderBuilder, m_maxMessageLen, buffer);
     }
-    Message::Ptr build(ppc::protocol::RouteType routeType, std::string const& topic,
-        std::string const& dstInst, bcos::bytes const& dstNodeID, std::string const& componentType,
-        bcos::bytes&& payload) override
+    Message::Ptr build(ppc::protocol::RouteType routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload) override
     {
         auto msg = build();
         msg->header()->setRouteType(routeType);
-        msg->header()->optionalField()->setDstInst(dstInst);
-        msg->header()->optionalField()->setDstNode(dstNodeID);
-        msg->header()->optionalField()->setTopic(topic);
-        msg->header()->optionalField()->setComponentType(componentType);
+        msg->header()->setOptionalField(routeInfo);
         msg->setPayload(std::make_shared<bcos::bytes>(std::move(payload)));
         return msg;
     }
@@ -102,6 +98,11 @@ public:
         std::string seq = boost::uuids::to_string(boost::uuids::random_generator()());
         seq.erase(std::remove(seq.begin(), seq.end(), '-'), seq.end());
         return seq;
+    }
+
+    virtual MessageOptionalHeader::Ptr build(MessageOptionalHeader::Ptr const& optionalHeader)
+    {
+        return m_msgHeaderBuilder->build(optionalHeader);
     }
 
 private:

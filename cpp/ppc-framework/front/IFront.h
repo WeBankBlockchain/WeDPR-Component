@@ -19,6 +19,7 @@
  */
 #pragma once
 #include "FrontConfig.h"
+#include "ppc-framework/protocol/INodeInfo.h"
 #include "ppc-framework/protocol/Message.h"
 #include "ppc-framework/protocol/RouteType.h"
 #include <bcos-utilities/Error.h>
@@ -38,13 +39,13 @@ public:
      *
      * @param front the IFront to start
      */
-    virtual void start() const = 0;
+    virtual void start() = 0;
     /**
      * @brief stop the IFront
      *
      * @param front the IFront to stop
      */
-    virtual void stop() const = 0;
+    virtual void stop() = 0;
 
     /**
      *
@@ -53,30 +54,35 @@ public:
      * @param callback the callback called when receive specified topic
      */
     virtual void registerTopicHandler(
-        std::string const& topic, ppc::protocol::MessageCallback callback) = 0;
+        std::string const& topic, ppc::protocol::MessageDispatcherCallback callback) = 0;
 
     /**
      * @brief async send message
      *
      * @param routeType the route type
-     * @param topic  the topic
-     * @param dstInst the dst agency(must set when 'route by agency' and 'route by
+     * @param routeInfo the route info, include
+     *  - topic  the topic
+     *  - dstInst the dst agency(must set when 'route by agency' and 'route by
      * component')
-     * @param dstNodeID  the dst nodeID(must set when 'route by nodeID')
-     * @param componentType the componentType(must set when 'route by component')
+     *  - dstNodeID  the dst nodeID(must set when 'route by nodeID')
+     *  - componentType the componentType(must set when 'route by component')
      * @param payload the payload to send
      * @param seq the message seq
      * @param timeout timeout
      * @param callback callback
      */
-    virtual void asyncSendMessage(ppc::protocol::RouteType routeType, std::string const& topic,
-        std::string const& dstInst, bcos::bytes const& dstNodeID, std::string const& componentType,
-        bcos::bytes&& payload, int seq, long timeout, ppc::protocol::MessageCallback callback) = 0;
+    virtual void asyncSendMessage(ppc::protocol::RouteType routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
+        long timeout, ppc::protocol::ReceiveMsgFunc errorCallback,
+        ppc::protocol::MessageCallback callback) = 0;
 
     // the sync interface for async_send_message
-    virtual ppc::protocol::Message::Ptr push(ppc::protocol::RouteType routeType, std::string topic,
-        std::string dstInst, std::string dstNodeID, std::string const& componentType,
-        bcos::bytes&& payload, int seq, long timeout) = 0;
+    virtual bcos::Error::Ptr push(ppc::protocol::RouteType routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
+        long timeout) = 0;
+
+    virtual ppc::protocol::Message::Ptr pop(std::string const& topic, long timeoutMs) = 0;
+    virtual ppc::protocol::Message::Ptr peek(std::string const& topic);
 
     /**
      * @brief: receive message from gateway, call by gateway
@@ -85,6 +91,31 @@ public:
      */
     virtual void onReceiveMessage(
         ppc::protocol::Message::Ptr const& _msg, ppc::protocol::ReceiveMsgFunc _callback) = 0;
+
+    /**
+     * @brief register the nodeInfo to the gateway
+     * @param nodeInfo the nodeInfo
+     */
+    virtual void registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) = 0;
+
+    /**
+     * @brief unRegister the nodeInfo to the gateway
+     */
+    virtual void unRegisterNodeInfo() = 0;
+
+    /**
+     * @brief register the topic
+     *
+     * @param topic the topic to register
+     */
+    virtual void registerTopic(std::string const& topic) = 0;
+
+    /**
+     * @brief unRegister the topic
+     *
+     * @param topic the topic to unregister
+     */
+    virtual void unRegisterTopic(std::string const& topic) = 0;
 };
 
 class IFrontBuilder

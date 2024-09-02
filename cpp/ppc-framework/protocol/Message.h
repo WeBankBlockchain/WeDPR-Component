@@ -19,9 +19,11 @@
  */
 #pragma once
 #include "../Common.h"
+#include "MessagePayload.h"
 #include "RouteType.h"
 #include <bcos-boostssl/interfaces/MessageFace.h>
 #include <bcos-utilities/Common.h>
+#include <bcos-utilities/DataConvertUtility.h>
 #include <bcos-utilities/Error.h>
 #include <bcos-utilities/Log.h>
 #include <memory>
@@ -126,6 +128,7 @@ public:
 
     virtual uint16_t routeType() const = 0;
     virtual void setRouteType(ppc::protocol::RouteType type) = 0;
+    virtual bool hasOptionalField() const = 0;
 
 protected:
     // the msg version, used to support compatibility
@@ -181,9 +184,18 @@ public:
         m_payload = std::move(_payload);
     }
 
+    void setFrontMessage(MessagePayload::Ptr frontMessage)
+    {
+        m_frontMessage = std::move(frontMessage);
+    }
+
+    MessagePayload::Ptr const& frontMessage() const { return m_frontMessage; }
+
+
 protected:
     MessageHeader::Ptr m_header;
     std::shared_ptr<bcos::bytes> m_payload;
+    MessagePayload::Ptr m_frontMessage;
 };
 
 class MessageHeaderBuilder
@@ -195,6 +207,7 @@ public:
 
     virtual MessageHeader::Ptr build(bcos::bytesConstRef _data) = 0;
     virtual MessageHeader::Ptr build() = 0;
+    virtual MessageOptionalHeader::Ptr build(MessageOptionalHeader::Ptr const& optionalHeader) = 0;
 };
 
 class MessageBuilder : public bcos::boostssl::MessageFaceFactory
@@ -206,13 +219,44 @@ public:
 
     virtual Message::Ptr build() = 0;
     virtual Message::Ptr build(bcos::bytesConstRef buffer) = 0;
-    virtual Message::Ptr build(ppc::protocol::RouteType routeType, std::string const& topic,
-        std::string const& dstInst, bcos::bytes const& dstNodeID, std::string const& componentType,
-        bcos::bytes&& payload) = 0;
+    virtual Message::Ptr build(ppc::protocol::RouteType routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload) = 0;
+
+    virtual MessageOptionalHeader::Ptr build(MessageOptionalHeader::Ptr const& optionalHeader) = 0;
 };
+
+class MessageOptionalHeaderBuilder
+{
+public:
+    using Ptr = std::shared_ptr<MessageOptionalHeaderBuilder>;
+    MessageOptionalHeaderBuilder() = default;
+    virtual ~MessageOptionalHeaderBuilder() = default;
+
+    virtual MessageOptionalHeader::Ptr build(MessageOptionalHeader::Ptr const& optionalHeader) = 0;
+};
+
+inline std::string printOptionalField(MessageOptionalHeader::Ptr optionalHeader)
+{
+    if (!optionalHeader)
+    {
+        return "nullptr";
+    }
+    std::ostringstream stringstream;
+    stringstream << LOG_KV("topic", optionalHeader->topic())
+                 << LOG_KV("componentType", optionalHeader->componentType())
+                 << LOG_KV("srcNode", *(bcos::toHexString(optionalHeader->srcNode())))
+                 << LOG_KV("dstNode", *(bcos::toHexString(optionalHeader->dstNode())))
+                 << LOG_KV("dstInst", optionalHeader->dstInst());
+
+    return stringstream.str();
+}
 
 inline std::string printMessage(Message::Ptr const& _msg)
 {
+    if (!_msg)
+    {
+        return "nullptr";
+    }
     std::ostringstream stringstream;
     stringstream << LOG_KV("from", _msg->header()->srcP2PNodeIDView())
                  << LOG_KV("to", _msg->header()->dstP2PNodeIDView())
@@ -221,11 +265,19 @@ inline std::string printMessage(Message::Ptr const& _msg)
                  << LOG_KV("traceID", _msg->header()->traceID())
                  << LOG_KV("packetType", _msg->header()->packetType())
                  << LOG_KV("length", _msg->length());
+    if (_msg->header()->hasOptionalField())
+    {
+        stringstream << printOptionalField(_msg->header()->optionalField());
+    }
     return stringstream.str();
 }
 
 inline std::string printWsMessage(bcos::boostssl::MessageFace::Ptr const& _msg)
 {
+    if (!_msg)
+    {
+        return "nullptr";
+    }
     std::ostringstream stringstream;
     stringstream << LOG_KV("rsp", _msg->isRespPacket()) << LOG_KV("traceID", _msg->seq())
                  << LOG_KV("packetType", _msg->packetType()) << LOG_KV("length", _msg->length());
@@ -233,9 +285,9 @@ inline std::string printWsMessage(bcos::boostssl::MessageFace::Ptr const& _msg)
 }
 
 // function to send response
-using SendResponseFunction = std::function<void(ppc::protocol::Message::Ptr msg)>;
+using SendResponseFunction = std::function<void(std::shared_ptr<bcos::bytes>&& payload)>;
 using ReceiveMsgFunc = std::function<void(bcos::Error::Ptr)>;
 using MessageCallback = std::function<void(
     bcos::Error::Ptr e, ppc::protocol::Message::Ptr msg, SendResponseFunction resFunc)>;
-
+using MessageDispatcherCallback = std::function<void(ppc::protocol::Message::Ptr)>;
 }  // namespace ppc::protocol

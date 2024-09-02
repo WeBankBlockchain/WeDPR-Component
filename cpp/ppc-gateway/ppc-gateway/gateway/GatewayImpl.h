@@ -53,12 +53,12 @@ public:
      * @param timeout timeout
      * @param callback callback
      */
-    void asyncSendMessage(ppc::protocol::RouteType routeType, std::string const& topic,
-        std::string const& dstInst, bcos::bytes const& dstNodeID, std::string const& componentType,
-        bcos::bytes&& payload, long timeout, ppc::protocol::ReceiveMsgFunc callback) override;
+    void asyncSendMessage(ppc::protocol::RouteType routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload,
+        long timeout, ppc::protocol::ReceiveMsgFunc callback) override;
 
-    void asyncSendbroadcastMessage(ppc::protocol::RouteType routeType, std::string const& topic,
-        std::string const& dstInst, std::string const& componentType, bcos::bytes&& payload);
+    void asyncSendbroadcastMessage(ppc::protocol::RouteType routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload) override;
 
 
     void registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) override;

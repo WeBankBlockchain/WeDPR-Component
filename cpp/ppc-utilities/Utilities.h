@@ -21,6 +21,9 @@
 
 #include "ppc-framework/Common.h"
 #include <boost/asio/detail/socket_ops.hpp>
+#include <boost/uuid/random_generator.hpp>
+#include <boost/uuid/uuid_io.hpp>
+#include <random>
 
 namespace ppc
 {
@@ -37,5 +40,11 @@ inline uint64_t decodeNetworkBuffer(
         _result.end(), (bcos::byte*)buffer + curOffset, (bcos::byte*)buffer + curOffset + dataLen);
     curOffset += dataLen;
     return curOffset;
+}
+
+inline std::string generateUUID()
+{
+    static thread_local auto uuid_gen = boost::uuids::basic_random_generator<std::random_device>();
+    return boost::uuids::to_string(uuid_gen());
 }
 }  // namespace ppc
