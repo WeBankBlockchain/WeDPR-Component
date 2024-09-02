@@ -17,7 +17,7 @@
  * @author: shawnhe
  * @date 2022-10-28
  */
-
+#if 0
 #include "ppc-gateway/ppc-gateway/Gateway.h"
 #include "ppc-gateway/ppc-gateway/GatewayConfigContext.h"
 #include "ppc-tools/src/config/PPCConfig.h"
@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
     auto info = std::make_shared<GatewayTaskInfo>();
     info->taskID = taskID;
     info->serviceEndpoint = "endpoint1001";
-    front->notifyTaskInfo(info);
+    front->notifyTaskInfo(taskID);
 
     auto message = buildMessage(taskID, 0);
     std::cout << "send message\n"
@@ -127,10 +127,11 @@ int main(int argc, char* argv[])
     auto info1 = std::make_shared<GatewayTaskInfo>();
     info->taskID = taskID1;
     info->serviceEndpoint = "endpoint1001";
-    front->notifyTaskInfo(info);
+    front->notifyTaskInfo(taskID1);
 
     while (flag != 3)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
+#endif

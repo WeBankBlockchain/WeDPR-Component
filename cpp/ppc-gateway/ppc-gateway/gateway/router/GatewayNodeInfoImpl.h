@@ -19,7 +19,7 @@
  */
 #pragma once
 #include "GatewayNodeInfo.h"
-#include "ppc-tars-protocol/tars/NodeInfo.h"
+#include "NodeInfo.pb.h"
 #include <bcos-utilities/Common.h>
 #include <memory>
 
@@ -30,12 +30,19 @@ class GatewayNodeInfoImpl : public GatewayNodeInfo
 public:
     using Ptr = std::shared_ptr<GatewayNodeInfoImpl>;
     GatewayNodeInfoImpl(std::string const& p2pNodeID, std::string const& agency)
-      : m_inner([inner = ppctars::GatewayNodeInfo()]() mutable { return &inner; })
+      : m_inner([inner = ppc::proto::GatewayNodeInfo()]() mutable { return &inner; })
     {
-        m_inner()->p2pNodeID = p2pNodeID;
-        m_inner()->agency = agency;
+        m_inner()->set_p2pnodeid(p2pNodeID);
+        m_inner()->set_agency(agency);
     }
-    ~GatewayNodeInfoImpl() override = default;
+    ~GatewayNodeInfoImpl() override
+    {
+        auto allocatedNodeListSize = m_inner()->nodelist_size();
+        for (int i = 0; i < allocatedNodeListSize; i++)
+        {
+            m_inner()->mutable_nodelist()->UnsafeArenaReleaseLast();
+        }
+    }
 
     // the gateway nodeID
     std::string const& p2pNodeID() const override;
@@ -52,11 +59,11 @@ public:
     bool tryAddNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) override;
     void removeNodeInfo(bcos::bytes const& nodeID) override;
 
-    std::vector<std::shared_ptr<ppc::front::IFront>> chooseRouteByComponent(
+    std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouteByComponent(
         bool selectAll, std::string const& component) const override;
-    std::vector<std::shared_ptr<ppc::front::IFront>> chooseRouterByAgency(
+    std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouterByAgency(
         bool selectAll) const override;
-    std::vector<std::shared_ptr<ppc::front::IFront>> chooseRouterByTopic(
+    std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouterByTopic(
         bool selectAll, std::string const& topic) const override;
 
     void registerTopic(bcos::bytes const& nodeID, std::string const& topic) override;
@@ -73,7 +80,7 @@ public:
     virtual uint16_t nodeSize() const override { return m_nodeList.size(); }
 
 private:
-    std::function<ppctars::GatewayNodeInfo*()> m_inner;
+    std::function<ppc::proto::GatewayNodeInfo*()> m_inner;
     // NodeID => nodeInfo
     std::map<bcos::bytes, ppc::protocol::INodeInfo::Ptr> m_nodeList;
     mutable bcos::SharedMutex x_nodeList;

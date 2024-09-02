@@ -168,7 +168,7 @@ void EcdhMultiPSIImpl::asyncRunTask(
         }
 
         // notify the taskInfo to the front
-        m_config->front()->notifyTaskInfo(std::make_shared<GatewayTaskInfo>(_task->id()));
+        m_config->front()->notifyTaskInfo(_task->id());
     }
     catch (bcos::Error const& e)
     {

@@ -20,14 +20,11 @@
 
 #pragma once
 
-#include "Error.h"
 #include "TarsServantProxyCallback.h"
 #include "TaskInfo.h"
-#include "ppc-framework/gateway/GatewayInterface.h"
 #include "ppc-framework/protocol/Task.h"
 #include "ppc-tools/src/config/ParamChecker.h"
 #include <bcos-utilities/Common.h>
-#include <bcos-utilities/Error.h>
 #include <servant/Application.h>
 #include <servant/Communicator.h>
 #include <tup/Tars.h>
@@ -117,97 +114,6 @@ using BufferWriterByteVector = BufferWriter<std::vector<bcos::byte>>;
 using BufferWriterStdByteVector = BufferWriter<std::vector<std::byte>>;
 using BufferWriterString = BufferWriter<std::string>;
 }  // namespace serialize
-
-
-template <typename T>
-bool checkConnection(std::string const& _module, std::string const& _func, const T& prx,
-    std::function<void(bcos::Error::Ptr)> _errorCallback, bool _callsErrorCallback = true)
-{
-    auto cb = prx->tars_get_push_callback();
-    assert(cb);
-    auto* tarsServantProxyCallback = (TarsServantProxyCallback*)cb.get();
-
-    if (tarsServantProxyCallback->available())
-    {
-        return true;
-    }
-
-    if (_errorCallback && _callsErrorCallback)
-    {
-        std::string errorMessage =
-            _module + " calls interface " + _func + " failed for empty connection";
-        _errorCallback(std::make_shared<bcos::Error>(-1, errorMessage));
-    }
-    return false;
-}
-
-
-inline ppctars::TaskInfo toTarsTaskInfo(ppc::protocol::GatewayTaskInfo::Ptr _taskInfo)
-{
-    ppctars::TaskInfo tarsTaskInfo;
-    if (!_taskInfo)
-    {
-        return tarsTaskInfo;
-    }
-
-    tarsTaskInfo.taskID = _taskInfo->taskID;
-    tarsTaskInfo.serviceEndpoint = _taskInfo->serviceEndpoint;
-
-    return tarsTaskInfo;
-}
-
-inline ppc::protocol::GatewayTaskInfo::Ptr toGatewayTaskInfo(ppctars::TaskInfo _taskInfo)
-{
-    auto gatewayTaskInfo = std::make_shared<ppc::protocol::GatewayTaskInfo>();
-
-    gatewayTaskInfo->taskID = _taskInfo.taskID;
-    gatewayTaskInfo->serviceEndpoint = _taskInfo.serviceEndpoint;
-
-    return gatewayTaskInfo;
-}
-
-inline ppctars::Error toTarsError(const bcos::Error& error)
-{
-    ppctars::Error tarsError;
-    tarsError.errorCode = error.errorCode();
-    tarsError.errorMessage = error.errorMessage();
-
-    return tarsError;
-}
-
-template <typename T>
-inline ppctars::Error toTarsError(const T& error)
-{
-    ppctars::Error tarsError;
-
-    if (error)
-    {
-        tarsError.errorCode = error->errorCode();
-        tarsError.errorMessage = error->errorMessage();
-    }
-
-    return tarsError;
-}
-
-inline bcos::Error::Ptr toBcosError(const ppctars::Error& error)
-{
-    if (error.errorCode == 0)
-    {
-        return nullptr;
-    }
-
-    return std::make_shared<bcos::Error>(error.errorCode, error.errorMessage);
-}
-
-inline bcos::Error::Ptr toBcosError(tars::Int32 ret)
-{
-    if (ret == 0)
-    {
-        return nullptr;
-    }
-
-    return std::make_shared<bcos::Error>(ret, "TARS error!");
-}
 
 inline std::string getProxyDesc(std::string const& _servantName)
 {

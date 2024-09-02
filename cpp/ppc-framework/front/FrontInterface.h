@@ -44,20 +44,6 @@ public:
     using Ptr = std::shared_ptr<FrontInterface>;
     FrontInterface() = default;
     virtual ~FrontInterface() {}
-    /**
-     * @brief: start/stop service
-     */
-    virtual void start() = 0;
-    virtual void stop() = 0;
-
-    /**
-     * @brief: receive message from gateway, call by gateway
-     * @param _message: received ppc message
-     * @return void
-     */
-    virtual void onReceiveMessage(
-        front::PPCMessageFace::Ptr _message, ErrorCallbackFunc _callback) = 0;
-
 
     /**
      * @brief: send message to other party by gateway
@@ -78,11 +64,11 @@ public:
      * @brief notice task info to gateway
      * @param _taskInfo the latest task information
      */
-    virtual bcos::Error::Ptr notifyTaskInfo(protocol::GatewayTaskInfo::Ptr _taskInfo) = 0;
+    virtual bcos::Error::Ptr notifyTaskInfo(std::string const& taskID) = 0;
 
     // erase the task-info when task finished
     virtual bcos::Error::Ptr eraseTaskInfo(std::string const& _taskID) = 0;
-    
+
     // get the agencyList from the gateway
     virtual void asyncGetAgencyList(GetAgencyListCallback _callback) = 0;
 

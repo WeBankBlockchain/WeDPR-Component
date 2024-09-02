@@ -123,7 +123,7 @@ void EcdhPSIImpl::runPSI(TaskState::Ptr const& _taskState)
 {
     ECDH_LOG(INFO) << LOG_DESC("runPSI") << printTaskInfo(_taskState->task());
     // notify the taskInfo to the front
-    m_config->front()->notifyTaskInfo(std::make_shared<GatewayTaskInfo>(_taskState->task()->id()));
+    m_config->front()->notifyTaskInfo(_taskState->task()->id());
     // the psi-client send handshake request to the server
     if (_taskState->task()->selfParty()->partyIndex() == (int)PartyType::Client)
     {

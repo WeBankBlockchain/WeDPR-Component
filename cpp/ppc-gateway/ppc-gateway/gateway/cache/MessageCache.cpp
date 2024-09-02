@@ -88,7 +88,7 @@ void MessageCache::onTimeout(HoldingMessageQueue::Ptr const& queue)
     {
         if (msgInfo.callback)
         {
-            msgInfo.callback(std::make_shared<bcos::Error>(-1, SEND_MESSAGE_TO_FRONT_TIMEOUT));
+            msgInfo.callback(std::make_shared<bcos::Error>(-1, "timeout"));
         }
     }
 }

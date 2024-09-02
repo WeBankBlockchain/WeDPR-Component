@@ -13,12 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file GatewayServiceClient.cpp
+ * @file TarsStruct.cpp
  * @author: shawnhe
- * @date 2022-10-20
+ * @date 2022-11-4
  */
 
-#include "GatewayServiceClient.h"
-
-std::atomic<int64_t> ppctars::GatewayServiceClient::s_tarsTimeoutCount = {0};
-const int64_t ppctars::GatewayServiceClient::c_maxTarsTimeoutCount = 500;
+#include "TarsStruct.h"

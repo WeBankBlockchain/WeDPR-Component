@@ -21,6 +21,7 @@
 
 #pragma once
 #include "Protocol.h"
+#include "ppc-framework/protocol/Message.h"
 #include <bcos-utilities/Common.h>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
@@ -58,8 +59,6 @@ public:
     virtual void setTaskID(std::string const&) = 0;
     virtual std::string const& sender() const = 0;
     virtual void setSender(std::string const&) = 0;
-    virtual uint16_t ext() const = 0;
-    virtual void setExt(uint16_t) = 0;
     virtual std::shared_ptr<bcos::bytes> data() const = 0;
     virtual void setData(std::shared_ptr<bcos::bytes>) = 0;
     virtual std::map<std::string, std::string> header() = 0;
@@ -87,6 +86,7 @@ public:
 public:
     virtual ~PPCMessageFaceFactory() {}
     virtual PPCMessageFace::Ptr buildPPCMessage() = 0;
+    virtual PPCMessageFace::Ptr buildPPCMessage(ppc::protocol::Message::Ptr msg) = 0;
     virtual PPCMessageFace::Ptr buildPPCMessage(bcos::bytesConstRef _data) = 0;
     virtual PPCMessageFace::Ptr buildPPCMessage(bcos::bytesPointer _buffer) = 0;
     virtual PPCMessageFace::Ptr buildPPCMessage(uint8_t _taskType, uint8_t _algorithmType,

@@ -57,6 +57,19 @@ public:
         return m_messageFactory;
     }
 
+    void setNodeEndpoints(std::set<bcos::boostssl::NodeIPEndpoint> const& endPointList)
+    {
+        bcos::WriteGuard l(x_configuredNode2ID);
+        for (auto const& it : endPointList)
+        {
+            if (m_configuredNode2ID.count(it))
+            {
+                continue;
+            }
+            m_configuredNode2ID.insert(std::make_pair(it, ""));
+        }
+    }
+
 protected:
     void onRecvMessage(bcos::boostssl::MessageFace::Ptr _msg,
         bcos::boostssl::ws::WsSession::Ptr _session) override;

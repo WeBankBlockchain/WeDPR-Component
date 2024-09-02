@@ -1,0 +1,19 @@
+syntax = "proto3";
+package ppc.proto;
+
+message NodeInfo{
+    // the nodeID
+    bytes nodeID = 1;
+    // the endPoint
+    string endPoint = 2;
+    // the components
+    repeated string components = 3;
+    string topic = 4;
+};
+
+message GatewayNodeInfo{
+    string p2pNodeID = 1;
+    string agency = 2;
+    repeated NodeInfo nodeList = 3;
+    int32 statusSeq = 4;
+};

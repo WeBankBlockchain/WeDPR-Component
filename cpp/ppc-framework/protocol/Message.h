@@ -61,12 +61,17 @@ public:
     virtual void setTopic(std::string&& topic) { m_topic = std::move(topic); }
     virtual void setTopic(std::string const& topic) { m_topic = topic; }
 
+    virtual std::string srcInst() const { return m_srcInst; }
+    virtual void setSrcInst(std::string const& srcInst) { m_srcInst = srcInst; }
+
 protected:
     std::string m_topic;
     // the componentType
     std::string m_componentType;
     // the source nodeID that send the message
     bcos::bytes m_srcNode;
+    // the source agency
+    std::string m_srcInst;
     // the target nodeID that should receive the message
     bcos::bytes m_dstNode;
     // the target agency that need receive the message
@@ -221,8 +226,6 @@ public:
     virtual Message::Ptr build(bcos::bytesConstRef buffer) = 0;
     virtual Message::Ptr build(ppc::protocol::RouteType routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload) = 0;
-
-    virtual MessageOptionalHeader::Ptr build(MessageOptionalHeader::Ptr const& optionalHeader) = 0;
 };
 
 class MessageOptionalHeaderBuilder
@@ -233,6 +236,7 @@ public:
     virtual ~MessageOptionalHeaderBuilder() = default;
 
     virtual MessageOptionalHeader::Ptr build(MessageOptionalHeader::Ptr const& optionalHeader) = 0;
+    virtual MessageOptionalHeader::Ptr build() = 0;
 };
 
 inline std::string printOptionalField(MessageOptionalHeader::Ptr optionalHeader)

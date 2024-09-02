@@ -49,8 +49,6 @@ public:
     std::string const& sender() const override { return m_sender; }
     void setSender(std::string const& _sender) override { m_sender = _sender; }
 
-    uint16_t ext() const override { return m_ext; }
-    void setExt(uint16_t _ext) override { m_ext = _ext; }
     std::shared_ptr<bcos::bytes> data() const override { return m_data; }
     void setData(std::shared_ptr<bcos::bytes> _data) override { m_data = _data; }
     // Note: we don't fake the encode-decode here

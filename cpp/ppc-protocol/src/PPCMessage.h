@@ -36,10 +36,10 @@ namespace front
 class PPCMessage : public PPCMessageFace
 {
 public:
-    // version(1) + taskType(1) + algorithmType(1) + messageType(1) + seq(4)
-    // + taskIDLength(2) + senderLength(2) + ext(2) + uuidLen(1) + dataLen(4) + data(N)
+    // version(1) + taskType(1) + algorithmType(1) + messageType(1)
+    // + dataLen(4) + data(N)
     // + header(M)
-    const static size_t MESSAGE_MIN_LENGTH = 15;
+    const static size_t MESSAGE_MIN_LENGTH = 8;
 
     using Ptr = std::shared_ptr<PPCMessage>;
     PPCMessage() { m_data = std::make_shared<bcos::bytes>(); }
@@ -59,8 +59,6 @@ public:
     void setTaskID(std::string const& _taskID) override { m_taskID = _taskID; }
     std::string const& sender() const override { return m_sender; }
     void setSender(std::string const& _sender) override { m_sender = _sender; }
-    virtual uint16_t ext() const override { return m_ext; }
-    virtual void setExt(uint16_t _ext) override { m_ext = _ext; }
     std::shared_ptr<bcos::bytes> data() const override { return m_data; }
     // Note: here directly use passed-in _data, make-sure _data not changed before send the message
     void setData(std::shared_ptr<bcos::bytes> _data) override { m_data = _data; }
@@ -81,9 +79,9 @@ public:
     uint32_t length() const override { return m_length; }
 
     // determine the message is response or not
-    bool response() const override { return m_ext & MessageExtFlag::ResponseFlag; }
+    bool response() const override { return m_isResponse; }
     // set the message to be response
-    void setResponse() override { m_ext |= MessageExtFlag::ResponseFlag; }
+    void setResponse() override { m_isResponse = true; }
 
 protected:
     std::string encodeMap(const std::map<std::string, std::string>& _map);
@@ -97,7 +95,7 @@ private:
     uint32_t m_seq = 0;
     std::string m_taskID;
     std::string m_sender;
-    uint16_t m_ext = 0;
+    bool m_isResponse;
     // the uuid used to find the response-callback
     std::string m_uuid;
     std::shared_ptr<bcos::bytes> m_data;
@@ -148,6 +146,28 @@ public:
             return nullptr;
         }
         return msg;
+    }
+
+    PPCMessageFace::Ptr buildPPCMessage(ppc::protocol::Message::Ptr msg) override
+    {
+        auto ppcMsg = buildPPCMessage();
+        auto frontMsg = msg->frontMessage();
+        if (frontMsg)
+        {
+            ppcMsg->setSeq(frontMsg->seq());
+            ppcMsg->setUuid(frontMsg->traceID());
+            if (frontMsg->isRespPacket())
+            {
+                ppcMsg->setResponse();
+            }
+        }
+        if (msg->header() && msg->header()->optionalField())
+        {
+            auto const& routeInfo = msg->header()->optionalField();
+            ppcMsg->setTaskID(routeInfo->topic());
+            ppcMsg->setSender(routeInfo->srcInst());
+        }
+        return ppcMsg;
     }
 };
 

@@ -26,13 +26,27 @@
 
 namespace ppc::front
 {
-class IFront
+class IFrontClient
+{
+public:
+    using Ptr = std::shared_ptr<IFrontClient>;
+    IFrontClient() = default;
+    virtual ~IFrontClient() = default;
+    /**
+     * @brief: receive message from gateway, call by gateway
+     * @param _message: received ppc message
+     * @return void
+     */
+    virtual void onReceiveMessage(
+        ppc::protocol::Message::Ptr const& _msg, ppc::protocol::ReceiveMsgFunc _callback) = 0;
+};
+class IFront : public virtual IFrontClient
 {
 public:
     using Ptr = std::shared_ptr<IFront>;
 
     IFront() = default;
-    virtual ~IFront() = default;
+    ~IFront() override = default;
 
     /**
      * @brief start the IFront
@@ -84,13 +98,6 @@ public:
     virtual ppc::protocol::Message::Ptr pop(std::string const& topic, long timeoutMs) = 0;
     virtual ppc::protocol::Message::Ptr peek(std::string const& topic);
 
-    /**
-     * @brief: receive message from gateway, call by gateway
-     * @param _message: received ppc message
-     * @return void
-     */
-    virtual void onReceiveMessage(
-        ppc::protocol::Message::Ptr const& _msg, ppc::protocol::ReceiveMsgFunc _callback) = 0;
 
     /**
      * @brief register the nodeInfo to the gateway
@@ -132,6 +139,6 @@ public:
      * @return IFront::Ptr he created Front
      */
     virtual IFront::Ptr build(ppc::front::FrontConfig::Ptr config) const = 0;
-    virtual IFront::Ptr buildClient(std::string endPoint) const = 0;
+    virtual IFrontClient::Ptr buildClient(std::string endPoint) const = 0;
 };
 }  // namespace ppc::front

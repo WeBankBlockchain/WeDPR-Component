@@ -37,6 +37,10 @@ void MessageOptionalHeaderImpl::encode(bcos::bytes& buffer) const
     uint16_t srcNodeLen = boost::asio::detail::socket_ops::host_to_network_short(m_srcNode.size());
     buffer.insert(buffer.end(), (byte*)&srcNodeLen, (byte*)&srcNodeLen + 2);
     buffer.insert(buffer.end(), m_srcNode.begin(), m_srcNode.end());
+    // the source agency
+    uint16_t srcInstLen = boost::asio::detail::socket_ops::host_to_network_short(m_srcInst.size());
+    buffer.insert(buffer.end(), (byte*)&srcInstLen, (byte*)&srcInstLen + 2);
+    buffer.insert(buffer.end(), m_srcInst.begin(), m_srcInst.end());
     // the target nodeID that should receive the message
     uint16_t dstNodeLen = boost::asio::detail::socket_ops::host_to_network_short(m_dstNode.size());
     buffer.insert(buffer.end(), (byte*)&dstNodeLen, (byte*)&dstNodeLen + 2);
@@ -61,6 +65,10 @@ int64_t MessageOptionalHeaderImpl::decode(bcos::bytesConstRef data, uint64_t con
     m_componentType = std::string(componentType.begin(), componentType.end());
     // srcNode
     offset = decodeNetworkBuffer(m_srcNode, data.data(), data.size(), offset);
+    // source inst
+    bcos::bytes sourceInst;
+    offset = decodeNetworkBuffer(sourceInst, data.data(), data.size(), offset);
+    m_srcInst = std::string(sourceInst.begin(), sourceInst.end());
     //  dstNode
     offset = decodeNetworkBuffer(m_dstNode, data.data(), data.size(), offset);
     // dstInst, TODO: optimize here

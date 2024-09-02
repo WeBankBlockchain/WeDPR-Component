@@ -80,10 +80,10 @@ bool LocalRouter::dispatcherMessage(Message::Ptr const& msg, ReceiveMsgFunc call
     return false;
 }
 
-std::vector<ppc::front::IFront::Ptr> LocalRouter::chooseReceiver(
+std::vector<ppc::front::IFrontClient::Ptr> LocalRouter::chooseReceiver(
     ppc::protocol::Message::Ptr const& msg)
 {
-    std::vector<ppc::front::IFront::Ptr> receivers;
+    std::vector<ppc::front::IFrontClient::Ptr> receivers;
     if (msg->header()->optionalField()->dstInst() != m_routerInfo->agency())
     {
         return receivers;

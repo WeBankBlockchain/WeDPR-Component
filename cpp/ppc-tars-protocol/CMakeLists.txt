@@ -28,7 +28,7 @@ endif ()
 
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${OUT_TARS_H_LIST}")
 
-file(GLOB_RECURSE SRC_LIST "ppc-tars-protocol/*.cpp" "ppc-tars-protocol/*.h")
+file(GLOB_RECURSE SRC_LIST ppc-tars-protocol/*.cpp)
 
 find_package(tarscpp REQUIRED)
 add_library(${TARS_PROTOCOL_TARGET} ${SRC_LIST} ${OUT_TARS_H_LIST})

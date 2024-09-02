@@ -21,8 +21,7 @@
 #pragma once
 
 #include "Common.h"
-#include "ppc-framework/storage/CacheStorage.h"
-#include "ppc-storage/src/redis/RedisStorage.h"
+#include "bcos-boostssl/context/NodeInfoTools.h"
 #include <bcos-boostssl/context/ContextConfig.h>
 #include <ppc-tools/src/config/PPCConfig.h>
 #include <boost/property_tree/ptree.hpp>
@@ -51,12 +50,15 @@ public:
     }
     ppc::tools::PPCConfig::Ptr const& config() const { return m_config; }
 
+    std::string const& nodeID() const { return m_nodeID; }
+
 private:
     void initContextConfig();
 
 private:
     ppc::tools::PPCConfig::Ptr m_config;
     std::shared_ptr<bcos::boostssl::context::ContextConfig> m_contextConfig;
+    std::string m_nodeID;
 };
 
 }  // namespace ppc::gateway

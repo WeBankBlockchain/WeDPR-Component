@@ -94,14 +94,17 @@ struct GatewayConfig
     constexpr static uint64_t DefaultMaxAllowedMsgSize = 100;
     constexpr static uint64_t MinMsgSize = 10 * 1024 * 1024;
     constexpr static uint64_t MaxMsgSize = 1024 * 1024 * 1024;
+    constexpr static int MinUnreachableDistance = 2;
 
     bool disableCache;
     NetworkConfig networkConfig;
     ppc::storage::CacheStorageConfig cacheStorageConfig;
-    // agencyID => endPointList
-    std::map<std::string, std::vector<std::string>> agencies;
+    std::string nodeFileName;
+    std::string nodePath;
     uint64_t maxAllowedMsgSize = DefaultMaxAllowedMsgSize;
     int reconnectTime = 10000;
+    // the unreachable distance
+    int unreachableDistance = 10;
 };
 
 // the ecdh-psi config
@@ -294,9 +297,6 @@ private:
     void initRedisConfigForGateway(
         ppc::storage::CacheStorageConfig& _redisConfig, const boost::property_tree::ptree& _pt);
 
-    std::map<std::string, std::vector<std::string>> parseAgencyConfig(
-        const boost::property_tree::ptree& _pt, std::string const& _sectionName,
-        std::string const& _subSectionName);
 
     // load the tars-config for the given service, e.g:
     /*

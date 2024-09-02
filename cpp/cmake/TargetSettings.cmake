@@ -18,7 +18,10 @@ set(TOOLS_TARGET "ppc-tools")
 set(PROTOCOL_TARGET "ppc-protocol")
 
 # ppc-tars-protocol
-set(TARS_PROTOCOL_TARGET "ppc-protocol-tars")
+set(TARS_PROTOCOL_TARGET "ppc-tars-protocol")
+
+# ppc-pb-protocol
+set(PROTO_PROTOCOL_TARGET "ppc-pb-protocol")
 
 # ppc-front
 SET(FRONT_TARGET "ppc-front")

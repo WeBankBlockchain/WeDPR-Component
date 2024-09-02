@@ -26,7 +26,7 @@
 
 namespace ppc::front
 {
-class IFront;
+class IFrontClient;
 }
 namespace ppc::protocol
 {
@@ -42,14 +42,14 @@ public:
     virtual bcos::bytesConstRef nodeID() const = 0;
 
     // components
-    virtual void setComponents(std::vector<std::string> const& components) = 0;
+    virtual void setComponents(std::set<std::string> const& components) = 0;
     virtual std::set<std::string> const& components() const = 0;
 
     virtual void encode(bcos::bytes& data) const = 0;
     virtual void decode(bcos::bytesConstRef data) = 0;
 
-    virtual void setFront(std::shared_ptr<ppc::front::IFront>&& front) = 0;
-    virtual std::shared_ptr<ppc::front::IFront> const& getFront() const = 0;
+    virtual void setFront(std::shared_ptr<ppc::front::IFrontClient>&& front) = 0;
+    virtual std::shared_ptr<ppc::front::IFrontClient> const& getFront() const = 0;
 
     virtual bool equal(INodeInfo::Ptr const& info)
     {
@@ -69,6 +69,7 @@ public:
 protected:
     bcos::bytes m_nodeID;
 };
+
 inline std::string printNodeInfo(INodeInfo::Ptr const& nodeInfo)
 {
     if (!nodeInfo)

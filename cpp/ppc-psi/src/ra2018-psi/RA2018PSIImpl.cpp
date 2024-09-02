@@ -72,7 +72,7 @@ void RA2018PSIImpl::asyncRunTask(
 {
     if (m_disabled)
     {
-        m_config->front()->notifyTaskInfo(std::make_shared<GatewayTaskInfo>(_task->id()));
+        m_config->front()->notifyTaskInfo(_task->id());
         auto taskResult = std::make_shared<TaskResult>(_task->id());
         auto error = BCOS_ERROR_PTR(
             (int)RA2018PSIDisabled, "The ra2018-psi has been disabled by this node!");
@@ -189,7 +189,7 @@ void RA2018PSIImpl::runPSI(TaskState::Ptr const& _taskState)
 {
     auto task = _taskState->task();
     // notify the taskInfo to the front
-    m_config->front()->notifyTaskInfo(std::make_shared<GatewayTaskInfo>(task->id()));
+    m_config->front()->notifyTaskInfo(task->id());
     switch (task->selfParty()->partyIndex())
     {
     case (int)ppc::protocol::PartyType::Client:

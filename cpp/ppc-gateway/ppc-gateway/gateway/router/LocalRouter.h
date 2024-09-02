@@ -59,7 +59,7 @@ public:
     virtual void registerTopic(bcos::bytesConstRef nodeID, std::string const& topic);
     virtual void unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic);
 
-    virtual std::vector<ppc::front::IFront::Ptr> chooseReceiver(
+    virtual std::vector<ppc::front::IFrontClient::Ptr> chooseReceiver(
         ppc::protocol::Message::Ptr const& msg);
 
     // TODO: register component
@@ -80,7 +80,6 @@ private:
         uint32_t statusSeq = ++m_statusSeq;
         return statusSeq;
     }
-
 
 private:
     ppc::front::IFrontBuilder::Ptr m_frontBuilder;

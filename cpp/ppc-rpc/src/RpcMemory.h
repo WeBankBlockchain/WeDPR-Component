@@ -20,23 +20,18 @@
  */
 
 #pragma once
-#include "ppc-framework/gateway/GatewayInterface.h"
 #include "ppc-framework/rpc/RpcStatusInterface.h"
 #include <bcos-utilities/Common.h>
 #include <bcos-utilities/Timer.h>
 
 namespace ppc::rpc
 {
-
 class RpcMemory : public RpcStatusInterface
 {
 public:
     using Ptr = std::shared_ptr<RpcMemory>;
 
-    RpcMemory(ppc::gateway::GatewayInterface::Ptr _gateway)
-      : m_gateway(std::move(_gateway)),
-        m_taskCleaner(std::make_shared<bcos::Timer>(60 * 60 * 1000, "taskCleaner"))
-    {}
+    RpcMemory() : m_taskCleaner(std::make_shared<bcos::Timer>(60 * 60 * 1000, "taskCleaner")) {}
     ~RpcMemory() override = default;
 
     void start() override;
@@ -54,8 +49,6 @@ protected:
     void cleanTask();
 
 private:
-    ppc::gateway::GatewayInterface::Ptr m_gateway;
-
     mutable bcos::SharedMutex x_tasks;
     std::unordered_map<std::string, std::pair<uint64_t, protocol::TaskResult::Ptr>> m_tasks;
     std::shared_ptr<bcos::Timer> m_taskCleaner;

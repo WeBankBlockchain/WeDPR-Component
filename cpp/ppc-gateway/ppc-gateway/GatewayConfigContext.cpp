@@ -22,23 +22,27 @@
 
 using namespace bcos;
 using namespace ppc::gateway;
+using namespace bcos::boostssl::context;
+
 void GatewayConfigContext::initContextConfig()
 {
-    m_contextConfig = std::make_shared<bcos::boostssl::context::ContextConfig>();
+    m_contextConfig = std::make_shared<ContextConfig>();
     auto const& gatewayConfig = m_config->gatewayConfig().networkConfig;
     // non-sm-ssl
     if (!gatewayConfig.enableSM)
     {
-        boostssl::context::ContextConfig::CertConfig certConfig;
+        ContextConfig::CertConfig certConfig;
         certConfig.caCert = gatewayConfig.caCertPath;
         certConfig.nodeCert = gatewayConfig.sslCertPath;
         certConfig.nodeKey = gatewayConfig.sslKeyPath;
         m_contextConfig->setCertConfig(certConfig);
         m_contextConfig->setSslType("ssl");
+        // parse the nodeID
+        NodeInfoTools::initCert2PubHexHandler()(certConfig.nodeCert, m_nodeID);
         GATEWAY_LOG(INFO) << LOG_DESC("initConfig: rpc work in non-sm-ssl model")
                           << LOG_KV("caCert", certConfig.caCert)
                           << LOG_KV("nodeCert", certConfig.nodeCert)
-                          << LOG_KV("nodeKey", certConfig.nodeKey);
+                          << LOG_KV("nodeKey", certConfig.nodeKey) << LOG_KV("nodeID", m_nodeID);
         GATEWAY_LOG(INFO) << LOG_DESC("initContextConfig: non-sm-ssl");
         return;
     }
@@ -51,5 +55,6 @@ void GatewayConfigContext::initContextConfig()
     certConfig.enNodeKey = gatewayConfig.smEnSslKeyPath;
     m_contextConfig->setSmCertConfig(certConfig);
     m_contextConfig->setSslType("sm_ssl");
-    GATEWAY_LOG(INFO) << LOG_DESC("initContextConfig: sm-ssl");
+    NodeInfoTools::initCert2PubHexHandler()(certConfig.enNodeCert, m_nodeID);
+    GATEWAY_LOG(INFO) << LOG_DESC("initContextConfig: sm-ssl") << LOG_KV("nodeID", m_nodeID);
 }

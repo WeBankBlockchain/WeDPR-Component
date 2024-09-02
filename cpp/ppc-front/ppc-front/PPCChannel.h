@@ -52,9 +52,9 @@ public:
      * @brief notice task info to gateway by front
      * @param _taskInfo the latest task information
      */
-    bcos::Error::Ptr notifyTaskInfo(protocol::GatewayTaskInfo::Ptr _taskInfo) override
+    bcos::Error::Ptr notifyTaskInfo(std::string const& taskID) override
     {
-        return m_front->notifyTaskInfo(std::move(_taskInfo));
+        return m_front->notifyTaskInfo(std::move(taskID));
     };
 
     /**

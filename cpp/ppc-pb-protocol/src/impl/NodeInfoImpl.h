@@ -18,6 +18,7 @@
  * @date 2024-08-26
  */
 #pragma once
+#include "NodeInfo.pb.h"
 #include "ppc-framework/protocol/INodeInfo.h"
 #include "ppc-tars-protocol/tars/NodeInfo.h"
 #include <memory>
@@ -28,49 +29,49 @@ class NodeInfoImpl : public INodeInfo
 {
 public:
     using Ptr = std::shared_ptr<NodeInfoImpl>;
-    explicit NodeInfoImpl(std::function<ppctars::NodeInfo*()> inner) : m_inner(std::move(inner)) {}
+    explicit NodeInfoImpl(std::function<ppc::proto::NodeInfo*()> inner) : m_inner(std::move(inner))
+    {}
 
     NodeInfoImpl(bcos::bytesConstRef const& nodeID)
-      : m_inner([inner = ppctars::NodeInfo()]() mutable { return &inner; })
+      : m_inner([inner = ppc::proto::NodeInfo()]() mutable { return &inner; })
     {
-        m_inner()->nodeID = std::vector<char>(nodeID.begin(), nodeID.end());
+        m_inner()->set_nodeid(nodeID.data(), nodeID.size());
     }
     NodeInfoImpl(bcos::bytesConstRef const& nodeID, std::string const& endPoint)
       : NodeInfoImpl(nodeID)
     {
-        m_inner()->endPoint = endPoint;
+        m_inner()->set_endpoint(endPoint);
     }
     ~NodeInfoImpl() override = default;
 
-    void setComponents(std::vector<std::string> const& components) override
+    void setComponents(std::set<std::string> const& components) override
     {
-        m_components = std::set<std::string>(components.begin(), components.end());
-        m_inner()->components = components;
+        m_components = components;
     }
     std::set<std::string> const& components() const override { return m_components; }
 
-    std::string const& endPoint() const override { return m_inner()->endPoint; }
+    std::string const& endPoint() const override { return m_inner()->endpoint(); }
 
     bcos::bytesConstRef nodeID() const override
     {
-        return {reinterpret_cast<const bcos::byte*>(m_inner()->nodeID.data()),
-            m_inner()->nodeID.size()};
+        return {reinterpret_cast<const bcos::byte*>(m_inner()->nodeid().data()),
+            m_inner()->nodeid().size()};
     }
 
     void encode(bcos::bytes& data) const override;
     void decode(bcos::bytesConstRef data) override;
-    ppctars::NodeInfo const& inner() { return *(m_inner()); }
+    std::function<ppc::proto::NodeInfo*()> innerFunc() { return m_inner; }
 
-    void setFront(std::shared_ptr<ppc::front::IFront>&& front) override
+    void setFront(std::shared_ptr<ppc::front::IFrontClient>&& front) override
     {
         m_front = std::move(front);
     }
-    std::shared_ptr<ppc::front::IFront> const& getFront() const override { return m_front; }
+    std::shared_ptr<ppc::front::IFrontClient> const& getFront() const override { return m_front; }
 
 private:
-    std::shared_ptr<ppc::front::IFront> m_front;
+    std::shared_ptr<ppc::front::IFrontClient> m_front;
     std::set<std::string> m_components;
-    std::function<ppctars::NodeInfo*()> m_inner;
+    std::function<ppc::proto::NodeInfo*()> m_inner;
 };
 
 class NodeInfoFactory : public INodeInfoFactory

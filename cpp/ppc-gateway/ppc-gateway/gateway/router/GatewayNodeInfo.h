@@ -43,11 +43,11 @@ public:
     virtual bool tryAddNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) = 0;
     virtual void removeNodeInfo(bcos::bytes const& nodeID) = 0;
 
-    virtual std::vector<std::shared_ptr<ppc::front::IFront>> chooseRouteByComponent(
+    virtual std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouteByComponent(
         bool selectAll, std::string const& component) const = 0;
-    virtual std::vector<std::shared_ptr<ppc::front::IFront>> chooseRouterByAgency(
+    virtual std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouterByAgency(
         bool selectAll) const = 0;
-    virtual std::vector<std::shared_ptr<ppc::front::IFront>> chooseRouterByTopic(
+    virtual std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouterByTopic(
         bool selectAll, std::string const& topic) const = 0;
 
     virtual void encode(bcos::bytes& data) const = 0;

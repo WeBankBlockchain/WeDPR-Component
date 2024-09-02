@@ -137,7 +137,7 @@ void CM2020PSIImpl::asyncRunTask()
         taskPair.second(std::move(result));
 
         // mark this taskID as occupied
-        m_config->front()->notifyTaskInfo(std::make_shared<GatewayTaskInfo>(task->id()));
+        m_config->front()->notifyTaskInfo(task->id());
         return;
     }
 
@@ -210,7 +210,7 @@ void CM2020PSIImpl::asyncRunTask()
     }
 
     // notify the taskInfo to the front
-    error = m_config->front()->notifyTaskInfo(std::make_shared<GatewayTaskInfo>(task->id()));
+    error = m_config->front()->notifyTaskInfo(task->id());
     if (error && error->errorCode())
     {
         onSelfError(task->id(), error, true);

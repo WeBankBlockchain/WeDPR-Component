@@ -55,6 +55,7 @@ project(WeDPR-Component VERSION ${VERSION})
 
 include(CompilerSettings)
 include(BuildInfoGenerator)
+set(PROTO_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/generated/pb)
 
 include(IncludeDirectories)
 # the target settings
@@ -67,17 +68,24 @@ set(JNI_SOURCE_PATH wedpr-component-sdk/bindings/java/src/main/c)
 set(SDK_SOURCE_LIST ppc-homo ppc-crypto-core wedpr-component-sdk ${JNI_SOURCE_PATH})
 # Note: the udf depends on mysql, not enabled in the full node mode
 set(UDF_SOURCE_LIST ${SDK_SOURCE_LIST} ppc-udf)
-set(ALL_SOURCE_LIST 
-        ${SDK_SOURCE_LIST} ppc-crypto 
-        libhelper libinitializer ppc-io ppc-protocol 
-        ppc-gateway ppc-front ppc-tars-protocol 
-        ppc-tools ppc-storage ppc-psi ppc-rpc 
-        ppc-http ppc-mpc ppc-pir
-        ${CEM_SOURCE} ppc-main)
 set(CEM_SOURCE "")
 if(BUILD_CEM)
     set(CEM_SOURCE "ppc-cem")
 endif()
+#set(ALL_SOURCE_LIST 
+#        ${SDK_SOURCE_LIST} ppc-crypto 
+#        libhelper libinitializer ppc-io ppc-protocol 
+#        ppc-gateway ppc-front ppc-pb-protocol ppc-tars-protocol 
+#        ppc-tools ppc-storage ppc-psi ppc-rpc 
+#        ppc-http ppc-mpc ppc-pir
+#        ${CEM_SOURCE} ppc-main)
+
+set(ALL_SOURCE_LIST 
+        ${SDK_SOURCE_LIST} ppc-crypto 
+        libhelper ppc-io ppc-protocol ppc-pb-protocol
+        ppc-gateway ppc-front ppc-tars-protocol 
+        ppc-tools ppc-storage ppc-psi ppc-rpc 
+        ppc-http ppc-mpc ppc-pir ${CEM_SOURCE})
 
 if(BUILD_WEDPR_TOOLKIT)
     # fetch the python dependencies

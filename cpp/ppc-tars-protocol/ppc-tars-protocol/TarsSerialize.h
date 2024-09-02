@@ -25,7 +25,6 @@
 
 namespace ppctars::serialize
 {
-
 void encode(TarsStruct auto const& object, bcos::bytes& out)
 {
     tars::TarsOutputStream<BufferWriterByteVector> output;
@@ -40,4 +39,4 @@ void decode(const bcos::bytes& in, TarsStruct auto& out)
     out.readFrom(input);
 }
 
-}  // namespace ppctars
+}  // namespace ppctars::serialize

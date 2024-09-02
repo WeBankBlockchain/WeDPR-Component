@@ -182,7 +182,7 @@ public:
         }
     }
 
-    bcos::Error::Ptr notifyTaskInfo(protocol::GatewayTaskInfo::Ptr) override { return nullptr; }
+    bcos::Error::Ptr notifyTaskInfo(std::string const&) override { return nullptr; }
 
     // erase the task-info when task finished
     bcos::Error::Ptr eraseTaskInfo(std::string const&) override { return nullptr; }

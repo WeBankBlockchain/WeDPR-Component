@@ -1,7 +1,0 @@
-module ppctars {
-struct TaskInfo
-{
-    1 require string taskID;
-    2 require string serviceEndpoint;
-};
-};

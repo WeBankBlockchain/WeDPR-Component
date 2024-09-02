@@ -26,15 +26,16 @@ using namespace ppc::protocol;
 
 void NodeInfoImpl::encode(bcos::bytes& data) const
 {
-    tars::TarsOutputStream<ppctars::serialize::BufferWriterByteVector> output;
-    m_inner()->writeTo(output);
-    output.getByteBuffer().swap(data);
+    // set the components
+    for (auto const& component : m_components)
+    {
+        m_inner()->add_components(component);
+    }
+    encodePBObject(data, m_inner());
 }
 void NodeInfoImpl::decode(bcos::bytesConstRef data)
 {
-    tars::TarsInputStream<tars::BufferReader> input;
-    input.setBuffer((const char*)data.data(), data.size());
-    m_inner()->readFrom(input);
+    decodePBObject(m_inner(), data);
     m_components =
-        std::set<std::string>(m_inner()->components.begin(), m_inner()->components.end());
+        std::set<std::string>(m_inner()->components().begin(), m_inner()->components().end());
 }

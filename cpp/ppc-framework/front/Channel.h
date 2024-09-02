@@ -46,7 +46,7 @@ public:
      * @brief notice task info to gateway by front
      * @param _taskInfo the latest task information
      */
-    virtual bcos::Error::Ptr notifyTaskInfo(protocol::GatewayTaskInfo::Ptr _taskInfo) = 0;
+    virtual bcos::Error::Ptr notifyTaskInfo(std::string const& taskID) = 0;
 
     /**
      * @brief: send message

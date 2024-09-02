@@ -21,9 +21,9 @@
 #include "OtPIRImpl.h"
 #include "BaseOT.h"
 #include "Common.h"
+#include "OtPIR.h"
 #include "ppc-framework/protocol/Protocol.h"
 #include "ppc-front/Common.h"
-#include "OtPIR.h"
 #include "ppc-tars-protocol/TarsSerialize.h"
 #include <bcos-utilities/BoostLog.h>
 
@@ -43,8 +43,8 @@ OtPIRImpl::OtPIRImpl(const OtPIRConfig::Ptr& _config, unsigned _idleTimeMs)
     m_ioService(std::make_shared<boost::asio::io_service>()),
     m_parallelism(m_config->parallelism())
 {
-    m_senderThreadPool = std::make_shared<bcos::ThreadPool>(
-        "OT-PIR-Sender", std::thread::hardware_concurrency());
+    m_senderThreadPool =
+        std::make_shared<bcos::ThreadPool>("OT-PIR-Sender", std::thread::hardware_concurrency());
     m_ot = std::make_shared<crypto::BaseOT>(m_config->eccCrypto(), m_config->hash());
 }
 
@@ -76,8 +76,8 @@ void OtPIRImpl::start()
             }
             catch (std::exception& e)
             {
-                FRONT_LOG(WARNING) << LOG_DESC("Exception in OT-PIR Thread:")
-                                   << boost::diagnostic_information(e);
+                FRONT_LOG(WARNING)
+                    << LOG_DESC("Exception in OT-PIR Thread:") << boost::diagnostic_information(e);
             }
         }
         PIR_LOG(INFO) << "OT-PIR exit";
@@ -143,7 +143,7 @@ void OtPIRImpl::onReceiveMessage(ppc::front::PPCMessageFace::Ptr _msg)
     catch (std::exception const& e)
     {
         PIR_LOG(WARNING) << LOG_DESC("onReceiveMessage exception") << printPPCMsg(_msg)
-                                << LOG_KV("error", boost::diagnostic_information(e));
+                         << LOG_KV("error", boost::diagnostic_information(e));
     }
 }
 
@@ -159,12 +159,11 @@ void OtPIRImpl::onReceivedErrorNotification(const std::string& _taskID)
     }
 }
 
-void OtPIRImpl::onSelfError(
-    const std::string& _taskID, bcos::Error::Ptr _error, bool _noticePeer)
+void OtPIRImpl::onSelfError(const std::string& _taskID, bcos::Error::Ptr _error, bool _noticePeer)
 {
     PIR_LOG(WARNING) << LOG_DESC("onSelfError") << LOG_KV("task", _taskID)
-                            << LOG_KV("error", _error->errorMessage())
-                            << LOG_KV("noticePeer", _noticePeer);
+                     << LOG_KV("error", _error->errorMessage())
+                     << LOG_KV("noticePeer", _noticePeer);
 
     auto taskState = findPendingTask(_taskID);
     if (!taskState)
@@ -261,23 +260,23 @@ void OtPIRImpl::handleReceivedMessage(const ppc::front::PPCMessageFace::Ptr& _me
             }
             default:
             {
-                PIR_LOG(WARNING)
-                    << LOG_DESC("unsupported messageType ") << unsigned(_message->messageType());
+                PIR_LOG(WARNING) << LOG_DESC("unsupported messageType ")
+                                 << unsigned(_message->messageType());
                 break;
             }
             }
         }
         catch (std::exception const& e)
         {
-            PIR_LOG(WARNING)
-                << LOG_DESC("handleReceivedMessage exception")
-                << LOG_KV("type", unsigned(_message->messageType())) << printPPCMsg(_message)
-                << LOG_KV("error", boost::diagnostic_information(e));
+            PIR_LOG(WARNING) << LOG_DESC("handleReceivedMessage exception")
+                             << LOG_KV("type", unsigned(_message->messageType()))
+                             << printPPCMsg(_message)
+                             << LOG_KV("error", boost::diagnostic_information(e));
         }
     });
 }
 
-void OtPIRImpl::onHelloReceiver(const ppc::front::PPCMessageFace::Ptr& _message) 
+void OtPIRImpl::onHelloReceiver(const ppc::front::PPCMessageFace::Ptr& _message)
 {
     // 接收方不需要记录taskID
     // if (m_taskState->taskDone())
@@ -285,21 +284,27 @@ void OtPIRImpl::onHelloReceiver(const ppc::front::PPCMessageFace::Ptr& _message)
     //     return;
     // }
     PIR_LOG(DEBUG) << LOG_BADGE("onHelloReceiver") << LOG_KV("taskID", _message->taskID())
-                          << LOG_KV("seq", _message->seq()) << LOG_KV("length", _message->length());
+                   << LOG_KV("seq", _message->seq()) << LOG_KV("length", _message->length());
     ppctars::SenderMessageParams senderMessageParams;
     ppctars::serialize::decode(*_message->data(), senderMessageParams);
     // crypto::SenderMessage senderMessage;
     // TODO: how to find my dataset
     // m_taskState->setReader(io::LineReader::Ptr _reader, int64_t _readerParam)
 
-    try {
+    try
+    {
         // auto writer = m_taskState->reader();
         auto receiver = findReceiver(_message->taskID());
         auto path = receiver.path;
-        PIR_LOG(INFO) << LOG_BADGE("onHelloReceiver") << LOG_KV("taskID", _message->taskID()) << LOG_KV("requestAgencyDataset", path) << LOG_KV("sendObfuscatedHash", std::string(senderMessageParams.sendObfuscatedHash.begin(), senderMessageParams.sendObfuscatedHash.end()));
+        PIR_LOG(INFO) << LOG_BADGE("onHelloReceiver") << LOG_KV("taskID", _message->taskID())
+                      << LOG_KV("requestAgencyDataset", path)
+                      << LOG_KV("sendObfuscatedHash",
+                             std::string(senderMessageParams.sendObfuscatedHash.begin(),
+                                 senderMessageParams.sendObfuscatedHash.end()));
 
         auto messageKeypair = m_ot->prepareDataset(senderMessageParams.sendObfuscatedHash, path);
-        auto receiverMessage = m_ot->receiverGenerateMessage(senderMessageParams.pointX, senderMessageParams.pointY, messageKeypair, senderMessageParams.pointZ);
+        auto receiverMessage = m_ot->receiverGenerateMessage(senderMessageParams.pointX,
+            senderMessageParams.pointY, messageKeypair, senderMessageParams.pointZ);
         ppctars::ReceiverMessageParams receiverMessageParams;
         receiverMessageParams.encryptMessagePair = receiverMessage.encryptMessagePair;
         receiverMessageParams.encryptCipher = receiverMessage.encryptCipher;
@@ -307,60 +312,65 @@ void OtPIRImpl::onHelloReceiver(const ppc::front::PPCMessageFace::Ptr& _message)
         // PIR_LOG(INFO) << LOG_BADGE("buildPPCMessage");
 
         auto message = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(protocol::TaskType::PIR),
-                uint8_t(protocol::PSIAlgorithmType::OT_PIR_2PC), m_taskID,
-                std::make_shared<bcos::bytes>());
+            uint8_t(protocol::PSIAlgorithmType::OT_PIR_2PC), m_taskID,
+            std::make_shared<bcos::bytes>());
         message->setMessageType(uint8_t(OTPIRMessageType::RESULTS));
         ppctars::serialize::encode(receiverMessageParams, *message->data());
         // PIR_LOG(INFO) << LOG_BADGE("asyncSendMessage");
 
         m_config->front()->asyncSendMessage(
-                m_taskState->peerID(), message, m_config->networkTimeout(),
-                [self = weak_from_this()](bcos::Error::Ptr _error) {
-                    auto receiver = self.lock();
-                    if (!receiver)
-                    {
-                        return;
-                    }
-                    if (_error && _error->errorCode())
-                    {
-                        receiver->onReceiverTaskDone(std::move(_error));
-                    }
-                },
-                nullptr);
+            m_taskState->peerID(), message, m_config->networkTimeout(),
+            [self = weak_from_this()](bcos::Error::Ptr _error) {
+                auto receiver = self.lock();
+                if (!receiver)
+                {
+                    return;
+                }
+                if (_error && _error->errorCode())
+                {
+                    receiver->onReceiverTaskDone(std::move(_error));
+                }
+            },
+            nullptr);
         auto endTask = std::make_shared<TaskResult>(m_taskState->task()->id());
         m_taskState->onTaskFinished(endTask, true);
-    } 
-    catch (bcos::Error const& e) {
-        PIR_LOG(WARNING) << LOG_DESC("onHelloReceiver exception")
-                                << LOG_KV("code", e.errorCode()) << LOG_KV("msg", e.errorMessage());
-        onSelfError(
-            m_taskID, std::make_shared<bcos::Error>(e.errorCode(), e.errorMessage()), true);
+    }
+    catch (bcos::Error const& e)
+    {
+        PIR_LOG(WARNING) << LOG_DESC("onHelloReceiver exception") << LOG_KV("code", e.errorCode())
+                         << LOG_KV("msg", e.errorMessage());
+        onSelfError(m_taskID, std::make_shared<bcos::Error>(e.errorCode(), e.errorMessage()), true);
     }
 }
 
 void OtPIRImpl::onSnederResults(ppc::front::PPCMessageFace::Ptr _message)
 {
     PIR_LOG(DEBUG) << LOG_BADGE("onSnederResults") << LOG_KV("taskID", _message->taskID())
-                          << LOG_KV("seq", _message->seq());
+                   << LOG_KV("seq", _message->seq());
 
     ppctars::ReceiverMessageParams receiverMessageParams;
     ppctars::serialize::decode(*_message->data(), receiverMessageParams);
     crypto::SenderMessage senderMessage = findSender(_message->taskID());
-    PIR_LOG(DEBUG) << LOG_BADGE("onSnederResults") << LOG_KV("scalarBlidingB", toHex(senderMessage.scalarBlidingB))
-                          << LOG_KV("pointWList Size", receiverMessageParams.pointWList.size())
-                          << LOG_KV("encryptCipher Size", receiverMessageParams.encryptCipher.size())
-                          << LOG_KV("encryptMessagePair Size", receiverMessageParams.encryptMessagePair.size());
-    bcos::bytes result = m_ot->finishSender(senderMessage.scalarBlidingB, receiverMessageParams.pointWList, receiverMessageParams.encryptMessagePair, receiverMessageParams.encryptCipher);
+    PIR_LOG(DEBUG) << LOG_BADGE("onSnederResults")
+                   << LOG_KV("scalarBlidingB", toHex(senderMessage.scalarBlidingB))
+                   << LOG_KV("pointWList Size", receiverMessageParams.pointWList.size())
+                   << LOG_KV("encryptCipher Size", receiverMessageParams.encryptCipher.size())
+                   << LOG_KV("encryptMessagePair Size",
+                          receiverMessageParams.encryptMessagePair.size());
+    bcos::bytes result =
+        m_ot->finishSender(senderMessage.scalarBlidingB, receiverMessageParams.pointWList,
+            receiverMessageParams.encryptMessagePair, receiverMessageParams.encryptCipher);
     saveResults(result);
     auto endTask = std::make_shared<TaskResult>(m_taskState->task()->id());
     m_taskState->onTaskFinished(endTask, true);
 }
 
-void OtPIRImpl::asyncRunTask(ppc::protocol::Task::ConstPtr _task, TaskResponseCallback&& _onTaskFinished)
+void OtPIRImpl::asyncRunTask(
+    ppc::protocol::Task::ConstPtr _task, TaskResponseCallback&& _onTaskFinished)
 {
-    //TODO
+    // TODO
     PIR_LOG(INFO) << LOG_DESC("receive a task") << LOG_KV("taskID", _task->id());
-    m_taskID =  _task->id();
+    m_taskID = _task->id();
     addTask(_task, [self = weak_from_this(), taskID = _task->id(), _onTaskFinished](
                        ppc::protocol::TaskResult::Ptr&& _result) {
         auto result = std::move(_result);
@@ -429,14 +439,17 @@ void OtPIRImpl::asyncRunTask()
 
             PIR_LOG(TRACE) << LOG_DESC("originData") << LOG_KV("originData", originData);
             PirTaskMessage taskMessage = parseJson(originData);
-            PIR_LOG(TRACE) << LOG_DESC("taskMessage") << LOG_KV("requestAgencyDataset", taskMessage.requestAgencyDataset) <<  LOG_KV("prefixLength", taskMessage.prefixLength) <<  LOG_KV("searchId", taskMessage.searchId);
+            PIR_LOG(TRACE) << LOG_DESC("taskMessage")
+                           << LOG_KV("requestAgencyDataset", taskMessage.requestAgencyDataset)
+                           << LOG_KV("prefixLength", taskMessage.prefixLength)
+                           << LOG_KV("searchId", taskMessage.searchId);
             auto writer = loadWriter(task->id(), dataResource, m_enableOutputExists);
             m_taskState->setWriter(writer);
             runSenderGenerateCipher(taskMessage);
         }
         else if (role == uint16_t(PartyType::Server))
         {
-           // server接受任务请求，初始化reader
+            // server接受任务请求，初始化reader
             PIR_LOG(TRACE) << LOG_DESC("Server init");
             crypto::ReceiverMessage receiverMessage;
             receiverMessage.path = dataResource->desc()->path();
@@ -444,7 +457,6 @@ void OtPIRImpl::asyncRunTask()
             // m_resource = dataResource;
             // auto reader = loadReader(task->id(), dataResource, DataSchema::Bytes);
             // m_taskState->setReader(reader, -1);
-
         }
         else
         {
@@ -458,14 +470,14 @@ void OtPIRImpl::asyncRunTask()
     catch (bcos::Error const& e)
     {
         PIR_LOG(WARNING) << LOG_DESC("asyncRunTask exception") << printTaskInfo(task)
-                                << LOG_KV("code", e.errorCode()) << LOG_KV("msg", e.errorMessage());
+                         << LOG_KV("code", e.errorCode()) << LOG_KV("msg", e.errorMessage());
         onSelfError(
             task->id(), std::make_shared<bcos::Error>(e.errorCode(), e.errorMessage()), true);
     }
     catch (const std::exception& e)
     {
         PIR_LOG(WARNING) << LOG_DESC("asyncRunTask exception") << printTaskInfo(task)
-                                << LOG_KV("error", boost::diagnostic_information(e));
+                         << LOG_KV("error", boost::diagnostic_information(e));
         onSelfError(task->id(),
             std::make_shared<bcos::Error>((int)OTPIRRetCode::ON_EXCEPTION,
                 "exception caught while running task: " + boost::diagnostic_information(e)),
@@ -473,7 +485,7 @@ void OtPIRImpl::asyncRunTask()
     }
 
     // notify the taskInfo to the front
-    error = m_config->front()->notifyTaskInfo(std::make_shared<GatewayTaskInfo>(task->id()));
+    error = m_config->front()->notifyTaskInfo(task->id());
     if (error && error->errorCode())
     {
         onSelfError(task->id(), error, true);
@@ -486,7 +498,9 @@ void OtPIRImpl::runSenderGenerateCipher(PirTaskMessage taskMessage)
     {
         return;
     }
-    crypto::SenderMessage senderMessage = m_ot->senderGenerateCipher(bcos::bytes(taskMessage.searchId.begin(), taskMessage.searchId.end()), taskMessage.prefixLength);
+    crypto::SenderMessage senderMessage = m_ot->senderGenerateCipher(
+        bcos::bytes(taskMessage.searchId.begin(), taskMessage.searchId.end()),
+        taskMessage.prefixLength);
     ppctars::SenderMessageParams senderMessageParams;
     senderMessageParams.pointX = senderMessage.pointX;
     senderMessageParams.pointY = senderMessage.pointY;
@@ -494,28 +508,31 @@ void OtPIRImpl::runSenderGenerateCipher(PirTaskMessage taskMessage)
     // senderMessageParams.requestAgencyDataset = taskMessage.requestAgencyDataset;
     senderMessageParams.sendObfuscatedHash = senderMessage.sendObfuscatedHash;
     auto message = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(protocol::TaskType::PIR),
-            uint8_t(protocol::PSIAlgorithmType::OT_PIR_2PC), m_taskID,
-            std::make_shared<bcos::bytes>());
+        uint8_t(protocol::PSIAlgorithmType::OT_PIR_2PC), m_taskID, std::make_shared<bcos::bytes>());
     message->setMessageType(uint8_t(OTPIRMessageType::HELLO_RECEIVER));
     ppctars::serialize::encode(senderMessageParams, *message->data());
     addSender(senderMessage);
-    // PIR_LOG(INFO) << LOG_BADGE("runSenderGenerateCipher") << LOG_KV("taskID", m_taskID) << LOG_KV("requestAgencyDataset", senderMessageParams.requestAgencyDataset);
-    PIR_LOG(INFO) << LOG_BADGE("runSenderGenerateCipher") << LOG_KV("taskID", m_taskID) << LOG_KV("sendObfuscatedHash", std::string(senderMessageParams.sendObfuscatedHash.begin(), senderMessageParams.sendObfuscatedHash.end()));
+    // PIR_LOG(INFO) << LOG_BADGE("runSenderGenerateCipher") << LOG_KV("taskID", m_taskID) <<
+    // LOG_KV("requestAgencyDataset", senderMessageParams.requestAgencyDataset);
+    PIR_LOG(INFO) << LOG_BADGE("runSenderGenerateCipher") << LOG_KV("taskID", m_taskID)
+                  << LOG_KV("sendObfuscatedHash",
+                         std::string(senderMessageParams.sendObfuscatedHash.begin(),
+                             senderMessageParams.sendObfuscatedHash.end()));
     // senderMessageParams.taskId = m_taskID;
     m_config->front()->asyncSendMessage(
-            m_taskState->peerID(), message, m_config->networkTimeout(),
-            [self = weak_from_this()](bcos::Error::Ptr _error) {
-                auto receiver = self.lock();
-                if (!receiver)
-                {
-                    return;
-                }
-                if (_error && _error->errorCode())
-                {
-                    receiver->onReceiverTaskDone(std::move(_error));
-                }
-            },
-            nullptr);
+        m_taskState->peerID(), message, m_config->networkTimeout(),
+        [self = weak_from_this()](bcos::Error::Ptr _error) {
+            auto receiver = self.lock();
+            if (!receiver)
+            {
+                return;
+            }
+            if (_error && _error->errorCode())
+            {
+                receiver->onReceiverTaskDone(std::move(_error));
+            }
+        },
+        nullptr);
 }
 
 
@@ -537,7 +554,7 @@ void OtPIRImpl::onReceiverTaskDone(bcos::Error::Ptr _error)
     m_taskState->onTaskFinished(m_taskResult, true);
 
     PIR_LOG(INFO) << LOG_BADGE("receiverTaskDone") << LOG_KV("taskID", m_taskID)
-                         << LOG_KV("detail", message);
+                  << LOG_KV("detail", message);
 }
 
 
@@ -546,17 +563,16 @@ void OtPIRImpl::saveResults(bcos::bytes result)
     PIR_LOG(INFO) << LOG_BADGE("saveResults") LOG_KV("taskID", m_taskID);
     try
     {
-            DataBatch::Ptr finalResults = std::make_shared<DataBatch>();
-            finalResults->append<bcos::bytes>(result);
-            m_taskState->writeLines(finalResults, DataSchema::Bytes);
+        DataBatch::Ptr finalResults = std::make_shared<DataBatch>();
+        finalResults->append<bcos::bytes>(result);
+        m_taskState->writeLines(finalResults, DataSchema::Bytes);
     }
     catch (const std::exception& e)
     {
         PIR_LOG(WARNING) << LOG_KV("taskID", m_taskID)
-                            << LOG_KV("error", boost::diagnostic_information(e));
+                         << LOG_KV("error", boost::diagnostic_information(e));
         auto error = std::make_shared<bcos::Error>(
-        (int)OTPIRRetCode::ON_EXCEPTION, boost::diagnostic_information(e));
+            (int)OTPIRRetCode::ON_EXCEPTION, boost::diagnostic_information(e));
         onReceiverTaskDone(error);
     }
 }
-

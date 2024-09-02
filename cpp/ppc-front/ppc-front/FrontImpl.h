@@ -146,6 +146,15 @@ public:
         m_gatewayClient->unRegisterTopic(bcos::ref(m_nodeID), topic);
     }
 
+    ppc::protocol::MessageOptionalHeaderBuilder::Ptr const routerInfoBuilder() const
+    {
+        return m_routerInfoBuilder;
+    }
+    ppc::protocol::MessagePayloadBuilder::Ptr const payloadFactory() const
+    {
+        return m_messageFactory;
+    }
+
 private:
     void asyncSendMessageToGateway(bool responsePacket,
         ppc::protocol::MessagePayload::Ptr&& frontMessage, ppc::protocol::RouteType routeType,

@@ -20,6 +20,7 @@
 #pragma once
 #include "ppc-framework/Common.h"
 #include "ppc-framework/protocol/Message.h"
+#include "ppc-utilities/Utilities.h"
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -78,6 +79,7 @@ public:
     {
         return std::make_shared<MessageImpl>(m_msgHeaderBuilder, m_maxMessageLen, buffer);
     }
+
     Message::Ptr build(ppc::protocol::RouteType routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload) override
     {
@@ -93,17 +95,11 @@ public:
         return std::make_shared<MessageImpl>(m_msgHeaderBuilder, m_maxMessageLen);
     }
 
-    std::string newSeq() override
-    {
-        std::string seq = boost::uuids::to_string(boost::uuids::random_generator()());
-        seq.erase(std::remove(seq.begin(), seq.end(), '-'), seq.end());
-        return seq;
-    }
-
     virtual MessageOptionalHeader::Ptr build(MessageOptionalHeader::Ptr const& optionalHeader)
     {
         return m_msgHeaderBuilder->build(optionalHeader);
     }
+    std::string newSeq() override { return generateUUID(); }
 
 private:
     MessageHeaderBuilder::Ptr m_msgHeaderBuilder;

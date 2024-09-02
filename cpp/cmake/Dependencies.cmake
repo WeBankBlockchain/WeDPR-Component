@@ -31,6 +31,7 @@ if(BUILD_ALL)
 
     find_package(SEAL REQUIRED)
     find_package(Kuku REQUIRED)
+    find_package(gprc REQUIRED)
 
     # APSI: Note: APSI depends on seal 4.0 and Kuku 2.1
     include(ProjectAPSI)

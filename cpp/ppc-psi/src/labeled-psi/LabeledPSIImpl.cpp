@@ -122,7 +122,7 @@ void LabeledPSIImpl::asyncRunTask(
         addReceiver(receiver);
 
         // notify the taskInfo to the front
-        error = m_config->front()->notifyTaskInfo(std::make_shared<GatewayTaskInfo>(_task->id()));
+        error = m_config->front()->notifyTaskInfo(_task->id());
         if (error && error->errorCode())
         {
             onSelfError(_task->id(), error, true);
@@ -347,7 +347,7 @@ void LabeledPSIImpl::asyncRunSenderTask(
         addPendingTask(taskState);
 
         // notify the taskInfo to the front
-        error = m_config->front()->notifyTaskInfo(std::make_shared<GatewayTaskInfo>(_task->id()));
+        error = m_config->front()->notifyTaskInfo(_task->id());
         if (error && error->errorCode())
         {
             onSelfError(_task->id(), error, true);

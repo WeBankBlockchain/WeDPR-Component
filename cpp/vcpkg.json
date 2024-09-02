@@ -90,6 +90,10 @@
           "name": "mysql-connector-cpp",
           "version>=": "8.0.32"
         },
+        {
+          "name": "grpc",
+          "version>=": "1.51.1"
+        },
         "libhdfs3",
         "tarscpp",
         "tbb",

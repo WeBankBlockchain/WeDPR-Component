@@ -88,6 +88,8 @@ void GatewayImpl::asyncSendbroadcastMessage(ppc::protocol::RouteType routeType,
 {
     // dispatcher to all the local front
     routeInfo->setDstNode(bcos::bytes());
+    routeInfo->setSrcInst(m_agency);
+
     auto p2pMessage = m_msgBuilder->build(routeType, routeInfo, std::move(payload));
 
     p2pMessage->setPacketType((uint16_t)GatewayPacketType::BroadcastMessage);
@@ -101,6 +103,7 @@ void GatewayImpl::asyncSendMessage(ppc::protocol::RouteType routeType,
     ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, long timeout,
     ReceiveMsgFunc callback)
 {
+    routeInfo->setSrcInst(m_agency);
     // check the localRouter
     auto p2pMessage = m_msgBuilder->build(routeType, routeInfo, std::move(payload));
 

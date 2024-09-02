@@ -50,7 +50,7 @@ void EcdhConnPSIImpl::asyncRunTask(
     // init process
     triggleProcess((uint8_t)EcdhConnProcess::HandShakeProcess, -1);
     // notify the taskInfo to the front
-    m_config->front()->notifyTaskInfo(std::make_shared<GatewayTaskInfo>(_task->id()));
+    m_config->front()->notifyTaskInfo(_task->id());
     if (role == uint16_t(PartyType::Client))
     {
         ECDH_CONN_LOG(INFO) << LOG_DESC("Client do the Task") << LOG_KV("taskID", _task->id());

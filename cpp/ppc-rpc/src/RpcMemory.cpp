@@ -109,22 +109,6 @@ TaskResult::Ptr RpcMemory::getTaskStatus(const std::string& _taskID)
     return m_tasks[_taskID].second;
 }
 
-bcos::Error::Ptr RpcMemory::insertGateway(
-    const std::string& _agencyID, const std::string& _endpoint)
-{
-    try
-    {
-        std::vector<ppc::protocol::GatewayInfo> gatewayList;
-        gatewayList.push_back({_agencyID, _endpoint});
-        m_gateway->registerGateway(gatewayList);
-        return nullptr;
-    }
-    catch (std::exception const& e)
-    {
-        return std::make_shared<bcos::Error>(
-            PPCRetCode::EXCEPTION, "insertGateway error: " + boost::diagnostic_information(e));
-    }
-}
 
 bcos::Error::Ptr RpcMemory::deleteGateway(const std::string& _agencyID)
 {

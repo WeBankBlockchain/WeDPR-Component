@@ -41,7 +41,6 @@ void PPCChannelManager::registerMsgHandlerForChannel(uint8_t _taskType, uint8_t 
         });
 }
 
-
 Channel::Ptr PPCChannelManager::buildChannelForTask(const std::string& _taskID)
 {
     FRONT_LOG(INFO) << LOG_BADGE("buildChannelForTask") << LOG_KV("taskID", _taskID);
@@ -129,7 +128,6 @@ void PPCChannelManager::onMessageArrived(PPCMessageFace::Ptr _message)
         }
     }
 }
-
 
 void PPCChannelManager::removeHoldingMessages(const std::string& _taskID)
 {

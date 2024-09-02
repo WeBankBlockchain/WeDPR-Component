@@ -49,14 +49,17 @@ void PPCConfig::loadGatewayConfig(
         PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig: load the redis config success");
     }
 
-    // load the agencies config
-    PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig: load the agency config");
-    auto agencyInfo = parseAgencyConfig(_pt, "agency", "agency");
-    m_gatewayConfig.agencies = std::move(agencyInfo);
-    PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig: load the agency config sucess")
-                        << LOG_KV("agencySize", m_gatewayConfig.agencies.size());
+    m_gatewayConfig.nodePath = _pt.get<std::string>("gateway.nodes_path", "./");
+    m_gatewayConfig.nodeFileName = _pt.get<std::string>("gateway.nodes_file", "nodes.json");
 
     m_gatewayConfig.reconnectTime = _pt.get<int>("gateway.reconnect_time", 10000);
+    m_gatewayConfig.unreachableDistance = _pt.get<int>("gateway.unreachable_distance", 10);
+    if (m_gatewayConfig.unreachableDistance < GatewayConfig::MinUnreachableDistance)
+    {
+        BOOST_THROW_EXCEPTION(InvalidConfig() << bcos::errinfo_comment(
+                                  "Invalid unreachable_distance, must no smaller than " +
+                                  std::to_string(GatewayConfig::MinUnreachableDistance)));
+    }
     // load the maxAllowedMsgSize, in MBytes
     m_gatewayConfig.maxAllowedMsgSize =
         _pt.get<uint64_t>("gateway.max_allow_msg_size", GatewayConfig::DefaultMaxAllowedMsgSize) *
@@ -77,7 +80,6 @@ void PPCConfig::loadGatewayConfig(
                         << LOG_KV("reconnectTime", m_gatewayConfig.reconnectTime)
                         << LOG_KV("holdingMessageMinutes", m_holdingMessageMinutes);
 }
-
 
 int PPCConfig::loadHoldingMessageMinutes(
     const boost::property_tree::ptree& _pt, std::string const& _section)
@@ -127,62 +129,6 @@ void PPCConfig::initRedisConfigForGateway(
                         << LOG_KV("socketTimeout", _redisConfig.socketTimeout);
 }
 
-std::map<std::string, std::vector<std::string>> PPCConfig::parseAgencyConfig(
-    const boost::property_tree::ptree& _pt, std::string const& _sectionName,
-    std::string const& _subSectionName)
-{
-    PPCConfig_LOG(INFO) << LOG_DESC("parseAgencyConfig") << LOG_KV("section", _sectionName)
-                        << LOG_KV("subSection", _subSectionName);
-    std::map<std::string, std::vector<std::string>> agencyInfo;
-    // without the config
-    if (!_pt.get_child_optional(_sectionName))
-    {
-        PPCConfig_LOG(INFO) << LOG_DESC("parseAgencyConfig return for empty config")
-                            << LOG_KV("section", _sectionName)
-                            << LOG_KV("subSection", _subSectionName);
-        return agencyInfo;
-    }
-    // tranverse the child_section to parse the agencyInfo
-    for (auto const& it : _pt.get_child(_sectionName))
-    {
-        if (it.first.find(_subSectionName) != 0)
-        {
-            continue;
-        }
-        // find and parse the agencyInfo
-        auto key = it.first.data();
-        std::vector<std::string> agencyIDInfo;
-        boost::split(agencyIDInfo, key, boost::is_any_of("."));
-        // invalid agencyID
-        if (agencyIDInfo.size() < 2)
-        {
-            BOOST_THROW_EXCEPTION(
-                InvalidConfig() << bcos::errinfo_comment("Invalid agency key " + it.first +
-                                                         ", the key must be in format of " +
-                                                         _sectionName + ".${agencyID}"));
-        }
-        std::vector<std::string> endPointInfos;
-        auto value = it.second.data();
-        boost::split(endPointInfos, value, boost::is_any_of(","));
-        for (auto& endpoint : endPointInfos)
-        {
-            if (!checkEndpoint(endpoint))
-            {
-                BOOST_THROW_EXCEPTION(
-                    InvalidConfig() << bcos::errinfo_comment("Invalid agency endpoint" + endpoint));
-            }
-        }
-        auto& currentEndPoints = agencyInfo[agencyIDInfo.at(1)];
-        currentEndPoints.reserve(currentEndPoints.size() + endPointInfos.size());
-        std::move(std::begin(endPointInfos), std::end(endPointInfos),
-            std::back_inserter(currentEndPoints));
-        PPCConfig_LOG(INFO) << LOG_DESC("parseAgencyConfig")
-                            << LOG_KV("agencyID", agencyIDInfo.at(1))
-                            << LOG_KV("endPointSize", currentEndPoints.size());
-    }
-    PPCConfig_LOG(INFO) << LOG_DESC("parseAgencyConfig") << LOG_KV("agencySize", agencyInfo.size());
-    return agencyInfo;
-}
 
 void PPCConfig::loadNetworkConfig(NetworkConfig& _config, const char* _certPath,
     boost::property_tree::ptree const& _pt, std::string const& _sectionName, int _defaultListenPort,

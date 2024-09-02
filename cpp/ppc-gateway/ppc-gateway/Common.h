@@ -32,18 +32,7 @@ namespace ppc::gateway
 {
 #define GATEWAY_LOG(LEVEL) BCOS_LOG(LEVEL) << "[GATEWAY]"
 
-#define GATEWAY_WS_CLIENT_MODULE "m_gateway_websocket_client"
-#define GATEWAY_WS_SERVER_MODULE "m_gateway_websocket_server"
-#define GATEWAY_THREAD_POOL_MODULE "t_gateway"
-
-#define SEND_MESSAGE_TO_FRONT_SUCCESS "success"
-#define SEND_MESSAGE_TO_FRONT_ERROR "error"
-#define SEND_MESSAGE_TO_FRONT_TIMEOUT "timeout"
-
-#define SEND_MESSAGE_TO_FRONT_SUCCESS_CODE "E0000000000"
-#define SEND_MESSAGE_TO_FRONT_ERROR_CODE "-1"
-
-//HTTP HEADER DEFINE
+// HTTP HEADER DEFINE
 #define HEAD_TASK_ID "x-ptp-session-id"
 #define HEAD_ALGO_TYPE "x-ptp-algorithm-type"
 #define HEAD_TASK_TYPE "x-ptp-task-type"
