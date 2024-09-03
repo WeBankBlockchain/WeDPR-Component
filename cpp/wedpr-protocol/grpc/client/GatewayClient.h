@@ -23,12 +23,12 @@
 
 namespace ppc::protocol
 {
-class GatewayClient : public ppc::gateway::IGateway
+class GatewayClient : public ppc::gateway::IGateway, public GrpcClient
 {
 public:
     using Ptr = std::shared_ptr<GatewayClient>;
-    GatewayClient(GrpcClient::Ptr client)
-      : m_client(std::move(client)), m_stub(ppc::proto::Gateway::NewStub(m_client->channel()))
+    GatewayClient(std::shared_ptr<grpc::Channel> channel)
+      : GrpcClient(std::move(channel)), m_stub(ppc::proto::Gateway::NewStub(m_channel))
     {}
 
     ~GatewayClient() override = default;
@@ -65,6 +65,5 @@ public:
 
 private:
     std::unique_ptr<ppc::proto::Gateway::Stub> m_stub;
-    GrpcClient::Ptr m_client;
 };
 }  // namespace ppc::protocol

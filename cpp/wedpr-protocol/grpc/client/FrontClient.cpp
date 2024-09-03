@@ -34,14 +34,8 @@ void FrontClient::onReceiveMessage(ppc::protocol::Message::Ptr const& msg, Recei
     msg->encode(encodedData);
     receivedMsg.set_data(encodedData.data(), encodedData.size());
 
-    auto grpcCallback = [callback](ClientContext const&, Status const& status, Error&& response) {
-        return toError(status, std::move(response));
-    };
-
-    auto call = std::make_shared<AsyncClientCall>(grpcCallback);
-    call->responseReader =
-        m_stub->PrepareAsynconReceiveMessage(&call->context, receivedMsg, &m_client->queue());
-    call->responseReader->StartCall();
-    // send request, upon completion of the RPC, "reply" be updated with the server's response
-    call->responseReader->Finish(&call->reply, &call->status, (void*)call.get());
+    ClientContext context;
+    auto response = std::make_shared<Error>();
+    m_stub->async()->onReceiveMessage(&context, &receivedMsg, response.get(),
+        [response, callback](Status status) { callback(toError(status, std::move(*response))); });
 }

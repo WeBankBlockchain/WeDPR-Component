@@ -23,13 +23,11 @@
 
 namespace ppc::protocol
 {
-class FrontClient : public ppc::front::IFrontClient
+class FrontClient : public ppc::front::IFrontClient, public GrpcClient
 {
 public:
     using Ptr = std::shared_ptr<FrontClient>;
-    FrontClient(GrpcClient::Ptr client)
-      : m_client(std::move(client)), m_stub(ppc::proto::Front::NewStub(m_client->channel()))
-    {}
+    FrontClient(std::shared_ptr<grpc::Channel> channel) : GrpcClient(std::move(channel)) {}
 
     ~FrontClient() override = default;
     void onReceiveMessage(
@@ -37,6 +35,5 @@ public:
 
 private:
     std::unique_ptr<ppc::proto::Front::Stub> m_stub;
-    GrpcClient::Ptr m_client;
 };
 }  // namespace ppc::protocol

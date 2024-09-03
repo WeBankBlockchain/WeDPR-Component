@@ -23,25 +23,6 @@
 
 namespace ppc::protocol
 {
-// struct for keeping state and data information
-class AsyncClientCall
-{
-public:
-    using CallbackDef =
-        std::function<void(grpc::ClientContext const&, grpc::Status const&, ppc::proto::Error&&)>;
-    AsyncClientCall(CallbackDef _callback) : callback(std::move(_callback)) {}
-
-    CallbackDef callback;
-    // Container for the data we expect from the server.
-    ppc::proto::Error reply;
-    // Context for the client. It could be used to convey extra information to
-    // the server and/or tweak certain RPC behaviors.
-    grpc::ClientContext context;
-    // Storage for the status of the RPC upon completion.
-    grpc::Status status;
-    std::unique_ptr<grpc::ClientAsyncResponseReader<ppc::proto::Error>> responseReader;
-};
-
 class GrpcClient
 {
 public:
@@ -51,15 +32,8 @@ public:
     virtual ~GrpcClient() = default;
 
     std::shared_ptr<grpc::Channel> const& channel() { return m_channel; }
-    grpc::CompletionQueue& queue() { return m_queue; }
 
-    void handleRpcResponse();
-
-private:
+protected:
     std::shared_ptr<grpc::Channel> m_channel;
-    // The producer-consumer queue we use to communicate asynchronously with the
-    // gRPC runtime.
-    // TODO: check threadsafe
-    grpc::CompletionQueue m_queue;
 };
 }  // namespace ppc::protocol
