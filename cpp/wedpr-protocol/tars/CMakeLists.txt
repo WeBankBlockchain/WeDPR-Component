@@ -1,13 +1,14 @@
 cmake_minimum_required(VERSION 3.14)
 
 include(Version)
-project(ppc-tars-protocol VERSION ${VERSION})
+project(wedpr-tars-protocol VERSION ${VERSION})
 
 # for tars generator
-set(TARS_HEADER_DIR ${CMAKE_BINARY_DIR}/generated/ppc-tars-protocol/tars)
+set(TARS_HEADER_DIR ${CMAKE_BINARY_DIR}/generated/tars)
 find_program(TARS_TARS2CPP tars2cpp REQUIRED)
 
-file(GLOB_RECURSE TARS_INPUT "*.tars")
+set(PROTO_INPUT_PATH ${CMAKE_SOURCE_DIR}/wedpr-protocol/proto/tars)
+file(GLOB_RECURSE TARS_INPUT "${PROTO_INPUT_PATH}/*.tars")
 
 # generate tars
 if (TARS_INPUT)
@@ -28,7 +29,7 @@ endif ()
 
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${OUT_TARS_H_LIST}")
 
-file(GLOB_RECURSE SRC_LIST ppc-tars-protocol/*.cpp)
+file(GLOB_RECURSE SRC_LIST *.cpp)
 
 find_package(tarscpp REQUIRED)
 add_library(${TARS_PROTOCOL_TARGET} ${SRC_LIST} ${OUT_TARS_H_LIST})
@@ -36,7 +37,7 @@ target_include_directories(${TARS_PROTOCOL_TARGET} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<BUILD_INTERFACE:${TARSCPP_ROOT}/include>
         $<BUILD_INTERFACE:${TARS_HEADER_DIR}>
-        $<INSTALL_INTERFACE:include/ppc-tars-protocol>)
+        $<INSTALL_INTERFACE:include/wedpr-protocol/tars>)
 target_link_libraries(${TARS_PROTOCOL_TARGET} PUBLIC ${BCOS_UTILITIES_TARGET} tarscpp::tarsservant tarscpp::tarsutil)
 
 # ut
@@ -45,9 +46,3 @@ if (TESTS)
     set(CTEST_OUTPUT_ON_FAILURE TRUE)
     add_subdirectory(test)
 endif ()
-
-
-include(GNUInstallDirs)
-#install(TARGETS ${TARS_PROTOCOL_TARGET} EXPORT ppcTargets ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-install(DIRECTORY "ppc-tars-protocol" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}" FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY "${CMAKE_BINARY_DIR}/generated/ppc-tars-protocol" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}" FILES_MATCHING PATTERN "*.h")

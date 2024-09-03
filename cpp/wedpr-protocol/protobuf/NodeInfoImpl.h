@@ -20,7 +20,6 @@
 #pragma once
 #include "NodeInfo.pb.h"
 #include "ppc-framework/protocol/INodeInfo.h"
-#include "ppc-tars-protocol/tars/NodeInfo.h"
 #include <memory>
 namespace ppc::protocol
 {

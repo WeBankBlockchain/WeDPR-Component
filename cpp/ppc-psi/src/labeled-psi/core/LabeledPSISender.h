@@ -33,9 +33,9 @@
 #include "ppc-framework/crypto/Oprf.h"
 #include "ppc-framework/protocol/Task.h"
 #include "ppc-front/ppc-front/PPCChannel.h"
-#include "ppc-protocol/src/PPCMessage.h"
 #include "ppc-psi/src/labeled-psi/LabeledPSIConfig.h"
 #include "ppc-psi/src/labeled-psi/protocol/Protocol.h"
+#include "protocol/src/PPCMessage.h"
 
 namespace ppc::psi
 {

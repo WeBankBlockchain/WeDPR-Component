@@ -35,8 +35,8 @@
 #include "ppc-framework/protocol/Task.h"
 #include "ppc-framework/task/TaskFrameworkInterface.h"
 #include "ppc-front/ppc-front/PPCChannel.h"
-#include "ppc-protocol/src/PPCMessage.h"
 #include "ppc-tools/src/common/TransTools.h"
+#include "protocol/src/PPCMessage.h"
 
 namespace ppc::psi
 {

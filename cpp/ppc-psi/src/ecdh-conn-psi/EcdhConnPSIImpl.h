@@ -27,9 +27,9 @@
 #include "core/EcdhConnPSIServer.h"
 #include "ppc-framework/rpc/RpcInterface.h"
 #include "ppc-framework/task/TaskFrameworkInterface.h"
-#include "ppc-protocol/src/PPCMessage.h"
 #include "ppc-rpc/src/RpcFactory.h"
 #include "ppc-tools/src/common/ConcurrentPool.h"
+#include "protocol/src/PPCMessage.h"
 #include <bcos-utilities/ConcurrentQueue.h>
 #include <bcos-utilities/Error.h>
 #include <bcos-utilities/Worker.h>

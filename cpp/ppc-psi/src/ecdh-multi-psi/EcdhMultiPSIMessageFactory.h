@@ -1,6 +1,6 @@
 #pragma once
-#include "ppc-psi/src/psi-framework/protocol/PSIMessage.h"
 #include "Common.h"
+#include "ppc-psi/src/psi-framework/protocol/PSIMessage.h"
 namespace ppc::psi
 {
 class EcdhMultiPSIMessageFactory : public PSIMessageFactoryImpl

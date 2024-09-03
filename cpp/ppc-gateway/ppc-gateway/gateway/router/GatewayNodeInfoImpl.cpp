@@ -18,9 +18,9 @@
  * @date 2024-08-26
  */
 #include "GatewayNodeInfoImpl.h"
-#include "ppc-pb-protocol/src/Common.h"
-#include "ppc-pb-protocol/src/impl/NodeInfoImpl.h"
-#include "ppc-tars-protocol/Common.h"
+#include "wedpr-protocol/protobuf/Common.h"
+#include "wedpr-protocol/protobuf/NodeInfoImpl.h"
+#include "wedpr-protocol/tars/Common.h"
 
 using namespace ppctars;
 using namespace ppc::protocol;
@@ -117,7 +117,7 @@ std::vector<std::shared_ptr<ppc::front::IFrontClient>> GatewayNodeInfoImpl::choo
 }
 
 
-vector<std::shared_ptr<ppc::front::IFrontClient>> GatewayNodeInfoImpl::chooseRouterByAgency(
+std::vector<std::shared_ptr<ppc::front::IFrontClient>> GatewayNodeInfoImpl::chooseRouterByAgency(
     bool selectAll) const
 {
     std::vector<std::shared_ptr<ppc::front::IFrontClient>> result;

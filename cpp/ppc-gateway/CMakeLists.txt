@@ -12,7 +12,7 @@ find_package(tarscpp REQUIRED)
 add_library(${GATEWAY_TARGET} ${SRCS})
 target_link_libraries(${GATEWAY_TARGET} PUBLIC ${TOOLS_TARGET} jsoncpp_static Boost::filesystem ${BCOS_BOOSTSSL_TARGET} ${BCOS_UTILITIES_TARGET} 
     ${HTTP_TARGET} ${PROTOCOL_TARGET} 
-    ${TARS_PROTOCOL_TARGET} ${PROTO_PROTOCOL_TARGET}  tarscpp::tarsservant tarscpp::tarsutil TBB::tbb)
+    ${TARS_PROTOCOL_TARGET} ${PB_PROTOCOL_TARGET}  tarscpp::tarsservant tarscpp::tarsutil TBB::tbb)
 
 if (APPLE)
     # target_compile_options(${GATEWAY_TARGET} PRIVATE -faligned-allocation)

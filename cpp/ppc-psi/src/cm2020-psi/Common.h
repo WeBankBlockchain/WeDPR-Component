@@ -28,7 +28,6 @@
 
 namespace ppc::psi
 {
-
 DERIVE_PPC_EXCEPTION(CM2020Exception);
 
 #define CM2020_PSI_LOG(LEVEL) BCOS_LOG(LEVEL) << LOG_BADGE("PSI: CM2020-PSI")

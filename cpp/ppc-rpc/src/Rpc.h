@@ -21,7 +21,7 @@
 #include "ppc-framework/front/FrontInterface.h"
 #include "ppc-framework/rpc/RpcInterface.h"
 #include "ppc-framework/rpc/RpcStatusInterface.h"
-#include "ppc-protocol/src/JsonTaskImpl.h"
+#include "protocol/src/JsonTaskImpl.h"
 #include <bcos-boostssl/httpserver/Common.h>
 #include <bcos-boostssl/interfaces/MessageFace.h>
 #include <bcos-boostssl/websocket/WsService.h>

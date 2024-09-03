@@ -21,7 +21,7 @@
 #include "../../psi-framework/protocol/PSIMessage.h"
 #include "../Common.h"
 #include "../core/CuckooFilterInfo.h"
-#include "ppc-tars-protocol/Common.h"
+#include "wedpr-protocol/tars/Common.h"
 
 namespace ppc::psi
 {

@@ -22,8 +22,8 @@
 #include "bcos-boostssl/websocket/WsInitializer.h"
 #include "ppc-gateway/p2p/Service.h"
 #include "ppc-gateway/p2p/router/RouterTableImpl.h"
-#include "ppc-protocol/src/v1/MessageHeaderImpl.h"
-#include "ppc-protocol/src/v1/MessageImpl.h"
+#include "protocol/src/v1/MessageHeaderImpl.h"
+#include "protocol/src/v1/MessageImpl.h"
 
 using namespace ppc;
 using namespace bcos;

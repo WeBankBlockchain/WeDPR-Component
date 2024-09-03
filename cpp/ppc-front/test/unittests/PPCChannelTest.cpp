@@ -20,7 +20,7 @@
 
 #include "ppc-front/ppc-front/PPCChannel.h"
 #include "ppc-front/ppc-front/PPCChannelManager.h"
-#include "ppc-protocol/src/PPCMessage.h"
+#include "protocol/src/PPCMessage.h"
 #include <bcos-utilities/testutils/TestPromptFixture.h>
 #include <boost/filesystem.hpp>
 #include <boost/test/tools/old/interface.hpp>

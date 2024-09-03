@@ -28,8 +28,8 @@
 #include "ppc-framework/crypto/CryptoBox.h"
 #include "ppc-framework/crypto/Oprf.h"
 #include "ppc-framework/protocol/Protocol.h"
-#include "ppc-protocol/src/PPCMessage.h"
 #include "ppc-psi/src/PSIConfig.h"
+#include "protocol/src/PPCMessage.h"
 
 namespace ppc::psi
 {

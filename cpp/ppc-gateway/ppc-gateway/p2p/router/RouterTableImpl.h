@@ -22,8 +22,8 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
 #include "RouterTableInterface.h"
-#include <ppc-tars-protocol/Common.h>
-#include <ppc-tars-protocol/tars/RouterTable.h>
+#include "tars/RouterTable.h"
+#include <wedpr-protocol/tars/Common.h>
 #include <memory>
 
 namespace ppc::gateway

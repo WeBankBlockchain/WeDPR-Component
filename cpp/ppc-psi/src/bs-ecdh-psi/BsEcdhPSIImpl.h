@@ -35,7 +35,6 @@
 
 namespace ppc::psi
 {
-
 class BsEcdhPSIImpl : public BsEcdhPSIInterface, public std::enable_shared_from_this<BsEcdhPSIImpl>
 {
 public:

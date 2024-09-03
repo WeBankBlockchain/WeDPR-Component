@@ -25,8 +25,8 @@
 #include "LabeledPSIParams.h"
 #include "LabeledPSISender.h"
 #include "QueryPackage.h"
-#include "ppc-tars-protocol/ppc-tars-protocol/TarsSerialize.h"
 #include "ppc-tools/src/common/TransTools.h"
+#include "wedpr-protocol/tars/TarsSerialize.h"
 
 using namespace ppc::psi;
 using namespace ppc::protocol;

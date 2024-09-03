@@ -22,8 +22,8 @@
 #include "CM2020PSI.h"
 #include "openssl/rand.h"
 #include "ppc-crypto/src/prng/AESPRNG.h"
-#include "ppc-tars-protocol/ppc-tars-protocol/TarsSerialize.h"
 #include "ppc-tools/src/common/TransTools.h"
+#include "wedpr-protocol/tars/TarsSerialize.h"
 #include <tbb/parallel_for.h>
 
 using namespace ppc::psi;
@@ -499,7 +499,7 @@ void CM2020PSISender::onMatrixColumnReceived(PPCMessageFace::Ptr _message)
         return;
     }
     CM2020_PSI_LOG(INFO) << LOG_BADGE("onMatrixColumnReceived") << LOG_KV("taskID", m_taskID)
-                          << LOG_KV("seq", _message->seq());
+                         << LOG_KV("seq", _message->seq());
     try
     {
         m_channel->onMessageArrived(uint8_t(CM2020PSIMessageType::MATRIX), _message);

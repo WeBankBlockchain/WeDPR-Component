@@ -26,8 +26,6 @@ namespace ppc::protocol
 DERIVE_PPC_EXCEPTION(PBObjectEncodeException);
 DERIVE_PPC_EXCEPTION(PBObjectDecodeException);
 
-#define GRPC_CLIENT_LOG(LEVEL) BCOS_LOG(LEVEL) << "[GRPC][CLIENT]"
-
 template <typename T>
 void encodePBObject(bcos::bytes& _encodedData, T _pbObject)
 {

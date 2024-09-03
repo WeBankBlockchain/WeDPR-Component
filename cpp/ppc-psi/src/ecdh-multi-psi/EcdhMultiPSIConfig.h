@@ -2,8 +2,8 @@
 #include "EcdhMultiPSIMessageFactory.h"
 #include "ppc-framework/crypto/CryptoBox.h"
 #include "ppc-framework/protocol/Protocol.h"
-#include "ppc-protocol/src/PPCMessage.h"
 #include "ppc-psi/src/PSIConfig.h"
+#include "protocol/src/PPCMessage.h"
 #include <bcos-utilities/ThreadPool.h>
 #include <gperftools/malloc_extension.h>
 #include <utility>
@@ -28,7 +28,8 @@ public:
         m_dataBatchSize(_dataBatchSize)
     {}
 
-    virtual ~EcdhMultiPSIConfig() {
+    virtual ~EcdhMultiPSIConfig()
+    {
         if (m_threadPool)
         {
             m_threadPool->stop();

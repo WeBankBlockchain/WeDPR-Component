@@ -27,7 +27,6 @@
 
 namespace ppc::psi
 {
-
 class BsEcdhPSIInterface
 {
 public:

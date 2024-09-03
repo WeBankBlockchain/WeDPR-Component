@@ -24,10 +24,10 @@
 #include "ppc-framework/protocol/Task.h"
 #include "ppc-framework/task/TaskFrameworkInterface.h"
 #include "ppc-front/ppc-front/PPCChannel.h"
-#include "ppc-protocol/src/PPCMessage.h"
 #include "ppc-psi/src/labeled-psi/LabeledPSIConfig.h"
 #include "ppc-psi/src/labeled-psi/protocol/Protocol.h"
 #include "ppc-tools/src/common/Progress.h"
+#include "protocol/src/PPCMessage.h"
 
 #include <apsi/crypto_context.h>
 #include <apsi/itt.h>

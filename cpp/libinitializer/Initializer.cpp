@@ -25,9 +25,9 @@
 #include "ppc-framework/protocol/Protocol.h"
 #include "ppc-pir/src/OtPIRFactory.h"
 #include "ppc-pir/src/OtPIRImpl.h"
-#include "ppc-protocol/src/PPCMessage.h"
 #include "ppc-psi/src/bs-ecdh-psi/BsEcdhPSIFactory.h"
 #include "ppc-psi/src/cm2020-psi/CM2020PSIFactory.h"
+#include "protocol/src/PPCMessage.h"
 #if 0
 //TODO: optimize here
 #include "ppc-psi/src/ecdh-conn-psi/EcdhConnPSIFactory.h"

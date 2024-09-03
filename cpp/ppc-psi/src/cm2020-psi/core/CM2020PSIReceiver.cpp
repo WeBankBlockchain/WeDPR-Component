@@ -22,8 +22,8 @@
 #include "CM2020PSI.h"
 #include "openssl/rand.h"
 #include "ppc-crypto/src/prng/AESPRNG.h"
-#include "ppc-tars-protocol/ppc-tars-protocol/TarsSerialize.h"
 #include "ppc-tools/src/common/TransTools.h"
+#include "wedpr-protocol/tars/TarsSerialize.h"
 #include <tbb/parallel_for.h>
 
 using namespace ppc::psi;

@@ -22,7 +22,7 @@
 
 #include "ppc-framework/protocol/Protocol.h"
 #include "ppc-framework/rpc/RpcTypeDef.h"
-#include "ppc-protocol/src/JsonTaskImpl.h"
+#include "protocol/src/JsonTaskImpl.h"
 #include <bcos-utilities/Common.h>
 #include <bcos-utilities/Error.h>
 #include <json/json.h>
@@ -31,7 +31,6 @@
 
 namespace ppc::psi
 {
-
 struct GetTaskStatusRequest
 {
     using Ptr = std::shared_ptr<GetTaskStatusRequest>;

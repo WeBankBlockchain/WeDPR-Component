@@ -35,7 +35,6 @@
 
 namespace ppc::psi
 {
-
 struct BaseParams
 {
     size_t maxItemsPerBin;

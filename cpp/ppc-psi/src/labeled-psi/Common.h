@@ -28,7 +28,6 @@
 
 namespace ppc::psi
 {
-
 DERIVE_PPC_EXCEPTION(ConfigPowersDagException);
 DERIVE_PPC_EXCEPTION(TooManyItemsException);
 DERIVE_PPC_EXCEPTION(ResultPackageException);

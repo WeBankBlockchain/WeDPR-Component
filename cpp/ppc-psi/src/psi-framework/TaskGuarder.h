@@ -24,7 +24,7 @@
 #include "../PSIConfig.h"
 #include "TaskState.h"
 #include "ppc-framework/protocol/Protocol.h"
-#include "ppc-protocol/src/PPCMessage.h"
+#include "protocol/src/PPCMessage.h"
 #include <bcos-utilities/Timer.h>
 
 namespace ppc::psi

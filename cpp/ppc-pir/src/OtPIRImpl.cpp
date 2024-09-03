@@ -24,7 +24,7 @@
 #include "OtPIR.h"
 #include "ppc-framework/protocol/Protocol.h"
 #include "ppc-front/Common.h"
-#include "ppc-tars-protocol/TarsSerialize.h"
+#include "wedpr-protocol/tars/TarsSerialize.h"
 #include <bcos-utilities/BoostLog.h>
 
 

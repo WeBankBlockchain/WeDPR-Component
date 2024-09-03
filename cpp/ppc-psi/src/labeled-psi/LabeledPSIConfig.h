@@ -24,8 +24,8 @@
 #include "ppc-crypto/src/oprf/EcdhOprf.h"
 #include "ppc-framework/crypto/CryptoBox.h"
 #include "ppc-framework/crypto/Oprf.h"
-#include "ppc-protocol/src/PPCMessage.h"
 #include "ppc-psi/src/PSIConfig.h"
+#include "protocol/src/PPCMessage.h"
 
 #include <apsi/item.h>
 #include <bcos-utilities/ThreadPool.h>

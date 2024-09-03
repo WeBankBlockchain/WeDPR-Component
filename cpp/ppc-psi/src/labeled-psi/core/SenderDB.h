@@ -55,7 +55,7 @@
 #include "../protocol/Protocol.h"
 #include "BinBundle.h"
 #include "SenderCache.h"
-#include "ppc-tars-protocol/ppc-tars-protocol/TarsSerialize.h"
+#include "wedpr-protocol/tars/TarsSerialize.h"
 
 namespace ppc::psi
 {

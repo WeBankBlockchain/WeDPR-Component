@@ -29,7 +29,6 @@
 
 namespace ppc::psi
 {
-
 /**
 Stores a decrypted and decoded PSI response and optionally a labeled PSI response.
 */

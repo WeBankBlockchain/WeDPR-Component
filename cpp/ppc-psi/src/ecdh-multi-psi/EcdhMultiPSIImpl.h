@@ -1,12 +1,12 @@
 #pragma once
-#include "ppc-psi/src/psi-framework/TaskGuarder.h"
 #include "Common.h"
 #include "EcdhMultiPSIConfig.h"
 #include "core/EcdhMultiPSICalculator.h"
 #include "core/EcdhMultiPSIMaster.h"
 #include "core/EcdhMultiPSIPartner.h"
 #include "ppc-framework/task/TaskFrameworkInterface.h"
-#include "ppc-protocol/src/PPCMessage.h"
+#include "ppc-psi/src/psi-framework/TaskGuarder.h"
+#include "protocol/src/PPCMessage.h"
 #include <bcos-utilities/ConcurrentQueue.h>
 #include <bcos-utilities/Error.h>
 #include <bcos-utilities/Worker.h>

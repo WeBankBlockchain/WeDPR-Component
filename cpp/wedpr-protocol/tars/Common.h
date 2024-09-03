@@ -21,7 +21,6 @@
 #pragma once
 
 #include "TarsServantProxyCallback.h"
-#include "TaskInfo.h"
 #include "ppc-framework/protocol/Task.h"
 #include "ppc-tools/src/config/ParamChecker.h"
 #include <bcos-utilities/Common.h>

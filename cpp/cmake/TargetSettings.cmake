@@ -17,11 +17,15 @@ set(TOOLS_TARGET "ppc-tools")
 # ppc-protocol
 set(PROTOCOL_TARGET "ppc-protocol")
 
-# ppc-tars-protocol
-set(TARS_PROTOCOL_TARGET "ppc-tars-protocol")
+#  wedpr-protocol/tars
+set(TARS_PROTOCOL_TARGET "wedpr-tars-protocol")
 
-# ppc-pb-protocol
-set(PROTO_PROTOCOL_TARGET "ppc-pb-protocol")
+# wedpr-protocol/protobuf
+set(PB_PROTOCOL_TARGET "wedpr-pb-protocol")
+
+# wedpr-protocol/grpc-client
+set(SERVICE_CLIENT_TARGET "service-client")
+set(SERVICE_CLIENT_PB_TARGET "service-client-pb")
 
 # ppc-front
 SET(FRONT_TARGET "ppc-front")

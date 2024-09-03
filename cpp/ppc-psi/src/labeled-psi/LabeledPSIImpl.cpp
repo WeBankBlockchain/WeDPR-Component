@@ -25,7 +25,7 @@
 #include "core/SenderDB.h"
 #include "core/TaskCommand.h"
 #include "ppc-psi/src/labeled-psi/core/LabeledPSIReceiver.h"
-#include "ppc-tars-protocol/ppc-tars-protocol/TarsSerialize.h"
+#include "wedpr-protocol/tars/TarsSerialize.h"
 
 using namespace ppc::psi;
 using namespace ppc::protocol;

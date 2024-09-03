@@ -31,7 +31,6 @@
 
 namespace ppc::psi
 {
-
 class CM2020PSIReceiver : public std::enable_shared_from_this<CM2020PSIReceiver>
 {
 public:

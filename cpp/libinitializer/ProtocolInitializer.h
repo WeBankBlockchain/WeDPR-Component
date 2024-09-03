@@ -28,10 +28,10 @@
 #include "ppc-framework/protocol/GlobalConfig.h"
 #include "ppc-framework/protocol/PPCMessageFace.h"
 #include "ppc-io/src/DataResourceLoaderImpl.h"
-#include "ppc-protocol/src/PPCMessage.h"
 #include "ppc-storage/src/FileStorageFactoryImpl.h"
 #include "ppc-storage/src/SQLStorageFactoryImpl.h"
 #include "ppc-tools/src/config/PPCConfig.h"
+#include "protocol/src/PPCMessage.h"
 #include <bcos-utilities/Common.h>
 #include <memory>
 

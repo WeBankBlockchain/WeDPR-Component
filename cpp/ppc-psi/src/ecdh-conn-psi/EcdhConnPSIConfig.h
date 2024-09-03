@@ -23,8 +23,8 @@
 #include "ppc-framework/crypto/ECDHCrypto.h"
 #include "ppc-framework/io/DataResourceLoader.h"
 #include "ppc-framework/protocol/Protocol.h"
-#include "ppc-protocol/src/PPCMessage.h"
 #include "ppc-tools/src/config/PPCConfig.h"
+#include "protocol/src/PPCMessage.h"
 #include <bcos-utilities/ThreadPool.h>
 #include <utility>
 

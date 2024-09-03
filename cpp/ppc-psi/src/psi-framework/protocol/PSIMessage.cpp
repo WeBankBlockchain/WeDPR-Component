@@ -18,7 +18,7 @@
  * @date 2022-11-9
  */
 #include "PSIMessage.h"
-#include "ppc-tars-protocol/Common.h"
+#include "wedpr-protocol/tars/Common.h"
 
 using namespace ppc::psi;
 using namespace bcos;

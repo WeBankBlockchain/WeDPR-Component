@@ -1,5 +1,5 @@
 /**
- *  Copyright (C) 2023 WeDPR.
+ *  Copyright (C) 2021 FISCO BCOS.
  *  SPDX-License-Identifier: Apache-2.0
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,29 +13,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file NodeInfoImpl.h
+ * @file Common.h
  * @author: yujiechen
- * @date 2024-08-26
+ * @date 2021-04-12
  */
+#pragma once
+#include "ppc-framework/Common.h"
 
-#include "NodeInfoImpl.h"
-#include "../Common.h"
-
-using namespace ppctars;
-using namespace ppc::protocol;
-
-void NodeInfoImpl::encode(bcos::bytes& data) const
-{
-    // set the components
-    for (auto const& component : m_components)
-    {
-        m_inner()->add_components(component);
-    }
-    encodePBObject(data, m_inner());
-}
-void NodeInfoImpl::decode(bcos::bytesConstRef data)
-{
-    decodePBObject(m_inner(), data);
-    m_components =
-        std::set<std::string>(m_inner()->components().begin(), m_inner()->components().end());
-}
+#define GRPC_CLIENT_LOG(LEVEL) BCOS_LOG(LEVEL) << "[GRPC][CLIENT]"

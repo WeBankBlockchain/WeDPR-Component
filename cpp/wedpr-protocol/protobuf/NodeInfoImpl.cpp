@@ -13,28 +13,28 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file Common.h
- * @author: shawnhe
- * @date 2023-09-22
+ * @file NodeInfoImpl.h
+ * @author: yujiechen
+ * @date 2024-08-26
  */
 
-#pragma once
+#include "NodeInfoImpl.h"
+#include "Common.h"
 
-#include "ppc-framework/Common.h"
-#include "ppc-framework/protocol/PPCMessageFace.h"
+using namespace ppc::protocol;
 
-#include <bcos-utilities/Common.h>
-#include <bcos-utilities/Log.h>
-
-
-namespace ppc::psi
+void NodeInfoImpl::encode(bcos::bytes& data) const
 {
-DERIVE_PPC_EXCEPTION(BsEcdhException);
-
-#define BS_ECDH_PSI_LOG(LEVEL) BCOS_LOG(LEVEL) << LOG_BADGE("PSI: BS-ECDH-PSI")
-#define INDEX_FILE_SUFFIX ".index"
-#define AUDIT_FILE_SUFFIX ".evidence"
-#define MAX_TASK_COUNT 32
-#define PAUSE_THRESHOLD 60000
-
-}  // namespace ppc::psi
+    // set the components
+    for (auto const& component : m_components)
+    {
+        m_inner()->add_components(component);
+    }
+    encodePBObject(data, m_inner());
+}
+void NodeInfoImpl::decode(bcos::bytesConstRef data)
+{
+    decodePBObject(m_inner(), data);
+    m_components =
+        std::set<std::string>(m_inner()->components().begin(), m_inner()->components().end());
+}
