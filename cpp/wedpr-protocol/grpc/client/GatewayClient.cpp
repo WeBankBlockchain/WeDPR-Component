@@ -18,24 +18,64 @@
  * @date 2024-09-02
  */
 #include "GatewayClient.h"
+#include "Common.h"
+#include "protobuf/RequestConverter.h"
 
 using namespace ppc;
+using namespace ppc::proto;
+using namespace grpc;
 using namespace ppc::gateway;
 using namespace ppc::protocol;
-
-
-void GatewayClient::start() {}
-void GatewayClient::stop() {}
 
 void GatewayClient::asyncSendMessage(RouteType routeType,
     MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, long timeout,
     ReceiveMsgFunc callback)
-{}
+{
+    auto request = generateRequest(routeType, routeInfo, std::move(payload), timeout);
+    auto grpcCallback = [callback](ClientContext const&, Status const& status, Error&& response) {
+        callback(toError(status, std::move(response)));
+    };
+    auto call = std::make_shared<AsyncClientCall>(grpcCallback);
+    call->responseReader =
+        m_stub->PrepareAsyncasyncSendMessage(&call->context, *request, &m_client->queue());
+    call->responseReader->StartCall();
+    // send request, upon completion of the RPC, "reply" be updated with the server's response
+    call->responseReader->Finish(&call->reply, &call->status, (void*)call.get());
+}
 
-void GatewayClient::asyncSendbroadcastMessage(
-    RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload)
-{}
-void GatewayClient::registerNodeInfo(INodeInfo::Ptr const& nodeInfo) {}
-void GatewayClient::unRegisterNodeInfo(bcos::bytesConstRef nodeID) {}
-void GatewayClient::registerTopic(bcos::bytesConstRef nodeID, std::string const& topic) {}
-void GatewayClient::unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic) {}
+
+bcos::Error::Ptr GatewayClient::registerNodeInfo(INodeInfo::Ptr const& nodeInfo)
+{
+    auto request = toNodeInfoRequest(nodeInfo);
+    auto call = std::make_shared<AsyncClientCall>(nullptr);
+    std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
+    auto status = m_stub->registerNodeInfo(&call->context, *request, response.get());
+    return toError(status, std::move(*response));
+}
+
+bcos::Error::Ptr GatewayClient::unRegisterNodeInfo(bcos::bytesConstRef nodeID)
+{
+    auto request = toNodeInfoRequest(nodeID, "");
+    auto call = std::make_shared<AsyncClientCall>(nullptr);
+    std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
+    auto status = m_stub->unRegisterNodeInfo(&call->context, *request, response.get());
+    return toError(status, std::move(*response));
+}
+bcos::Error::Ptr GatewayClient::registerTopic(bcos::bytesConstRef nodeID, std::string const& topic)
+{
+    auto request = toNodeInfoRequest(nodeID, topic);
+    auto call = std::make_shared<AsyncClientCall>(nullptr);
+    std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
+    auto status = m_stub->registerTopic(&call->context, *request, response.get());
+    return toError(status, std::move(*response));
+}
+
+bcos::Error::Ptr GatewayClient::unRegisterTopic(
+    bcos::bytesConstRef nodeID, std::string const& topic)
+{
+    auto request = toNodeInfoRequest(nodeID, topic);
+    auto call = std::make_shared<AsyncClientCall>(nullptr);
+    std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
+    auto status = m_stub->unRegisterTopic(&call->context, *request, response.get());
+    return toError(status, std::move(*response));
+}

@@ -61,10 +61,10 @@ public:
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload) override;
 
 
-    void registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) override;
-    void unRegisterNodeInfo(bcos::bytesConstRef nodeID) override;
-    void registerTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
-    void unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
+    bcos::Error::Ptr registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) override;
+    bcos::Error::Ptr unRegisterNodeInfo(bcos::bytesConstRef nodeID) override;
+    bcos::Error::Ptr registerTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
+    bcos::Error::Ptr unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
 
 protected:
     virtual void onReceiveP2PMessage(

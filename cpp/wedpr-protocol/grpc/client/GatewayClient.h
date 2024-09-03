@@ -18,6 +18,7 @@
  * @date 2024-09-02
  */
 #pragma once
+#include "GrpcClient.h"
 #include "ppc-framework/gateway/IGateway.h"
 
 namespace ppc::protocol
@@ -26,12 +27,15 @@ class GatewayClient : public ppc::gateway::IGateway
 {
 public:
     using Ptr = std::shared_ptr<GatewayClient>;
-    GatewayClient() = default;
+    GatewayClient(GrpcClient::Ptr client)
+      : m_client(std::move(client)), m_stub(ppc::proto::Gateway::NewStub(m_client->channel()))
+    {}
+
     ~GatewayClient() override = default;
 
 
-    void start() override;
-    void stop() override;
+    void start() override {}
+    void stop() override {}
 
     /**
      * @brief send message to gateway
@@ -52,10 +56,15 @@ public:
         long timeout, ppc::protocol::ReceiveMsgFunc callback) override;
 
     void asyncSendbroadcastMessage(ppc::protocol::RouteType routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload) override;
-    void registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) override;
-    void unRegisterNodeInfo(bcos::bytesConstRef nodeID) override;
-    void registerTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
-    void unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload) override
+    {}
+    bcos::Error::Ptr registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) override;
+    bcos::Error::Ptr unRegisterNodeInfo(bcos::bytesConstRef nodeID) override;
+    bcos::Error::Ptr registerTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
+    bcos::Error::Ptr unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
+
+private:
+    std::unique_ptr<ppc::proto::Gateway::Stub> m_stub;
+    GrpcClient::Ptr m_client;
 };
 }  // namespace ppc::protocol

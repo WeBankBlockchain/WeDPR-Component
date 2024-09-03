@@ -183,20 +183,26 @@ void GatewayImpl::onReceiveBroadcastMessage(MessageFace::Ptr msg, WsSession::Ptr
     m_localRouter->dispatcherMessage(p2pMessage, nullptr);
 }
 
-void GatewayImpl::registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo)
+bcos::Error::Ptr GatewayImpl::registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo)
 {
     m_localRouter->registerNodeInfo(nodeInfo);
+    return nullptr;
 }
 
-void GatewayImpl::unRegisterNodeInfo(bcos::bytesConstRef nodeID)
+bcos::Error::Ptr GatewayImpl::unRegisterNodeInfo(bcos::bytesConstRef nodeID)
 {
     m_localRouter->unRegisterNode(nodeID.toBytes());
+    return nullptr;
 }
-void GatewayImpl::registerTopic(bcos::bytesConstRef nodeID, std::string const& topic)
+
+bcos::Error::Ptr GatewayImpl::registerTopic(bcos::bytesConstRef nodeID, std::string const& topic)
 {
     m_localRouter->registerTopic(nodeID, topic);
+    return nullptr;
 }
-void GatewayImpl::unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic)
+
+bcos::Error::Ptr GatewayImpl::unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic)
 {
     m_localRouter->unRegisterTopic(nodeID, topic);
+    return nullptr;
 }

@@ -63,10 +63,12 @@ public:
 
     virtual void asyncSendbroadcastMessage(ppc::protocol::RouteType routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload) = 0;
-    virtual void registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) = 0;
-    virtual void unRegisterNodeInfo(bcos::bytesConstRef nodeID) = 0;
-    virtual void registerTopic(bcos::bytesConstRef nodeID, std::string const& topic) = 0;
-    virtual void unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic) = 0;
+    virtual bcos::Error::Ptr registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) = 0;
+    virtual bcos::Error::Ptr unRegisterNodeInfo(bcos::bytesConstRef nodeID) = 0;
+    virtual bcos::Error::Ptr registerTopic(
+        bcos::bytesConstRef nodeID, std::string const& topic) = 0;
+    virtual bcos::Error::Ptr unRegisterTopic(
+        bcos::bytesConstRef nodeID, std::string const& topic) = 0;
 };
 
 }  // namespace ppc::gateway
