@@ -13,28 +13,45 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file GrpcClient.h
+ * @file GrpcServer.h
  * @author: yujiechen
- * @date 2024-09-02
+ * @date 2024-09-03
  */
 #pragma once
-#include "Service.grpc.pb.h"
 #include <grpcpp/grpcpp.h>
+#include <memory>
+#include <string>
 
 namespace ppc::protocol
 {
 // refer to: https://grpc.io/docs/languages/cpp/callback/
-class GrpcClient
+struct GrpcServerConfig
+{
+    std::string listenIp;
+    int listenPort;
+
+    std::string endPoint() const { return listenIp + ":" + std::to_string(listenPort); }
+};
+class GrpcServer
 {
 public:
-    using Ptr = std::shared_ptr<GrpcClient>;
-    GrpcClient(std::shared_ptr<grpc::Channel> channel) : m_channel(std::move(channel)) {}
+    using Ptr = std::shared_ptr<GrpcServer>;
+    GrpcServer(GrpcServerConfig const& config) : m_config(config) {}
+    virtual ~GrpcServer() = default;
 
-    virtual ~GrpcClient() = default;
+    virtual void start();
+    virtual void stop();
 
-    std::shared_ptr<grpc::Channel> const& channel() { return m_channel; }
+    virtual void registerService(std::shared_ptr<grpc::Service> service)
+    {
+        m_bindingServices.emplace_back(std::move(service));
+    }
 
-protected:
-    std::shared_ptr<grpc::Channel> m_channel;
+private:
+    bool m_running = false;
+    GrpcServerConfig m_config;
+
+    std::unique_ptr<grpc::Server> m_server;
+    std::vector<std::shared_ptr<grpc::Service>> m_bindingServices;
 };
 }  // namespace ppc::protocol

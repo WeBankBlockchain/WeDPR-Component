@@ -23,9 +23,12 @@ set(TARS_PROTOCOL_TARGET "wedpr-tars-protocol")
 # wedpr-protocol/protobuf
 set(PB_PROTOCOL_TARGET "wedpr-pb-protocol")
 
-# wedpr-protocol/grpc-client
-set(SERVICE_CLIENT_TARGET "service-client")
-set(SERVICE_CLIENT_PB_TARGET "service-client-pb")
+# wedpr-protocol/grpc/client
+set(SERVICE_CLIENT_TARGET "wedpr-client")
+# wedpr-protocol/grpc/server
+set(SERVICE_SERVER_TARGET "wedpr-server")
+# wedpr-protocol/proto generated file
+set(SERVICE_PB_TARGET "service-pb")
 
 # ppc-front
 SET(FRONT_TARGET "ppc-front")

@@ -13,28 +13,32 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file GrpcClient.h
+ * @file FrontServer.h
  * @author: yujiechen
- * @date 2024-09-02
+ * @date 2024-09-03
  */
 #pragma once
 #include "Service.grpc.pb.h"
-#include <grpcpp/grpcpp.h>
+#include <ppc-framework/front/IFront.h>
+#include <ppc-framework/protocol/Message.h>
+#include <memory>
 
 namespace ppc::protocol
 {
-// refer to: https://grpc.io/docs/languages/cpp/callback/
-class GrpcClient
+class FrontServer : public ppc::proto::Front::CallbackService
 {
 public:
-    using Ptr = std::shared_ptr<GrpcClient>;
-    GrpcClient(std::shared_ptr<grpc::Channel> channel) : m_channel(std::move(channel)) {}
+    using Ptr = std::shared_ptr<FrontServer>;
+    FrontServer(ppc::protocol::MessageBuilder::Ptr msgBuilder, ppc::front::IFront::Ptr front)
+      : m_msgBuilder(std::move(msgBuilder)), m_front(std::move(front))
+    {}
+    ~FrontServer() override = default;
 
-    virtual ~GrpcClient() = default;
+    grpc::ServerUnaryReactor* onReceiveMessage(grpc::CallbackServerContext* context,
+        const ppc::proto::ReceivedMessage* receivedMsg, ppc::proto::Error* reply) override;
 
-    std::shared_ptr<grpc::Channel> const& channel() { return m_channel; }
-
-protected:
-    std::shared_ptr<grpc::Channel> m_channel;
+private:
+    ppc::front::IFront::Ptr m_front;
+    ppc::protocol::MessageBuilder::Ptr m_msgBuilder;
 };
 }  // namespace ppc::protocol

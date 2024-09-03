@@ -43,6 +43,12 @@ public:
     }
     ~NodeInfoImpl() override = default;
 
+    void setNodeID(bcos::bytesConstRef nodeID) override
+    {
+        m_inner()->set_nodeid(nodeID.data(), nodeID.size());
+    }
+    void setEndPoint(std::string const& endPoint) override { m_inner()->set_endpoint(endPoint); }
+
     void setComponents(std::set<std::string> const& components) override
     {
         m_components = components;

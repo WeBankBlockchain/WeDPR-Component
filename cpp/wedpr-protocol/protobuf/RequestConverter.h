@@ -21,14 +21,29 @@
 #include "Service.pb.h"
 #include "ppc-framework/protocol/INodeInfo.h"
 #include "ppc-framework/protocol/Message.h"
+#include "ppc-framework/protocol/Protocol.h"
 #include <bcos-utilities/Common.h>
 #include <bcos-utilities/Error.h>
 #include <memory>
+
 namespace ppc::protocol
 {
-inline std::shared_ptr<ppc::proto::SendedMessageRequest> generateRequest(
-    ppc::protocol::RouteType routeType, ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo,
-    bcos::bytes&& payload, long timeout)
+inline MessageOptionalHeader::Ptr generateRouteInfo(
+    MessageOptionalHeaderBuilder::Ptr const& routeInfoBuilder,
+    ppc::proto::RouteInfo const& serializedRouteInfo)
+{
+    auto routeInfo = routeInfoBuilder->build();
+    routeInfo->setComponentType(serializedRouteInfo.componenttype());
+    routeInfo->setSrcNode(
+        bcos::bytes(serializedRouteInfo.srcnode().begin(), serializedRouteInfo.srcnode().end()));
+    routeInfo->setDstNode(
+        bcos::bytes(serializedRouteInfo.dstnode().begin(), serializedRouteInfo.dstnode().end()));
+    routeInfo->setDstInst(serializedRouteInfo.dstinst());
+    return routeInfo;
+}
+
+inline std::shared_ptr<ppc::proto::SendedMessageRequest> generateRequest(RouteType routeType,
+    MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, long timeout)
 {
     auto request = std::make_shared<ppc::proto::SendedMessageRequest>();
     request->set_routetype(uint16_t(routeType));
@@ -56,8 +71,7 @@ inline std::shared_ptr<ppc::proto::NodeInfo> toNodeInfoRequest(
     return request;
 }
 
-inline std::shared_ptr<ppc::proto::NodeInfo> toNodeInfoRequest(
-    ppc::protocol::INodeInfo::Ptr const& nodeInfo)
+inline std::shared_ptr<ppc::proto::NodeInfo> toNodeInfoRequest(INodeInfo::Ptr const& nodeInfo)
 {
     auto request = std::make_shared<ppc::proto::NodeInfo>();
     if (!nodeInfo)
@@ -74,6 +88,22 @@ inline std::shared_ptr<ppc::proto::NodeInfo> toNodeInfoRequest(
     return request;
 }
 
+inline INodeInfo::Ptr toNodeInfo(
+    INodeInfoFactory::Ptr const& nodeInfoFactory, ppc::proto::NodeInfo const& serializedNodeInfo)
+{
+    auto nodeInfo = nodeInfoFactory->build();
+    nodeInfo->setNodeID(bcos::bytesConstRef(
+        (bcos::byte*)serializedNodeInfo.nodeid().data(), serializedNodeInfo.nodeid().size()));
+    nodeInfo->setEndPoint(serializedNodeInfo.endpoint());
+    std::set<std::string> componentTypeList;
+    for (int i = 0; i < serializedNodeInfo.components_size(); i++)
+    {
+        componentTypeList.insert(serializedNodeInfo.components(i));
+    }
+    nodeInfo->setComponents(componentTypeList);
+    return nodeInfo;
+}
+
 inline bcos::Error::Ptr toError(grpc::Status const& status, ppc::proto::Error&& error)
 {
     if (!status.ok())
@@ -85,5 +115,20 @@ inline bcos::Error::Ptr toError(grpc::Status const& status, ppc::proto::Error&& 
         return nullptr;
     }
     return std::make_shared<bcos::Error>(error.errorcode(), error.errormessage());
+}
+
+inline void toSerializedError(ppc::proto::Error* serializedError, bcos::Error::Ptr error)
+{
+    if (!serializedError)
+    {
+        return;
+    }
+    if (!error)
+    {
+        serializedError->set_errorcode(PPCRetCode::SUCCESS);
+        return;
+    }
+    serializedError->set_errorcode(error->errorCode());
+    serializedError->set_errormessage(error->errorMessage());
 }
 };  // namespace ppc::protocol

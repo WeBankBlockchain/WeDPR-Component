@@ -40,6 +40,8 @@ public:
 
     virtual std::string const& endPoint() const = 0;
     virtual bcos::bytesConstRef nodeID() const = 0;
+    virtual void setNodeID(bcos::bytesConstRef nodeID) = 0;
+    virtual void setEndPoint(std::string const& endPoint) = 0;
 
     // components
     virtual void setComponents(std::set<std::string> const& components) = 0;

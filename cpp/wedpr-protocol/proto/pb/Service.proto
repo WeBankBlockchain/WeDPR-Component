@@ -15,10 +15,6 @@ message ReceivedMessage{
     bytes data = 1; 
 };
 
-service Front {
-    rpc onReceiveMessage (ReceivedMessage) returns (Error) {}
-}
-
 message RouteInfo{
     string topic = 1;
     string componentType = 2;
@@ -33,7 +29,9 @@ message SendedMessageRequest{
     bytes payload = 3;
     int64 timeout = 4;
 };
-
+service Front {
+    rpc onReceiveMessage (ReceivedMessage) returns (Error) {}
+}
 service Gateway{
     rpc asyncSendMessage(SendedMessageRequest) returns(Error){}
     rpc registerNodeInfo(NodeInfo) returns(Error){}

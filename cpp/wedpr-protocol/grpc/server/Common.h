@@ -1,5 +1,5 @@
 /**
- *  Copyright (C) 2023 WeDPR.
+ *  Copyright (C) 2021 FISCO BCOS.
  *  SPDX-License-Identifier: Apache-2.0
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,28 +13,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file GrpcClient.h
+ * @file Common.h
  * @author: yujiechen
- * @date 2024-09-02
+ * @date 2021-04-12
  */
 #pragma once
-#include "Service.grpc.pb.h"
-#include <grpcpp/grpcpp.h>
+#include "ppc-framework/Common.h"
 
-namespace ppc::protocol
-{
-// refer to: https://grpc.io/docs/languages/cpp/callback/
-class GrpcClient
-{
-public:
-    using Ptr = std::shared_ptr<GrpcClient>;
-    GrpcClient(std::shared_ptr<grpc::Channel> channel) : m_channel(std::move(channel)) {}
-
-    virtual ~GrpcClient() = default;
-
-    std::shared_ptr<grpc::Channel> const& channel() { return m_channel; }
-
-protected:
-    std::shared_ptr<grpc::Channel> m_channel;
-};
-}  // namespace ppc::protocol
+#define GRPC_SERVER_LOG(LEVEL) BCOS_LOG(LEVEL) << "[GRPC][SERVER]"
+#define FRONT_SERVER_LOG(LEVEL) BCOS_LOG(LEVEL) << "[FRONT][SERVER]"
+#define GATEWAY_SERVER_LOG(LEVEL) BCOS_LOG(LEVEL) << "[GATEWAY][SERVER]"
