@@ -95,7 +95,7 @@ if (ENABLE_CPU_FEATURES)
     set(CPU_FEATURES_LIB CpuFeatures::cpu_features)
 endif ()
 
-#====== wedpr-component-sdk ===========
+#====== wedpr-crypto-sdk ===========
 set(PPC_CRYPTO_C_SDK_STATIC_TARGET ppc-crypto-c-sdk-static)
 set(PPC_CRYPTO_C_SDK_TARGET ppc-crypto-c-sdk)
 
@@ -107,7 +107,7 @@ if(ARCH_NATIVE)
     set(PPC_CRYPTO_C_SDK_STATIC_TARGET "ppc-crypto-c-sdk-aarch64")
     set(PPC_CRYPTO_C_SDK_TARGET "ppc-crypto-c-sdk-static-aarch64")
 endif()
-#====== wedpr-component-sdk ===========
+#====== wedpr-crypto-sdk ===========
 
 
 #====== ppc-crypto-sdk-jni ===========

@@ -64,28 +64,31 @@ include(TargetSettings)
 include(Dependencies)
 
 ########### set the sources ########### 
-set(JNI_SOURCE_PATH wedpr-component-sdk/bindings/java/src/main/c)
-set(SDK_SOURCE_LIST ppc-homo ppc-crypto-core wedpr-component-sdk ${JNI_SOURCE_PATH})
+set(JNI_SOURCE_PATH wedpr-crypto/sdk/bindings/java/src/main/c)
+set(SDK_SOURCE_LIST wedpr-crypto/ppc-homo wedpr-crypto/ppc-crypto-core wedpr-crypto/sdk ${JNI_SOURCE_PATH})
 # Note: the udf depends on mysql, not enabled in the full node mode
-set(UDF_SOURCE_LIST ${SDK_SOURCE_LIST} ppc-udf)
+set(UDF_SOURCE_LIST ${SDK_SOURCE_LIST} wedpr-crypto/ppc-udf)
 set(CEM_SOURCE "")
 if(BUILD_CEM)
-    set(CEM_SOURCE "ppc-cem")
+    set(CEM_SOURCE "wedpr-computing/ppc-cem")
 endif()
 #set(ALL_SOURCE_LIST 
 #        ${SDK_SOURCE_LIST} ppc-crypto 
 #        libhelper libinitializer ppc-io ppc-protocol 
 #        ppc-gateway ppc-front  ppc-tars-protocol 
-#        ppc-tools ppc-storage ppc-psi ppc-rpc 
+#        wedpr-helper/ppc-tools ppc-storage ppc-psi ppc-rpc 
 #        ppc-http ppc-mpc ppc-pir
 #        ${CEM_SOURCE} ppc-main)
 
 set(ALL_SOURCE_LIST 
-        ${SDK_SOURCE_LIST} ppc-crypto 
-        libhelper ppc-io wedpr-protocol
-        ppc-gateway ppc-front 
-        ppc-tools ppc-storage ppc-psi ppc-rpc 
-        ppc-http ppc-mpc ppc-pir ${CEM_SOURCE})
+        ${SDK_SOURCE_LIST} 
+        wedpr-crypto/ppc-crypto 
+        wedpr-protocol
+        wedpr-helper/libhelper wedpr-helper/ppc-tools
+        wedpr-storage/ppc-io wedpr-storage/ppc-storage
+        wedpr-transport/ppc-gateway wedpr-transport/ppc-front 
+        wedpr-transport/ppc-http wedpr-transport/ppc-rpc
+        wedpr-computing/ppc-psi wedpr-computing/ppc-mpc wedpr-computing/ppc-pir ${CEM_SOURCE})
 
 if(BUILD_WEDPR_TOOLKIT)
     # fetch the python dependencies
