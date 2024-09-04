@@ -20,7 +20,8 @@
 #pragma once
 #include "libinitializer/Common.h"
 #include "libinitializer/Initializer.h"
-#include "ppc-framework/gateway/GatewayInterface.h"
+#include "ppc-framework/front/IFront.h"
+#include "ppc-framework/gateway/IGateway.h"
 #include <bcos-utilities/BoostLogInitializer.h>
 #include <memory>
 namespace ppc::rpc
@@ -46,7 +47,8 @@ protected:
 private:
     bcos::BoostLogInitializer::Ptr m_logInitializer;
     ppc::initializer::Initializer::Ptr m_nodeInitializer;
-    ppc::gateway::GatewayInterface::Ptr m_gateway;
+    ppc::gateway::IGateway::Ptr m_gateway;
     std::shared_ptr<ppc::rpc::Rpc> m_rpc;
+    ppc::front::IFrontBuilder::Ptr m_frontBuilder;
 };
 }  // namespace ppc::node

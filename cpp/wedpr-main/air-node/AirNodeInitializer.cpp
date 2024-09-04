@@ -18,7 +18,7 @@
  * @date 2022-11-14
  */
 #include "AirNodeInitializer.h"
-#include "ppc-gateway/Gateway.h"
+#include "ppc-gateway/GatewayFactory.h"
 #include "ppc-gateway/GatewayConfigContext.h"
 #include "ppc-rpc/src/RpcFactory.h"
 #include "ppc-rpc/src/RpcMemory.h"
@@ -50,15 +50,13 @@ void AirNodeInitializer::init(std::string const& _configPath)
 
     // init the gateway
     initGateway(_configPath);
-    // set the gateway into front
-    front->setGatewayInterface(m_gateway);
 
     INIT_LOG(INFO) << LOG_DESC("init the rpc");
     // load the rpc config
     // not specify the certPath in air-mode
     m_nodeInitializer->config()->loadRpcConfig(nullptr, pt);
     // init RpcStatusInterface
-    RpcStatusInterface::Ptr rpcStatusInterface = std::make_shared<ppc::rpc::RpcMemory>(m_gateway);
+    RpcStatusInterface::Ptr rpcStatusInterface = std::make_shared<ppc::rpc::RpcMemory>();
 
     m_nodeInitializer->frontInitializer()->setRpcStatus(rpcStatusInterface);
     auto rpcFactory = std::make_shared<RpcFactory>(m_nodeInitializer->config()->agencyID());
@@ -82,12 +80,16 @@ void AirNodeInitializer::initGateway(std::string const& _configPath)
     auto threadPool = std::make_shared<bcos::ThreadPool>(
         "gateway", config->gatewayConfig().networkConfig.threadPoolSize);
 
-    // Note: no need use redis as cache in-air-mode
-    GatewayFactory gatewayFactory;
-    auto gateway = gatewayFactory.buildGateway(ppc::protocol::NodeArch::AIR, config, nullptr,
+    GatewayFactory gatewayFactory(config);
+    m_gateway = gatewayFactory.build(m_frontBuilder);
+    // TODO: register the nodeInfo
+    //m_gateway->registerNodeInfo();
+    // ppc::front::IFrontBuilder::Ptr const& frontBuilder
+    // registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo)
+    /*auto gateway = gatewayFactory.buildGateway(ppc::protocol::NodeArch::AIR, config, nullptr,
         m_nodeInitializer->protocolInitializer()->ppcMsgFactory(), threadPool);
     auto frontInitializer = m_nodeInitializer->frontInitializer();
-    gateway->registerFront(frontInitializer->front()->selfEndPoint(), frontInitializer->front());
+    gateway->registerFront(frontInitializer->front()->selfEndPoint(), frontInitializer->front());*/
     m_gateway = gateway;
 }
 
