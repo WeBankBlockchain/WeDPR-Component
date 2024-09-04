@@ -18,11 +18,10 @@
  * @date 2024-9-04
  */
 #pragma once
-#include "ppc-framework/front/IFront.h"
-#include "ppc-tools/src/config/PPCConfig.h"
 #include "ppc-framework/front/FrontConfig.h"
-#include "ppc-framework/protocol/INodeInfo.h"
+#include "ppc-framework/front/IFront.h"
 #include "ppc-framework/gateway/IGateway.h"
+#include "ppc-framework/protocol/INodeInfo.h"
 
 namespace ppc::front
 {
@@ -33,10 +32,9 @@ public:
     FrontFactory() = default;
     virtual ~FrontFactory() = default;
 
-    IFront::Ptr build(ppc::protocol::INodeInfoFactory::Ptr nodeInfoFactory, 
+    IFront::Ptr build(ppc::protocol::INodeInfoFactory::Ptr nodeInfoFactory,
         ppc::protocol::MessagePayloadBuilder::Ptr messageFactory,
-        ppc::protocol::MessageOptionalHeaderBuilder::Ptr routerInfoBuilder, 
-        ppc::gateway::IGateway::Ptr const& gateway,
-        FrontConfig::Ptr config);
+        ppc::protocol::MessageOptionalHeaderBuilder::Ptr routerInfoBuilder,
+        ppc::gateway::IGateway::Ptr const& gateway, FrontConfig::Ptr config);
 };
-}
+}  // namespace ppc::front

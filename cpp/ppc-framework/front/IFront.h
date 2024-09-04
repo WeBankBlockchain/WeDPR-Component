@@ -96,7 +96,7 @@ public:
         long timeout) = 0;
 
     virtual ppc::protocol::Message::Ptr pop(std::string const& topic, long timeoutMs) = 0;
-    virtual ppc::protocol::Message::Ptr peek(std::string const& topic);
+    virtual ppc::protocol::Message::Ptr peek(std::string const& topic) = 0;
 
 
     /**

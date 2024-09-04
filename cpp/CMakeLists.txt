@@ -94,7 +94,6 @@ if(BUILD_WEDPR_TOOLKIT)
     # fetch the python dependencies
     option(FETCH_PYTHON_DEPS "Install python required modules if not available" ON)
     message(STATUS "Python fetch dependencies: ${FETCH_PYTHON_DEPS}")
-    include(python)
     if(WIN32)
         message(STATUS "Getting SWIG for Windows: ...")
         include(swig)

@@ -21,6 +21,7 @@
 #include "NodeInfo.pb.h"
 #include "ppc-framework/protocol/INodeInfo.h"
 #include <memory>
+
 namespace ppc::protocol
 {
 // the node information

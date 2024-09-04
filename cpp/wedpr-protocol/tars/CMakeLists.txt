@@ -38,7 +38,7 @@ target_include_directories(${TARS_PROTOCOL_TARGET} PUBLIC
         $<BUILD_INTERFACE:${TARSCPP_ROOT}/include>
         $<BUILD_INTERFACE:${TARS_HEADER_DIR}>
         $<INSTALL_INTERFACE:include/wedpr-protocol/tars>)
-target_link_libraries(${TARS_PROTOCOL_TARGET} PUBLIC ${BCOS_UTILITIES_TARGET} tarscpp::tarsservant tarscpp::tarsutil)
+target_link_libraries(${TARS_PROTOCOL_TARGET} PUBLIC ${BCOS_UTILITIES_TARGET} tarscpp::tarsutil)
 
 # ut
 if (TESTS)

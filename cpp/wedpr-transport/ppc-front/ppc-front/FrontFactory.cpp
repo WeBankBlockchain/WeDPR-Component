@@ -21,11 +21,10 @@
 #include "FrontImpl.h"
 
 using namespace ppc::front;
-using namespace ppc::tools;
+using namespace ppc::protocol;
 
-IFront::Ptr build(ppc::protocol::INodeInfoFactory::Ptr nodeInfoFactory,
-    ppc::protocol::MessagePayloadBuilder::Ptr messageFactory,
-    ppc::protocol::MessageOptionalHeaderBuilder::Ptr routerInfoBuilder,
+IFront::Ptr FrontFactory::build(INodeInfoFactory::Ptr nodeInfoFactory,
+    MessagePayloadBuilder::Ptr messageFactory, MessageOptionalHeaderBuilder::Ptr routerInfoBuilder,
     ppc::gateway::IGateway::Ptr const& gateway, FrontConfig::Ptr config)
 {
     auto threadPool = std::make_shared<bcos::ThreadPool>("front", config->threadPoolSize());
