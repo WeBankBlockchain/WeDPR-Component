@@ -30,12 +30,13 @@ public:
     using Ptr = std::shared_ptr<NodeInfoImpl>;
     explicit NodeInfoImpl(std::function<ppc::proto::NodeInfo*()> inner) : m_inner(std::move(inner))
     {}
+    NodeInfoImpl() : m_inner([inner = ppc::proto::NodeInfo()]() mutable { return &inner; }) {}
 
-    NodeInfoImpl(bcos::bytesConstRef const& nodeID)
-      : m_inner([inner = ppc::proto::NodeInfo()]() mutable { return &inner; })
+    NodeInfoImpl(bcos::bytesConstRef const& nodeID) : NodeInfoImpl()
     {
         m_inner()->set_nodeid(nodeID.data(), nodeID.size());
     }
+
     NodeInfoImpl(bcos::bytesConstRef const& nodeID, std::string const& endPoint)
       : NodeInfoImpl(nodeID)
     {
@@ -83,15 +84,15 @@ class NodeInfoFactory : public INodeInfoFactory
 {
 public:
     using Ptr = std::shared_ptr<NodeInfoFactory>;
-    NodeInfoFactory(bcos::bytesConstRef const& nodeID) : INodeInfoFactory(nodeID.toBytes()) {}
+    NodeInfoFactory() {}
     ~NodeInfoFactory() override {}
 
-    INodeInfo::Ptr build() override { return std::make_shared<NodeInfoImpl>(bcos::ref(m_nodeID)); }
+    INodeInfo::Ptr build() override { return std::make_shared<NodeInfoImpl>(); }
 
 
-    INodeInfo::Ptr build(std::string const& endPoint) override
+    INodeInfo::Ptr build(bcos::bytesConstRef nodeID, std::string const& endPoint) override
     {
-        return std::make_shared<NodeInfoImpl>(bcos::ref(m_nodeID), endPoint);
+        return std::make_shared<NodeInfoImpl>(nodeID, endPoint);
     }
 };
 }  // namespace ppc::protocol

@@ -89,8 +89,6 @@ void Initializer::init(ppc::protocol::NodeArch _arch)
             }
             init->fetchAgencyListPeriodically();
         });
-        // load the tars config
-        m_config->loadTarsConfig(m_configPath);
     }
     INIT_LOG(INFO) << LOG_DESC("init the frontService success")
                    << LOG_KV("agency", m_config->agencyID()) << LOG_KV("arch", _arch);

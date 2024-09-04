@@ -27,8 +27,8 @@ class GatewayClient : public ppc::gateway::IGateway, public GrpcClient
 {
 public:
     using Ptr = std::shared_ptr<GatewayClient>;
-    GatewayClient(std::shared_ptr<grpc::Channel> channel)
-      : GrpcClient(std::move(channel)), m_stub(ppc::proto::Gateway::NewStub(m_channel))
+    GatewayClient(grpc::ChannelArguments const& channelConfig, std::string const& endPoints)
+      : GrpcClient(channelConfig, endPoints), m_stub(ppc::proto::Gateway::NewStub(m_channel))
     {}
 
     ~GatewayClient() override = default;

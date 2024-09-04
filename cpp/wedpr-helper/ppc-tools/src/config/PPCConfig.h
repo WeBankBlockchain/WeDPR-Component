@@ -178,23 +178,11 @@ public:
         loadGatewayConfig(_arch, _certPath, iniConfig);
     }
 
-    virtual void loadTarsConfig(std::string const& _configPath)
-    {
-        boost::property_tree::ptree iniConfig;
-        boost::property_tree::read_ini(_configPath, iniConfig);
-        loadTarsConfig(iniConfig);
-    }
-
     virtual void loadRpcConfig(const char* _certPath, boost::property_tree::ptree const& _pt)
     {
         // rpc default disable-ssl
         loadNetworkConfig(
             m_rpcConfig, _certPath, _pt, "rpc", NetworkConfig::DefaultRpcListenPort, true);
-    }
-
-    virtual void loadSelfTarsEndpoint(boost::property_tree::ptree const& _pt)
-    {
-        m_endpoint = _pt.get<std::string>("agency.endpoint", "");
     }
 
     virtual void loadGatewayConfig(ppc::protocol::NodeArch _arch, const char* _certPath,
@@ -207,8 +195,6 @@ public:
     virtual void loadCEMConfig(boost::property_tree::ptree const& _pt);
 
     virtual void loadMPCConfig(boost::property_tree::ptree const& _pt);
-
-    virtual void loadTarsConfig(boost::property_tree::ptree const& _pt);
 
     NetworkConfig const& rpcConfig() const { return m_rpcConfig; }
     // the gateway-config
@@ -228,19 +214,6 @@ public:
     std::string const& dataLocation() const { return m_dataLocation; }
     uint32_t const& taskTimeoutMinutes() const { return m_taskTimeoutMinutes; }
     uint32_t const& threadPoolSize() const { return m_threadPoolSize; }
-
-    std::string const& gatewayServiceName() const { return m_gatewayServiceName; }
-    std::vector<std::string> getServiceEndPointsByName(std::string const& _service)
-    {
-        // Note: not ensure thread-safe, since only use when init
-        std::vector<std::string> endPoints;
-        auto it = m_serviceToEndPoints.find(_service);
-        if (it != m_serviceToEndPoints.end())
-        {
-            return it->second;
-        }
-        return endPoints;
-    }
 
     EcdhPSIParam const& ecdhPSIConfig() const { return m_ecdhPSIConfig; }
     EcdhPSIParam& mutableEcdhPSIConfig() { return m_ecdhPSIConfig; }
@@ -297,22 +270,6 @@ private:
     void initRedisConfigForGateway(
         ppc::storage::CacheStorageConfig& _redisConfig, const boost::property_tree::ptree& _pt);
 
-
-    // load the tars-config for the given service, e.g:
-    /*
-    [tars_gateway]
-    name = agencyAGateway
-    proxy.0 = "192.168.0.1:3000"
-    proxy.0 = "192.168.0.2:3002"
-    proxy.0 = "192.168.0.3:3003"
-     */
-    virtual void loadServiceTarsConfig(boost::property_tree::ptree const& _pt,
-        std::string const& _serviceName, std::string const& _sectionName);
-
-    std::string getServiceName(boost::property_tree::ptree const& _pt,
-        std::string const& _configSection, std::string const& _objName);
-    void checkService(std::string const& _serviceType, std::string const& _serviceName);
-
     int64_t getDataBatchSize(std::string const& _section, int64_t _dataBatchSize);
 
     int loadHoldingMessageMinutes(
@@ -351,10 +308,6 @@ private:
     bool m_smCrypto = false;
     bcos::bytes m_privateKey;
     std::string m_privateKeyPath;
-
-    // the tars config
-    std::map<std::string, std::vector<std::string>> m_serviceToEndPoints;
-    std::string m_gatewayServiceName;
 
     bool m_disableRA2018 = false;
 

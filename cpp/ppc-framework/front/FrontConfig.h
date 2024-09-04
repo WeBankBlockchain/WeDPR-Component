@@ -19,65 +19,58 @@
  */
 
 #pragma once
+#include "ppc-framework/protocol/EndPoint.h"
 #include <memory>
 #include <string>
 #include <vector>
 
 namespace ppc::front
 {
-/**
- * @brief the gateway endpoint
- *
- */
-class GatewayEndPoint
-{
-public:
-    GatewayEndPoint() = default;
-    GatewayEndPoint(std::string const& host, uint16_t port) : m_host(std::move(host)), m_port(port)
-    {}
-    virtual ~GatewayEndPoint() = default;
-
-    virtual std::string const& host() const { return m_host; }
-    uint16_t port() const { return m_port; }
-
-    void setHost(std::string host) { m_host = std::move(host); }
-    void setPort(uint16_t port) { m_port = port; }
-
-private:
-    // the host
-    std::string m_host;
-    // the port
-    uint16_t m_port;
-};
-
 // Note: swig explosed interface
 class FrontConfig
 {
 public:
     using Ptr = std::shared_ptr<FrontConfig>;
-    FrontConfig(int threadPoolSize, std::string agencyID)
-      : m_threadPoolSize(threadPoolSize), m_agencyID(std::move(agencyID))
+    FrontConfig(int threadPoolSize, std::string nodeID)
+      : m_threadPoolSize(threadPoolSize), m_nodeID(std::move(nodeID))
     {}
     virtual ~FrontConfig() = default;
 
     virtual int threadPoolSize() const { return m_threadPoolSize; }
-    virtual std::string const agencyID() const { return m_agencyID; }
-    virtual std::vector<GatewayEndPoint> const& gatewayInfo() const { return m_gatewayInfo; }
-    virtual void setGatewayInfo(std::vector<GatewayEndPoint> gatewayInfo)
+    virtual std::string const& nodeID() const { return m_nodeID; }
+    virtual std::vector<ppc::protocol::EndPoint> const& gatewayInfo() const
+    {
+        return m_gatewayInfo;
+    }
+    virtual void setGatewayInfo(std::vector<ppc::protocol::EndPoint> gatewayInfo)
     {
         m_gatewayInfo = std::move(gatewayInfo);
     }
 
-    virtual void appendGatewayInfo(GatewayEndPoint&& endpoint)
+    virtual void appendGatewayInfo(ppc::protocol::EndPoint&& endpoint)
     {
         // TODO:check the endpoint
         m_gatewayInfo.push_back(endpoint);
     }
 
+    ppc::protocol::EndPoint const& selfEndPoint() const { return m_selfEndPoint; }
+    void setSelfEndPoint(ppc::protocol::EndPoint const& endPoint) { m_selfEndPoint = endPoint; }
+
+    // TODO here
+    std::string gatewayEndPoints() { return ""; }
+
+    std::string const& loadBalancePolicy() const { return m_loadBanlancePolicy; }
+    void setLoadBalancePolicy(std::string const& loadBanlancePolicy)
+    {
+        m_loadBanlancePolicy = loadBanlancePolicy;
+    }
+
 private:
+    std::string m_loadBanlancePolicy = "round_robin";
+    ppc::protocol::EndPoint m_selfEndPoint;
     int m_threadPoolSize;
-    std::string m_agencyID;
-    std::vector<GatewayEndPoint> m_gatewayInfo;
+    std::string m_nodeID;
+    std::vector<ppc::protocol::EndPoint> m_gatewayInfo;
 };
 
 class FrontConfigBuilder
@@ -87,9 +80,9 @@ public:
     FrontConfigBuilder() = default;
     virtual ~FrontConfigBuilder() = default;
 
-    FrontConfig::Ptr build(int threadPoolSize, std::string agencyID)
+    FrontConfig::Ptr build(int threadPoolSize, std::string nodeID)
     {
-        return std::make_shared<FrontConfig>(threadPoolSize, agencyID);
+        return std::make_shared<FrontConfig>(threadPoolSize, nodeID);
     }
 };
 }  // namespace ppc::front

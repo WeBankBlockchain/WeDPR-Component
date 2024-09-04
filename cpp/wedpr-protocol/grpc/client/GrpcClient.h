@@ -28,7 +28,10 @@ class GrpcClient
 {
 public:
     using Ptr = std::shared_ptr<GrpcClient>;
-    GrpcClient(std::shared_ptr<grpc::Channel> channel) : m_channel(std::move(channel)) {}
+    GrpcClient(grpc::ChannelArguments const& channelConfig, std::string const& endPoints)
+      : m_channel(
+            grpc::CreateCustomChannel(endPoints, grpc::InsecureChannelCredentials(), channelConfig))
+    {}
 
     virtual ~GrpcClient() = default;
 

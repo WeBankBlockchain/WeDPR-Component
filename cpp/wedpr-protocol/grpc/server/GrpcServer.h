@@ -18,6 +18,7 @@
  * @date 2024-09-03
  */
 #pragma once
+#include "ppc-framework/protocol/EndPoint.h"
 #include <grpcpp/grpcpp.h>
 #include <memory>
 #include <string>
@@ -27,10 +28,9 @@ namespace ppc::protocol
 // refer to: https://grpc.io/docs/languages/cpp/callback/
 struct GrpcServerConfig
 {
-    std::string listenIp;
-    int listenPort;
+    ppc::protocol::EndPoint endPoint;
 
-    std::string endPoint() const { return listenIp + ":" + std::to_string(listenPort); }
+    std::string listenEndPoint() const { return endPoint.listenEndPoint(); }
 };
 class GrpcServer
 {

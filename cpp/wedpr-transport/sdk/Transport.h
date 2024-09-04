@@ -13,29 +13,26 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file FrontClient.h
+ * @file Transport.h
  * @author: yujiechen
- * @date 2024-09-02
+ * @date 2024-09-04
  */
 #pragma once
-#include "GrpcClient.h"
 #include "ppc-framework/front/IFront.h"
-
-namespace ppc::protocol
+namespace ppc::sdk
 {
-class FrontClient : public ppc::front::IFrontClient, public GrpcClient
+class Transport
 {
 public:
-    using Ptr = std::shared_ptr<FrontClient>;
-    FrontClient(grpc::ChannelArguments const& channelConfig, std::string const& endPoints)
-      : GrpcClient(channelConfig, endPoints)
-    {}
+    Transport() = default;
+    virtual ~Transport() = default;
 
-    ~FrontClient() override = default;
-    void onReceiveMessage(
-        ppc::protocol::Message::Ptr const& _msg, ppc::protocol::ReceiveMsgFunc _callback) override;
+    virtual void start() { m_front->start(); }
+    virtual void stop() { m_front->stop(); }
 
-private:
-    std::unique_ptr<ppc::proto::Front::Stub> m_stub;
+    virtual ppc::front::IFront::Ptr const& getFront() { return m_front; }
+
+protected:
+    ppc::front::IFront::Ptr m_front;
 };
-}  // namespace ppc::protocol
+}  // namespace ppc::sdk

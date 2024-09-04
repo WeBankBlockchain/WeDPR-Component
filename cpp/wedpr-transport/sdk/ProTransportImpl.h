@@ -13,29 +13,36 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file FrontClient.h
+ * @file ProTransportImpl.h
  * @author: yujiechen
- * @date 2024-09-02
+ * @date 2024-09-04
  */
 #pragma once
-#include "GrpcClient.h"
-#include "ppc-framework/front/IFront.h"
 
-namespace ppc::protocol
+#include "TransportImpl.h"
+#include "wedpr-protocol/grpc/client/GatewayClient.h"
+#include "wedpr-protocol/grpc/server/GrpcServer.h"
+
+namespace ppc::sdk
 {
-class FrontClient : public ppc::front::IFrontClient, public GrpcClient
+class ProTransportImpl : public Transport
 {
 public:
-    using Ptr = std::shared_ptr<FrontClient>;
-    FrontClient(grpc::ChannelArguments const& channelConfig, std::string const& endPoints)
-      : GrpcClient(channelConfig, endPoints)
-    {}
+    using Ptr = std::shared_ptr<ProTransportImpl>;
+    ProTransportImpl(ppc::Front::FrontConfig::Ptr config);
 
-    ~FrontClient() override = default;
-    void onReceiveMessage(
-        ppc::protocol::Message::Ptr const& _msg, ppc::protocol::ReceiveMsgFunc _callback) override;
+    void start() override
+    {
+        m_server->start();
+        m_front->start();
+    }
+    void stop() override
+    {
+        m_server->stop();
+        m_front->stop();
+    }
 
-private:
-    std::unique_ptr<ppc::proto::Front::Stub> m_stub;
+protected:
+    ppc::protocol::GrpcServer::Ptr m_server;
 };
-}  // namespace ppc::protocol
+}  // namespace ppc::sdk

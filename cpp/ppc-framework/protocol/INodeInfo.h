@@ -62,14 +62,11 @@ class INodeInfoFactory
 {
 public:
     using Ptr = std::shared_ptr<INodeInfoFactory>;
-    INodeInfoFactory(bcos::bytes nodeID) : m_nodeID(std::move(nodeID)) {}
+    INodeInfoFactory() = default;
     virtual ~INodeInfoFactory() = default;
 
     virtual INodeInfo::Ptr build() = 0;
-    virtual INodeInfo::Ptr build(std::string const& endPoint) = 0;
-
-protected:
-    bcos::bytes m_nodeID;
+    virtual INodeInfo::Ptr build(bcos::bytesConstRef nodeID, std::string const& endPoint) = 0;
 };
 
 inline std::string printNodeInfo(INodeInfo::Ptr const& nodeInfo)

@@ -29,14 +29,14 @@ void GrpcServer::start()
     if (m_running)
     {
         GRPC_SERVER_LOG(INFO) << LOG_DESC("GrpcServer has already been started!")
-                              << LOG_KV("endPoint", m_config.endPoint());
+                              << LOG_KV("listenEndPoint", m_config.listenEndPoint());
         return;
     }
     m_running = true;
     grpc::reflection::InitProtoReflectionServerBuilderPlugin();
     grpc::ServerBuilder builder;
     // without authentication
-    builder.AddListeningPort(m_config.endPoint(), grpc::InsecureServerCredentials());
+    builder.AddListeningPort(m_config.listenEndPoint(), grpc::InsecureServerCredentials());
     // register the service
     for (auto const& service : m_bindingServices)
     {
@@ -44,7 +44,7 @@ void GrpcServer::start()
     }
     m_server = std::unique_ptr<Server>(builder.BuildAndStart());
     GRPC_SERVER_LOG(INFO) << LOG_DESC("GrpcServer start success!")
-                          << LOG_KV("endPoint", m_config.endPoint());
+                          << LOG_KV("listenEndPoint", m_config.listenEndPoint());
 }
 
 void GrpcServer::stop()

@@ -13,29 +13,29 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file FrontClient.h
+ * @file IFront.h
  * @author: yujiechen
- * @date 2024-09-02
+ * @date 2024-08-22
  */
 #pragma once
-#include "GrpcClient.h"
-#include "ppc-framework/front/IFront.h"
+#include "IFront.h"
 
-namespace ppc::protocol
+namespace ppc::front
 {
-class FrontClient : public ppc::front::IFrontClient, public GrpcClient
+class IFrontBuilder
 {
 public:
-    using Ptr = std::shared_ptr<FrontClient>;
-    FrontClient(grpc::ChannelArguments const& channelConfig, std::string const& endPoints)
-      : GrpcClient(channelConfig, endPoints)
-    {}
+    using Ptr = std::shared_ptr<IFrontBuilder>;
+    IFrontBuilder() = default;
+    virtual ~IFrontBuilder() = default;
 
-    ~FrontClient() override = default;
-    void onReceiveMessage(
-        ppc::protocol::Message::Ptr const& _msg, ppc::protocol::ReceiveMsgFunc _callback) override;
-
-private:
-    std::unique_ptr<ppc::proto::Front::Stub> m_stub;
+    /**
+     * @brief create the Front using specified config
+     *
+     * @param config the config used to build the Front
+     * @return IFront::Ptr he created Front
+     */
+    virtual IFront::Ptr build(ppc::front::FrontConfig::Ptr config) const = 0;
+    virtual IFrontClient::Ptr buildClient(std::string endPoint) const = 0;
 };
-}  // namespace ppc::protocol
+}  // namespace ppc::front

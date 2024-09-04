@@ -19,8 +19,8 @@
  */
 
 #pragma once
-#include <string>
 #include <sstream>
+#include <string>
 
 namespace ppc::protocol
 {
@@ -51,4 +51,4 @@ inline std::ostream& operator<<(std::ostream& _out, RouteType const& _type)
     }
     return _out;
 }
-}  // namespace ppc::front
+}  // namespace ppc::protocol

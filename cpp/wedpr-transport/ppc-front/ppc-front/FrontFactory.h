@@ -13,29 +13,30 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file FrontClient.h
+ * @file FrontFactory.h
  * @author: yujiechen
- * @date 2024-09-02
+ * @date 2024-9-04
  */
 #pragma once
-#include "GrpcClient.h"
 #include "ppc-framework/front/IFront.h"
+#include "ppc-tools/src/config/PPCConfig.h"
+#include "ppc-framework/front/FrontConfig.h"
+#include "ppc-framework/protocol/INodeInfo.h"
+#include "ppc-framework/gateway/IGateway.h"
 
-namespace ppc::protocol
+namespace ppc::front
 {
-class FrontClient : public ppc::front::IFrontClient, public GrpcClient
+class FrontFactory
 {
 public:
-    using Ptr = std::shared_ptr<FrontClient>;
-    FrontClient(grpc::ChannelArguments const& channelConfig, std::string const& endPoints)
-      : GrpcClient(channelConfig, endPoints)
-    {}
+    using Ptr = std::shared_ptr<FrontFactory>;
+    FrontFactory() = default;
+    virtual ~FrontFactory() = default;
 
-    ~FrontClient() override = default;
-    void onReceiveMessage(
-        ppc::protocol::Message::Ptr const& _msg, ppc::protocol::ReceiveMsgFunc _callback) override;
-
-private:
-    std::unique_ptr<ppc::proto::Front::Stub> m_stub;
+    IFront::Ptr build(ppc::protocol::INodeInfoFactory::Ptr nodeInfoFactory, 
+        ppc::protocol::MessagePayloadBuilder::Ptr messageFactory,
+        ppc::protocol::MessageOptionalHeaderBuilder::Ptr routerInfoBuilder, 
+        ppc::gateway::IGateway::Ptr const& gateway,
+        FrontConfig::Ptr config);
 };
-}  // namespace ppc::protocol
+}
