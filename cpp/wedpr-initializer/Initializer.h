@@ -18,14 +18,17 @@
  * @date 2022-11-14
  */
 #pragma once
-#include "FrontInitializer.h"
 #include "ProtocolInitializer.h"
+#include "ppc-framework/front/FrontInterface.h"
+#include "ppc-framework/gateway/IGateway.h"
 #include "ppc-framework/rpc/RpcInterface.h"
 #include "ppc-framework/rpc/RpcTypeDef.h"
 #include "ppc-psi/src/bs-ecdh-psi/BsEcdhPSIImpl.h"
 #include "ppc-tools/src/config/PPCConfig.h"
+#include "wedpr-transport/sdk/Transport.h"
 #include <bcos-boostssl/httpserver/Common.h>
 #include <bcos-utilities/Timer.h>
+
 
 namespace ppc::psi
 {
@@ -51,31 +54,31 @@ public:
     virtual ~Initializer() { stop(); }
 
     // init the service
-    virtual void init(ppc::protocol::NodeArch _arch);
+    virtual void init(ppc::protocol::NodeArch _arch, ppc::gateway::IGateway::Ptr const& gateway);
     virtual void stop();
     virtual void start();
 
     ppc::tools::PPCConfig::Ptr config() { return m_config; }
-    FrontInitializer::Ptr const& frontInitializer() const { return m_frontInitializer; }
+    ppc::sdk::Transport::Ptr const& transport() const { return m_transport; }
+    ppc::front::FrontInterface::Ptr const& ppcFront() const { return m_ppcFront; }
+
     ppc::tools::PPCConfig::Ptr const& config() const { return m_config; }
     ProtocolInitializer::Ptr const& protocolInitializer() const { return m_protocolInitializer; }
     ppc::psi::BsEcdhPSIImpl::Ptr const& bsEcdhPsi() const { return m_bsEcdhPSI; }
 
     void registerRpcHandler(ppc::rpc::RpcInterface::Ptr const& _rpc);
 
-    virtual void fetchAgencyList();
-
 protected:
     virtual void initMsgHandlers();
-    void fetchAgencyListPeriodically();
+
 
 private:
     std::string m_configPath;
     ppc::tools::PPCConfig::Ptr m_config;
     ProtocolInitializer::Ptr m_protocolInitializer;
-    FrontInitializer::Ptr m_frontInitializer;
-    // timer to fetch all agency information
-    std::shared_ptr<bcos::Timer> m_agencyInfoFetcher;
+    ppc::sdk::Transport::Ptr m_transport;
+    // created with transport
+    ppc::front::FrontInterface::Ptr m_ppcFront;
 
     // the ra2018-psi
     std::shared_ptr<ppc::psi::RA2018PSIImpl> m_ra2018PSI;

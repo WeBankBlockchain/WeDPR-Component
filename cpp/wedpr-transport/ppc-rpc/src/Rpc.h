@@ -122,7 +122,6 @@ protected:
     virtual void runTask(Json::Value const& _req, RespFunc _respFunc);
     virtual void asyncRunTask(Json::Value const& _req, RespFunc _respFunc);
     virtual void getTaskStatus(Json::Value const& _req, RespFunc _respFunc);
-    virtual void registerGatewayUrl(Json::Value const& _req, RespFunc _respFunc);
 
     virtual void asyncRunBsModeTask(Json::Value const& _req, RespFunc _respFunc);
     virtual void fetchCipher(Json::Value const& _req, RespFunc _respFunc);

@@ -13,32 +13,19 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file ProTransportImpl.h
+ * @file RemoteFrontBuilder.cpp
  * @author: yujiechen
- * @date 2024-09-04
+ * @date 2024-09-4
  */
-#pragma once
-#include "TransportImpl.h"
+#include "RemoteFrontBuilder.h"
+// Note: it's better not to include generated grpc files in the header, since it will slow the
+// compiler speed
+#include "FrontClient.h"
 
-namespace ppc::protocol
+using namespace ppc::front;
+using namespace ppc::protocol;
+
+IFrontClient::Ptr RemoteFrontBuilder::buildClient(std::string endPoint) const
 {
-class GrpcServer;
+    return std::make_shared<FrontClient>(m_grpcConfig, endPoint);
 }
-
-
-namespace ppc::sdk
-{
-class ProTransportImpl : public Transport
-{
-public:
-    using Ptr = std::shared_ptr<ProTransportImpl>;
-    ProTransportImpl(ppc::front::FrontConfig::Ptr config);
-
-    void start() override;
-    void stop() override;
-
-protected:
-    ppc::front::FrontConfig::Ptr m_config;
-    std::shared_ptr<ppc::protocol::GrpcServer> m_server;
-};
-}  // namespace ppc::sdk

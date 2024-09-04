@@ -1,5 +1,5 @@
-/*
- *  Copyright (C) 2022 WeDPR.
+/**
+ *  Copyright (C) 2023 WeDPR.
  *  SPDX-License-Identifier: Apache-2.0
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,34 +13,30 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file CEMInitializer.h
- * @author: caryliao
- * @date 2022-11-19
+ * @file GrpcConfig.h
+ * @author: yujiechen
+ * @date 2024-09-02
  */
 #pragma once
-#include "ppc-rpc/src/RpcFactory.h"
-#include "wedpr-initializer/Common.h"
-#include <bcos-utilities/BoostLogInitializer.h>
 #include <memory>
-namespace ppc::rpc
+#include <string>
+
+namespace ppc::protocol
 {
-class Rpc;
-}
-namespace ppc::cem
-{
-class CEMInitializer
+class GrpcConfig
 {
 public:
-    using Ptr = std::shared_ptr<CEMInitializer>;
-    CEMInitializer() {}
-    virtual ~CEMInitializer() { stop(); }
+    using Ptr = std::shared_ptr<GrpcConfig>;
+    GrpcConfig() = default;
+    virtual ~GrpcConfig() = default;
 
-    virtual void init(std::string const& _configPath);
-    virtual void start();
-    virtual void stop();
+    std::string const& loadBalancePolicy() const { return m_loadBanlancePolicy; }
+    void setLoadBalancePolicy(std::string const& loadBanlancePolicy)
+    {
+        m_loadBanlancePolicy = loadBanlancePolicy;
+    }
 
 private:
-    bcos::BoostLogInitializer::Ptr m_logInitializer;
-    std::shared_ptr<ppc::rpc::Rpc> m_rpc;
+    std::string m_loadBanlancePolicy = "round_robin";
 };
-}  // namespace ppc::cem
+}  // namespace ppc::protocol

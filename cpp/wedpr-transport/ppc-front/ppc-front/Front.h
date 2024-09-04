@@ -19,8 +19,8 @@
  */
 
 #pragma once
-#include "FrontImpl.h"
 #include "ppc-framework/front/FrontInterface.h"
+#include "ppc-framework/front/IFront.h"
 #include "ppc-framework/protocol/PPCMessageFace.h"
 
 namespace ppc::front
@@ -29,7 +29,7 @@ class Front : public FrontInterface, public std::enable_shared_from_this<Front>
 {
 public:
     using Ptr = std::shared_ptr<Front>;
-    Front(FrontImpl::Ptr front) : m_front(std::move(front)) {}
+    Front(IFront::Ptr front) : m_front(std::move(front)) {}
     ~Front() override {}
 
     /**
@@ -56,12 +56,9 @@ public:
     // erase the task-info when task finished
     bcos::Error::Ptr eraseTaskInfo(std::string const& _taskID) override;
 
-    // get the agencyList from the gateway
-    void asyncGetAgencyList(GetAgencyListCallback _callback) override;
-
     // register message handler for algorithm
     void registerMessageHandler(uint8_t _taskType, uint8_t _algorithmType,
-        std::function<void(front::PPCMessageFace::Ptr)> _handler)
+        std::function<void(front::PPCMessageFace::Ptr)> _handler) override
     {
         uint16_t type = ((uint16_t)_taskType << 8) | _algorithmType;
         auto self = weak_from_this();
@@ -82,7 +79,7 @@ public:
     }
 
 private:
-    FrontImpl::Ptr m_front;
+    IFront::Ptr m_front;
     ppc::front::PPCMessageFaceFactory::Ptr m_messageFactory;
 };
 }  // namespace ppc::front

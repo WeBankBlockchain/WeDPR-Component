@@ -114,16 +114,6 @@ public:
     int taskExpireTime() const { return m_taskExpireTime; }
     void setTaskExpireTime(int _taskExpireTime) { m_taskExpireTime = _taskExpireTime; }
 
-    void updateAgenyList(std::vector<std::string> const& _agencyList)
-    {
-        bcos::UpgradableGuard l(x_agencyList);
-        if (m_agencyList != _agencyList)
-        {
-            bcos::UpgradeGuard ul(l);
-            m_agencyList = _agencyList;
-        }
-    }
-
     std::vector<std::string> agencyList() const
     {
         bcos::ReadGuard l(x_agencyList);
@@ -165,6 +155,7 @@ protected:
     int m_taskExpireTime = 10000;
 
     // the agency list, for task-sync
+    // TODO: fetch from the gateway
     std::vector<std::string> m_agencyList;
     mutable bcos::SharedMutex x_agencyList;
 };

@@ -202,7 +202,6 @@ public:
         }
     }
 
-    void asyncGetAgencyList(GetAgencyListCallback) override {}
 
 private:
     // the uuid to _callback

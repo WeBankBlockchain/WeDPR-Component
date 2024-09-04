@@ -21,7 +21,6 @@
 #include "protobuf/RequestConverter.h"
 #include "wedpr-protocol/protobuf/Common.h"
 
-
 using namespace ppc::protocol;
 using namespace ppc::proto;
 using namespace grpc;

@@ -63,8 +63,8 @@ set(RPC_TARGET "ppc-rpc")
 # libhelper
 set(HELPER_TARGET "ppc-helper")
 
-# libinitializer
-set(INIT_LIB init)
+# wedpr-initializer
+set(INIT_LIB "wedpr-inititializer")
 
 # ppc-cem
 set(CEM_TARGET "ppc-cem")

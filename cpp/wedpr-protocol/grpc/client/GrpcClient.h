@@ -19,6 +19,8 @@
  */
 #pragma once
 #include "Service.grpc.pb.h"
+#include "ppc-framework/protocol/GrpcConfig.h"
+#include "wedpr-protocol/grpc/Common.h"
 #include <grpcpp/grpcpp.h>
 
 namespace ppc::protocol
@@ -28,14 +30,15 @@ class GrpcClient
 {
 public:
     using Ptr = std::shared_ptr<GrpcClient>;
-    GrpcClient(grpc::ChannelArguments const& channelConfig, std::string const& endPoints)
-      : m_channel(
-            grpc::CreateCustomChannel(endPoints, grpc::InsecureChannelCredentials(), channelConfig))
+    GrpcClient(ppc::protocol::GrpcConfig::Ptr const& grpcConfig, std::string const& endPoints)
+      : m_channel(grpc::CreateCustomChannel(
+            endPoints, grpc::InsecureChannelCredentials(), toChannelConfig(grpcConfig)))
     {}
 
     virtual ~GrpcClient() = default;
 
     std::shared_ptr<grpc::Channel> const& channel() { return m_channel; }
+
 
 protected:
     std::shared_ptr<grpc::Channel> m_channel;

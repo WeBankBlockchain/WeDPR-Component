@@ -18,6 +18,7 @@
  * @date 2022-10-20
  */
 #include "Front.h"
+#include "FrontImpl.h"
 
 using namespace ppc;
 using namespace bcos;
@@ -34,7 +35,8 @@ using namespace ppc::front;
 void Front::asyncSendMessage(const std::string& _agencyID, front::PPCMessageFace::Ptr _message,
     uint32_t _timeout, ErrorCallbackFunc _callback, CallbackFunc _respCallback)
 {
-    auto routeInfo = m_front->routerInfoBuilder()->build();
+    auto front = std::dynamic_pointer_cast<FrontImpl>(m_front);
+    auto routeInfo = front->routerInfoBuilder()->build();
     routeInfo->setDstInst(_agencyID);
     routeInfo->setTopic(_message->taskID());
     bcos::bytes data;
@@ -87,6 +89,3 @@ bcos::Error::Ptr Front::eraseTaskInfo(std::string const& _taskID)
 {
     m_front->unRegisterTopic(_taskID);
 }
-
-// get the agencyList from the gateway
-void Front::asyncGetAgencyList(GetAgencyListCallback _callback) {}

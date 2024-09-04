@@ -22,6 +22,7 @@
 #include "Common.h"
 #include "NetworkConfig.h"
 #include "ParamChecker.h"
+#include "ppc-framework/front/FrontConfig.h"
 #include "ppc-framework/storage/CacheStorage.h"
 #include <bcos-utilities/Common.h>
 #include <memory.h>
@@ -244,6 +245,10 @@ public:
 
     int holdingMessageMinutes() const { return m_holdingMessageMinutes; }
 
+    ppc::front::FrontConfig::Ptr const& frontConfig() const { return m_frontConfig; }
+
+    ppc::protocol::GrpcConfig::Ptr const& grpcConfig() const { return m_grpcConfig; }
+
 private:
     virtual void loadRA2018Config(boost::property_tree::ptree const& _pt);
     virtual void loadEcdhPSIConfig(boost::property_tree::ptree const& _pt);
@@ -282,6 +287,11 @@ private:
     GatewayConfig m_gatewayConfig;
     // the gateway holding message time, in minutes, default 30min
     int m_holdingMessageMinutes = 30;
+
+    // the front config
+    // TODO: parse the frontConfig
+    ppc::front::FrontConfig::Ptr m_frontConfig;
+    ppc::protocol::GrpcConfig::Ptr m_grpcConfig;
 
     // the ra2018-psi config
     RA2018Config m_ra2018PSIConfig;

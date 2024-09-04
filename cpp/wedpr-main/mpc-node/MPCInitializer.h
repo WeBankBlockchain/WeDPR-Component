@@ -18,8 +18,8 @@
  * @date 2023-03-24
  */
 #pragma once
-#include "libinitializer/Common.h"
 #include "ppc-rpc/src/RpcFactory.h"
+#include "wedpr-initializer/Common.h"
 #include <bcos-utilities/BoostLogInitializer.h>
 #include <memory>
 namespace ppc::rpc

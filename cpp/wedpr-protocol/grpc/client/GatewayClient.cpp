@@ -19,6 +19,7 @@
  */
 #include "GatewayClient.h"
 #include "Common.h"
+#include "Service.grpc.pb.h"
 #include "protobuf/RequestConverter.h"
 
 using namespace ppc;

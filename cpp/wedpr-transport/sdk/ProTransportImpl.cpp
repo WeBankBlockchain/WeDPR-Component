@@ -19,7 +19,9 @@
  */
 #include "ProTransportImpl.h"
 #include "protocol/src/v1/MessageImpl.h"
+#include "wedpr-protocol/grpc/client/GatewayClient.h"
 #include "wedpr-protocol/grpc/server/FrontServer.h"
+#include "wedpr-protocol/grpc/server/GrpcServer.h"
 
 using namespace ppc::front;
 using namespace ppc::protocol;
@@ -33,9 +35,8 @@ ProTransportImpl::ProTransportImpl(ppc::front::FrontConfig::Ptr config)
     m_server = std::make_shared<GrpcServer>(grpcServerConfig);
 
     FrontFactory frontFactory;
-    grpc::ChannelArguments channelConfig;
-    channelConfig.SetLoadBalancingPolicyName(m_config->loadBalancePolicy());
-    auto gateway = std::make_shared<GatewayClient>(channelConfig, m_config->gatewayEndPoints());
+    auto gateway =
+        std::make_shared<GatewayClient>(m_config->grpcConfig(), m_config->gatewayGrpcTarget());
     m_front = frontFactory.build(std::make_shared<NodeInfoFactory>(),
         std::make_shared<MessagePayloadBuilderImpl>(),
         std::make_shared<MessageOptionalHeaderBuilderImpl>(), gateway, config);
@@ -46,4 +47,15 @@ ProTransportImpl::ProTransportImpl(ppc::front::FrontConfig::Ptr config)
 
     // register the frontService
     m_server->registerService(frontService);
+}
+
+void ProTransportImpl::start()
+{
+    m_server->start();
+    m_front->start();
+}
+void ProTransportImpl::stop()
+{
+    m_server->stop();
+    m_front->stop();
 }

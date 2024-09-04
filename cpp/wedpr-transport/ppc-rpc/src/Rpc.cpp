@@ -59,10 +59,6 @@ Rpc::Rpc(std::shared_ptr<boostssl::ws::WsService> _wsService, std::string const&
     // register the handler for GET_TASK_STATUS
     m_methodToHandler[GET_TASK_STATUS] =
         boost::bind(&Rpc::getTaskStatus, this, boost::placeholders::_1, boost::placeholders::_2);
-    // register the handler for REGISTER_GATEWAY_URL
-    m_methodToHandler[REGISTER_GATEWAY_URL] = boost::bind(
-        &Rpc::registerGatewayUrl, this, boost::placeholders::_1, boost::placeholders::_2);
-
     // register ecdh bs mode methods
     m_methodToHandler[ASYNC_RUN_BS_MODE_TASK] = boost::bind(
         &Rpc::asyncRunBsModeTask, this, boost::placeholders::_1, boost::placeholders::_2);
@@ -307,51 +303,6 @@ void Rpc::getTaskStatus(Json::Value const& _req, RespFunc _respFunc)
     _respFunc(result->error(), result->serializeToJson());
 }
 
-void Rpc::registerGatewayUrl(Json::Value const& _req, RespFunc _respFunc)
-{
-    if (!m_rpcStorage)
-    {
-        BOOST_THROW_EXCEPTION(
-            BCOS_ERROR((int64_t)RpcError::StorageNotSet, "storage for rpc not set"));
-    }
-
-    if (!_req.isMember("id"))
-    {
-        BOOST_THROW_EXCEPTION(InvalidParameter() << errinfo_comment("Must specify the agencyID"));
-    }
-    auto agencyID = _req["id"].asString();
-
-    if (!_req.isMember("url"))
-    {
-        BOOST_THROW_EXCEPTION(
-            InvalidParameter() << errinfo_comment("Must specify the gateway url"));
-    }
-    auto agencyUrl = _req["url"].asString();
-
-    std::vector<std::string> endpoints;
-    boost::split(endpoints, agencyUrl, boost::is_any_of(","));
-    for (auto& endpoint : endpoints)
-    {
-        if (!checkEndpoint(endpoint))
-        {
-            BOOST_THROW_EXCEPTION(
-                InvalidParameter() << bcos::errinfo_comment("Invalid endpoint: " + endpoint));
-        }
-    }
-    Json::Value response;
-    auto error = m_rpcStorage->insertGateway(agencyID, agencyUrl);
-    if (error && error->errorCode())
-    {
-        response["code"] = error->errorCode();
-        response["message"] = error->errorMessage();
-        _respFunc(error, std::move(response));
-        return;
-    }
-
-    response["code"] = 0;
-    response["message"] = "success";
-    _respFunc(error, std::move(response));
-}
 
 void Rpc::asyncRunBsModeTask(Json::Value const& _req, RespFunc _respFunc)
 {

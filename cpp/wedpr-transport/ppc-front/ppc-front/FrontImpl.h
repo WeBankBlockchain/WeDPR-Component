@@ -28,7 +28,7 @@
 
 namespace ppc::front
 {
-class FrontImpl : public IFront, public std::enable_shared_from_this<FrontImpl>
+class FrontImpl : public IFront, public IFrontClient, public std::enable_shared_from_this<FrontImpl>
 {
 public:
     using Ptr = std::shared_ptr<FrontImpl>;

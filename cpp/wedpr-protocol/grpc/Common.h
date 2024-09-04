@@ -1,5 +1,5 @@
 /**
- *  Copyright (C) 2023 WeDPR.
+ *  Copyright (C) 2021 FISCO BCOS.
  *  SPDX-License-Identifier: Apache-2.0
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,32 +13,25 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file ProTransportImpl.h
+ * @file Common.h
  * @author: yujiechen
- * @date 2024-09-04
+ * @date 2021-04-12
  */
 #pragma once
-#include "TransportImpl.h"
+#include "ppc-framework/Common.h"
+#include "ppc-framework/protocol/GrpcConfig.h"
+#include <grpcpp/grpcpp.h>
 
 namespace ppc::protocol
 {
-class GrpcServer;
+inline grpc::ChannelArguments toChannelConfig(ppc::protocol::GrpcConfig::Ptr const& grpcConfig)
+{
+    grpc::ChannelArguments args;
+    if (grpcConfig == nullptr)
+    {
+        return args;
+    }
+    args.SetLoadBalancingPolicyName(grpcConfig->loadBalancePolicy());
+    return args;
 }
-
-
-namespace ppc::sdk
-{
-class ProTransportImpl : public Transport
-{
-public:
-    using Ptr = std::shared_ptr<ProTransportImpl>;
-    ProTransportImpl(ppc::front::FrontConfig::Ptr config);
-
-    void start() override;
-    void stop() override;
-
-protected:
-    ppc::front::FrontConfig::Ptr m_config;
-    std::shared_ptr<ppc::protocol::GrpcServer> m_server;
-};
-}  // namespace ppc::sdk
+}  // namespace ppc::protocol

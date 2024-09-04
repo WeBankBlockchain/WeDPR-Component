@@ -13,29 +13,28 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file IFront.h
+ * @file LocalFrontBuilder.h
  * @author: yujiechen
- * @date 2024-08-22
+ * @date 2024-09-4
  */
 #pragma once
-#include "IFront.h"
+#include "ppc-framework/front/IFront.h"
 
 namespace ppc::front
 {
-class IFrontBuilder
+class LocalFrontBuilder : public IFrontBuilder
 {
 public:
-    using Ptr = std::shared_ptr<IFrontBuilder>;
-    IFrontBuilder() = default;
-    virtual ~IFrontBuilder() = default;
+    using Ptr = std::shared_ptr<LocalFrontBuilder>;
+    LocalFrontBuilder(IFront::Ptr front) { m_front = front; }
+    LocalFrontBuilder() = default;
+    ~LocalFrontBuilder() override = default;
 
-    /**
-     * @brief create the Front using specified config
-     *
-     * @param config the config used to build the Front
-     * @return IFront::Ptr he created Front
-     */
-    virtual IFront::Ptr build(ppc::front::FrontConfig::Ptr config) const = 0;
-    virtual IFrontClient::Ptr buildClient(std::string endPoint) const = 0;
+    IFrontClient::Ptr buildClient(std::string endPoint) const override { return m_front; }
+
+    void setFront(IFront::Ptr front) { m_front = std::move(front); }
+
+private:
+    IFront::Ptr m_front;
 };
 }  // namespace ppc::front

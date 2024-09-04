@@ -88,7 +88,8 @@ set(ALL_SOURCE_LIST
         wedpr-storage/ppc-io wedpr-storage/ppc-storage
         wedpr-transport/ppc-gateway wedpr-transport/ppc-front 
         wedpr-transport/ppc-http wedpr-transport/ppc-rpc wedpr-transport/sdk
-        wedpr-computing/ppc-psi wedpr-computing/ppc-mpc wedpr-computing/ppc-pir ${CEM_SOURCE})
+        wedpr-computing/ppc-psi wedpr-computing/ppc-mpc wedpr-computing/ppc-pir ${CEM_SOURCE}
+        wedpr-initializer wedpr-main)
 
 if(BUILD_WEDPR_TOOLKIT)
     # fetch the python dependencies

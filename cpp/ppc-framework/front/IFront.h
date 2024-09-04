@@ -40,7 +40,7 @@ public:
     virtual void onReceiveMessage(
         ppc::protocol::Message::Ptr const& _msg, ppc::protocol::ReceiveMsgFunc _callback) = 0;
 };
-class IFront : public virtual IFrontClient
+class IFront : virtual public IFrontClient
 {
 public:
     using Ptr = std::shared_ptr<IFront>;
@@ -132,13 +132,6 @@ public:
     IFrontBuilder() = default;
     virtual ~IFrontBuilder() = default;
 
-    /**
-     * @brief create the Front using specified config
-     *
-     * @param config the config used to build the Front
-     * @return IFront::Ptr he created Front
-     */
-    virtual IFront::Ptr build(ppc::front::FrontConfig::Ptr config) const = 0;
     virtual IFrontClient::Ptr buildClient(std::string endPoint) const = 0;
 };
 }  // namespace ppc::front

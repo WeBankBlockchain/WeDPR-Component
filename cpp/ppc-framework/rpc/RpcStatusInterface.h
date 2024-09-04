@@ -31,7 +31,6 @@
 
 namespace ppc::rpc
 {
-
 class RpcStatusInterface
 {
 public:
@@ -45,8 +44,6 @@ public:
     virtual bcos::Error::Ptr insertTask(protocol::Task::Ptr _task) = 0;
     virtual bcos::Error::Ptr updateTaskStatus(protocol::TaskResult::Ptr _taskResult) = 0;
     virtual protocol::TaskResult::Ptr getTaskStatus(const std::string& _taskID) = 0;
-    virtual bcos::Error::Ptr insertGateway(
-        const std::string& _agencyID, const std::string& _endpoint) = 0;
     virtual bcos::Error::Ptr deleteGateway(const std::string& _agencyID) = 0;
     virtual std::vector<protocol::GatewayInfo> listGateway() = 0;
 };

@@ -18,9 +18,9 @@
  * @date 2024-09-04
  */
 #pragma once
-#include "ProTransportImpl.h"
 #include "Transport.h"
-#include "TransportImpl.h"
+#include "ppc-framework/front/FrontConfig.h"
+#include "ppc-framework/gateway/IGateway.h"
 #include <memory>
 namespace ppc::sdk
 {
@@ -37,21 +37,8 @@ public:
     virtual ~TransportBuilder() = default;
 
     Transport::Ptr build(SDKMode mode, ppc::front::FrontConfig::Ptr config,
-        ppc::gateway::IGateway::Ptr const& gateway)
-    {
-        switch (mode)
-        {
-        case SDKMode::AIR:
-        {
-            return std::make_shared<TransportImpl>(config, gateway);
-        }
-        case SDKMode::PRO:
-        {
-            return std::make_shared<ProTransportImpl>(config);
-        }
-        default:
-            throw std::runtime_error("Unsupported sdk mode, only support AIR/PRO mode!");
-        }
-    }
+        ppc::gateway::IGateway::Ptr const& gateway);
+
+    ppc::front::FrontConfig::Ptr buildConfig(int threadPoolSize, std::string nodeID);
 };
 }  // namespace ppc::sdk

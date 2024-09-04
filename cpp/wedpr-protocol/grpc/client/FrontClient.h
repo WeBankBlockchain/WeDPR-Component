@@ -23,12 +23,12 @@
 
 namespace ppc::protocol
 {
-class FrontClient : public ppc::front::IFrontClient, public GrpcClient
+class FrontClient : public virtual ppc::front::IFrontClient, public GrpcClient
 {
 public:
     using Ptr = std::shared_ptr<FrontClient>;
-    FrontClient(grpc::ChannelArguments const& channelConfig, std::string const& endPoints)
-      : GrpcClient(channelConfig, endPoints)
+    FrontClient(ppc::protocol::GrpcConfig::Ptr const& grpcConfig, std::string const& endPoints)
+      : GrpcClient(grpcConfig, endPoints), m_stub(ppc::proto::Front::NewStub(m_channel))
     {}
 
     ~FrontClient() override = default;

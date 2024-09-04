@@ -60,6 +60,8 @@ public:
     virtual void asyncSendResponse(const std::string& _agencyID, std::string const& _uuid,
         front::PPCMessageFace::Ptr _message, ErrorCallbackFunc _callback) = 0;
 
+    virtual void registerMessageHandler(uint8_t _taskType, uint8_t _algorithmType,
+        std::function<void(front::PPCMessageFace::Ptr)> _handler) = 0;
     /**
      * @brief notice task info to gateway
      * @param _taskInfo the latest task information
@@ -68,9 +70,6 @@ public:
 
     // erase the task-info when task finished
     virtual bcos::Error::Ptr eraseTaskInfo(std::string const& _taskID) = 0;
-
-    // get the agencyList from the gateway
-    virtual void asyncGetAgencyList(GetAgencyListCallback _callback) = 0;
 
     virtual std::string const& selfEndPoint() const { return m_selfEndPoint; }
 

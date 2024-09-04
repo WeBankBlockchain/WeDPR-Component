@@ -13,18 +13,16 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file AirNodeInitializer.cpp
+ * @file ProNodeInitializer.cpp
  * @author: yujiechen
  * @date 2022-11-14
  */
-#include "AirNodeInitializer.h"
-#include "ppc-front/LocalFrontBuilder.h"
-#include "ppc-gateway/GatewayFactory.h"
+#include "ProNodeInitializer.h"
 #include "ppc-rpc/src/RpcFactory.h"
 #include "ppc-rpc/src/RpcMemory.h"
+#include "wedpr-protocol/grpc/client/RemoteFrontBuilder.h"
 
 using namespace ppc::protocol;
-using namespace ppc::front;
 using namespace ppc::node;
 using namespace ppc::gateway;
 using namespace ppc::rpc;
@@ -32,11 +30,9 @@ using namespace ppc::storage;
 using namespace ppc::initializer;
 using namespace bcos;
 
-AirNodeInitializer::AirNodeInitializer()
-{
-    m_frontBuilder = std::make_shared<LocalFrontBuilder>();
-}
-void AirNodeInitializer::init(std::string const& _configPath)
+ProNodeInitializer::ProNodeInitializer() {}
+
+void ProNodeInitializer::init(std::string const& _configPath)
 {
     // init the log
     boost::property_tree::ptree pt;
@@ -49,14 +45,9 @@ void AirNodeInitializer::init(std::string const& _configPath)
     // init the node
     m_nodeInitializer = std::make_shared<Initializer>(_configPath);
 
-    // init the gateway
-    initGateway(_configPath);
-    // init the node
-    m_nodeInitializer->init(ppc::protocol::NodeArch::AIR, m_gateway);
-    // set the created front to the builder
-    m_frontBuilder->setFront(m_nodeInitializer->transport()->getFront());
-    // register the NodeInfo
-    m_gateway->registerNodeInfo(m_nodeInitializer->config()->frontConfig()->generateNodeInfo());
+    // init the node(no need to set the gateway)
+    m_nodeInitializer->init(ppc::protocol::NodeArch::PRO, nullptr);
+
 
     INIT_LOG(INFO) << LOG_DESC("init the rpc");
     // load the rpc config
@@ -75,30 +66,12 @@ void AirNodeInitializer::init(std::string const& _configPath)
     INIT_LOG(INFO) << LOG_DESC("init the rpc success");
 }
 
-void AirNodeInitializer::initGateway(std::string const& _configPath)
-{
-    INIT_LOG(INFO) << LOG_DESC("initGateway: ") << _configPath;
-    // not specify the certPath in air-mode
-    auto config = m_nodeInitializer->config();
-    config->loadGatewayConfig(ppc::protocol::NodeArch::AIR, nullptr, _configPath);
-
-    auto threadPool = std::make_shared<bcos::ThreadPool>(
-        "gateway", config->gatewayConfig().networkConfig.threadPoolSize);
-
-    GatewayFactory gatewayFactory(config);
-    m_gateway = gatewayFactory.build(m_frontBuilder);
-}
-
-void AirNodeInitializer::start()
+void ProNodeInitializer::start()
 {
     // start the node
     if (m_nodeInitializer)
     {
         m_nodeInitializer->start();
-    }
-    if (m_gateway)
-    {
-        m_gateway->start();
     }
     if (m_rpc)
     {
@@ -106,15 +79,11 @@ void AirNodeInitializer::start()
     }
 }
 
-void AirNodeInitializer::stop()
+void ProNodeInitializer::stop()
 {
     if (m_rpc)
     {
         m_rpc->stop();
-    }
-    if (m_gateway)
-    {
-        m_gateway->stop();
     }
     if (m_nodeInitializer)
     {
