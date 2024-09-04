@@ -24,6 +24,7 @@ namespace ppc::sdk
 class Transport
 {
 public:
+    using Ptr = std::shared_ptr<Transport>;
     Transport() = default;
     virtual ~Transport() = default;
 

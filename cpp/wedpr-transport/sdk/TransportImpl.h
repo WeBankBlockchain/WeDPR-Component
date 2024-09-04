@@ -30,17 +30,17 @@ namespace ppc::sdk
 class TransportImpl : public Transport
 {
 public:
-    TransportImpl(ppc::Front::FrontConfig::Ptr config, ppc::gateway::IGateway::Ptr const& gateway)
+    TransportImpl(ppc::front::FrontConfig::Ptr config, ppc::gateway::IGateway::Ptr const& gateway)
       : m_config(std::move(config))
     {
-        FrontFactory frontFactory;
-        m_front = frontFactory.build(std::make_shared<NodeInfoFactory>(),
-            std::make_shared<MessagePayloadBuilderImpl>(),
-            std::make_shared<MessageOptionalHeaderBuilderImpl>(), gateway, m_config);
+        ppc::front::FrontFactory frontFactory;
+        m_front = frontFactory.build(std::make_shared<ppc::protocol::NodeInfoFactory>(),
+            std::make_shared<ppc::protocol::MessagePayloadBuilderImpl>(),
+            std::make_shared<ppc::protocol::MessageOptionalHeaderBuilderImpl>(), gateway, m_config);
     }
     ~TransportImpl() override = default;
 
 protected:
-    ppc::Front::FrontConfig::Ptr m_config;
+    ppc::front::FrontConfig::Ptr m_config;
 };
 }  // namespace ppc::sdk

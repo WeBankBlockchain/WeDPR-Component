@@ -29,7 +29,7 @@ class ProTransportImpl : public Transport
 {
 public:
     using Ptr = std::shared_ptr<ProTransportImpl>;
-    ProTransportImpl(ppc::Front::FrontConfig::Ptr config);
+    ProTransportImpl(ppc::front::FrontConfig::Ptr config);
 
     void start() override
     {
@@ -43,6 +43,7 @@ public:
     }
 
 protected:
+    ppc::front::FrontConfig::Ptr m_config;
     ppc::protocol::GrpcServer::Ptr m_server;
 };
 }  // namespace ppc::sdk

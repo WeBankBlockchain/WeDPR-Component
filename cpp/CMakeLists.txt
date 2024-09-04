@@ -87,7 +87,7 @@ set(ALL_SOURCE_LIST
         wedpr-helper/libhelper wedpr-helper/ppc-tools
         wedpr-storage/ppc-io wedpr-storage/ppc-storage
         wedpr-transport/ppc-gateway wedpr-transport/ppc-front 
-        wedpr-transport/ppc-http wedpr-transport/ppc-rpc
+        wedpr-transport/ppc-http wedpr-transport/ppc-rpc wedpr-transport/sdk
         wedpr-computing/ppc-psi wedpr-computing/ppc-mpc wedpr-computing/ppc-pir ${CEM_SOURCE})
 
 if(BUILD_WEDPR_TOOLKIT)
@@ -100,7 +100,7 @@ if(BUILD_WEDPR_TOOLKIT)
         include(swig)
         message(STATUS "Getting SWIG for Windows: ...DONE")
     endif()
-    add_subdirectory(wedpr-toolkit-wrapper)
+    add_subdirectory(wedpr-transport/sdk-wrapper)
 endif()
 
 if(BUILD_ALL)

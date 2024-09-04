@@ -36,7 +36,7 @@ public:
     TransportBuilder() = default;
     virtual ~TransportBuilder() = default;
 
-    Transport::Ptr build(SDKMode mode, ppc::Front::FrontConfig::Ptr config,
+    Transport::Ptr build(SDKMode mode, ppc::front::FrontConfig::Ptr config,
         ppc::gateway::IGateway::Ptr const& gateway)
     {
         switch (mode)
@@ -50,7 +50,7 @@ public:
             return std::make_shared<ProTransportImpl>(config);
         }
         default:
-            throw std::exception("Unsupported sdk mode, only support AIR/PRO mode!");
+            throw std::runtime_error("Unsupported sdk mode, only support AIR/PRO mode!");
         }
     }
 };

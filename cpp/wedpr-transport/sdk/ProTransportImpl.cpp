@@ -18,16 +18,19 @@
  * @date 2024-09-04
  */
 #include "ProTransportImpl.h"
-#include "protobuf/src/v1/MessageImpl.h"
+#include "protocol/src/v1/MessageImpl.h"
 #include "wedpr-protocol/grpc/server/FrontServer.h"
 
 using namespace ppc::front;
 using namespace ppc::protocol;
-ProTransportImpl::ProTransportImpl(ppc::Front::FrontConfig::Ptr config)
+using namespace ppc::sdk;
+
+
+ProTransportImpl::ProTransportImpl(ppc::front::FrontConfig::Ptr config)
   : m_config(std::move(config))
 {
-    GrpcServerConfig{config->selfEndPoint()};
-    m_server = std::make_shared<GrpcServer>(GrpcServerConfig);
+    GrpcServerConfig grpcServerConfig{config->selfEndPoint()};
+    m_server = std::make_shared<GrpcServer>(grpcServerConfig);
 
     FrontFactory frontFactory;
     grpc::ChannelArguments channelConfig;
@@ -36,6 +39,9 @@ ProTransportImpl::ProTransportImpl(ppc::Front::FrontConfig::Ptr config)
     m_front = frontFactory.build(std::make_shared<NodeInfoFactory>(),
         std::make_shared<MessagePayloadBuilderImpl>(),
         std::make_shared<MessageOptionalHeaderBuilderImpl>(), gateway, config);
+
+    auto msgBuilder =
+        std::make_shared<MessageBuilderImpl>(std::make_shared<MessageHeaderBuilderImpl>());
     auto frontService = std::make_shared<FrontServer>(msgBuilder, m_front);
 
     // register the frontService

@@ -109,5 +109,10 @@ public:
     {
         return std::make_shared<MessageOptionalHeaderImpl>(optionalHeader);
     }
+
+    MessageOptionalHeader::Ptr build() override
+    {
+        return std::make_shared<MessageOptionalHeaderImpl>();
+    }
 };
 }  // namespace ppc::protocol

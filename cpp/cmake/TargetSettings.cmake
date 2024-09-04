@@ -137,5 +137,5 @@ set(BOOST_UNIT_TEST Boost::unit_test_framework)
 set(WEDPR_TRANSPORT_SDK_TARGET wedpr-transport-sdk)
 
 # ==== the swig wrapper ===== 
-set(WEDPR_PYTHON_TOOLKIT "wedpr_python_toolkit")
-set(WEDPR_PYTHON_TOOLKIT_DIR ${PROJECT_BINARY_DIR}/python/${WEDPR_PYTHON_TOOLKIT})
+set(WEDPR_PYTHON_TRANSPORT "wedpr_python_transport")
+set(WEDPR_PYTHON_TRANSPORT_DIR ${PROJECT_BINARY_DIR}/python/${WEDPR_PYTHON_TRANSPORT})
