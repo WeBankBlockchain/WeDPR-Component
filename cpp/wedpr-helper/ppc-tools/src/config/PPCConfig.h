@@ -23,6 +23,7 @@
 #include "NetworkConfig.h"
 #include "ParamChecker.h"
 #include "ppc-framework/front/FrontConfig.h"
+#include "ppc-framework/protocol/GrpcConfig.h"
 #include "ppc-framework/storage/CacheStorage.h"
 #include <bcos-utilities/Common.h>
 #include <memory.h>
@@ -99,6 +100,7 @@ struct GatewayConfig
 
     bool disableCache;
     NetworkConfig networkConfig;
+    ppc::protocol::GrpcServerConfig grpcConfig;
     ppc::storage::CacheStorageConfig cacheStorageConfig;
     std::string nodeFileName;
     std::string nodePath;

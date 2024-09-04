@@ -1,5 +1,5 @@
 /**
- *  Copyright (C) 2023 WeDPR.
+ *  Copyright (C) 2022 WeDPR.
  *  SPDX-License-Identifier: Apache-2.0
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,39 +13,37 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file GrpcServer.h
+ * @file GatewayInitializer.h
  * @author: yujiechen
- * @date 2024-09-03
+ * @date 2022-11-14
  */
 #pragma once
-#include "ppc-framework/protocol/GrpcConfig.h"
-#include <grpcpp/grpcpp.h>
+#include "ppc-framework/gateway/IGateway.h"
+#include <bcos-utilities/BoostLogInitializer.h>
+#include <bcos-utilities/Log.h>
 #include <memory>
-#include <string>
 
+#define INIT_LOG(LEVEL) BCOS_LOG(LEVEL) << LOG_BADGE("GATEWAYInit")
 namespace ppc::protocol
 {
-// refer to: https://grpc.io/docs/languages/cpp/callback/
-class GrpcServer
+class GrpcServer;
+}
+namespace ppc::gateway
+{
+class GatewayInitializer
 {
 public:
-    using Ptr = std::shared_ptr<GrpcServer>;
-    GrpcServer(GrpcServerConfig const& config) : m_config(config) {}
-    virtual ~GrpcServer() = default;
+    using Ptr = std::shared_ptr<GatewayInitializer>;
+    GatewayInitializer() = default;
+    virtual ~GatewayInitializer() { stop(); }
 
+    virtual void init(std::string const& _configPath);
     virtual void start();
     virtual void stop();
 
-    virtual void registerService(std::shared_ptr<grpc::Service> service)
-    {
-        m_bindingServices.emplace_back(std::move(service));
-    }
-
-private:
-    bool m_running = false;
-    GrpcServerConfig m_config;
-
-    std::unique_ptr<grpc::Server> m_server;
-    std::vector<std::shared_ptr<grpc::Service>> m_bindingServices;
+protected:
+    bcos::BoostLogInitializer::Ptr m_logInitializer;
+    ppc::gateway::IGateway::Ptr m_gateway;
+    std::shared_ptr<ppc::protocol::GrpcServer> m_server;
 };
-}  // namespace ppc::protocol
+}  // namespace ppc::gateway

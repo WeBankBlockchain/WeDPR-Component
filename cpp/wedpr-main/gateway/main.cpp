@@ -1,4 +1,4 @@
-/**
+/*
  *  Copyright (C) 2022 WeDPR.
  *  SPDX-License-Identifier: Apache-2.0
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,32 +15,14 @@
  *
  * @file main.cpp
  * @author: yujiechen
- * @date 2022-11-25
+ * @date 2022-11-14
  */
-#include "GatewayServiceApp.h"
-#include "libhelper/CommandHelper.h"
+#include "GatewayInitializer.h"
+#include "wedpr-main/common/NodeStarter.h"
 
-using namespace ppctars;
-
-int main(int argc, char* argv[])
+using namespace ppc::node;
+int main(int argc, const char* argv[])
 {
-    try
-    {
-        ppc::initAppCommandLine(argc, argv);
-        GatewayServiceApp app;
-        app.main(argc, argv);
-        app.waitForShutdown();
-
-        return 0;
-    }
-    catch (std::exception& e)
-    {
-        cerr << "ppc-gateway-service std::exception:" << boost::diagnostic_information(e)
-             << std::endl;
-    }
-    catch (...)
-    {
-        cerr << "ppc-gateway-service unknown exception." << std::endl;
-    }
-    return -1;
+    auto initializer = std::make_shared<ppc::gateway::GatewayInitializer>();
+    startProgram(argc, argv, "ppc-gateway-service", initializer);
 }

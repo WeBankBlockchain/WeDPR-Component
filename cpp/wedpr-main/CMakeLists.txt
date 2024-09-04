@@ -3,7 +3,7 @@ project(ppc-main VERSION ${VERSION})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(air-node)
 add_subdirectory(pro-node)
-#TODO: ppc-gateway
+add_subdirectory(gateway)
 
 if (BUILD_CEM)
     add_subdirectory(cem-node)

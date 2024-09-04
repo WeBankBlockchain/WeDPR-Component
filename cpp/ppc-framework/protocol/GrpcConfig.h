@@ -18,11 +18,18 @@
  * @date 2024-09-02
  */
 #pragma once
+#include "ppc-framework/protocol/EndPoint.h"
 #include <memory>
 #include <string>
 
 namespace ppc::protocol
 {
+struct GrpcServerConfig
+{
+    ppc::protocol::EndPoint endPoint;
+
+    std::string listenEndPoint() const { return endPoint.listenEndPoint(); }
+};
 class GrpcConfig
 {
 public:
