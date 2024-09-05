@@ -53,5 +53,5 @@ class CertGenerator:
                 "* generate private key error, output_path: %s" % output_path)
             return (False, output)
         utilities.log_info(
-            "* generate private_key success, path: %s, private_key: %s" % (output_path, output))
+            "* generate private_key success, path: %s, public_key: %s" % (output_path, output))
         return (True, output)

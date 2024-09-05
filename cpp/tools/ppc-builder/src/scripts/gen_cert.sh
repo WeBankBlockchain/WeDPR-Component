@@ -435,8 +435,9 @@ generate_private_key_for_psi_server() {
     fi
     ${OPENSSL_CMD} genpkey -paramfile ${sm2_params} -out ${output_path}/node.pem 2>/dev/null
     $OPENSSL_CMD ec -in "$output_path/node.pem" -text -noout 2> /dev/null | sed -n '3,5p' | sed 's/://g' | tr "\n" " " | sed 's/ //g'  | cat > "$output_path/node.privateKey"
-    private_key=$(cat $output_path/node.privateKey)
-    echo ${private_key}
+    ${OPENSSL_CMD} ec -text -noout -in "${output_path}/node.pem" 2>/dev/null | sed -n '7,11p' | tr -d ": \n" | awk '{print substr($0,3);}' | cat >"$output_path"/node.nodeid
+    public_key=$(cat $output_path/node.nodeid)
+    echo ${public_key}
 }
 
 check_env() {

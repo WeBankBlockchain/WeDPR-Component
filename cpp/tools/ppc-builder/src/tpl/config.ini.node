@@ -30,12 +30,18 @@
     ; directory the certificates located in
     cert_path=./conf
 
-[tars_gateway]
-    ; the gateway service name
-    name = 
-    ;the time of the gateway holding and waiting to dispatcher the unsynced task, in minutes
-    holding_msg_minutes = 30
-    ; the gateway service endpoints
+[transport]
+   ; the endpoint information
+   listen_ip = 0.0.0.0
+   listen_port = 18000
+   host_ip = 
+   ; the threadPoolSize
+   thread_count = 4
+   ; the gatewayService endpoint information
+   service.gateway_target =  
+   ; the components
+   service.components =
+   nodeid=
 
 [storage]
     host = 127.0.0.1
@@ -103,8 +109,6 @@
     ; if archive_path is empty, the archive function will be disabled
     ; archive_path=./log/
     compress_archive_file=true
-    ; ; 0: no limit, in MB
+    ; 0: no limit, in MB
     ; max_archive_files=10
-    ; ; 0: no limit, in MB
-    ; max_archive_size=0
     ; min_free_space=0

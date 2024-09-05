@@ -4,23 +4,20 @@
 from common import utilities
 
 
-class TarsConfig:
-    """
-    the tars config
-    """
-
-    def __init__(self, config):
-        self.config = config
-        self.app_name = utilities.get_value(
-            self.config, "tars", "app_name", None, True)
-        self.binary_path = utilities.get_value(
-            self.config, "tars", "tars_pkg_dir", None, True)
-
-
 class PeerInfo:
     def __init__(self, agency, endpoints):
         self.agency = agency
         self.endpoints = endpoints
+
+
+class EnvConfig:
+    def __init__(self, config, section_name):
+        self.config = config
+        self.section_name = section_name
+        self.binary_path = utilities.get_value(
+            self.config, self.section_name, "binary_path", None, True)
+        self.deploy_dir = utilities.get_value(
+            self.config, self.section_name, "deploy_dir", None, True)
 
 
 class GatewayConfig:
@@ -28,16 +25,11 @@ class GatewayConfig:
     the gateway config
     """
 
-    def __init__(self, app_name, agency_name, holding_msg_minutes, config, config_section, must_exist):
+    def __init__(self, agency_name, holding_msg_minutes, config, config_section, must_exist):
         self.config = config
         self.config_section = config_section
-        self.app_name = app_name
         self.holding_msg_minutes = holding_msg_minutes
         self.agency_name = agency_name
-        self.service_name = "%s%s" % (
-            self.agency_name, utilities.ServiceInfo.gateway_servant)
-        self.servant_list = [utilities.ServiceInfo.gateway_servant]
-        self.servant_object_list = utilities.ServiceInfo.gateway_servant_obj
 
         # the deploy_ip
         self.deploy_ip = utilities.get_item_value(
@@ -62,34 +54,12 @@ class GatewayConfig:
                 peer, "endpoints", None, must_exist, "[[peers]]")
             self.peers.append(PeerInfo(agency, endpoints))
 
-        self.cache_type = utilities.get_item_value(
-            self.config, "cache_type", 0, must_exist, config_section)
-        self.cache_proxy = utilities.get_item_value(
-            self.config, "cache_proxy", None, must_exist, config_section)
-        self.cache_obServer = utilities.get_item_value(
-            self.config, "cache_obServer", None, must_exist, config_section)
-        self.cache_cluster = utilities.get_item_value(
-            self.config, "cache_cluster", None, must_exist, config_section)
-        self.cache_host = utilities.get_item_value(
-            self.config, "cache_host", None, must_exist, config_section)
-        self.cache_port = utilities.get_item_value(
-            self.config, "cache_port", None, must_exist, config_section)
-        self.cache_password = utilities.get_item_value(
-            self.config, "cache_password", "", must_exist, config_section)
-        self.cache_database = utilities.get_item_value(
-            self.config, "cache_database", None, must_exist, config_section)
-        self.cache_pool_size = utilities.get_item_value(
-            self.config, "cache_pool_size", 16, False, config_section)
-        self.cache_connection_timeout = utilities.get_item_value(
-            self.config, "cache_connection_timeout", 500, False, config_section)
-        self.cache_socket_timeout = utilities.get_item_value(
-            self.config, "cache_socket_timeout", 500, False, config_section)
-        # the tars_listen_ip
-        self.tars_listen_ip = utilities.get_item_value(
-            self.config, "tars_listen_ip", "0.0.0.0", False, config_section)
-        # the tars_listen_port
-        self.tars_listen_port = utilities.get_item_value(
-            self.config, "tars_listen_port", None, must_exist, config_section)
+        # the grpc_listen_ip
+        self.grpc_listen_ip = utilities.get_item_value(
+            self.config, "grpc_listen_ip", "0.0.0.0", False, config_section)
+        # the grpc_listen_port
+        self.grpc_listen_port = utilities.get_item_value(
+            self.config, "grpc_listen_port", None, must_exist, config_section)
 
 
 class RpcConfig:
@@ -183,16 +153,15 @@ class NodeGatewayConfig:
     the gateway config for the node
     """
 
-    def __init__(self, app_name, agency_name, config, node_must_exists):
+    def __init__(self, agency_name, config, node_must_exists):
         self.config = config
-        self.app_name = app_name
         self.agency_name = agency_name
         self.desc = "[agency.node]"
-        self.endpoints = utilities.get_item_value(
-            self.config, "tars_endpoints", None, node_must_exists, self.desc)
-        # obtain the gateway name
-        self.service_name = "%s.%s%s" % (
-            self.app_name, self.agency_name, utilities.ServiceInfo.gateway_servant)
+        self.gateway_grpc_target_array = utilities.get_item_value(
+            self.config, "gateway_grpc_target", None, node_must_exists, self.desc)
+        self.gateway_grpc_target = "ipv4:"
+        self.gateway_grpc_target += ','.join(
+            map(str, self.gateway_grpc_target_array))
 
 
 class NodeConfig:
@@ -200,28 +169,30 @@ class NodeConfig:
     the ppc-node config
     """
 
-    def __init__(self, app_name, agency_name, holding_msg_minutes, config, must_exist):
+    def __init__(self, agency_name, holding_msg_minutes, config, must_exist):
         self.config = config
         self.section_name = "[[agency.node]]."
         self.holding_msg_minutes = holding_msg_minutes
-        self.app_name = app_name
         # set the agency_name
         self.agency_name = agency_name
         # disable ra2018 or not, default enable the ra2018
         self.disable_ra2018 = utilities.get_item_value(
             self.config, "disable_ra2018", False, False, self.section_name)
+        # the components
+        self.components = utilities.get_item_value(
+            self.config, "components", None, False, self.section_name)
         # the deploy_ip
         self.deploy_ip = utilities.get_item_value(
             self.config, "deploy_ip", None, must_exist, self.section_name)
         # the node_name
         self.node_name = utilities.get_item_value(
             self.config, "node_name", None, must_exist, self.section_name)
-        # the tars_listen_ip
-        self.tars_listen_ip = utilities.get_item_value(
-            self.config, "tars_listen_ip", "0.0.0.0", False, self.section_name)
-        # the tars_listen_port
-        self.tars_listen_port = utilities.get_item_value(
-            self.config, "tars_listen_port", None, must_exist, self.section_name)
+        # the grpc_listen_ip
+        self.grpc_listen_ip = utilities.get_item_value(
+            self.config, "grpc_listen_ip", "0.0.0.0", False, self.section_name)
+        # the grpc_listen_port
+        self.grpc_listen_port = utilities.get_item_value(
+            self.config, "grpc_listen_port", None, must_exist, self.section_name)
         utilities.log_debug("load the node config success")
 
         # parse the rpc config
@@ -276,15 +247,8 @@ class NodeConfig:
         self.gateway_config = None
         if gateway_config_object is not None:
             self.gateway_config = NodeGatewayConfig(
-                self.app_name, self.agency_name, gateway_config_object, must_exist)
+                self.agency_name, gateway_config_object, must_exist)
         utilities.log_debug("load the gateway success")
-
-        # set the server name
-        self.service_name = "%s%s%s" % (
-            self.agency_name, self.node_name, utilities.ServiceInfo.node_service_postfix)
-        # set the servant name
-        self.servant_list = utilities.ServiceInfo.node_servant
-        self.servant_object_list = utilities.ServiceInfo.node_servant_object
 
 
 class AgencyConfig:
@@ -292,8 +256,7 @@ class AgencyConfig:
     the agency config
     """
 
-    def __init__(self, app_name, config, gateway_must_exists, node_must_exists):
-        self.app_name = app_name
+    def __init__(self, config, gateway_must_exists, node_must_exists):
         self.config = config
         self.section_name = "[[agency]]"
         # the agency-name
@@ -309,9 +272,8 @@ class AgencyConfig:
             self.config, "gateway", None, gateway_must_exists, gateway_config_section_name)
         self.gateway_config = None
         if gateway_config_object is not None:
-            self.gateway_config = GatewayConfig(
-                self.app_name, self.agency_name, self.holding_msg_minutes, gateway_config_object,
-                gateway_config_section_name, gateway_must_exists)
+            self.gateway_config = GatewayConfig(self.agency_name, self.holding_msg_minutes, gateway_config_object,
+                                                gateway_config_section_name, gateway_must_exists)
         utilities.log_debug("load the gateway config success")
 
         # parse the node config
@@ -323,7 +285,7 @@ class AgencyConfig:
         # TODO: check the node-name
         for node_object in node_config_list:
             node_config = NodeConfig(
-                self.app_name, self.agency_name, self.holding_msg_minutes, node_object, node_must_exists)
+                self.agency_name, self.holding_msg_minutes, node_object, node_must_exists)
             self.node_list[node_config.node_name] = node_config
             utilities.log_debug(
                 "load node config for %s success" % node_config.node_name)
@@ -353,8 +315,7 @@ class PPCDeployConfig:
         self.sm_crypto = utilities.get_value(
             self.config, crypto_section, "sm_crypto", False, False)
         utilities.log_debug("load the crypto config success")
-        # load the tars config
-        self.tars_config = TarsConfig(self.config)
+        self.env_config = EnvConfig(self.config, "env")
         # load the agency config
         # TODO: check duplicated case
         utilities.log_debug("load the agency config")
@@ -363,7 +324,7 @@ class PPCDeployConfig:
             self.config, "agency", None, False, "[[agency]]")
         for agency_object in agency_list_object:
             agency_config = AgencyConfig(
-                self.tars_config.app_name, agency_object, gateway_must_exists, node_must_exists)
+                agency_object, gateway_must_exists, node_must_exists)
             self.agency_list[agency_config.agency_name] = agency_config
             utilities.log_debug(
                 "load the agency config for %s success" % agency_config.agency_name)

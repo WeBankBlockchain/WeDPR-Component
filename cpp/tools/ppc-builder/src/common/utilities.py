@@ -15,14 +15,6 @@ class ServiceInfo:
     ssl_file_list = ["ca.crt", "ssl.key", "ssl.crt"]
     sm_ssl_file_list = ["sm_ca.crt", "sm_ssl.key",
                         "sm_ssl.crt", "sm_enssl.key", "sm_enssl.crt"]
-
-    node_service_postfix = "NodeService"
-    gateway_servant = "GatewayService"
-    gateway_servant_obj = ["GatewayServiceObj"]
-
-    node_servant = ["FrontService"]
-    node_servant_object = ["FrontServiceObj"]
-
     cert_generation_script_path = "src/scripts/gen_cert.sh"
     node_service_type = "node"
     gateway_service_type = "gateway"
@@ -31,28 +23,25 @@ class ServiceInfo:
 
 class ConfigInfo:
     config_ini_file = "config.ini"
-    tars_config_file = "tars.conf"
-
     tpl_abs_path = "src/tpl/"
     pwd_path = os.getcwd()
     node_config_tpl_path = os.path.join(
         pwd_path, tpl_abs_path, "config.ini.node")
     gateway_config_tpl_path = os.path.join(
         pwd_path, tpl_abs_path, "config.ini.gateway")
-    tars_config_tpl_path = os.path.join(pwd_path, tpl_abs_path, "tars.conf")
-
-    tars_start_tpl_path = os.path.join(
-        pwd_path, tpl_abs_path, "tars_start.sh")
-    tars_stop_tpl_path = os.path.join(
-        pwd_path, tpl_abs_path, "tars_stop.sh")
-
-    tars_start_all_tpl_path = os.path.join(
-        pwd_path, tpl_abs_path, "tars_start_all.sh")
-    tars_stop_all_tpl_path = os.path.join(
-        pwd_path, tpl_abs_path, "tars_stop_all.sh")
 
     ppc_gateway_binary_name = "ppc-gateway-service"
     ppc_node_binary_name = "ppc-pro-node"
+
+    start_tpl_path = os.path.join(
+        pwd_path, tpl_abs_path, "start.sh")
+    stop_tpl_path = os.path.join(
+        pwd_path, tpl_abs_path, "stop.sh")
+
+    start_all_tpl_path = os.path.join(
+        pwd_path, tpl_abs_path, "start_all.sh")
+    stop_all_tpl_path = os.path.join(
+        pwd_path, tpl_abs_path, "stop_all.sh")
 
 
 class CommandInfo:
@@ -123,10 +112,6 @@ def mkfiledir(filepath):
         mkdir(parent_dir)
 
 
-def generate_service_name(prefix, service_name):
-    return prefix + service_name
-
-
 def convert_bool_to_str(value):
     if value is True:
         return "true"
@@ -162,7 +147,12 @@ def store_config(config_content, config_type, config_path, desc):
         mkdir(os.path.dirname(config_path))
 
     with open(config_path, 'w') as configFile:
-        config_content.write(configFile)
+        if isinstance(config_content, str):
+            configFile.write(config_content)
+        elif isinstance(config_content, bytes):
+            configFile.write(config_content)
+        else:
+            config_content.write(configFile)
         log_info("* store %s config for %s success" %
                  (config_type, desc))
     return True
@@ -176,14 +166,3 @@ def load_config(file_path):
     config_content.optionxform = str
     config_content.read(file_path)
     return config_content
-
-
-def check_service_name(tag, service_name):
-    """
-    Note: tars service name can only contain letters and numbers
-    """
-    service_name_len = len(service_name)
-    ret = re.search(r'^[A-Za-z0-9]+', service_name).span()
-    if ret is None or (ret[0] != 0 or ret[1] != service_name_len):
-        raise Exception(
-            "the %s must be letters|numbers, invalid value: %s" % (tag, service_name))

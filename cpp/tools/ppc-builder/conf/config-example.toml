@@ -1,6 +1,6 @@
-[tars]
-tars_pkg_dir = "bin/"
-app_name = "ppc1"
+[env]
+binary_path = "bin/"
+deploy_dir = "ppc1"
 
 [crypto]
 # the gateway-service enable ssl or not, default enable ssl
@@ -27,25 +27,11 @@ holding_msg_minutes = 30
     listen_port=40300
     # the thread count
     thread_count = 4
-    # the cache config for the gateway
-    cache_type = 0
-    cache_proxy = ""
-    cache_obServer = ""
-    cache_cluster = ""
-    cache_host = "127.0.0.1"
-    cache_port = 6379
-    cache_password = ""
-    cache_database = 1
-    cache_pool_size = 16
-    # the redis connection timeout, in ms, default is 500ms
-    cache_connection_timeout = 500
-    # the redis socket timeout, in ms, default is 500ms
-    cache_socket_timeout = 500
-    # the tars config
-    # gateway tars server listen ip
-    tars_listen_ip="0.0.0.0"
-    # gateway tars server listen start port
-    tars_listen_port=40600
+    # the grpc config
+    # gateway grpc server listen ip
+    grpc_listen_ip="0.0.0.0"
+    # gateway grpc server listen start port
+    grpc_listen_port=40600
     # gateway connected peers, should be all of the gateway peers info
     [[agency.gateway.peers]]
         agency = "agency0"
@@ -61,10 +47,12 @@ holding_msg_minutes = 30
         deploy_ip=["127.0.0.1:2"]
         # node name, Notice: node_name in the same agency and group must be unique
         node_name = "node0"
-        # node tars server listen ip
-        tars_listen_ip="0.0.0.0"
-        # node tars server listen port
-        tars_listen_port=40402
+        # node grpc server listen ip
+        grpc_listen_ip="0.0.0.0"
+        # node grpc server listen port
+        grpc_listen_port=40402
+        # the components
+        components = "node"
         # the rpc config for the node
         [agency.node.rpc]
             listen_ip = "0.0.0.0"
@@ -108,7 +96,7 @@ holding_msg_minutes = 30
             token = ""
         # the gateway config
         [agency.node.gateway]
-            tars_endpoints = ["127.0.0.1:40600", "127.0.0.1:40601"]
+            gateway_grpc_target = ["127.0.0.1:40600", "127.0.0.1:40601"]
 
 
 [[agency]]
@@ -124,25 +112,11 @@ holding_msg_minutes = 30
     listen_port=40320
     # the thread count
     thread_count = 4
-    # the cache config for the gateway
-    cache_type = 0
-    cache_proxy = ""
-    cache_obServer = ""
-    cache_cluster = ""
-    cache_host = "127.0.0.1"
-    cache_port = 6379
-    cache_password = ""
-    cache_database = 2
-    cache_pool_size = 16
-    # the redis connection timeout, in ms, default is 500ms
-    cache_connection_timeout = 500
-    # the redis socket timeout, in ms, default is 500ms
-    cache_socket_timeout = 500
-    # the tars config
-    # gateway tars server listen ip
-    tars_listen_ip="0.0.0.0"
-    # gateway tars server listen start port
-    tars_listen_port=40620
+    # the grpc config
+    # gateway grpc server listen ip
+    grpc_listen_ip="0.0.0.0"
+    # gateway grpc server listen start port
+    grpc_listen_port=40620
     # gateway connected peers, should be all of the gateway peers info
     [[agency.gateway.peers]]
         agency = "agency0"
@@ -158,10 +132,12 @@ holding_msg_minutes = 30
         deploy_ip=["127.0.0.1:2"]
         # node name, Notice: node_name in the same agency and group must be unique
         node_name = "node0"
-        # node tars server listen ip
-        tars_listen_ip="0.0.0.0"
-        # node tars server listen port
-        tars_listen_port=40422
+        # node grpc server listen ip
+        grpc_listen_ip="0.0.0.0"
+        # node grpc server listen port
+        grpc_listen_port=40422
+        # the componet
+        components = "node"
         # the rpc config for the node
         [agency.node.rpc]
             listen_ip = "0.0.0.0"
@@ -205,4 +181,4 @@ holding_msg_minutes = 30
             token = ""
         # the gateway config
         [agency.node.gateway]
-            tars_endpoints = ["127.0.0.1:40620", "127.0.0.1:40621"]
+            gateway_grpc_target = ["127.0.0.1:40620", "127.0.0.1:40621"]

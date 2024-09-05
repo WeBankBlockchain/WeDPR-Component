@@ -28,6 +28,8 @@ sm2_params="sm_sm2.param"
 sm_mode="false"
 days=36500
 rsa_key_length=2048
+p2p_connected_conf_name="nodes.json"
+file_dir="./"
 
 default_version="v1.1.0"
 compatibility_version=${default_version}
@@ -338,7 +340,7 @@ Usage:
     -l <IP list>                        [Required] "ip1:nodeNum1,ip2:nodeNum2" e.g:"192.168.0.1:2,192.168.0.2:3"
     -e <ppc-air-node exec>                   [Optional] ppc-air-node binary exec
     -o <output dir>                     [Optional] output directory, default ./nodes
-    -p <Start port>                     [Optional] Default 40300,10200 means p2p_port start from 40300, rpc_port from 10200
+    -p <Start port>                     [Optional] Default 40300,10200,18000 means p2p_port start from 40300, rpc_port from 10200, grpc_port from 18000
     -s <SM model>                       [Optional] SM SSL connection or not, default is false
     -d <Disable ra2018>                 [Optional] Disable ra2018 psi or not, default is false
     -h Help
@@ -350,8 +352,39 @@ EOF
     exit 0
 }
 
+
+generate_p2p_connected_conf() {
+    local output="${1}"
+    local ip_params="${2}"
+    local template="${3}"
+
+    local p2p_host_list=""
+    if [[ "${template}" == "true" ]]; then
+        p2p_host_list="${ip_params}"
+    else
+        local ip_array=(${ip_params//,/ })
+        local ip_length=${#ip_array[@]}
+    
+        local i=0
+        for (( ; i < ip_length; i++)); do
+            local ip=${ip_array[i]}
+            local delim=""
+            if [[ $i == $((ip_length - 1)) ]]; then
+                delim=""
+            else
+                delim=","
+            fi
+            p2p_host_list="${p2p_host_list}\"${ip}\"${delim}"
+        done
+    fi
+
+    cat <<EOF >"${output}"
+{"nodes":[${p2p_host_list}]}
+EOF
+}
+
 # generate the config.ini
-generate_config_ini() {
+generate_node_config_ini() {
     local output="${1}"
     local gateway_listen_ip="${2}"
     local gateway_listen_port="${3}"
@@ -364,6 +397,7 @@ generate_config_ini() {
 
     local agency_id="${8}"
     local index="${9}"
+    local nodeid="${10}"
 
     cat <<EOF >"${output}"
 [agency]
@@ -389,6 +423,7 @@ generate_config_ini() {
    service.gateway_target =  
    ; the components
    service.components =
+   nodeid=${nodeid}
 
 [crypto]
     sm_crypto = ${sm_mode}
@@ -396,6 +431,10 @@ generate_config_ini() {
 [gateway]
     listen_ip=${gateway_listen_ip}
     listen_port=${gateway_listen_port}
+    ;the dir that contains the connected endpoint information, e.g.nodes.json 
+    ;nodes_path=${file_dir}
+    ; the file that configure the connected endpoint information
+    ; nodes_file=${p2p_connected_conf_name}
     ; thread_count = 4
     ; ssl or sm ssl
     sm_ssl=${sm_mode}
@@ -408,10 +447,6 @@ generate_config_ini() {
     ;reconnect_time = 10000
     ; the unreachable distance
     ;unreachable_distance=10
-    ;the dir that contains the connected endpoint information, e.g.nodes.json 
-    ;nodes_path=./
-    ; the file that configure the connected endpoint information
-    ; nodes_path=nodes.json
 
 [rpc]
     listen_ip=${rpc_listen_ip}
@@ -786,6 +821,7 @@ generate_private_key() {
     fi
     ${OPENSSL_CMD} genpkey -paramfile ${sm2_params} -out ${output_path}/node.pem 2>/dev/null
     $OPENSSL_CMD ec -in "$output_path/node.pem" -text -noout 2> /dev/null | sed -n '3,5p' | sed 's/://g' | tr "\n" " " | sed 's/ //g'  | cat > "$output_path/node.privateKey"
+    ${OPENSSL_CMD} ec -text -noout -in "${output_path}/node.pem" 2>/dev/null | sed -n '7,11p' | tr -d ": \n" | awk '{print substr($0,3);}' | cat >"$output_path"/node.nodeid
     private_key=$(cat $output_path/node.privateKey)
     echo ${private_key}
 }
@@ -819,6 +855,7 @@ deploy_nodes()
     # generate the ca-cert
     ca_dir="${output_dir}"/ca
     generate_ca_cert "${sm_mode}" "${ca_dir}"
+    connected_nodes=""
     for line in ${ip_array[*]}; do
         ip=${line%:*}
         num=${line#*:}
@@ -849,7 +886,7 @@ deploy_nodes()
             # generate the node-script
             generate_node_scripts "${node_dir}"
             local port=$((gateway_listen_port + node_count))
-    "
+            connected_nodes=${connected_nodes}"${ip}:${port}, "
             ((agency_index += 1))
             set_value ${ip//./}_count $(($(get_value ${ip//./}_count) + 1))
             ((++count))
@@ -875,7 +912,9 @@ deploy_nodes()
             local grpc_port=$((grpc_listen_port + node_count))
             local agency_id="agency${count}"
             private_key=$(generate_private_key "${node_dir}/conf")
-            generate_config_ini "${node_dir}/config.ini" "${listen_ip}" "${gateway_port}" "${listen_ip}" "${rpc_port}" "${listen_ip}" "${grpc_port}" ${agency_id} "${count}"
+            node_id=$(cat "${node_dir}/conf/node.nodeid")
+            generate_node_config_ini "${node_dir}/config.ini" "${listen_ip}" "${gateway_port}" "${listen_ip}" "${rpc_port}" "${listen_ip}" "${grpc_port}" ${agency_id} "${count}" "${node_id}"
+            generate_p2p_connected_conf "${node_dir}/${p2p_connected_conf_name}" "${connected_nodes}" "false"
             set_value ${ip//./}_count $(($(get_value ${ip//./}_count) + 1))
             ((++count))
         done
