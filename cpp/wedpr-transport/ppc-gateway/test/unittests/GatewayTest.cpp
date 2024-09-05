@@ -21,8 +21,8 @@
 #if 0
 #include "ppc-gateway/ppc-gateway/Gateway.h"
 #include "MockCache.h"
-#include "ppc-gateway/ppc-gateway/GatewayConfigContext.h"
 #include "ppc-gateway/ppc-gateway/"
+#include "ppc-gateway/ppc-gateway/GatewayConfigContext.h"
 #include "ppc-tools/src/config/PPCConfig.h"
 #include <bcos-utilities/testutils/TestPromptFixture.h>
 #include <boost/filesystem.hpp>
@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE(test_readConfig)
 {
     auto ppcConfig = std::make_shared<PPCConfig>();
     std::string configPath = "../../../ppc-gateway/test/data/config0.ini";
-    ppcConfig->loadGatewayConfig(ppc::protocol::NodeArch::PRO, nullptr, configPath);
+    ppcConfig->loadGatewayConfig(configPath);
     auto config = std::make_shared<GatewayConfigContext>(ppcConfig);
     auto const& gatewayConfig = ppcConfig->gatewayConfig();
     BOOST_CHECK(gatewayConfig.networkConfig.disableSsl == true);

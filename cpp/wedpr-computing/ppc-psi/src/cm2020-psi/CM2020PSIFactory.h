@@ -21,7 +21,6 @@
 #include "CM2020PSIImpl.h"
 #include "ppc-framework/crypto/CryptoBox.h"
 #include "ppc-framework/io/DataResourceLoader.h"
-#include "ppc-tools/src/config/PPCConfig.h"
 
 namespace ppc::psi
 {

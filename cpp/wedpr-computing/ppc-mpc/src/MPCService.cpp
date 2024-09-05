@@ -42,6 +42,7 @@ using namespace ppc::io;
 using namespace ppc::protocol;
 using namespace ppc::tools;
 using namespace ppc::storage;
+using namespace ppc::rpc;
 
 
 void MPCService::doRun(Json::Value const& request, Json::Value& response)

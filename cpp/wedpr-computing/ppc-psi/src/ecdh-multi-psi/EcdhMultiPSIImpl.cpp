@@ -7,6 +7,7 @@ using namespace ppc::front;
 using namespace ppc::crypto;
 using namespace ppc::io;
 using namespace bcos;
+using namespace ppc::task;
 
 
 EcdhMultiPSIImpl::EcdhMultiPSIImpl(const EcdhMultiPSIConfig::Ptr& _config, unsigned _idleTimeMs)

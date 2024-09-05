@@ -24,7 +24,6 @@
 #include "ppc-framework/rpc/RpcInterface.h"
 #include "ppc-framework/rpc/RpcTypeDef.h"
 #include "ppc-psi/src/bs-ecdh-psi/BsEcdhPSIImpl.h"
-#include "ppc-tools/src/config/PPCConfig.h"
 #include "wedpr-transport/sdk/Transport.h"
 #include <bcos-boostssl/httpserver/Common.h>
 #include <bcos-utilities/Timer.h>
@@ -44,6 +43,16 @@ namespace ppc::pir
 {
 class OtPIRImpl;
 }  // namespace ppc::pir
+
+namespace ppc::sdk
+{
+class TransportBuilder;
+}
+
+namespace ppc::tools
+{
+class PPCConfig;
+}
 namespace ppc::initializer
 {
 class Initializer : public std::enable_shared_from_this<Initializer>
@@ -58,11 +67,11 @@ public:
     virtual void stop();
     virtual void start();
 
-    ppc::tools::PPCConfig::Ptr config() { return m_config; }
+    std::shared_ptr<ppc::tools::PPCConfig> config() { return m_config; }
     ppc::sdk::Transport::Ptr const& transport() const { return m_transport; }
     ppc::front::FrontInterface::Ptr const& ppcFront() const { return m_ppcFront; }
 
-    ppc::tools::PPCConfig::Ptr const& config() const { return m_config; }
+    std::shared_ptr<ppc::tools::PPCConfig> const& config() const { return m_config; }
     ProtocolInitializer::Ptr const& protocolInitializer() const { return m_protocolInitializer; }
     ppc::psi::BsEcdhPSIImpl::Ptr const& bsEcdhPsi() const { return m_bsEcdhPSI; }
 
@@ -74,10 +83,12 @@ protected:
 
 private:
     std::string m_configPath;
-    ppc::tools::PPCConfig::Ptr m_config;
+    std::shared_ptr<ppc::tools::PPCConfig> m_config;
     ProtocolInitializer::Ptr m_protocolInitializer;
+
+    std::shared_ptr<ppc::sdk::TransportBuilder> m_transportBuilder;
     ppc::sdk::Transport::Ptr m_transport;
-    // created with transport
+    // created using transport
     ppc::front::FrontInterface::Ptr m_ppcFront;
 
     // the ra2018-psi

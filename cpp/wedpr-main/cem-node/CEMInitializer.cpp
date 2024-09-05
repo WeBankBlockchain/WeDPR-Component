@@ -40,7 +40,7 @@ void CEMInitializer::init(std::string const& _configPath)
     // load the rpc config
     auto ppcConfig = std::make_shared<PPCConfig>();
     // not specify the certPath in air-mode
-    ppcConfig->loadRpcConfig(nullptr, pt);
+    ppcConfig->loadRpcConfig(pt);
     ppcConfig->loadCEMConfig(pt);
     // bool useMysql = pt.get<bool>("cem.use_mysql", false);
     auto storageConfig = ppcConfig->storageConfig();

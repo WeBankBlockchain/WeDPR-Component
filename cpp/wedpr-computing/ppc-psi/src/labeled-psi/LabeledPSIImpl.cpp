@@ -33,6 +33,7 @@ using namespace ppc::front;
 using namespace ppc::tools;
 using namespace ppc::crypto;
 using namespace ppc::io;
+using namespace ppc::task;
 
 LabeledPSIImpl::LabeledPSIImpl(LabeledPSIConfig::Ptr _config, unsigned _idleTimeMs)
   : Worker("LabeledPSI", _idleTimeMs),

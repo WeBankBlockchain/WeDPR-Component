@@ -25,7 +25,6 @@
 
 namespace ppc::mpc
 {
-
 DERIVE_PPC_EXCEPTION(MpcCompilerNotExistException);
 DERIVE_PPC_EXCEPTION(RunMpcFailException);
 DERIVE_PPC_EXCEPTION(OpenPipeFailException);

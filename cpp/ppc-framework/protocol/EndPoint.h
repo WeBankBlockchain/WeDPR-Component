@@ -41,6 +41,7 @@ public:
 
     void setHost(std::string host) { m_host = std::move(host); }
     void setPort(uint16_t port) { m_port = port; }
+    void setListenIp(std::string const& listenIp) { m_listenIp = listenIp; }
 
     std::string entryPoint() const { return m_host + ":" + std::to_string(m_port); }
 

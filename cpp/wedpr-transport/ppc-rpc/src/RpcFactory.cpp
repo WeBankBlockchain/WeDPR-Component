@@ -19,6 +19,7 @@
  */
 #include "RpcFactory.h"
 #include "ppc-storage/src/mysql/MySQLStorage.h"
+#include "ppc-tools/src/config/PPCConfig.h"
 #include <bcos-boostssl/websocket/WsInitializer.h>
 #include <bcos-boostssl/websocket/WsService.h>
 

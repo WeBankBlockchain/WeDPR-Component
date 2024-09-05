@@ -61,7 +61,7 @@ void AirNodeInitializer::init(std::string const& _configPath)
     INIT_LOG(INFO) << LOG_DESC("init the rpc");
     // load the rpc config
     // not specify the certPath in air-mode
-    m_nodeInitializer->config()->loadRpcConfig(nullptr, pt);
+    m_nodeInitializer->config()->loadRpcConfig(pt);
     // init RpcStatusInterface
     RpcStatusInterface::Ptr rpcStatusInterface = std::make_shared<ppc::rpc::RpcMemory>();
 
@@ -80,7 +80,7 @@ void AirNodeInitializer::initGateway(std::string const& _configPath)
     INIT_LOG(INFO) << LOG_DESC("initGateway: ") << _configPath;
     // not specify the certPath in air-mode
     auto config = m_nodeInitializer->config();
-    config->loadGatewayConfig(ppc::protocol::NodeArch::AIR, nullptr, _configPath);
+    config->loadGatewayConfig(_configPath);
 
     auto threadPool = std::make_shared<bcos::ThreadPool>(
         "gateway", config->gatewayConfig().networkConfig.threadPoolSize);

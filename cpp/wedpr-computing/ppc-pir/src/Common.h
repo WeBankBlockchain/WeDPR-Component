@@ -19,10 +19,11 @@
  */
 #pragma once
 #include "ppc-framework/Common.h"
+#include <bcos-utilities/Error.h>
 #include <bcos-utilities/Log.h>
-#include <string>
 #include <err.h>
 #include <fcntl.h>
+#include <json/json.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -35,8 +36,6 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <bcos-utilities/Error.h>
-#include <json/json.h>
 
 #define PIR_LOG(LEVEL) BCOS_LOG(LEVEL) << LOG_BADGE("PIR")
 
@@ -44,7 +43,6 @@ namespace ppc::pir
 {
 // const std::string DEFAULT_MESSAGE = "message not found";
 const std::string DEFAULT_PREFIX = "PPC_DEFAULT_MESG";
-
 
 
 enum class OTPIRMessageType : uint8_t
@@ -63,7 +61,8 @@ enum class OTPIRRetCode : int
 inline bool isPrefixMatched(const bcos::bytes& _prefix, const char* begin, const char* end)
 {
     size_t prefixLen = _prefix.size();
-    if (end - begin < prefixLen) return false;
+    if (end - begin < prefixLen)
+        return false;
     for (size_t i = 0; i < prefixLen; ++i)
     {
         if (_prefix[i] != *(begin + i))
@@ -73,7 +72,8 @@ inline bool isPrefixMatched(const bcos::bytes& _prefix, const char* begin, const
 }
 
 // 从Task param解析
-struct PirTaskMessage {
+struct PirTaskMessage
+{
     std::string searchId;
     std::string requestAgencyId;
     std::string requestAgencyDataset;
@@ -121,7 +121,7 @@ inline std::vector<std::pair<bcos::bytes, bcos::bytes>> readInputsByMmapWithPref
                 ++end;
         }
         // 判断_prefix和buf中begin, end这一行的前缀是否相同
-        if(isPrefixMatched(_prefix, begin, end))
+        if (isPrefixMatched(_prefix, begin, end))
         {
             std::string st(begin, end);
             std::stringstream ss(st);
@@ -152,8 +152,8 @@ inline PirTaskMessage parseJson(std::string_view _param)
     Json::Value result;
     if (!reader.parse(_param.begin(), _param.end(), result))
     {
-        BOOST_THROW_EXCEPTION(BCOS_ERROR(
-            (int)OTPIRRetCode::INVALID_TASK_PARAM, "invalid task param: invalid json"));
+        BOOST_THROW_EXCEPTION(
+            BCOS_ERROR((int)OTPIRRetCode::INVALID_TASK_PARAM, "invalid task param: invalid json"));
     }
     PIR_LOG(TRACE) << LOG_BADGE("result type") LOG_KV("result", result.type());
     if (!result.isObject() || result.empty())
@@ -163,15 +163,18 @@ inline PirTaskMessage parseJson(std::string_view _param)
     }
     PirTaskMessage taskMessage;
 
-    if(!result.isMember("searchId")){
+    if (!result.isMember("searchId"))
+    {
         BOOST_THROW_EXCEPTION(BCOS_ERROR((int)OTPIRRetCode::INVALID_TASK_PARAM,
             "invalid task param:: the param searchId not found"));
     }
-    if(!result.isMember("requestAgencyId")){
+    if (!result.isMember("requestAgencyId"))
+    {
         BOOST_THROW_EXCEPTION(BCOS_ERROR((int)OTPIRRetCode::INVALID_TASK_PARAM,
             "invalid task param:: the param requestAgencyId not found"));
     }
-    if(!result.isMember("prefixLength")){
+    if (!result.isMember("prefixLength"))
+    {
         BOOST_THROW_EXCEPTION(BCOS_ERROR((int)OTPIRRetCode::INVALID_TASK_PARAM,
             "invalid task param:: the param prefixLength not found"));
     }

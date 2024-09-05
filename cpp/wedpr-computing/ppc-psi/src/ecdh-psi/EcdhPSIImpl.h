@@ -40,8 +40,8 @@ public:
 
     ~EcdhPSIImpl() override = default;
 
-    void asyncRunTask(
-        ppc::protocol::Task::ConstPtr _task, TaskResponseCallback&& _onTaskFinished) override;
+    void asyncRunTask(ppc::protocol::Task::ConstPtr _task,
+        ppc::task::TaskResponseCallback&& _onTaskFinished) override;
 
     // handle the psi message
     void handlePSIMsg(PSIMessageInterface::Ptr _msg) override;

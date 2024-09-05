@@ -21,9 +21,6 @@
 #include "OtPIRImpl.h"
 #include "ppc-framework/crypto/CryptoBox.h"
 #include "ppc-framework/io/DataResourceLoader.h"
-#include "ppc-tools/src/config/PPCConfig.h"
-
-using namespace ppc::psi;
 
 namespace ppc::pir
 {
@@ -39,10 +36,10 @@ public:
         bcos::ThreadPool::Ptr _threadPool, ppc::io::DataResourceLoader::Ptr _dataResourceLoader,
         int _holdingMessageMinutes)
     {
-        auto config = std::make_shared<OtPIRConfig>(_selfParty, std::move(_front),
-            std::move(_cryptoBox), std::move(_threadPool), std::move(_dataResourceLoader),
-            _holdingMessageMinutes);
+        auto config =
+            std::make_shared<OtPIRConfig>(_selfParty, std::move(_front), std::move(_cryptoBox),
+                std::move(_threadPool), std::move(_dataResourceLoader), _holdingMessageMinutes);
         return std::make_shared<OtPIRImpl>(config);
     }
 };
-}  // namespace ppc::psi
+}  // namespace ppc::pir

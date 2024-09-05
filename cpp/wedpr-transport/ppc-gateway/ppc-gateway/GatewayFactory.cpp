@@ -22,6 +22,7 @@
 #include "bcos-boostssl/websocket/WsInitializer.h"
 #include "ppc-gateway/p2p/Service.h"
 #include "ppc-gateway/p2p/router/RouterTableImpl.h"
+#include "ppc-tools/src/config/PPCConfig.h"
 #include "protocol/src/v1/MessageHeaderImpl.h"
 #include "protocol/src/v1/MessageImpl.h"
 
@@ -33,27 +34,23 @@ using namespace ppc::gateway;
 using namespace bcos::boostssl::ws;
 using namespace bcos::boostssl;
 
-WsConfig::Ptr GatewayFactory::createServiceConfig(GatewayConfig const& config) const
-{
-    auto wsConfig = std::make_shared<WsConfig>();
-    wsConfig->setModel(WsModel::Mixed);
-    wsConfig->setListenIP(config.networkConfig.listenIp);
-    wsConfig->setListenPort(config.networkConfig.listenPort);
-    wsConfig->setSmSSL(config.networkConfig.enableSM);
-    wsConfig->setMaxMsgSize(config.maxAllowedMsgSize);
-    wsConfig->setReconnectPeriod(config.reconnectTime);
-    // TODO: setHeartbeatPeriod, setSendMsgTimeout
-    wsConfig->setThreadPoolSize(config.networkConfig.threadPoolSize);
-    // connected peers
-    wsConfig->setConnectPeers(m_gatewayConfig->nodeIPEndpointSetPtr());
-    wsConfig->setDisableSsl(config.networkConfig.disableSsl);
-    wsConfig->setContextConfig(m_contextConfig->contextConfig());
-    return wsConfig;
-}
-
 Service::Ptr GatewayFactory::buildService() const
 {
-    auto wsConfig = createServiceConfig(m_config->gatewayConfig());
+    auto gwConfig = m_config->gatewayConfig();
+    auto wsConfig = std::make_shared<WsConfig>();
+    wsConfig->setModel(WsModel::Mixed);
+    wsConfig->setListenIP(gwConfig.networkConfig.listenIp);
+    wsConfig->setListenPort(gwConfig.networkConfig.listenPort);
+    wsConfig->setSmSSL(gwConfig.networkConfig.enableSM);
+    wsConfig->setMaxMsgSize(gwConfig.maxAllowedMsgSize);
+    wsConfig->setReconnectPeriod(gwConfig.reconnectTime);
+    // TODO: setHeartbeatPeriod, setSendMsgTimeout
+    wsConfig->setThreadPoolSize(gwConfig.networkConfig.threadPoolSize);
+    // connected peers
+    wsConfig->setConnectPeers(m_gatewayConfig->nodeIPEndpointSetPtr());
+    wsConfig->setDisableSsl(gwConfig.networkConfig.disableSsl);
+    wsConfig->setContextConfig(m_contextConfig->contextConfig());
+
     auto wsInitializer = std::make_shared<WsInitializer>();
     // set the messageFactory
     wsInitializer->setMessageFactory(

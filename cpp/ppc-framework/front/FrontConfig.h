@@ -34,43 +34,32 @@ class FrontConfig
 {
 public:
     using Ptr = std::shared_ptr<FrontConfig>;
+    FrontConfig() = default;
+
     FrontConfig(int threadPoolSize, std::string nodeID)
       : m_threadPoolSize(threadPoolSize), m_nodeID(std::move(nodeID))
     {}
     virtual ~FrontConfig() = default;
 
     virtual int threadPoolSize() const { return m_threadPoolSize; }
-    virtual std::string const& nodeID() const { return m_nodeID; }
-    virtual std::vector<ppc::protocol::EndPoint> const& gatewayInfo() const
-    {
-        return m_gatewayInfo;
-    }
-    virtual void setGatewayInfo(std::vector<ppc::protocol::EndPoint> gatewayInfo)
-    {
-        m_gatewayInfo = std::move(gatewayInfo);
-    }
+    virtual void setThreadPoolSize(int threadPoolSize) { m_threadPoolSize = threadPoolSize; }
 
-    virtual void appendGatewayInfo(ppc::protocol::EndPoint&& endpoint)
-    {
-        m_gatewayInfo.push_back(endpoint);
-    }
+    virtual std::string const& nodeID() const { return m_nodeID; }
+    virtual void setNodeID(std::string const& nodeID) { m_nodeID = nodeID; }
 
     ppc::protocol::EndPoint const& selfEndPoint() const { return m_selfEndPoint; }
+    ppc::protocol::EndPoint& mutableSelfEndPoint() { return m_selfEndPoint; }
+
     void setSelfEndPoint(ppc::protocol::EndPoint const& endPoint) { m_selfEndPoint = endPoint; }
 
+    void setGatewayGrpcTarget(std::string const& gatewayGrpcTarget)
+    {
+        m_gatewayGrpcTarget = gatewayGrpcTarget;
+    }
     // refer to: https://github.com/grpc/grpc-node/issues/2066
     // grpc prefer to using ipv4:${host1}:${port1},${host2}:${port2} as target to support multiple
     // servers
-    std::string gatewayGrpcTarget()
-    {
-        std::stringstream oss;
-        oss << "ipv4:";
-        for (auto const& endPoint : m_gatewayInfo)
-        {
-            oss << endPoint.entryPoint() << ",";
-        }
-        return oss.str();
-    }
+    std::string const& gatewayGrpcTarget() const { return m_gatewayGrpcTarget; }
 
     void setGrpcConfig(ppc::protocol::GrpcConfig::Ptr grpcConfig)
     {
@@ -84,13 +73,26 @@ public:
     virtual std::vector<std::string> const& getComponents() const { return m_components; }
     void setComponents(std::vector<std::string> const& components) { m_components = components; }
 
+    std::vector<std::string>& mutableComponents() { return m_components; }
+
 protected:
     ppc::protocol::GrpcConfig::Ptr m_grpcConfig;
     ppc::protocol::EndPoint m_selfEndPoint;
     int m_threadPoolSize;
     std::string m_nodeID;
-    std::vector<ppc::protocol::EndPoint> m_gatewayInfo;
+    std::string m_gatewayGrpcTarget;
     std::vector<std::string> m_components;
+};
+
+class FrontConfigBuilder
+{
+public:
+    using Ptr = std::shared_ptr<FrontConfigBuilder>;
+    FrontConfigBuilder() = default;
+    virtual ~FrontConfigBuilder() = default;
+
+    virtual FrontConfig::Ptr build() const = 0;
+    virtual FrontConfig::Ptr build(int threadPoolSize, std::string nodeID) const = 0;
 };
 
 inline std::string printFrontDesc(FrontConfig::Ptr const& config)

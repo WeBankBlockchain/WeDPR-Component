@@ -72,14 +72,6 @@ set(CEM_SOURCE "")
 if(BUILD_CEM)
     set(CEM_SOURCE "wedpr-computing/ppc-cem")
 endif()
-#set(ALL_SOURCE_LIST 
-#        ${SDK_SOURCE_LIST} ppc-crypto 
-#        libhelper libinitializer ppc-io ppc-protocol 
-#        ppc-gateway ppc-front  ppc-tars-protocol 
-#        wedpr-helper/ppc-tools ppc-storage ppc-psi ppc-rpc 
-#        ppc-http ppc-mpc ppc-pir
-#        ${CEM_SOURCE} ppc-main)
-
 set(ALL_SOURCE_LIST 
         ${SDK_SOURCE_LIST} 
         wedpr-crypto/ppc-crypto 

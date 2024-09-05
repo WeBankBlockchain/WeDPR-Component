@@ -25,29 +25,19 @@
 #include <thread>
 
 using namespace ppc::tools;
+using namespace ppc::front;
 using namespace ppc::protocol;
 using namespace ppc::storage;
 using namespace bcos;
 
-void PPCConfig::loadGatewayConfig(
-    NodeArch _arch, const char* _certPath, boost::property_tree::ptree const& _pt)
+void PPCConfig::loadGatewayConfig(boost::property_tree::ptree const& _pt)
 {
     // load the network config
     PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig: load the network config");
     // gateway default enable-ssl
-    loadNetworkConfig(m_gatewayConfig.networkConfig, _certPath, _pt, "gateway",
-        NetworkConfig::DefaultRpcListenPort, false);
+    loadNetworkConfig(
+        m_gatewayConfig.networkConfig, _pt, "gateway", NetworkConfig::DefaultRpcListenPort, false);
     PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig: load the network config success");
-
-    m_gatewayConfig.disableCache = _pt.get<bool>("gateway.disable_cache", false);
-
-    // load the redis config
-    if (_arch == NodeArch::PRO && !m_gatewayConfig.disableCache)
-    {
-        PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig: load the redis config");
-        initRedisConfigForGateway(m_gatewayConfig.cacheStorageConfig, _pt);
-        PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig: load the redis config success");
-    }
 
     m_gatewayConfig.nodePath = _pt.get<std::string>("gateway.nodes_path", "./");
     m_gatewayConfig.nodeFileName = _pt.get<std::string>("gateway.nodes_file", "nodes.json");
@@ -75,10 +65,102 @@ void PPCConfig::loadGatewayConfig(
     }
     // load the holdingMessageMinutes, in minutes
     m_holdingMessageMinutes = loadHoldingMessageMinutes(_pt, "gateway.holding_msg_minutes");
+    // load the grpcConfig
+    m_grpcConfig = loadGrpcConfig("transport", _pt);
+    // load the GrpcServerConfig
+    loadEndpointConfig(m_gatewayConfig.grpcServerConfig.endPoint, false, "transport", _pt);
+    // the agencyID
+    m_agencyID = _pt.get<std::string>("agency.id", "");
+    if (m_agencyID.empty())
+    {
+        BOOST_THROW_EXCEPTION(InvalidConfig() << errinfo_comment("Must set agency.id"));
+    }
     PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig")
                         << LOG_KV("maxAllowedMsgSize", m_gatewayConfig.maxAllowedMsgSize)
                         << LOG_KV("reconnectTime", m_gatewayConfig.reconnectTime)
                         << LOG_KV("holdingMessageMinutes", m_holdingMessageMinutes);
+}
+
+void PPCConfig::loadEndpointConfig(EndPoint& endPoint, bool requireHostIp,
+    std::string const& sectionName, boost::property_tree::ptree const& pt)
+{
+    // the host ip
+    auto hostIp = pt.get<std::string>(sectionName + ".host_ip", "127.0.0.1");
+    if (requireHostIp && hostIp.empty())
+    {
+        BOOST_THROW_EXCEPTION(
+            InvalidConfig() << errinfo_comment("Must specify the " + sectionName + ".host_ip!"));
+    }
+    endPoint.setHost(hostIp);
+    // the listen ip
+    auto listenIp = pt.get<std::string>(sectionName + ".listen_ip", "0.0.0.0");
+    if (listenIp.empty())
+    {
+        BOOST_THROW_EXCEPTION(
+            InvalidConfig() << errinfo_comment("Must specify the " + sectionName + ".listen_ip!"));
+    }
+    endPoint.setListenIp(listenIp);
+    // the listen port
+    auto listenPort = pt.get<uint16_t>(sectionName + ".listen_port", 18000);
+    checkPort(sectionName + ".listen_port", listenPort);
+    endPoint.setPort(listenPort);
+}
+
+void PPCConfig::loadFrontConfig(
+    FrontConfigBuilder::Ptr const& frontConfigBuilder, boost::property_tree::ptree const& pt)
+{
+    if (m_frontConfig == nullptr)
+    {
+        m_frontConfig = frontConfigBuilder->build();
+    }
+    loadEndpointConfig(m_frontConfig->mutableSelfEndPoint(), true, "transport", pt);
+    // the thread_count
+    auto threadCount = pt.get<uint16_t>("transport.thread_count", 4);
+    if (threadCount == 0)
+    {
+        threadCount = 2;
+    }
+    // TODO: load from the pem file
+    auto nodeID = pt.get<std::string>("transport.nodeid", "");
+    if (nodeID.empty())
+    {
+        BOOST_THROW_EXCEPTION(
+            InvalidConfig() << errinfo_comment("Must specify the transport.nodeid!"));
+    }
+    m_frontConfig->setNodeID(nodeID);
+
+    m_frontConfig->setThreadPoolSize(threadCount);
+    // the gateway targets
+    auto gatewayTargets = pt.get<std::string>("transport.service.gateway_target", "");
+    if (gatewayTargets.empty())
+    {
+        BOOST_THROW_EXCEPTION(InvalidConfig() << errinfo_comment(
+                                  "Must specify the transport.service.gateway_target!"));
+    }
+    // the components
+    auto components = pt.get<std::string>("transport.service.components", "");
+    boost::split(m_frontConfig->mutableComponents(), components, boost::is_any_of(","));
+}
+
+void PPCConfig::setPrivateKey(bcos::bytes const& _privateKey)
+{
+    m_privateKey = _privateKey;
+}
+
+GrpcConfig::Ptr PPCConfig::loadGrpcConfig(
+    std::string const& sectionName, boost::property_tree::ptree const& pt)
+{
+    // the load balance config
+    auto loadBalancePolicy =
+        pt.get<std::string>(sectionName + ".load_balance_policy", "round_robin");
+    auto grpcConfig = std::make_shared<GrpcConfig>();
+    if (!loadBalancePolicy.empty())
+    {
+        grpcConfig->setLoadBalancePolicy(loadBalancePolicy);
+    }
+    PPCConfig_LOG(INFO) << LOG_DESC("loadGrpcConfig") << LOG_KV("section", sectionName)
+                        << LOG_KV("loadBalancePolicy", grpcConfig->loadBalancePolicy());
+    return grpcConfig;
 }
 
 int PPCConfig::loadHoldingMessageMinutes(
@@ -93,7 +175,7 @@ int PPCConfig::loadHoldingMessageMinutes(
     return holdingMessageMinutes;
 }
 
-void PPCConfig::initRedisConfigForGateway(
+void PPCConfig::loadCachedStorageConfig(
     CacheStorageConfig& _redisConfig, const boost::property_tree::ptree& _pt)
 {
     _redisConfig.type = ppc::protocol::CacheType(_pt.get<uint16_t>("cache.type", 0));
@@ -130,9 +212,8 @@ void PPCConfig::initRedisConfigForGateway(
 }
 
 
-void PPCConfig::loadNetworkConfig(NetworkConfig& _config, const char* _certPath,
-    boost::property_tree::ptree const& _pt, std::string const& _sectionName, int _defaultListenPort,
-    bool _defaultDisableSSl)
+void PPCConfig::loadNetworkConfig(NetworkConfig& _config, boost::property_tree::ptree const& _pt,
+    std::string const& _sectionName, int _defaultListenPort, bool _defaultDisableSSl)
 {
     // the rpcListenIp
     _config.listenIp = _pt.get<std::string>(_sectionName + ".listen_ip", "0.0.0.0");
@@ -166,15 +247,9 @@ void PPCConfig::loadNetworkConfig(NetworkConfig& _config, const char* _certPath,
     // enable sm-rpc or not
     _config.enableSM = _pt.get<bool>(_sectionName + ".sm_ssl", false);
 
-    // the rpc cert-path
-    if (_certPath == nullptr)
-    {
-        _config.certPath = _pt.get<std::string>("cert.cert_path", "conf");
-    }
-    else
-    {
-        _config.certPath = _certPath;
-    }
+    // the cert-path
+    _config.certPath = _pt.get<std::string>("cert.cert_path", "conf");
+
     PPCConfig_LOG(INFO) << LOG_BADGE("loadNetworkConfig") << LOG_KV("section", _sectionName)
                         << LOG_KV("certPath", _config.certPath);
 
@@ -409,7 +484,7 @@ int64_t PPCConfig::getDataBatchSize(std::string const& _section, int64_t _dataBa
     return dataBatchSize;
 }
 
-void PPCConfig::loadCommonConfig(boost::property_tree::ptree const& _pt)
+void PPCConfig::loadCommonNodeConfig(boost::property_tree::ptree const& _pt)
 {
     m_agencyID = _pt.get<std::string>("agency.id", "");
     if (m_agencyID.empty())
@@ -432,8 +507,9 @@ void PPCConfig::loadCommonConfig(boost::property_tree::ptree const& _pt)
     m_threadPoolSize = _pt.get<uint32_t>(
         "agency.thread_count", static_cast<uint32_t>(std::thread::hardware_concurrency() * 0.75));
 
-    PPCConfig_LOG(INFO) << LOG_DESC("loadCommonConfig success") << LOG_KV("agencyID", m_agencyID)
-                        << LOG_KV("dataLocation", m_dataLocation) << LOG_KV("smCrypto", m_smCrypto)
+    PPCConfig_LOG(INFO) << LOG_DESC("loadCommonNodeConfig success")
+                        << LOG_KV("agencyID", m_agencyID) << LOG_KV("dataLocation", m_dataLocation)
+                        << LOG_KV("smCrypto", m_smCrypto)
                         << LOG_KV("taskTimeoutMinutes", m_taskTimeoutMinutes)
                         << LOG_KV("threadPoolSize", m_threadPoolSize);
 }

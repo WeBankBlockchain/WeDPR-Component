@@ -28,6 +28,7 @@ using namespace ppc::tools;
 using namespace ppc::crypto;
 using namespace ppc::io;
 using namespace bcos;
+using namespace ppc::task;
 
 EcdhConnPSIImpl::EcdhConnPSIImpl(const EcdhConnPSIConfig::Ptr& _config, unsigned _idleTimeMs)
   : m_config(std::move(_config)),

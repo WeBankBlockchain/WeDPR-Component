@@ -30,15 +30,16 @@
 #include <atomic>
 #include <memory>
 #include <set>
-using namespace ppc::task;
+
 namespace ppc::psi
 {
 class TaskState : public std::enable_shared_from_this<TaskState>
 {
 public:
     using Ptr = std::shared_ptr<TaskState>;
-    TaskState(ppc::protocol::Task::ConstPtr const& _task, TaskResponseCallback&& _callback,
-        bool _onlySelfRun = false, PSIConfig::Ptr _config = nullptr)
+    TaskState(ppc::protocol::Task::ConstPtr const& _task,
+        ppc::task::TaskResponseCallback&& _callback, bool _onlySelfRun = false,
+        PSIConfig::Ptr _config = nullptr)
       : m_task(_task),
         m_callback(std::move(_callback)),
         m_onlySelfRun(_onlySelfRun),
@@ -49,8 +50,8 @@ public:
 
     virtual ~TaskState() {}
 
-    TaskResponseCallback const& callback() { return m_callback; }
-    TaskResponseCallback takeCallback() { return std::move(m_callback); }
+    ppc::task::TaskResponseCallback const& callback() { return m_callback; }
+    ppc::task::TaskResponseCallback takeCallback() { return std::move(m_callback); }
     bool onlySelfRun() { return m_onlySelfRun; }
     void setReader(io::LineReader::Ptr _reader, int64_t _readerParam)
     {
@@ -400,7 +401,7 @@ public:
 
 protected:
     ppc::protocol::Task::ConstPtr m_task;
-    TaskResponseCallback m_callback;
+    ppc::task::TaskResponseCallback m_callback;
     bool m_onlySelfRun{false};
     PSIConfig::Ptr m_config;
     uint64_t m_taskStartTime = 0;
@@ -449,7 +450,7 @@ public:
     virtual ~TaskStateFactory() = default;
 
     virtual TaskState::Ptr createTaskState(ppc::protocol::Task::ConstPtr const& _task,
-        TaskResponseCallback&& _callback, bool _onlySelfRun = false,
+        ppc::task::TaskResponseCallback&& _callback, bool _onlySelfRun = false,
         PSIConfig::Ptr _config = nullptr)
     {
         return std::make_shared<TaskState>(

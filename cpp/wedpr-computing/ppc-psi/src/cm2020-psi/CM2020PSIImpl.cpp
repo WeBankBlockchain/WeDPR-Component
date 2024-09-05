@@ -28,6 +28,7 @@ using namespace ppc::front;
 using namespace ppc::tools;
 using namespace ppc::crypto;
 using namespace ppc::io;
+using namespace ppc::task;
 
 CM2020PSIImpl::CM2020PSIImpl(const CM2020PSIConfig::Ptr& _config, unsigned _idleTimeMs)
   : Worker("CM2020-PSI", _idleTimeMs),

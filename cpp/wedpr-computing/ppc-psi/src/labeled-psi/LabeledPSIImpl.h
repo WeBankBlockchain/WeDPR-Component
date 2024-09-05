@@ -40,7 +40,7 @@ namespace ppc::psi
 {
 class LabeledPSIImpl : public bcos::Worker,
                        public TaskGuarder,
-                       public TaskFrameworkInterface,
+                       public ppc::task::TaskFrameworkInterface,
                        public std::enable_shared_from_this<LabeledPSIImpl>
 {
 public:
@@ -53,8 +53,8 @@ public:
     virtual ~LabeledPSIImpl() = default;
 
     // run task
-    void asyncRunTask(
-        ppc::protocol::Task::ConstPtr _task, TaskResponseCallback&& _onTaskFinished) override;
+    void asyncRunTask(ppc::protocol::Task::ConstPtr _task,
+        ppc::task::TaskResponseCallback&& _onTaskFinished) override;
 
     // register to the front to get the message related to labeled-psi
     void onReceiveMessage(ppc::front::PPCMessageFace::Ptr _message) override;
@@ -71,8 +71,8 @@ public:
     void executeWorker() override;
 
 protected:
-    void asyncRunSenderTask(
-        const ppc::protocol::Task::ConstPtr& _task, TaskResponseCallback&& _onTaskFinished);
+    void asyncRunSenderTask(const ppc::protocol::Task::ConstPtr& _task,
+        ppc::task::TaskResponseCallback&& _onTaskFinished);
 
     void checkFinishedTask();
 

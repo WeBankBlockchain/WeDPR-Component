@@ -19,14 +19,16 @@
  */
 #pragma once
 #include "Http.h"
-#include "ppc-tools/src/config/PPCConfig.h"
 #include <memory>
 
 namespace bcos::boostssl::ws
 {
 class WsConfig;
 }
-
+namespace ppc::tools
+{
+class PPCConfig;
+}
 namespace ppc::http
 {
 class HttpFactory
@@ -36,11 +38,11 @@ public:
     HttpFactory(std::string const& _selfPartyID) : m_selfPartyID(_selfPartyID) {}
     virtual ~HttpFactory() = default;
 
-    Http::Ptr buildHttp(ppc::tools::PPCConfig::ConstPtr _config);
+    Http::Ptr buildHttp(std::shared_ptr<ppc::tools::PPCConfig const> _config);
 
 private:
     std::shared_ptr<bcos::boostssl::ws::WsConfig> initConfig(
-        ppc::tools::PPCConfig::ConstPtr _config);
+        std::shared_ptr<ppc::tools::PPCConfig const> _config);
 
 private:
     std::string m_selfPartyID;

@@ -33,12 +33,11 @@
 #define PSI_FRAMEWORK_LOG(LEVEL)        \
     BCOS_LOG(LEVEL) << LOG_BADGE("PSI") \
                     << LOG_BADGE((ppc::protocol::PSIAlgorithmType)m_psiConfig->algorithmType())
-using namespace ppc::task;
 namespace ppc::psi
 {
 using PSIMsgQueue = bcos::ConcurrentQueue<PSIMessageInterface::Ptr>;
 using PSIMsgQueuePtr = std::shared_ptr<PSIMsgQueue>;
-class PSIFramework : public bcos::Worker, public TaskFrameworkInterface
+class PSIFramework : public bcos::Worker, public ppc::task::TaskFrameworkInterface
 {
 public:
     using Ptr = std::shared_ptr<PSIFramework>;

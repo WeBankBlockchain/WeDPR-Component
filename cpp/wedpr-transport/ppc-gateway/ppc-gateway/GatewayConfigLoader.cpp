@@ -20,6 +20,7 @@
 #include "GatewayConfigLoader.h"
 #include "Common.h"
 #include "bcos-utilities/FileUtility.h"
+#include "ppc-tools/src/config/PPCConfig.h"
 #include <json/json.h>
 
 using namespace ppc;

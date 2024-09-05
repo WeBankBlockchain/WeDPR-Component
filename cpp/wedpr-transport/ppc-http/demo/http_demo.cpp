@@ -51,7 +51,7 @@ int main(int argc, char const* argv[])
         auto param = initCommandLine(argc, argv);
         auto ppcConfig = std::make_shared<PPCConfig>();
         // not specify the certPath in air-mode
-        ppcConfig->loadGatewayConfig(ppc::protocol::NodeArch::AIR, nullptr, param.configFilePath);
+        ppcConfig->loadGatewayConfig(param.configFilePath);
         auto httpFactory = std::make_shared<HttpFactory>("selfParty");
         auto url = ppcConfig->gatewayConfig().networkConfig.url;
         auto http = httpFactory->buildHttp(ppcConfig);

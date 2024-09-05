@@ -33,10 +33,12 @@
 #include "ppc-psi/src/ecdh-conn-psi/EcdhConnPSIFactory.h"
 #endif
 #include "ppc-front/Front.h"
+#include "ppc-front/FrontConfigImpl.h"
 #include "ppc-psi/src/ecdh-multi-psi/EcdhMultiPSIFactory.h"
 #include "ppc-psi/src/ecdh-psi/EcdhPSIFactory.h"
 #include "ppc-psi/src/labeled-psi/LabeledPSIFactory.h"
 #include "ppc-psi/src/ra2018-psi/RA2018PSIFactory.h"
+#include "ppc-tools/src/config/PPCConfig.h"
 #include <tbb/tbb.h>
 #include <thread>
 
@@ -51,9 +53,10 @@ using namespace ppc::sdk;
 
 Initializer::Initializer(std::string const& _configPath) : m_configPath(_configPath)
 {
+    m_transportBuilder = std::make_shared<TransportBuilder>();
     // load the config
     m_config = std::make_shared<PPCConfig>();
-    m_config->loadConfig(_configPath);
+    m_config->loadNodeConfig(m_transportBuilder->frontConfigBuilder(), _configPath);
 }
 
 void Initializer::init(ppc::protocol::NodeArch _arch, ppc::gateway::IGateway::Ptr const& gateway)

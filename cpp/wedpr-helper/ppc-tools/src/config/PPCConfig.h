@@ -19,17 +19,21 @@
  */
 #pragma once
 #include "../cuckoo/Common.h"
+#include "CEMConfig.h"
 #include "Common.h"
+#include "MPCConfig.h"
 #include "NetworkConfig.h"
 #include "ParamChecker.h"
+#include "StorageConfig.h"
 #include "ppc-framework/front/FrontConfig.h"
+#include "ppc-framework/protocol/EndPoint.h"
 #include "ppc-framework/protocol/GrpcConfig.h"
 #include "ppc-framework/storage/CacheStorage.h"
 #include <bcos-utilities/Common.h>
-#include <memory.h>
 #include <ppc-framework/protocol/Protocol.h>
 #include <boost/property_tree/ini_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
+#include <memory>
 
 namespace ppc::tools
 {
@@ -60,35 +64,6 @@ struct RA2018Config
     bool useHDFS = false;
 };
 
-struct StorageConfig
-{
-    ppc::protocol::SQLConnectionOption::Ptr sqlConnectionOpt;
-    ppc::protocol::FileStorageConnectionOption::Ptr fileStorageConnectionOpt;
-    ppc::protocol::RemoteStorageConnectionOption::Ptr remoteConnectionOpt;
-};
-
-struct CEMConfig
-{
-    std::string datasetFilePath;
-    std::string datasetHDFSPath;
-    std::string ciphertextSuffix;
-    uint64_t readPerBatchLines;
-};
-
-struct MPCConfig
-{
-    std::string datasetHDFSPath;
-    std::string jobPath;
-    std::string mpcRootPath;
-    std::string mpcRootPathNoGateway;
-    uint64_t readPerBatchLines;
-};
-
-// struct AYSConfig
-// {
-//     std::string datasetPath;
-// };
-
 struct GatewayConfig
 {
     // the max allowed message size, default is 100MBytes
@@ -98,11 +73,11 @@ struct GatewayConfig
     constexpr static uint64_t MaxMsgSize = 1024 * 1024 * 1024;
     constexpr static int MinUnreachableDistance = 2;
 
-    bool disableCache;
     NetworkConfig networkConfig;
-    ppc::protocol::GrpcServerConfig grpcConfig;
-    ppc::storage::CacheStorageConfig cacheStorageConfig;
+    ppc::protocol::GrpcServerConfig grpcServerConfig;
+    // the file that configure the connected endpoint information
     std::string nodeFileName;
+    // the dir that contains the connected endpoint information, e.g.nodes.json
     std::string nodePath;
     uint64_t maxAllowedMsgSize = DefaultMaxAllowedMsgSize;
     int reconnectTime = 10000;
@@ -149,13 +124,16 @@ public:
     using ConstPtr = std::shared_ptr<PPCConfig const>;
     PPCConfig() = default;
     virtual ~PPCConfig() = default;
-    void loadConfig(std::string const& _configPath)
+    // load the nodeConfig
+    void loadNodeConfig(ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
+        std::string const& _configPath)
     {
-        PPCConfig_LOG(INFO) << LOG_DESC("loadConfig") << LOG_KV("path", _configPath);
+        PPCConfig_LOG(INFO) << LOG_DESC("loadNodeConfig") << LOG_KV("path", _configPath);
         boost::property_tree::ptree iniConfig;
         boost::property_tree::read_ini(_configPath, iniConfig);
         // Note: must load common-config firstly since some ra-configs depends on the common-config
-        loadCommonConfig(iniConfig);
+        loadCommonNodeConfig(iniConfig);
+        loadFrontConfig(frontConfigBuilder, _configPath);
         loadRA2018Config(iniConfig);
         loadStorageConfig(iniConfig);
         loadEcdhPSIConfig(iniConfig);
@@ -164,40 +142,42 @@ public:
         loadEcdhConnPSIConfig(iniConfig);
     }
 
-    void loadRpcConfig(const char* _certPath, std::string const& _configPath)
+    void loadRpcConfig(std::string const& _configPath)
     {
         PPCConfig_LOG(INFO) << LOG_DESC("loadRpcConfig") << LOG_KV("path", _configPath);
         boost::property_tree::ptree iniConfig;
         boost::property_tree::read_ini(_configPath, iniConfig);
-        loadRpcConfig(_certPath, iniConfig);
+        loadRpcConfig(iniConfig);
     }
 
-    void loadGatewayConfig(
-        ppc::protocol::NodeArch _arch, const char* _certPath, std::string const& _configPath)
+    void loadGatewayConfig(std::string const& _configPath)
     {
         PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig") << LOG_KV("path", _configPath);
         boost::property_tree::ptree iniConfig;
         boost::property_tree::read_ini(_configPath, iniConfig);
-        loadGatewayConfig(_arch, _certPath, iniConfig);
+        loadGatewayConfig(iniConfig);
     }
 
-    virtual void loadRpcConfig(const char* _certPath, boost::property_tree::ptree const& _pt)
+    void loadFrontConfig(ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
+        std::string const& _configPath)
+    {
+        PPCConfig_LOG(INFO) << LOG_DESC("loadFrontConfig") << LOG_KV("path", _configPath);
+        boost::property_tree::ptree iniConfig;
+        boost::property_tree::read_ini(_configPath, iniConfig);
+        loadFrontConfig(frontConfigBuilder, iniConfig);
+        // load the grpcConfig
+        m_grpcConfig = loadGrpcConfig("transport", iniConfig);
+        m_frontConfig->setGrpcConfig(m_grpcConfig);
+    }
+
+    virtual void loadRpcConfig(boost::property_tree::ptree const& _pt)
     {
         // rpc default disable-ssl
-        loadNetworkConfig(
-            m_rpcConfig, _certPath, _pt, "rpc", NetworkConfig::DefaultRpcListenPort, true);
+        loadNetworkConfig(m_rpcConfig, _pt, "rpc", NetworkConfig::DefaultRpcListenPort, true);
     }
 
-    virtual void loadGatewayConfig(ppc::protocol::NodeArch _arch, const char* _certPath,
-        boost::property_tree::ptree const& _pt);
+    virtual void loadGatewayConfig(boost::property_tree::ptree const& _pt);
 
-    virtual void loadHDFSConfig(boost::property_tree::ptree const& _pt);
-
-    virtual void loadSQLConfig(boost::property_tree::ptree const& _pt);
-
-    virtual void loadCEMConfig(boost::property_tree::ptree const& _pt);
-
-    virtual void loadMPCConfig(boost::property_tree::ptree const& _pt);
 
     NetworkConfig const& rpcConfig() const { return m_rpcConfig; }
     // the gateway-config
@@ -210,7 +190,6 @@ public:
     CEMConfig const& cemConfig() const { return m_cemConfig; }
     MPCConfig const& mpcConfig() const { return m_mpcConfig; }
     std::string const& agencyID() const { return m_agencyID; }
-    void setAgencyID(std::string const& _agencyID) { m_agencyID = _agencyID; }
     bool smCrypto() const { return m_smCrypto; }
     std::string const& endpoint() const { return m_endpoint; }
 
@@ -234,7 +213,7 @@ public:
     OtPIRParam& mutableOtPIRParam() { return m_otPIRConfig; }
 
     bcos::bytes const& privateKey() const { return m_privateKey; }
-    void setPrivateKey(bcos::bytes const& _privateKey) { m_privateKey = _privateKey; }
+    void setPrivateKey(bcos::bytes const& _privateKey);
 
     std::string const& privateKeyPath() const { return m_privateKeyPath; }
     // for pro-mode
@@ -251,18 +230,38 @@ public:
 
     ppc::protocol::GrpcConfig::Ptr const& grpcConfig() const { return m_grpcConfig; }
 
+    // used by mpc initilizer
+    virtual void loadMPCConfig(boost::property_tree::ptree const& _pt);
+    // used by cem module
+    virtual void loadCEMConfig(boost::property_tree::ptree const& _pt);
+
 private:
+    virtual void loadEndpointConfig(ppc::protocol::EndPoint& endPoint, bool requireHostIp,
+        std::string const& sectionName, boost::property_tree::ptree const& pt);
+    // load the front config
+    virtual void loadFrontConfig(ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
+        boost::property_tree::ptree const& pt);
+    // load the grpc config
+    ppc::protocol::GrpcConfig::Ptr loadGrpcConfig(
+        std::string const& sectionName, boost::property_tree::ptree const& pt);
+
+    virtual void loadHDFSConfig(boost::property_tree::ptree const& _pt);
+
+    virtual void loadSQLConfig(boost::property_tree::ptree const& _pt);
+
+
     virtual void loadRA2018Config(boost::property_tree::ptree const& _pt);
     virtual void loadEcdhPSIConfig(boost::property_tree::ptree const& _pt);
     virtual void loadCM2020PSIConfig(boost::property_tree::ptree const& _pt);
     virtual void loadEcdhMultiPSIConfig(boost::property_tree::ptree const& _pt);
     virtual void loadEcdhConnPSIConfig(boost::property_tree::ptree const& _pt);
-    virtual void loadCommonConfig(boost::property_tree::ptree const& _pt);
+    virtual void loadCommonNodeConfig(boost::property_tree::ptree const& _pt);
     virtual void loadStorageConfig(boost::property_tree::ptree const& _pt);
+
     // Note: the gateway/rpc can share the loadNetworkConfig
-    void loadNetworkConfig(NetworkConfig& _config, const char* _certPath,
-        boost::property_tree::ptree const& _pt, std::string const& _sectionName,
-        int _defaultListenPort, bool _defaultDisableSSl);
+    void loadNetworkConfig(NetworkConfig& _config, boost::property_tree::ptree const& _pt,
+        std::string const& _sectionName, int _defaultListenPort, bool _defaultDisableSSl);
+
     void checkPort(std::string const& _sectionName, int _port);
     void checkFileExists(std::string const& _filePath, bool _dir);
 
@@ -274,7 +273,7 @@ private:
         }
     }
 
-    void initRedisConfigForGateway(
+    void loadCachedStorageConfig(
         ppc::storage::CacheStorageConfig& _redisConfig, const boost::property_tree::ptree& _pt);
 
     int64_t getDataBatchSize(std::string const& _section, int64_t _dataBatchSize);

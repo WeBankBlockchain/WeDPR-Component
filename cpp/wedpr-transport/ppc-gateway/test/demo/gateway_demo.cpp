@@ -56,8 +56,7 @@ int main(int argc, char* argv[])
     // config
     auto config = std::make_shared<PPCConfig>();
     // not specify the certPath in air-mode
-    config->loadGatewayConfig(
-        ppc::protocol::NodeArch::AIR, nullptr, "../../../../ppc-gateway/test/data/config0.ini");
+    config->(nullptr, "../../../../ppc-gateway/test/data/config0.ini");
     auto gatewayConfig = config->gatewayConfig();
 
     // global thread pool

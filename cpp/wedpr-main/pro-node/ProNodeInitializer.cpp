@@ -52,7 +52,7 @@ void ProNodeInitializer::init(std::string const& _configPath)
     INIT_LOG(INFO) << LOG_DESC("init the rpc");
     // load the rpc config
     // not specify the certPath in air-mode
-    m_nodeInitializer->config()->loadRpcConfig(nullptr, pt);
+    m_nodeInitializer->config()->loadRpcConfig(pt);
     // init RpcStatusInterface
     RpcStatusInterface::Ptr rpcStatusInterface = std::make_shared<ppc::rpc::RpcMemory>();
 

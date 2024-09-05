@@ -22,7 +22,6 @@
 #include "../Common.h"
 #include "PSIConnMessage.h"
 #include "ppc-framework/Common.h"
-#include "ppc-tools/src/config/PPCConfig.h"
 
 namespace ppc::psi
 {

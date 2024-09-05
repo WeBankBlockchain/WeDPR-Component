@@ -28,6 +28,7 @@ using namespace ppc::protocol;
 using namespace bcos;
 using namespace ppc::front;
 using namespace ppc::io;
+using namespace ppc::task;
 
 RA2018PSIImpl::RA2018PSIImpl(RA2018PSIConfig::Ptr const& _config,
     RA2018PSIStorage::Ptr const& _storage, unsigned _idleTimeMs, bool _waitResult, bool _disabled)

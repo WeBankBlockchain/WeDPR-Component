@@ -19,11 +19,22 @@
  */
 
 #include "GatewayConfigContext.h"
+#include <ppc-tools/src/config/PPCConfig.h>
 
 using namespace bcos;
 using namespace ppc::gateway;
 using namespace bcos::boostssl::context;
 
+GatewayConfigContext::GatewayConfigContext(std::shared_ptr<ppc::tools::PPCConfig> _config)
+  : m_config(_config)
+{
+    if (!m_config->gatewayConfig().networkConfig.disableSsl)
+    {
+        GATEWAY_LOG(INFO) << LOG_DESC("GatewayConfigContext: initContextConfig");
+        initContextConfig();
+        GATEWAY_LOG(INFO) << LOG_DESC("GatewayConfigContext: initContextConfig success");
+    }
+}
 void GatewayConfigContext::initContextConfig()
 {
     m_contextConfig = std::make_shared<ContextConfig>();

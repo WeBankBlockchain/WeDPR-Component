@@ -27,6 +27,13 @@
 #include <memory>
 
 using namespace ppc::sdk;
+using namespace ppc::front;
+
+TransportBuilder::TransportBuilder()
+{
+    m_frontConfigBuilder = std::make_shared<FrontConfigBuilderImpl>(
+        std::make_shared<ppc::protocol::NodeInfoFactory>());
+}
 
 Transport::Ptr TransportBuilder::build(
     SDKMode mode, ppc::front::FrontConfig::Ptr config, ppc::gateway::IGateway::Ptr const& gateway)
@@ -48,6 +55,5 @@ Transport::Ptr TransportBuilder::build(
 
 ppc::front::FrontConfig::Ptr TransportBuilder::buildConfig(int threadPoolSize, std::string nodeID)
 {
-    return std::make_shared<ppc::front::FrontConfigImpl>(
-        std::make_shared<ppc::protocol::NodeInfoFactory>(), threadPoolSize, nodeID);
+    return m_frontConfigBuilder->build(threadPoolSize, nodeID);
 }

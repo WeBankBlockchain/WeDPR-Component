@@ -37,13 +37,13 @@ public:
     GrpcConfig() = default;
     virtual ~GrpcConfig() = default;
 
-    std::string const& loadBalancePolicy() const { return m_loadBanlancePolicy; }
-    void setLoadBalancePolicy(std::string const& loadBanlancePolicy)
+    std::string const& loadBalancePolicy() const { return m_loadBalancePolicy; }
+    void setLoadBalancePolicy(std::string const& loadBalancePolicy)
     {
-        m_loadBanlancePolicy = loadBanlancePolicy;
+        m_loadBalancePolicy = loadBalancePolicy;
     }
 
 private:
-    std::string m_loadBanlancePolicy = "round_robin";
+    std::string m_loadBalancePolicy = "round_robin";
 };
 }  // namespace ppc::protocol

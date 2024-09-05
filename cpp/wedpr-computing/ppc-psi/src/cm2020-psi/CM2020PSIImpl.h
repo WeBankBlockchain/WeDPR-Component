@@ -42,7 +42,7 @@ namespace ppc::psi
 {
 class CM2020PSIImpl : public bcos::Worker,
                       public TaskGuarder,
-                      public TaskFrameworkInterface,
+                      public ppc::task::TaskFrameworkInterface,
                       public std::enable_shared_from_this<CM2020PSIImpl>
 {
 public:
@@ -54,8 +54,8 @@ public:
 
     ~CM2020PSIImpl() override = default;
 
-    void asyncRunTask(
-        ppc::protocol::Task::ConstPtr _task, TaskResponseCallback&& _onTaskFinished) override;
+    void asyncRunTask(ppc::protocol::Task::ConstPtr _task,
+        ppc::task::TaskResponseCallback&& _onTaskFinished) override;
 
     // register to the front to get the message related to cm2020-psi
     void onReceiveMessage(ppc::front::PPCMessageFace::Ptr _message) override;
@@ -91,7 +91,8 @@ protected:
     void onReceiveResultCount(ppc::front::PPCMessageFace::Ptr _message);
     void onReceiveResults(ppc::front::PPCMessageFace::Ptr _message);
 
-    void addTask(ppc::protocol::Task::ConstPtr _task, TaskResponseCallback&& _onTaskFinished)
+    void addTask(
+        ppc::protocol::Task::ConstPtr _task, ppc::task::TaskResponseCallback&& _onTaskFinished)
     {
         bcos::WriteGuard l(x_taskQueue);
         m_taskQueue.push({std::move(_task), std::move(_onTaskFinished)});
@@ -169,7 +170,8 @@ private:
     std::shared_ptr<std::thread> m_thread;
 
     std::atomic<int> m_parallelism;
-    std::queue<std::pair<ppc::protocol::Task::ConstPtr, TaskResponseCallback> > m_taskQueue;
+    std::queue<std::pair<ppc::protocol::Task::ConstPtr, ppc::task::TaskResponseCallback> >
+        m_taskQueue;
     mutable bcos::SharedMutex x_taskQueue;
 
     std::unordered_map<std::string, CM2020PSIReceiver::Ptr> m_receivers;

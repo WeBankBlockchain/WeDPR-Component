@@ -19,8 +19,11 @@
  */
 #pragma once
 #include "bcos-boostssl/interfaces/NodeInfoDef.h"
-#include "ppc-tools/src/config/PPCConfig.h"
 
+namespace ppc::tools
+{
+class PPCConfig;
+}
 namespace ppc::gateway
 {
 class GatewayConfigLoader
@@ -28,7 +31,7 @@ class GatewayConfigLoader
 public:
     using EndPointSet = std::set<bcos::boostssl::NodeIPEndpoint>;
     using Ptr = std::shared_ptr<GatewayConfigLoader>;
-    GatewayConfigLoader(ppc::tools::PPCConfig::Ptr config)
+    GatewayConfigLoader(std::shared_ptr<ppc::tools::PPCConfig> config)
       : m_config(std::move(config)), m_nodeIPEndpointSet(std::make_shared<EndPointSet>())
     {
         loadP2pConnectedNodes();
@@ -46,7 +49,7 @@ protected:
     bool isValidPort(int port);
 
 private:
-    ppc::tools::PPCConfig::Ptr m_config;
+    std::shared_ptr<ppc::tools::PPCConfig> m_config;
     std::shared_ptr<EndPointSet> m_nodeIPEndpointSet;
 };
 }  // namespace ppc::gateway

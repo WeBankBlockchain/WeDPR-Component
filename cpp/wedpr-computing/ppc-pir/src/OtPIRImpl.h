@@ -20,33 +20,25 @@
 #pragma once
 #include "Common.h"
 // #include "OtPIR.h"
+#include "BaseOT.h"
+#include "OtPIRConfig.h"
 #include "ppc-framework/protocol/DataResource.h"
-#include "ppc-rpc/src/RpcFactory.h"
-#include "ppc-tools/src/config/PPCConfig.h"
-#include <bcos-utilities/Common.h>
-#include <string>
 #include "ppc-framework/protocol/Task.h"
 #include "ppc-framework/task/TaskFrameworkInterface.h"
-#include <map>
-#include <bcos-utilities/Worker.h>
 #include "ppc-psi/src/psi-framework/TaskGuarder.h"
-#include "OtPIRConfig.h"
+#include "ppc-rpc/src/RpcFactory.h"
+#include <bcos-utilities/Common.h>
 #include <bcos-utilities/ConcurrentQueue.h>
-#include "BaseOT.h"
-
-
-using namespace bcos;
-using namespace ppc;
-using namespace ppc::rpc;
-using namespace ppc::tools;
-using namespace ppc::task;
+#include <bcos-utilities/Worker.h>
+#include <map>
+#include <string>
 
 namespace ppc::pir
 {
 class OtPIRImpl : public std::enable_shared_from_this<OtPIRImpl>,
                   public bcos::Worker,
-                  public psi::TaskGuarder, // taskGuarder并不一定属于psi-framework
-                  public TaskFrameworkInterface
+                  public psi::TaskGuarder,  // taskGuarder并不一定属于psi-framework
+                  public ppc::task::TaskFrameworkInterface
 // class OtPIRImpl : public std::enable_shared_from_this<OtPIRImpl>
 {
 public:
@@ -58,13 +50,13 @@ public:
     using OtPIRMsgQueuePtr = std::shared_ptr<OtPIRMsgQueue>;
 
     // run task
-    void asyncRunTask(
-        ppc::protocol::Task::ConstPtr _task, TaskResponseCallback&& _onTaskFinished) override;
+    void asyncRunTask(ppc::protocol::Task::ConstPtr _task,
+        ppc::task::TaskResponseCallback&& _onTaskFinished) override;
 
-   void start() override;
-   void stop() override;
+    void start() override;
+    void stop() override;
 
-   // register to the front to get the message related to ot-pir
+    // register to the front to get the message related to ot-pir
     void onReceiveMessage(ppc::front::PPCMessageFace::Ptr _message) override;
 
     void onReceivedErrorNotification(const std::string& _taskID) override;
@@ -74,7 +66,7 @@ public:
     // ot-pir main processing function
     // for ut to make this function public
     void executeWorker() override;
- 
+
     void handleReceivedMessage(const ppc::front::PPCMessageFace::Ptr& _message);
 
     void onHelloReceiver(const ppc::front::PPCMessageFace::Ptr& _message);
@@ -88,7 +80,8 @@ public:
     // void encryptDataset(Json::Value const& request, Json::Value& response);
 
     // void setAYSConfig(AYSConfig const& aysConfig);
-    // std::vector<bcos::bytes> prepareDataset(bcos::bytes sendObfuscatedHash, std::string datasetPath);
+    // std::vector<bcos::bytes> prepareDataset(bcos::bytes sendObfuscatedHash, std::string
+    // datasetPath);
 
 protected:
     void asyncRunTask();
@@ -100,7 +93,8 @@ protected:
     // void runReceiverGenerateMessage(ppctars::SenderMessageParams senderMessageParams);
     // void runFinishSender(PirTaskMessage taskMessage);
 
-    void addTask(ppc::protocol::Task::ConstPtr _task, TaskResponseCallback&& _onTaskFinished)
+    void addTask(
+        ppc::protocol::Task::ConstPtr _task, ppc::task::TaskResponseCallback&& _onTaskFinished)
     {
         bcos::WriteGuard l(x_taskQueue);
         m_taskQueue.push({std::move(_task), std::move(_onTaskFinished)});
@@ -160,7 +154,7 @@ protected:
     bool m_enableOutputExists = false;
     // 为true时启动时会从配置中加载文件作为匹配源
     bool m_enableMemoryFile = false;
-    protocol::DataResource m_resource;
+    ppc::protocol::DataResource m_resource;
 
 
 private:
@@ -192,24 +186,21 @@ private:
 
 
     // TODO: 改为prefix-message的map 预处理的数据集
-    std::vector<std::pair<bcos::bytes, bcos::bytes>>  messageKeypair;
-    std::queue<std::pair<ppc::protocol::Task::ConstPtr, TaskResponseCallback> > m_taskQueue;
+    std::vector<std::pair<bcos::bytes, bcos::bytes>> messageKeypair;
+    std::queue<std::pair<ppc::protocol::Task::ConstPtr, ppc::task::TaskResponseCallback>>
+        m_taskQueue;
     mutable bcos::SharedMutex x_taskQueue;
-    
+
     // // setup的系统参数，分桶大小来决定披露前k个bit 目前版本由TASK先传入
     // const int obfuscation_order = 6;
     std::string m_taskID;
-    TaskState::Ptr m_taskState;
-    protocol::TaskResult::Ptr m_taskResult;
-
-
-
+    ppc::psi::TaskState::Ptr m_taskState;
+    ppc::protocol::TaskResult::Ptr m_taskResult;
 
     void waitSignal()
     {
         boost::unique_lock<boost::mutex> l(x_signal);
         m_signal.wait_for(l, boost::chrono::milliseconds(5));
     }
-
 };
 }  // namespace ppc::pir

@@ -58,8 +58,8 @@ public:
     ~RA2018PSIImpl() override = default;
 
     // run task
-    void asyncRunTask(
-        ppc::protocol::Task::ConstPtr _task, TaskResponseCallback&& _onTaskFinished) override;
+    void asyncRunTask(ppc::protocol::Task::ConstPtr _task,
+        ppc::task::TaskResponseCallback&& _onTaskFinished) override;
 
     void start() override;
     void stop() override;
@@ -68,7 +68,7 @@ protected:
     // run data-processing task to generate and store cuckoo-filter
     void asyncRunDataProcessing(std::string const& _taskID,
         ppc::protocol::DataResource::ConstPtr const& _dataResource, int _operation,
-        TaskResponseCallback const& _callback);
+        ppc::task::TaskResponseCallback const& _callback);
     // run psi task to generate data-intersection
     virtual void runPSI(TaskState::Ptr const& _taskState);
     virtual void runClientPSI(TaskState::Ptr const& _taskState);

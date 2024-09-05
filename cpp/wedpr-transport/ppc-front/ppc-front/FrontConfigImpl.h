@@ -29,6 +29,9 @@ class FrontConfigImpl : public FrontConfig
 {
 public:
     using Ptr = std::shared_ptr<FrontConfigImpl>;
+    FrontConfigImpl(ppc::protocol::INodeInfoFactory::Ptr nodeInfoFactory)
+      : FrontConfig(), m_nodeInfoFactory(std::move(nodeInfoFactory))
+    {}
     FrontConfigImpl(ppc::protocol::INodeInfoFactory::Ptr nodeInfoFactory, int threadPoolSize,
         std::string nodeID)
       : FrontConfig(threadPoolSize, nodeID), m_nodeInfoFactory(std::move(nodeInfoFactory))
@@ -43,6 +46,29 @@ public:
             m_selfEndPoint.entryPoint());
         nodeInfo->setComponents(std::set<std::string>(m_components.begin(), m_components.end()));
         return nodeInfo;
+    }
+
+private:
+    ppc::protocol::INodeInfoFactory::Ptr m_nodeInfoFactory;
+};
+
+class FrontConfigBuilderImpl : public FrontConfigBuilder
+{
+public:
+    using Ptr = std::shared_ptr<FrontConfigBuilderImpl>;
+    FrontConfigBuilderImpl(ppc::protocol::INodeInfoFactory::Ptr nodeInfoFactory)
+      : m_nodeInfoFactory(nodeInfoFactory)
+    {}
+    ~FrontConfigBuilderImpl() override = default;
+
+    FrontConfig::Ptr build() const override
+    {
+        return std::make_shared<FrontConfigImpl>(m_nodeInfoFactory);
+    }
+    FrontConfig::Ptr build(int threadPoolSize, std::string nodeID) const override
+    {
+        return std::make_shared<FrontConfigImpl>(
+            m_nodeInfoFactory, threadPoolSize, std::move(nodeID));
     }
 
 private:

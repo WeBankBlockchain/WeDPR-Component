@@ -23,15 +23,18 @@
 #include "bcos-boostssl/websocket/WsConfig.h"
 #include "gateway/GatewayImpl.h"
 #include "ppc-gateway/p2p/Service.h"
-#include "ppc-tools/src/config/PPCConfig.h"
 
+namespace ppc::tools
+{
+class PPCConfig;
+}
 namespace ppc::gateway
 {
 class GatewayFactory
 {
 public:
     using Ptr = std::shared_ptr<GatewayFactory>;
-    GatewayFactory(ppc::tools::PPCConfig::Ptr config) : m_config(std::move(config))
+    GatewayFactory(std::shared_ptr<ppc::tools::PPCConfig> config) : m_config(std::move(config))
     {
         m_contextConfig = std::make_shared<GatewayConfigContext>(m_config);
         m_gatewayConfig = std::make_shared<GatewayConfigLoader>(m_config);
@@ -43,11 +46,8 @@ public:
 protected:
     Service::Ptr buildService() const;
 
-    bcos::boostssl::ws::WsConfig::Ptr createServiceConfig(
-        ppc::tools::GatewayConfig const& config) const;
-
 private:
-    ppc::tools::PPCConfig::Ptr m_config;
+    std::shared_ptr<ppc::tools::PPCConfig> m_config;
     GatewayConfigContext::Ptr m_contextConfig;
     GatewayConfigLoader::Ptr m_gatewayConfig;
 };

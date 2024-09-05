@@ -19,6 +19,7 @@
  */
 
 #include "HttpFactory.h"
+#include "ppc-tools/src/config/PPCConfig.h"
 #include <bcos-boostssl/websocket/WsInitializer.h>
 #include <bcos-boostssl/websocket/WsService.h>
 
@@ -37,7 +38,8 @@ Http::Ptr HttpFactory::buildHttp(ppc::tools::PPCConfig::ConstPtr _config)
     initializer->setConfig(wsConfig);
     initializer->initWsService(wsService);
 
-    return std::make_shared<Http>(wsService, m_selfPartyID, _config->gatewayConfig().networkConfig.token);
+    return std::make_shared<Http>(
+        wsService, m_selfPartyID, _config->gatewayConfig().networkConfig.token);
 }
 
 
@@ -67,9 +69,9 @@ std::shared_ptr<boostssl::ws::WsConfig> HttpFactory::initConfig(
         contextConfig->setCertConfig(certConfig);
         contextConfig->setSslType("ssl");
         HTTP_LOG(INFO) << LOG_DESC("initConfig: http work in non-sm-ssl model")
-                      << LOG_KV("caCert", certConfig.caCert)
-                      << LOG_KV("nodeCert", certConfig.nodeCert)
-                      << LOG_KV("nodeKey", certConfig.nodeKey);
+                       << LOG_KV("caCert", certConfig.caCert)
+                       << LOG_KV("nodeCert", certConfig.nodeCert)
+                       << LOG_KV("nodeKey", certConfig.nodeKey);
         wsConfig->setContextConfig(contextConfig);
         return wsConfig;
     }

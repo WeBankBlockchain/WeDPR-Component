@@ -19,18 +19,13 @@
  */
 #pragma once
 #include "Common.h"
+#include "ppc-framework/rpc/RpcInterface.h"
 #include "ppc-io/src/FileLineReader.h"
 #include "ppc-io/src/FileLineWriter.h"
-#include "ppc-rpc/src/RpcFactory.h"
-#include "ppc-tools/src/config/PPCConfig.h"
+#include "ppc-tools/src/config/MPCConfig.h"
+#include "ppc-tools/src/config/StorageConfig.h"
 #include <bcos-utilities/Common.h>
 #include <string>
-
-using namespace bcos;
-using namespace ppc;
-using namespace ppc::io;
-using namespace ppc::rpc;
-using namespace ppc::tools;
 
 namespace ppc::mpc
 {
@@ -41,10 +36,10 @@ public:
     MPCService() = default;
     virtual ~MPCService() = default;
 
-    void runMpcRpc(Json::Value const& request, RespFunc func);
-    void killMpcRpc(Json::Value const& request, RespFunc func);
-    void setMPCConfig(MPCConfig const& mpcConfig);
-    void setStorageConfig(StorageConfig const& storageConfig);
+    void runMpcRpc(Json::Value const& request, ppc::rpc::RespFunc func);
+    void killMpcRpc(Json::Value const& request, ppc::rpc::RespFunc func);
+    void setMPCConfig(ppc::tools::MPCConfig const& mpcConfig);
+    void setStorageConfig(ppc::tools::StorageConfig const& storageConfig);
 
     JobInfo paramsToJobInfo(const Json::Value& params);
     void makeCommand(std::string& cmd, const JobInfo& jobInfo);
@@ -55,14 +50,14 @@ public:
     void execCommand(const std::string cmd, int& outExitStatus, std::string& outResult);
 
     void writeStringToFile(const std::string& content, const std::string& filePath);
-    void readAndSaveFile(LineReader::Ptr lineReader, LineWriter::Ptr lineWriter);
-    LineReader::Ptr initialize_lineReader(const JobInfo& jobInfo, const std::string& readerFilePath,
-        ppc::protocol::DataResourceType type);
-    LineWriter::Ptr initialize_lineWriter(const JobInfo& jobInfo, const std::string& writerFilePath,
-        ppc::protocol::DataResourceType type);
+    void readAndSaveFile(ppc::io::LineReader::Ptr lineReader, ppc::io::LineWriter::Ptr lineWriter);
+    ppc::io::LineReader::Ptr initialize_lineReader(const JobInfo& jobInfo,
+        const std::string& readerFilePath, ppc::protocol::DataResourceType type);
+    ppc::io::LineWriter::Ptr initialize_lineWriter(const JobInfo& jobInfo,
+        const std::string& writerFilePath, ppc::protocol::DataResourceType type);
 
 private:
-    MPCConfig m_mpcConfig;
-    StorageConfig m_storageConfig;
+    ppc::tools::MPCConfig m_mpcConfig;
+    ppc::tools::StorageConfig m_storageConfig;
 };
 }  // namespace ppc::mpc

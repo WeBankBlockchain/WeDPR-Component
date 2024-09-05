@@ -33,6 +33,8 @@ using namespace bcos;
 using namespace ppc::io;
 using namespace ppc::protocol;
 using namespace ppc::pir;
+using namespace ppc::task;
+using namespace ppc::psi;
 
 
 OtPIRImpl::OtPIRImpl(const OtPIRConfig::Ptr& _config, unsigned _idleTimeMs)

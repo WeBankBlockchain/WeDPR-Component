@@ -19,6 +19,7 @@
  */
 #include "MPCInitializer.h"
 #include "ppc-mpc/src/MPCService.h"
+#include "ppc-tools/src/config/PPCConfig.h"
 
 using namespace ppc::rpc;
 using namespace bcos;
@@ -40,7 +41,7 @@ void MPCInitializer::init(std::string const& _configPath)
     // load the rpc config
     auto ppcConfig = std::make_shared<PPCConfig>();
     // not specify the certPath in air-mode
-    ppcConfig->loadRpcConfig(nullptr, pt);
+    ppcConfig->loadRpcConfig(pt);
     ppcConfig->loadMPCConfig(pt);
     // bool useMysql = pt.get<bool>("mpc.use_mysql", false);
     auto storageConfig = ppcConfig->storageConfig();

@@ -21,6 +21,7 @@
 #include "../Common.h"
 #include "ppc-framework/protocol/GlobalConfig.h"
 
+using namespace ppc::task;
 using namespace ppc::psi;
 using namespace ppc::io;
 using namespace ppc::protocol;

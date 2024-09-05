@@ -19,11 +19,14 @@
  */
 #pragma once
 #include "Rpc.h"
-#include "ppc-tools/src/config/PPCConfig.h"
 #include <memory>
 namespace bcos::boostssl::ws
 {
 class WsConfig;
+}
+namespace ppc::tools
+{
+class PPCConfig;
 }
 namespace ppc::rpc
 {
@@ -34,12 +37,12 @@ public:
     RpcFactory(std::string const& _selfPartyID) : m_selfPartyID(_selfPartyID) {}
     virtual ~RpcFactory() = default;
 
-    Rpc::Ptr buildRpc(ppc::tools::PPCConfig::ConstPtr _config);
+    Rpc::Ptr buildRpc(std::shared_ptr<ppc::tools::PPCConfig const> _config);
 
 
 private:
     std::shared_ptr<bcos::boostssl::ws::WsConfig> initConfig(
-        ppc::tools::PPCConfig::ConstPtr _config);
+        std::shared_ptr<ppc::tools::PPCConfig const> _config);
 
 private:
     std::string m_selfPartyID;

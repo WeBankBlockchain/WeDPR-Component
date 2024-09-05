@@ -19,19 +19,13 @@
  */
 #pragma once
 #include "Common.h"
+#include "ppc-framework/rpc/RpcInterface.h"
 #include "ppc-io/src/FileLineReader.h"
 #include "ppc-io/src/FileLineWriter.h"
-#include "ppc-rpc/src/RpcFactory.h"
-#include "ppc-tools/src/config/PPCConfig.h"
+#include "ppc-tools/src/config/CEMConfig.h"
+#include "ppc-tools/src/config/StorageConfig.h"
 #include <bcos-utilities/Common.h>
 #include <string>
-
-using namespace bcos;
-using namespace ppc;
-using namespace ppc::io;
-using namespace ppc::rpc;
-using namespace ppc::tools;
-
 namespace ppc::cem
 {
 class CEMService
@@ -41,23 +35,26 @@ public:
     CEMService() = default;
     virtual ~CEMService() = default;
 
-    void makeCiphertextEqualityMatchRpc(Json::Value const& request, RespFunc func);
-    void makeCiphertextEqualityMatch(Json::Value const& request, Json::Value& response, ppc::protocol::DataResourceType _type);
-    void encryptDatasetRpc(Json::Value const& request, RespFunc func);
+    void makeCiphertextEqualityMatchRpc(Json::Value const& request, ppc::rpc::RespFunc func);
+    void makeCiphertextEqualityMatch(
+        Json::Value const& request, Json::Value& response, ppc::protocol::DataResourceType _type);
+    void encryptDatasetRpc(Json::Value const& request, ppc::rpc::RespFunc func);
     void encryptDataset(Json::Value const& request, Json::Value& response);
 
-    void setCEMConfig(CEMConfig const& cemConfig);
-    void setStorageConfig(StorageConfig const& storageConfig);
+    void setCEMConfig(ppc::tools::CEMConfig const& cemConfig);
+    void setStorageConfig(ppc::tools::StorageConfig const& storageConfig);
     void doCipherTextEqualityMatch(const Json::Value::Members& fieldNames,
-        const std::vector<std::string>& fieldValues, LineReader::Ptr lineReader,
+        const std::vector<std::string>& fieldValues, ppc::io::LineReader::Ptr lineReader,
         Json::Value& matchCount);
-    void doEncryptDataset(LineReader::Ptr lineReader, LineWriter::Ptr lineWriter);
-    LineReader::Ptr initialize_lineReader(const std::string& _datasetId, ppc::protocol::DataResourceType _type);
-    LineWriter::Ptr initialize_lineWriter(const std::string& _datasetId, ppc::protocol::DataResourceType _type);
+    void doEncryptDataset(ppc::io::LineReader::Ptr lineReader, ppc::io::LineWriter::Ptr lineWriter);
+    ppc::io::LineReader::Ptr initialize_lineReader(
+        const std::string& _datasetId, ppc::protocol::DataResourceType _type);
+    ppc::io::LineWriter::Ptr initialize_lineWriter(
+        const std::string& _datasetId, ppc::protocol::DataResourceType _type);
     void renameSource(const std::string& _datasetId, ppc::protocol::DataResourceType _type);
 
 private:
-    CEMConfig m_cemConfig;
-    StorageConfig m_storageConfig;
+    ppc::tools::CEMConfig m_cemConfig;
+    ppc::tools::StorageConfig m_storageConfig;
 };
 }  // namespace ppc::cem

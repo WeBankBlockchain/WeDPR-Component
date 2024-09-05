@@ -33,12 +33,17 @@ class TransportBuilder
 {
 public:
     using Ptr = std::shared_ptr<TransportBuilder>;
-    TransportBuilder() = default;
+    TransportBuilder();
     virtual ~TransportBuilder() = default;
 
     Transport::Ptr build(SDKMode mode, ppc::front::FrontConfig::Ptr config,
         ppc::gateway::IGateway::Ptr const& gateway);
 
     ppc::front::FrontConfig::Ptr buildConfig(int threadPoolSize, std::string nodeID);
+
+    ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder() { return m_frontConfigBuilder; }
+
+private:
+    ppc::front::FrontConfigBuilder::Ptr m_frontConfigBuilder;
 };
 }  // namespace ppc::sdk

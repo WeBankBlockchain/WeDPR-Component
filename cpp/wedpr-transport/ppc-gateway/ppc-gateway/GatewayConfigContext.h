@@ -23,32 +23,27 @@
 #include "Common.h"
 #include "bcos-boostssl/context/NodeInfoTools.h"
 #include <bcos-boostssl/context/ContextConfig.h>
-#include <ppc-tools/src/config/PPCConfig.h>
 #include <boost/property_tree/ptree.hpp>
 #include <unordered_map>
 #include <utility>
 
+namespace ppc::tools
+{
+class PPCConfig;
+}
 namespace ppc::gateway
 {
 class GatewayConfigContext
 {
 public:
     using Ptr = std::shared_ptr<GatewayConfigContext>;
-    GatewayConfigContext(ppc::tools::PPCConfig::Ptr _config) : m_config(_config)
-    {
-        if (!m_config->gatewayConfig().networkConfig.disableSsl)
-        {
-            GATEWAY_LOG(INFO) << LOG_DESC("GatewayConfigContext: initContextConfig");
-            initContextConfig();
-            GATEWAY_LOG(INFO) << LOG_DESC("GatewayConfigContext: initContextConfig success");
-        }
-    }
+    GatewayConfigContext(std::shared_ptr<ppc::tools::PPCConfig> _config);
     virtual ~GatewayConfigContext() = default;
     [[nodiscard]] std::shared_ptr<bcos::boostssl::context::ContextConfig> contextConfig() const
     {
         return m_contextConfig;
     }
-    ppc::tools::PPCConfig::Ptr const& config() const { return m_config; }
+    std::shared_ptr<ppc::tools::PPCConfig> const& config() const { return m_config; }
 
     std::string const& nodeID() const { return m_nodeID; }
 
@@ -56,7 +51,7 @@ private:
     void initContextConfig();
 
 private:
-    ppc::tools::PPCConfig::Ptr m_config;
+    std::shared_ptr<ppc::tools::PPCConfig> m_config;
     std::shared_ptr<bcos::boostssl::context::ContextConfig> m_contextConfig;
     std::string m_nodeID;
 };

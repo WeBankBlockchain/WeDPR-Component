@@ -45,14 +45,14 @@ void GatewayInitializer::init(std::string const& _configPath)
     INIT_LOG(INFO) << LOG_DESC("initGateway: ") << _configPath;
     auto config = std::make_shared<PPCConfig>();
 
-    config->loadGatewayConfig(ppc::protocol::NodeArch::PRO, nullptr, _configPath);
+    config->loadGatewayConfig(_configPath);
     auto threadPool = std::make_shared<bcos::ThreadPool>(
         "gateway", config->gatewayConfig().networkConfig.threadPoolSize);
 
     GatewayFactory gatewayFactory(config);
     m_gateway = gatewayFactory.build(std::make_shared<RemoteFrontBuilder>(config->grpcConfig()));
 
-    m_server = std::make_shared<GrpcServer>(config->gatewayConfig().grpcConfig);
+    m_server = std::make_shared<GrpcServer>(config->gatewayConfig().grpcServerConfig);
     // register the gateway service
     auto gatewayService = std::make_shared<GatewayServer>(m_gateway,
         std::make_shared<MessageOptionalHeaderBuilderImpl>(), std::make_shared<NodeInfoFactory>());

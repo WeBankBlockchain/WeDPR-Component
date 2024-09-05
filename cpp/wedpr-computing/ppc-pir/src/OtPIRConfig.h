@@ -31,11 +31,9 @@
 #include "ppc-psi/src/PSIConfig.h"
 #include "protocol/src/PPCMessage.h"
 
-using namespace ppc::psi;
-
 namespace ppc::pir
 {
-class OtPIRConfig : public PSIConfig
+class OtPIRConfig : public ppc::psi::PSIConfig
 {
 public:
     using Ptr = std::shared_ptr<OtPIRConfig>;

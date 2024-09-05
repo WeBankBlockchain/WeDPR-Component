@@ -156,7 +156,7 @@ void CEMService::makeCiphertextEqualityMatch(
         }
     });
     CEM_LOG(INFO) << LOG_DESC("ciphertext equality match request handle ok")
-                 << LOG_KV("timecost(ms)", utcSteadyTime() - startT);
+                  << LOG_KV("timecost(ms)", utcSteadyTime() - startT);
 }
 
 void CEMService::makeCiphertextEqualityMatchRpc(Json::Value const& request, RespFunc func)
@@ -266,7 +266,7 @@ void CEMService::encryptDataset(Json::Value const& request, Json::Value& respons
         }
     });
     CEM_LOG(INFO) << LOG_DESC("encrypt dataset request handle ok")
-                 << LOG_KV("timecost(ms)", utcSteadyTime() - startT);
+                  << LOG_KV("timecost(ms)", utcSteadyTime() - startT);
 }
 
 void CEMService::encryptDatasetRpc(Json::Value const& request, RespFunc func)

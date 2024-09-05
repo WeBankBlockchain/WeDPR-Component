@@ -10,9 +10,10 @@ listen_ip="0.0.0.0"
 cdn_link_header="https://osp-1257653870.cos.ap-guangzhou.myqcloud.com/FISCO-BCOS"
 OPENSSL_CMD="${HOME}/.fisco/tassl-1.1.1b"
 
-port_start=(40300 10200)
+port_start=(40300 10200 18000)
 gateway_listen_port=port_start[0]
 rpc_listen_port=port_start[1]
+grpc_listen_port=port_start[2]
 
 use_ip_param=
 ip_param=
@@ -357,16 +358,17 @@ generate_config_ini() {
 
     local rpc_listen_ip="${4}"
     local rpc_listen_port="${5}"
-    local agency_info="${6}"
-    local agency_id="${7}"
-    local index="${8}"
+	
+    local grpc_listen_ip="${6}"
+    local grpc_listen_port="${7}"
+
+    local agency_id="${8}"
+    local index="${9}"
 
     cat <<EOF >"${output}"
 [agency]
     ; the agency-id of self-party
     id = ${agency_id}
-    ; the agency info
-    ${agency_info}
     ; the private-key for the psi-server
     private_key_path = conf/node.pem
     ; disable the ra2018 or not, default enable ra2018
@@ -375,6 +377,18 @@ generate_config_ini() {
     ; data_location = data
     ; task_timeout_minutes = 180
     ; thread_count = 8
+
+[transport]
+   ; the endpoint information
+   listen_ip = ${grpc_listen_ip}
+   listen_port = ${grpc_listen_port}
+   host_ip = 
+   ; the threadPoolSize
+   thread_count = 4
+   ; the gatewayService endpoint information
+   service.gateway_target =  
+   ; the components
+   service.components =
 
 [crypto]
     sm_crypto = ${sm_mode}
@@ -385,14 +399,19 @@ generate_config_ini() {
     ; thread_count = 4
     ; ssl or sm ssl
     sm_ssl=${sm_mode}
-	  ; the max allowed message size in MBytes, default is 100MBytes
-	  max_allow_msg_size = 100
+    ; the max allowed message size in MBytes, default is 100MBytes
+    max_allow_msg_size = 100
     ;ssl connection switch, if disable the ssl connection, default: false
     ;disable_ssl = true
     ;the time of the gateway holding and waiting to dispatcher the unsynced task, in minutes
     holding_msg_minutes = 30
-    ;disable_cache = false
     ;reconnect_time = 10000
+    ; the unreachable distance
+    ;unreachable_distance=10
+    ;the dir that contains the connected endpoint information, e.g.nodes.json 
+    ;nodes_path=./
+    ; the file that configure the connected endpoint information
+    ; nodes_path=nodes.json
 
 [rpc]
     listen_ip=${rpc_listen_ip}
@@ -411,22 +430,6 @@ generate_config_ini() {
     ; directory the certificates located in
     cert_path=./conf
 
-[cache]
-    ; the cache type, only support redis now
-    type = 0
-    proxy = 127.0.0.1:20002
-    obServer = 127.0.0.1:10904
-    cluster = REDIS_CLUSTER
-    user = 1194
-    host = 127.0.0.1
-    port = 6379
-    password = 
-    database = 1
-    pool_size = 16
-    ; the redis connection timeout, in ms, default is 500ms
-    connection_timeout = 500
-    ; the redis socket timeout, in ms, default is 500ms
-    socket_timeout = 500
 
 [storage]
     host = 127.0.0.1
@@ -813,7 +816,6 @@ deploy_nodes()
     fi
 
     local agency_index=0
-    local agency_info=""
     # generate the ca-cert
     ca_dir="${output_dir}"/ca
     generate_ca_cert "${sm_mode}" "${ca_dir}"
@@ -847,8 +849,6 @@ deploy_nodes()
             # generate the node-script
             generate_node_scripts "${node_dir}"
             local port=$((gateway_listen_port + node_count))
-            # generate the agency_info
-            agency_info="${agency_info}agency.agency${agency_index}=${ip}:${port}
     "
             ((agency_index += 1))
             set_value ${ip//./}_count $(($(get_value ${ip//./}_count) + 1))
@@ -872,9 +872,10 @@ deploy_nodes()
             node_dir="${output_dir}/${ip}/node${node_count}"
             local gateway_port=$((gateway_listen_port + node_count))
             local rpc_port=$((rpc_listen_port + node_count))
+            local grpc_port=$((grpc_listen_port + node_count))
             local agency_id="agency${count}"
             private_key=$(generate_private_key "${node_dir}/conf")
-            generate_config_ini "${node_dir}/config.ini" "${listen_ip}" "${gateway_port}" "${listen_ip}" "${rpc_port}" "${agency_info}" ${agency_id} "${count}"
+            generate_config_ini "${node_dir}/config.ini" "${listen_ip}" "${gateway_port}" "${listen_ip}" "${rpc_port}" "${listen_ip}" "${grpc_port}" ${agency_id} "${count}"
             set_value ${ip//./}_count $(($(get_value ${ip//./}_count) + 1))
             ((++count))
         done

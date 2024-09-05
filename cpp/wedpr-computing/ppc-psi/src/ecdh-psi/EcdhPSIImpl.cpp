@@ -25,6 +25,7 @@ using namespace ppc::protocol;
 using namespace ppc::crypto;
 using namespace ppc::io;
 using namespace bcos;
+using namespace ppc::task;
 
 void EcdhPSIImpl::asyncRunTask(
     ppc::protocol::Task::ConstPtr _task, TaskResponseCallback&& _onTaskFinished)

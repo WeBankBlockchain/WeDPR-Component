@@ -26,8 +26,8 @@ class EcdhTaskState : public TaskState
 {
 public:
     using Ptr = std::shared_ptr<EcdhTaskState>;
-    EcdhTaskState(ppc::protocol::Task::ConstPtr const& _task, TaskResponseCallback&& _callback,
-        bool _onlySelfRun = false)
+    EcdhTaskState(ppc::protocol::Task::ConstPtr const& _task,
+        ppc::task::TaskResponseCallback&& _callback, bool _onlySelfRun = false)
       : TaskState(_task, std::move(_callback), _onlySelfRun)
     {}
     ~EcdhTaskState() override = default;
@@ -59,7 +59,7 @@ public:
     ~EcdhTaskStateFactory() override = default;
 
     TaskState::Ptr createTaskState(ppc::protocol::Task::ConstPtr const& _task,
-        TaskResponseCallback&& _callback, bool _onlySelfRun = false,
+        ppc::task::TaskResponseCallback&& _callback, bool _onlySelfRun = false,
         PSIConfig::Ptr _config = nullptr) override
     {
         return std::make_shared<EcdhTaskState>(_task, std::move(_callback), false);
