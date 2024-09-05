@@ -20,7 +20,7 @@
 #include "GatewayClient.h"
 #include "Common.h"
 #include "Service.grpc.pb.h"
-#include "protobuf/RequestConverter.h"
+#include "protobuf/src/RequestConverter.h"
 
 using namespace ppc;
 using namespace ppc::proto;
@@ -29,10 +29,10 @@ using namespace ppc::gateway;
 using namespace ppc::protocol;
 
 void GatewayClient::asyncSendMessage(RouteType routeType,
-    MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, long timeout,
-    ReceiveMsgFunc callback)
+    MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID, bcos::bytes&& payload,
+    long timeout, ReceiveMsgFunc callback)
 {
-    auto request = generateRequest(routeType, routeInfo, std::move(payload), timeout);
+    auto request = generateRequest(traceID, routeType, routeInfo, std::move(payload), timeout);
     ClientContext context;
     auto response = std::make_shared<Error>();
     m_stub->async()->asyncSendMessage(&context, request.get(), response.get(),

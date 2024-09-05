@@ -37,8 +37,9 @@ public:
     FakeFront() = default;
     ~FakeFront() override = default;
 
-    void start() override {}
-    void stop() override {}
+    void registerMessageHandler(uint8_t _taskType, uint8_t _algorithmType,
+        std::function<void(front::PPCMessageFace::Ptr)> _handler) override
+    {}
 
     void registerRA2018(std::string const& _agencyID, TaskFrameworkInterface::Ptr _psi)
     {
@@ -71,11 +72,6 @@ public:
     void registerOTPIR(std::string const& _agencyID, TaskFrameworkInterface::Ptr _pir)
     {
         m_agencyToOTPIR[_agencyID] = _pir;
-    }
-
-    void onReceiveMessage(front::PPCMessageFace::Ptr, ErrorCallbackFunc) override
-    {
-        throw std::runtime_error("FakeFront: unimplemented interface onReceiveMessage!");
     }
 
     void asyncSendMessage(const std::string& _agencyID, front::PPCMessageFace::Ptr _message,

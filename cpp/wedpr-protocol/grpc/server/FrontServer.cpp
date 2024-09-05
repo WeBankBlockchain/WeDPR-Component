@@ -19,7 +19,7 @@
  */
 #include "FrontServer.h"
 #include "Common.h"
-#include "protobuf/RequestConverter.h"
+#include "protobuf/src/RequestConverter.h"
 #include <bcos-utilities/Common.h>
 
 using namespace ppc::proto;

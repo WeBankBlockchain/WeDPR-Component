@@ -27,17 +27,25 @@
 
 namespace ppc
 {
+template <typename T>
 inline uint64_t decodeNetworkBuffer(
-    bcos::bytes& _result, bcos::byte const* buffer, unsigned int bufferLen, uint64_t const offset)
+    T& _result, bcos::byte const* buffer, unsigned int bufferLen, uint64_t const offset)
 {
     uint64_t curOffset = offset;
     CHECK_OFFSET_WITH_THROW_EXCEPTION(curOffset, bufferLen);
+    // Notice: operator* is higher priority than operator+, the () is essential
     auto dataLen =
-        boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)buffer + curOffset));
+        boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)(buffer + curOffset)));
     curOffset += 2;
+    if (dataLen == 0)
+    {
+        return curOffset;
+    }
     CHECK_OFFSET_WITH_THROW_EXCEPTION(curOffset, bufferLen);
-    _result.insert(
-        _result.end(), (bcos::byte*)buffer + curOffset, (bcos::byte*)buffer + curOffset + dataLen);
+    //_result.insert(
+    //    _result.end(), (bcos::byte*)buffer + curOffset, (bcos::byte*)buffer + curOffset +
+    //    dataLen);
+    _result.assign((bcos::byte*)buffer + curOffset, (bcos::byte*)buffer + curOffset + dataLen);
     curOffset += dataLen;
     return curOffset;
 }

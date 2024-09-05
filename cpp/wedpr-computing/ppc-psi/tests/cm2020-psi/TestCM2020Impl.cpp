@@ -19,8 +19,8 @@
  */
 
 #include "FakeCM2020PSIFactory.h"
-#include "ppc-protocol/src/JsonTaskImpl.h"
 #include "ppc-psi/src/cm2020-psi/CM2020PSIImpl.h"
+#include "protocol/src/JsonTaskImpl.h"
 #include "test-utils/FakeFront.h"
 #include "test-utils/FileTool.h"
 #include "test-utils/TaskMock.h"

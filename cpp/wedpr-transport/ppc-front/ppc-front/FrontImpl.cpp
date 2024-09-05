@@ -134,8 +134,8 @@ void FrontImpl::asyncSendMessage(RouteType routeType, MessageOptionalHeader::Ptr
     m_callbackManager->addCallback(traceID, timeout, callback);
     auto self = weak_from_this();
     // send the message to the gateway
-    asyncSendMessageToGateway(false, std::move(frontMessage), routeType, routeInfo, timeout,
-        [self, traceID, routeInfo, errorCallback](bcos::Error::Ptr error) {
+    asyncSendMessageToGateway(false, std::move(frontMessage), routeType, traceID, routeInfo,
+        timeout, [self, traceID, routeInfo, errorCallback](bcos::Error::Ptr error) {
             auto front = self.lock();
             if (!front)
             {
@@ -181,7 +181,7 @@ void FrontImpl::handleCallback(
             // set the srcNodeID
             routerInfo->setSrcNode(message->header()->optionalField()->dstNode());
             front->asyncSendMessageToGateway(true, std::move(frontMessage),
-                RouteType::ROUTE_THROUGH_NODEID, routerInfo, 0,
+                RouteType::ROUTE_THROUGH_NODEID, message->header()->traceID(), routerInfo, 0,
                 [routerInfo](bcos::Error::Ptr error) {
                     if (!error || error->errorCode() == 0)
                     {
@@ -196,8 +196,8 @@ void FrontImpl::handleCallback(
 }
 
 void FrontImpl::asyncSendMessageToGateway(bool responsePacket, MessagePayload::Ptr&& frontMessage,
-    RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo, long timeout,
-    ReceiveMsgFunc callback)
+    RouteType routeType, std::string const& traceID, MessageOptionalHeader::Ptr const& routeInfo,
+    long timeout, ReceiveMsgFunc callback)
 {
     if (responsePacket)
     {
@@ -206,7 +206,8 @@ void FrontImpl::asyncSendMessageToGateway(bool responsePacket, MessagePayload::P
     routeInfo->setSrcNode(m_nodeID);
     auto payload = std::make_shared<bcos::bytes>();
     frontMessage->encode(*payload);
-    m_gatewayClient->asyncSendMessage(routeType, routeInfo, std::move(*payload), timeout, callback);
+    m_gatewayClient->asyncSendMessage(
+        routeType, routeInfo, traceID, std::move(*payload), timeout, callback);
 }
 
 

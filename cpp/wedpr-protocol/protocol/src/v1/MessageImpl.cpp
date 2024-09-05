@@ -19,6 +19,7 @@
  */
 
 #include "MessageImpl.h"
+#include "../Common.h"
 
 using namespace bcos;
 using namespace ppc::protocol;
@@ -26,21 +27,30 @@ using namespace ppc::protocol;
 bool MessageImpl::encode(bcos::bytes& _buffer)
 {
     // encode the header
-    bcos::bytes headerData;
-    m_header->encode(headerData);
+    m_header->encode(_buffer);
     // encode the payload
-    if (m_payload)
+    if (m_payload && m_payload->size() > 0)
     {
-        headerData.insert(headerData.end(), m_payload->begin(), m_payload->end());
+        _buffer.insert(_buffer.end(), m_payload->begin(), m_payload->end());
     }
 }
 
 bool MessageImpl::encode(bcos::boostssl::EncodedMsg& encodedMsg)
 {
-    // header
-    m_header->encode(encodedMsg.header);
-    // assign the payload back
-    encodedMsg.payload = m_payload;
+    try
+    {
+        // header
+        m_header->encode(encodedMsg.header);
+        // assign the payload back
+        encodedMsg.payload = m_payload;
+        return true;
+    }
+    catch (std::exception const& e)
+    {
+        PROTOCOL_LOG(WARNING) << LOG_DESC("encode message failed")
+                              << LOG_KV("error", boost::diagnostic_information(e));
+        return false;
+    }
 }
 
 int64_t MessageImpl::decode(bytesConstRef buffer)
@@ -53,6 +63,11 @@ int64_t MessageImpl::decode(bytesConstRef buffer)
     }
     // decode the header
     m_header = m_headerBuilder->build(buffer);
+    // no payload case
+    if (buffer.size() <= m_header->length())
+    {
+        return buffer.size();
+    }
     // decode the payload
     if (!m_payload)
     {
@@ -60,4 +75,5 @@ int64_t MessageImpl::decode(bytesConstRef buffer)
     }
     m_payload->clear();
     m_payload->insert(m_payload->end(), buffer.data() + m_header->length(), buffer.end());
+    return buffer.size();
 }

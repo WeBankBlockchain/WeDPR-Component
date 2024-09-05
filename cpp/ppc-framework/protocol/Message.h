@@ -199,8 +199,9 @@ public:
 
 protected:
     MessageHeader::Ptr m_header;
-    std::shared_ptr<bcos::bytes> m_payload;
-    MessagePayload::Ptr m_frontMessage;
+    // Note: allocate here in case of wsService nullptr access caused coredump
+    std::shared_ptr<bcos::bytes> m_payload = std::make_shared<bcos::bytes>();
+    MessagePayload::Ptr m_frontMessage = nullptr;
 };
 
 class MessageHeaderBuilder

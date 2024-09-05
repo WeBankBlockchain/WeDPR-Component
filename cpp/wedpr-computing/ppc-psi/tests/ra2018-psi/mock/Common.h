@@ -18,7 +18,7 @@
  * @date 2022-12-29
  */
 #pragma once
-#include "ppc-protocol/src/JsonTaskImpl.h"
+#include "protocol/src/JsonTaskImpl.h"
 #include "test-utils/TaskMock.h"
 #include <thread>
 

@@ -20,7 +20,7 @@
 #include "mock/Common.h"
 #include "mock/RA2018PSIFixture.h"
 // Note: it's better not to depends on the task-impl
-#include "ppc-protocol/src/JsonTaskImpl.h"
+#include "protocol/src/JsonTaskImpl.h"
 #include "test-utils/TaskMock.h"
 #include <bcos-utilities/testutils/TestPromptFixture.h>
 #include <boost/test/unit_test.hpp>

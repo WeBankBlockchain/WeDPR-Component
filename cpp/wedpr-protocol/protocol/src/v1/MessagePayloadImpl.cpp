@@ -71,10 +71,8 @@ int64_t MessagePayloadImpl::decode(bcos::bytesConstRef buffer)
     m_ext = boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)pointer));
     pointer += 2;
     // the traceID
-    bcos::bytes traceID;
     auto offset =
-        decodeNetworkBuffer(traceID, buffer.data(), buffer.size(), (pointer - buffer.data()));
-    m_traceID = std::string(traceID.begin(), traceID.end());
+        decodeNetworkBuffer(m_traceID, buffer.data(), buffer.size(), (pointer - buffer.data()));
     // data
     return decodeNetworkBuffer(m_data, buffer.data(), buffer.size(), offset);
 }

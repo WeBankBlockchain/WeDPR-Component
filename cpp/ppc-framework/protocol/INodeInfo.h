@@ -67,6 +67,7 @@ public:
 
     virtual INodeInfo::Ptr build() = 0;
     virtual INodeInfo::Ptr build(bcos::bytesConstRef nodeID, std::string const& endPoint) = 0;
+    virtual INodeInfo::Ptr build(bcos::bytesConstRef data) = 0;
 };
 
 inline std::string printNodeInfo(INodeInfo::Ptr const& nodeInfo)

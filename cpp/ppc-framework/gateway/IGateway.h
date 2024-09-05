@@ -58,11 +58,13 @@ public:
      * @param callback callback
      */
     virtual void asyncSendMessage(ppc::protocol::RouteType routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload,
-        long timeout, ppc::protocol::ReceiveMsgFunc callback) = 0;
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID,
+        bcos::bytes&& payload, long timeout, ppc::protocol::ReceiveMsgFunc callback) = 0;
 
     virtual void asyncSendbroadcastMessage(ppc::protocol::RouteType routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload) = 0;
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID,
+        bcos::bytes&& payload) = 0;
+
     virtual bcos::Error::Ptr registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) = 0;
     virtual bcos::Error::Ptr unRegisterNodeInfo(bcos::bytesConstRef nodeID) = 0;
     virtual bcos::Error::Ptr registerTopic(

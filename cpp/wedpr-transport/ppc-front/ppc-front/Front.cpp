@@ -42,7 +42,8 @@ void Front::asyncSendMessage(const std::string& _agencyID, front::PPCMessageFace
     bcos::bytes data;
     _message->encode(data);
     auto self = weak_from_this();
-    m_front->asyncSendMessage(RouteType::ROUTE_THROUGH_AGENCY, routeInfo, std::move(data),
+    // ROUTE_THROUGH_TOPIC will hold the topic
+    m_front->asyncSendMessage(RouteType::ROUTE_THROUGH_TOPIC, routeInfo, std::move(data),
         _message->seq(), _timeout, _callback,
         [self, _agencyID, _respCallback](
             Error::Ptr error, Message::Ptr msg, SendResponseFunction resFunc) {
@@ -66,7 +67,7 @@ void Front::asyncSendMessage(const std::string& _agencyID, front::PPCMessageFace
             }
             // get the agencyID
             _respCallback(error, msg->header()->optionalField()->srcInst(),
-                front->m_messageFactory->buildPPCMessage(msg), responseCallback);
+                front->m_messageFactory->decodePPCMessage(msg), responseCallback);
         });
 }
 

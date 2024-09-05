@@ -42,10 +42,12 @@ inline MessageOptionalHeader::Ptr generateRouteInfo(
     return routeInfo;
 }
 
-inline std::shared_ptr<ppc::proto::SendedMessageRequest> generateRequest(RouteType routeType,
+inline std::shared_ptr<ppc::proto::SendedMessageRequest> generateRequest(std::string const& traceID, 
+    RouteType routeType,
     MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, long timeout)
 {
     auto request = std::make_shared<ppc::proto::SendedMessageRequest>();
+    request->set_traceid(traceID);
     request->set_routetype(uint16_t(routeType));
     // set the route information
     request->mutable_routeinfo()->set_topic(routeInfo->topic());

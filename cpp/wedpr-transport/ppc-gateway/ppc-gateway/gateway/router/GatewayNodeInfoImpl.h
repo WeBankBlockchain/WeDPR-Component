@@ -29,18 +29,23 @@ class GatewayNodeInfoImpl : public GatewayNodeInfo
 {
 public:
     using Ptr = std::shared_ptr<GatewayNodeInfoImpl>;
+    GatewayNodeInfoImpl() : m_rawGatewayInfo(std::make_shared<ppc::proto::GatewayNodeInfo>()) {}
     GatewayNodeInfoImpl(std::string const& p2pNodeID, std::string const& agency)
-      : m_inner([inner = ppc::proto::GatewayNodeInfo()]() mutable { return &inner; })
+      : GatewayNodeInfoImpl()
     {
-        m_inner()->set_p2pnodeid(p2pNodeID);
-        m_inner()->set_agency(agency);
+        m_rawGatewayInfo->set_p2pnodeid(p2pNodeID);
+        m_rawGatewayInfo->set_agency(agency);
     }
+
+    GatewayNodeInfoImpl(bcos::bytesConstRef data) : GatewayNodeInfoImpl() { decode(data); }
+
     ~GatewayNodeInfoImpl() override
     {
-        auto allocatedNodeListSize = m_inner()->nodelist_size();
+        // return back the ownership to nodeList
+        auto allocatedNodeListSize = m_rawGatewayInfo->nodelist_size();
         for (int i = 0; i < allocatedNodeListSize; i++)
         {
-            m_inner()->mutable_nodelist()->UnsafeArenaReleaseLast();
+            m_rawGatewayInfo->mutable_nodelist()->UnsafeArenaReleaseLast();
         }
     }
 
@@ -71,21 +76,25 @@ public:
 
     std::map<bcos::bytes, ppc::protocol::INodeInfo::Ptr> nodeList() const override
     {
-        bcos::WriteGuard l(x_nodeList);
+        bcos::ReadGuard l(x_nodeList);
         return m_nodeList;
     }
     uint32_t statusSeq() const override;
     void setStatusSeq(uint32_t statusSeq) override;
 
-    virtual uint16_t nodeSize() const override { return m_nodeList.size(); }
+    virtual uint16_t nodeSize() const override
+    {
+        bcos::ReadGuard l(x_nodeList);
+        return m_nodeList.size();
+    }
 
 private:
-    std::function<ppc::proto::GatewayNodeInfo*()> m_inner;
+    std::shared_ptr<ppc::proto::GatewayNodeInfo> m_rawGatewayInfo;
     // NodeID => nodeInfo
     std::map<bcos::bytes, ppc::protocol::INodeInfo::Ptr> m_nodeList;
     mutable bcos::SharedMutex x_nodeList;
 
-    // NodeID=>topics
+    // NodeID=>topics(Note serialized)
     using Topics = std::set<std::string>;
     std::map<bcos::bytes, Topics> m_topicInfo;
     mutable bcos::SharedMutex x_topicInfo;

@@ -30,33 +30,23 @@ class LocalRouter
 {
 public:
     using Ptr = std::shared_ptr<LocalRouter>;
-    LocalRouter(GatewayNodeInfoFactory::Ptr nodeInfoFactory,
+    LocalRouter(GatewayNodeInfoFactory::Ptr gatewayNodeInfoFactory,
         ppc::front::IFrontBuilder::Ptr frontBuilder, MessageCache::Ptr msgCache)
-      : m_routerInfo(std::move(nodeInfoFactory->build())),
+      : m_routerInfo(gatewayNodeInfoFactory->build()),
         m_frontBuilder(std::move(frontBuilder)),
         m_cache(std::move(msgCache))
     {}
 
     virtual ~LocalRouter() = default;
 
-    virtual bool registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo)
-    {
-        nodeInfo->setFront(m_frontBuilder->buildClient(nodeInfo->endPoint()));
-        auto ret = m_routerInfo->tryAddNodeInfo(nodeInfo);
-        if (ret)
-        {
-            increaseSeq();
-        }
-        return ret;
-    }
-
+    virtual bool registerNodeInfo(ppc::protocol::INodeInfo::Ptr nodeInfo);
     virtual void unRegisterNode(bcos::bytes const& nodeID)
     {
         m_routerInfo->removeNodeInfo(nodeID);
         increaseSeq();
     }
 
-    virtual void registerTopic(bcos::bytesConstRef nodeID, std::string const& topic);
+    virtual void registerTopic(std::string_view nodeID, std::string const& topic);
     virtual void unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic);
 
     virtual std::vector<ppc::front::IFrontClient::Ptr> chooseReceiver(

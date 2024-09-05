@@ -1,4 +1,4 @@
-project(ppc-protocol VERSION ${VERSION})
+project(ppc-protobuf VERSION ${VERSION})
 
 add_subdirectory(src)
 if (TESTS)

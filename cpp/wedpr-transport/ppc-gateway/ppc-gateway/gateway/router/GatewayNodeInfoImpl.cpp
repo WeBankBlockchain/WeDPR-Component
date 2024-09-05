@@ -18,8 +18,8 @@
  * @date 2024-08-26
  */
 #include "GatewayNodeInfoImpl.h"
-#include "wedpr-protocol/protobuf/Common.h"
-#include "wedpr-protocol/protobuf/NodeInfoImpl.h"
+#include "wedpr-protocol/protobuf/src/Common.h"
+#include "wedpr-protocol/protobuf/src/NodeInfoImpl.h"
 #include "wedpr-protocol/tars/Common.h"
 
 using namespace ppctars;
@@ -30,21 +30,21 @@ using namespace ppc::gateway;
 // the gateway nodeID
 std::string const& GatewayNodeInfoImpl::p2pNodeID() const
 {
-    return m_inner()->p2pnodeid();
+    return m_rawGatewayInfo->p2pnodeid();
 }
 // the agency
 std::string const& GatewayNodeInfoImpl::agency() const
 {
-    return m_inner()->agency();
+    return m_rawGatewayInfo->agency();
 }
 
 uint32_t GatewayNodeInfoImpl::statusSeq() const
 {
-    return m_inner()->statusseq();
+    return m_rawGatewayInfo->statusseq();
 }
 void GatewayNodeInfoImpl::setStatusSeq(uint32_t statusSeq)
 {
-    m_inner()->set_statusseq(statusSeq);
+    m_rawGatewayInfo->set_statusseq(statusSeq);
 }
 
 // get the node information by nodeID
@@ -184,30 +184,32 @@ void GatewayNodeInfoImpl::unRegisterTopic(bcos::bytes const& nodeID, std::string
 
 void GatewayNodeInfoImpl::encode(bcos::bytes& data) const
 {
-    m_inner()->clear_nodelist();
+    m_rawGatewayInfo->clear_nodelist();
     {
         bcos::ReadGuard l(x_nodeList);
         // encode nodeList
         for (auto const& it : m_nodeList)
         {
             auto nodeInfo = std::dynamic_pointer_cast<NodeInfoImpl>(it.second);
-            m_inner()->mutable_nodelist()->UnsafeArenaAddAllocated(nodeInfo->innerFunc()());
+            m_rawGatewayInfo->mutable_nodelist()->UnsafeArenaAddAllocated(
+                nodeInfo->rawNodeInfo().get());
         }
     }
-    encodePBObject(data, m_inner());
+    encodePBObject(data, m_rawGatewayInfo);
 }
 
 void GatewayNodeInfoImpl::decode(bcos::bytesConstRef data)
 {
-    decodePBObject(m_inner(), data);
+    decodePBObject(m_rawGatewayInfo, data);
     {
         bcos::WriteGuard l(x_nodeList);
         // decode into m_nodeList
         m_nodeList.clear();
-        for (int i = 0; i < m_inner()->nodelist_size(); i++)
+        for (int i = 0; i < m_rawGatewayInfo->nodelist_size(); i++)
         {
-            auto nodeInfoPtr = std::make_shared<NodeInfoImpl>(
-                [m_entry = m_inner()->nodelist(i)]() mutable { return &m_entry; });
+            std::shared_ptr<ppc::proto::NodeInfo> rawNodeInfo(
+                m_rawGatewayInfo->mutable_nodelist(i));
+            auto nodeInfoPtr = std::make_shared<NodeInfoImpl>(rawNodeInfo);
             m_nodeList.insert(std::make_pair(nodeInfoPtr->nodeID().toBytes(), nodeInfoPtr));
         }
     }

@@ -158,8 +158,8 @@ public:
 private:
     void asyncSendMessageToGateway(bool responsePacket,
         ppc::protocol::MessagePayload::Ptr&& frontMessage, ppc::protocol::RouteType routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, long timeout,
-        ppc::protocol::ReceiveMsgFunc callback);
+        std::string const& traceID, ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo,
+        long timeout, ppc::protocol::ReceiveMsgFunc callback);
 
     void handleCallback(bcos::Error::Ptr const& error, std::string const& traceID,
         ppc::protocol::Message::Ptr message);

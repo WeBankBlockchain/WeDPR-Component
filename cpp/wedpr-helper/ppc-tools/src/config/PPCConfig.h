@@ -237,6 +237,9 @@ public:
     // used by cem module
     virtual void loadCEMConfig(boost::property_tree::ptree const& _pt);
 
+    // for ut
+    void setAgencyID(std::string const& agencyID) { m_agencyID = agencyID; }
+
 private:
     virtual void loadEndpointConfig(ppc::protocol::EndPoint& endPoint, bool requireHostIp,
         std::string const& sectionName, boost::property_tree::ptree const& pt);

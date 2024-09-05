@@ -111,5 +111,22 @@ public:
     {
         throw std::runtime_error("FakePPCMessageFactory: unimplemented interface!");
     }
+    PPCMessageFace::Ptr decodePPCMessage(ppc::protocol::Message::Ptr msg) override
+    {
+        throw std::runtime_error("FakePPCMessageFactory: unimplemented interface!");
+    }
+    ppc::protocol::Message::Ptr buildMessage(ppc::protocol::MessageBuilder::Ptr const& msgBuilder,
+        ppc::protocol::MessagePayloadBuilder::Ptr const& msgPayloadBuilder,
+        PPCMessageFace::Ptr const& ppcMessage) override
+    {
+        throw std::runtime_error("FakePPCMessageFactory: unimplemented interface!");
+    }
+
+    ppc::protocol::MessagePayload::Ptr buildMessage(
+        ppc::protocol::MessagePayloadBuilder::Ptr const& msgPayloadBuilder,
+        PPCMessageFace::Ptr const& ppcMessage) override
+    {
+        throw std::runtime_error("FakePPCMessageFactory: unimplemented interface!");
+    }
 };
 }  // namespace ppc::test

@@ -27,6 +27,8 @@
 #include "test-utils/FakeFront.h"
 #include "test-utils/FakePPCMessage.h"
 #include <ppc-psi/src/ecdh-psi/EcdhPSIFactory.h>
+#include <ppc-psi/src/ecdh-psi/EcdhPSIMessageFactory.h>
+
 
 using namespace bcos;
 using namespace ppc::protocol;

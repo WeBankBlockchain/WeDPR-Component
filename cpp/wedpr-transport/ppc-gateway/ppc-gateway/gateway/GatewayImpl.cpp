@@ -84,13 +84,14 @@ void GatewayImpl::stop()
 }
 
 void GatewayImpl::asyncSendbroadcastMessage(ppc::protocol::RouteType routeType,
-    MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload)
+    MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID, bcos::bytes&& payload)
 {
     // dispatcher to all the local front
     routeInfo->setDstNode(bcos::bytes());
     routeInfo->setSrcInst(m_agency);
 
     auto p2pMessage = m_msgBuilder->build(routeType, routeInfo, std::move(payload));
+    p2pMessage->setSeq(traceID);
 
     p2pMessage->setPacketType((uint16_t)GatewayPacketType::BroadcastMessage);
     m_localRouter->dispatcherMessage(p2pMessage, nullptr);
@@ -100,14 +101,16 @@ void GatewayImpl::asyncSendbroadcastMessage(ppc::protocol::RouteType routeType,
 
 
 void GatewayImpl::asyncSendMessage(ppc::protocol::RouteType routeType,
-    ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, long timeout,
-    ReceiveMsgFunc callback)
+    ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID,
+    bcos::bytes&& payload, long timeout, ReceiveMsgFunc callback)
 {
     routeInfo->setSrcInst(m_agency);
     // check the localRouter
     auto p2pMessage = m_msgBuilder->build(routeType, routeInfo, std::move(payload));
-
+    p2pMessage->setSeq(traceID);
     p2pMessage->setPacketType((uint16_t)GatewayPacketType::P2PMessage);
+    GATEWAY_LOG(INFO) << LOG_DESC("##### asyncSendMessage")
+                      << LOG_KV("msg", printMessage(p2pMessage));
     auto nodeList = m_localRouter->chooseReceiver(p2pMessage);
     // case send to the same agency
     if (!nodeList.empty())

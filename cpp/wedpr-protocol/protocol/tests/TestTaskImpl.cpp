@@ -18,7 +18,7 @@
  * @date 2022-10-19
  */
 
-#include "ppc-protocol/src/JsonTaskImpl.h"
+#include "protocol/src/JsonTaskImpl.h"
 #include "test-utils/TaskMock.h"
 #include <bcos-utilities/Exceptions.h>
 #include <bcos-utilities/testutils/TestPromptFixture.h>

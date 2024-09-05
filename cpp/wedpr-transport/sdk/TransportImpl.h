@@ -21,7 +21,7 @@
 #include "Transport.h"
 #include "ppc-framework/gateway/IGateway.h"
 #include "ppc-front/FrontFactory.h"
-#include "protobuf/NodeInfoImpl.h"
+#include "protobuf/src/NodeInfoImpl.h"
 #include "protocol/src/v1/MessageHeaderImpl.h"
 #include "protocol/src/v1/MessagePayloadImpl.h"
 

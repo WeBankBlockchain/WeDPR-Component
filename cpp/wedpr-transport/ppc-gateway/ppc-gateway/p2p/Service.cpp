@@ -158,9 +158,13 @@ void Service::reconnect()
                 continue;
             }
             unconnectedPeers->insert(it.first);
+            GATEWAY_LOG(TRACE) << LOG_DESC("ready to reconnect")
+                               << LOG_KV("endpoint",
+                                      it.first.address() + ":" + std::to_string(it.first.port()));
         }
     }
-    setReconnectedPeers(unconnectedPeers);
+    GATEWAY_LOG(INFO) << LOG_KV("##### unconnectedPeers", unconnectedPeers->size());
+    // setReconnectedPeers(unconnectedPeers);
     WsService::reconnect();
 }
 
@@ -215,6 +219,10 @@ void Service::asyncSendMessage(
         if (dstNodeID == m_nodeID)
         {
             return;
+        }
+        if (msg->seq().empty())
+        {
+            msg->setSeq(m_messageFactory->newSeq());
         }
         auto session = getSessionByNodeID(dstNodeID);
         if (session)

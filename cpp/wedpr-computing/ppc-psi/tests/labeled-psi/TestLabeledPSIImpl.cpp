@@ -19,9 +19,9 @@
  */
 
 #include "FakeLabeledPSIFactory.h"
-#include "ppc-protocol/src/JsonTaskImpl.h"
 #include "ppc-psi/src/labeled-psi/LabeledPSIImpl.h"
 #include "ppc-psi/src/labeled-psi/protocol/LabeledPSIResult.h"
+#include "protocol/src/JsonTaskImpl.h"
 #include "test-utils/FileTool.h"
 #include "test-utils/TaskMock.h"
 #include <bcos-utilities/testutils/TestPromptFixture.h>

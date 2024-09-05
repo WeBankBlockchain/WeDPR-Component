@@ -28,13 +28,13 @@ void NodeInfoImpl::encode(bcos::bytes& data) const
     // set the components
     for (auto const& component : m_components)
     {
-        m_inner()->add_components(component);
+        m_rawNodeInfo->add_components(component);
     }
-    encodePBObject(data, m_inner());
+    encodePBObject(data, m_rawNodeInfo);
 }
 void NodeInfoImpl::decode(bcos::bytesConstRef data)
 {
-    decodePBObject(m_inner(), data);
-    m_components =
-        std::set<std::string>(m_inner()->components().begin(), m_inner()->components().end());
+    decodePBObject(m_rawNodeInfo, data);
+    m_components = std::set<std::string>(
+        m_rawNodeInfo->components().begin(), m_rawNodeInfo->components().end());
 }

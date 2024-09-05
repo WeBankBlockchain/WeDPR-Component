@@ -24,6 +24,7 @@
 
 using namespace bcos;
 using namespace ppc::front;
+using namespace ppc::protocol;
 
 void PPCMessage::encode(bytes& _buffer)
 {
@@ -137,4 +138,61 @@ std::map<std::string, std::string> PPCMessage::decodeMap(const std::string& _enc
     }
 
     return maps;
+}
+
+// Note: this interface is used after the MessagePayload(frontMessage) has been decoded; this
+// interface passed some meta information to the ppcMessage
+PPCMessageFace::Ptr PPCMessageFactory::decodePPCMessage(Message::Ptr msg)
+{
+    auto ppcMsg = buildPPCMessage();
+    auto frontMsg = msg->frontMessage();
+    // Note: this field is been setted when onReceiveMessage
+    if (frontMsg)
+    {
+        ppcMsg->setSeq(frontMsg->seq());
+        ppcMsg->setUuid(frontMsg->traceID());
+        if (frontMsg->isRespPacket())
+        {
+            ppcMsg->setResponse();
+        }
+        ppcMsg->decode(bcos::ref(frontMsg->data()));
+    }
+    if (msg->header() && msg->header()->optionalField())
+    {
+        auto const& routeInfo = msg->header()->optionalField();
+        ppcMsg->setTaskID(routeInfo->topic());
+        ppcMsg->setSender(routeInfo->srcInst());
+    }
+    return ppcMsg;
+}
+
+Message::Ptr PPCMessageFactory::buildMessage(MessageBuilder::Ptr const& msgBuilder,
+    MessagePayloadBuilder::Ptr const& msgPayloadBuilder, PPCMessageFace::Ptr const& ppcMessage)
+{
+    auto msg = msgBuilder->build();
+    msg->header()->optionalField()->setTopic(ppcMessage->taskID());
+    msg->header()->optionalField()->setSrcInst(ppcMessage->sender());
+
+    auto payload = buildMessage(msgPayloadBuilder, ppcMessage);
+    auto payloadData = std::make_shared<bcos::bytes>();
+    payload->encode(*payloadData);
+    msg->setPayload(std::move(payloadData));
+    return msg;
+}
+
+MessagePayload::Ptr PPCMessageFactory::buildMessage(
+    MessagePayloadBuilder::Ptr const& msgPayloadBuilder, PPCMessageFace::Ptr const& ppcMessage)
+{
+    auto payload = msgPayloadBuilder->build();
+    payload->setSeq(ppcMessage->seq());
+    if (ppcMessage->response())
+    {
+        payload->setRespPacket();
+    }
+    payload->setTraceID(ppcMessage->uuid());
+
+    bcos::bytes ppcMsgData;
+    ppcMessage->encode(ppcMsgData);
+    payload->setData(std::move(ppcMsgData));
+    return payload;
 }

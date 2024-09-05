@@ -33,7 +33,9 @@ public:
     using Ptr = std::shared_ptr<Message>;
     MessageImpl(MessageHeaderBuilder::Ptr headerBuilder, size_t maxMessageLen)
       : m_headerBuilder(std::move(headerBuilder)), m_maxMessageLen(maxMessageLen)
-    {}
+    {
+        m_header = m_headerBuilder->build();
+    }
     MessageImpl(
         MessageHeaderBuilder::Ptr headerBuilder, size_t maxMessageLen, bcos::bytesConstRef buffer)
       : MessageImpl(headerBuilder, maxMessageLen)

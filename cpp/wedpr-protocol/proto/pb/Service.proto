@@ -28,6 +28,7 @@ message SendedMessageRequest{
     RouteInfo routeInfo = 2;
     bytes payload = 3;
     int64 timeout = 4;
+    string traceID = 5;
 };
 service Front {
     rpc onReceiveMessage (ReceivedMessage) returns (Error) {}

@@ -20,7 +20,7 @@
 #include "mock/Common.h"
 #include "mock/EcdhPSIFixture.h"
 // Note: it's better not to depends on the task-impl
-#include "ppc-protocol/src/JsonTaskImpl.h"
+#include "protocol/src/JsonTaskImpl.h"
 #include "test-utils/TaskMock.h"
 #include <bcos-utilities/testutils/TestPromptFixture.h>
 #include <boost/test/unit_test.hpp>
@@ -61,8 +61,8 @@ void testEcdhImplFunc(int64_t _dataBatchSize, std::string const& _serverPSIDataS
     auto clientPSI = factory->createEcdhPSI(clientAgencyName, clientConfig);
 
     std::vector<std::string> agencyList = {serverAgencyName, clientAgencyName};
-    serverPSI->psiConfig()->updateAgenyList(agencyList);
-    clientPSI->psiConfig()->updateAgenyList(agencyList);
+    // serverPSI->psiConfig()->updateAgenyList(agencyList);
+    // clientPSI->psiConfig()->updateAgenyList(agencyList);
 
     // register the server-psi into the front
     factory->front()->registerEcdhPSI(serverAgencyName, serverPSI);

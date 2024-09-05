@@ -25,7 +25,6 @@
 
 namespace ppc::psi
 {
-
 inline void genItemsLabels(
     ppc::io::DataBatch::Ptr _items, ppc::io::DataBatch::Ptr _labels, uint32_t _size)
 {

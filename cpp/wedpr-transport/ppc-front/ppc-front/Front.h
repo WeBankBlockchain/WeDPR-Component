@@ -74,7 +74,7 @@ public:
                     _handler(nullptr);
                     return;
                 }
-                _handler(front->m_messageFactory->buildPPCMessage(msg));
+                _handler(front->m_messageFactory->decodePPCMessage(msg));
             });
     }
 

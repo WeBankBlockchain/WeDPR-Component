@@ -22,7 +22,7 @@
 #include "grpc/server/GrpcServer.h"
 #include "ppc-gateway/GatewayFactory.h"
 #include "ppc-tools/src/config/PPCConfig.h"
-#include "protobuf/NodeInfoImpl.h"
+#include "protobuf/src/NodeInfoImpl.h"
 #include "wedpr-protocol/grpc/client/RemoteFrontBuilder.h"
 #include "wedpr-protocol/protocol/src/v1/MessageHeaderImpl.h"
 

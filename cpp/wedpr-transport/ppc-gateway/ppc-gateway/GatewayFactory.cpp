@@ -19,6 +19,7 @@
  */
 #include "GatewayFactory.h"
 #include "Common.h"
+#include "bcos-boostssl/utility/NewTimer.h"
 #include "bcos-boostssl/websocket/WsInitializer.h"
 #include "ppc-gateway/p2p/Service.h"
 #include "ppc-gateway/p2p/router/RouterTableImpl.h"
@@ -60,6 +61,7 @@ Service::Ptr GatewayFactory::buildService() const
     auto p2pService = std::make_shared<Service>(m_contextConfig->nodeID(),
         std::make_shared<RouterTableFactoryImpl>(), m_config->gatewayConfig().unreachableDistance,
         "Service");
+    p2pService->setTimerFactory(std::make_shared<bcos::timer::TimerFactory>());
     p2pService->setNodeEndpoints(m_gatewayConfig->nodeIPEndpointSet());
 
     wsInitializer->initWsService(p2pService);

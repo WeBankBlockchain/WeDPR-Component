@@ -19,7 +19,7 @@
  */
 #include "GatewayServer.h"
 #include "Common.h"
-#include "protobuf/RequestConverter.h"
+#include "protobuf/src/RequestConverter.h"
 using namespace ppc::protocol;
 using namespace grpc;
 
@@ -33,7 +33,8 @@ ServerUnaryReactor* GatewayServer::asyncSendMessage(CallbackServerContext* conte
         bcos::bytes payloadData(sendedMsg->payload().begin(), sendedMsg->payload().end());
         auto routeInfo = generateRouteInfo(m_routeInfoBuilder, sendedMsg->routeinfo());
         m_gateway->asyncSendMessage((ppc::protocol::RouteType)sendedMsg->routetype(), routeInfo,
-            std::move(payloadData), sendedMsg->timeout(), [reactor, reply](bcos::Error::Ptr error) {
+            sendedMsg->traceid(), std::move(payloadData), sendedMsg->timeout(),
+            [reactor, reply](bcos::Error::Ptr error) {
                 toSerializedError(reply, error);
                 reactor->Finish(Status::OK);
             });

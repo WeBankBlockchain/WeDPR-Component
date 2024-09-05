@@ -148,27 +148,15 @@ public:
         return msg;
     }
 
-    PPCMessageFace::Ptr buildPPCMessage(ppc::protocol::Message::Ptr msg) override
-    {
-        auto ppcMsg = buildPPCMessage();
-        auto frontMsg = msg->frontMessage();
-        if (frontMsg)
-        {
-            ppcMsg->setSeq(frontMsg->seq());
-            ppcMsg->setUuid(frontMsg->traceID());
-            if (frontMsg->isRespPacket())
-            {
-                ppcMsg->setResponse();
-            }
-        }
-        if (msg->header() && msg->header()->optionalField())
-        {
-            auto const& routeInfo = msg->header()->optionalField();
-            ppcMsg->setTaskID(routeInfo->topic());
-            ppcMsg->setSender(routeInfo->srcInst());
-        }
-        return ppcMsg;
-    }
+    PPCMessageFace::Ptr decodePPCMessage(ppc::protocol::Message::Ptr msg) override;
+
+    ppc::protocol::Message::Ptr buildMessage(ppc::protocol::MessageBuilder::Ptr const& msgBuilder,
+        ppc::protocol::MessagePayloadBuilder::Ptr const& msgPayloadBuilder,
+        PPCMessageFace::Ptr const& ppcMessage) override;
+
+    ppc::protocol::MessagePayload::Ptr buildMessage(
+        ppc::protocol::MessagePayloadBuilder::Ptr const& msgPayloadBuilder,
+        PPCMessageFace::Ptr const& ppcMessage) override;
 };
 
 }  // namespace front

@@ -56,7 +56,11 @@ class MessageHeaderImpl : public MessageHeader
 public:
     using Ptr = std::shared_ptr<MessageHeaderImpl>;
     MessageHeaderImpl() { m_optionalField = std::make_shared<MessageOptionalHeaderImpl>(); }
-    MessageHeaderImpl(bcos::bytesConstRef data) { decode(data); }
+    MessageHeaderImpl(bcos::bytesConstRef data)
+    {
+        m_optionalField = std::make_shared<MessageOptionalHeaderImpl>();
+        decode(data);
+    }
     ~MessageHeaderImpl() override {}
 
     void encode(bcos::bytes& buffer) const override;

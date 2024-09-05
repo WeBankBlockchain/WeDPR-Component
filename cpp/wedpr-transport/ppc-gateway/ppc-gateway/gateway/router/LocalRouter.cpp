@@ -20,14 +20,27 @@
 #include "LocalRouter.h"
 #include "ppc-framework/Common.h"
 #include "ppc-framework/gateway/GatewayProtocol.h"
+#include "ppc-gateway/Common.h"
 
 using namespace bcos;
 using namespace ppc::protocol;
 using namespace ppc::gateway;
 
+bool LocalRouter::registerNodeInfo(ppc::protocol::INodeInfo::Ptr nodeInfo)
+{
+    GATEWAY_LOG(INFO) << LOG_DESC("registerNodeInfo") << printNodeInfo(nodeInfo);
+    nodeInfo->setFront(m_frontBuilder->buildClient(nodeInfo->endPoint()));
+    auto ret = m_routerInfo->tryAddNodeInfo(nodeInfo);
+    if (ret)
+    {
+        increaseSeq();
+    }
+    return ret;
+}
 // Note: the change of the topic will not trigger router-update
 void LocalRouter::registerTopic(bcos::bytesConstRef _nodeID, std::string const& topic)
 {
+    GATEWAY_LOG(INFO) << LOG_DESC("registerTopic") << LOG_KV("topic", topic);
     m_routerInfo->registerTopic(_nodeID.toBytes(), topic);
     // try to dispatch the cacheInfo
     if (!m_cache)

@@ -18,8 +18,8 @@
  * @date 2024-09-02
  */
 #include "FrontClient.h"
-#include "protobuf/RequestConverter.h"
-#include "wedpr-protocol/protobuf/Common.h"
+#include "protobuf/src/RequestConverter.h"
+#include "wedpr-protocol/protobuf/src/Common.h"
 
 using namespace ppc::protocol;
 using namespace ppc::proto;

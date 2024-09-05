@@ -23,7 +23,7 @@
 #include "Transport.h"
 #include "TransportImpl.h"
 #include "ppc-front/FrontConfigImpl.h"
-#include "protobuf/NodeInfoImpl.h"
+#include "protobuf/src/NodeInfoImpl.h"
 #include <memory>
 
 using namespace ppc::sdk;

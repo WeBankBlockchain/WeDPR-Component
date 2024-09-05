@@ -52,11 +52,12 @@ public:
      * @param callback callback
      */
     void asyncSendMessage(ppc::protocol::RouteType routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload,
-        long timeout, ppc::protocol::ReceiveMsgFunc callback) override;
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID,
+        bcos::bytes&& payload, long timeout, ppc::protocol::ReceiveMsgFunc callback) override;
 
     void asyncSendbroadcastMessage(ppc::protocol::RouteType routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload) override
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID,
+        bcos::bytes&& payload) override
     {}
     bcos::Error::Ptr registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) override;
     bcos::Error::Ptr unRegisterNodeInfo(bcos::bytesConstRef nodeID) override;

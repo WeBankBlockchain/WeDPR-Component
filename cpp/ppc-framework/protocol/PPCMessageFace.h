@@ -33,10 +33,6 @@ namespace ppc
 {
 namespace front
 {
-enum MessageExtFlag : uint16_t
-{
-    ResponseFlag = 0x0001,
-};
 class PPCMessageFace
 {
 public:
@@ -86,7 +82,16 @@ public:
 public:
     virtual ~PPCMessageFaceFactory() {}
     virtual PPCMessageFace::Ptr buildPPCMessage() = 0;
-    virtual PPCMessageFace::Ptr buildPPCMessage(ppc::protocol::Message::Ptr msg) = 0;
+    virtual PPCMessageFace::Ptr decodePPCMessage(ppc::protocol::Message::Ptr msg) = 0;
+    virtual ppc::protocol::Message::Ptr buildMessage(
+        ppc::protocol::MessageBuilder::Ptr const& msgBuilder,
+        ppc::protocol::MessagePayloadBuilder::Ptr const& msgPayloadBuilder,
+        PPCMessageFace::Ptr const& ppcMessage) = 0;
+
+    virtual ppc::protocol::MessagePayload::Ptr buildMessage(
+        ppc::protocol::MessagePayloadBuilder::Ptr const& msgPayloadBuilder,
+        PPCMessageFace::Ptr const& ppcMessage) = 0;
+
     virtual PPCMessageFace::Ptr buildPPCMessage(bcos::bytesConstRef _data) = 0;
     virtual PPCMessageFace::Ptr buildPPCMessage(bcos::bytesPointer _buffer) = 0;
     virtual PPCMessageFace::Ptr buildPPCMessage(uint8_t _taskType, uint8_t _algorithmType,
