@@ -106,14 +106,13 @@ void PPCConfig::loadEndpointConfig(EndPoint& endPoint, bool requireHostIp,
     endPoint.setPort(listenPort);
 }
 
-void PPCConfig::loadFrontConfig(
+void PPCConfig::loadFrontConfig(bool requireTransport,
     FrontConfigBuilder::Ptr const& frontConfigBuilder, boost::property_tree::ptree const& pt)
 {
     if (m_frontConfig == nullptr)
     {
         m_frontConfig = frontConfigBuilder->build();
     }
-    loadEndpointConfig(m_frontConfig->mutableSelfEndPoint(), true, "transport", pt);
     // the thread_count
     auto threadCount = pt.get<uint16_t>("transport.thread_count", 4);
     if (threadCount == 0)
@@ -128,8 +127,14 @@ void PPCConfig::loadFrontConfig(
             InvalidConfig() << errinfo_comment("Must specify the transport.nodeid!"));
     }
     m_frontConfig->setNodeID(nodeID);
-
     m_frontConfig->setThreadPoolSize(threadCount);
+
+    if (!requireTransport)
+    {
+        return;
+    }
+
+    loadEndpointConfig(m_frontConfig->mutableSelfEndPoint(), true, "transport", pt);
     // the gateway targets
     auto gatewayTargets = pt.get<std::string>("transport.service.gateway_target", "");
     if (gatewayTargets.empty())

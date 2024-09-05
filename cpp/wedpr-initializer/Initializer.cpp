@@ -51,17 +51,25 @@ using namespace ppc::tools;
 using namespace ppc::crypto;
 using namespace ppc::sdk;
 
-Initializer::Initializer(std::string const& _configPath) : m_configPath(_configPath)
+Initializer::Initializer(ppc::protocol::NodeArch _arch, std::string const& _configPath)
+  : m_arch(_arch), m_configPath(_configPath)
 {
     m_transportBuilder = std::make_shared<TransportBuilder>();
     // load the config
     m_config = std::make_shared<PPCConfig>();
-    m_config->loadNodeConfig(m_transportBuilder->frontConfigBuilder(), _configPath);
+    if (m_arch == ppc::protocol::NodeArch::PRO)
+    {
+        m_config->loadNodeConfig(true, m_transportBuilder->frontConfigBuilder(), _configPath);
+    }
+    else
+    {
+        m_config->loadNodeConfig(false, m_transportBuilder->frontConfigBuilder(), _configPath);
+    }
 }
 
-void Initializer::init(ppc::protocol::NodeArch _arch, ppc::gateway::IGateway::Ptr const& gateway)
+void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
 {
-    INIT_LOG(INFO) << LOG_DESC("init the wedpr-component") << LOG_KV("arch", _arch);
+    INIT_LOG(INFO) << LOG_DESC("init the wedpr-component") << LOG_KV("arch", m_arch);
     // load the protocol
     m_protocolInitializer = std::make_shared<ProtocolInitializer>();
     m_protocolInitializer->init(m_config);
@@ -73,7 +81,7 @@ void Initializer::init(ppc::protocol::NodeArch _arch, ppc::gateway::IGateway::Pt
 
     // Note: must set the  m_holdingMessageMinutes before init the node
     TransportBuilder transportBuilder;
-    if (_arch == ppc::protocol::NodeArch::AIR)
+    if (m_arch == ppc::protocol::NodeArch::AIR)
     {
         m_transport = transportBuilder.build(SDKMode::AIR, m_config->frontConfig(), gateway);
     }
@@ -85,7 +93,7 @@ void Initializer::init(ppc::protocol::NodeArch _arch, ppc::gateway::IGateway::Pt
 
     INIT_LOG(INFO) << LOG_DESC("init the frontService success")
                    << LOG_KV("frontDetail", printFrontDesc(m_config->frontConfig()))
-                   << LOG_KV("arch", _arch);
+                   << LOG_KV("arch", m_arch);
 
     auto cryptoBox = m_protocolInitializer->cryptoBox();
     SQLStorage::Ptr sqlStorage = nullptr;

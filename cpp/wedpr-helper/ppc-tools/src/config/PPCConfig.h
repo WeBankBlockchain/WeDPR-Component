@@ -125,7 +125,8 @@ public:
     PPCConfig() = default;
     virtual ~PPCConfig() = default;
     // load the nodeConfig
-    void loadNodeConfig(ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
+    void loadNodeConfig(bool requireTransport,
+        ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
         std::string const& _configPath)
     {
         PPCConfig_LOG(INFO) << LOG_DESC("loadNodeConfig") << LOG_KV("path", _configPath);
@@ -133,7 +134,7 @@ public:
         boost::property_tree::read_ini(_configPath, iniConfig);
         // Note: must load common-config firstly since some ra-configs depends on the common-config
         loadCommonNodeConfig(iniConfig);
-        loadFrontConfig(frontConfigBuilder, _configPath);
+        loadFrontConfig(requireTransport, frontConfigBuilder, _configPath);
         loadRA2018Config(iniConfig);
         loadStorageConfig(iniConfig);
         loadEcdhPSIConfig(iniConfig);
@@ -158,13 +159,14 @@ public:
         loadGatewayConfig(iniConfig);
     }
 
-    void loadFrontConfig(ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
+    void loadFrontConfig(bool requireTransport,
+        ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
         std::string const& _configPath)
     {
         PPCConfig_LOG(INFO) << LOG_DESC("loadFrontConfig") << LOG_KV("path", _configPath);
         boost::property_tree::ptree iniConfig;
         boost::property_tree::read_ini(_configPath, iniConfig);
-        loadFrontConfig(frontConfigBuilder, iniConfig);
+        loadFrontConfig(requireTransport, frontConfigBuilder, iniConfig);
         // load the grpcConfig
         m_grpcConfig = loadGrpcConfig("transport", iniConfig);
         m_frontConfig->setGrpcConfig(m_grpcConfig);
@@ -239,7 +241,8 @@ private:
     virtual void loadEndpointConfig(ppc::protocol::EndPoint& endPoint, bool requireHostIp,
         std::string const& sectionName, boost::property_tree::ptree const& pt);
     // load the front config
-    virtual void loadFrontConfig(ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
+    virtual void loadFrontConfig(bool requireTransport,
+        ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
         boost::property_tree::ptree const& pt);
     // load the grpc config
     ppc::protocol::GrpcConfig::Ptr loadGrpcConfig(

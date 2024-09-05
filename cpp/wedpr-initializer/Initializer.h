@@ -59,11 +59,11 @@ class Initializer : public std::enable_shared_from_this<Initializer>
 {
 public:
     using Ptr = std::shared_ptr<Initializer>;
-    Initializer(std::string const& _configPath);
+    Initializer(ppc::protocol::NodeArch _arch, std::string const& _configPath);
     virtual ~Initializer() { stop(); }
 
     // init the service
-    virtual void init(ppc::protocol::NodeArch _arch, ppc::gateway::IGateway::Ptr const& gateway);
+    virtual void init(ppc::gateway::IGateway::Ptr const& gateway);
     virtual void stop();
     virtual void start();
 
@@ -82,6 +82,7 @@ protected:
 
 
 private:
+    ppc::protocol::NodeArch m_arch;
     std::string m_configPath;
     std::shared_ptr<ppc::tools::PPCConfig> m_config;
     ProtocolInitializer::Ptr m_protocolInitializer;

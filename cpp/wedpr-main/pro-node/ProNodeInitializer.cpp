@@ -43,10 +43,10 @@ void ProNodeInitializer::init(std::string const& _configPath)
     INIT_LOG(INFO) << LOG_DESC("initLog success");
 
     // init the node
-    m_nodeInitializer = std::make_shared<Initializer>(_configPath);
+    m_nodeInitializer = std::make_shared<Initializer>(ppc::protocol::NodeArch::PRO, _configPath);
 
     // init the node(no need to set the gateway)
-    m_nodeInitializer->init(ppc::protocol::NodeArch::PRO, nullptr);
+    m_nodeInitializer->init(nullptr);
 
 
     INIT_LOG(INFO) << LOG_DESC("init the rpc");

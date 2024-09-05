@@ -47,12 +47,12 @@ void AirNodeInitializer::init(std::string const& _configPath)
     INIT_LOG(INFO) << LOG_DESC("initLog success");
 
     // init the node
-    m_nodeInitializer = std::make_shared<Initializer>(_configPath);
+    m_nodeInitializer = std::make_shared<Initializer>(ppc::protocol::NodeArch::AIR, _configPath);
 
     // init the gateway
     initGateway(_configPath);
     // init the node
-    m_nodeInitializer->init(ppc::protocol::NodeArch::AIR, m_gateway);
+    m_nodeInitializer->init(m_gateway);
     // set the created front to the builder
     m_frontBuilder->setFront(m_nodeInitializer->transport()->getFront());
     // register the NodeInfo
