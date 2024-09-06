@@ -8,7 +8,6 @@ import lombok.Data;
  */
 @Data
 public class PirResultResponse {
-    String jobId;
     String jobType;
     // List<PirResultBody> detail;
     ClientDecryptResponse detail;

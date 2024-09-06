@@ -47,6 +47,9 @@ public class GatewayClient {
     }
 
     private static Response sendPostRequest(String url, String jsonBody) throws IOException {
+        if (!url.startsWith("http")) {
+            url = "http://" + url;
+        }
         OkHttpClient httpClient = new OkHttpClient().newBuilder().build();
         RequestBody body = RequestBody.create(jsonBody, JSON_MEDIA_TYPE);
         Request request = new Request.Builder().post(body).url(url).build();
@@ -69,6 +72,7 @@ public class GatewayClient {
                 }
 
             } catch (Exception e) {
+                e.printStackTrace();
                 retries++;
                 if (retries > maxRetries) {
                     throw new WedprException(WedprStatusEnum.HTTP_CALL_ERROR);

@@ -56,7 +56,6 @@ public class PirJobService {
                 clientDecryptService.runDecryptOTparam(clientDecryptRequest);
 
         PirResultResponse pirResultResponse = new PirResultResponse();
-        pirResultResponse.setJobId(clientJobRequest.getJobId());
         pirResultResponse.setJobType(clientJobRequest.getJobType());
         pirResultResponse.setDetail(clientDecryptResponse);
         return pirResultResponse;

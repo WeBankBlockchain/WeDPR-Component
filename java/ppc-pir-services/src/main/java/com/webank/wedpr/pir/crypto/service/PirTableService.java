@@ -9,11 +9,7 @@ import java.util.List;
  */
 public interface PirTableService {
     /** 根据id查询 */
-    List idFilterTable(String datasetId, String filter);
-
-    List idFilterTable(String datasetId, String filter, String[] params);
-
-    List idObfuscationTable(String datasetId, String searchId);
+    List idFilterTable(String datasetId, String filter, String[] param);
 
     List idObfuscationTable(String datasetId, String searchId, String[] params);
 

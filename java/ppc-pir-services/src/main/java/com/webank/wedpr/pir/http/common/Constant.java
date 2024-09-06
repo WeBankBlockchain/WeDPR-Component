@@ -7,4 +7,9 @@ package com.webank.wedpr.pir.http.common;
 public class Constant {
 
     public static final String PIR_API_PREFIX = "/api/pir/v3";
+
+    public static final Integer DEFAULT_READ_TRUNK_SIZE = 1024 * 1024;
+    public static final Integer DEFAULT_WRITE_TRUNK_SIZE = 1024 * 1024;
+
+    public static final String DEFAULT_LINE_SPLITTER = "\n";
 }

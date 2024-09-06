@@ -2,7 +2,6 @@ package com.wedpr.pir.sdk.helper;
 
 import com.wedpr.pir.sdk.exception.WedprException;
 import com.wedpr.pir.sdk.exception.WedprStatusEnum;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -57,9 +56,7 @@ public class CryptoOperatorHelper {
         return a.multiply(b).mod(DEFAULT_N);
     }
 
-    /**
-     * 批量获取searchID的Hash值
-     * */
+    /** 批量获取searchID的Hash值 */
     public static List<String> getIdHashVec(int obfuscationOrder, Integer idIndex, String searchId)
             throws WedprException {
 

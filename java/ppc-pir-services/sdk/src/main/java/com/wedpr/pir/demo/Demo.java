@@ -19,14 +19,12 @@ public class Demo {
 
     private static void testIdFilter() throws WedprException {
         PirJobParam pirJobParam = new PirJobParam();
-        pirJobParam.setJobId("j-12345678912");
+        pirJobParam.setServiceId("s-123456789");
+        pirJobParam.setAccessKeyId("a-123456789");
         pirJobParam.setJobType(ParamEnum.JobType.SearchValue.getValue());
         pirJobParam.setJobAlgorithmType(ParamEnum.AlgorithmType.idFilter.getValue());
-        pirJobParam.setParticipateAgencyId("1002");
-        pirJobParam.setDatasetId("t_login_token");
-        pirJobParam.setJobCreator("1001");
-        pirJobParam.setGatewayUrl("http://localhost:5831/api/pir/v3/server");
-        pirJobParam.setSearchIdList(Arrays.asList("1", "20", "3", "456"));
+        pirJobParam.setGatewayUrl("localhost:5831");
+        pirJobParam.setSearchIdList(Arrays.asList("1", "2", "3"));
 
         PirClient pirClient = new PirClient(pirJobParam);
         PirResultResponse pirResultResponse = pirClient.executePirJob();
@@ -35,14 +33,12 @@ public class Demo {
 
     private static void testIdObfuscation() throws WedprException {
         PirJobParam pirJobParam = new PirJobParam();
-        pirJobParam.setJobId("j-12345678912");
+        pirJobParam.setServiceId("s-123456789");
+        pirJobParam.setAccessKeyId("a-123456789");
         pirJobParam.setJobType(ParamEnum.JobType.SearchValue.getValue());
         pirJobParam.setJobAlgorithmType(ParamEnum.AlgorithmType.idObfuscation.getValue());
-        pirJobParam.setParticipateAgencyId("1002");
-        pirJobParam.setDatasetId("t_login_token");
-        pirJobParam.setJobCreator("1001");
-        pirJobParam.setGatewayUrl("http://localhost:5831/api/pir/v3/server");
-        pirJobParam.setSearchIdList(Arrays.asList("1", "20", "3", "456"));
+        pirJobParam.setGatewayUrl("localhost:5831");
+        pirJobParam.setSearchIdList(Arrays.asList("3", "2", "1"));
 
         PirClient pirClient = new PirClient(pirJobParam);
         PirResultResponse pirResultResponse = pirClient.executePirJob();
