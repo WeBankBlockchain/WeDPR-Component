@@ -59,6 +59,7 @@ public:
     std::shared_ptr<bcos::bytes> generateNodeStatus()
     {
         auto data = std::make_shared<bcos::bytes>();
+        m_routerInfo->setStatusSeq(m_statusSeq);
         m_routerInfo->encode(*data);
         return data;
     }

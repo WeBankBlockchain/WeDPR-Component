@@ -82,8 +82,8 @@ using GatewayNodeInfos = std::set<GatewayNodeInfo::Ptr, GatewayNodeInfoCmp>;
 inline std::string printNodeStatus(GatewayNodeInfo::Ptr const& status)
 {
     std::ostringstream stringstream;
-    stringstream << LOG_KV("p2pNodeID", status->p2pNodeID()) << LOG_KV("agency", status->agency())
-                 << LOG_KV("statusSeq", status->statusSeq())
+    stringstream << LOG_KV("p2pNodeID", printP2PIDElegantly(status->p2pNodeID()))
+                 << LOG_KV("agency", status->agency()) << LOG_KV("statusSeq", status->statusSeq())
                  << LOG_KV("nodeSize", status->nodeSize());
     return stringstream.str();
 }
