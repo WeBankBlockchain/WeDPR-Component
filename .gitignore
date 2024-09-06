@@ -137,6 +137,7 @@ ENV/
 *.crt
 */bin
 */logs
+*/bin
 *.csv
 */*/logs
 */start.out
