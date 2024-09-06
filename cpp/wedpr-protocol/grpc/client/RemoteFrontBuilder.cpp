@@ -22,10 +22,23 @@
 // compiler speed
 #include "FrontClient.h"
 
+using namespace ppc::protocol;
 using namespace ppc::front;
 using namespace ppc::protocol;
 
-IFrontClient::Ptr RemoteFrontBuilder::buildClient(std::string endPoint) const
+IFrontClient::Ptr RemoteFrontBuilder::buildClient(std::string endPoint,
+    std::function<void()> onUnHealthHandler, bool removeHandlerOnUnhealth) const
 {
-    return std::make_shared<FrontClient>(m_grpcConfig, endPoint);
+    auto frontClient = std::make_shared<FrontClient>(m_grpcConfig, endPoint);
+    if (m_healthChecker)
+    {
+        auto healthCheckHandler = std::make_shared<HealthCheckHandler>("front" + endPoint);
+        healthCheckHandler->checkHealthHandler = [frontClient]() {
+            return frontClient->checkHealth();
+        };
+        healthCheckHandler->onUnHealthHandler = onUnHealthHandler;
+        healthCheckHandler->removeHandlerOnUnhealth = removeHandlerOnUnhealth;
+        m_healthChecker->registerHealthCheckHandler(healthCheckHandler);
+    }
+    return frontClient;
 }

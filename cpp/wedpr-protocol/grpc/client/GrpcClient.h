@@ -19,6 +19,7 @@
  */
 #pragma once
 #include "Service.grpc.pb.h"
+#include "ServiceHealth.grpc.pb.h"
 #include "ppc-framework/protocol/GrpcConfig.h"
 #include "wedpr-protocol/grpc/Common.h"
 #include <grpcpp/grpcpp.h>
@@ -32,15 +33,19 @@ public:
     using Ptr = std::shared_ptr<GrpcClient>;
     GrpcClient(ppc::protocol::GrpcConfig::Ptr const& grpcConfig, std::string const& endPoints)
       : m_channel(grpc::CreateCustomChannel(
-            endPoints, grpc::InsecureChannelCredentials(), toChannelConfig(grpcConfig)))
+            endPoints, grpc::InsecureChannelCredentials(), toChannelConfig(grpcConfig))),
+        m_healthCheckStub(grpc::health::v1::Health::NewStub(m_channel))
     {}
 
     virtual ~GrpcClient() = default;
 
     std::shared_ptr<grpc::Channel> const& channel() { return m_channel; }
 
+    bool checkHealth();
 
 protected:
     std::shared_ptr<grpc::Channel> m_channel;
+    // the healthcheck stub
+    std::unique_ptr<grpc::health::v1::Health::Stub> m_healthCheckStub;
 };
 }  // namespace ppc::protocol

@@ -53,6 +53,8 @@ GatewayImpl::GatewayImpl(Service::Ptr const& service,
             boost::placeholders::_2));
     m_gatewayRouterManager = std::make_shared<GatewayRouterManager>(
         m_service, m_gatewayInfoFactory, m_localRouter, m_peerRouter);
+
+    // create and set the health-check handler
 }
 
 void GatewayImpl::start()
@@ -206,7 +208,20 @@ void GatewayImpl::onReceiveBroadcastMessage(MessageFace::Ptr msg, WsSession::Ptr
 
 bcos::Error::Ptr GatewayImpl::registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo)
 {
-    m_localRouter->registerNodeInfo(nodeInfo);
+    auto self = weak_from_this();
+    m_localRouter->registerNodeInfo(
+        nodeInfo,
+        [nodeInfo, self]() {
+            // remove the unhealth node
+            GATEWAY_LOG(INFO) << LOG_DESC("Remove the unhealth node") << printNodeInfo(nodeInfo);
+            auto gateway = self.lock();
+            if (!gateway)
+            {
+                return;
+            }
+            gateway->m_localRouter->unRegisterNode(nodeInfo->nodeID().toBytes());
+        },
+        true);
     return nullptr;
 }
 

@@ -19,6 +19,7 @@
  */
 #pragma once
 #include "FrontConfig.h"
+#include "ppc-framework/protocol/Handler.h"
 #include "ppc-framework/protocol/INodeInfo.h"
 #include "ppc-framework/protocol/Message.h"
 #include "ppc-framework/protocol/RouteType.h"
@@ -123,7 +124,6 @@ public:
      * @param topic the topic to unregister
      */
     virtual void unRegisterTopic(std::string const& topic) = 0;
-
 };
 
 class IFrontBuilder
@@ -133,6 +133,7 @@ public:
     IFrontBuilder() = default;
     virtual ~IFrontBuilder() = default;
 
-    virtual IFrontClient::Ptr buildClient(std::string endPoint) const = 0;
+    virtual IFrontClient::Ptr buildClient(std::string endPoint,
+        std::function<void()> onUnHealthHandler, bool removeHandlerOnUnhealth) const = 0;
 };
 }  // namespace ppc::front

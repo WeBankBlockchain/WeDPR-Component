@@ -19,6 +19,7 @@
  */
 #pragma once
 #include "Service.grpc.pb.h"
+#include <grpcpp/health_check_service_interface.h>
 #include <ppc-framework/front/IFront.h>
 #include <ppc-framework/protocol/Message.h>
 #include <memory>
@@ -37,7 +38,14 @@ public:
     grpc::ServerUnaryReactor* onReceiveMessage(grpc::CallbackServerContext* context,
         const ppc::proto::ReceivedMessage* receivedMsg, ppc::proto::Error* reply) override;
 
+    void setHealthCheckService(grpc::HealthCheckServiceInterface* healthCheckService)
+    {
+        m_healthCheckService = healthCheckService;
+        m_healthCheckService->SetServingStatus(true);
+    }
+
 private:
+    grpc::HealthCheckServiceInterface* m_healthCheckService = nullptr;
     ppc::front::IFront::Ptr m_front;
     ppc::protocol::MessageBuilder::Ptr m_msgBuilder;
 };

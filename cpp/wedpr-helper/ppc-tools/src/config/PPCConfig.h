@@ -74,7 +74,8 @@ struct GatewayConfig
     constexpr static int MinUnreachableDistance = 2;
 
     NetworkConfig networkConfig;
-    ppc::protocol::GrpcServerConfig grpcServerConfig;
+    ppc::protocol::GrpcServerConfig::Ptr grpcServerConfig =
+        std::make_shared<ppc::protocol::GrpcServerConfig>();
     // the file that configure the connected endpoint information
     std::string nodeFileName;
     // the dir that contains the connected endpoint information, e.g.nodes.json

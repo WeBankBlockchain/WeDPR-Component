@@ -1,5 +1,5 @@
 /**
- *  Copyright (C) 2021 FISCO BCOS.
+ *  Copyright (C) 2023 WeDPR.
  *  SPDX-License-Identifier: Apache-2.0
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,31 +13,29 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file Common.h
+ * @file EndPoint.h
  * @author: yujiechen
- * @date 2021-04-12
+ * @date 2024-08-22
  */
+
 #pragma once
-#include "ppc-framework/Common.h"
-#include "ppc-framework/protocol/GrpcConfig.h"
-#include <grpcpp/grpcpp.h>
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace ppc::protocol
 {
-inline grpc::ChannelArguments toChannelConfig(ppc::protocol::GrpcConfig::Ptr const& grpcConfig)
+struct HealthCheckHandler
 {
-    grpc::ChannelArguments args;
-    if (grpcConfig == nullptr)
-    {
-        return args;
-    }
-    args.SetLoadBalancingPolicyName(grpcConfig->loadBalancePolicy());
-    if (grpcConfig->enableHealthCheck())
-    {
-        args.SetServiceConfigJSON(
-            "{\"healthCheckConfig\": "
-            "{\"serviceName\": \"\"}}");
-    }
-    return args;
-}
+    using Ptr = std::shared_ptr<HealthCheckHandler>;
+    HealthCheckHandler(std::string const& _serviceName) : serviceName(_serviceName) {}
+
+    std::string serviceName;
+    // handler used to check the health
+    std::function<bool()> checkHealthHandler;
+    // handler called when the service un-health
+    std::function<void()> onUnHealthHandler;
+    // remove the handler when the service un-health
+    bool removeHandlerOnUnhealth = true;
+};
 }  // namespace ppc::protocol

@@ -18,6 +18,7 @@
  * @date 2024-09-4
  */
 #pragma once
+#include "HealthCheckTimer.h"
 #include "ppc-framework/front/IFront.h"
 #include "ppc-framework/protocol/GrpcConfig.h"
 
@@ -27,13 +28,20 @@ class RemoteFrontBuilder : public IFrontBuilder
 {
 public:
     using Ptr = std::shared_ptr<RemoteFrontBuilder>;
-    RemoteFrontBuilder(ppc::protocol::GrpcConfig::Ptr const& grpcConfig) : m_grpcConfig(grpcConfig)
-    {}
+    RemoteFrontBuilder(ppc::protocol::GrpcConfig::Ptr const& grpcConfig,
+        ppc::protocol::HealthCheckTimer::Ptr healthChecker)
+      : m_grpcConfig(grpcConfig), m_healthChecker(healthChecker)
+    {
+        // Note: the front enable health-check
+        m_grpcConfig->setEnableHealthCheck(true);
+    }
     ~RemoteFrontBuilder() override = default;
 
-    IFrontClient::Ptr buildClient(std::string endPoint) const override;
+    IFrontClient::Ptr buildClient(std::string endPoint, std::function<void()> onUnHealthHandler,
+        bool removeHandlerOnUnhealth) const override;
 
 private:
     ppc::protocol::GrpcConfig::Ptr m_grpcConfig;
+    ppc::protocol::HealthCheckTimer::Ptr m_healthChecker;
 };
 }  // namespace ppc::front

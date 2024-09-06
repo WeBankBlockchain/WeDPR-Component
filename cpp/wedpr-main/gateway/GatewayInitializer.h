@@ -28,6 +28,10 @@ namespace ppc::protocol
 {
 class GrpcServer;
 }
+namespace ppc::protocol
+{
+class HealthCheckTimer;
+};
 namespace ppc::gateway
 {
 class GatewayInitializer
@@ -44,6 +48,7 @@ public:
 protected:
     bcos::BoostLogInitializer::Ptr m_logInitializer;
     ppc::gateway::IGateway::Ptr m_gateway;
+    std::shared_ptr<ppc::protocol::HealthCheckTimer> m_healthChecker;
     std::shared_ptr<ppc::protocol::GrpcServer> m_server;
 };
 }  // namespace ppc::gateway

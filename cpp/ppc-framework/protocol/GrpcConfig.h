@@ -24,11 +24,26 @@
 
 namespace ppc::protocol
 {
-struct GrpcServerConfig
+class GrpcServerConfig
 {
-    ppc::protocol::EndPoint endPoint;
+public:
+    using Ptr = std::shared_ptr<GrpcServerConfig>;
+    GrpcServerConfig() = default;
+    GrpcServerConfig(EndPoint endPoint, bool enableHealthCheck)
+      : m_endPoint(std::move(endPoint)), m_enableHealthCheck(enableHealthCheck)
+    {}
+    std::string listenEndPoint() const { return m_endPoint.listenEndPoint(); }
 
-    std::string listenEndPoint() const { return endPoint.listenEndPoint(); }
+    void setEndPoint(EndPoint endPoint) { m_endPoint = endPoint; }
+    void setEnableHealthCheck(bool enableHealthCheck) { m_enableHealthCheck = enableHealthCheck; }
+
+    EndPoint const& endPoint() const { return m_endPoint; }
+    EndPoint& mutableEndPoint() { return m_endPoint; }
+    bool enableHealthCheck() const { return m_enableHealthCheck; }
+
+protected:
+    ppc::protocol::EndPoint m_endPoint;
+    bool m_enableHealthCheck = false;
 };
 class GrpcConfig
 {
@@ -43,7 +58,11 @@ public:
         m_loadBalancePolicy = loadBalancePolicy;
     }
 
-private:
+    bool enableHealthCheck() const { return m_enableHealthCheck; }
+    void setEnableHealthCheck(bool enableHealthCheck) { m_enableHealthCheck = enableHealthCheck; }
+
+protected:
+    bool m_enableHealthCheck = false;
     std::string m_loadBalancePolicy = "round_robin";
 };
 }  // namespace ppc::protocol

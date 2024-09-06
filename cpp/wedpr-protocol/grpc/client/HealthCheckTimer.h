@@ -13,41 +13,40 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file GrpcServer.h
+ * @file HealthCheckTimer.h
  * @author: yujiechen
- * @date 2024-09-03
+ * @date 2024-09-6
  */
 #pragma once
-#include "ppc-framework/protocol/GrpcConfig.h"
-#include <grpcpp/grpcpp.h>
+#include "ppc-framework/front/IFront.h"
+#include <bcos-utilities/Common.h>
+#include <bcos-utilities/Timer.h>
 #include <memory>
-#include <string>
 
 namespace ppc::protocol
 {
-// refer to: https://grpc.io/docs/languages/cpp/callback/
-class GrpcServer
+class HealthCheckTimer : public std::enable_shared_from_this<HealthCheckTimer>
 {
 public:
-    using Ptr = std::shared_ptr<GrpcServer>;
-    GrpcServer(GrpcServerConfig::Ptr const& config) : m_config(config) {}
-    virtual ~GrpcServer() = default;
+    using Ptr = std::shared_ptr<HealthCheckTimer>;
+    HealthCheckTimer(int periodMs);
+    virtual ~HealthCheckTimer() = default;
 
     virtual void start();
     virtual void stop();
 
-    virtual void registerService(std::shared_ptr<grpc::Service> service)
-    {
-        m_bindingServices.emplace_back(std::move(service));
-    }
 
-    std::unique_ptr<grpc::Server> const& server() const { return m_server; }
+    void registerHealthCheckHandler(HealthCheckHandler::Ptr healthCheckHandler);
+
+protected:
+    void checkHealth();
 
 private:
-    bool m_running = false;
-    GrpcServerConfig::Ptr m_config;
+    std::map<std::string, HealthCheckHandler::Ptr> m_healthCheckHandlers;
+    mutable bcos::SharedMutex x_healthCheckHandlers;
 
-    std::unique_ptr<grpc::Server> m_server;
-    std::vector<std::shared_ptr<grpc::Service>> m_bindingServices;
+    int m_periodMs = 3000;
+    std::shared_ptr<bcos::Timer> m_timer;
+    bool m_running = false;
 };
 }  // namespace ppc::protocol

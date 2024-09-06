@@ -30,7 +30,11 @@ public:
     LocalFrontBuilder() = default;
     ~LocalFrontBuilder() override = default;
 
-    IFrontClient::Ptr buildClient(std::string endPoint) const override { return m_front; }
+    IFrontClient::Ptr buildClient(std::string, std::function<void()> onUnHealthHandler,
+        bool removeHandlerOnUnhealth) const override
+    {
+        return m_front;
+    }
 
     void setFront(IFront::Ptr front) { m_front = std::move(front); }
 

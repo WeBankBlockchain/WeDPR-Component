@@ -68,7 +68,8 @@ void PPCConfig::loadGatewayConfig(boost::property_tree::ptree const& _pt)
     // load the grpcConfig
     m_grpcConfig = loadGrpcConfig("transport", _pt);
     // load the GrpcServerConfig
-    loadEndpointConfig(m_gatewayConfig.grpcServerConfig.endPoint, false, "transport", _pt);
+    loadEndpointConfig(
+        m_gatewayConfig.grpcServerConfig->mutableEndPoint(), false, "transport", _pt);
     // the agencyID
     m_agencyID = _pt.get<std::string>("agency.id", "");
     if (m_agencyID.empty())

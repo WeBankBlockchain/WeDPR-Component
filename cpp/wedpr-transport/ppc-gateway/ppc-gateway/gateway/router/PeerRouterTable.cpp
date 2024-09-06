@@ -32,6 +32,24 @@ void PeerRouterTable::updateGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo)
                           << LOG_KV("detail", printNodeStatus(gatewayInfo));
     auto nodeList = gatewayInfo->nodeList();
     bcos::WriteGuard l(x_mutex);
+    // remove the origin information of the gateway
+    auto it = m_nodeID2GatewayInfos.begin();
+    for (; it != m_nodeID2GatewayInfos.end();)
+    {
+        auto& gatewayInfos = it->second;
+        auto ptr = gatewayInfos.find(gatewayInfo);
+        if (ptr != gatewayInfos.end())
+        {
+            gatewayInfos.erase(ptr);
+        }
+        if (gatewayInfos.empty())
+        {
+            it = m_nodeID2GatewayInfos.erase(it);
+            continue;
+        }
+        it++;
+    }
+    // insert new information for the gateway
     for (auto const& it : nodeList)
     {
         // update nodeID => gatewayInfos

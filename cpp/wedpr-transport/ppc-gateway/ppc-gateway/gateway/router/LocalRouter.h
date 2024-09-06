@@ -39,7 +39,8 @@ public:
 
     virtual ~LocalRouter() = default;
 
-    virtual bool registerNodeInfo(ppc::protocol::INodeInfo::Ptr nodeInfo);
+    virtual bool registerNodeInfo(ppc::protocol::INodeInfo::Ptr nodeInfo,
+        std::function<void()> onUnHealthHandler, bool removeHandlerOnUnhealth);
     virtual void unRegisterNode(bcos::bytes const& nodeID)
     {
         m_routerInfo->removeNodeInfo(nodeID);
@@ -74,6 +75,7 @@ private:
 
 private:
     ppc::front::IFrontBuilder::Ptr m_frontBuilder;
+
     GatewayNodeInfo::Ptr m_routerInfo;
 
     std::atomic<uint32_t> m_statusSeq{1};

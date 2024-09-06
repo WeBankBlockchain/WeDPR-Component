@@ -31,7 +31,8 @@ using namespace ppc::sdk;
 ProTransportImpl::ProTransportImpl(ppc::front::FrontConfig::Ptr config)
   : m_config(std::move(config))
 {
-    GrpcServerConfig grpcServerConfig{config->selfEndPoint()};
+    // default enable health-check
+    auto grpcServerConfig = std::make_shared<GrpcServerConfig>(config->selfEndPoint(), true);
     m_server = std::make_shared<GrpcServer>(grpcServerConfig);
 
     FrontFactory frontFactory;
@@ -44,7 +45,7 @@ ProTransportImpl::ProTransportImpl(ppc::front::FrontConfig::Ptr config)
     auto msgBuilder =
         std::make_shared<MessageBuilderImpl>(std::make_shared<MessageHeaderBuilderImpl>());
     auto frontService = std::make_shared<FrontServer>(msgBuilder, m_front);
-
+    frontService->setHealthCheckService(m_server->server()->GetHealthCheckService());
     // register the frontService
     m_server->registerService(frontService);
 }

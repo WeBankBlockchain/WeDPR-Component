@@ -26,10 +26,12 @@ using namespace bcos;
 using namespace ppc::protocol;
 using namespace ppc::gateway;
 
-bool LocalRouter::registerNodeInfo(ppc::protocol::INodeInfo::Ptr nodeInfo)
+bool LocalRouter::registerNodeInfo(ppc::protocol::INodeInfo::Ptr nodeInfo,
+    std::function<void()> onUnHealthHandler, bool removeHandlerOnUnhealth)
 {
     LOCAL_ROUTER_LOG(INFO) << LOG_DESC("registerNodeInfo") << printNodeInfo(nodeInfo);
-    nodeInfo->setFront(m_frontBuilder->buildClient(nodeInfo->endPoint()));
+    nodeInfo->setFront(m_frontBuilder->buildClient(
+        nodeInfo->endPoint(), onUnHealthHandler, removeHandlerOnUnhealth));
     auto ret = m_routerInfo->tryAddNodeInfo(nodeInfo);
     if (ret)
     {

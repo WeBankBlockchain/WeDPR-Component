@@ -23,6 +23,7 @@
 #include "ppc-gateway/GatewayFactory.h"
 #include "ppc-tools/src/config/PPCConfig.h"
 #include "protobuf/src/NodeInfoImpl.h"
+#include "wedpr-protocol/grpc/client/HealthCheckTimer.h"
 #include "wedpr-protocol/grpc/client/RemoteFrontBuilder.h"
 #include "wedpr-protocol/protocol/src/v1/MessageHeaderImpl.h"
 
@@ -50,7 +51,10 @@ void GatewayInitializer::init(std::string const& _configPath)
         "gateway", config->gatewayConfig().networkConfig.threadPoolSize);
 
     GatewayFactory gatewayFactory(config);
-    m_gateway = gatewayFactory.build(std::make_shared<RemoteFrontBuilder>(config->grpcConfig()));
+    // default 1min
+    m_healthChecker = std::make_shared<HealthCheckTimer>(60 * 1000);
+    m_gateway = gatewayFactory.build(
+        std::make_shared<RemoteFrontBuilder>(config->grpcConfig(), m_healthChecker));
 
     m_server = std::make_shared<GrpcServer>(config->gatewayConfig().grpcServerConfig);
     // register the gateway service
@@ -69,15 +73,23 @@ void GatewayInitializer::start()
     {
         m_server->start();
     }
+    if (m_healthChecker)
+    {
+        m_healthChecker->start();
+    }
 }
 void GatewayInitializer::stop()
 {
+    if (m_healthChecker)
+    {
+        m_healthChecker->stop();
+    }
     if (m_server)
     {
         m_server->stop();
     }
     if (m_gateway)
     {
-        m_gateway->start();
+        m_gateway->stop();
     }
 }
