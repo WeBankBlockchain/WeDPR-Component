@@ -58,18 +58,35 @@ INodeInfo::Ptr GatewayNodeInfoImpl::nodeInfo(bcos::bytes const& nodeID) const
     return nullptr;
 }
 
+void GatewayNodeInfoImpl::updateNodeList()
+{
+    // Note: can't use clear_nodelist here, for clear_nodelist will destroy the allocated nodelist,
+    // and cause double release coredump
+    releaseWithoutDestory();
+    // re-encode nodeList
+    for (auto const& it : m_nodeList)
+    {
+        auto nodeInfo = std::dynamic_pointer_cast<NodeInfoImpl>(it.second);
+        m_rawGatewayInfo->mutable_nodelist()->UnsafeArenaAddAllocated(
+            nodeInfo->rawNodeInfo().get());
+    }
+}
+
 bool GatewayNodeInfoImpl::tryAddNodeInfo(INodeInfo::Ptr const& info)
 {
     auto nodeID = info->nodeID().toBytes();
     auto existedNodeInfo = nodeInfo(nodeID);
-    // update the info
-    if (existedNodeInfo == nullptr || !existedNodeInfo->equal(info))
+    // the node info has not been updated
+    if (existedNodeInfo != nullptr && existedNodeInfo->equal(info))
+    {
+        return false;
+    }
     {
         bcos::WriteGuard l(x_nodeList);
         m_nodeList[nodeID] = info;
-        return true;
+        updateNodeList();
     }
-    return false;
+    return true;
 }
 
 void GatewayNodeInfoImpl::removeNodeInfo(bcos::bytes const& nodeID)
@@ -84,6 +101,7 @@ void GatewayNodeInfoImpl::removeNodeInfo(bcos::bytes const& nodeID)
         }
         bcos::UpgradeGuard ul(l);
         m_nodeList.erase(it);
+        updateNodeList();
     }
     // remove the topic info
     {
@@ -184,17 +202,6 @@ void GatewayNodeInfoImpl::unRegisterTopic(bcos::bytes const& nodeID, std::string
 
 void GatewayNodeInfoImpl::encode(bcos::bytes& data) const
 {
-    m_rawGatewayInfo->clear_nodelist();
-    {
-        bcos::ReadGuard l(x_nodeList);
-        // encode nodeList
-        for (auto const& it : m_nodeList)
-        {
-            auto nodeInfo = std::dynamic_pointer_cast<NodeInfoImpl>(it.second);
-            m_rawGatewayInfo->mutable_nodelist()->UnsafeArenaAddAllocated(
-                nodeInfo->rawNodeInfo().get());
-        }
-    }
     encodePBObject(data, m_rawGatewayInfo);
 }
 

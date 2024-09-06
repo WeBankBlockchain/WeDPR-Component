@@ -21,6 +21,7 @@
 #include "ppc-gateway/gateway/router/GatewayNodeInfo.h"
 #include "protobuf/src/NodeInfoImpl.h"
 #include <bcos-utilities/testutils/TestPromptFixture.h>
+#include <tbb/parallel_for.h>
 #include <boost/test/unit_test.hpp>
 
 using namespace ppc;
@@ -95,6 +96,11 @@ void checkGatewayNodeInfo(GatewayNodeInfoImpl::Ptr gatewayNodeInfo, int expected
     BOOST_CHECK(gatewayNodeInfo->agency() == expectedAgency);
     BOOST_CHECK(gatewayNodeInfo->p2pNodeID() == expectedP2pNode);
 
+    // check concurrency
+    tbb::parallel_for(tbb::blocked_range<size_t>(0U, 5), [&](auto const& range) {
+        bcos::bytes dataTemp;
+        gatewayNodeInfo->encode(dataTemp);
+    });
     bcos::bytes data;
     gatewayNodeInfo->encode(data);
 

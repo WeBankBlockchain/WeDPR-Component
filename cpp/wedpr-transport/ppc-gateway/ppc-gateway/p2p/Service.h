@@ -79,7 +79,7 @@ protected:
 
     void reconnect() override;
 
-    void updateNodeIDInfo(bcos::boostssl::ws::WsSession::Ptr const& _session);
+    bool updateNodeIDInfo(bcos::boostssl::ws::WsSession::Ptr const& _session);
     void removeSessionInfo(bcos::boostssl::ws::WsSession::Ptr const& _session);
     bcos::boostssl::ws::WsSession::Ptr getSessionByNodeID(std::string const& _nodeID);
 

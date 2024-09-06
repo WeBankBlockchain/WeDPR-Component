@@ -31,7 +31,7 @@ Rpc::Ptr RpcFactory::buildRpc(ppc::tools::PPCConfig::ConstPtr _config)
 {
     auto wsConfig = initConfig(_config);
     // create the wsConfig
-    auto wsService = std::make_shared<bcos::boostssl::ws::WsService>();
+    auto wsService = std::make_shared<bcos::boostssl::ws::WsService>("WeDPR-RPC");
     wsService->setTimerFactory(std::make_shared<timer::TimerFactory>());
     auto initializer = std::make_shared<bcos::boostssl::ws::WsInitializer>();
 

@@ -42,9 +42,6 @@ inline uint64_t decodeNetworkBuffer(
         return curOffset;
     }
     CHECK_OFFSET_WITH_THROW_EXCEPTION(curOffset, bufferLen);
-    //_result.insert(
-    //    _result.end(), (bcos::byte*)buffer + curOffset, (bcos::byte*)buffer + curOffset +
-    //    dataLen);
     _result.assign((bcos::byte*)buffer + curOffset, (bcos::byte*)buffer + curOffset + dataLen);
     curOffset += dataLen;
     return curOffset;

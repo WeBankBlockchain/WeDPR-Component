@@ -31,6 +31,8 @@
 namespace ppc::gateway
 {
 #define GATEWAY_LOG(LEVEL) BCOS_LOG(LEVEL) << "[GATEWAY]"
+#define SERVICE_LOG(LEVEL) BCOS_LOG(LEVEL) << "[GATEWAY][SERVICE]"
+#define SERVICE_ROUTER_LOG(LEVEL) BCOS_LOG(LEVEL) << "[GATEWAY][SERVICE][ROUTER]"
 
 // HTTP HEADER DEFINE
 #define HEAD_TASK_ID "x-ptp-session-id"

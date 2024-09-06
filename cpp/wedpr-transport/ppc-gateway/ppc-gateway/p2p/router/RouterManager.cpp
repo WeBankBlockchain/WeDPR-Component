@@ -70,9 +70,10 @@ void RouterManager::onReceiveRouterSeq(MessageFace::Ptr msg, WsSession::Ptr sess
     {
         return;
     }
-    GATEWAY_LOG(INFO) << LOG_BADGE("onReceiveRouterSeq")
-                      << LOG_DESC("receive router seq and request router table")
-                      << LOG_KV("peer", session->nodeId()) << LOG_KV("seq", statusSeq);
+    SERVICE_ROUTER_LOG(INFO) << LOG_BADGE("onReceiveRouterSeq")
+                             << LOG_DESC("receive router seq and request router table")
+                             << LOG_KV("peer", printP2PIDElegantly(session->nodeId()))
+                             << LOG_KV("seq", statusSeq);
     // request router table to peer
     auto p2pMsg = std::dynamic_pointer_cast<Message>(msg);
     auto dstP2PNodeID = (!p2pMsg->header()->srcGwNode().empty()) ? p2pMsg->header()->srcGwNode() :
@@ -99,17 +100,19 @@ void RouterManager::onReceivePeersRouterTable(MessageFace::Ptr msg, WsSession::P
 {
     auto routerTable = m_service->routerTableFactory()->createRouterTable(ref(*(msg->payload())));
 
-    GATEWAY_LOG(INFO) << LOG_BADGE("onReceivePeersRouterTable") << LOG_KV("peer", session->nodeId())
-                      << LOG_KV("entrySize", routerTable->routerEntries().size());
+    SERVICE_ROUTER_LOG(INFO) << LOG_BADGE("onReceivePeersRouterTable")
+                             << LOG_KV("peer", printP2PIDElegantly(session->nodeId()))
+                             << LOG_KV("entrySize", routerTable->routerEntries().size());
     joinRouterTable(session->nodeId(), routerTable);
 }
 
 // receive routerTable request from peer
 void RouterManager::onReceiveRouterTableRequest(MessageFace::Ptr msg, WsSession::Ptr session)
 {
-    GATEWAY_LOG(INFO) << LOG_BADGE("onReceiveRouterTableRequest")
-                      << LOG_KV("peer", session->nodeId())
-                      << LOG_KV("entrySize", m_service->routerTable()->routerEntries().size());
+    SERVICE_ROUTER_LOG(INFO) << LOG_BADGE("onReceiveRouterTableRequest")
+                             << LOG_KV("peer", printP2PIDElegantly(session->nodeId()))
+                             << LOG_KV(
+                                    "entrySize", m_service->routerTable()->routerEntries().size());
 
     auto routerTableData = std::make_shared<bytes>();
     m_service->routerTable()->encode(*routerTableData);
@@ -135,8 +138,8 @@ void RouterManager::joinRouterTable(
         }
     }
 
-    GATEWAY_LOG(INFO) << LOG_BADGE("joinRouterTable") << LOG_DESC("create router entry")
-                      << LOG_KV("dst", _generatedFrom);
+    SERVICE_ROUTER_LOG(INFO) << LOG_BADGE("joinRouterTable") << LOG_DESC("create router entry")
+                             << LOG_KV("dst", printP2PIDElegantly(_generatedFrom));
 
     auto entry = m_service->routerTableFactory()->createRouterEntry();
     entry->setDstNode(_generatedFrom);
@@ -147,8 +150,9 @@ void RouterManager::joinRouterTable(
     }
     if (!updated)
     {
-        GATEWAY_LOG(DEBUG) << LOG_BADGE("joinRouterTable") << LOG_DESC("router table not updated")
-                           << LOG_KV("dst", _generatedFrom);
+        SERVICE_ROUTER_LOG(DEBUG) << LOG_BADGE("joinRouterTable")
+                                  << LOG_DESC("router table not updated")
+                                  << LOG_KV("dst", printP2PIDElegantly(_generatedFrom));
         return;
     }
     onP2PNodesUnreachable(unreachableNodes);

@@ -40,7 +40,7 @@ Service::Service(std::string const& _nodeID, RouterTableFactory::Ptr const& _rou
     m_routerTable->setNodeID(m_nodeID);
     m_routerTable->setUnreachableDistance(unreachableDistance);
 
-    GATEWAY_LOG(INFO) << LOG_DESC("create P2PService") << LOG_KV("module", _moduleName);
+    SERVICE_LOG(INFO) << LOG_DESC("create P2PService") << LOG_KV("module", _moduleName);
     WsService::registerConnectHandler(
         boost::bind(&Service::onP2PConnect, this, boost::placeholders::_1));
     WsService::registerDisconnectHandler(
@@ -50,7 +50,8 @@ Service::Service(std::string const& _nodeID, RouterTableFactory::Ptr const& _rou
 
 void Service::onP2PConnect(WsSession::Ptr _session)
 {
-    GATEWAY_LOG(INFO) << LOG_DESC("onP2PConnect") << LOG_KV("p2pid", _session->nodeId())
+    SERVICE_LOG(INFO) << LOG_DESC("Receive new p2p connection")
+                      << LOG_KV("p2pid", printP2PIDElegantly(_session->nodeId()))
                       << LOG_KV("endpoint", _session->endPoint());
 
 
@@ -59,8 +60,8 @@ void Service::onP2PConnect(WsSession::Ptr _session)
     // the session already connected
     if (it != m_nodeID2Session.end() && it->second->isConnected())
     {
-        GATEWAY_LOG(INFO) << LOG_DESC("onP2PConnect, drop the duplicated connection")
-                          << LOG_KV("nodeID", _session->nodeId())
+        SERVICE_LOG(INFO) << LOG_DESC("onP2PConnect, drop the duplicated connection")
+                          << LOG_KV("nodeID", printP2PIDElegantly(_session->nodeId()))
                           << LOG_KV("endpoint", _session->endPoint());
         _session->drop(WsError::UserDisconnect);
         updateNodeIDInfo(_session);
@@ -70,28 +71,54 @@ void Service::onP2PConnect(WsSession::Ptr _session)
     if (_session->nodeId() == m_nodeID)
     {
         updateNodeIDInfo(_session);
-        GATEWAY_LOG(INFO) << LOG_DESC("onP2PConnect, drop the node-self connection")
-                          << LOG_KV("nodeID", _session->nodeId())
+        SERVICE_LOG(INFO) << LOG_DESC("onP2PConnect, drop the node-self connection")
+                          << LOG_KV("nodeID", printP2PIDElegantly(_session->nodeId()))
                           << LOG_KV("endpoint", _session->endPoint());
         _session->drop(WsError::UserDisconnect);
         return;
     }
-    // the new session
-    updateNodeIDInfo(_session);
+
+
+    ///// Note: here allow all new session, even the ip not configured(support dynamic access)
+    bool updated = updateNodeIDInfo(_session);
+    // hit the m_nodeID2Session
     if (it != m_nodeID2Session.end())
     {
+        // the old session has already been connected, and the new session endPoint is not
+        // configured
+        if (it->second->isConnected() && !updated)
+        {
+            SERVICE_LOG(INFO) << LOG_DESC(
+                                     "onP2PConnect, drop the new not-configurated session, remain "
+                                     "the old session")
+                              << LOG_KV("nodeID", printP2PIDElegantly(_session->nodeId()))
+                              << LOG_KV("endPoint", _session->endPoint())
+                              << LOG_KV("oldEndPoint", it->second->endPoint());
+            _session->drop(WsError::UserDisconnect);
+            return;
+        }
+        SERVICE_LOG(INFO) << LOG_DESC(
+                                 "onP2PConnect, drop the old not-configurated session, replace "
+                                 "with the new session")
+                          << LOG_KV("nodeID", printP2PIDElegantly(_session->nodeId()))
+                          << LOG_KV("endPoint", _session->endPoint())
+                          << LOG_KV("oldEndPoint", it->second->endPoint());
+        if (it->second->isConnected())
+        {
+            it->second->drop(WsError::UserDisconnect);
+        }
         it->second = _session;
+        return;
     }
-    else
-    {
-        m_nodeID2Session.insert(std::make_pair(_session->nodeId(), _session));
-    }
-    GATEWAY_LOG(INFO) << LOG_DESC("onP2PConnect established") << LOG_KV("p2pid", _session->nodeId())
+    // the new session
+    m_nodeID2Session.insert(std::make_pair(_session->nodeId(), _session));
+    SERVICE_LOG(INFO) << LOG_DESC("onP2PConnect established new session")
+                      << LOG_KV("p2pid", printP2PIDElegantly(_session->nodeId()))
                       << LOG_KV("endpoint", _session->endPoint());
 }
 
 
-void Service::updateNodeIDInfo(WsSession::Ptr const& _session)
+bool Service::updateNodeIDInfo(WsSession::Ptr const& _session)
 {
     bcos::WriteGuard l(x_configuredNode2ID);
     std::string p2pNodeID = _session->nodeId();
@@ -99,16 +126,16 @@ void Service::updateNodeIDInfo(WsSession::Ptr const& _session)
     if (it != m_configuredNode2ID.end())
     {
         it->second = p2pNodeID;
-        GATEWAY_LOG(INFO) << LOG_DESC("updateNodeIDInfo: update the nodeID")
+        SERVICE_LOG(INFO) << LOG_DESC("updateNodeIDInfo: update the nodeID")
                           << LOG_KV("nodeid", p2pNodeID)
                           << LOG_KV("endpoint", _session->endPoint());
+        return true;
     }
-    else
-    {
-        GATEWAY_LOG(INFO) << LOG_DESC("updateNodeIDInfo can't find endpoint")
-                          << LOG_KV("nodeid", p2pNodeID)
-                          << LOG_KV("endpoint", _session->endPoint());
-    }
+
+    SERVICE_LOG(INFO) << LOG_DESC("updateNodeIDInfo can't find endpoint")
+                      << LOG_KV("nodeid", printP2PIDElegantly(p2pNodeID))
+                      << LOG_KV("endpoint", _session->endPoint());
+    return false;
 }
 
 void Service::removeSessionInfo(WsSession::Ptr const& _session)
@@ -117,8 +144,8 @@ void Service::removeSessionInfo(WsSession::Ptr const& _session)
     auto it = m_nodeID2Session.find(_session->nodeId());
     if (it != m_nodeID2Session.end())
     {
-        GATEWAY_LOG(INFO) << "onP2PDisconnectand remove from m_nodeID2Session"
-                          << LOG_KV("p2pid", _session->nodeId())
+        SERVICE_LOG(INFO) << "onP2PDisconnectand remove from m_nodeID2Session"
+                          << LOG_KV("p2pid", printP2PIDElegantly(_session->nodeId()))
                           << LOG_KV("endpoint", _session->endPoint());
 
         m_nodeID2Session.erase(it);
@@ -132,7 +159,8 @@ void Service::onP2PDisconnect(WsSession::Ptr _session)
     UpgradableGuard l(x_configuredNode2ID);
     for (auto& it : m_configuredNode2ID)
     {
-        if (it.second == _session->nodeId())
+        // reset the nodeID of the dropped session(except the node-self) to empty
+        if (m_nodeID != _session->nodeId() && it.second == _session->nodeId())
         {
             UpgradeGuard ul(l);
             it.second.clear();
@@ -158,13 +186,12 @@ void Service::reconnect()
                 continue;
             }
             unconnectedPeers->insert(it.first);
-            GATEWAY_LOG(TRACE) << LOG_DESC("ready to reconnect")
+            SERVICE_LOG(DEBUG) << LOG_DESC("ready to reconnect")
                                << LOG_KV("endpoint",
                                       it.first.address() + ":" + std::to_string(it.first.port()));
         }
     }
-    GATEWAY_LOG(INFO) << LOG_KV("##### unconnectedPeers", unconnectedPeers->size());
-    // setReconnectedPeers(unconnectedPeers);
+    setReconnectedPeers(unconnectedPeers);
     WsService::reconnect();
 }
 
@@ -205,7 +232,7 @@ void Service::asyncSendMessageWithForward(
         return asyncSendMessage(dstNodeID, msg, options, respFunc);
     }
     // with nextHop, send the message to nextHop
-    GATEWAY_LOG(TRACE) << LOG_DESC("asyncSendMessageByNodeID") << printMessage(p2pMsg);
+    SERVICE_LOG(TRACE) << LOG_DESC("asyncSendMessageByNodeID") << printMessage(p2pMsg);
     return asyncSendMessage(nextHop, msg, options, respFunc);
 }
 
@@ -239,13 +266,13 @@ void Service::asyncSendMessage(
                         " failed for no network established, msg: " + printWsMessage(msg));
             respFunc(std::move(error), nullptr, nullptr);
         }
-        GATEWAY_LOG(WARNING)
+        SERVICE_LOG(WARNING)
             << LOG_DESC("asyncSendMessageByNodeID failed for no network established, msg detail:")
             << printWsMessage(msg);
     }
     catch (std::exception const& e)
     {
-        GATEWAY_LOG(ERROR) << "asyncSendMessageByNodeID" << LOG_KV("dstNode", dstNodeID)
+        SERVICE_LOG(ERROR) << "asyncSendMessageByNodeID" << LOG_KV("dstNode", dstNodeID)
                            << LOG_KV("what", boost::diagnostic_information(e));
         if (respFunc)
         {
@@ -262,7 +289,7 @@ void Service::onRecvMessage(MessageFace::Ptr _msg, std::shared_ptr<WsSession> _s
     // find the dstNode
     if (p2pMsg->header()->dstGwNode().empty() || p2pMsg->header()->dstGwNode() == m_nodeID)
     {
-        GATEWAY_LOG(TRACE) << LOG_DESC("onRecvMessage, dispatch for find the dst node")
+        SERVICE_LOG(TRACE) << LOG_DESC("onRecvMessage, dispatch for find the dst node")
                            << printMessage(p2pMsg);
         WsService::onRecvMessage(_msg, _session);
         return;
@@ -270,7 +297,7 @@ void Service::onRecvMessage(MessageFace::Ptr _msg, std::shared_ptr<WsSession> _s
     // forward the message
     if (p2pMsg->header()->ttl() >= m_routerTable->unreachableDistance())
     {
-        GATEWAY_LOG(WARNING) << LOG_DESC("onRecvMessage: ttl expired") << printMessage(p2pMsg);
+        SERVICE_LOG(WARNING) << LOG_DESC("onRecvMessage: ttl expired") << printMessage(p2pMsg);
         return;
     }
     p2pMsg->header()->setTTL(p2pMsg->header()->ttl() + 1);
@@ -291,7 +318,7 @@ void Service::asyncBroadcastMessage(bcos::boostssl::MessageFace::Ptr msg, Option
     }
     catch (std::exception& e)
     {
-        GATEWAY_LOG(WARNING) << LOG_BADGE("asyncBroadcastMessage exception")
+        SERVICE_LOG(WARNING) << LOG_BADGE("asyncBroadcastMessage exception")
                              << LOG_KV("msg", printWsMessage(msg))
                              << LOG_KV("error", boost::diagnostic_information(e));
     }
@@ -326,6 +353,6 @@ void Service::sendRespMessageBySession(bcos::boostssl::ws::WsSession::Ptr const&
     WsSessions sessions;
     sessions.emplace_back(session);
     WsService::asyncSendMessage(sessions, respMessage);
-    GATEWAY_LOG(TRACE) << "sendRespMessageBySession" << LOG_KV("resp", printMessage(respMessage))
+    SERVICE_LOG(TRACE) << "sendRespMessageBySession" << LOG_KV("resp", printMessage(respMessage))
                        << LOG_KV("payload size", payload->size());
 }

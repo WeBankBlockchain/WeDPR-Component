@@ -39,15 +39,7 @@ public:
 
     GatewayNodeInfoImpl(bcos::bytesConstRef data) : GatewayNodeInfoImpl() { decode(data); }
 
-    ~GatewayNodeInfoImpl() override
-    {
-        // return back the ownership to nodeList
-        auto allocatedNodeListSize = m_rawGatewayInfo->nodelist_size();
-        for (int i = 0; i < allocatedNodeListSize; i++)
-        {
-            m_rawGatewayInfo->mutable_nodelist()->UnsafeArenaReleaseLast();
-        }
-    }
+    ~GatewayNodeInfoImpl() override { releaseWithoutDestory(); }
 
     // the gateway nodeID
     std::string const& p2pNodeID() const override;
@@ -86,6 +78,19 @@ public:
     {
         bcos::ReadGuard l(x_nodeList);
         return m_nodeList.size();
+    }
+
+private:
+    void updateNodeList();
+
+    void releaseWithoutDestory()
+    {
+        // return back the ownership to nodeList to shared_ptr
+        auto allocatedNodeListSize = m_rawGatewayInfo->nodelist_size();
+        for (int i = 0; i < allocatedNodeListSize; i++)
+        {
+            m_rawGatewayInfo->mutable_nodelist()->UnsafeArenaReleaseLast();
+        }
     }
 
 private:

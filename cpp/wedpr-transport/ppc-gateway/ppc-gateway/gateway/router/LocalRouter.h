@@ -46,7 +46,7 @@ public:
         increaseSeq();
     }
 
-    virtual void registerTopic(std::string_view nodeID, std::string const& topic);
+    virtual void registerTopic(bcos::bytesConstRef nodeID, std::string const& topic);
     virtual void unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic);
 
     virtual std::vector<ppc::front::IFrontClient::Ptr> chooseReceiver(

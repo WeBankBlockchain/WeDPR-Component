@@ -93,7 +93,8 @@ void GatewayRouterManager::onReceiveNodeSeqMessage(MessageFace::Ptr msg, WsSessi
         return;
     }
     // status changed, request for the nodeStatus
-    GATEWAY_LOG(TRACE) << LOG_DESC("onReceiveNodeSeqMessage") << LOG_KV("from", from)
+    GATEWAY_LOG(TRACE) << LOG_DESC("onReceiveNodeSeqMessage")
+                       << LOG_KV("from", printP2PIDElegantly(from))
                        << LOG_KV("statusSeq", statusSeq);
     m_service->asyncSendMessageByP2PNodeID(
         (uint16_t)GatewayPacketType::RequestNodeStatus, from, std::make_shared<bcos::bytes>());
@@ -138,11 +139,11 @@ void GatewayRouterManager::onReceiveRequestNodeStatusMsg(
     if (!nodeStatusData)
     {
         GATEWAY_LOG(WARNING) << LOG_DESC("onReceiveRequestNodeStatusMsg: generate nodeInfo error")
-                             << LOG_KV("from", from);
+                             << LOG_KV("from", printP2PIDElegantly(from));
         return;
     }
     GATEWAY_LOG(TRACE) << LOG_DESC("onReceiveRequestNodeStatusMsg: response the latest nodeStatus")
-                       << LOG_KV("from", from);
+                       << LOG_KV("from", printP2PIDElegantly(from));
     m_service->asyncSendMessageByP2PNodeID(
         (uint16_t)GatewayPacketType::ResponseNodeStatus, from, nodeStatusData);
 }
@@ -157,7 +158,8 @@ void GatewayRouterManager::onRecvResponseNodeStatusMsg(MessageFace::Ptr msg, WsS
                            p2pMessage->header()->srcGwNode() :
                            session->nodeId();
 
-    GATEWAY_LOG(INFO) << LOG_DESC("onRecvResponseNodeStatusMsg") << LOG_KV("from", from)
+    GATEWAY_LOG(INFO) << LOG_DESC("onRecvResponseNodeStatusMsg")
+                      << LOG_KV("from", printP2PIDElegantly(from))
                       << LOG_KV("statusSeq", nodeStatus->statusSeq())
                       << LOG_KV("agency", nodeStatus->agency());
     updatePeerNodeStatus(from, nodeStatus);
@@ -176,7 +178,8 @@ void GatewayRouterManager::updatePeerNodeStatus(
         UpgradeGuard ul(l);
         m_p2pID2Seq[p2pID] = statusSeq;
     }
-    GATEWAY_LOG(INFO) << LOG_DESC("updatePeerNodeStatus") << LOG_KV("from", p2pID)
+    GATEWAY_LOG(INFO) << LOG_DESC("updatePeerNodeStatus")
+                      << LOG_KV("from", printP2PIDElegantly(p2pID))
                       << LOG_KV("statusSeq", status->statusSeq())
                       << LOG_KV("agency", status->agency());
     m_peerRouter->updateGatewayInfo(status);
