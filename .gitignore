@@ -36,6 +36,7 @@ cmake-build-debug
 *.exe
 *.out
 *.app
+**/*.class
 
 build/**
 GPATH
@@ -43,6 +44,7 @@ GRTAGS
 GTAGS
 deps
 deps/**
+**/bin
 
 d1-encrypted
 d2-encrypted
