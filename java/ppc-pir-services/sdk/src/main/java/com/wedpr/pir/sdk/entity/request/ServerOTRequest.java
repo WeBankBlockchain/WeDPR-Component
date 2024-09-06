@@ -13,6 +13,7 @@ import lombok.Data;
 public class ServerOTRequest {
     String jobType;
     String datasetId;
+    String[] params;
     BigInteger x;
     BigInteger y;
     List<PirDataBody> dataBodyList;

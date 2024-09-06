@@ -34,6 +34,7 @@ public enum WedprStatusEnum {
     INVALID_TRANS_TYPE("2009", "不合法的交易类型"),
     INVALID_FILE_PATH("2010", "不合法交集文件路径"),
     INVALID_ROLE_VALUE("2011", "pir.Role设置错误"),
+    CSV_ERROR("2012", "csv解析是错误"),
 
     // 3000 db错误
     DB_ERROR("3000", "DB查询失败"),

@@ -24,7 +24,7 @@ public class PirAppService {
         // 1. 根据请求，筛选数据，加密密钥，返回筛选结果及AES消息密文
         ServerOTRequest serverOTRequest = new ServerOTRequest();
         serverOTRequest.setJobType(serverJobRequest.getJobType());
-        serverOTRequest.setDatasetId(serverJobRequest.getDatasetId());
+        serverOTRequest.setDatasetId(serverJobRequest.getServiceConfigBody().getDatasetId());
         serverOTRequest.setX(serverJobRequest.getX());
         serverOTRequest.setY(serverJobRequest.getY());
         serverOTRequest.setDataBodyList(serverJobRequest.getDataBodyList());
@@ -33,10 +33,12 @@ public class PirAppService {
         if (serverJobRequest
                 .getJobAlgorithmType()
                 .equals(ParamEnum.AlgorithmType.idFilter.getValue())) {
+            serverOTRequest.setParams(serverJobRequest.getServiceConfigBody().getValues());
             otResultResponse = pirOTService.runServerOTParam(serverOTRequest);
         } else if (serverJobRequest
                 .getJobAlgorithmType()
                 .equals(ParamEnum.AlgorithmType.idObfuscation.getValue())) {
+            serverOTRequest.setParams(serverJobRequest.getServiceConfigBody().getExists());
             otResultResponse = pirOTService.runServerOTCipher(serverOTRequest);
         } else {
             throw new WedprException(WedprStatusEnum.INVALID_INPUT_VALUE);

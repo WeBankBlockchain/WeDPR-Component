@@ -20,41 +20,27 @@ public class PirTableServiceImpl implements PirTableService {
     @PersistenceContext private EntityManager entityManager;
 
     @Override
-    public List idFilterTable(String datasetId, String filter) {
-        String sqlFormat = "SELECT * FROM %s WHERE id LIKE CONCAT(%s, '%%')";
-        String sql = String.format(sqlFormat, datasetId, filter);
-        Query query = entityManager.createNativeQuery(sql);
-        return query.getResultList();
-    }
-
-    @Override
     public List idFilterTable(String datasetId, String filter, String[] params) {
-        String sqlFormat = "SELECT %s FROM %s WHERE id LIKE CONCAT(%s, '%%')";
-        String sql = String.format(sqlFormat, String.join(", ", params), datasetId, filter);
-        Query query = entityManager.createNativeQuery(sql);
-        return query.getResultList();
-    }
-
-    @Override
-    public List idObfuscationTable(String datasetId, String searchId) {
-        String sqlFormat = "SELECT * FROM %s WHERE id = %s";
-        String sql = String.format(sqlFormat, datasetId, searchId);
+        String param = processParams(params);
+        String sqlFormat = "SELECT t.id as t_id, %s FROM %s t WHERE t.id LIKE CONCAT(%s, '%%')";
+        String sql = String.format(sqlFormat, param, datasetId, filter);
         Query query = entityManager.createNativeQuery(sql);
         return query.getResultList();
     }
 
     @Override
     public List idObfuscationTable(String datasetId, String searchId, String[] params) {
-        String sqlFormat = "SELECT %s FROM %s WHERE id = %s";
-        String sql = String.format(sqlFormat, String.join(", ", params), datasetId, searchId);
+        String param = processParams(params);
+        String sqlFormat = "SELECT t.id as t_id, %s FROM %s t WHERE t.id = %s";
+        String sql = String.format(sqlFormat, param, datasetId, searchId);
         Query query = entityManager.createNativeQuery(sql);
         return query.getResultList();
     }
 
-    public List<PirTable> objectsToPirTableList(List params) {
+    public List<PirTable> objectsToPirTableList(List values) {
         List<PirTable> result = new LinkedList<>();
-        for (int i = 0; i < params.size(); i++) {
-            Object[] temp = (Object[]) params.get(i);
+        for (int i = 0; i < values.size(); i++) {
+            Object[] temp = (Object[]) values.get(i);
             PirTable pirTable = new PirTable();
             pirTable.setId(i + 1);
             pirTable.setPirKey(String.valueOf(temp[0]));
@@ -63,5 +49,10 @@ public class PirTableServiceImpl implements PirTableService {
             result.add(pirTable);
         }
         return result;
+    }
+
+    private String processParams(String[] params) {
+        String[] temp = Arrays.stream(params).map(s -> "t." + s).toArray(String[]::new);
+        return String.join(",", temp);
     }
 }

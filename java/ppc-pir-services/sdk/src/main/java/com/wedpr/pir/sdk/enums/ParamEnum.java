@@ -29,7 +29,15 @@ public class ParamEnum {
     @AllArgsConstructor
     public enum HttpType {
         HttpTimeout(180),
-        HttpMaxRetries(4);
+        HttpMaxRetries(1);
+        private Integer value;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public enum JobMode {
+        SDKMode(0),
+        DirectorMode(1);
         private Integer value;
     }
 }

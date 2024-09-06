@@ -9,6 +9,7 @@ import com.wedpr.pir.sdk.entity.request.ServerOTRequest;
 import com.wedpr.pir.sdk.entity.response.ServerOTResponse;
 import com.wedpr.pir.sdk.exception.WedprException;
 import com.wedpr.pir.sdk.helper.AESHelper;
+import com.wedpr.pir.sdk.helper.Constant;
 import com.wedpr.pir.sdk.helper.ConvertTypeHelper;
 import com.wedpr.pir.sdk.helper.CryptoOperatorHelper;
 import java.math.BigInteger;
@@ -33,13 +34,15 @@ public class PirOTServiceImpl implements PirOTService {
             throws WedprException {
         logger.info("Server start runServerOTParam.");
         String datasetId = serverOTRequest.getDatasetId();
+        String tableId = Constant.datasetId2tableId(datasetId);
         BigInteger x = serverOTRequest.getX();
         BigInteger y = serverOTRequest.getY();
+        String[] params = serverOTRequest.getParams();
         List<ServerResultList> serverResultlist = new ArrayList<>();
         for (int i = 0; i < serverOTRequest.getDataBodyList().size(); i++) {
             BigInteger z0 = serverOTRequest.getDataBodyList().get(i).getZ0();
             String filter = serverOTRequest.getDataBodyList().get(i).getFilter();
-            List<Object[]> objects = pirTableService.idFilterTable(datasetId, filter);
+            List<Object[]> objects = pirTableService.idFilterTable(tableId, filter, params);
             List<PirTable> pirTables = pirTableService.objectsToPirTableList(objects);
             List<ServerResultBody> serverResultBodyTempList = new ArrayList<>();
             for (PirTable pirTable : pirTables) {
@@ -59,8 +62,9 @@ public class PirOTServiceImpl implements PirOTService {
         String datasetId = serverOTRequest.getDatasetId();
         BigInteger x = serverOTRequest.getX();
         BigInteger y = serverOTRequest.getY();
-
+        String tableId = Constant.datasetId2tableId(datasetId);
         List<ServerResultList> serverResultlist = new ArrayList<>();
+        String[] params = serverOTRequest.getParams();
         for (int i = 0; i < serverOTRequest.getDataBodyList().size(); i++) {
             BigInteger z0 = serverOTRequest.getDataBodyList().get(i).getZ0();
             List<String> idHashList = serverOTRequest.getDataBodyList().get(i).getIdHashList();
@@ -68,7 +72,7 @@ public class PirOTServiceImpl implements PirOTService {
 
             for (int j = 0; j < idHashList.size(); j++) {
                 List<Object[]> objects =
-                        pirTableService.idObfuscationTable(datasetId, idHashList.get(j));
+                        pirTableService.idObfuscationTable(tableId, idHashList.get(j), params);
                 List<PirTable> pirTables = pirTableService.objectsToPirTableList(objects);
                 for (PirTable pirTable : pirTables) {
                     ServerResultBody serverResultBody =
