@@ -33,7 +33,7 @@ BOOST_FIXTURE_TEST_SUITE(cMServiceTest, TestPromptFixture)
 BOOST_AUTO_TEST_CASE(testCEMService)
 {
     auto cemService = std::make_shared<CEMService>();
-    std::string configPath{"../../../ppc-cem/tests/data/config.ini"};
+    std::string configPath{"../../../../wedpr-computing/ppc-cem/tests/data/config.ini"};
     boost::property_tree::ptree pt;
     boost::property_tree::read_ini(configPath, pt);
     // load the cm config

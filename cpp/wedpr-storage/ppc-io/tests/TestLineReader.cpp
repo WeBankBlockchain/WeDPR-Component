@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE(testDataBatch)
 }
 BOOST_AUTO_TEST_CASE(testFileLineReader)
 {
-    std::string filePath = "../../../ppc-io/tests/data/testData";
+    std::string filePath = "../../../../wedpr-storage/ppc-io/tests/data/testData";
     uint64_t fileTotalLine = 10000;
     std::vector<std::string> fileData;
     for (uint64_t i = 1; i <= fileTotalLine; i++)
@@ -173,11 +173,11 @@ BOOST_AUTO_TEST_CASE(testFileLineReader)
               << ", pageSize:" << pageSize << std::endl;
 
     // case4: the windows file
-    auto windowsFilePath = "../../../ppc-io/tests/data/windows_file.txt";
+    auto windowsFilePath = "../../../../wedpr-storage/ppc-io/tests/data/windows_file.txt";
     auto lineReader = factory->createLineReader(windowsFilePath, pageSize, '\n');
     auto windowsDataBatch = lineReader->next(-1, DataSchema::Bytes);
 
-    auto linuxFilePath = "../../../ppc-io/tests/data/linux_file.txt";
+    auto linuxFilePath = "../../../../wedpr-storage/ppc-io/tests/data/linux_file.txt";
     lineReader = factory->createLineReader(linuxFilePath, pageSize, '\n');
     auto linuxDataBatch = lineReader->next(-1, DataSchema::Bytes);
     BOOST_CHECK(windowsDataBatch->size() == linuxDataBatch->size());

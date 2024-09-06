@@ -120,6 +120,13 @@ public:
         return m_agencyList;
     }
 
+    // for ut
+    void setAgencyList(std::vector<std::string> const& agencyList)
+    {
+        bcos::WriteGuard l(x_agencyList);
+        m_agencyList = agencyList;
+    }
+
 protected:
     ppc::front::PPCMessageFace::Ptr generatePPCMsg(
         std::string const& _taskID, PSIMessageInterface::Ptr const& _msg, uint32_t _seq)

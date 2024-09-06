@@ -34,7 +34,7 @@ BOOST_FIXTURE_TEST_SUITE(MPCServiceTest, TestPromptFixture)
 BOOST_AUTO_TEST_CASE(testMPCService)
 {
     auto mpcService = std::make_shared<MPCService>();
-    std::string configPath{"../../../ppc-mpc/tests/data/config.ini"};
+    std::string configPath{"../../../../wedpr-computing/ppc-mpc/tests/data/config.ini"};
     boost::property_tree::ptree pt;
     boost::property_tree::read_ini(configPath, pt);
     // load the mpc config

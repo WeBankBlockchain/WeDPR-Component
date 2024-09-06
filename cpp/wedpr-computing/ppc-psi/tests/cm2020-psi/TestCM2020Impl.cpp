@@ -169,13 +169,18 @@ void testCM2020PSIImplFunc(const std::string& _taskID, const std::string& _param
 
 BOOST_AUTO_TEST_CASE(testNormalCM2020PSICase)
 {
-    std::string senderPath = "../../../ppc-psi/tests/cm2020-psi/data/sender_inputs.csv";
-    std::string receiverPath = "../../../ppc-psi/tests/cm2020-psi/data/receiver_inputs.csv";
-    std::string senderOutputPath = "../../../ppc-psi/tests/cm2020-psi/data/sender_out.csv";
-    std::string receiverOutputPath = "../../../ppc-psi/tests/cm2020-psi/data/receiver_out.csv";
+    std::string senderPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/sender_inputs.csv";
+    std::string receiverPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/receiver_inputs.csv";
+    std::string senderOutputPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/sender_out.csv";
+    std::string receiverOutputPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/receiver_out.csv";
 
     uint32_t count = 513;
-    boost::filesystem::create_directory("../../../ppc-psi/tests/cm2020-psi/data");
+    boost::filesystem::create_directory(
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data");
     prepareInputs(senderPath, count, receiverPath, count, count);
 
     auto senderParty = mockParty((uint16_t)ppc::protocol::PartyType::Server, "sender",
@@ -208,14 +213,19 @@ BOOST_AUTO_TEST_CASE(testNormalCM2020PSICase)
 
 BOOST_AUTO_TEST_CASE(testBigDataCM2020PSICase)
 {
-    std::string senderPath = "../../../ppc-psi/tests/cm2020-psi/data/sender_inputs.csv";
-    std::string receiverPath = "../../../ppc-psi/tests/cm2020-psi/data/receiver_inputs.csv";
-    std::string senderOutputPath = "../../../ppc-psi/tests/cm2020-psi/data/sender_out.csv";
-    std::string receiverOutputPath = "../../../ppc-psi/tests/cm2020-psi/data/receiver_out.csv";
+    std::string senderPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/sender_inputs.csv";
+    std::string receiverPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/receiver_inputs.csv";
+    std::string senderOutputPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/sender_out.csv";
+    std::string receiverOutputPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/receiver_out.csv";
 
     uint32_t count = 1000000, common = 100;
 
-    boost::filesystem::create_directory("../../../ppc-psi/tests/cm2020-psi/data");
+    boost::filesystem::create_directory(
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data");
     prepareInputs(senderPath, count, receiverPath, count, common);
 
     auto senderParty = mockParty(uint16_t(PartyType::Server), "sender", "senderPartyResource",
@@ -242,18 +252,23 @@ BOOST_AUTO_TEST_CASE(testBigDataCM2020PSICase)
 
 BOOST_AUTO_TEST_CASE(testErrorCM2020PSICase)
 {
-    std::string senderPath = "../../../ppc-psi/tests/cm2020-psi/data/sender_inputs.csv";
-    std::string receiverPath = "../../../ppc-psi/tests/cm2020-psi/data/receiver_inputs.csv";
-    std::string senderOutputPath = "../../../ppc-psi/tests/cm2020-psi/data/sender_out.csv";
-    std::string receiverOutputPath = "../../../ppc-psi/tests/cm2020-psi/data/receiver_out.csv";
+    std::string senderPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/sender_inputs.csv";
+    std::string receiverPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/receiver_inputs.csv";
+    std::string senderOutputPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/sender_out.csv";
+    std::string receiverOutputPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/receiver_out.csv";
 
     uint32_t count = 1234;
-    boost::filesystem::create_directory("../../../ppc-psi/tests/cm2020-psi/data");
+    boost::filesystem::create_directory(
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data");
     prepareInputs(senderPath, count, receiverPath, count, count);
 
-    auto senderParty =
-        mockParty(uint16_t(PartyType::Server), "sender", "senderPartyResource", "sender_inputs",
-            DataResourceType::FILE, "../../../ppc-psi/tests/cm2020-psi/data/not_existed.csv");
+    auto senderParty = mockParty(uint16_t(PartyType::Server), "sender", "senderPartyResource",
+        "sender_inputs", DataResourceType::FILE,
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/not_existed.csv");
 
     auto senderOutputDesc = std::make_shared<DataResourceDesc>();
     senderOutputDesc->setPath(senderOutputPath);
@@ -271,13 +286,18 @@ BOOST_AUTO_TEST_CASE(testErrorCM2020PSICase)
 
 BOOST_AUTO_TEST_CASE(testRawDataCM2020PSICase)
 {
-    std::string senderPath = "../../../ppc-psi/tests/cm2020-psi/data/sender_inputs.csv";
-    std::string receiverPath = "../../../ppc-psi/tests/cm2020-psi/data/receiver_inputs.csv";
-    std::string senderOutputPath = "../../../ppc-psi/tests/cm2020-psi/data/sender_out.csv";
-    std::string receiverOutputPath = "../../../ppc-psi/tests/cm2020-psi/data/receiver_out.csv";
+    std::string senderPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/sender_inputs.csv";
+    std::string receiverPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/receiver_inputs.csv";
+    std::string senderOutputPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/sender_out.csv";
+    std::string receiverOutputPath =
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data/receiver_out.csv";
 
     uint32_t count = 1234;
-    boost::filesystem::create_directory("../../../ppc-psi/tests/cm2020-psi/data");
+    boost::filesystem::create_directory(
+        "../../../../wedpr-computing/ppc-psi/tests/cm2020-psi/data");
     prepareInputs(senderPath, count, receiverPath, count, count);
 
     auto reader = std::make_shared<FileLineReader>(senderPath);

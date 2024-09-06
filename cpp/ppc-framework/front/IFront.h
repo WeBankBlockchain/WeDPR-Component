@@ -123,6 +123,7 @@ public:
      * @param topic the topic to unregister
      */
     virtual void unRegisterTopic(std::string const& topic) = 0;
+
 };
 
 class IFrontBuilder

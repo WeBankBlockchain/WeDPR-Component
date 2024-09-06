@@ -83,9 +83,10 @@ BOOST_AUTO_TEST_CASE(testEcdhEnc)
 
 BOOST_AUTO_TEST_CASE(testBsEcdh)
 {
-    auto inputPath = "../../../ppc-psi/tests/bs-ecdh-psi/data/inputs.csv";
-    auto outputPath = "../../../ppc-psi/tests/bs-ecdh-psi/data/outputs.csv";
-    boost::filesystem::create_directory("../../../ppc-psi/tests/bs-ecdh-psi/data");
+    auto inputPath = "../../../../wedpr-computing/ppc-psi/tests/bs-ecdh-psi/data/inputs.csv";
+    auto outputPath = "../../../../../wedpr-computing/ppc-psi/tests/bs-ecdh-psi/data/outputs.csv";
+    boost::filesystem::create_directory(
+        "../../../../wedpr-computing/ppc-psi/tests/bs-ecdh-psi/data");
 
     auto count = 123456;
     prepareInputs(inputPath, count);

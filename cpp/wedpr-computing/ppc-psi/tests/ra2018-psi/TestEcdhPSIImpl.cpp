@@ -61,8 +61,8 @@ void testEcdhImplFunc(int64_t _dataBatchSize, std::string const& _serverPSIDataS
     auto clientPSI = factory->createEcdhPSI(clientAgencyName, clientConfig);
 
     std::vector<std::string> agencyList = {serverAgencyName, clientAgencyName};
-    // serverPSI->psiConfig()->updateAgenyList(agencyList);
-    // clientPSI->psiConfig()->updateAgenyList(agencyList);
+    serverPSI->psiConfig()->setAgencyList(agencyList);
+    clientPSI->psiConfig()->setAgencyList(agencyList);
 
     // register the server-psi into the front
     factory->front()->registerEcdhPSI(serverAgencyName, serverPSI);
@@ -109,8 +109,10 @@ void testEcdhImplFunc(int64_t _dataBatchSize, std::string const& _serverPSIDataS
 
 void testNormalCase(std::string const& _outputPrefix, int64_t _dataBatchSize)
 {
-    std::string serverDataPath = "../../../ppc-psi/tests/ra2018-psi/mock-data/fullevaluate.txt";
-    std::string clientDataPath = "../../../ppc-psi/tests/ra2018-psi/mock-data/psi.txt";
+    std::string serverDataPath =
+        "../../../../wedpr-computing/ppc-psi/tests/ra2018-psi/mock-data/fullevaluate.txt";
+    std::string clientDataPath =
+        "../../../../wedpr-computing/ppc-psi/tests/ra2018-psi/mock-data/psi.txt";
     std::string outputPath = _outputPrefix + "psiResult.txt";
     std::vector<std::string> expectedResult;
     for (int i = 1; i < 49; i++)
@@ -135,8 +137,9 @@ BOOST_AUTO_TEST_CASE(testNormalEcdhPSICase)
 BOOST_AUTO_TEST_CASE(testECDHMissingResourceDataCase)
 {
     std::string serverPSIDataPath =
-        "../../../ppc-psi/tests/ra2018-psi/mock-data/fullevaluate-missing.txt";
-    std::string clientPSIDataPath = "../../../ppc-psi/tests/ra2018-psi/mock-data/psi.txt";
+        "../../../../wedpr-computing/ppc-psi/tests/ra2018-psi/mock-data/fullevaluate-missing.txt";
+    std::string clientPSIDataPath =
+        "../../../../wedpr-computing/ppc-psi/tests/ra2018-psi/mock-data/psi.txt";
     std::string outputPath = "psiResult_MissingResourceData.txt";
     std::vector<std::string> expectedResult;
     testEcdhImplFunc(1000, serverPSIDataPath, clientPSIDataPath, outputPath, true, false,
@@ -144,8 +147,10 @@ BOOST_AUTO_TEST_CASE(testECDHMissingResourceDataCase)
 }
 BOOST_AUTO_TEST_CASE(testECDHMisMatchTaskID)
 {
-    std::string serverPSIDataPath = "../../../ppc-psi/tests/ra2018-psi/mock-data/fullevaluate.txt";
-    std::string clientPSIDataPath = "../../../ppc-psi/tests/ra2018-psi/mock-data/psi.txt";
+    std::string serverPSIDataPath =
+        "../../../../wedpr-computing/ppc-psi/tests/ra2018-psi/mock-data/fullevaluate.txt";
+    std::string clientPSIDataPath =
+        "../../../../wedpr-computing/ppc-psi/tests/ra2018-psi/mock-data/psi.txt";
     std::string outputPath = "psiResult_MismatchTaskID.txt";
     std::vector<std::string> expectedResult;
     testEcdhImplFunc(1000, serverPSIDataPath, clientPSIDataPath, outputPath, true, false,

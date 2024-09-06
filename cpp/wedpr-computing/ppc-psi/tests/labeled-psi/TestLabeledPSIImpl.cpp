@@ -42,10 +42,12 @@ BOOST_FIXTURE_TEST_SUITE(LabeledPSIImplTest, TestPromptFixture)
 
 void runSetup(LabeledPSIImpl::Ptr _sender)
 {
-    std::string senderPath = "../../../ppc-psi/tests/labeled-psi/data/sender.csv";
+    std::string senderPath =
+        "../../../../wedpr-computing/ppc-psi/tests/labeled-psi/data/sender.csv";
 
     uint32_t count = 10000;
-    boost::filesystem::create_directory("../../../ppc-psi/tests/labeled-psi/data");
+    boost::filesystem::create_directory(
+        "../../../../wedpr-computing/ppc-psi/tests/labeled-psi/data");
     prepareItemsAndLabels(senderPath, count);
 
     auto senderParty = mockParty(uint16_t(PartyType::Server), "sender", "senderPartyResource",
@@ -77,8 +79,10 @@ void runSetup(LabeledPSIImpl::Ptr _sender)
 
 void saveCache(LabeledPSIImpl::Ptr _sender)
 {
-    std::string cachePath = "../../../ppc-psi/tests/labeled-psi/data/sender_cache.txt";
-    boost::filesystem::create_directory("../../../ppc-psi/tests/labeled-psi/data");
+    std::string cachePath =
+        "../../../../wedpr-computing/ppc-psi/tests/labeled-psi/data/sender_cache.txt";
+    boost::filesystem::create_directory(
+        "../../../../wedpr-computing/ppc-psi/tests/labeled-psi/data");
 
     auto senderParty = mockParty(uint16_t(PartyType::Server), "sender", "senderPartyResource",
         "sender_inputs", DataResourceType::FILE, "");
@@ -111,7 +115,8 @@ void saveCache(LabeledPSIImpl::Ptr _sender)
 
 void loadCache(LabeledPSIImpl::Ptr _sender)
 {
-    std::string cachePath = "../../../ppc-psi/tests/labeled-psi/data/sender_cache.txt";
+    std::string cachePath =
+        "../../../../wedpr-computing/ppc-psi/tests/labeled-psi/data/sender_cache.txt";
 
     auto senderParty = mockParty(uint16_t(PartyType::Server), "sender", "senderPartyResource",
         "sender_inputs", DataResourceType::FILE, cachePath);

@@ -187,9 +187,11 @@ void testRA2018PSIImplFunc(int _dataBatchSize, CuckoofilterOption::Ptr option,
 void testNormalCase(std::string const& _outputPrefix, CuckoofilterOption::Ptr option,
     uint64_t _dataBatchSize = 10000)
 {
-    std::string dataPath = "../../../ppc-psi/tests/ra2018-psi/mock-data/fullevaluate.txt";
-    std::string psiPath = "../../../ppc-psi/tests/ra2018-psi/mock-data/psi.txt";
-    std::string appendPath = "../../../ppc-psi/tests/ra2018-psi/mock-data/append-full-evaluate.txt";
+    std::string dataPath =
+        "../../../../wedpr-computing/ppc-psi/tests/ra2018-psi/mock-data/fullevaluate.txt";
+    std::string psiPath = "../../../../wedpr-computing/ppc-psi/tests/ra2018-psi/mock-data/psi.txt";
+    std::string appendPath =
+        "../../../../wedpr-computing/ppc-psi/tests/ra2018-psi/mock-data/append-full-evaluate.txt";
     std::string outputPath = _outputPrefix + "psiResult.txt";
     std::vector<std::string> expectedResult;
     for (int i = 1; i < 49; i++)
@@ -200,7 +202,7 @@ void testNormalCase(std::string const& _outputPrefix, CuckoofilterOption::Ptr op
         expectedResult, 0, false, appendPath, std::vector<std::string>());
 
     // with psi2.txt as input
-    psiPath = "../../../ppc-psi/tests/ra2018-psi/mock-data/psi2.txt";
+    psiPath = "../../../../wedpr-computing/ppc-psi/tests/ra2018-psi/mock-data/psi2.txt";
     expectedResult.clear();
     for (int i = 2000; i < 4000; i += 3)
     {
@@ -224,8 +226,9 @@ BOOST_AUTO_TEST_CASE(testMisMatchResourceIDCase)
     option->tagBits = 32;
     option->maxKickOutCount = 10;
     option->capacity = 200000;
-    std::string dataPath = "../../../ppc-psi/tests/ra2018-psi/mock-data/fullevaluate.txt";
-    std::string psiPath = "../../../ppc-psi/tests/ra2018-psi/mock-data/psi.txt";
+    std::string dataPath =
+        "../../../../wedpr-computing/ppc-psi/tests/ra2018-psi/mock-data/fullevaluate.txt";
+    std::string psiPath = "../../../../wedpr-computing/ppc-psi/tests/ra2018-psi/mock-data/psi.txt";
     std::string outputPath = "psiResult_MismatchResource.txt";
     std::vector<std::string> expectedResult;
     testRA2018PSIImplFunc(10000, option, dataPath, psiPath, outputPath, true, false, expectedResult,
