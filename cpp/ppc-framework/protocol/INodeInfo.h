@@ -18,6 +18,7 @@
  * @date 2024-08-26
  */
 #pragma once
+#include "ppc-framework/Common.h"
 #include <bcos-utilities/Common.h>
 #include <memory>
 #include <set>
@@ -77,7 +78,8 @@ inline std::string printNodeInfo(INodeInfo::Ptr const& nodeInfo)
         return "nullptr";
     }
     std::ostringstream stringstream;
-    stringstream << LOG_KV("endPoint", nodeInfo->endPoint());
+    stringstream << LOG_KV("endPoint", nodeInfo->endPoint())
+                 << LOG_KV("nodeID", printNodeID(nodeInfo->nodeID()));
     std::string components = "";
     for (auto const& it : nodeInfo->components())
     {

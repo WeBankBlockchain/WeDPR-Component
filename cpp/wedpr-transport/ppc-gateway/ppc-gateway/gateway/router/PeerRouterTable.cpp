@@ -28,6 +28,8 @@ using namespace ppc::protocol;
 
 void PeerRouterTable::updateGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo)
 {
+    PEER_ROUTER_LOG(INFO) << LOG_DESC("updateGatewayInfo")
+                          << LOG_KV("detail", printNodeStatus(gatewayInfo));
     auto nodeList = gatewayInfo->nodeList();
     bcos::WriteGuard l(x_mutex);
     for (auto const& it : nodeList)
@@ -138,9 +140,9 @@ void PeerRouterTable::asyncBroadcastMessage(ppc::protocol::Message::Ptr const& m
         {
             continue;
         }
-        GATEWAY_LOG(TRACE) << LOG_DESC("asyncBroadcastMessage")
-                           << LOG_KV("nodeID", printP2PIDElegantly(selectedNode->p2pNodeID()))
-                           << LOG_KV("msg", printMessage(msg));
+        PEER_ROUTER_LOG(TRACE) << LOG_DESC("asyncBroadcastMessage")
+                               << LOG_KV("nodeID", printP2PIDElegantly(selectedNode->p2pNodeID()))
+                               << LOG_KV("msg", printMessage(msg));
         m_service->asyncSendMessageByNodeID(selectedNode->p2pNodeID(), msg);
     }
 }

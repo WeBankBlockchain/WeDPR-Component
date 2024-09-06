@@ -63,9 +63,18 @@ void GatewayImpl::start()
         return;
     }
     m_running = true;
-    m_service->start();
-    m_p2pRouterManager->start();
-    m_gatewayRouterManager->start();
+    if (m_service)
+    {
+        m_service->start();
+    }
+    if (m_p2pRouterManager)
+    {
+        m_p2pRouterManager->start();
+    }
+    if (m_gatewayRouterManager)
+    {
+        m_gatewayRouterManager->start();
+    }
     GATEWAY_LOG(INFO) << LOG_DESC("Start gateway success");
 }
 
@@ -77,10 +86,19 @@ void GatewayImpl::stop()
         return;
     }
     m_running = false;
-    m_service->stop();
-    m_p2pRouterManager->stop();
-    m_gatewayRouterManager->stop();
-    GATEWAY_LOG(INFO) << LOG_DESC("Stop gateway success");
+    if (m_service)
+    {
+        m_service->stop();
+    }
+    if (m_p2pRouterManager)
+    {
+        m_p2pRouterManager->stop();
+    }
+    if (m_gatewayRouterManager)
+    {
+        m_gatewayRouterManager->stop();
+    }
+    PEER_ROUTER_LOG(INFO) << LOG_DESC("Stop gateway success");
 }
 
 void GatewayImpl::asyncSendbroadcastMessage(ppc::protocol::RouteType routeType,

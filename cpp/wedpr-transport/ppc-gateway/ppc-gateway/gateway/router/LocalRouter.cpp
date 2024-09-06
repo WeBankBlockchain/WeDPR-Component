@@ -28,11 +28,12 @@ using namespace ppc::gateway;
 
 bool LocalRouter::registerNodeInfo(ppc::protocol::INodeInfo::Ptr nodeInfo)
 {
-    GATEWAY_LOG(INFO) << LOG_DESC("registerNodeInfo") << printNodeInfo(nodeInfo);
+    LOCAL_ROUTER_LOG(INFO) << LOG_DESC("registerNodeInfo") << printNodeInfo(nodeInfo);
     nodeInfo->setFront(m_frontBuilder->buildClient(nodeInfo->endPoint()));
     auto ret = m_routerInfo->tryAddNodeInfo(nodeInfo);
     if (ret)
     {
+        LOCAL_ROUTER_LOG(INFO) << LOG_DESC("registerNodeInfo success") << printNodeInfo(nodeInfo);
         increaseSeq();
     }
     return ret;
@@ -40,7 +41,8 @@ bool LocalRouter::registerNodeInfo(ppc::protocol::INodeInfo::Ptr nodeInfo)
 // Note: the change of the topic will not trigger router-update
 void LocalRouter::registerTopic(bcos::bytesConstRef _nodeID, std::string const& topic)
 {
-    GATEWAY_LOG(INFO) << LOG_DESC("registerTopic") << LOG_KV("topic", topic);
+    LOCAL_ROUTER_LOG(INFO) << LOG_DESC("registerTopic") << LOG_KV("topic", topic)
+                           << LOG_KV("nodeID", printNodeID(_nodeID));
     m_routerInfo->registerTopic(_nodeID.toBytes(), topic);
     // try to dispatch the cacheInfo
     if (!m_cache)
@@ -65,6 +67,8 @@ void LocalRouter::registerTopic(bcos::bytesConstRef _nodeID, std::string const& 
 // Note: the change of the topic will not trigger router-update
 void LocalRouter::unRegisterTopic(bcos::bytesConstRef _nodeID, std::string const& topic)
 {
+    LOCAL_ROUTER_LOG(INFO) << LOG_DESC("unRegisterTopic") << LOG_KV("topic", topic)
+                           << LOG_KV("nodeID", printNodeID(_nodeID));
     m_routerInfo->unRegisterTopic(_nodeID.toBytes(), topic);
 }
 

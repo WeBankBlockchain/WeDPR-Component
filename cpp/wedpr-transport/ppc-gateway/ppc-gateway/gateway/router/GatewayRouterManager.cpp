@@ -58,24 +58,24 @@ void GatewayRouterManager::start()
 {
     if (m_running)
     {
-        GATEWAY_LOG(INFO) << LOG_DESC("GatewayRouterManager has already been started");
+        ROUTER_MGR_LOG(INFO) << LOG_DESC("GatewayRouterManager has already been started");
         return;
     }
     m_running = true;
     m_timer->start();
-    GATEWAY_LOG(INFO) << LOG_DESC("start GatewayRouterManager success");
+    ROUTER_MGR_LOG(INFO) << LOG_DESC("start GatewayRouterManager success");
 }
 
 void GatewayRouterManager::stop()
 {
     if (!m_running)
     {
-        GATEWAY_LOG(INFO) << LOG_DESC("GatewayRouterManager has already been stopped");
+        ROUTER_MGR_LOG(INFO) << LOG_DESC("GatewayRouterManager has already been stopped");
         return;
     }
     m_running = false;
     m_timer->stop();
-    GATEWAY_LOG(INFO) << LOG_DESC("stop GatewayRouterManager success");
+    ROUTER_MGR_LOG(INFO) << LOG_DESC("stop GatewayRouterManager success");
 }
 
 void GatewayRouterManager::onReceiveNodeSeqMessage(MessageFace::Ptr msg, WsSession::Ptr session)
@@ -93,9 +93,9 @@ void GatewayRouterManager::onReceiveNodeSeqMessage(MessageFace::Ptr msg, WsSessi
         return;
     }
     // status changed, request for the nodeStatus
-    GATEWAY_LOG(TRACE) << LOG_DESC("onReceiveNodeSeqMessage")
-                       << LOG_KV("from", printP2PIDElegantly(from))
-                       << LOG_KV("statusSeq", statusSeq);
+    ROUTER_MGR_LOG(TRACE)
+        << LOG_DESC("onReceiveNodeSeqMessage: statusChanged, request the lastest nodeStatus")
+        << LOG_KV("node", printP2PIDElegantly(from)) << LOG_KV("statusSeq", statusSeq);
     m_service->asyncSendMessageByP2PNodeID(
         (uint16_t)GatewayPacketType::RequestNodeStatus, from, std::make_shared<bcos::bytes>());
 }
@@ -122,7 +122,7 @@ void GatewayRouterManager::broadcastStatusSeq()
     auto statusSeq = boost::asio::detail::socket_ops::host_to_network_long(seq);
     auto payload = std::make_shared<bytes>((byte*)&statusSeq, (byte*)&statusSeq + 4);
     message->setPayload(payload);
-    GATEWAY_LOG(TRACE) << LOG_DESC("broadcastStatusSeq") << LOG_KV("seq", seq);
+    ROUTER_MGR_LOG(TRACE) << LOG_DESC("broadcastStatusSeq") << LOG_KV("seq", seq);
     m_service->asyncBroadcastMessage(message);
 }
 
@@ -138,12 +138,14 @@ void GatewayRouterManager::onReceiveRequestNodeStatusMsg(
     auto nodeStatusData = m_localRouter->generateNodeStatus();
     if (!nodeStatusData)
     {
-        GATEWAY_LOG(WARNING) << LOG_DESC("onReceiveRequestNodeStatusMsg: generate nodeInfo error")
-                             << LOG_KV("from", printP2PIDElegantly(from));
+        ROUTER_MGR_LOG(WARNING) << LOG_DESC(
+                                       "onReceiveRequestNodeStatusMsg: generate nodeInfo error")
+                                << LOG_KV("from", printP2PIDElegantly(from));
         return;
     }
-    GATEWAY_LOG(TRACE) << LOG_DESC("onReceiveRequestNodeStatusMsg: response the latest nodeStatus")
-                       << LOG_KV("from", printP2PIDElegantly(from));
+    ROUTER_MGR_LOG(TRACE) << LOG_DESC(
+                                 "onReceiveRequestNodeStatusMsg: response the latest nodeStatus")
+                          << LOG_KV("node", printP2PIDElegantly(from));
     m_service->asyncSendMessageByP2PNodeID(
         (uint16_t)GatewayPacketType::ResponseNodeStatus, from, nodeStatusData);
 }
@@ -158,10 +160,10 @@ void GatewayRouterManager::onRecvResponseNodeStatusMsg(MessageFace::Ptr msg, WsS
                            p2pMessage->header()->srcGwNode() :
                            session->nodeId();
 
-    GATEWAY_LOG(INFO) << LOG_DESC("onRecvResponseNodeStatusMsg")
-                      << LOG_KV("from", printP2PIDElegantly(from))
-                      << LOG_KV("statusSeq", nodeStatus->statusSeq())
-                      << LOG_KV("agency", nodeStatus->agency());
+    ROUTER_MGR_LOG(INFO) << LOG_DESC("onRecvResponseNodeStatusMsg")
+                         << LOG_KV("node", printP2PIDElegantly(from))
+                         << LOG_KV("statusSeq", nodeStatus->statusSeq())
+                         << LOG_KV("agency", nodeStatus->agency());
     updatePeerNodeStatus(from, nodeStatus);
 }
 
@@ -178,9 +180,9 @@ void GatewayRouterManager::updatePeerNodeStatus(
         UpgradeGuard ul(l);
         m_p2pID2Seq[p2pID] = statusSeq;
     }
-    GATEWAY_LOG(INFO) << LOG_DESC("updatePeerNodeStatus")
-                      << LOG_KV("from", printP2PIDElegantly(p2pID))
-                      << LOG_KV("statusSeq", status->statusSeq())
-                      << LOG_KV("agency", status->agency());
+    ROUTER_MGR_LOG(INFO) << LOG_DESC("updatePeerNodeStatus")
+                         << LOG_KV("node", printP2PIDElegantly(p2pID))
+                         << LOG_KV("statusSeq", status->statusSeq())
+                         << LOG_KV("agency", status->agency());
     m_peerRouter->updateGatewayInfo(status);
 }
