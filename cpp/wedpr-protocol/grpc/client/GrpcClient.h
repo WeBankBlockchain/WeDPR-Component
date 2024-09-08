@@ -22,20 +22,22 @@
 #include "ServiceHealth.grpc.pb.h"
 #include "ppc-framework/protocol/GrpcConfig.h"
 #include "wedpr-protocol/grpc/Common.h"
+#include <bcos-utilities/Error.h>
 #include <grpcpp/grpcpp.h>
 
 namespace ppc::protocol
 {
+struct ChannelInfo
+{
+    std::string endPoint;
+    std::shared_ptr<grpc::Channel> channel;
+};
 // refer to: https://grpc.io/docs/languages/cpp/callback/
 class GrpcClient
 {
 public:
     using Ptr = std::shared_ptr<GrpcClient>;
-    GrpcClient(ppc::protocol::GrpcConfig::Ptr const& grpcConfig, std::string const& endPoints)
-      : m_channel(grpc::CreateCustomChannel(
-            endPoints, grpc::InsecureChannelCredentials(), toChannelConfig(grpcConfig))),
-        m_healthCheckStub(grpc::health::v1::Health::NewStub(m_channel))
-    {}
+    GrpcClient(ppc::protocol::GrpcConfig::Ptr const& grpcConfig, std::string const& endPoints);
 
     virtual ~GrpcClient() = default;
 
@@ -44,7 +46,16 @@ public:
     bool checkHealth();
 
 protected:
+    virtual bcos::Error::Ptr broadCast(
+        std::function<bcos::Error::Ptr(ChannelInfo const& channel)> callback);
+
+protected:
+    ppc::protocol::GrpcConfig::Ptr m_grpcConfig;
+    // the channel
     std::shared_ptr<grpc::Channel> m_channel;
+
+    // the broadcast channel
+    std::vector<ChannelInfo> m_broadcastChannels;
     // the healthcheck stub
     std::unique_ptr<grpc::health::v1::Health::Stub> m_healthCheckStub;
 };

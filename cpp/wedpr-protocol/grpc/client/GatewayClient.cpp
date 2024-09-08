@@ -42,36 +42,52 @@ void GatewayClient::asyncSendMessage(RouteType routeType,
 
 bcos::Error::Ptr GatewayClient::registerNodeInfo(INodeInfo::Ptr const& nodeInfo)
 {
-    auto request = toNodeInfoRequest(nodeInfo);
-    ClientContext context;
-    std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
-    auto status = m_stub->registerNodeInfo(&context, *request, response.get());
-    return toError(status, std::move(*response));
+    broadCast([nodeInfo](ChannelInfo const& channel) {
+        std::unique_ptr<ppc::proto::Gateway::Stub> stub(
+            ppc::proto::Gateway::NewStub(channel.channel));
+        auto request = toNodeInfoRequest(nodeInfo);
+        ClientContext context;
+        std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
+        auto status = stub->registerNodeInfo(&context, *request, response.get());
+        return toError(status, std::move(*response));
+    });
 }
 
 bcos::Error::Ptr GatewayClient::unRegisterNodeInfo(bcos::bytesConstRef nodeID)
 {
-    auto request = toNodeInfoRequest(nodeID, "");
-    ClientContext context;
-    std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
-    auto status = m_stub->unRegisterNodeInfo(&context, *request, response.get());
-    return toError(status, std::move(*response));
+    broadCast([nodeID](ChannelInfo const& channel) {
+        std::unique_ptr<ppc::proto::Gateway::Stub> stub(
+            ppc::proto::Gateway::NewStub(channel.channel));
+        auto request = toNodeInfoRequest(nodeID, "");
+        ClientContext context;
+        std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
+        auto status = stub->unRegisterNodeInfo(&context, *request, response.get());
+        return toError(status, std::move(*response));
+    });
 }
 bcos::Error::Ptr GatewayClient::registerTopic(bcos::bytesConstRef nodeID, std::string const& topic)
 {
-    auto request = toNodeInfoRequest(nodeID, topic);
-    ClientContext context;
-    std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
-    auto status = m_stub->registerTopic(&context, *request, response.get());
-    return toError(status, std::move(*response));
+    broadCast([nodeID, topic](ChannelInfo const& channel) {
+        std::unique_ptr<ppc::proto::Gateway::Stub> stub(
+            ppc::proto::Gateway::NewStub(channel.channel));
+        auto request = toNodeInfoRequest(nodeID, topic);
+        ClientContext context;
+        std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
+        auto status = stub->registerTopic(&context, *request, response.get());
+        return toError(status, std::move(*response));
+    });
 }
 
 bcos::Error::Ptr GatewayClient::unRegisterTopic(
     bcos::bytesConstRef nodeID, std::string const& topic)
 {
-    auto request = toNodeInfoRequest(nodeID, topic);
-    ClientContext context;
-    std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
-    auto status = m_stub->unRegisterTopic(&context, *request, response.get());
-    return toError(status, std::move(*response));
+    broadCast([nodeID, topic](ChannelInfo const& channel) {
+        std::unique_ptr<ppc::proto::Gateway::Stub> stub(
+            ppc::proto::Gateway::NewStub(channel.channel));
+        auto request = toNodeInfoRequest(nodeID, topic);
+        ClientContext context;
+        std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
+        auto status = stub->unRegisterTopic(&context, *request, response.get());
+        return toError(status, std::move(*response));
+    });
 }
