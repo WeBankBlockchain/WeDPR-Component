@@ -224,6 +224,7 @@ void GatewayNodeInfoImpl::decode(bcos::bytesConstRef data)
 
 void GatewayNodeInfoImpl::toJson(Json::Value& jsonObject) const
 {
+    bcos::ReadGuard l(x_nodeList);
     jsonObject["gatewayNodeID"] = p2pNodeID();
     jsonObject["agency"] = agency();
 

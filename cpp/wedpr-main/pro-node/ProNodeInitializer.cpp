@@ -58,7 +58,8 @@ void ProNodeInitializer::init(std::string const& _configPath)
 
 
     auto rpcFactory = std::make_shared<RpcFactory>(m_nodeInitializer->config()->agencyID());
-    m_rpc = rpcFactory->buildRpc(m_nodeInitializer->config());
+    m_rpc = rpcFactory->buildRpc(
+        m_nodeInitializer->config(), m_nodeInitializer->transport()->gateway());
     m_rpc->setRpcStorage(rpcStatusInterface);
     m_rpc->setBsEcdhPSI(m_nodeInitializer->bsEcdhPsi());
     m_nodeInitializer->registerRpcHandler(m_rpc);

@@ -66,6 +66,8 @@ public:
     }
     uint32_t statusSeq() { return m_statusSeq; }
 
+    GatewayNodeInfo::Ptr const& routerInfo() const { return m_routerInfo; }
+
 private:
     uint32_t increaseSeq()
     {

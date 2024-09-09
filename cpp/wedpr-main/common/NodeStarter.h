@@ -68,13 +68,13 @@ int startProgram(
     }
     printVersion();
     std::cout << "[" << bcos::getCurrentDateTime() << "] ";
-    std::cout << "The " + binaryName + "is running..." << std::endl;
+    std::cout << "The " + binaryName + " is running..." << std::endl;
     while (!exitHandler.shouldExit())
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
     starter.reset();
     std::cout << "[" << bcos::getCurrentDateTime() << "] ";
-    std::cout << "The" + binaryName + " program exit normally." << std::endl;
+    std::cout << "The " + binaryName + " program exit normally." << std::endl;
 }
 }  // namespace ppc::node

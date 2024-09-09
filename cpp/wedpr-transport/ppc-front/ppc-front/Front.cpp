@@ -75,6 +75,7 @@ void Front::fetchGatewayMetaInfo()
         {
             return;
         }
+        bcos::UpgradeGuard ul(l);
         front->m_agencyList = agencies;
         FRONT_LOG(INFO) << LOG_DESC("Update agencies information")
                         << LOG_KV("agencies", printVector(agencies));
@@ -100,11 +101,11 @@ void Front::asyncSendMessage(const std::string& _agencyID, front::PPCMessageFace
     bcos::bytes data;
     _message->encode(data);
     auto self = weak_from_this();
-    // ROUTE_THROUGH_TOPIC will hold the topic
-    m_front->asyncSendMessage(RouteType::ROUTE_THROUGH_TOPIC, routeInfo, std::move(data),
-        _message->seq(), _timeout, _callback,
-        [self, _agencyID, _respCallback](
-            Error::Ptr error, Message::Ptr msg, SendResponseFunction resFunc) {
+    ppc::protocol::MessageCallback msgCallback = nullptr;
+    if (_respCallback)
+    {
+        msgCallback = [self, _agencyID, _respCallback](
+                          Error::Ptr error, Message::Ptr msg, SendResponseFunction resFunc) {
             auto front = self.lock();
             if (!front)
             {
@@ -126,7 +127,11 @@ void Front::asyncSendMessage(const std::string& _agencyID, front::PPCMessageFace
             // get the agencyID
             _respCallback(error, msg->header()->optionalField()->srcInst(),
                 front->m_messageFactory->decodePPCMessage(msg), responseCallback);
-        });
+        };
+    }
+    // ROUTE_THROUGH_TOPIC will hold the topic
+    m_front->asyncSendMessage(RouteType::ROUTE_THROUGH_TOPIC, routeInfo, std::move(data),
+        _message->seq(), _timeout, _callback, msgCallback);
 }
 
 // send response when receiving message from given agencyID

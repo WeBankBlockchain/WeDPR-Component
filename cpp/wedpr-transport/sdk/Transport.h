@@ -19,6 +19,7 @@
  */
 #pragma once
 #include "ppc-framework/front/IFront.h"
+#include "ppc-framework/gateway/IGateway.h"
 namespace ppc::sdk
 {
 class Transport
@@ -31,9 +32,12 @@ public:
     virtual void start() { m_front->start(); }
     virtual void stop() { m_front->stop(); }
 
-    virtual ppc::front::IFront::Ptr const& getFront() { return m_front; }
+    virtual ppc::front::IFront::Ptr const& getFront() const { return m_front; }
+
+    virtual ppc::gateway::IGateway::Ptr const& gateway() const { return m_gateway; }
 
 protected:
     ppc::front::IFront::Ptr m_front;
+    ppc::gateway::IGateway::Ptr m_gateway;
 };
 }  // namespace ppc::sdk

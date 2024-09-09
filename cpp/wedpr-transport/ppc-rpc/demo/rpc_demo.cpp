@@ -50,7 +50,7 @@ int main(int argc, const char* argv[])
         // not specify the certPath in air-mode
         ppcConfig->loadRpcConfig(param.configFilePath);
         auto rpcFactory = std::make_shared<RpcFactory>("selfParty");
-        auto rpc = rpcFactory->buildRpc(ppcConfig);
+        auto rpc = rpcFactory->buildRpc(ppcConfig, nullptr);
         registerEchoHandler(rpc);
         // start the rpc
         rpc->start();

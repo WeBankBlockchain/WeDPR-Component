@@ -43,7 +43,6 @@ protected:
 
 protected:
     ppc::front::FrontConfig::Ptr m_config;
-    ppc::gateway::IGateway::Ptr m_gateway;
     std::shared_ptr<ppc::protocol::GrpcServer> m_server;
     int m_keepAlivePeriodMs;
     std::shared_ptr<bcos::Timer> m_timer;

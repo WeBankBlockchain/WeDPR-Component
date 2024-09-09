@@ -27,7 +27,8 @@ using namespace bcos;
 using namespace ppc::rpc;
 using namespace ppc::tools;
 
-Rpc::Ptr RpcFactory::buildRpc(ppc::tools::PPCConfig::ConstPtr _config)
+Rpc::Ptr RpcFactory::buildRpc(
+    ppc::tools::PPCConfig::ConstPtr _config, ppc::gateway::IGateway::Ptr gateway)
 {
     auto wsConfig = initConfig(_config);
     // create the wsConfig
@@ -39,7 +40,7 @@ Rpc::Ptr RpcFactory::buildRpc(ppc::tools::PPCConfig::ConstPtr _config)
     initializer->initWsService(wsService);
 
     auto rpc = std::make_shared<Rpc>(
-        wsService, m_selfPartyID, _config->rpcConfig().token, _config->dataLocation());
+        wsService, gateway, m_selfPartyID, _config->rpcConfig().token, _config->dataLocation());
     rpc->setMinNeededMemory(_config->rpcConfig().minNeededMemoryGB);
     return rpc;
 }

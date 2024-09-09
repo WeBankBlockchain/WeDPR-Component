@@ -253,6 +253,10 @@ void GatewayImpl::asyncGetPeers(std::function<void(Error::Ptr, std::string)> cal
         Json::Value peers;
         peers["agency"] = m_agency;
         peers["nodeID"] = m_service->nodeID();
+        // add the local gatewayInfo
+        Json::Value localGatewayInfo;
+        m_localRouter->routerInfo()->toJson(localGatewayInfo);
+        peers["gateway"] = localGatewayInfo;
         peers["peers"] = Json::Value(Json::arrayValue);
         for (auto const& it : infos)
         {
@@ -292,5 +296,6 @@ void GatewayImpl::asyncGetAgencies(
         return;
     }
     auto agencies = m_peerRouter->agencies();
+    agencies.emplace_back(m_agency);
     callback(nullptr, agencies);
 }

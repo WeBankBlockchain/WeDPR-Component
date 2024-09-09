@@ -36,6 +36,7 @@ enum class RpcError : int32_t
 std::string const RUN_TASK_METHOD = "runTask";
 std::string const ASYNC_RUN_TASK_METHOD = "asyncRunTask";
 std::string const GET_TASK_STATUS = "getTaskStatus";
+std::string const GET_PEERS = "getPeers";
 
 std::string const ASYNC_RUN_BS_MODE_TASK = "asyncRunBsModeTask";
 std::string const FETCH_CIPHER = "fetchCipher";

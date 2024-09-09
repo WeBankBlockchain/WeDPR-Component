@@ -33,6 +33,7 @@ public:
     TransportImpl(ppc::front::FrontConfig::Ptr config, ppc::gateway::IGateway::Ptr const& gateway)
       : m_config(std::move(config))
     {
+        m_gateway = gateway;
         ppc::front::FrontFactory frontFactory;
         m_front = frontFactory.build(std::make_shared<ppc::protocol::NodeInfoFactory>(),
             std::make_shared<ppc::protocol::MessagePayloadBuilderImpl>(),
