@@ -19,6 +19,7 @@
  */
 #pragma once
 #include "TransportImpl.h"
+#include "bcos-utilities/Timer.h"
 
 namespace ppc::protocol
 {
@@ -28,17 +29,23 @@ class GrpcServer;
 
 namespace ppc::sdk
 {
-class ProTransportImpl : public Transport
+class ProTransportImpl : public Transport, public std::enable_shared_from_this<ProTransportImpl>
 {
 public:
     using Ptr = std::shared_ptr<ProTransportImpl>;
-    ProTransportImpl(ppc::front::FrontConfig::Ptr config);
+    ProTransportImpl(ppc::front::FrontConfig::Ptr config, int keepAlivePeriodMs = 3000);
 
     void start() override;
     void stop() override;
 
 protected:
+    void keepAlive();
+
+protected:
     ppc::front::FrontConfig::Ptr m_config;
+    ppc::gateway::IGateway::Ptr m_gateway;
     std::shared_ptr<ppc::protocol::GrpcServer> m_server;
+    int m_keepAlivePeriodMs;
+    std::shared_ptr<bcos::Timer> m_timer;
 };
 }  // namespace ppc::sdk
