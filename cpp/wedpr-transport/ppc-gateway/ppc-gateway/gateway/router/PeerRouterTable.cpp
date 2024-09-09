@@ -19,6 +19,7 @@
  */
 #include "PeerRouterTable.h"
 #include "ppc-framework/Common.h"
+#include "ppc-framework/Helper.h"
 #include <random>
 
 using namespace bcos;

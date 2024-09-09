@@ -18,7 +18,7 @@
  * @date 2024-08-26
  */
 #pragma once
-#include "ppc-framework/Common.h"
+#include "ppc-framework/Helper.h"
 #include <bcos-utilities/Common.h>
 #include <json/json.h>
 #include <memory>

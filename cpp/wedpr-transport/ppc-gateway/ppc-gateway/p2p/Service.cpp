@@ -20,6 +20,7 @@
 #include "Service.h"
 #include "bcos-boostssl/websocket/WsError.h"
 #include "ppc-framework/Common.h"
+#include "ppc-framework/Helper.h"
 
 using namespace bcos;
 using namespace ppc;
@@ -141,7 +142,7 @@ void Service::removeSessionInfo(WsSession::Ptr const& _session)
 {
     RecursiveGuard l(x_nodeID2Session);
     auto it = m_nodeID2Session.find(_session->nodeId());
-    if (it != m_nodeID2Session.end())
+    if (it != m_nodeID2Session.end() && it->second->endPoint() == _session->endPoint())
     {
         SERVICE_LOG(INFO) << "onP2PDisconnectand remove from m_nodeID2Session"
                           << LOG_KV("p2pid", printP2PIDElegantly(_session->nodeId()))
@@ -150,6 +151,7 @@ void Service::removeSessionInfo(WsSession::Ptr const& _session)
         m_nodeID2Session.erase(it);
     }
 }
+
 void Service::onP2PDisconnect(WsSession::Ptr _session)
 {
     // remove the session information
@@ -257,11 +259,10 @@ void Service::asyncSendMessage(
             sessions.emplace_back(session);
             return WsService::asyncSendMessage(sessions, msg, options, respFunc);
         }
-
         if (respFunc)
         {
             Error::Ptr error = std::make_shared<Error>(
-                -1, "send message to " + dstNodeID +
+                -1, "send message to " + std::string(printP2PIDElegantly(dstNodeID)) +
                         " failed for no network established, msg: " + printWsMessage(msg));
             respFunc(std::move(error), nullptr, nullptr);
         }
@@ -271,12 +272,14 @@ void Service::asyncSendMessage(
     }
     catch (std::exception const& e)
     {
-        SERVICE_LOG(ERROR) << "asyncSendMessageByNodeID" << LOG_KV("dstNode", dstNodeID)
+        SERVICE_LOG(ERROR) << "asyncSendMessageByNodeID"
+                           << LOG_KV("dstNode", printP2PIDElegantly(dstNodeID))
                            << LOG_KV("what", boost::diagnostic_information(e));
         if (respFunc)
         {
-            respFunc(std::make_shared<Error>(-1, "send message to " + dstNodeID + " failed for " +
-                                                     boost::diagnostic_information(e)),
+            respFunc(std::make_shared<Error>(
+                         -1, "send message to " + std::string(printP2PIDElegantly(dstNodeID)) +
+                                 " failed for " + boost::diagnostic_information(e)),
                 nullptr, nullptr);
         }
     }

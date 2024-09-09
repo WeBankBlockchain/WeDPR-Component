@@ -18,6 +18,7 @@
  * @date 2024-08-26
  */
 #include "RouterManager.h"
+#include "ppc-framework/Helper.h"
 #include "ppc-framework/gateway/GatewayProtocol.h"
 #include "ppc-framework/protocol/Message.h"
 #include <boost/asio/detail/socket_ops.hpp>

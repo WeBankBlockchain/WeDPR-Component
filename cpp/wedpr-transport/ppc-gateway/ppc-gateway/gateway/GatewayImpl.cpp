@@ -127,8 +127,7 @@ void GatewayImpl::asyncSendMessage(ppc::protocol::RouteType routeType,
     auto p2pMessage = m_msgBuilder->build(routeType, routeInfo, std::move(payload));
     p2pMessage->setSeq(traceID);
     p2pMessage->setPacketType((uint16_t)GatewayPacketType::P2PMessage);
-    GATEWAY_LOG(INFO) << LOG_DESC("##### asyncSendMessage")
-                      << LOG_KV("msg", printMessage(p2pMessage));
+    GATEWAY_LOG(TRACE) << LOG_DESC("asyncSendMessage") << LOG_KV("msg", printMessage(p2pMessage));
     auto nodeList = m_localRouter->chooseReceiver(p2pMessage);
     // case send to the same agency
     if (!nodeList.empty())

@@ -33,7 +33,7 @@ void MessageCache::insertCache(
     GATEWAY_LOG(DEBUG) << LOG_BADGE("MessageCache: insertCache") << LOG_KV("topic", topic);
     bcos::ReadGuard l(x_msgCache);
     auto it = m_msgCache.find(topic);
-    if (it == m_msgCache.end())
+    if (it != m_msgCache.end())
     {
         it->second->messages.emplace_back(MessageInfo{msg, callback});
         return;

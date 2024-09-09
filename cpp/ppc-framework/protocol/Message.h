@@ -18,9 +18,9 @@
  * @date 2024-08-22
  */
 #pragma once
-#include "../Common.h"
 #include "MessagePayload.h"
 #include "RouteType.h"
+#include "ppc-framework/Helper.h"
 #include <bcos-boostssl/interfaces/MessageFace.h>
 #include <bcos-utilities/Common.h>
 #include <bcos-utilities/DataConvertUtility.h>
@@ -249,10 +249,10 @@ inline std::string printOptionalField(MessageOptionalHeader::Ptr optionalHeader)
     std::ostringstream stringstream;
     stringstream << LOG_KV("topic", optionalHeader->topic())
                  << LOG_KV("componentType", optionalHeader->componentType())
-                 << LOG_KV("srcNode", *(bcos::toHexString(optionalHeader->srcNode())))
-                 << LOG_KV("dstNode", *(bcos::toHexString(optionalHeader->dstNode())))
-                 << LOG_KV("dstInst", optionalHeader->dstInst());
-
+                 << LOG_KV("srcNode", printNodeID(optionalHeader->srcNode()))
+                 << LOG_KV("dstNode", printNodeID(optionalHeader->dstNode()))
+                 << LOG_KV("srcInst", printNodeID(optionalHeader->srcInst()))
+                 << LOG_KV("dstInst", printNodeID(optionalHeader->dstInst()));
     return stringstream.str();
 }
 

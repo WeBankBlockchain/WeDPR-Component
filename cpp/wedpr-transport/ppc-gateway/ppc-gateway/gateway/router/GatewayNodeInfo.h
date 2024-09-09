@@ -18,6 +18,7 @@
  * @date 2024-08-26
  */
 #pragma once
+#include "ppc-framework/Helper.h"
 #include "ppc-framework/protocol/INodeInfo.h"
 #include "ppc-utilities/Utilities.h"
 #include <bcos-utilities/Log.h>

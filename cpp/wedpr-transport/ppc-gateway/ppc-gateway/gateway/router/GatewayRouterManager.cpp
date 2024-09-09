@@ -18,6 +18,7 @@
  * @date 2024-08-26
  */
 #include "GatewayRouterManager.h"
+#include "ppc-framework/Helper.h"
 #include "ppc-framework/gateway/GatewayProtocol.h"
 #include <ppc-gateway/Common.h>
 

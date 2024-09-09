@@ -34,9 +34,9 @@ GatewayNodeInfo::Ptr SendMessageWithRetry::chooseP2pNode()
     RecursiveGuard lock(x_mutex);
     if (!m_dstNodeList.empty())
     {
-        auto selectedNode = m_dstNodeList.begin();
+        auto selectedNode = *(m_dstNodeList.begin());
         m_dstNodeList.erase(m_dstNodeList.begin());
-        return *selectedNode;
+        return selectedNode;
     }
     return nullptr;
 }
