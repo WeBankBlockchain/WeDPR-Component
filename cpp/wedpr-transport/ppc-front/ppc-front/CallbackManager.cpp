@@ -128,21 +128,49 @@ void CallbackManager::registerTopicHandler(
     m_topicHandlers.insert(std::make_pair(topic, callback));
 }
 
+void CallbackManager::registerMessageHandler(
+    std::string const& componentType, ppc::protocol::MessageDispatcherCallback callback)
+{
+    bcos::WriteGuard l(x_msgHandlers);
+    m_msgHandlers.insert(std::make_pair(componentType, callback));
+}
+
+MessageDispatcherCallback CallbackManager::getHandlerByTopic(std::string const& topic)
+{
+    bcos::ReadGuard l(x_topicHandlers);
+    auto it = m_topicHandlers.find(topic);
+    if (it != m_topicHandlers.end())
+    {
+        return it->second;
+    }
+    return nullptr;
+}
+
+MessageDispatcherCallback CallbackManager::getHandlerByComponentType(
+    std::string const& componentType)
+{
+    bcos::ReadGuard l(x_msgHandlers);
+    auto it = m_msgHandlers.find(componentType);
+    if (it != m_msgHandlers.end())
+    {
+        return it->second;
+    }
+    return nullptr;
+}
+
 void CallbackManager::onReceiveMessage(std::string const& topic, Message::Ptr msg)
 {
-    MessageDispatcherCallback callback = nullptr;
+    auto callback = getHandlerByTopic(topic);
+    if (!callback)
     {
-        bcos::ReadGuard l(x_topicHandlers);
-        auto it = m_topicHandlers.find(topic);
-        if (it == m_topicHandlers.end())
-        {
-            FRONT_LOG(DEBUG) << LOG_DESC(
-                                    "onReceiveMessage: not find the handler, put into the buffer")
-                             << LOG_KV("topic", topic);
-            addMsgCache(topic, msg);
-            return;
-        }
-        callback = it->second;
+        callback = getHandlerByComponentType(msg->header()->optionalField()->componentType());
+    }
+    if (!callback)
+    {
+        FRONT_LOG(DEBUG) << LOG_DESC("onReceiveMessage: not find the handler, put into the buffer")
+                         << LOG_KV("topic", topic);
+        addMsgCache(topic, msg);
+        return;
     }
     m_threadPool->enqueue([callback, msg]() {
         try

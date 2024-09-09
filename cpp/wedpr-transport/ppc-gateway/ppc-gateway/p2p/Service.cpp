@@ -57,14 +57,13 @@ void Service::onP2PConnect(WsSession::Ptr _session)
 
     RecursiveGuard l(x_nodeID2Session);
     auto it = m_nodeID2Session.find(_session->nodeId());
-    // the session already connected
     if (it != m_nodeID2Session.end() && it->second->isConnected())
     {
         SERVICE_LOG(INFO) << LOG_DESC("onP2PConnect, drop the duplicated connection")
                           << LOG_KV("nodeID", printP2PIDElegantly(_session->nodeId()))
                           << LOG_KV("endpoint", _session->endPoint());
-        _session->drop(WsError::UserDisconnect);
         updateNodeIDInfo(_session);
+        _session->drop(WsError::UserDisconnect);
         return;
     }
     // the node-self
@@ -77,41 +76,18 @@ void Service::onP2PConnect(WsSession::Ptr _session)
         _session->drop(WsError::UserDisconnect);
         return;
     }
-
-
     ///// Note: here allow all new session, even the ip not configured(support dynamic access)
     bool updated = updateNodeIDInfo(_session);
     // hit the m_nodeID2Session
     if (it != m_nodeID2Session.end())
     {
-        // the old session has already been connected, and the new session endPoint is not
-        // configured
-        if (it->second->isConnected() && !updated)
-        {
-            SERVICE_LOG(INFO) << LOG_DESC(
-                                     "onP2PConnect, drop the new not-configurated session, remain "
-                                     "the old session")
-                              << LOG_KV("nodeID", printP2PIDElegantly(_session->nodeId()))
-                              << LOG_KV("endPoint", _session->endPoint())
-                              << LOG_KV("oldEndPoint", it->second->endPoint());
-            _session->drop(WsError::UserDisconnect);
-            return;
-        }
-        SERVICE_LOG(INFO) << LOG_DESC(
-                                 "onP2PConnect, drop the old not-configurated session, replace "
-                                 "with the new session")
-                          << LOG_KV("nodeID", printP2PIDElegantly(_session->nodeId()))
-                          << LOG_KV("endPoint", _session->endPoint())
-                          << LOG_KV("oldEndPoint", it->second->endPoint());
-        if (it->second->isConnected())
-        {
-            it->second->drop(WsError::UserDisconnect);
-        }
         it->second = _session;
-        return;
     }
-    // the new session
-    m_nodeID2Session.insert(std::make_pair(_session->nodeId(), _session));
+    else
+    {
+        // the new session
+        m_nodeID2Session.insert(std::make_pair(_session->nodeId(), _session));
+    }
     SERVICE_LOG(INFO) << LOG_DESC("onP2PConnect established new session")
                       << LOG_KV("p2pid", printP2PIDElegantly(_session->nodeId()))
                       << LOG_KV("endpoint", _session->endPoint());
@@ -127,7 +103,7 @@ bool Service::updateNodeIDInfo(WsSession::Ptr const& _session)
     {
         it->second = p2pNodeID;
         SERVICE_LOG(INFO) << LOG_DESC("updateNodeIDInfo: update the nodeID")
-                          << LOG_KV("nodeid", p2pNodeID)
+                          << LOG_KV("nodeid", printP2PIDElegantly(p2pNodeID))
                           << LOG_KV("endpoint", _session->endPoint());
         return true;
     }
@@ -138,36 +114,56 @@ bool Service::updateNodeIDInfo(WsSession::Ptr const& _session)
     return false;
 }
 
-void Service::removeSessionInfo(WsSession::Ptr const& _session)
+bool Service::removeSessionInfo(WsSession::Ptr const& _session)
 {
     RecursiveGuard l(x_nodeID2Session);
     auto it = m_nodeID2Session.find(_session->nodeId());
-    if (it != m_nodeID2Session.end() && it->second->endPoint() == _session->endPoint())
+    if (it != m_nodeID2Session.end() && it->second->endPointInfo() == _session->endPointInfo())
     {
-        SERVICE_LOG(INFO) << "onP2PDisconnectand remove from m_nodeID2Session"
+        SERVICE_LOG(INFO) << "onP2PDisconnect: remove from m_nodeID2Session"
                           << LOG_KV("p2pid", printP2PIDElegantly(_session->nodeId()))
                           << LOG_KV("endpoint", _session->endPoint());
 
         m_nodeID2Session.erase(it);
+        return true;
     }
+    return false;
 }
 
 void Service::onP2PDisconnect(WsSession::Ptr _session)
 {
     // remove the session information
-    removeSessionInfo(_session);
+    if (!removeSessionInfo(_session))
+    {
+        return;
+    }
     // update the session nodeID to empty
     UpgradableGuard l(x_configuredNode2ID);
     for (auto& it : m_configuredNode2ID)
     {
-        // reset the nodeID of the dropped session(except the node-self) to empty
-        if (m_nodeID != _session->nodeId() && it.second == _session->nodeId())
+        // the node-self, no need to reset the nodeID
+        if (m_nodeID == _session->nodeId())
         {
-            UpgradeGuard ul(l);
-            it.second.clear();
-            break;
+            continue;
         }
+        // not with the same nodeID, can't reset the nodeID
+        if (it.second != _session->nodeId())
+        {
+            continue;
+        }
+        UpgradeGuard ul(l);
+        it.second.clear();
+        SERVICE_LOG(INFO) << "onP2PDisconnect: clear the  nodeID information"
+                          << LOG_KV("p2pid", printP2PIDElegantly(_session->nodeId()))
+                          << LOG_KV("endpoint", _session->endPoint());
+        break;
     }
+}
+
+bool Service::nodeConnected(std::string const& nodeID)
+{
+    bcos::RecursiveGuard l(x_nodeID2Session);
+    return m_nodeID2Session.count(nodeID);
 }
 
 void Service::reconnect()
@@ -182,14 +178,12 @@ void Service::reconnect()
             {
                 continue;
             }
-            if (!it.second.empty() && isConnected(it.first))
+            if (!it.second.empty() && nodeConnected(it.second))
             {
                 continue;
             }
             unconnectedPeers->insert(it.first);
-            SERVICE_LOG(DEBUG) << LOG_DESC("ready to reconnect")
-                               << LOG_KV("endpoint",
-                                      it.first.address() + ":" + std::to_string(it.first.port()));
+            SERVICE_LOG(DEBUG) << LOG_DESC("ready to reconnect") << LOG_KV("endpoint", it.first);
         }
     }
     setReconnectedPeers(unconnectedPeers);
@@ -233,7 +227,7 @@ void Service::asyncSendMessageWithForward(
         return asyncSendMessage(dstNodeID, msg, options, respFunc);
     }
     // with nextHop, send the message to nextHop
-    SERVICE_LOG(TRACE) << LOG_DESC("asyncSendMessageByNodeID") << printMessage(p2pMsg);
+    SERVICE_LOG(TRACE) << LOG_DESC("asyncSendMessageWithForward") << printMessage(p2pMsg);
     return asyncSendMessage(nextHop, msg, options, respFunc);
 }
 
@@ -313,8 +307,14 @@ void Service::asyncBroadcastMessage(bcos::boostssl::MessageFace::Ptr msg, Option
     auto reachableNodes = m_routerTable->getAllReachableNode();
     try
     {
+        if (msg->seq().empty())
+        {
+            msg->setSeq(m_messageFactory->newSeq());
+        }
         for (auto const& node : reachableNodes)
         {
+            auto p2pMsg = std::dynamic_pointer_cast<Message>(msg);
+            p2pMsg->header()->setDstGwNode(node);
             asyncSendMessageByNodeID(node, msg, options);
         }
     }
@@ -356,5 +356,6 @@ void Service::sendRespMessageBySession(bcos::boostssl::ws::WsSession::Ptr const&
     sessions.emplace_back(session);
     WsService::asyncSendMessage(sessions, respMessage);
     SERVICE_LOG(TRACE) << "sendRespMessageBySession" << LOG_KV("resp", printMessage(respMessage))
-                       << LOG_KV("payload size", payload->size());
+                       << LOG_KV("payloadSize",
+                              respMessage->payload() ? respMessage->payload()->size() : 0);
 }

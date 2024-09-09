@@ -71,6 +71,8 @@ public:
     virtual void registerTopicHandler(
         std::string const& topic, ppc::protocol::MessageDispatcherCallback callback) = 0;
 
+    virtual void registerMessageHandler(
+        std::string const& componentType, ppc::protocol::MessageDispatcherCallback callback) = 0;
     /**
      * @brief async send message
      *

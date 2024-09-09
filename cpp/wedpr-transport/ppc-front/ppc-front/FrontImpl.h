@@ -104,6 +104,12 @@ public:
         m_callbackManager->registerTopicHandler(topic, callback);
     }
 
+    void registerMessageHandler(std::string const& componentType,
+        ppc::protocol::MessageDispatcherCallback callback) override
+    {
+        m_callbackManager->registerMessageHandler(componentType, callback);
+    }
+
     /**
      * @brief register the nodeInfo to the gateway
      * @param nodeInfo the nodeInfo

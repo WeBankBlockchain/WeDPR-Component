@@ -74,7 +74,6 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
     m_protocolInitializer = std::make_shared<ProtocolInitializer>();
     m_protocolInitializer->init(m_config);
 
-    auto ppcMessageFactory = std::make_shared<PPCMessageFactory>();
     // init the frontService
     INIT_LOG(INFO) << LOG_DESC("init the frontService") << LOG_KV("agency", m_config->agencyID());
     auto frontThreadPool = std::make_shared<bcos::ThreadPool>("front", m_config->threadPoolSize());
@@ -89,7 +88,8 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
     {
         m_transport = transportBuilder.build(SDKMode::PRO, m_config->frontConfig(), nullptr);
     }
-    m_ppcFront = std::make_shared<Front>(m_transport->getFront());
+    m_ppcFront =
+        std::make_shared<Front>(std::make_shared<PPCMessageFactory>(), m_transport->getFront());
 
     INIT_LOG(INFO) << LOG_DESC("init the frontService success")
                    << LOG_KV("frontDetail", printFrontDesc(m_config->frontConfig()))

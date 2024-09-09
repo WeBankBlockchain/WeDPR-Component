@@ -77,10 +77,12 @@ protected:
     virtual void onP2PConnect(bcos::boostssl::ws::WsSession::Ptr _session);
     virtual void onP2PDisconnect(bcos::boostssl::ws::WsSession::Ptr _session);
 
+    virtual bool nodeConnected(std::string const& nodeID);
+
     void reconnect() override;
 
     bool updateNodeIDInfo(bcos::boostssl::ws::WsSession::Ptr const& _session);
-    void removeSessionInfo(bcos::boostssl::ws::WsSession::Ptr const& _session);
+    bool removeSessionInfo(bcos::boostssl::ws::WsSession::Ptr const& _session);
     bcos::boostssl::ws::WsSession::Ptr getSessionByNodeID(std::string const& _nodeID);
 
     virtual void asyncSendMessageWithForward(std::string const& dstNodeID,

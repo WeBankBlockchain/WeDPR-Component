@@ -26,7 +26,8 @@ using namespace bcos;
 using namespace ppc::protocol;
 using namespace ppc::front;
 
-Front::Front(IFront::Ptr front) : m_front(std::move(front))
+Front::Front(ppc::front::PPCMessageFaceFactory::Ptr ppcMsgFactory, IFront::Ptr front)
+  : m_messageFactory(std::move(ppcMsgFactory)), m_front(std::move(front))
 {
     m_fetcher = std::make_shared<bcos::Timer>(60 * 1000, "metaFetcher");
     m_fetcher->registerTimeoutHandler([this]() {
@@ -98,6 +99,8 @@ void Front::asyncSendMessage(const std::string& _agencyID, front::PPCMessageFace
     auto routeInfo = front->routerInfoBuilder()->build();
     routeInfo->setDstInst(_agencyID);
     routeInfo->setTopic(_message->taskID());
+    auto type = ((uint16_t)_message->taskType() << 8) | _message->algorithmType();
+    routeInfo->setComponentType(std::to_string(type));
     bcos::bytes data;
     _message->encode(data);
     auto self = weak_from_this();

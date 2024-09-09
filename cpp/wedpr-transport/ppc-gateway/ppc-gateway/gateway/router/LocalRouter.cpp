@@ -77,7 +77,7 @@ void LocalRouter::unRegisterTopic(bcos::bytesConstRef _nodeID, std::string const
 bool LocalRouter::dispatcherMessage(Message::Ptr const& msg, ReceiveMsgFunc callback, bool holding)
 {
     auto frontList = chooseReceiver(msg);
-    // send success
+    // find the front
     if (!frontList.empty())
     {
         for (auto const& front : frontList)
