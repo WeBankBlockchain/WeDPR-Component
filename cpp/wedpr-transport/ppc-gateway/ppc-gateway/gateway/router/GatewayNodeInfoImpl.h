@@ -80,6 +80,8 @@ public:
         return m_nodeList.size();
     }
 
+    void toJson(Json::Value& jsonObject) const override;
+
 private:
     void updateNodeList();
 

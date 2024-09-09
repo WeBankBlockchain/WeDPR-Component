@@ -65,6 +65,10 @@ public:
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID,
         bcos::bytes&& payload) = 0;
 
+    virtual void asyncGetPeers(std::function<void(bcos::Error::Ptr, std::string)> callback) = 0;
+    virtual void asyncGetAgencies(
+        std::function<void(bcos::Error::Ptr, std::vector<std::string>)> callback) = 0;
+
     virtual bcos::Error::Ptr registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) = 0;
     virtual bcos::Error::Ptr unRegisterNodeInfo(bcos::bytesConstRef nodeID) = 0;
     virtual bcos::Error::Ptr registerTopic(

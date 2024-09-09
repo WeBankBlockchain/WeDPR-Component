@@ -30,11 +30,27 @@ message SendedMessageRequest{
     int64 timeout = 4;
     string traceID = 5;
 };
+
+message AgenciesInfo{
+    Error error = 1;
+    repeated string agencies = 2;
+};
+
+message PeersInfo{
+    Error error = 1;
+    string peersInfo = 2;
+};
+message Empty{
+
+};
+
 service Front {
     rpc onReceiveMessage (ReceivedMessage) returns (Error) {}
 }
 service Gateway{
     rpc asyncSendMessage(SendedMessageRequest) returns(Error){}
+    rpc asyncGetPeers(Empty)returns(PeersInfo){}
+    rpc asyncGetAgencies(Empty)returns(AgenciesInfo){}
     rpc registerNodeInfo(NodeInfo) returns(Error){}
     rpc unRegisterNodeInfo(NodeInfo)returns(Error){}
     rpc registerTopic(NodeInfo) returns(Error){}

@@ -40,6 +40,14 @@ public:
 
     virtual void asyncBroadcastMessage(ppc::protocol::Message::Ptr const& msg) const;
 
+    std::vector<std::string> agencies() const;
+
+    std::map<std::string, GatewayNodeInfos> gatewayInfos() const
+    {
+        bcos::ReadGuard l(x_mutex);
+        return m_agency2GatewayInfos;
+    }
+
 private:
     virtual GatewayNodeInfos selectRouterByNodeID(ppc::protocol::Message::Ptr const& msg) const;
     virtual GatewayNodeInfos selectRouterByComponent(ppc::protocol::Message::Ptr const& msg) const;

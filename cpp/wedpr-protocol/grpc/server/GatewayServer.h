@@ -39,6 +39,12 @@ public:
     grpc::ServerUnaryReactor* asyncSendMessage(grpc::CallbackServerContext* context,
         const ppc::proto::SendedMessageRequest* sendedMsg, ppc::proto::Error* reply) override;
 
+    grpc::ServerUnaryReactor* asyncGetPeers(grpc::CallbackServerContext* context,
+        const ppc::proto::Empty* request, ppc::proto::PeersInfo* reply) override;
+    grpc::ServerUnaryReactor* asyncGetAgencies(grpc::CallbackServerContext* context,
+        const ppc::proto::Empty* request, ppc::proto::AgenciesInfo* reply) override;
+
+
     grpc::ServerUnaryReactor* registerNodeInfo(grpc::CallbackServerContext* context,
         const ppc::proto::NodeInfo* nodeInfo, ppc::proto::Error* reply) override;
 

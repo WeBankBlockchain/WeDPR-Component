@@ -114,18 +114,7 @@ public:
     int taskExpireTime() const { return m_taskExpireTime; }
     void setTaskExpireTime(int _taskExpireTime) { m_taskExpireTime = _taskExpireTime; }
 
-    std::vector<std::string> agencyList() const
-    {
-        bcos::ReadGuard l(x_agencyList);
-        return m_agencyList;
-    }
-
-    // for ut
-    void setAgencyList(std::vector<std::string> const& agencyList)
-    {
-        bcos::WriteGuard l(x_agencyList);
-        m_agencyList = agencyList;
-    }
+    std::vector<std::string> agencyList() const { return m_front->agencies(); }
 
 protected:
     ppc::front::PPCMessageFace::Ptr generatePPCMsg(
@@ -160,10 +149,5 @@ protected:
 
     // the task-expire time
     int m_taskExpireTime = 10000;
-
-    // the agency list, for task-sync
-    // TODO: fetch from the gateway
-    std::vector<std::string> m_agencyList;
-    mutable bcos::SharedMutex x_agencyList;
 };
 }  // namespace ppc::psi

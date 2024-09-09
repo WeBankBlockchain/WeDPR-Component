@@ -51,6 +51,59 @@ ServerUnaryReactor* GatewayServer::asyncSendMessage(CallbackServerContext* conte
     return reactor.get();
 }
 
+grpc::ServerUnaryReactor* GatewayServer::asyncGetPeers(
+    grpc::CallbackServerContext* context, const ppc::proto::Empty*, ppc::proto::PeersInfo* reply)
+{
+    std::shared_ptr<ServerUnaryReactor> reactor(context->DefaultReactor());
+    try
+    {
+        m_gateway->asyncGetPeers([reactor, reply](bcos::Error::Ptr error, std::string peersInfo) {
+            toSerializedError(reply->mutable_error(), error);
+            reply->set_peersinfo(std::move(peersInfo));
+            reactor->Finish(Status::OK);
+        });
+    }
+    catch (std::exception const& e)
+    {
+        GATEWAY_SERVER_LOG(WARNING) << LOG_DESC("asyncGetPeers exception")
+                                    << LOG_KV("error", boost::diagnostic_information(e));
+        toSerializedError(reply->mutable_error(),
+            std::make_shared<bcos::Error>(
+                -1, "asyncGetPeers failed for : " + std::string(boost::diagnostic_information(e))));
+        reactor->Finish(Status::OK);
+    }
+    return reactor.get();
+}
+
+grpc::ServerUnaryReactor* GatewayServer::asyncGetAgencies(
+    grpc::CallbackServerContext* context, const ppc::proto::Empty*, ppc::proto::AgenciesInfo* reply)
+{
+    std::shared_ptr<ServerUnaryReactor> reactor(context->DefaultReactor());
+    try
+    {
+        m_gateway->asyncGetAgencies(
+            [reactor, reply](bcos::Error::Ptr error, std::vector<std::string> agencies) {
+                toSerializedError(reply->mutable_error(), error);
+                for (auto const& it : agencies)
+                {
+                    reply->add_agencies(it);
+                }
+                reactor->Finish(Status::OK);
+            });
+    }
+    catch (std::exception const& e)
+    {
+        GATEWAY_SERVER_LOG(WARNING) << LOG_DESC("asyncGetAgencies exception")
+                                    << LOG_KV("error", boost::diagnostic_information(e));
+        toSerializedError(reply->mutable_error(),
+            std::make_shared<bcos::Error>(-1,
+                "asyncGetAgencies failed for : " + std::string(boost::diagnostic_information(e))));
+        reactor->Finish(Status::OK);
+    }
+    return reactor.get();
+}
+
+
 ServerUnaryReactor* GatewayServer::registerNodeInfo(CallbackServerContext* context,
     const ppc::proto::NodeInfo* serializedNodeInfo, ppc::proto::Error* reply)
 {

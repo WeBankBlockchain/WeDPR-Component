@@ -240,3 +240,57 @@ bcos::Error::Ptr GatewayImpl::unRegisterTopic(bcos::bytesConstRef nodeID, std::s
     m_localRouter->unRegisterTopic(nodeID, topic);
     return nullptr;
 }
+
+void GatewayImpl::asyncGetPeers(std::function<void(Error::Ptr, std::string)> callback)
+{
+    if (!callback)
+    {
+        return;
+    }
+    try
+    {
+        auto infos = m_peerRouter->gatewayInfos();
+        Json::Value peers;
+        peers["agency"] = m_agency;
+        peers["nodeID"] = m_service->nodeID();
+        peers["peers"] = Json::Value(Json::arrayValue);
+        for (auto const& it : infos)
+        {
+            auto gatewayInfoList = it.second;
+            Json::Value agencyGatewayInfo;
+            agencyGatewayInfo["agency"] = it.first;
+            Json::Value peersInfo(Json::arrayValue);
+            for (auto const& gatewayInfo : gatewayInfoList)
+            {
+                Json::Value gatewayJson;
+                gatewayInfo->toJson(gatewayJson);
+                peersInfo.append(gatewayJson);
+            }
+            agencyGatewayInfo["gateway"] = peersInfo;
+            peers["peers"].append(agencyGatewayInfo);
+        }
+        Json::FastWriter fastWriter;
+        std::string statusStr = fastWriter.write(peers);
+        callback(nullptr, statusStr);
+    }
+    catch (std::exception const& e)
+    {
+        GATEWAY_LOG(WARNING) << LOG_DESC("asyncGetPeers exception")
+                             << LOG_KV("error", boost::diagnostic_information(e));
+        callback(
+            std::make_shared<bcos::Error>(
+                -1, "asyncGetPeers exception for " + std::string(boost::diagnostic_information(e))),
+            "");
+    }
+}
+
+void GatewayImpl::asyncGetAgencies(
+    std::function<void(Error::Ptr, std::vector<std::string>)> callback)
+{
+    if (!callback)
+    {
+        return;
+    }
+    auto agencies = m_peerRouter->agencies();
+    callback(nullptr, agencies);
+}

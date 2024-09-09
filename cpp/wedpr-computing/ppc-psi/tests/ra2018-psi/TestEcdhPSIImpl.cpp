@@ -61,8 +61,11 @@ void testEcdhImplFunc(int64_t _dataBatchSize, std::string const& _serverPSIDataS
     auto clientPSI = factory->createEcdhPSI(clientAgencyName, clientConfig);
 
     std::vector<std::string> agencyList = {serverAgencyName, clientAgencyName};
-    serverPSI->psiConfig()->setAgencyList(agencyList);
-    clientPSI->psiConfig()->setAgencyList(agencyList);
+    auto serverFront = std::dynamic_pointer_cast<FakeFront>(serverPSI->psiConfig()->front());
+    serverFront->setAgencyList(agencyList);
+
+    auto clientFront = std::dynamic_pointer_cast<FakeFront>(clientPSI->psiConfig()->front());
+    clientFront->setAgencyList(agencyList);
 
     // register the server-psi into the front
     factory->front()->registerEcdhPSI(serverAgencyName, serverPSI);

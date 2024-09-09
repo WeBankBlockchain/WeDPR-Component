@@ -38,3 +38,16 @@ void NodeInfoImpl::decode(bcos::bytesConstRef data)
     m_components = std::set<std::string>(
         m_rawNodeInfo->components().begin(), m_rawNodeInfo->components().end());
 }
+
+void NodeInfoImpl::toJson(Json::Value& jsonObject) const
+{
+    jsonObject["nodeID"] = std::string(nodeID().begin(), nodeID().end());
+    jsonObject["endPoint"] = endPoint();
+    Json::Value componentsInfo(Json::arrayValue);
+    auto componentsList = components();
+    for (auto const& it : componentsList)
+    {
+        componentsInfo.append(it);
+    }
+    jsonObject["components"] = componentsInfo;
+}

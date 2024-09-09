@@ -39,6 +39,33 @@ void GatewayClient::asyncSendMessage(RouteType routeType,
         [callback, response](Status status) { callback(toError(status, std::move(*response))); });
 }
 
+void GatewayClient::asyncGetPeers(std::function<void(bcos::Error::Ptr, std::string)> callback)
+{
+    auto response = std::make_shared<PeersInfo>();
+    ClientContext context;
+    auto request = std::make_shared<Empty>();
+    m_stub->async()->asyncGetPeers(
+        &context, request.get(), response.get(), [callback, response](Status status) {
+            callback(toError(status, std::move(*response->mutable_error())), response->peersinfo());
+        });
+}
+
+void GatewayClient::asyncGetAgencies(
+    std::function<void(bcos::Error::Ptr, std::vector<std::string>)> callback)
+{
+    auto response = std::make_shared<AgenciesInfo>();
+    ClientContext context;
+    auto request = std::make_shared<Empty>();
+    m_stub->async()->asyncGetAgencies(
+        &context, request.get(), response.get(), [callback, response](Status status) {
+            std::vector<std::string> agencies;
+            for (int i = 0; i < response->agencies_size(); i++)
+            {
+                agencies.emplace_back(response->agencies(i));
+            }
+            callback(toError(status, std::move(*response->mutable_error())), agencies);
+        });
+}
 
 bcos::Error::Ptr GatewayClient::registerNodeInfo(INodeInfo::Ptr const& nodeInfo)
 {

@@ -17,7 +17,6 @@
  * @author: yujiechen
  * @date 2024-08-26
  */
-
 #include "Service.h"
 #include "bcos-boostssl/websocket/WsError.h"
 #include "ppc-framework/Common.h"

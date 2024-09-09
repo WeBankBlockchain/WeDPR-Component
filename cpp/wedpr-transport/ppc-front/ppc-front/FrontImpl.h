@@ -135,6 +135,12 @@ public:
         m_gatewayClient->registerTopic(bcos::ref(m_nodeID), topic);
     }
 
+    void asyncGetAgencies(
+        std::function<void(bcos::Error::Ptr, std::vector<std::string>)> callback) override
+    {
+        m_gatewayClient->asyncGetAgencies(callback);
+    }
+
     /**
      * @brief unRegister the topic
      *

@@ -19,11 +19,69 @@
  */
 #include "Front.h"
 #include "FrontImpl.h"
+#include "ppc-utilities/Utilities.h"
 
 using namespace ppc;
 using namespace bcos;
 using namespace ppc::protocol;
 using namespace ppc::front;
+
+Front::Front(IFront::Ptr front) : m_front(std::move(front))
+{
+    m_fetcher = std::make_shared<bcos::Timer>(60 * 1000, "metaFetcher");
+    m_fetcher->registerTimeoutHandler([this]() {
+        try
+        {
+            fetchGatewayMetaInfo();
+        }
+        catch (std::exception const& e)
+        {
+            FRONT_LOG(WARNING) << LOG_DESC("fetch the gateway information failed")
+                               << LOG_KV("error", boost::diagnostic_information(e));
+        }
+    });
+}
+
+void Front::start()
+{
+    m_front->start();
+    m_fetcher->start();
+}
+
+void Front::stop()
+{
+    m_fetcher->stop();
+    m_front->stop();
+}
+
+void Front::fetchGatewayMetaInfo()
+{
+    auto self = weak_from_this();
+    m_front->asyncGetAgencies([self](bcos::Error::Ptr error, std::vector<std::string> agencies) {
+        auto front = self.lock();
+        if (!front)
+        {
+            return;
+        }
+        if (error && error->errorCode() != 0)
+        {
+            FRONT_LOG(WARNING) << LOG_DESC("asyncGetAgencies failed")
+                               << LOG_KV("code", error->errorCode())
+                               << LOG_KV("msg", error->errorMessage());
+            return;
+        }
+        bcos::UpgradableGuard l(front->x_agencyList);
+        if (front->m_agencyList == agencies)
+        {
+            return;
+        }
+        front->m_agencyList = agencies;
+        FRONT_LOG(INFO) << LOG_DESC("Update agencies information")
+                        << LOG_KV("agencies", printVector(agencies));
+    });
+    m_fetcher->restart();
+}
+
 /**
  * @brief: send message to other party by gateway
  * @param _agencyID: agency ID of receiver

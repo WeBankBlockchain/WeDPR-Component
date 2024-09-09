@@ -77,6 +77,7 @@ inline std::string_view printP2PIDElegantly(std::string_view p2pId) noexcept
     return p2pId.substr(RSA_PUBLIC_KEY_PREFIX, RSA_PUBLIC_KEY_TRUNC);
 }
 
+
 template <typename T>
 inline std::string printNodeID(T const& nodeID)
 {

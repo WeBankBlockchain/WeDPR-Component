@@ -76,6 +76,8 @@ public:
     }
     std::shared_ptr<ppc::front::IFrontClient> const& getFront() const override { return m_front; }
 
+    void toJson(Json::Value& jsonObject) const override;
+
 private:
     std::shared_ptr<ppc::front::IFrontClient> m_front;
     std::set<std::string> m_components;

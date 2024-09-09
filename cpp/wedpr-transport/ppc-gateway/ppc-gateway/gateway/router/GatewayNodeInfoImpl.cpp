@@ -221,3 +221,19 @@ void GatewayNodeInfoImpl::decode(bcos::bytesConstRef data)
         }
     }
 }
+
+void GatewayNodeInfoImpl::toJson(Json::Value& jsonObject) const
+{
+    jsonObject["gatewayNodeID"] = p2pNodeID();
+    jsonObject["agency"] = agency();
+
+    auto agencyNodeList = nodeList();
+    Json::Value frontList(Json::arrayValue);
+    for (auto const& it : agencyNodeList)
+    {
+        Json::Value nodeInfo;
+        it.second->toJson(nodeInfo);
+        frontList.append(nodeInfo);
+    }
+    jsonObject["frontList"] = frontList;
+}

@@ -19,6 +19,7 @@
  */
 #pragma once
 #include "ppc-framework/protocol/INodeInfo.h"
+#include "ppc-utilities/Utilities.h"
 #include <bcos-utilities/Log.h>
 #include <memory>
 #include <sstream>
@@ -58,6 +59,7 @@ public:
 
     virtual std::map<bcos::bytes, ppc::protocol::INodeInfo::Ptr> nodeList() const = 0;
     virtual uint16_t nodeSize() const = 0;
+    virtual void toJson(Json::Value& jsonObject) const = 0;
 };
 
 class GatewayNodeInfoFactory

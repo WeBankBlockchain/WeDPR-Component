@@ -18,12 +18,13 @@
  * @date 2024-08-23
  */
 #pragma once
-
 #include "ppc-framework/Common.h"
 #include <boost/asio/detail/socket_ops.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <random>
+#include <sstream>
+#include <string>
 
 namespace ppc
 {
@@ -51,5 +52,15 @@ inline std::string generateUUID()
 {
     static thread_local auto uuid_gen = boost::uuids::basic_random_generator<std::random_device>();
     return boost::uuids::to_string(uuid_gen());
+}
+template <typename T>
+inline std::string printVector(std::vector<T> const& list)
+{
+    std::stringstream oss;
+    for (auto const& it : list)
+    {
+        oss << it << ",";
+    }
+    return oss.str();
 }
 }  // namespace ppc

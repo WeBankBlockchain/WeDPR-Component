@@ -73,6 +73,10 @@ public:
 
     virtual std::string const& selfEndPoint() const { return m_selfEndPoint; }
 
+    virtual std::vector<std::string> agencies() const = 0;
+    virtual void start() = 0;
+    virtual void stop() = 0;
+
 protected:
     // the selfEndPoint for the air-mode-node can be localhost
     std::string m_selfEndPoint = "localhost";
