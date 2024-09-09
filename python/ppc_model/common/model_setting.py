@@ -36,7 +36,7 @@ class ModelSetting:
             "iv_thresh", 0.1, model_dict, False))
         self.use_goss = common_func.get_config_value(
             "use_goss", False, model_dict, False)
-        self.test_dataset_percentage = float(common_func.get_config_value(
+        self.test_size = float(common_func.get_config_value(
             "test_dataset_percentage", 0.3, model_dict, False))
         self.learning_rate = float(common_func.get_config_value(
             "learning_rate", 0.1, model_dict, False))

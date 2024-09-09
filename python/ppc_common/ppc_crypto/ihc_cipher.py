@@ -19,6 +19,9 @@ class IhcCiphertext():
         cipher_left = self.c_left + other.c_left
         cipher_right = self.c_right + other.c_right
         return IhcCiphertext(cipher_left, cipher_right)
+    
+    def __mul__(self, num: int):
+        return IhcCiphertext(num * self.c_left, num * self.c_right)
 
     def __eq__(self, other):
         return self.c_left == other.c_left and self.c_right == other.c_right

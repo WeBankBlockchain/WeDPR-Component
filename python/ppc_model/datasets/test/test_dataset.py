@@ -73,7 +73,7 @@ class TestSecureDataset(unittest.TestCase):
             }
         }
         task_info = SecureLGBMContext(args, self.components)
-        print(task_info.lgbm_params.get_all_params())
+        print(task_info.model_params.get_all_params())
 
         # 模拟构造主动方数据集
         dataset_with_y = SecureDataset(task_info, self.df_with_y)
@@ -99,7 +99,7 @@ class TestSecureDataset(unittest.TestCase):
             }
         }
         task_info = SecureLGBMContext(args, self.components)
-        print(task_info.lgbm_params.get_all_params())
+        print(task_info.model_params.get_all_params())
 
         # 模拟构造被动方数据集
         dataset_without_y = SecureDataset(task_info, self.df_without_y)
@@ -128,7 +128,7 @@ class TestSecureDataset(unittest.TestCase):
             }
         }
         task_info = SecureLGBMContext(args, self.components)
-        print(task_info.lgbm_params.get_all_params())
+        print(task_info.model_params.get_all_params())
 
         # 模拟构造主动方数据集
         task_info.eval_column_file = self.eval_column_file
@@ -158,7 +158,7 @@ class TestSecureDataset(unittest.TestCase):
             'model_dict': {}
         }
         task_info = SecureLGBMContext(args, self.components)
-        print(task_info.lgbm_params.get_all_params())
+        print(task_info.model_params.get_all_params())
 
         # 模拟构造主动方数据集
         task_info.model_prepare_file = self.df_with_y_file
@@ -184,7 +184,7 @@ class TestSecureDataset(unittest.TestCase):
             'model_dict': {}
         }
         task_info = SecureLGBMContext(args, self.components)
-        print(task_info.lgbm_params.get_all_params())
+        print(task_info.model_params.get_all_params())
 
         # 模拟构造主动方数据集
         task_info.model_prepare_file = self.df_with_y_file

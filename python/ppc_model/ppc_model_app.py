@@ -1,6 +1,7 @@
 # Note: here can't be refactored by autopep
 from ppc_model.secure_lgbm.secure_lgbm_training_engine import SecureLGBMTrainingEngine
 from ppc_model.secure_lgbm.secure_lgbm_prediction_engine import SecureLGBMPredictionEngine
+from ppc_model.secure_lr.secure_lr_training_engine import SecureLRTrainingEngine
 from ppc_model.preprocessing.preprocessing_engine import PreprocessingEngine
 from ppc_model.network.http.restx import api
 from ppc_model.network.http.model_controller import ns2 as log_namespace
@@ -49,6 +50,8 @@ def register_task_handler():
         ModelTask.XGB_TRAINING, SecureLGBMTrainingEngine.run)
     task_manager.register_task_handler(
         ModelTask.XGB_PREDICTING, SecureLGBMPredictionEngine.run)
+    task_manager.register_task_handler(
+        ModelTask.LR_TRAINING, SecureLRTrainingEngine.run)
 
 
 def model_serve():

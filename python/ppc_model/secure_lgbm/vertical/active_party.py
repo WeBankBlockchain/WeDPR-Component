@@ -27,7 +27,7 @@ class VerticalLGBMActiveParty(VerticalBooster):
 
     def __init__(self, ctx: SecureLGBMContext, dataset: SecureDataset) -> None:
         super().__init__(ctx, dataset)
-        self.params = ctx.lgbm_params
+        self.params = ctx.model_params
         self._loss_func = BinaryLoss(self.params.objective)
         self._all_feature_name = [dataset.feature_name]
         self._all_feature_num = len(dataset.feature_name)

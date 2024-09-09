@@ -33,8 +33,8 @@ class VerticalBooster(VerticalModel):
         self._test_weights = None
         self._test_praba = None
 
-        random.seed(ctx.lgbm_params.random_state)
-        np.random.seed(ctx.lgbm_params.random_state)
+        random.seed(ctx.model_params.random_state)
+        np.random.seed(ctx.model_params.random_state)
 
     def _build_tree(self, *args, **kwargs):
 
@@ -250,9 +250,9 @@ class VerticalBooster(VerticalModel):
                 file_path, self.ctx.MODEL_DATA_FILE)
         if self.ctx.algorithm_type == AlgorithmType.Predict.name:
             self.ctx.remote_feature_bin_file = os.path.join(
-                self.ctx.lgbm_params.training_job_id, self.ctx.FEATURE_BIN_FILE)
+                self.ctx.model_params.training_job_id, self.ctx.FEATURE_BIN_FILE)
             self.ctx.remote_model_data_file = os.path.join(
-                self.ctx.lgbm_params.training_job_id, self.ctx.MODEL_DATA_FILE)
+                self.ctx.model_params.training_job_id, self.ctx.MODEL_DATA_FILE)
 
         ResultFileHandling._download_file(self.ctx.components.storage_client,
                                           self.ctx.feature_bin_file, self.ctx.remote_feature_bin_file)

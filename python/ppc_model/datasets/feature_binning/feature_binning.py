@@ -8,7 +8,7 @@ from ppc_model.common.context import Context
 class FeatureBinning:
     def __init__(self, ctx: Context):
         self.ctx = ctx
-        self.params = ctx.lgbm_params
+        self.params = ctx.model_params
         self.data = None
         self.data_bin = None
         self.data_split = None

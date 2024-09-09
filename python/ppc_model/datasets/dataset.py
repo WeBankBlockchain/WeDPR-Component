@@ -18,11 +18,11 @@ class SecureDataset:
         self.selected_col_file = ctx.selected_col_file
         self.is_label_holder = ctx.is_label_holder
         self.algorithm_type = ctx.algorithm_type
-        self.test_size = ctx.lgbm_params.test_size
-        self.random_state = ctx.lgbm_params.random_state
-        self.eval_set_column = ctx.lgbm_params.eval_set_column
-        self.train_set_value = ctx.lgbm_params.train_set_value
-        self.eval_set_value = ctx.lgbm_params.eval_set_value
+        self.test_size = ctx.model_params.test_size
+        self.random_state = ctx.model_params.random_state
+        self.eval_set_column = ctx.model_params.eval_set_column
+        self.train_set_value = ctx.model_params.train_set_value
+        self.eval_set_value = ctx.model_params.eval_set_value
 
         self.ctx = ctx
         self.train_X = None
@@ -197,7 +197,7 @@ class SecureDataset:
                 and not os.path.exists(self.selected_col_file):
             try:
                 self.ctx.remote_selected_col_file = os.path.join(
-                    self.ctx.lgbm_params.training_job_id, self.ctx.SELECTED_COL_FILE)
+                    self.ctx.model_params.training_job_id, self.ctx.SELECTED_COL_FILE)
                 ResultFileHandling._download_file(self.ctx.components.storage_client,
                                                   self.selected_col_file, self.ctx.remote_selected_col_file)
                 self._dataset_fe_selected(self.selected_col_file, 'id')

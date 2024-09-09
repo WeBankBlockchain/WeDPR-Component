@@ -15,7 +15,7 @@ class VerticalLGBMPassiveParty(VerticalBooster):
 
     def __init__(self, ctx: SecureLGBMContext, dataset: SecureDataset) -> None:
         super().__init__(ctx, dataset)
-        self.params = ctx.lgbm_params
+        self.params = ctx.model_params
         self.log = ctx.components.logger()
         self.log.info(
             f'task {self.ctx.task_id}: print all params: {self.params.get_all_params()}')

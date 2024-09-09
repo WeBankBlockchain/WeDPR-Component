@@ -7,7 +7,7 @@ class Loss:
 
 class BinaryLoss(Loss):
 
-    def __init__(self, objective: str) -> None:
+    def __init__(self, objective: str = None) -> None:
         super().__init__()
         self.objective = objective
 
@@ -30,3 +30,19 @@ class BinaryLoss(Loss):
         epsilon = 1e-15
         y_pred = np.clip(y_pred, epsilon, 1 - epsilon)
         return -np.mean(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
+
+    @staticmethod
+    def dot_product(x, theta):
+        if x.ndim == 1:
+            x.reshape(1, len(x))
+        if theta.ndim == 1:
+            theta.reshape(len(theta), 1)
+        g = np.matmul(x, theta)
+        return g
+
+    @staticmethod
+    def inference(g):
+        # h = np.divide(np.exp(g), np.exp(g) + 1)
+        # 近似
+        h = 0.125 * g
+        return h
