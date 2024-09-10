@@ -265,6 +265,7 @@ inline std::string printMessage(Message::Ptr const& _msg)
     std::ostringstream stringstream;
     stringstream << LOG_KV("from", _msg->header()->srcP2PNodeIDView())
                  << LOG_KV("to", _msg->header()->dstP2PNodeIDView())
+                 << LOG_KV("routeType", (ppc::protocol::RouteType)_msg->header()->routeType())
                  << LOG_KV("ttl", _msg->header()->ttl())
                  << LOG_KV("rsp", _msg->header()->isRespPacket())
                  << LOG_KV("traceID", _msg->header()->traceID())

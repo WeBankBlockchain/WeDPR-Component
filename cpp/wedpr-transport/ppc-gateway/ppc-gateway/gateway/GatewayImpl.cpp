@@ -190,7 +190,7 @@ void GatewayImpl::onReceiveP2PMessage(MessageFace::Ptr msg, WsSession::Ptr sessi
                    "onReceiveP2PMessage failed to find the node that can dispatch this message")
             << LOG_KV("msg", printMessage(p2pMessage));
         callback(std::make_shared<bcos::Error>(CommonError::NotFoundFrontServiceDispatchMsg,
-            "unable to find the ndoe to dispatcher this message, message detail: " +
+            "unable to find the node to dispatcher this message, message detail: " +
                 printMessage(p2pMessage)));
     }
 }

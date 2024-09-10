@@ -40,7 +40,8 @@ Service::Service(std::string const& _nodeID, RouterTableFactory::Ptr const& _rou
     m_routerTable->setNodeID(m_nodeID);
     m_routerTable->setUnreachableDistance(unreachableDistance);
 
-    SERVICE_LOG(INFO) << LOG_DESC("create P2PService") << LOG_KV("module", _moduleName);
+    SERVICE_LOG(INFO) << LOG_DESC("create P2PService") << LOG_KV("module", _moduleName)
+                      << LOG_KV("nodeID", printP2PIDElegantly(m_nodeID));
     WsService::registerConnectHandler(
         boost::bind(&Service::onP2PConnect, this, boost::placeholders::_1));
     WsService::registerDisconnectHandler(
@@ -224,10 +225,12 @@ void Service::asyncSendMessageWithForward(
     auto nextHop = m_routerTable->getNextHop(dstNodeID);
     if (nextHop.empty())
     {
+        SERVICE_LOG(TRACE) << LOG_DESC("asyncSendMessage directly") << printMessage(p2pMsg);
         return asyncSendMessage(dstNodeID, msg, options, respFunc);
     }
     // with nextHop, send the message to nextHop
-    SERVICE_LOG(TRACE) << LOG_DESC("asyncSendMessageWithForward") << printMessage(p2pMsg);
+    SERVICE_LOG(TRACE) << LOG_DESC("asyncSendMessageWithForward to nextHop")
+                       << printMessage(p2pMsg);
     return asyncSendMessage(nextHop, msg, options, respFunc);
 }
 
@@ -346,7 +349,14 @@ void Service::sendRespMessageBySession(bcos::boostssl::ws::WsSession::Ptr const&
             requestMsg->header()->optionalField()->srcNode());
         respMessage->header()->optionalField()->setSrcNode(
             requestMsg->header()->optionalField()->dstNode());
+
+        respMessage->header()->optionalField()->setDstInst(
+            requestMsg->header()->optionalField()->srcInst());
+        respMessage->header()->optionalField()->setSrcInst(
+            requestMsg->header()->optionalField()->dstInst());
     }
+    respMessage->header()->setSrcGwNode(requestMsg->header()->dstGwNode());
+    respMessage->header()->setDstGwNode(requestMsg->header()->srcGwNode());
     respMessage->header()->setTraceID(requestMsg->header()->traceID());
     respMessage->header()->setRespPacket();
     respMessage->header()->setRouteType(ppc::protocol::RouteType::ROUTE_THROUGH_NODEID);
