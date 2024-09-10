@@ -79,6 +79,18 @@ void GatewayRouterManager::stop()
     ROUTER_MGR_LOG(INFO) << LOG_DESC("stop GatewayRouterManager success");
 }
 
+void GatewayRouterManager::removeUnreachableP2pNode(std::string const& p2pNode)
+{
+    ROUTER_MGR_LOG(INFO) << LOG_DESC("removeUnreachableP2pNode")
+                         << LOG_KV("p2pid", printP2PIDElegantly(p2pNode));
+    {
+        // remove statusSeq info
+        WriteGuard l(x_p2pID2Seq);
+        m_p2pID2Seq.erase(p2pNode);
+    }
+    m_peerRouter->removeP2PID(p2pNode);
+}
+
 void GatewayRouterManager::onReceiveNodeSeqMessage(MessageFace::Ptr msg, WsSession::Ptr session)
 {
     auto statusSeq =

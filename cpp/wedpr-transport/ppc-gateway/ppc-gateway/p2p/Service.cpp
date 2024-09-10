@@ -48,7 +48,6 @@ Service::Service(std::string const& _nodeID, RouterTableFactory::Ptr const& _rou
         boost::bind(&Service::onP2PDisconnect, this, boost::placeholders::_1));
 }
 
-
 void Service::onP2PConnect(WsSession::Ptr _session)
 {
     SERVICE_LOG(INFO) << LOG_DESC("Receive new p2p connection")
@@ -88,6 +87,7 @@ void Service::onP2PConnect(WsSession::Ptr _session)
     {
         // the new session
         m_nodeID2Session.insert(std::make_pair(_session->nodeId(), _session));
+        callNewSessionHandlers(_session);
     }
     SERVICE_LOG(INFO) << LOG_DESC("onP2PConnect established new session")
                       << LOG_KV("p2pid", printP2PIDElegantly(_session->nodeId()))
@@ -126,6 +126,7 @@ bool Service::removeSessionInfo(WsSession::Ptr const& _session)
                           << LOG_KV("endpoint", _session->endPoint());
 
         m_nodeID2Session.erase(it);
+        callDeleteSessionHandlers(_session);
         return true;
     }
     return false;

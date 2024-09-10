@@ -165,18 +165,26 @@ void RouterManager::joinRouterTable(
 // called when the nodes become unreachable
 void RouterManager::onP2PNodesUnreachable(std::set<std::string> const& _p2pNodeIDs)
 {
-    std::vector<std::function<void(std::string)>> handlers;
+    try
     {
-        ReadGuard readGuard(x_unreachableHandlers);
-        handlers = m_unreachableHandlers;
-    }
-    // TODO: async here
-    for (auto const& node : _p2pNodeIDs)
-    {
-        for (auto const& it : m_unreachableHandlers)
+        std::vector<std::function<void(std::string)>> handlers;
         {
-            it(node);
+            ReadGuard readGuard(x_unreachableHandlers);
+            handlers = m_unreachableHandlers;
         }
+        // TODO: async here
+        for (auto const& node : _p2pNodeIDs)
+        {
+            for (auto const& it : m_unreachableHandlers)
+            {
+                it(node);
+            }
+        }
+    }
+    catch (std::exception const& e)
+    {
+        SERVICE_ROUTER_LOG(WARNING) << LOG_DESC("onP2PNodesUnreachable exception")
+                                    << LOG_KV("error", boost::diagnostic_information(e));
     }
 }
 
@@ -191,4 +199,51 @@ void RouterManager::broadcastRouterSeq()
     message->setPayload(std::make_shared<bytes>((byte*)&statusSeq, (byte*)&statusSeq + 4));
     // the router table should only exchange between neighbor
     m_service->broadcastMessage(message);
+}
+
+std::set<std::string> RouterManager::onEraseSession(std::string const& sessionNodeID)
+{
+    eraseSeq(sessionNodeID);
+    std::set<std::string> unreachableNodes;
+    if (m_service->routerTable()->erase(unreachableNodes, sessionNodeID))
+    {
+        m_statusSeq++;
+        broadcastRouterSeq();
+    }
+    onP2PNodesUnreachable(unreachableNodes);
+    SERVICE_ROUTER_LOG(INFO) << LOG_DESC("onEraseSession")
+                             << LOG_KV("dst", printP2PIDElegantly(sessionNodeID));
+    return unreachableNodes;
+}
+
+bool RouterManager::eraseSeq(std::string const& _p2pNodeID)
+{
+    UpgradableGuard l(x_node2Seq);
+    if (!m_node2Seq.count(_p2pNodeID))
+    {
+        return false;
+    }
+    UpgradeGuard ul(l);
+    m_node2Seq.erase(_p2pNodeID);
+    return true;
+}
+
+std::set<std::string> RouterManager::onNewSession(std::string const& sessionNodeID)
+{
+    std::set<std::string> unreachableNodes;
+    auto entry = m_service->routerTableFactory()->createRouterEntry();
+    entry->setDstNode(sessionNodeID);
+    entry->setDistance(0);
+    if (!m_service->routerTable()->update(unreachableNodes, m_service->nodeID(), entry))
+    {
+        SERVICE_ROUTER_LOG(INFO) << LOG_DESC("onNewSession: RouterTable not changed")
+                                 << LOG_KV("dst", printP2PIDElegantly(sessionNodeID));
+        return unreachableNodes;
+    }
+    m_statusSeq++;
+    broadcastRouterSeq();
+    SERVICE_ROUTER_LOG(INFO) << LOG_DESC("onNewSession: update routerTable")
+                             << LOG_KV("dst", printP2PIDElegantly(sessionNodeID));
+    onP2PNodesUnreachable(unreachableNodes);
+    return unreachableNodes;
 }

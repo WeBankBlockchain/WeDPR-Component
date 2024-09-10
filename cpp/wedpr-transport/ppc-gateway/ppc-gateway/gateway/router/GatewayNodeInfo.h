@@ -71,6 +71,7 @@ public:
     virtual ~GatewayNodeInfoFactory() = default;
 
     virtual GatewayNodeInfo::Ptr build() const = 0;
+    virtual GatewayNodeInfo::Ptr build(std::string const& p2pNode) const = 0;
 };
 struct GatewayNodeInfoCmp
 {

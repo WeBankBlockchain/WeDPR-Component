@@ -48,6 +48,7 @@ bool GrpcClient::checkHealth()
 {
     try
     {
+        HEALTH_LOG(TRACE) << LOG_DESC("checkHealth");
         ClientContext context;
         HealthCheckResponse response;
         auto status =

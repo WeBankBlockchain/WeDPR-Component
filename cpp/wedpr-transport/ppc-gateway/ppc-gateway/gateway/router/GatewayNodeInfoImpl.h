@@ -30,10 +30,13 @@ class GatewayNodeInfoImpl : public GatewayNodeInfo
 public:
     using Ptr = std::shared_ptr<GatewayNodeInfoImpl>;
     GatewayNodeInfoImpl() : m_rawGatewayInfo(std::make_shared<ppc::proto::GatewayNodeInfo>()) {}
-    GatewayNodeInfoImpl(std::string const& p2pNodeID, std::string const& agency)
-      : GatewayNodeInfoImpl()
+    GatewayNodeInfoImpl(std::string const& p2pNodeID) : GatewayNodeInfoImpl()
     {
         m_rawGatewayInfo->set_p2pnodeid(p2pNodeID);
+    }
+    GatewayNodeInfoImpl(std::string const& p2pNodeID, std::string const& agency)
+      : GatewayNodeInfoImpl(p2pNodeID)
+    {
         m_rawGatewayInfo->set_agency(agency);
     }
 
@@ -119,6 +122,11 @@ public:
     GatewayNodeInfo::Ptr build() const override
     {
         return std::make_shared<GatewayNodeInfoImpl>(m_p2pNodeID, m_agency);
+    }
+
+    GatewayNodeInfo::Ptr build(std::string const& p2pNode) const override
+    {
+        return std::make_shared<GatewayNodeInfoImpl>(p2pNode);
     }
 
 private:

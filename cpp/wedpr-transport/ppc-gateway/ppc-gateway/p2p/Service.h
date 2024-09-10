@@ -70,6 +70,17 @@ public:
         }
     }
 
+    // handlers called when new-session
+    void registerOnNewSession(std::function<void(bcos::boostssl::ws::WsSession::Ptr)> _handler)
+    {
+        m_newSessionHandlers.emplace_back(_handler);
+    }
+    // handlers called when delete-session
+    void registerOnDeleteSession(std::function<void(bcos::boostssl::ws::WsSession::Ptr)> _handler)
+    {
+        m_deleteSessionHandlers.emplace_back(_handler);
+    }
+
 protected:
     void onRecvMessage(bcos::boostssl::MessageFace::Ptr _msg,
         bcos::boostssl::ws::WsSession::Ptr _session) override;
@@ -93,6 +104,37 @@ protected:
         bcos::boostssl::MessageFace::Ptr msg, bcos::boostssl::ws::Options options,
         bcos::boostssl::ws::RespCallBack respFunc);
 
+    virtual void callNewSessionHandlers(bcos::boostssl::ws::WsSession::Ptr _session)
+    {
+        try
+        {
+            for (auto const& handler : m_newSessionHandlers)
+            {
+                handler(_session);
+            }
+        }
+        catch (std::exception const& e)
+        {
+            SERVICE_LOG(WARNING) << LOG_DESC("callNewSessionHandlers exception")
+                                 << LOG_KV("error", boost::diagnostic_information(e));
+        }
+    }
+    virtual void callDeleteSessionHandlers(bcos::boostssl::ws::WsSession::Ptr _session)
+    {
+        try
+        {
+            for (auto const& handler : m_deleteSessionHandlers)
+            {
+                handler(_session);
+            }
+        }
+        catch (std::exception const& e)
+        {
+            SERVICE_LOG(WARNING) << LOG_DESC("callDeleteSessionHandlers exception")
+                                 << LOG_KV("error", boost::diagnostic_information(e));
+        }
+    }
+
 protected:
     std::string m_nodeID;
     // nodeID=>session
@@ -105,5 +147,10 @@ protected:
     // configuredNode=>nodeID
     std::map<bcos::boostssl::NodeIPEndpoint, std::string> m_configuredNode2ID;
     mutable bcos::SharedMutex x_configuredNode2ID;
+
+    // handlers called when new-session
+    std::vector<std::function<void(bcos::boostssl::ws::WsSession::Ptr)>> m_newSessionHandlers;
+    // handlers called when delete-session
+    std::vector<std::function<void(bcos::boostssl::ws::WsSession::Ptr)>> m_deleteSessionHandlers;
 };
 }  // namespace ppc::gateway

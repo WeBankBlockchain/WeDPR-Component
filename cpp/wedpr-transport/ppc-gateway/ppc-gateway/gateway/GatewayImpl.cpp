@@ -42,7 +42,7 @@ GatewayImpl::GatewayImpl(Service::Ptr const& service,
     m_gatewayInfoFactory(std::make_shared<GatewayNodeInfoFactoryImpl>(service->nodeID(), agency)),
     m_localRouter(std::make_shared<LocalRouter>(
         m_gatewayInfoFactory, m_frontBuilder, std::make_shared<MessageCache>(ioService))),
-    m_peerRouter(std::make_shared<PeerRouterTable>(m_service))
+    m_peerRouter(std::make_shared<PeerRouterTable>(m_service, m_gatewayInfoFactory))
 {
     m_service->registerMsgHandler((uint16_t)GatewayPacketType::P2PMessage,
         boost::bind(&GatewayImpl::onReceiveP2PMessage, this, boost::placeholders::_1,
@@ -53,6 +53,34 @@ GatewayImpl::GatewayImpl(Service::Ptr const& service,
             boost::placeholders::_2));
     m_gatewayRouterManager = std::make_shared<GatewayRouterManager>(
         m_service, m_gatewayInfoFactory, m_localRouter, m_peerRouter);
+
+    m_service->registerOnNewSession([this](WsSession::Ptr _session) {
+        if (!_session)
+        {
+            return;
+        }
+        m_p2pRouterManager->onNewSession(_session->nodeId());
+    });
+
+    m_service->registerOnDeleteSession([this](WsSession::Ptr _session) {
+        if (!_session)
+        {
+            return;
+        }
+        m_p2pRouterManager->onEraseSession(_session->nodeId());
+    });
+
+    m_p2pRouterManager->registerUnreachableHandler([this](std::string const& unreachableNode) {
+        m_gatewayRouterManager->removeUnreachableP2pNode(unreachableNode);
+    });
+
+    m_service->registerDisconnectHandler([this](WsSession::Ptr _session) {
+        if (!_session)
+        {
+            return;
+        }
+        m_gatewayRouterManager->removeUnreachableP2pNode(_session->nodeId());
+    });
 }
 
 void GatewayImpl::start()
