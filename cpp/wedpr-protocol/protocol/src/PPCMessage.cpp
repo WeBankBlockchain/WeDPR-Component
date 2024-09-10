@@ -162,6 +162,7 @@ PPCMessageFace::Ptr PPCMessageFactory::decodePPCMessage(Message::Ptr msg)
         auto const& routeInfo = msg->header()->optionalField();
         ppcMsg->setTaskID(routeInfo->topic());
         ppcMsg->setSender(routeInfo->srcInst());
+        ppcMsg->setSenderNode(routeInfo->srcNode());
     }
     return ppcMsg;
 }

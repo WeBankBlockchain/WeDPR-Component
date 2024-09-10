@@ -61,7 +61,7 @@ public:
     std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouterByAgency(
         bool selectAll) const override;
     std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouterByTopic(
-        bool selectAll, std::string const& topic) const override;
+        bool selectAll, bcos::bytes const& fromNode, std::string const& topic) const override;
 
     void registerTopic(bcos::bytes const& nodeID, std::string const& topic) override;
     void unRegisterTopic(bcos::bytes const& nodeID, std::string const& topic) override;

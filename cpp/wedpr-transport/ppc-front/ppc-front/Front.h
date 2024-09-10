@@ -48,9 +48,8 @@ public:
         uint32_t _timeout, ErrorCallbackFunc _callback, CallbackFunc _respCallback) override;
 
     // send response when receiving message from given agencyID
-    void asyncSendResponse(const std::string& _agencyID, std::string const& _uuid,
-        front::PPCMessageFace::Ptr _message, ErrorCallbackFunc _callback) override;
-
+    void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
+        front::PPCMessageFace::Ptr message, ErrorCallbackFunc _callback) override;
     /**
      * @brief notice task info to gateway
      * @param _taskInfo the latest task information

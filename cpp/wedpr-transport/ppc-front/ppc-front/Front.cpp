@@ -138,9 +138,13 @@ void Front::asyncSendMessage(const std::string& _agencyID, front::PPCMessageFace
 }
 
 // send response when receiving message from given agencyID
-void Front::asyncSendResponse(const std::string& _agencyID, std::string const& _uuid,
-    front::PPCMessageFace::Ptr _message, ErrorCallbackFunc _callback)
-{}
+void Front::asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
+    PPCMessageFace::Ptr message, ErrorCallbackFunc _callback)
+{
+    bcos::bytes data;
+    message->encode(data);
+    m_front->asyncSendResponse(dstNode, traceID, std::move(data), 0, _callback);
+}
 
 /**
  * @brief notice task info to gateway

@@ -37,7 +37,7 @@ FrontImpl::FrontImpl(std::shared_ptr<bcos::ThreadPool> threadPool,
     m_gatewayClient(gateway)
 {
     m_nodeID = m_nodeInfo->nodeID().toBytes();
-    m_callbackManager = std::make_shared<CallbackManager>(m_threadPool, ioService);
+    m_callbackManager = std::make_shared<CallbackManager>(m_threadPool, m_ioService);
 }
 
 /**
@@ -104,6 +104,23 @@ void FrontImpl::stop()
             m_thread->detach();
         }
     }
+}
+
+void FrontImpl::asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
+    bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback)
+{
+    // generate the frontMessage
+    auto frontMessage = m_messageFactory->build();
+    frontMessage->setTraceID(traceID);
+    frontMessage->setSeq(seq);
+    frontMessage->setData(std::move(payload));
+
+    auto routeInfo = m_routerInfoBuilder->build();
+    routeInfo->setSrcNode(m_nodeID);
+    routeInfo->setDstNode(dstNode);
+
+    asyncSendMessageToGateway(true, std::move(frontMessage), RouteType::ROUTE_THROUGH_NODEID,
+        traceID, routeInfo, -1, errorCallback);
 }
 
 /**

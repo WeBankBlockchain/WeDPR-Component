@@ -167,6 +167,9 @@ public:
         return m_messageFactory;
     }
 
+    void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
+        bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback) override;
+
 private:
     void asyncSendMessageToGateway(bool responsePacket,
         ppc::protocol::MessagePayload::Ptr&& frontMessage, ppc::protocol::RouteType routeType,

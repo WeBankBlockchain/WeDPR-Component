@@ -103,7 +103,8 @@ std::vector<ppc::front::IFrontClient::Ptr> LocalRouter::chooseReceiver(
     ppc::protocol::Message::Ptr const& msg)
 {
     std::vector<ppc::front::IFrontClient::Ptr> receivers;
-    if (msg->header()->optionalField()->dstInst() != m_routerInfo->agency())
+    auto const& dstInst = msg->header()->optionalField()->dstInst();
+    if (!dstInst.empty() && dstInst != m_routerInfo->agency())
     {
         return receivers;
     }
@@ -123,17 +124,20 @@ std::vector<ppc::front::IFrontClient::Ptr> LocalRouter::chooseReceiver(
     }
     case (uint16_t)RouteType::ROUTE_THROUGH_COMPONENT:
     {
+        // Note: should check the dstInst when route-by-component
         return m_routerInfo->chooseRouteByComponent(
             selectAll, msg->header()->optionalField()->componentType());
     }
     case (uint16_t)RouteType::ROUTE_THROUGH_AGENCY:
     {
+        // Note: should check the dstInst when route-by-agency
         return m_routerInfo->chooseRouterByAgency(selectAll);
     }
     case (uint16_t)RouteType::ROUTE_THROUGH_TOPIC:
     {
-        return m_routerInfo->chooseRouterByTopic(
-            selectAll, msg->header()->optionalField()->topic());
+        // Note: should ignore the srcNode when route-by-topic
+        return m_routerInfo->chooseRouterByTopic(selectAll,
+            msg->header()->optionalField()->srcNode(), msg->header()->optionalField()->topic());
     }
     default:
         BOOST_THROW_EXCEPTION(WeDPRException() << errinfo_comment(

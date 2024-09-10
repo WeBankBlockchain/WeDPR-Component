@@ -93,6 +93,9 @@ public:
         long timeout, ppc::protocol::ReceiveMsgFunc errorCallback,
         ppc::protocol::MessageCallback callback) = 0;
 
+    virtual void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
+        bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback) = 0;
+
     // the sync interface for async_send_message
     virtual bcos::Error::Ptr push(ppc::protocol::RouteType routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,

@@ -184,7 +184,7 @@ public:
     bcos::Error::Ptr eraseTaskInfo(std::string const&) override { return nullptr; }
 
     // send response when receiving message from given agencyID
-    void asyncSendResponse(const std::string& _agencyID, std::string const& _uuid,
+    void asyncSendResponse(bcos::bytes const& peer, std::string const& _uuid,
         front::PPCMessageFace::Ptr _message, ErrorCallbackFunc _callback) override
     {
         if (m_uuidToCallback.count(_uuid))
@@ -193,7 +193,7 @@ public:
             removeCallback(_uuid);
             if (callback)
             {
-                callback(nullptr, _agencyID, _message, nullptr);
+                callback(nullptr, std::string(peer.begin(), peer.end()), _message, nullptr);
             }
         }
     }

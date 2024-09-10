@@ -57,7 +57,8 @@ public:
 
     virtual bool equal(INodeInfo::Ptr const& info)
     {
-        return (nodeID() == info->nodeID()) && (components() == info->components());
+        return (nodeID().toBytes() == info->nodeID().toBytes()) &&
+               (components() == info->components());
     }
 
     virtual void toJson(Json::Value& jsonObject) const = 0;

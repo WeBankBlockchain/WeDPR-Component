@@ -50,7 +50,7 @@ public:
     virtual std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouterByAgency(
         bool selectAll) const = 0;
     virtual std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouterByTopic(
-        bool selectAll, std::string const& topic) const = 0;
+        bool selectAll, bcos::bytes const& fromNode, std::string const& topic) const = 0;
 
     virtual void encode(bcos::bytes& data) const = 0;
     virtual void decode(bcos::bytesConstRef data) = 0;

@@ -57,8 +57,8 @@ public:
         uint32_t _timeout, ErrorCallbackFunc _callback, CallbackFunc _respCallback) = 0;
 
     // send response when receiving message from given agencyID
-    virtual void asyncSendResponse(const std::string& _agencyID, std::string const& _uuid,
-        front::PPCMessageFace::Ptr _message, ErrorCallbackFunc _callback) = 0;
+    virtual void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
+        front::PPCMessageFace::Ptr message, ErrorCallbackFunc _callback) = 0;
 
     virtual void registerMessageHandler(uint8_t _taskType, uint8_t _algorithmType,
         std::function<void(front::PPCMessageFace::Ptr)> _handler) = 0;
