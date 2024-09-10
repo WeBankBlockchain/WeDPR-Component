@@ -29,13 +29,14 @@ using namespace grpc;
 ServerUnaryReactor* FrontServer::onReceiveMessage(
     CallbackServerContext* context, const ReceivedMessage* receivedMsg, ppc::proto::Error* reply)
 {
-    std::shared_ptr<ServerUnaryReactor> reactor(context->DefaultReactor());
+    ServerUnaryReactor* reactor(context->DefaultReactor());
     try
     {
         // decode the request
         auto msg = m_msgBuilder->build(bcos::bytesConstRef(
             (bcos::byte*)receivedMsg->data().data(), receivedMsg->data().size()));
         m_front->onReceiveMessage(msg, [reactor, reply](bcos::Error::Ptr error) {
+            FRONT_SERVER_LOG(TRACE) << LOG_DESC("onReceiveMessage");
             toSerializedError(reply, error);
             reactor->Finish(Status::OK);
         });
@@ -48,5 +49,5 @@ ServerUnaryReactor* FrontServer::onReceiveMessage(
             std::make_shared<bcos::Error>(-1, std::string(boost::diagnostic_information(e))));
         reactor->Finish(Status::OK);
     }
-    return reactor.get();
+    return reactor;
 }

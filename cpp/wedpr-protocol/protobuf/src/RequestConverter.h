@@ -39,12 +39,13 @@ inline MessageOptionalHeader::Ptr generateRouteInfo(
     routeInfo->setDstNode(
         bcos::bytes(serializedRouteInfo.dstnode().begin(), serializedRouteInfo.dstnode().end()));
     routeInfo->setDstInst(serializedRouteInfo.dstinst());
+    routeInfo->setTopic(serializedRouteInfo.topic());
     return routeInfo;
 }
 
-inline std::shared_ptr<ppc::proto::SendedMessageRequest> generateRequest(std::string const& traceID, 
-    RouteType routeType,
-    MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, long timeout)
+inline std::shared_ptr<ppc::proto::SendedMessageRequest> generateRequest(std::string const& traceID,
+    RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload,
+    long timeout)
 {
     auto request = std::make_shared<ppc::proto::SendedMessageRequest>();
     request->set_traceid(traceID);
@@ -106,7 +107,7 @@ inline INodeInfo::Ptr toNodeInfo(
     return nodeInfo;
 }
 
-inline bcos::Error::Ptr toError(grpc::Status const& status, ppc::proto::Error&& error)
+inline bcos::Error::Ptr toError(grpc::Status const& status, ppc::proto::Error const& error)
 {
     if (!status.ok())
     {

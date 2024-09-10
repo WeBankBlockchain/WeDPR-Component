@@ -26,7 +26,7 @@ using namespace grpc;
 ServerUnaryReactor* GatewayServer::asyncSendMessage(CallbackServerContext* context,
     const ppc::proto::SendedMessageRequest* sendedMsg, ppc::proto::Error* reply)
 {
-    std::shared_ptr<ServerUnaryReactor> reactor(context->DefaultReactor());
+    ServerUnaryReactor* reactor(context->DefaultReactor());
     try
     {
         // TODO: optimize here
@@ -48,13 +48,13 @@ ServerUnaryReactor* GatewayServer::asyncSendMessage(CallbackServerContext* conte
                 "handle message failed for : " + std::string(boost::diagnostic_information(e))));
         reactor->Finish(Status::OK);
     }
-    return reactor.get();
+    return reactor;
 }
 
 grpc::ServerUnaryReactor* GatewayServer::asyncGetPeers(
     grpc::CallbackServerContext* context, const ppc::proto::Empty*, ppc::proto::PeersInfo* reply)
 {
-    std::shared_ptr<ServerUnaryReactor> reactor(context->DefaultReactor());
+    ServerUnaryReactor* reactor(context->DefaultReactor());
     try
     {
         m_gateway->asyncGetPeers([reactor, reply](bcos::Error::Ptr error, std::string peersInfo) {
@@ -72,17 +72,17 @@ grpc::ServerUnaryReactor* GatewayServer::asyncGetPeers(
                 -1, "asyncGetPeers failed for : " + std::string(boost::diagnostic_information(e))));
         reactor->Finish(Status::OK);
     }
-    return reactor.get();
+    return reactor;
 }
 
 grpc::ServerUnaryReactor* GatewayServer::asyncGetAgencies(
     grpc::CallbackServerContext* context, const ppc::proto::Empty*, ppc::proto::AgenciesInfo* reply)
 {
-    std::shared_ptr<ServerUnaryReactor> reactor(context->DefaultReactor());
+    ServerUnaryReactor* reactor(context->DefaultReactor());
     try
     {
         m_gateway->asyncGetAgencies(
-            [reactor, reply](bcos::Error::Ptr error, std::vector<std::string> agencies) {
+            [reactor, reply](bcos::Error::Ptr error, std::set<std::string> agencies) {
                 toSerializedError(reply->mutable_error(), error);
                 for (auto const& it : agencies)
                 {
@@ -100,14 +100,14 @@ grpc::ServerUnaryReactor* GatewayServer::asyncGetAgencies(
                 "asyncGetAgencies failed for : " + std::string(boost::diagnostic_information(e))));
         reactor->Finish(Status::OK);
     }
-    return reactor.get();
+    return reactor;
 }
 
 
 ServerUnaryReactor* GatewayServer::registerNodeInfo(CallbackServerContext* context,
     const ppc::proto::NodeInfo* serializedNodeInfo, ppc::proto::Error* reply)
 {
-    std::shared_ptr<ServerUnaryReactor> reactor(context->DefaultReactor());
+    ServerUnaryReactor* reactor(context->DefaultReactor());
     try
     {
         auto nodeInfo = toNodeInfo(m_nodeInfoFactory, *serializedNodeInfo);
@@ -124,13 +124,13 @@ ServerUnaryReactor* GatewayServer::registerNodeInfo(CallbackServerContext* conte
                 "registerNodeInfo failed for : " + std::string(boost::diagnostic_information(e))));
         reactor->Finish(Status::OK);
     }
-    return reactor.get();
+    return reactor;
 }
 
 ServerUnaryReactor* GatewayServer::unRegisterNodeInfo(
     CallbackServerContext* context, const ppc::proto::NodeInfo* nodeInfo, ppc::proto::Error* reply)
 {
-    std::shared_ptr<ServerUnaryReactor> reactor(context->DefaultReactor());
+    ServerUnaryReactor* reactor(context->DefaultReactor());
     try
     {
         auto result = m_gateway->unRegisterNodeInfo(
@@ -147,13 +147,13 @@ ServerUnaryReactor* GatewayServer::unRegisterNodeInfo(
                                                   std::string(boost::diagnostic_information(e))));
         reactor->Finish(Status::OK);
     }
-    return reactor.get();
+    return reactor;
 }
 
 ServerUnaryReactor* GatewayServer::registerTopic(
     CallbackServerContext* context, const ppc::proto::NodeInfo* nodeInfo, ppc::proto::Error* reply)
 {
-    std::shared_ptr<ServerUnaryReactor> reactor(context->DefaultReactor());
+    ServerUnaryReactor* reactor(context->DefaultReactor());
     try
     {
         auto result = m_gateway->registerTopic(
@@ -171,13 +171,13 @@ ServerUnaryReactor* GatewayServer::registerTopic(
                 -1, "registerTopic failed for : " + std::string(boost::diagnostic_information(e))));
         reactor->Finish(Status::OK);
     }
-    return reactor.get();
+    return reactor;
 }
 
 ServerUnaryReactor* GatewayServer::unRegisterTopic(
     CallbackServerContext* context, const ppc::proto::NodeInfo* nodeInfo, ppc::proto::Error* reply)
 {
-    std::shared_ptr<ServerUnaryReactor> reactor(context->DefaultReactor());
+    ServerUnaryReactor* reactor(context->DefaultReactor());
     try
     {
         auto result = m_gateway->unRegisterTopic(
@@ -195,5 +195,5 @@ ServerUnaryReactor* GatewayServer::unRegisterTopic(
                 "unRegisterTopic failed for : " + std::string(boost::diagnostic_information(e))));
         reactor->Finish(Status::OK);
     }
-    return reactor.get();
+    return reactor;
 }

@@ -40,7 +40,7 @@ public:
 
     virtual void asyncBroadcastMessage(ppc::protocol::Message::Ptr const& msg) const;
 
-    std::vector<std::string> agencies() const;
+    std::set<std::string> agencies() const;
 
     std::map<std::string, GatewayNodeInfos> gatewayInfos() const
     {

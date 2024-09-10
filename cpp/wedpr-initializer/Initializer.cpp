@@ -413,6 +413,10 @@ void Initializer::registerRpcHandler(ppc::rpc::RpcInterface::Ptr const& _rpc)
 
 void Initializer::start()
 {
+    if (m_transport)
+    {
+        m_transport->start();
+    }
     if (m_ppcFront)
     {
         m_ppcFront->start();
@@ -455,6 +459,10 @@ void Initializer::start()
 
 void Initializer::stop()
 {
+    if (m_transport)
+    {
+        m_transport->stop();
+    }
     // stop the network firstly
     if (m_ppcFront)
     {

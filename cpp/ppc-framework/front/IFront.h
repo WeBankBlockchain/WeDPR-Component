@@ -105,7 +105,7 @@ public:
     virtual ppc::protocol::Message::Ptr peek(std::string const& topic) = 0;
 
     virtual void asyncGetAgencies(
-        std::function<void(bcos::Error::Ptr, std::vector<std::string>)> callback) = 0;
+        std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) = 0;
 
     /**
      * @brief register the nodeInfo to the gateway

@@ -18,6 +18,7 @@
  * @date 2024-09-02
  */
 #include "FrontClient.h"
+#include "Common.h"
 #include "protobuf/src/RequestConverter.h"
 #include "wedpr-protocol/protobuf/src/Common.h"
 
@@ -33,8 +34,8 @@ void FrontClient::onReceiveMessage(ppc::protocol::Message::Ptr const& msg, Recei
     msg->encode(encodedData);
     receivedMsg.set_data(encodedData.data(), encodedData.size());
 
-    ClientContext context;
+    auto context = std::make_shared<ClientContext>();
     auto response = std::make_shared<Error>();
-    m_stub->async()->onReceiveMessage(&context, &receivedMsg, response.get(),
-        [response, callback](Status status) { callback(toError(status, std::move(*response))); });
+    m_stub->async()->onReceiveMessage(context.get(), &receivedMsg, response.get(),
+        [response, callback](Status status) { callback(toError(status, *response)); });
 }

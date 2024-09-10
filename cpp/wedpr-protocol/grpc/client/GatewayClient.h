@@ -57,7 +57,7 @@ public:
 
     void asyncGetPeers(std::function<void(bcos::Error::Ptr, std::string)> callback) override;
     void asyncGetAgencies(
-        std::function<void(bcos::Error::Ptr, std::vector<std::string>)> callback) override;
+        std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) override;
 
     void asyncSendbroadcastMessage(ppc::protocol::RouteType routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID,

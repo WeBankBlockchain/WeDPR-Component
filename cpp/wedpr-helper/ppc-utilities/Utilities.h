@@ -65,7 +65,7 @@ inline std::string generateUUID()
     return boost::uuids::to_string(uuid_gen());
 }
 template <typename T>
-inline std::string printVector(std::vector<T> const& list)
+inline std::string printVector(T const& list)
 {
     std::stringstream oss;
     for (auto const& it : list)

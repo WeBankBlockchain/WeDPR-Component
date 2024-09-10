@@ -69,7 +69,7 @@ public:
 
     void asyncGetPeers(std::function<void(bcos::Error::Ptr, std::string)> callback) override;
     void asyncGetAgencies(
-        std::function<void(bcos::Error::Ptr, std::vector<std::string>)> callback) override;
+        std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) override;
 
 protected:
     virtual void onReceiveP2PMessage(

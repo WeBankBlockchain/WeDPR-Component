@@ -129,7 +129,8 @@ void PPCConfig::loadFrontConfig(bool requireTransport,
     }
     m_frontConfig->setNodeID(nodeID);
     m_frontConfig->setThreadPoolSize(threadCount);
-
+    PPCConfig_LOG(INFO) << LOG_DESC("loadFrontConfig and not require the transport")
+                        << printFrontDesc(m_frontConfig);
     if (!requireTransport)
     {
         return;
@@ -143,9 +144,12 @@ void PPCConfig::loadFrontConfig(bool requireTransport,
         BOOST_THROW_EXCEPTION(
             InvalidConfig() << errinfo_comment("Must specify the transport.gateway_target!"));
     }
+    m_frontConfig->setGatewayGrpcTarget(gatewayTargets);
     // the components
     auto components = pt.get<std::string>("transport.components", "");
     boost::split(m_frontConfig->mutableComponents(), components, boost::is_any_of(","));
+
+    PPCConfig_LOG(INFO) << LOG_DESC("loadFrontConfig") << printFrontDesc(m_frontConfig);
 }
 
 void PPCConfig::setPrivateKey(bcos::bytes const& _privateKey)

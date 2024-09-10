@@ -68,13 +68,13 @@ void PeerRouterTable::updateGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo)
     m_agency2GatewayInfos[gatewayInfo->agency()].insert(gatewayInfo);
 }
 
-std::vector<std::string> PeerRouterTable::agencies() const
+std::set<std::string> PeerRouterTable::agencies() const
 {
-    std::vector<std::string> agencies;
+    std::set<std::string> agencies;
     bcos::ReadGuard l(x_mutex);
     for (auto const& it : m_agency2GatewayInfos)
     {
-        agencies.emplace_back(it.first);
+        agencies.insert(it.first);
     }
     return agencies;
 }

@@ -223,6 +223,8 @@ void FrontImpl::asyncSendMessageToGateway(bool responsePacket, MessagePayload::P
     routeInfo->setSrcNode(m_nodeID);
     auto payload = std::make_shared<bcos::bytes>();
     frontMessage->encode(*payload);
+    FRONT_LOG(TRACE) << LOG_DESC("asyncSendMessageToGateway") << LOG_KV("traceID", traceID)
+                     << LOG_KV("route", printOptionalField(routeInfo));
     m_gatewayClient->asyncSendMessage(
         routeType, routeInfo, traceID, std::move(*payload), timeout, callback);
 }

@@ -58,7 +58,7 @@ void Front::stop()
 void Front::fetchGatewayMetaInfo()
 {
     auto self = weak_from_this();
-    m_front->asyncGetAgencies([self](bcos::Error::Ptr error, std::vector<std::string> agencies) {
+    m_front->asyncGetAgencies([self](bcos::Error::Ptr error, std::set<std::string> agencies) {
         auto front = self.lock();
         if (!front)
         {
@@ -71,15 +71,16 @@ void Front::fetchGatewayMetaInfo()
                                << LOG_KV("msg", error->errorMessage());
             return;
         }
+        std::vector agencyList(agencies.begin(), agencies.end());
         bcos::UpgradableGuard l(front->x_agencyList);
-        if (front->m_agencyList == agencies)
+        if (front->m_agencyList == agencyList)
         {
             return;
         }
         bcos::UpgradeGuard ul(l);
-        front->m_agencyList = agencies;
+        front->m_agencyList = agencyList;
         FRONT_LOG(INFO) << LOG_DESC("Update agencies information")
-                        << LOG_KV("agencies", printVector(agencies));
+                        << LOG_KV("agencies", printVector(agencyList));
     });
     m_fetcher->restart();
 }

@@ -60,9 +60,13 @@ public:
 
     bool enableHealthCheck() const { return m_enableHealthCheck; }
     void setEnableHealthCheck(bool enableHealthCheck) { m_enableHealthCheck = enableHealthCheck; }
+    void setEnableDnslookup(bool enableDnslookup) { m_enableDnslookup = enableDnslookup; }
+
+    bool enableDnslookup() const { return m_enableDnslookup; }
 
 protected:
     bool m_enableHealthCheck = false;
     std::string m_loadBalancePolicy = "round_robin";
+    bool m_enableDnslookup = false;
 };
 }  // namespace ppc::protocol

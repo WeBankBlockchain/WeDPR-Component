@@ -31,12 +31,22 @@ inline grpc::ChannelArguments toChannelConfig(ppc::protocol::GrpcConfig::Ptr con
     {
         return args;
     }
-    args.SetLoadBalancingPolicyName(grpcConfig->loadBalancePolicy());
+    // TODO: when enable round_robin load-balance policy, the program will be exited on dns resolver
+    // args.SetLoadBalancingPolicyName(grpcConfig->loadBalancePolicy());
     if (grpcConfig->enableHealthCheck())
     {
         args.SetServiceConfigJSON(
             "{\"healthCheckConfig\": "
             "{\"serviceName\": \"\"}}");
+    }
+    // disable dns lookup
+    if (!grpcConfig->enableDnslookup())
+    {
+        args.SetInt("grpc.enable_dns_srv_lookup", 0);
+    }
+    else
+    {
+        args.SetInt("grpc.enable_dns_srv_lookup", 1);
     }
     return args;
 }

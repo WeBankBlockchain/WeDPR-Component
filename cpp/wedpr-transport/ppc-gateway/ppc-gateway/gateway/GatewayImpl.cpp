@@ -287,14 +287,13 @@ void GatewayImpl::asyncGetPeers(std::function<void(Error::Ptr, std::string)> cal
     }
 }
 
-void GatewayImpl::asyncGetAgencies(
-    std::function<void(Error::Ptr, std::vector<std::string>)> callback)
+void GatewayImpl::asyncGetAgencies(std::function<void(Error::Ptr, std::set<std::string>)> callback)
 {
     if (!callback)
     {
         return;
     }
     auto agencies = m_peerRouter->agencies();
-    agencies.emplace_back(m_agency);
+    agencies.insert(m_agency);
     callback(nullptr, agencies);
 }

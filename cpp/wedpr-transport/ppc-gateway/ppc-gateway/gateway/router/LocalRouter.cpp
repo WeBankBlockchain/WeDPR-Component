@@ -30,12 +30,14 @@ bool LocalRouter::registerNodeInfo(ppc::protocol::INodeInfo::Ptr nodeInfo,
     std::function<void()> onUnHealthHandler, bool removeHandlerOnUnhealth)
 {
     LOCAL_ROUTER_LOG(INFO) << LOG_DESC("registerNodeInfo") << printNodeInfo(nodeInfo);
-    nodeInfo->setFront(m_frontBuilder->buildClient(
-        nodeInfo->endPoint(), onUnHealthHandler, removeHandlerOnUnhealth));
     auto ret = m_routerInfo->tryAddNodeInfo(nodeInfo);
     if (ret)
     {
-        LOCAL_ROUTER_LOG(INFO) << LOG_DESC("registerNodeInfo success") << printNodeInfo(nodeInfo);
+        // only create the frontClient when update
+        nodeInfo->setFront(m_frontBuilder->buildClient(
+            nodeInfo->endPoint(), onUnHealthHandler, removeHandlerOnUnhealth));
+        LOCAL_ROUTER_LOG(INFO) << LOG_DESC("registerNodeInfo: update the node")
+                               << printNodeInfo(nodeInfo);
         increaseSeq();
     }
     return ret;
@@ -85,6 +87,12 @@ bool LocalRouter::dispatcherMessage(Message::Ptr const& msg, ReceiveMsgFunc call
             front->onReceiveMessage(msg, callback);
         }
         return true;
+    }
+    // the case broadcast failed
+    if (msg->header() && msg->header()->optionalField() &&
+        msg->header()->optionalField()->topic().empty())
+    {
+        return false;
     }
     if (!holding)
     {
