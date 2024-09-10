@@ -108,26 +108,26 @@ public:
      * @brief register the nodeInfo to the gateway
      * @param nodeInfo the nodeInfo
      */
-    virtual void registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) = 0;
+    virtual bcos::Error::Ptr registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) = 0;
 
     /**
      * @brief unRegister the nodeInfo to the gateway
      */
-    virtual void unRegisterNodeInfo() = 0;
+    virtual bcos::Error::Ptr unRegisterNodeInfo() = 0;
 
     /**
      * @brief register the topic
      *
      * @param topic the topic to register
      */
-    virtual void registerTopic(std::string const& topic) = 0;
+    virtual bcos::Error::Ptr registerTopic(std::string const& topic) = 0;
 
     /**
      * @brief unRegister the topic
      *
      * @param topic the topic to unregister
      */
-    virtual void unRegisterTopic(std::string const& topic) = 0;
+    virtual bcos::Error::Ptr unRegisterTopic(std::string const& topic) = 0;
 };
 
 class IFrontBuilder

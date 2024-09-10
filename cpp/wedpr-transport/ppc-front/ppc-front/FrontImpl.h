@@ -114,20 +114,20 @@ public:
      * @brief register the nodeInfo to the gateway
      * @param nodeInfo the nodeInfo
      */
-    void registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) override
+    bcos::Error::Ptr registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) override
     {
         FRONT_LOG(INFO) << LOG_DESC("registerNodeInfo")
                         << LOG_KV("nodeInfo", printNodeInfo(m_nodeInfo));
-        m_gatewayClient->registerNodeInfo(m_nodeInfo);
+        return m_gatewayClient->registerNodeInfo(m_nodeInfo);
     }
 
     /**
      * @brief unRegister the nodeInfo to the gateway
      */
-    void unRegisterNodeInfo() override
+    bcos::Error::Ptr unRegisterNodeInfo() override
     {
         FRONT_LOG(INFO) << LOG_DESC("unRegisterNodeInfo");
-        m_gatewayClient->unRegisterNodeInfo(bcos::ref(m_nodeID));
+        return m_gatewayClient->unRegisterNodeInfo(bcos::ref(m_nodeID));
     }
 
     /**
@@ -135,10 +135,10 @@ public:
      *
      * @param topic the topic to register
      */
-    void registerTopic(std::string const& topic) override
+    bcos::Error::Ptr registerTopic(std::string const& topic) override
     {
         FRONT_LOG(INFO) << LOG_DESC("register topic: ") << topic;
-        m_gatewayClient->registerTopic(bcos::ref(m_nodeID), topic);
+        return m_gatewayClient->registerTopic(bcos::ref(m_nodeID), topic);
     }
 
     void asyncGetAgencies(
@@ -152,10 +152,10 @@ public:
      *
      * @param topic the topic to unregister
      */
-    void unRegisterTopic(std::string const& topic) override
+    bcos::Error::Ptr unRegisterTopic(std::string const& topic) override
     {
         FRONT_LOG(INFO) << LOG_DESC("unregister topic: ") << topic;
-        m_gatewayClient->unRegisterTopic(bcos::ref(m_nodeID), topic);
+        return m_gatewayClient->unRegisterTopic(bcos::ref(m_nodeID), topic);
     }
 
     ppc::protocol::MessageOptionalHeaderBuilder::Ptr const routerInfoBuilder() const

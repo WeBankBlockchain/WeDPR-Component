@@ -46,8 +46,8 @@ void SendMessageWithRetry::trySendMessage()
 {
     if (m_dstNodeList.empty())
     {
-        GATEWAY_LOG(DEBUG) << LOG_DESC("Gateway::SendMessageWithRetry")
-                           << LOG_DESC("unable to send the message") << printMessage(m_p2pMessage);
+        GATEWAY_LOG(DEBUG) << LOG_DESC("Gateway::SendMessageWithRetry: unable to send the message")
+                           << printMessage(m_p2pMessage);
         if (m_respFunc)
         {
             m_respFunc(std::make_shared<bcos::Error>(

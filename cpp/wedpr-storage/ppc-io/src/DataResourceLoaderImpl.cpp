@@ -232,6 +232,14 @@ void DataResourceLoaderImpl::checkResourceExists(
     switch (_desc->type())
     {
     case (int)(DataResourceType::FILE):
+    {
+        if (boost::filesystem::exists(boost::filesystem::path(_desc->path())))
+        {
+            BOOST_THROW_EXCEPTION(LoadDataResourceException() << bcos::errinfo_comment(
+                                      "The file: " + _desc->path() + " already exists!"));
+        }
+        break;
+    }
     case (int)(DataResourceType::HDFS):
     {
         auto storage = _storage;

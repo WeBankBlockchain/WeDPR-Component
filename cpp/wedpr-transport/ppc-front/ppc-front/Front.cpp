@@ -148,11 +148,12 @@ void Front::asyncSendResponse(const std::string& _agencyID, std::string const& _
  */
 bcos::Error::Ptr Front::notifyTaskInfo(std::string const& taskID)
 {
-    m_front->registerTopic(taskID);
+    return m_front->registerTopic(taskID);
 }
 
 // erase the task-info when task finished
 bcos::Error::Ptr Front::eraseTaskInfo(std::string const& _taskID)
 {
-    m_front->unRegisterTopic(_taskID);
+    FRONT_LOG(INFO) << LOG_DESC("eraseTaskInfo") << LOG_KV("front", m_front);
+    return m_front->unRegisterTopic(_taskID);
 }

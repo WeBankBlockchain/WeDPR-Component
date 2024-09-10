@@ -18,6 +18,7 @@
  * @date 2024-08-26
  */
 #include "GatewayNodeInfoImpl.h"
+#include "ppc-gateway/Common.h"
 #include "wedpr-protocol/protobuf/src/Common.h"
 #include "wedpr-protocol/protobuf/src/NodeInfoImpl.h"
 #include "wedpr-protocol/tars/Common.h"
