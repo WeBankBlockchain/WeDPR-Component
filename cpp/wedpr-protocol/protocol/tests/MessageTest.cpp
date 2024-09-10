@@ -123,6 +123,16 @@ BOOST_AUTO_TEST_CASE(testMessage)
         componentType, srcNode, srcInst, dstNode, dstInst, payload);
     checkEncodeDecode(msgBuilder, msg);
 
+    // with payload over 65535
+    for (uint32_t i = 0; i < 10000000; i++)
+    {
+        payload->emplace_back(i);
+    }
+    msg = fakeMsg(msgBuilder, version, traceID, srcGwNode, dstGwNode, packetType, ttl, ext, topic,
+        componentType, srcNode, srcInst, dstNode, dstInst, payload);
+    checkEncodeDecode(msgBuilder, msg);
+
+
     // with header router
     traceID = "1233";
     srcGwNode = "srcGwNode";

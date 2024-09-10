@@ -175,6 +175,7 @@ std::vector<std::shared_ptr<ppc::front::IFrontClient>> GatewayNodeInfoImpl::choo
         {
             selectedNode = nodeInfo(it.first);
         }
+        // ignore the fromNode
         if (selectedNode != nullptr && selectedNode->nodeID().toBytes() != fromNode)
         {
             result.emplace_back(selectedNode->getFront());

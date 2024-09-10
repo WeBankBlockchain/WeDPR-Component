@@ -65,18 +65,19 @@ int64_t MessageOptionalHeaderImpl::decode(bcos::bytesConstRef data, uint64_t con
     auto pointer = data.data() + offset;
     m_componentType = boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)pointer));
     bcos::bytes componentType;
-    offset = decodeNetworkBuffer(componentType, data.data(), data.size(), (pointer - data.data()));
+    offset = decodeNetworkBuffer(
+        componentType, data.data(), data.size(), (pointer - data.data()), false);
     m_componentType = std::string(componentType.begin(), componentType.end());
     // srcNode
-    offset = decodeNetworkBuffer(m_srcNode, data.data(), data.size(), offset);
+    offset = decodeNetworkBuffer(m_srcNode, data.data(), data.size(), offset, false);
     // source inst
-    offset = decodeNetworkBuffer(m_srcInst, data.data(), data.size(), offset);
+    offset = decodeNetworkBuffer(m_srcInst, data.data(), data.size(), offset, false);
     //  dstNode
-    offset = decodeNetworkBuffer(m_dstNode, data.data(), data.size(), offset);
+    offset = decodeNetworkBuffer(m_dstNode, data.data(), data.size(), offset, false);
     // dstInst
-    offset = decodeNetworkBuffer(m_dstInst, data.data(), data.size(), offset);
+    offset = decodeNetworkBuffer(m_dstInst, data.data(), data.size(), offset, false);
     // topic
-    offset = decodeNetworkBuffer(m_topic, data.data(), data.size(), offset);
+    offset = decodeNetworkBuffer(m_topic, data.data(), data.size(), offset, false);
     return offset;
 }
 
@@ -149,11 +150,12 @@ int64_t MessageHeaderImpl::decode(bcos::bytesConstRef data)
     m_ext = boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)pointer));
     pointer += 2;
     // the traceID
-    auto offset = decodeNetworkBuffer(m_traceID, data.data(), data.size(), (pointer - data.data()));
+    auto offset =
+        decodeNetworkBuffer(m_traceID, data.data(), data.size(), (pointer - data.data()), false);
     // srcGwNode
-    offset = decodeNetworkBuffer(m_srcGwNode, data.data(), data.size(), offset);
+    offset = decodeNetworkBuffer(m_srcGwNode, data.data(), data.size(), offset, false);
     // dstGwNode
-    offset = decodeNetworkBuffer(m_dstGwNode, data.data(), data.size(), offset);
+    offset = decodeNetworkBuffer(m_dstGwNode, data.data(), data.size(), offset, false);
     // optionalField
     if (hasOptionalField())
     {

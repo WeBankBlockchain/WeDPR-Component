@@ -29,20 +29,31 @@
 namespace ppc
 {
 template <typename T>
-inline uint64_t decodeNetworkBuffer(
-    T& _result, bcos::byte const* buffer, unsigned int bufferLen, uint64_t const offset)
+inline uint64_t decodeNetworkBuffer(T& _result, bcos::byte const* buffer, unsigned int bufferLen,
+    uint64_t const offset, bool largeBuffer = false)
 {
     uint64_t curOffset = offset;
-    CHECK_OFFSET_WITH_THROW_EXCEPTION(curOffset, bufferLen);
     // Notice: operator* is higher priority than operator+, the () is essential
-    auto dataLen =
-        boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)(buffer + curOffset)));
-    curOffset += 2;
+    uint32_t dataLen = 0;
+    if (largeBuffer)
+    {
+        CHECK_OFFSET_WITH_THROW_EXCEPTION(curOffset + 4, bufferLen);
+        dataLen = boost::asio::detail::socket_ops::network_to_host_long(
+            *((uint32_t*)(buffer + curOffset)));
+        curOffset += 4;
+    }
+    else
+    {
+        CHECK_OFFSET_WITH_THROW_EXCEPTION(curOffset + 2, bufferLen);
+        dataLen = boost::asio::detail::socket_ops::network_to_host_short(
+            *((uint16_t*)(buffer + curOffset)));
+        curOffset += 2;
+    }
     if (dataLen == 0)
     {
         return curOffset;
     }
-    CHECK_OFFSET_WITH_THROW_EXCEPTION(curOffset, bufferLen);
+    CHECK_OFFSET_WITH_THROW_EXCEPTION(curOffset + dataLen, bufferLen);
     _result.assign((bcos::byte*)buffer + curOffset, (bcos::byte*)buffer + curOffset + dataLen);
     curOffset += dataLen;
     return curOffset;

@@ -61,25 +61,7 @@ public:
 
     // register message handler for algorithm
     void registerMessageHandler(uint8_t _taskType, uint8_t _algorithmType,
-        std::function<void(front::PPCMessageFace::Ptr)> _handler) override
-    {
-        uint16_t type = ((uint16_t)_taskType << 8) | _algorithmType;
-        auto self = weak_from_this();
-        m_front->registerMessageHandler(
-            std::to_string(type), [self, _handler](ppc::protocol::Message::Ptr msg) {
-                auto front = self.lock();
-                if (!front)
-                {
-                    return;
-                }
-                if (msg == nullptr)
-                {
-                    _handler(nullptr);
-                    return;
-                }
-                _handler(front->m_messageFactory->decodePPCMessage(msg));
-            });
-    }
+        std::function<void(front::PPCMessageFace::Ptr)> _handler) override;
 
     std::vector<std::string> agencies() const override
     {
