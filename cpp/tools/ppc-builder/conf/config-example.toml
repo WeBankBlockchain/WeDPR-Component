@@ -43,7 +43,7 @@ holding_msg_minutes = 30
     # configuration for the ppc-node
     [[agency.node]]
         # disable the ra2018 psi or not, default enable ra2018
-        disable_ra2018 = false
+        disable_ra2018 = true
         deploy_ip=["127.0.0.1:2"]
         # node name, Notice: node_name in the same agency and group must be unique
         node_name = "node0"
@@ -128,7 +128,7 @@ holding_msg_minutes = 30
     # configuration for the ppc-node
     [[agency.node]]
         # disable the ra2018 psi or not, default enable ra2018
-        disable_ra2018 = false
+        disable_ra2018 = true
         deploy_ip=["127.0.0.1:2"]
         # node name, Notice: node_name in the same agency and group must be unique
         node_name = "node0"

@@ -203,9 +203,9 @@ class PPCNodeConfigGenerator:
             ; the threadPoolSize
             thread_count = 4
             ; the gatewayService endpoint information
-            service.gateway_target =  
+            gateway_target =  
             ; the components
-            service.components =
+            components =
             nodeid=
         """
         section = "transport"
@@ -213,8 +213,8 @@ class PPCNodeConfigGenerator:
         config_content[section]["listen_port"] = str(
             node_config.grpc_listen_port)
         config_content[section]["host_ip"] = deploy_ip
-        config_content[section]["service.gateway_target"] = node_config.gateway_config.gateway_grpc_target
-        config_content[section]["service.components"] = node_config.components
+        config_content[section]["gateway_target"] = node_config.gateway_config.gateway_grpc_target
+        config_content[section]["components"] = node_config.components
         config_content[section]["nodeid"] = node_id
 
     def __generate_ra2018psi_config__(self, config_content, ra2018psi_config):

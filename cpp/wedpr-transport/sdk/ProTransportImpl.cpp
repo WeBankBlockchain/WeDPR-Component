@@ -32,8 +32,9 @@ using namespace ppc::sdk;
 ProTransportImpl::ProTransportImpl(ppc::front::FrontConfig::Ptr config, int keepAlivePeriodMs)
   : m_config(std::move(config)), m_keepAlivePeriodMs(keepAlivePeriodMs)
 {
-    // default enable health-check
-    auto grpcServerConfig = std::make_shared<GrpcServerConfig>(config->selfEndPoint(), true);
+    // Note: since the config has been moved away, should not use the `config`, use `m_config`
+    // instead default enable health-check
+    auto grpcServerConfig = std::make_shared<GrpcServerConfig>(m_config->selfEndPoint(), true);
     m_server = std::make_shared<GrpcServer>(grpcServerConfig);
 
     FrontFactory frontFactory;
@@ -41,14 +42,13 @@ ProTransportImpl::ProTransportImpl(ppc::front::FrontConfig::Ptr config, int keep
         std::make_shared<GatewayClient>(m_config->grpcConfig(), m_config->gatewayGrpcTarget());
     m_front = frontFactory.build(std::make_shared<NodeInfoFactory>(),
         std::make_shared<MessagePayloadBuilderImpl>(),
-        std::make_shared<MessageOptionalHeaderBuilderImpl>(), m_gateway, config);
+        std::make_shared<MessageOptionalHeaderBuilderImpl>(), m_gateway, m_config);
 
     auto msgBuilder =
         std::make_shared<MessageBuilderImpl>(std::make_shared<MessageHeaderBuilderImpl>());
-    auto frontService = std::make_shared<FrontServer>(msgBuilder, m_front);
-    frontService->setHealthCheckService(m_server->server()->GetHealthCheckService());
+    m_frontService = std::make_shared<FrontServer>(msgBuilder, m_front);
     // register the frontService
-    m_server->registerService(frontService);
+    m_server->registerService(m_frontService);
 }
 
 void ProTransportImpl::start()
@@ -65,6 +65,8 @@ void ProTransportImpl::start()
     });
     m_timer->start();
     m_server->start();
+    // Note: the server is inited after start
+    m_frontService->setHealthCheckService(m_server->server()->GetHealthCheckService());
     m_front->start();
 }
 

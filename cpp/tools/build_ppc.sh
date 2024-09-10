@@ -35,7 +35,7 @@ default_version="v1.1.0"
 compatibility_version=${default_version}
 command="deploy"
 
-disable_ra2018="false"
+disable_ra2018="true"
 
 LOG_WARN() {
     local content=${1}
@@ -420,9 +420,9 @@ generate_node_config_ini() {
    ; the threadPoolSize
    thread_count = 4
    ; the gatewayService endpoint information
-   service.gateway_target =  
+   gateway_target =  
    ; the components
-   service.components =
+   components =
    nodeid=${nodeid}
 
 [crypto]
@@ -524,8 +524,9 @@ generate_node_config_ini() {
     ; MB
     max_log_file_size=200
     ; LineID, TimeStamp, ProcessID, ThreadName, ThreadID and Message
-    format=%Severity%|ppcs-psi4ef|system-id|%TimeStamp%|%ThreadName%-%ThreadID%|%Message%
-    enable_rotate_by_hour=false
+    ;format=%Severity%|ppcs-psi4ef|system-id|%TimeStamp%|%ThreadName%-%ThreadID%|%Message%
+    format=%Severity%|%TimeStamp%|%Message%
+    enable_rotate_by_hour=true
     log_name_pattern=ppcs-psi4ef.log
     ; Y,m,d,H,M,S are supported, N is the sequence number log_%Y%m%d.%H%M%S.%N.log
     rotate_name_pattern=log_%Y%m%d.%H%M.log
