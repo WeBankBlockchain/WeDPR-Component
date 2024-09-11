@@ -43,11 +43,11 @@ inline MessageOptionalHeader::Ptr generateRouteInfo(
     return routeInfo;
 }
 
-inline std::shared_ptr<ppc::proto::SendedMessageRequest> generateRequest(std::string const& traceID,
+inline ppc::proto::SendedMessageRequest* generateRequest(std::string const& traceID,
     RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload,
     long timeout)
 {
-    auto request = std::make_shared<ppc::proto::SendedMessageRequest>();
+    auto request = new ppc::proto::SendedMessageRequest();
     request->set_traceid(traceID);
     request->set_routetype(uint16_t(routeType));
     // set the route information
@@ -65,18 +65,18 @@ inline std::shared_ptr<ppc::proto::SendedMessageRequest> generateRequest(std::st
     return request;
 }
 
-inline std::shared_ptr<ppc::proto::NodeInfo> toNodeInfoRequest(
+inline ppc::proto::NodeInfo* toNodeInfoRequest(
     bcos::bytesConstRef const& nodeID, std::string const& topic)
 {
-    auto request = std::make_shared<ppc::proto::NodeInfo>();
+    auto request = new ppc::proto::NodeInfo();
     request->set_nodeid(nodeID.data(), nodeID.size());
     request->set_topic(topic);
     return request;
 }
 
-inline std::shared_ptr<ppc::proto::NodeInfo> toNodeInfoRequest(INodeInfo::Ptr const& nodeInfo)
+inline ppc::proto::NodeInfo* toNodeInfoRequest(INodeInfo::Ptr const& nodeInfo)
 {
-    auto request = std::make_shared<ppc::proto::NodeInfo>();
+    auto request = new ppc::proto::NodeInfo();
     if (!nodeInfo)
     {
         return request;

@@ -190,9 +190,15 @@ void GatewayImpl::onReceiveP2PMessage(MessageFace::Ptr msg, WsSession::Ptr sessi
     // try to dispatcher to the front
     auto p2pMessage = std::dynamic_pointer_cast<Message>(msg);
     auto self = std::weak_ptr<GatewayImpl>(shared_from_this());
+    // Note: the callback can only been called once since it binds the callback seq
     auto callback = [p2pMessage, session, self](Error::Ptr error) {
         auto gateway = self.lock();
         if (!gateway)
+        {
+            return;
+        }
+        // Note: no need to sendResponse for the response packet
+        if (p2pMessage->isRespPacket())
         {
             return;
         }
@@ -201,7 +207,8 @@ void GatewayImpl::onReceiveP2PMessage(MessageFace::Ptr msg, WsSession::Ptr sessi
         {
             GATEWAY_LOG(WARNING) << LOG_DESC("onReceiveP2PMessage: dispatcherMessage failed")
                                  << LOG_KV("code", error->errorCode())
-                                 << LOG_KV("msg", error->errorMessage());
+                                 << LOG_KV("msg", error->errorMessage())
+                                 << printMessage(p2pMessage);
             errorCode = std::to_string(error->errorCode());
         }
 

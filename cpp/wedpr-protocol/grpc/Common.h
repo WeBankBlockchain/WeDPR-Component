@@ -31,8 +31,7 @@ inline grpc::ChannelArguments toChannelConfig(ppc::protocol::GrpcConfig::Ptr con
     {
         return args;
     }
-    // TODO: when enable round_robin load-balance policy, the program will be exited on dns resolver
-    // args.SetLoadBalancingPolicyName(grpcConfig->loadBalancePolicy());
+    args.SetLoadBalancingPolicyName(grpcConfig->loadBalancePolicy());
     if (grpcConfig->enableHealthCheck())
     {
         args.SetServiceConfigJSON(

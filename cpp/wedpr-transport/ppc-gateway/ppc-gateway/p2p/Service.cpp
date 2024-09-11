@@ -54,7 +54,6 @@ void Service::onP2PConnect(WsSession::Ptr _session)
                       << LOG_KV("p2pid", printP2PIDElegantly(_session->nodeId()))
                       << LOG_KV("endpoint", _session->endPoint());
 
-
     RecursiveGuard l(x_nodeID2Session);
     auto it = m_nodeID2Session.find(_session->nodeId());
     if (it != m_nodeID2Session.end() && it->second->isConnected())
@@ -203,18 +202,13 @@ WsSession::Ptr Service::getSessionByNodeID(std::string const& _nodeID)
     return it->second;
 }
 
+// Note: this only called by the sender; will not been called when forward
 void Service::asyncSendMessageByNodeID(
     std::string const& dstNodeID, MessageFace::Ptr msg, Options options, RespCallBack respFunc)
 {
     auto p2pMsg = std::dynamic_pointer_cast<Message>(msg);
-    if (p2pMsg->header()->dstGwNode().empty())
-    {
-        p2pMsg->header()->setDstGwNode(dstNodeID);
-    }
-    if (p2pMsg->header()->srcGwNode().empty())
-    {
-        p2pMsg->header()->setSrcGwNode(m_nodeID);
-    }
+    p2pMsg->header()->setDstGwNode(dstNodeID);
+    p2pMsg->header()->setSrcGwNode(m_nodeID);
     return asyncSendMessageWithForward(dstNodeID, msg, options, respFunc);
 }
 
@@ -366,7 +360,8 @@ void Service::sendRespMessageBySession(bcos::boostssl::ws::WsSession::Ptr const&
     WsSessions sessions;
     sessions.emplace_back(session);
     WsService::asyncSendMessage(sessions, respMessage);
-    SERVICE_LOG(TRACE) << "sendRespMessageBySession" << LOG_KV("resp", printMessage(respMessage))
+    SERVICE_LOG(TRACE) << "sendRespMessageBySession: " << LOG_KV("resp", printMessage(respMessage))
+                       << LOG_KV("sessionNode", printP2PIDElegantly(session->nodeId()))
                        << LOG_KV("payloadSize",
                               respMessage->payload() ? respMessage->payload()->size() : 0);
 }

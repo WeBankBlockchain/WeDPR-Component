@@ -28,15 +28,29 @@ using namespace grpc;
 using namespace ppc::gateway;
 using namespace ppc::protocol;
 
+GatewayClient::GatewayClient(
+    ppc::protocol::GrpcConfig::Ptr const& grpcConfig, std::string const& endPoints)
+  : GrpcClient(grpcConfig, endPoints), m_stub(ppc::proto::Gateway::NewStub(m_channel))
+{
+    for (auto const& channel : m_broadcastChannels)
+    {
+        m_broadcastStubs.insert(
+            std::make_pair(channel.endPoint, ppc::proto::Gateway::NewStub(channel.channel)));
+    }
+}
+
 void GatewayClient::asyncSendMessage(RouteType routeType,
     MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID, bcos::bytes&& payload,
     long timeout, ReceiveMsgFunc callback)
 {
-    auto request = generateRequest(traceID, routeType, routeInfo, std::move(payload), timeout);
+    std::unique_ptr<ppc::proto::SendedMessageRequest> request(
+        generateRequest(traceID, routeType, routeInfo, std::move(payload), timeout));
     auto context = std::make_shared<ClientContext>();
     auto response = std::make_shared<Error>();
+    // lambda keeps the lifecycle for clientContext
     m_stub->async()->asyncSendMessage(context.get(), request.get(), response.get(),
-        [callback, response](Status status) { callback(toError(status, *response)); });
+        [context, traceID, callback, response](
+            Status status) { callback(toError(status, *response)); });
 }
 
 void GatewayClient::asyncGetPeers(std::function<void(bcos::Error::Ptr, std::string)> callback)
@@ -44,8 +58,9 @@ void GatewayClient::asyncGetPeers(std::function<void(bcos::Error::Ptr, std::stri
     auto response = std::make_shared<PeersInfo>();
     auto context = std::make_shared<ClientContext>();
     auto request = std::make_shared<Empty>();
+    // lambda keeps the lifecycle for clientContext
     m_stub->async()->asyncGetPeers(
-        context.get(), request.get(), response.get(), [callback, response](Status status) {
+        context.get(), request.get(), response.get(), [context, callback, response](Status status) {
             callback(toError(status, response->error()), response->peersinfo());
         });
 }
@@ -56,8 +71,9 @@ void GatewayClient::asyncGetAgencies(
     auto response = std::make_shared<AgenciesInfo>();
     auto context = std::make_shared<ClientContext>();
     auto request = std::make_shared<Empty>();
+    // lambda keeps the lifecycle for clientContext
     m_stub->async()->asyncGetAgencies(
-        context.get(), request.get(), response.get(), [callback, response](Status status) {
+        context.get(), request.get(), response.get(), [context, callback, response](Status status) {
             std::set<std::string> agencies;
             for (int i = 0; i < response->agencies_size(); i++)
             {
@@ -69,13 +85,18 @@ void GatewayClient::asyncGetAgencies(
 
 bcos::Error::Ptr GatewayClient::registerNodeInfo(INodeInfo::Ptr const& nodeInfo)
 {
-    return broadCast([nodeInfo](ChannelInfo const& channel) {
-        std::unique_ptr<ppc::proto::Gateway::Stub> stub(
-            ppc::proto::Gateway::NewStub(channel.channel));
-        auto request = toNodeInfoRequest(nodeInfo);
-        ClientContext context;
-        std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
-        auto status = stub->registerNodeInfo(&context, *request, response.get());
+    std::unique_ptr<ppc::proto::NodeInfo> request(toNodeInfoRequest(nodeInfo));
+    return broadCast([&](ChannelInfo const& channel) {
+        if (!m_broadcastStubs.count(channel.endPoint))
+        {
+            return make_shared<bcos::Error>(
+                -1, "registerNodeInfo failed for not find stub for endPoint: " + channel.endPoint);
+        }
+        auto const& stub = m_broadcastStubs.at(channel.endPoint);
+
+        auto context = std::make_shared<ClientContext>();
+        auto response = std::make_shared<ppc::proto::Error>();
+        auto status = stub->registerNodeInfo(context.get(), *request, response.get());
         auto result = toError(status, *response);
         return result;
     });
@@ -83,25 +104,35 @@ bcos::Error::Ptr GatewayClient::registerNodeInfo(INodeInfo::Ptr const& nodeInfo)
 
 bcos::Error::Ptr GatewayClient::unRegisterNodeInfo(bcos::bytesConstRef nodeID)
 {
-    return broadCast([nodeID](ChannelInfo const& channel) {
-        std::unique_ptr<ppc::proto::Gateway::Stub> stub(
-            ppc::proto::Gateway::NewStub(channel.channel));
-        auto request = toNodeInfoRequest(nodeID, "");
-        ClientContext context;
-        std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
-        auto status = stub->unRegisterNodeInfo(&context, *request, response.get());
+    std::unique_ptr<ppc::proto::NodeInfo> request(toNodeInfoRequest(nodeID, ""));
+    return broadCast([&](ChannelInfo const& channel) {
+        if (!m_broadcastStubs.count(channel.endPoint))
+        {
+            return make_shared<bcos::Error>(-1,
+                "unRegisterNodeInfo failed for not find stub for endPoint: " + channel.endPoint);
+        }
+        auto const& stub = m_broadcastStubs.at(channel.endPoint);
+
+        auto context = std::make_shared<ClientContext>();
+        auto response = std::make_shared<ppc::proto::Error>();
+        auto status = stub->unRegisterNodeInfo(context.get(), *request, response.get());
         return toError(status, *response);
     });
 }
 bcos::Error::Ptr GatewayClient::registerTopic(bcos::bytesConstRef nodeID, std::string const& topic)
 {
-    return broadCast([nodeID, topic](ChannelInfo const& channel) {
-        std::unique_ptr<ppc::proto::Gateway::Stub> stub(
-            ppc::proto::Gateway::NewStub(channel.channel));
-        auto request = toNodeInfoRequest(nodeID, topic);
-        ClientContext context;
-        std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
-        auto status = stub->registerTopic(&context, *request, response.get());
+    std::unique_ptr<ppc::proto::NodeInfo> request(toNodeInfoRequest(nodeID, topic));
+    return broadCast([&](ChannelInfo const& channel) {
+        if (!m_broadcastStubs.count(channel.endPoint))
+        {
+            return make_shared<bcos::Error>(
+                -1, "registerTopic failed for not find stub for endPoint: " + channel.endPoint);
+        }
+        auto const& stub = m_broadcastStubs.at(channel.endPoint);
+
+        auto context = std::make_shared<ClientContext>();
+        auto response = std::make_shared<ppc::proto::Error>();
+        auto status = stub->registerTopic(context.get(), *request, response.get());
         return toError(status, *response);
     });
 }
@@ -109,13 +140,17 @@ bcos::Error::Ptr GatewayClient::registerTopic(bcos::bytesConstRef nodeID, std::s
 bcos::Error::Ptr GatewayClient::unRegisterTopic(
     bcos::bytesConstRef nodeID, std::string const& topic)
 {
-    return broadCast([nodeID, topic](ChannelInfo const& channel) {
-        std::unique_ptr<ppc::proto::Gateway::Stub> stub(
-            ppc::proto::Gateway::NewStub(channel.channel));
-        auto request = toNodeInfoRequest(nodeID, topic);
-        ClientContext context;
-        std::shared_ptr<ppc::proto::Error> response = std::make_shared<ppc::proto::Error>();
-        auto status = stub->unRegisterTopic(&context, *request, response.get());
+    std::unique_ptr<ppc::proto::NodeInfo> request(toNodeInfoRequest(nodeID, topic));
+    return broadCast([&](ChannelInfo const& channel) {
+        if (!m_broadcastStubs.count(channel.endPoint))
+        {
+            return make_shared<bcos::Error>(
+                -1, "unRegisterTopic failed for not find stub for endPoint: " + channel.endPoint);
+        }
+        auto const& stub = m_broadcastStubs.at(channel.endPoint);
+        auto context = std::make_shared<ClientContext>();
+        auto response = std::make_shared<ppc::proto::Error>();
+        auto status = stub->unRegisterTopic(context.get(), *request, response.get());
         return toError(status, *response);
     });
 }

@@ -37,7 +37,7 @@ GrpcClient::GrpcClient(
     // create the broadcast channels
     for (auto const& endPoint : endPointList)
     {
-        GRPC_CLIENT_LOG(INFO) << LOG_DESC("create broacast-channel, endpoint: ") << endPoint;
+        GRPC_CLIENT_LOG(INFO) << LOG_DESC("create broadcast-channel, endpoint: ") << endPoint;
         m_broadcastChannels.push_back(
             {endPoint, grpc::CreateCustomChannel(endPoint, grpc::InsecureChannelCredentials(),
                            toChannelConfig(grpcConfig))});
@@ -94,7 +94,7 @@ bcos::Error::Ptr GrpcClient::broadCast(
         catch (std::exception const& e)
         {
             GRPC_CLIENT_LOG(WARNING)
-                << LOG_DESC("registerNodeInfo exception") << LOG_KV("remote", channel.endPoint)
+                << LOG_DESC("GrpcClient broadCast exception") << LOG_KV("remote", channel.endPoint)
                 << LOG_KV("error", boost::diagnostic_information(e));
         }
     }

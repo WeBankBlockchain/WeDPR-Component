@@ -82,9 +82,27 @@ bool LocalRouter::dispatcherMessage(Message::Ptr const& msg, ReceiveMsgFunc call
     // find the front
     if (!frontList.empty())
     {
+        // Note: the callback can only been called once since it binds the callback seq
+        int i = 0;
         for (auto const& front : frontList)
         {
-            front->onReceiveMessage(msg, callback);
+            if (i == 0)
+            {
+                front->onReceiveMessage(msg, callback);
+            }
+            else
+            {
+                front->onReceiveMessage(msg, [](bcos::Error::Ptr error) {
+                    if (!error || error->errorCode() == 0)
+                    {
+                        return;
+                    }
+                    LOCAL_ROUTER_LOG(WARNING) << LOG_DESC("dispatcherMessage to front failed")
+                                              << LOG_KV("code", error->errorMessage())
+                                              << LOG_KV("msg", error->errorMessage());
+                });
+            }
+            i++;
         }
         return true;
     }
