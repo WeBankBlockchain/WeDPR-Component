@@ -140,5 +140,6 @@ set(WEDPR_TRANSPORT_SDK_TARGET wedpr-transport-sdk)
 set(WEDPR_PYTHON_TRANSPORT "wedpr_python_transport")
 set(WEDPR_PYTHON_TRANSPORT_DIR ${PROJECT_BINARY_DIR}/python/${WEDPR_PYTHON_TRANSPORT})
 
-set(WEDPR_JAVA_TRANSPORT "wedpr_java_transport")
-set(WEDPR_JAVA_TRANSPORT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/java/${WEDPR_JAVA_TRANSPORT})
+set(WEDPR_JAVA_TRANSPORT "wedpr_java_transport_jni")
+set(WEDPR_JAVA_TRANSPORT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/java/generated/${WEDPR_JAVA_TRANSPORT})
+set(WEDPR_JAVA_TRANSPORT_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/wedpr-transport/sdk-wrapper/java/bindings/src/main/resources/META-INF/native)

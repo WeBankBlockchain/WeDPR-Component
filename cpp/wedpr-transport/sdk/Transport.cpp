@@ -13,32 +13,21 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file TransportImpl.h
+ * @file Transport.cpp
  * @author: yujiechen
  * @date 2024-09-04
  */
-#pragma once
 #include "Transport.h"
-#include "ppc-framework/gateway/IGateway.h"
-#include "ppc-front/FrontFactory.h"
-#include "protobuf/src/NodeInfoImpl.h"
+#include "protocol/src/v1/MessageHeaderImpl.h"
+#include "protocol/src/v1/MessageImpl.h"
+#include "protocol/src/v1/MessagePayloadImpl.h"
 
+using namespace ppc::sdk;
 
-namespace ppc::sdk
-{
-class TransportImpl : public Transport
-{
-public:
-    TransportImpl(ppc::front::FrontConfig::Ptr config, ppc::gateway::IGateway::Ptr const& gateway)
-      : Transport(config)
-
-    {
-        m_gateway = gateway;
-
-        ppc::front::FrontFactory frontFactory;
-        m_front = frontFactory.build(std::make_shared<ppc::protocol::NodeInfoFactory>(),
-            m_msgPayloadBuilder, m_routeInfoBuilder, gateway, m_config);
-    }
-    ~TransportImpl() override = default;
-};
-}  // namespace ppc::sdk
+Transport::Transport(ppc::front::FrontConfig::Ptr config)
+  : m_config(std::move(config)),
+    m_msgPayloadBuilder(std::make_shared<ppc::protocol::MessagePayloadBuilderImpl>()),
+    m_msgHeaderBuilder(std::make_shared<ppc::protocol::MessageHeaderBuilderImpl>()),
+    m_msgBuilder(std::make_shared<ppc::protocol::MessageBuilderImpl>(m_msgHeaderBuilder)),
+    m_routeInfoBuilder(std::make_shared<ppc::protocol::MessageOptionalHeaderBuilderImpl>())
+{}

@@ -37,7 +37,7 @@ public final class JniLibLoader {
     public static final String MAC = "mac";
     public static final String WIN = "win";
 
-    public static final String NATIVE_RESOURCE_LIB_NAME = "wedpr-java-transport-jni";
+    public static final String NATIVE_RESOURCE_LIB_NAME = "wedpr_java_transport_jni";
     public static final String NATIVE_RESOURCE_HOME = "/META-INF/native";
     public static final String NATIVE_WIN_DEPS_DIR = NATIVE_RESOURCE_HOME + "/win/";
     public static final String WIN_DEPS_FILE_LIST = "file.list";
@@ -51,13 +51,13 @@ public final class JniLibLoader {
         // 1. initialize workdir
 
         // -Dcom.webank.wedpr.workdir
-        String workdir = System.getProperty("com.webank.wedpr.workdir");
+        String workdir = System.getProperty("com.webank.wedpr.sdk.jni.workdir");
         if (workdir != null) {
             try {
                 File f = new File(workdir);
                 f.mkdirs();
                 WORKDIR = f;
-                logger.info("initialize workdir, -Dcom.webank.wedpr.workdir: {}", WORKDIR);
+                logger.info("initialize workdir, -Dcom.webank.wedpr.sdk.jni.workdir: {}", WORKDIR);
             } catch (Exception e) {
                 logger.debug("initialize workdir, cannot mkdir workdir: {}, e: ", workdir, e);
                 workdir = null;
@@ -101,9 +101,9 @@ public final class JniLibLoader {
         } else if (osName.contains(MAC)) {
             String arch = getArch();
             if ("arm".equals(arch)) {
-                return "lib" + baseName + "-aarch64" + ".dylib";
+                return "lib" + baseName + "-aarch64" + ".jnilib";
             }
-            return "lib" + baseName + ".dylib";
+            return "lib" + baseName + ".jnilib";
         } else {
             throw new RuntimeException("unrecognized OS: " + osName);
         }

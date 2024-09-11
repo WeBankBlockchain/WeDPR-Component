@@ -52,7 +52,7 @@ public:
      */
     void stop() override;
 
-    bcos::Error::Ptr push(ppc::protocol::RouteType routeType,
+    bcos::Error::Ptr push(uint16_t routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
         long timeout) override;
     /**
@@ -70,7 +70,7 @@ public:
      * @param timeout timeout
      * @param callback callback
      */
-    void asyncSendMessage(ppc::protocol::RouteType routeType,
+    void asyncSendMessage(uint16_t routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
         long timeout, ppc::protocol::ReceiveMsgFunc errorCallback,
         ppc::protocol::MessageCallback callback) override;

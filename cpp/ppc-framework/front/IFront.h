@@ -41,6 +41,59 @@ public:
     virtual void onReceiveMessage(
         ppc::protocol::Message::Ptr const& _msg, ppc::protocol::ReceiveMsgFunc _callback) = 0;
 };
+
+///////// the callback definition for sdk wrapper /////////
+class ErrorCallback
+{
+public:
+    using Ptr = std::shared_ptr<ErrorCallback>;
+    ErrorCallback() = default;
+    virtual ~ErrorCallback() {}
+
+    virtual void onError(bcos::Error::Ptr error) = 0;
+};
+
+class MessageDispatcherHandler
+{
+public:
+    using Ptr = std::shared_ptr<MessageDispatcherHandler>;
+    MessageDispatcherHandler() = default;
+    virtual ~MessageDispatcherHandler() {}
+
+    virtual void onMessage(ppc::protocol::Message::Ptr msg) = 0;
+};
+
+class SendResponseHandler
+{
+public:
+    using Ptr = std::shared_ptr<SendResponseHandler>;
+    SendResponseHandler(ppc::protocol::SendResponseFunction responseFunc)
+      : m_responseFunc(responseFunc)
+    {}
+    virtual ~SendResponseHandler() {}
+
+    virtual void sendResponse(std::shared_ptr<bcos::bytes>&& payload)
+    {
+        m_responseFunc(std::move(payload));
+    }
+
+private:
+    ppc::protocol::SendResponseFunction m_responseFunc;
+};
+
+class IMessageHandler
+{
+public:
+    using Ptr = std::shared_ptr<IMessageHandler>;
+    IMessageHandler() = default;
+    virtual ~IMessageHandler() {}
+
+    virtual void onMessage(bcos::Error::Ptr e, ppc::protocol::Message::Ptr msg,
+        SendResponseHandler sendResponseHandler) = 0;
+};
+
+///////// the callback definition for sdk wrapper /////////
+
 class IFront : virtual public IFrontClient
 {
 public:
@@ -71,8 +124,23 @@ public:
     virtual void registerTopicHandler(
         std::string const& topic, ppc::protocol::MessageDispatcherCallback callback) = 0;
 
+    /////// to simplify SDK wrapper  ////
+    virtual void registerTopicHandler(
+        std::string const& topic, MessageDispatcherHandler::Ptr callback)
+    {
+        registerTopicHandler(topic, populateMessageDispatcherCallback(callback));
+    }
+
     virtual void registerMessageHandler(
         std::string const& componentType, ppc::protocol::MessageDispatcherCallback callback) = 0;
+
+    /////// to simplify SDK wrapper  ////
+    virtual void registerMessageHandler(
+        std::string const& componentType, MessageDispatcherHandler::Ptr callback)
+    {
+        registerMessageHandler(componentType, populateMessageDispatcherCallback(callback));
+    }
+
     /**
      * @brief async send message
      *
@@ -88,16 +156,33 @@ public:
      * @param timeout timeout
      * @param callback callback
      */
-    virtual void asyncSendMessage(ppc::protocol::RouteType routeType,
+    virtual void asyncSendMessage(uint16_t routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
         long timeout, ppc::protocol::ReceiveMsgFunc errorCallback,
         ppc::protocol::MessageCallback callback) = 0;
 
+    /////// to simplify SDK wrapper ////
+    virtual void asyncSendMessage(uint16_t routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
+        long timeout, ErrorCallback::Ptr errorCallback, IMessageHandler::Ptr msgHandler)
+    {
+        asyncSendMessage(routeType, routeInfo, std::move(payload), seq, timeout,
+            populateErrorCallback(errorCallback), populateMsgCallback(msgHandler));
+    }
+
     virtual void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
         bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback) = 0;
 
+    /////// to simplify SDK wrapper  ////
+    virtual void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
+        bcos::bytes&& payload, int seq, ErrorCallback::Ptr errorCallback)
+    {
+        asyncSendResponse(
+            dstNode, traceID, std::move(payload), seq, populateErrorCallback(errorCallback));
+    }
+
     // the sync interface for async_send_message
-    virtual bcos::Error::Ptr push(ppc::protocol::RouteType routeType,
+    virtual bcos::Error::Ptr push(uint16_t routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
         long timeout) = 0;
 
@@ -131,6 +216,40 @@ public:
      * @param topic the topic to unregister
      */
     virtual bcos::Error::Ptr unRegisterTopic(std::string const& topic) = 0;
+
+
+private:
+    ppc::protocol::ReceiveMsgFunc populateErrorCallback(ErrorCallback::Ptr errorCallback)
+    {
+        if (errorCallback == nullptr)
+        {
+            return nullptr;
+        }
+        return [errorCallback](bcos::Error::Ptr error) { errorCallback->onError(error); };
+    }
+
+    ppc::protocol::MessageDispatcherCallback populateMessageDispatcherCallback(
+        MessageDispatcherHandler::Ptr handler)
+    {
+        if (handler == nullptr)
+        {
+            return nullptr;
+        }
+        return [handler](ppc::protocol::Message::Ptr msg) { handler->onMessage(msg); };
+    }
+
+    ppc::protocol::MessageCallback populateMsgCallback(IMessageHandler::Ptr msgHandler)
+    {
+        if (msgHandler == nullptr)
+        {
+            return nullptr;
+        }
+        return [msgHandler](bcos::Error::Ptr e, ppc::protocol::Message::Ptr msg,
+                   ppc::protocol::SendResponseFunction resFunc) {
+            SendResponseHandler sendResponseHandler(resFunc);
+            msgHandler->onMessage(e, msg, sendResponseHandler);
+        };
+    }
 };
 
 class IFrontBuilder

@@ -19,7 +19,6 @@
  */
 #include "ProTransportImpl.h"
 #include "Common.h"
-#include "protocol/src/v1/MessageImpl.h"
 #include "wedpr-protocol/grpc/client/GatewayClient.h"
 #include "wedpr-protocol/grpc/server/FrontServer.h"
 #include "wedpr-protocol/grpc/server/GrpcServer.h"
@@ -30,7 +29,7 @@ using namespace ppc::sdk;
 
 
 ProTransportImpl::ProTransportImpl(ppc::front::FrontConfig::Ptr config, int keepAlivePeriodMs)
-  : m_config(std::move(config)), m_keepAlivePeriodMs(keepAlivePeriodMs)
+  : Transport(config), m_keepAlivePeriodMs(keepAlivePeriodMs)
 {
     // Note: since the config has been moved away, should not use the `config`, use `m_config`
     // instead default enable health-check
@@ -40,13 +39,10 @@ ProTransportImpl::ProTransportImpl(ppc::front::FrontConfig::Ptr config, int keep
     FrontFactory frontFactory;
     m_gateway =
         std::make_shared<GatewayClient>(m_config->grpcConfig(), m_config->gatewayGrpcTarget());
-    m_front = frontFactory.build(std::make_shared<NodeInfoFactory>(),
-        std::make_shared<MessagePayloadBuilderImpl>(),
-        std::make_shared<MessageOptionalHeaderBuilderImpl>(), m_gateway, m_config);
+    m_front = frontFactory.build(std::make_shared<NodeInfoFactory>(), m_msgPayloadBuilder,
+        m_routeInfoBuilder, m_gateway, m_config);
 
-    auto msgBuilder =
-        std::make_shared<MessageBuilderImpl>(std::make_shared<MessageHeaderBuilderImpl>());
-    m_frontService = std::make_shared<FrontServer>(msgBuilder, m_front);
+    m_frontService = std::make_shared<FrontServer>(m_msgBuilder, m_front);
     // register the frontService
     m_server->registerService(m_frontService);
 }

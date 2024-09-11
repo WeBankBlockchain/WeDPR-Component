@@ -3,9 +3,24 @@ plugins {
     id 'idea'
     id 'java-library'
     id 'maven-publish'
-    //id 'org.ajoberstar.grgit' version '4.1.1'
-    //id "de.undercouch.download" version "4.1.2"
-//     id 'com.github.sherter.google-java-format' version '0.9'
+    id 'org.ajoberstar.grgit' version '4.1.1'
+    id "de.undercouch.download" version "4.1.2"
+    id 'com.github.sherter.google-java-format' version '0.9'
+}
+
+// Additional attribute definition
+ext {
+    if (!project.hasProperty("ossrhUsername")) {
+        ossrhUsername="xxx"
+    }
+
+    if (!project.hasProperty("ossrhPassword")) {
+        ossrhPassword="xxx"
+    }
+    lombokVersion = "1.18.32"
+    junitVersion = "4.13.2"
+    log4jVersion = "2.23.0"
+    jmhVersion = "1.36"
 }
 
 println("Notice: current gradle version is " + gradle.gradleVersion)
@@ -23,15 +38,15 @@ repositories {
     mavenLocal()
 }
 
-// googleJavaFormat {
-//     toolVersion = '1.7'
-//     options style: 'AOSP'
-//     source = sourceSets*.allJava
-//     include '**/*.java'
-//     exclude '**/*Test.java'
-//     exclude '**/Test*.java'
-//     exclude '**/Mock*.java'
-// }
+ googleJavaFormat {
+     toolVersion = '1.7'
+     options style: 'AOSP'
+     source = sourceSets*.allJava
+     include '**/*.java'
+     exclude '**/*Test.java'
+     exclude '**/Test*.java'
+     exclude '**/Mock*.java'
+ }
 
 sourceSets {
     main {
@@ -61,27 +76,19 @@ sourceSets {
 dependencies {
     api ('org.slf4j:slf4j-api:1.7.36')
 
-    jmhImplementation 'org.openjdk.jmh:jmh-core:1.36'
-    jmhAnnotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.36'
+    implementation("org.projectlombok:lombok:${lombokVersion}")
+    jmhImplementation ("org.openjdk.jmh:jmh-core:${jmhVersion}")
+    jmhAnnotationProcessor ("org.openjdk.jmh:jmh-generator-annprocess:${jmhVersion}")
 
-    testImplementation ('org.slf4j:slf4j-log4j12:1.7.36')
-    testImplementation ('junit:junit:4.13.2')
+    testImplementation ("org.slf4j:slf4j-log4j12:${log4jVersion}")
+    testImplementation ("junit:junit:${junitVersion}")
+
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 }
 
 archivesBaseName = 'wedpr-java-transport-jni'
 group = 'com.webank.wedpr'
 version = '1.0.0'
-
-// Additional attribute definition
-ext {
-    if (!project.hasProperty("ossrhUsername")) {
-        ossrhUsername="xxx"
-    }
-
-    if (!project.hasProperty("ossrhPassword")) {
-        ossrhPassword="xxx"
-    }
-}
 
 jar {
     exclude '**/*.xml'

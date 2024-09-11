@@ -196,6 +196,11 @@ public:
 
     MessagePayload::Ptr const& frontMessage() const { return m_frontMessage; }
 
+    // Note: swig wrapper require define all methods
+    virtual bool encode(bcos::bytes& _buffer) = 0;
+    // encode and return the {header, payload}
+    virtual bool encode(bcos::boostssl::EncodedMsg& _encodedMsg) = 0;
+    virtual int64_t decode(bcos::bytesConstRef _buffer) = 0;
 
 protected:
     MessageHeader::Ptr m_header;

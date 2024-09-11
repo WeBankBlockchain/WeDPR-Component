@@ -20,6 +20,7 @@
 #pragma once
 #include "TransportImpl.h"
 #include "bcos-utilities/Timer.h"
+#include "protocol/src/v1/MessageImpl.h"
 
 namespace ppc::protocol
 {
@@ -43,7 +44,6 @@ protected:
     void keepAlive();
 
 protected:
-    ppc::front::FrontConfig::Ptr m_config;
     std::shared_ptr<ppc::protocol::GrpcServer> m_server;
     std::shared_ptr<ppc::protocol::FrontServer> m_frontService;
     int m_keepAlivePeriodMs;

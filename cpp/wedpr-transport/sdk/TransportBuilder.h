@@ -36,8 +36,14 @@ public:
     TransportBuilder();
     virtual ~TransportBuilder() = default;
 
-    Transport::Ptr build(SDKMode mode, ppc::front::FrontConfig::Ptr config,
-        ppc::gateway::IGateway::Ptr const& gateway);
+    Transport::Ptr build(
+        SDKMode mode, ppc::front::FrontConfig::Ptr config, ppc::gateway::IGateway::Ptr gateway);
+
+    // Note: the swig-wrapper can't receive the null shared_ptr
+    Transport::Ptr buildProTransport(ppc::front::FrontConfig::Ptr config)
+    {
+        return build(SDKMode::PRO, config, nullptr);
+    }
 
     ppc::front::FrontConfig::Ptr buildConfig(int threadPoolSize, std::string nodeID);
 

@@ -138,7 +138,7 @@ void FrontImpl::asyncSendResponse(bcos::bytes const& dstNode, std::string const&
  * @param timeout timeout
  * @param callback callback
  */
-void FrontImpl::asyncSendMessage(RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo,
+void FrontImpl::asyncSendMessage(uint16_t routeType, MessageOptionalHeader::Ptr const& routeInfo,
     bcos::bytes&& payload, int seq, long timeout, ReceiveMsgFunc errorCallback,
     MessageCallback callback)
 {
@@ -151,8 +151,9 @@ void FrontImpl::asyncSendMessage(RouteType routeType, MessageOptionalHeader::Ptr
     m_callbackManager->addCallback(traceID, timeout, callback);
     auto self = weak_from_this();
     // send the message to the gateway
-    asyncSendMessageToGateway(false, std::move(frontMessage), routeType, traceID, routeInfo,
-        timeout, [self, traceID, routeInfo, errorCallback](bcos::Error::Ptr error) {
+    asyncSendMessageToGateway(false, std::move(frontMessage), (ppc::protocol::RouteType)routeType,
+        traceID, routeInfo, timeout,
+        [self, traceID, routeInfo, errorCallback](bcos::Error::Ptr error) {
             auto front = self.lock();
             if (!front)
             {
@@ -265,7 +266,7 @@ void FrontImpl::onReceiveMessage(Message::Ptr const& msg, ReceiveMsgFunc callbac
 }
 
 // the sync interface for asyncSendMessage
-bcos::Error::Ptr FrontImpl::push(RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo,
+bcos::Error::Ptr FrontImpl::push(uint16_t routeType, MessageOptionalHeader::Ptr const& routeInfo,
     bcos::bytes&& payload, int seq, long timeout)
 {
     auto promise = std::make_shared<std::promise<bcos::Error::Ptr>>();

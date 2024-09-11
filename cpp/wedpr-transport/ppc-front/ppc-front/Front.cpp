@@ -134,7 +134,7 @@ void Front::asyncSendMessage(const std::string& _agencyID, front::PPCMessageFace
         };
     }
     // ROUTE_THROUGH_TOPIC will hold the topic
-    m_front->asyncSendMessage(RouteType::ROUTE_THROUGH_TOPIC, routeInfo, std::move(data),
+    m_front->asyncSendMessage((uint16_t)RouteType::ROUTE_THROUGH_TOPIC, routeInfo, std::move(data),
         _message->seq(), _timeout, _callback, msgCallback);
 }
 

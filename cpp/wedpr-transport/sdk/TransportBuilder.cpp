@@ -36,7 +36,7 @@ TransportBuilder::TransportBuilder()
 }
 
 Transport::Ptr TransportBuilder::build(
-    SDKMode mode, ppc::front::FrontConfig::Ptr config, ppc::gateway::IGateway::Ptr const& gateway)
+    SDKMode mode, ppc::front::FrontConfig::Ptr config, ppc::gateway::IGateway::Ptr gateway)
 {
     switch (mode)
     {
