@@ -52,17 +52,19 @@ using namespace ppc::crypto;
 using namespace ppc::sdk;
 
 Initializer::Initializer(ppc::protocol::NodeArch _arch, std::string const& _configPath)
-  : m_arch(_arch), m_configPath(_configPath)
+  : m_arch((uint16_t)_arch), m_configPath(_configPath)
 {
     m_transportBuilder = std::make_shared<TransportBuilder>();
     // load the config
     m_config = std::make_shared<PPCConfig>();
-    if (m_arch == ppc::protocol::NodeArch::PRO)
+    if (m_arch == (uint16_t)ppc::protocol::NodeArch::PRO)
     {
+        INIT_LOG(INFO) << LOG_DESC("loadNodeConfig for pro node");
         m_config->loadNodeConfig(true, m_transportBuilder->frontConfigBuilder(), _configPath);
     }
     else
     {
+        INIT_LOG(INFO) << LOG_DESC("loadNodeConfig for air node");
         m_config->loadNodeConfig(false, m_transportBuilder->frontConfigBuilder(), _configPath);
     }
 }
@@ -80,7 +82,7 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
 
     // Note: must set the  m_holdingMessageMinutes before init the node
     TransportBuilder transportBuilder;
-    if (m_arch == ppc::protocol::NodeArch::AIR)
+    if (m_arch == (uint16_t)ppc::protocol::NodeArch::AIR)
     {
         m_transport = transportBuilder.build(SDKMode::AIR, m_config->frontConfig(), gateway);
     }

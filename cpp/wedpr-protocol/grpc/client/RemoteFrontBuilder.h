@@ -31,10 +31,7 @@ public:
     RemoteFrontBuilder(ppc::protocol::GrpcConfig::Ptr const& grpcConfig,
         ppc::protocol::HealthCheckTimer::Ptr healthChecker)
       : m_grpcConfig(grpcConfig), m_healthChecker(healthChecker)
-    {
-        // Note: the front enable health-check
-        m_grpcConfig->setEnableHealthCheck(true);
-    }
+    {}
     ~RemoteFrontBuilder() override = default;
 
     IFrontClient::Ptr buildClient(std::string endPoint, std::function<void()> onUnHealthHandler,

@@ -129,10 +129,10 @@ void PPCConfig::loadFrontConfig(bool requireTransport,
     }
     m_frontConfig->setNodeID(nodeID);
     m_frontConfig->setThreadPoolSize(threadCount);
-    PPCConfig_LOG(INFO) << LOG_DESC("loadFrontConfig and not require the transport")
-                        << printFrontDesc(m_frontConfig);
     if (!requireTransport)
     {
+        PPCConfig_LOG(INFO) << LOG_DESC("loadFrontConfig and not require the transport")
+                            << printFrontDesc(m_frontConfig);
         return;
     }
 

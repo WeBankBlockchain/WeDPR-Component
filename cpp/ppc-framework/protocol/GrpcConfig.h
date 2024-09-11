@@ -43,7 +43,7 @@ public:
 
 protected:
     ppc::protocol::EndPoint m_endPoint;
-    bool m_enableHealthCheck = false;
+    bool m_enableHealthCheck = true;
 };
 class GrpcConfig
 {
@@ -65,7 +65,7 @@ public:
     bool enableDnslookup() const { return m_enableDnslookup; }
 
 protected:
-    bool m_enableHealthCheck = false;
+    bool m_enableHealthCheck = true;
     std::string m_loadBalancePolicy = "round_robin";
     bool m_enableDnslookup = false;
 };

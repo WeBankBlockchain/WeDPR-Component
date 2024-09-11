@@ -82,7 +82,7 @@ protected:
 
 
 private:
-    ppc::protocol::NodeArch m_arch;
+    uint16_t m_arch;
     std::string m_configPath;
     std::shared_ptr<ppc::tools::PPCConfig> m_config;
     ProtocolInitializer::Ptr m_protocolInitializer;
