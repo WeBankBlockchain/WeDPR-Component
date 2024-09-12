@@ -130,9 +130,17 @@ macro(configure_project)
         set(VISIBILITY_FLAG "")
         set(BUILD_ALL OFF)
     endif()
+    if (BUILD_WEDPR_TOOLKIT)
+        set(VISIBILITY_FLAG "")
+        set(BUILD_ALL OFF)
+    endif()
     if (BUILD_ALL)
         # install all dependencies
         list(APPEND VCPKG_MANIFEST_FEATURES "all")
+    endif()
+    if (BUILD_WEDPR_TOOLKIT)
+        # install wedpr dependencies
+        list(APPEND VCPKG_MANIFEST_FEATURES "toolkit")
     endif()
     if(ENABLE_SSE)
         # enable sse for libhdfs3

@@ -103,6 +103,22 @@
         "tbb",
         "libxml2"
       ]
+    },
+    "toolkit": {
+      "description": "tooklit dependencies",
+      "dependencies": [
+        {
+          "name": "bcos-boostssl",
+          "version>=": "3.2.3"
+        },
+        {
+          "name": "grpc",
+          "version>=": "1.51.1"
+        },
+        "tarscpp",
+        "tbb",
+        "libxml2"
+      ]
     }
   }
 }

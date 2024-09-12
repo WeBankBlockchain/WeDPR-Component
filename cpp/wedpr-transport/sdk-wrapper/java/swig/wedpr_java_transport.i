@@ -31,6 +31,7 @@ PRIMITIVE_TYPEMAP(unsigned long int, long long);
 %include <std_vector.i>
 %include <std_string.i>
 %include <std_shared_ptr.i>
+%include <various.i>
 
 // shared_ptr definition
 %shared_ptr(ppc::front::FrontConfig);
@@ -59,9 +60,11 @@ PRIMITIVE_TYPEMAP(unsigned long int, long long);
 %{
 #define SWIG_FILE_WITH_INIT
 #include <vector>
+#include <iostream>
 #include <stdint.h>
 #include "wedpr-transport/sdk/TransportBuilder.h"
 #include "wedpr-transport/sdk/Transport.h"
+#include "ppc-framework/libwrapper/Buffer.h"
 #include "ppc-framework/front/IFront.h"
 #include "ppc-framework/protocol/RouteType.h"
 #include "ppc-framework/front/FrontConfig.h"
@@ -151,8 +154,41 @@ namespace bcos{
 %feature("director") ppc::front::MessageDispatcherHandler;
 %feature("director") ppc::front::IMessageHandler;
 
+// Note: the field data should equal to the fieldMap of class or the function
+%include various.i 
+// this means convert all (char*) to byte[]
+%apply char *BYTE {char * };
+
+
+%typemap(jni) OutputBuffer "jbyteArray"
+%typemap(jtype) OutputBuffer "byte[]"
+%typemap(jstype) OutputBuffer "byte[]"
+%typemap(in) OutputBuffer {
+    $1.data = (unsigned char *) JCALL2(GetByteArrayElements, jenv, $input, 0);
+    $1.len = JCALL1(GetArrayLength, jenv, $input);
+}
+%typemap(argout) OutputBuffer {
+    JCALL3(ReleaseByteArrayElements, jenv, $input, (jbyte *) $1.data, 0);
+}
+// Note: will cause copy herer
+%typemap(out) OutputBuffer {
+    $result = JCALL1(NewByteArray, jenv, $1.len);
+    JCALL4(SetByteArrayRegion, jenv, $result, 0, $1.len, (jbyte *) $1.data);
+    delete[] $1.data;
+}
+%typemap(javain) OutputBuffer "$javainput"
+%typemap(javaout) OutputBuffer { return $jnicall; }
+
+/*
+///// tests  ///
+%inline {
+}
+///// tests  ///
+*/
+
 // define the interface should been exposed
 %include "bcos-utilities/Error.h"
+%include "ppc-framework/libwrapper/Buffer.h"
 %include "ppc-framework/front/FrontConfig.h"
 %include "ppc-framework/protocol/EndPoint.h"
 %include "ppc-framework/protocol/GrpcConfig.h"

@@ -23,7 +23,6 @@
 #include "Common.h"
 #include "Front.h"
 #include "ppc-framework/front/Channel.h"
-#include <gperftools/malloc_extension.h>
 #include <utility>
 
 namespace ppc::front
@@ -43,7 +42,6 @@ public:
     {
         std::unordered_map<uint64_t, MessageHandler::Ptr>().swap(m_handlers);
         std::unordered_map<uint64_t, front::PPCMessageFace::Ptr>().swap(m_messages);
-        MallocExtension::instance()->ReleaseFreeMemory();
         FRONT_LOG(INFO) << LOG_DESC("the PPCChannel destroyed");
     }
 

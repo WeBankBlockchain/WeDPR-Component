@@ -162,11 +162,17 @@ public:
         ppc::protocol::MessageCallback callback) = 0;
 
     /////// to simplify SDK wrapper ////
+
+    // !!! Note: the 'payload' type(char*) should not been changed, since it used to pass-in java
+    // byte[] data
     virtual void asyncSendMessage(uint16_t routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
-        long timeout, ErrorCallback::Ptr errorCallback, IMessageHandler::Ptr msgHandler)
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, char* payload,
+        uint64_t payloadSize, int seq, long timeout, ErrorCallback::Ptr errorCallback,
+        IMessageHandler::Ptr msgHandler)
     {
-        asyncSendMessage(routeType, routeInfo, std::move(payload), seq, timeout,
+        // TODO: optimize here
+        bcos::bytes copyedPayload(payload, payload + payloadSize);
+        asyncSendMessage(routeType, routeInfo, std::move(copyedPayload), seq, timeout,
             populateErrorCallback(errorCallback), populateMsgCallback(msgHandler));
     }
 
@@ -174,6 +180,9 @@ public:
         bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback) = 0;
 
     /////// to simplify SDK wrapper  ////
+
+    // !!! Note: the 'payload ' type(char*) should not been changed, since it used to pass-in java
+    // byte[] data
     virtual void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
         bcos::bytes&& payload, int seq, ErrorCallback::Ptr errorCallback)
     {
@@ -186,6 +195,14 @@ public:
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
         long timeout) = 0;
 
+    // TODO: optmize here
+    virtual bcos::Error::Ptr push(uint16_t routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, char* payload,
+        uint64_t payloadSize, int seq, long timeout)
+    {
+        bcos::bytes copyedPayload(payload, payload + payloadSize);
+        return push(routeType, routeInfo, std::move(copyedPayload), seq, timeout);
+    }
     virtual ppc::protocol::Message::Ptr pop(std::string const& topic, long timeoutMs) = 0;
     virtual ppc::protocol::Message::Ptr peek(std::string const& topic) = 0;
 

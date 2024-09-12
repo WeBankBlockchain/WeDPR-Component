@@ -21,6 +21,7 @@
 #include "MessagePayload.h"
 #include "RouteType.h"
 #include "ppc-framework/Helper.h"
+#include "ppc-framework/libwrapper/Buffer.h"
 #include <bcos-boostssl/interfaces/MessageFace.h>
 #include <bcos-utilities/Common.h>
 #include <bcos-utilities/DataConvertUtility.h>
@@ -46,11 +47,33 @@ public:
 
     // the source nodeID that send the message
     virtual bcos::bytes const& srcNode() const { return m_srcNode; }
+    /// for swig-wrapper(pass the binary data)
+    OutputBuffer srcNodeBuffer() const
+    {
+        // Note: this will be copied to java through jni
+        return OutputBuffer{(unsigned char*)m_srcNode.data(), m_srcNode.size()};
+    }
+
     virtual void setSrcNode(bcos::bytes const& srcNode) { m_srcNode = srcNode; }
+
+    // !!! Note: the first paramater type should not been changed, for it's used for pass-in java
+    // byte[] into c bytes
+    virtual void setSrcNode(char* data, uint64_t length) { m_srcNode.assign(data, data + length); }
 
     // the target nodeID that should receive the message
     virtual bcos::bytes const& dstNode() const { return m_dstNode; }
+
+    // for swig-wrapper(pass the binary to java)
+    OutputBuffer dstNodeBuffer() const
+    {
+        // Note: this will be copied to java through jni
+        return OutputBuffer{(unsigned char*)m_dstNode.data(), m_dstNode.size()};
+    }
     virtual void setDstNode(bcos::bytes const& dstNode) { m_dstNode = dstNode; }
+
+    // !!! Note: the first paramater type(char*) should not been changed, for it's used for pass-in
+    // java byte[] into c bytes
+    virtual void setDstNode(char* data, uint64_t length) { m_dstNode.assign(data, data + length); }
 
     // the target agency that need receive the message
     virtual std::string const& dstInst() const { return m_dstInst; }
@@ -184,6 +207,16 @@ public:
     }
 
     std::shared_ptr<bcos::bytes> payload() const override { return m_payload; }
+    // for swig wrapper
+    OutputBuffer payloadBuffer() const
+    {
+        if (!m_payload)
+        {
+            return OutputBuffer{nullptr, 0};
+        }
+        return OutputBuffer{(unsigned char*)m_payload->data(), m_payload->size()};
+    }
+
     void setPayload(std::shared_ptr<bcos::bytes> _payload) override
     {
         m_payload = std::move(_payload);

@@ -18,8 +18,8 @@
  * @date 2022-10-20
  */
 #pragma once
-#include <string>
 #include <sstream>
+#include <string>
 namespace ppc
 {
 constexpr static int MAX_PORT = 65535;
@@ -42,7 +42,7 @@ inline std::string_view printP2PIDElegantly(std::string_view p2pId) noexcept
 template <typename T>
 inline std::string_view printNodeID(T const& nodeID)
 {
-    size_t offset = nodeID.size() >= 8 ? 8 : nodeID.size();
+    size_t offset = nodeID.size() >= 15 ? 15 : nodeID.size();
     return std::string_view((const char*)nodeID.data(), offset);
 }
 }  // namespace ppc

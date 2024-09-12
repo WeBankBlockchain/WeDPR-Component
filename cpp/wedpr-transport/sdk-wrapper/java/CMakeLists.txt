@@ -1,4 +1,4 @@
-file(GLOB_RECURSE SRCS *.i)
+file(GLOB_RECURSE SRCS wedpr_java_transport.i)
 set_source_files_properties(${SRCS} PROPERTIES CPLUSPLUS ON)
 
 set(WEDPR_TRANSPORT_PACKAGE "com.webank.wedpr.sdk.jni.generated")

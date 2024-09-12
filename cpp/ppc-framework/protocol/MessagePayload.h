@@ -18,6 +18,7 @@
  * @date 2024-08-22
  */
 #pragma once
+#include "ppc-framework/libwrapper/Buffer.h"
 #include <bcos-utilities/Common.h>
 #include <memory>
 
@@ -42,6 +43,11 @@ public:
     virtual void setVersion(uint8_t version) { m_version = version; }
     // data
     virtual bcos::bytes const& data() const { return m_data; }
+    // for swig wrapper here
+    virtual OutputBuffer dataBuffer() const
+    {
+        return OutputBuffer{(unsigned char*)m_data.data(), m_data.size()};
+    }
     virtual void setData(bcos::bytes&& data) { m_data = std::move(data); }
     virtual void setData(bcos::bytes const& data) { m_data = data; }
     // the seq

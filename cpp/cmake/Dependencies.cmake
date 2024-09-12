@@ -21,17 +21,19 @@ find_package(unofficial-sodium CONFIG REQUIRED)
 
 
 ##### the full-dependencies #####
-if(BUILD_ALL)
-    find_package(TBB REQUIRED)
+if(BUILD_ALL OR BUILD_WEDPR_TOOLKIT)
     find_package(jsoncpp REQUIRED)
-
+    find_package(TBB REQUIRED)
+    find_package(gRPC REQUIRED)
     find_package(${BCOS_BOOSTSSL_TARGET} REQUIRED)
+endif()
+
+if(BUILD_ALL)
     # tcmalloc
     include(ProjectTCMalloc)
 
     find_package(SEAL REQUIRED)
     find_package(Kuku REQUIRED)
-    find_package(gRPC REQUIRED)
 
     # APSI: Note: APSI depends on seal 4.0 and Kuku 2.1
     include(ProjectAPSI)

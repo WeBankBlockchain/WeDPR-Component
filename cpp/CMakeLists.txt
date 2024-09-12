@@ -72,6 +72,12 @@ set(CEM_SOURCE "")
 if(BUILD_CEM)
     set(CEM_SOURCE "wedpr-computing/ppc-cem")
 endif()
+
+set(TRANSPORT_SDK_SOURCE_LIST 
+    wedpr-protocol 
+    wedpr-transport/ppc-front 
+    wedpr-transport/sdk wedpr-transport/sdk-wrapper)
+
 set(ALL_SOURCE_LIST 
         ${SDK_SOURCE_LIST} 
         wedpr-crypto/ppc-crypto 
@@ -92,7 +98,6 @@ if(BUILD_WEDPR_TOOLKIT)
         include(swig)
         message(STATUS "Getting SWIG for Windows: ...DONE")
     endif()
-    add_subdirectory(wedpr-transport/sdk-wrapper)
 endif()
 
 if(BUILD_ALL)
@@ -101,6 +106,8 @@ elseif(BUILD_UDF)
     add_sources("${UDF_SOURCE_LIST}")
 elseif(BUILD_SDK)
     add_sources("${SDK_SOURCE_LIST}")
+elseif(BUILD_WEDPR_TOOLKIT)
+    add_sources("${TRANSPORT_SDK_SOURCE_LIST}")
 endif()
 ########### set the sources end ########### 
 
