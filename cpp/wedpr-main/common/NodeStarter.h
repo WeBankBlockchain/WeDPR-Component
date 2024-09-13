@@ -21,6 +21,7 @@
 #include <execinfo.h>
 #include <libhelper/CommandHelper.h>
 #include <libhelper/ExitHandler.h>
+#include <signal.h>
 #include <stdexcept>
 #include <thread>
 

@@ -129,6 +129,7 @@ jobs:
       - name: Build for macos
         if: runner.os == 'macOS'
         run: |
+          brew install lcov
           bash cpp/tools/install_depends.sh -o macos
           mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON -DBUILD_SDK=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
@@ -137,12 +138,12 @@ jobs:
         run: |
           cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE make test
           make coverage
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: runner.os == 'macos'
         with:
           name: libppc-crypto-sdk-jni.dylib
           path: ./cpp/wedpr-component-sdk/bindings/java/src/main/resources/META-INF/native/libppc-crypto-sdk-jni.dylib
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: runner.os == 'Windows'
         with:
           name: libppc-crypto-sdk-jni.dylib
@@ -206,19 +207,19 @@ jobs:
         run: |
           export OMP_NUM_THREADS=1
           cd build && CTEST_OUTPUT_ON_FAILURE=TRUE make test
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: ppc-air-node-centos-x64
           path: ./cpp/build/bin/ppc-air-node
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: ppc-pro-node-centos-x64
           path: ./cpp/build/bin/ppc-pro-node
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: ppc-gateway-service-centos-x64
           path: ./cpp/build/bin/ppc-gateway-service
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: libppc-crypto-sdk-jni.so
           path: ./cpp/wedpr-component-sdk/bindings/java/src/main/resources/META-INF/native/libppc-crypto-sdk-jni.so
