@@ -62,8 +62,8 @@ PRIMITIVE_TYPEMAP(unsigned long int, long long);
 #include <vector>
 #include <iostream>
 #include <stdint.h>
-#include "wedpr-transport/sdk/TransportBuilder.h"
-#include "wedpr-transport/sdk/Transport.h"
+#include "wedpr-transport/sdk/src/TransportBuilder.h"
+#include "wedpr-transport/sdk/src/Transport.h"
 #include "ppc-framework/libwrapper/Buffer.h"
 #include "ppc-framework/front/IFront.h"
 #include "ppc-framework/protocol/RouteType.h"
@@ -197,6 +197,5 @@ namespace bcos{
 
 %include "ppc-framework/front/IFront.h"
 
-%include "wedpr-transport/sdk/TransportBuilder.h"
-%include "wedpr-transport/sdk/Transport.h"
-
+%include "wedpr-transport/sdk/src/TransportBuilder.h"
+%include "wedpr-transport/sdk/src/Transport.h"

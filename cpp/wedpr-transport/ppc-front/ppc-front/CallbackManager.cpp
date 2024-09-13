@@ -167,7 +167,7 @@ void CallbackManager::onReceiveMessage(std::string const& topic, Message::Ptr ms
     }
     if (!callback)
     {
-        FRONT_LOG(DEBUG) << LOG_DESC("onReceiveMessage: not find the handler, put into the buffer")
+        FRONT_LOG(TRACE) << LOG_DESC("onReceiveMessage: not find the handler, put into the buffer")
                          << LOG_KV("topic", topic);
         addMsgCache(topic, msg);
         return;

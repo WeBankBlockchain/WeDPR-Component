@@ -24,7 +24,7 @@
 #include "ppc-framework/rpc/RpcInterface.h"
 #include "ppc-framework/rpc/RpcTypeDef.h"
 #include "ppc-psi/src/bs-ecdh-psi/BsEcdhPSIImpl.h"
-#include "wedpr-transport/sdk/Transport.h"
+#include "wedpr-transport/sdk/src/Transport.h"
 #include <bcos-boostssl/httpserver/Common.h>
 #include <bcos-utilities/Timer.h>
 

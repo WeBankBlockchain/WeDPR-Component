@@ -16,8 +16,8 @@
 %{
 #define SWIG_FILE_WITH_INIT
 #include <stdint.h>
-#include "wedpr-transport/sdk/TransportBuilder.h"
-#include "wedpr-transport/sdk/Transport.h"
+#include "wedpr-transport/sdk/src/TransportBuilder.h"
+#include "wedpr-transport/sdk/src/Transport.h"
 #include "ppc-framework/front/IFront.h"
 #include "ppc-framework/protocol/RouteType.h"
 #include "ppc-framework/front/FrontConfig.h"
@@ -44,6 +44,6 @@ namespace ppc::sdk{
 %template(SharedRouteInfo) std::shared_ptr<ppc::protocol::MessageOptionalHeader>;
 %template(SharedTransport) std::shared_ptr<ppc::sdk::Transport>;
 
-%include "wedpr-transport/sdk/TransportBuilder.h"
-%include "wedpr-transport/sdk/Transport.h"
+%include "wedpr-transport/sdk/src/TransportBuilder.h"
+%include "wedpr-transport/sdk/src/Transport.h"
 %include "ppc-framework/front/IFront.h"

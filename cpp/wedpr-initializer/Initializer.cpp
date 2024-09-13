@@ -27,7 +27,7 @@
 #include "ppc-psi/src/bs-ecdh-psi/BsEcdhPSIFactory.h"
 #include "ppc-psi/src/cm2020-psi/CM2020PSIFactory.h"
 #include "protocol/src/PPCMessage.h"
-#include "wedpr-transport/sdk/TransportBuilder.h"
+#include "wedpr-transport/sdk/src/TransportBuilder.h"
 #if 0
 //TODO: optimize here
 #include "ppc-psi/src/ecdh-conn-psi/EcdhConnPSIFactory.h"

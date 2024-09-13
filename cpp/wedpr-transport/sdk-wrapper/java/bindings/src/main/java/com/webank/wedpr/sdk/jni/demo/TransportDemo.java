@@ -39,7 +39,9 @@ public class TransportDemo {
                             + nodeID
                             + " receiveMessage, detail: "
                             + message.toString()
-                            + ", ");
+                            + ", payload: "
+                            + new String(message.getPayload())
+                            + "#######");
         }
     }
 
@@ -58,37 +60,42 @@ public class TransportDemo {
                             + " MessageErrorCallback, result: "
                             + error.errorMessage()
                             + ", code:"
-                            + error.errorCode());
+                            + error.errorCode()
+                            + "######");
         }
     }
 
     public static void main(String[] args) throws Exception {
         String nodeID = "testNode";
-        if (args.length > 1) {
+        if (args.length > 0) {
             nodeID = args[0];
         }
         TransportConfig transportConfig = new TransportConfig(2, nodeID);
         String hostIp = "127.0.0.1";
-        if (args.length > 2) {
+        if (args.length > 1) {
             hostIp = args[1];
         }
         int listenPort = 9020;
-        if (args.length > 3) {
+        if (args.length > 2) {
             listenPort = Integer.valueOf(args[2]);
         }
         String listenIp = "0.0.0.0";
         TransportEndPoint endPoint = new TransportEndPoint(hostIp, listenIp, listenPort);
         transportConfig.setSelfEndPoint(endPoint);
         String grpcTarget = "ipv4:127.0.0.1:40600,127.0.0.1:40601";
-        if (args.length > 4) {
+        if (args.length > 3) {
             grpcTarget = args[3];
         }
         transportConfig.setGatewayTargets(grpcTarget);
+        String dstNode = "agency2Node";
+        if (args.length > 4) {
+            dstNode = args[4];
+        }
         System.out.println("####### transportConfig: " + transportConfig.toString());
+        System.out.println("####### dstNode: " + dstNode);
         // build the gatewayTarget
         WeDPRTransport transport = TransportImpl.build(transportConfig);
 
-        System.out.println("####### before start the transport");
         transport.start();
         System.out.println("####### start the transport success");
 
@@ -96,25 +103,41 @@ public class TransportDemo {
         String topic = "testTopic";
         transport.registerTopicHandler(topic, new MessageDispatcherCallbackImpl(nodeID));
         System.out.println("##### register topic success");
-        String dstNode = "agency2Node";
-        if (args.length > 5) {
-            dstNode = args[5];
-        }
 
         byte[] dstNodeBytes = dstNode.getBytes();
         // every 2s send a message
         Integer i = 0;
+        String syncTopic = "sync_" + topic;
         while (true) {
-            String payLoad = "testPayload" + i;
-            transport.asyncSendMessageByNodeID(
-                    topic,
-                    dstNodeBytes,
-                    payLoad.getBytes(),
-                    0,
-                    10000,
-                    new MessageErrorCallback(nodeID),
-                    null);
-            i++;
+            try {
+                String payLoad = "testPayload" + i;
+                // send Message by nodeID
+                transport.asyncSendMessageByNodeID(
+                        topic,
+                        dstNodeBytes,
+                        payLoad.getBytes(),
+                        0,
+                        10000,
+                        new MessageErrorCallback(nodeID),
+                        null);
+
+                // push
+                String syncPayload = "sync_" + payLoad;
+                transport.pushByNodeID(syncTopic, dstNodeBytes, 0, syncPayload.getBytes(), 2000);
+                // pop
+                IMessage msg = transport.pop(syncTopic, 2000);
+                System.out.println(
+                        "##### receive msg from "
+                                + syncTopic
+                                + ", detail: "
+                                + msg.toString()
+                                + ", payload: "
+                                + new String(msg.getPayload())
+                                + "####");
+                i++;
+            } catch (Exception e) {
+                System.out.println("#### exception: " + e.getMessage());
+            }
             Thread.sleep(2000);
         }
     }
