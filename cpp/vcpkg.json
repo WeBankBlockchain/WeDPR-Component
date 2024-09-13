@@ -38,7 +38,7 @@
     },
     { 
       "name": "libhdfs3", 
-      "version": "2024-04-27"
+      "version": "2024-04-27#1"
     },
     {
       "name": "tbb",
@@ -58,8 +58,25 @@
     }
   ],
   "features": {
-    "sse": {
-      "description": "Enable SSE4.2 for libhdfs3"
+    "sse-libhdfs3": {
+      "description": "Enable SSE4.2 for libhdfs3",
+      "dependencies":[
+        {
+          "name": "libhdfs3",
+          "version>=": "2024-04-27#1",
+          "features": ["sse"]
+        }
+      ]
+    },
+    "default-libhdfs3": {
+      "description": "Disable SSE4.2 for libhdfs3",
+      "dependencies":[
+        {
+          "name": "libhdfs3",
+          "version>=": "2024-04-27#1",
+          "features": []
+        }
+      ]
     },
     "cpufeatures":{
       "description": "Enable cpu features",
@@ -98,7 +115,6 @@
           "name": "grpc",
           "version>=": "1.51.1"
         },
-        "libhdfs3",
         "tarscpp",
         "tbb",
         "libxml2"

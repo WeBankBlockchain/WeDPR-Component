@@ -1,6 +1,6 @@
 function(create_build_info)
     # Set build platform; to be written to BuildInfo.h
-    set(PPC_BUILD_OS "${CMAKE_SYSTEM_NAME}")
+    set(PPC_BUILD_OS "${CMAKE_HOST_SYSTEM_NAME}")
 
     if (CMAKE_COMPILER_IS_MINGW)
         set(PPC_BUILD_COMPILER "mingw")

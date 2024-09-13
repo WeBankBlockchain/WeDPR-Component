@@ -1,6 +1,6 @@
 find_package(libxml2 REQUIRED)
 find_package(protobuf REQUIRED)
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+if ("${CMAKE_HOST_SYSTEM_NAME}" MATCHES "Linux")
 	find_package(unofficial-libuuid REQUIRED)
 endif()
 find_package(libhdfs3 REQUIRED)
