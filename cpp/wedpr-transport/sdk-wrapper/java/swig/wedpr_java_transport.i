@@ -179,6 +179,32 @@ namespace bcos{
 %typemap(javain) OutputBuffer "$javainput"
 %typemap(javaout) OutputBuffer { return $jnicall; }
 
+
+
+// refer to: https://stackoverflow.com/questions/12103206/is-it-possible-to-add-text-to-an-existing-typemap-in-swig
+%define WRAP(CLASS)
+%extend CLASS {
+%proxycode %{
+  public void disOwnMemory() {
+    swigSetCMemOwn(false);
+  }
+%}
+}
+%enddef
+
+// Note: these object is created from cpp, and maintained with shared_ptr, 
+//        the java code should disOwnMemory in case of released multiple times
+WRAP(ppc::front::FrontConfig)
+WRAP(ppc::protocol::Message)
+WRAP(ppc::protocol::MessageOptionalHeader)
+WRAP(ppc::protocol::MessageHeader)
+WRAP(ppc::protocol::MessagePayload)
+WRAP(ppc::protocol::MessageBuilder)
+WRAP(ppc::protocol::MessageHeaderBuilder)
+WRAP(ppc::protocol::MessagePayloadBuilder)
+WRAP(ppc::protocol::MessageOptionalHeaderBuilder)
+WRAP(ppc::sdk::Transport)
+
 /*
 ///// tests  ///
 %inline {

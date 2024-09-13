@@ -61,4 +61,8 @@ public class MessageHeaderBuilder {
                         optionalHeader);
         return (cPtr == 0) ? null : new MessageOptionalHeader(cPtr, true);
     }
+
+    public void disOwnMemory() {
+        swigSetCMemOwn(false);
+    }
 }

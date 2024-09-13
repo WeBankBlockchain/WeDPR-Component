@@ -15,25 +15,14 @@
 
 package com.webank.wedpr.sdk.jni.transport.handlers;
 
-import com.webank.wedpr.sdk.jni.generated.Error;
-import com.webank.wedpr.sdk.jni.generated.IMessageHandler;
-import com.webank.wedpr.sdk.jni.generated.Message;
-import com.webank.wedpr.sdk.jni.generated.SendResponseHandler;
-import com.webank.wedpr.sdk.jni.transport.IMessage;
-import com.webank.wedpr.sdk.jni.transport.IMessageBuilder;
+import com.webank.wedpr.sdk.jni.generated.ErrorCallback;
 
-public abstract class MessageCallback extends IMessageHandler {
-    public abstract void onMessage(
-            Error error, IMessage message, SendResponseHandler sendResponseHandler);
+public abstract class MessageErrorCallback extends ErrorCallback {
 
     // release the ownership to c++, in case of it's released by the jvm
+    @Override
     protected void finalize() {
         swigReleaseOwnership();
         delete();
-    }
-
-    @Override
-    public void onMessage(Error e, Message msg, SendResponseHandler sendResponseHandler) {
-        onMessage(e, IMessageBuilder.build(msg), sendResponseHandler);
     }
 }

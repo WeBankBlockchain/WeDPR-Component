@@ -150,4 +150,8 @@ public class MessageHeader {
     public boolean hasOptionalField() {
         return wedpr_java_transportJNI.MessageHeader_hasOptionalField(swigCPtr, this);
     }
+
+    public void disOwnMemory() {
+        swigSetCMemOwn(false);
+    }
 }

@@ -23,6 +23,13 @@ import com.webank.wedpr.sdk.jni.transport.IMessageBuilder;
 public abstract class MessageDispatcherCallback extends MessageDispatcherHandler {
     public abstract void onMessage(IMessage message);
 
+    // TODO: check this will cause memory leak or not
+    // release the ownership to c++, in case of it's released by the jvm
+    protected void finalize() {
+        swigReleaseOwnership();
+        delete();
+    }
+
     @Override
     public void onMessage(Message msg) {
         onMessage(IMessageBuilder.build(msg));

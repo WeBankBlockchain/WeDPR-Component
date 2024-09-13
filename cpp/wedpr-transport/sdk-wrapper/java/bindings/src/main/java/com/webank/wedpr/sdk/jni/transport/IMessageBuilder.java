@@ -16,10 +16,21 @@
 package com.webank.wedpr.sdk.jni.transport;
 
 import com.webank.wedpr.sdk.jni.generated.Message;
+import com.webank.wedpr.sdk.jni.generated.MessageOptionalHeader;
+import com.webank.wedpr.sdk.jni.generated.MessageOptionalHeaderBuilder;
 import com.webank.wedpr.sdk.jni.transport.impl.MessageImpl;
 
 public class IMessageBuilder {
     public static IMessage build(Message msg) {
         return new MessageImpl(msg);
+    }
+
+    public static MessageOptionalHeader buildRouteInfo(
+            MessageOptionalHeaderBuilder routeInfoBuilder, String topic) {
+        // return the ownership to cpp, since it is created by cpp
+        MessageOptionalHeader routeInfo = routeInfoBuilder.build();
+        routeInfo.setTopic(topic);
+        routeInfo.disOwnMemory();
+        return routeInfo;
     }
 }

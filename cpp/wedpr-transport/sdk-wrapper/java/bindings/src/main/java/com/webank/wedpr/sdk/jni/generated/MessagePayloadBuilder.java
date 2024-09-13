@@ -51,4 +51,8 @@ public class MessagePayloadBuilder {
                         swigCPtr, this, SWIGTYPE_p_bcos__bytesConstRef.getCPtr(buffer));
         return (cPtr == 0) ? null : new MessagePayload(cPtr, true);
     }
+
+    public void disOwnMemory() {
+        swigSetCMemOwn(false);
+    }
 }

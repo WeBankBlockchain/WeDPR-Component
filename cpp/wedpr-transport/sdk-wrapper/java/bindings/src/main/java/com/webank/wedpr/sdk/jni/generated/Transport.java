@@ -86,4 +86,8 @@ public class Transport {
         long cPtr = wedpr_java_transportJNI.Transport_getConfig(swigCPtr, this);
         return (cPtr == 0) ? null : new FrontConfig(cPtr, true);
     }
+
+    public void disOwnMemory() {
+        swigSetCMemOwn(false);
+    }
 }

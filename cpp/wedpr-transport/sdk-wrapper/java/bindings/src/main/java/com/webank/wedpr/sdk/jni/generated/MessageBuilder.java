@@ -67,4 +67,8 @@ public class MessageBuilder {
                         payload);
         return (cPtr == 0) ? null : new Message(cPtr, true);
     }
+
+    public void disOwnMemory() {
+        swigSetCMemOwn(false);
+    }
 }

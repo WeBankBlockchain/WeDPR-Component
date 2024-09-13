@@ -55,4 +55,8 @@ public class MessageOptionalHeaderBuilder {
                 wedpr_java_transportJNI.MessageOptionalHeaderBuilder_build__SWIG_1(swigCPtr, this);
         return (cPtr == 0) ? null : new MessageOptionalHeader(cPtr, true);
     }
+
+    public void disOwnMemory() {
+        swigSetCMemOwn(false);
+    }
 }

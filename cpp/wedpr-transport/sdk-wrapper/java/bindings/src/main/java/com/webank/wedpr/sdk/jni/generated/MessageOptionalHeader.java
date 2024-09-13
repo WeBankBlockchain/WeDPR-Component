@@ -126,4 +126,8 @@ public class MessageOptionalHeader {
     public void setSrcInst(String srcInst) {
         wedpr_java_transportJNI.MessageOptionalHeader_setSrcInst(swigCPtr, this, srcInst);
     }
+
+    public void disOwnMemory() {
+        swigSetCMemOwn(false);
+    }
 }

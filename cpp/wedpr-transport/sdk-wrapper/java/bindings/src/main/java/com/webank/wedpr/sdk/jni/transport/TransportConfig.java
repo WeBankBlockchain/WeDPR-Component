@@ -53,6 +53,7 @@ public class TransportConfig {
 
     public TransportConfig(Integer threadPoolSize, String nodeID) {
         this.frontConfig = transportBuilder.buildConfig(threadPoolSize, nodeID);
+        this.frontConfig.disOwnMemory();
         // set default grpcConfig
         setGrpcConfig(new TransportGrpcConfig());
     }

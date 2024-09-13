@@ -21,6 +21,7 @@ import com.webank.wedpr.sdk.jni.transport.IMessage;
 import com.webank.wedpr.sdk.jni.transport.TransportConfig;
 import com.webank.wedpr.sdk.jni.transport.WeDPRTransport;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
+import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
 import com.webank.wedpr.sdk.jni.transport.impl.TransportImpl;
 import com.webank.wedpr.sdk.jni.transport.model.TransportEndPoint;
 
@@ -28,6 +29,10 @@ public class TransportDemo {
     public static class MessageDispatcherCallbackImpl extends MessageDispatcherCallback {
         private final String nodeID;
 
+        // java -cp 'conf/:lib/*:apps/*' com.webank.wedpr.sdk.jni.demo.TransportDemo agency0Node
+        // "127.0.0.1" 9020 "ipv4:127.0.0.1:40600,127.0.0.1:40601" "agency1Node"
+        // java -cp 'conf/:lib/*:apps/*' com.webank.wedpr.sdk.jni.demo.TransportDemo agency1Node
+        // "127.0.0.1" 9021 "ipv4:127.0.0.1:40620,127.0.0.1:40621" "agency0Node"
         public MessageDispatcherCallbackImpl(String nodeID) {
             this.nodeID = nodeID;
         }
@@ -45,10 +50,10 @@ public class TransportDemo {
         }
     }
 
-    public static class MessageErrorCallback extends ErrorCallback {
+    public static class MessageErrorCallbackImpl extends MessageErrorCallback {
         private final String nodeID;
 
-        public MessageErrorCallback(String nodeID) {
+        public MessageErrorCallbackImpl(String nodeID) {
             this.nodeID = nodeID;
         }
 
@@ -101,7 +106,9 @@ public class TransportDemo {
 
         // send Message to the gateway
         String topic = "testTopic";
-        transport.registerTopicHandler(topic, new MessageDispatcherCallbackImpl(nodeID));
+        MessageDispatcherCallback messageDispatcherCallback =
+                new MessageDispatcherCallbackImpl(nodeID);
+        transport.registerTopicHandler(topic, messageDispatcherCallback);
         System.out.println("##### register topic success");
 
         byte[] dstNodeBytes = dstNode.getBytes();
@@ -118,7 +125,7 @@ public class TransportDemo {
                         payLoad.getBytes(),
                         0,
                         10000,
-                        new MessageErrorCallback(nodeID),
+                        new MessageErrorCallbackImpl(nodeID),
                         null);
 
                 // push

@@ -106,4 +106,8 @@ public class MessagePayload {
     public boolean isRespPacket() {
         return wedpr_java_transportJNI.MessagePayload_isRespPacket(swigCPtr, this);
     }
+
+    public void disOwnMemory() {
+        swigSetCMemOwn(false);
+    }
 }

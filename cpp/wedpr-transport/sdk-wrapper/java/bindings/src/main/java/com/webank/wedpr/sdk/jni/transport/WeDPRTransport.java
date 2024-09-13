@@ -16,9 +16,9 @@
 package com.webank.wedpr.sdk.jni.transport;
 
 import com.webank.wedpr.sdk.jni.common.WeDPRSDKException;
-import com.webank.wedpr.sdk.jni.generated.ErrorCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
+import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
 
 public interface WeDPRTransport {
     // start the transport
@@ -82,7 +82,7 @@ public interface WeDPRTransport {
             byte[] payload,
             int seq,
             int timeout,
-            ErrorCallback errorCallback,
+            MessageErrorCallback errorCallback,
             MessageCallback msgCallback);
 
     /**
@@ -101,7 +101,7 @@ public interface WeDPRTransport {
             byte[] payload,
             int seq,
             int timeout,
-            ErrorCallback errorCallback,
+            MessageErrorCallback errorCallback,
             MessageCallback msgCallback);
 
     void asyncSendMessageByComponent(
@@ -111,7 +111,7 @@ public interface WeDPRTransport {
             byte[] payload,
             int seq,
             int timeout,
-            ErrorCallback errorCallback,
+            MessageErrorCallback errorCallback,
             MessageCallback msgCallback);
 
     /**
@@ -129,7 +129,7 @@ public interface WeDPRTransport {
             byte[] payload,
             int seq,
             int timeout,
-            ErrorCallback errorCallback,
+            MessageErrorCallback errorCallback,
             MessageCallback msgCallback);
 
     /** @param topic the topic to remove */

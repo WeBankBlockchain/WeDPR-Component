@@ -25,6 +25,8 @@ public class MessageImpl implements IMessage {
 
         protected MessageHeaderImpl(MessageHeader messageHeader) {
             this.messageHeader = messageHeader;
+            this.messageHeader.optionalField().disOwnMemory();
+            this.messageHeader.disOwnMemory();
         }
 
         @Override
@@ -124,6 +126,7 @@ public class MessageImpl implements IMessage {
     // v1, v2
     public MessageImpl(Message rawMessage) {
         this.rawMessage = rawMessage;
+        this.rawMessage.disOwnMemory();
         this.messageHeader = new MessageHeaderImpl(rawMessage.header());
     }
 

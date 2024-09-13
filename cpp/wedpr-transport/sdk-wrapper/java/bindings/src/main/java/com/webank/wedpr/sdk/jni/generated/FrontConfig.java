@@ -112,4 +112,8 @@ public class FrontConfig {
         return new SWIGTYPE_p_std__vectorT_std__string_t(
                 wedpr_java_transportJNI.FrontConfig_mutableComponents(swigCPtr, this), false);
     }
+
+    public void disOwnMemory() {
+        swigSetCMemOwn(false);
+    }
 }

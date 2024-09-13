@@ -133,4 +133,8 @@ public class Message {
         return wedpr_java_transportJNI.Message_decode(
                 swigCPtr, this, SWIGTYPE_p_bcos__bytesConstRef.getCPtr(_buffer));
     }
+
+    public void disOwnMemory() {
+        swigSetCMemOwn(false);
+    }
 }
