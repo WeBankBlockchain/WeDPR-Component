@@ -125,7 +125,7 @@ public:
         std::string const& topic, ppc::protocol::MessageDispatcherCallback callback) = 0;
 
     /////// to simplify SDK wrapper  ////
-    virtual void registerTopicHandler(
+    virtual void register_topic_handler(
         std::string const& topic, MessageDispatcherHandler::Ptr callback)
     {
         registerTopicHandler(topic, populateMessageDispatcherCallback(callback));
@@ -135,7 +135,7 @@ public:
         std::string const& componentType, ppc::protocol::MessageDispatcherCallback callback) = 0;
 
     /////// to simplify SDK wrapper  ////
-    virtual void registerMessageHandler(
+    virtual void register_msg_handler(
         std::string const& componentType, MessageDispatcherHandler::Ptr callback)
     {
         registerMessageHandler(componentType, populateMessageDispatcherCallback(callback));
@@ -165,7 +165,7 @@ public:
 
     // !!! Note: the 'payload' type(char*) should not been changed, since it used to pass-in java
     // byte[] data
-    virtual void asyncSendMessage(uint16_t routeType,
+    virtual void async_send_message(uint16_t routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, char* payload,
         uint64_t payloadSize, int seq, long timeout, ErrorCallback::Ptr errorCallback,
         IMessageHandler::Ptr msgHandler)
@@ -183,7 +183,7 @@ public:
 
     // !!! Note: the 'payload ' type(char*) should not been changed, since it used to pass-in java
     // byte[] data
-    virtual void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
+    virtual void async_send_response(bcos::bytes const& dstNode, std::string const& traceID,
         bcos::bytes&& payload, int seq, ErrorCallback::Ptr errorCallback)
     {
         asyncSendResponse(

@@ -653,32 +653,13 @@ public class wedpr_java_transportJNI {
 
     public static final native void IFront_stop(long jarg1, IFront jarg1_);
 
-    public static final native void IFront_registerTopicHandler__SWIG_0(
-            long jarg1, IFront jarg1_, String jarg2, long jarg3);
-
-    public static final native void IFront_registerTopicHandler__SWIG_1(
+    public static final native void IFront_register_topic_handler(
             long jarg1, IFront jarg1_, String jarg2, long jarg3, MessageDispatcherHandler jarg3_);
 
-    public static final native void IFront_registerMessageHandler__SWIG_0(
-            long jarg1, IFront jarg1_, String jarg2, long jarg3);
-
-    public static final native void IFront_registerMessageHandler__SWIG_1(
+    public static final native void IFront_register_msg_handler(
             long jarg1, IFront jarg1_, String jarg2, long jarg3, MessageDispatcherHandler jarg3_);
 
-    public static final native void IFront_asyncSendMessage__SWIG_0(
-            long jarg1,
-            IFront jarg1_,
-            int jarg2,
-            long jarg3,
-            MessageOptionalHeader jarg3_,
-            long jarg4,
-            ubytes jarg4_,
-            int jarg5,
-            int jarg6,
-            long jarg7,
-            long jarg8);
-
-    public static final native void IFront_asyncSendMessage__SWIG_1(
+    public static final native void IFront_async_send_message(
             long jarg1,
             IFront jarg1_,
             int jarg2,
@@ -693,18 +674,7 @@ public class wedpr_java_transportJNI {
             long jarg9,
             IMessageHandler jarg9_);
 
-    public static final native void IFront_asyncSendResponse__SWIG_0(
-            long jarg1,
-            IFront jarg1_,
-            long jarg2,
-            ubytes jarg2_,
-            String jarg3,
-            long jarg4,
-            ubytes jarg4_,
-            int jarg5,
-            long jarg6);
-
-    public static final native void IFront_asyncSendResponse__SWIG_1(
+    public static final native void IFront_async_send_response(
             long jarg1,
             IFront jarg1_,
             long jarg2,
@@ -742,8 +712,6 @@ public class wedpr_java_transportJNI {
 
     public static final native long IFront_peek(long jarg1, IFront jarg1_, String jarg2);
 
-    public static final native void IFront_asyncGetAgencies(long jarg1, IFront jarg1_, long jarg2);
-
     public static final native long IFront_registerNodeInfo(long jarg1, IFront jarg1_, long jarg2);
 
     public static final native long IFront_unRegisterNodeInfo(long jarg1, IFront jarg1_);
@@ -764,14 +732,6 @@ public class wedpr_java_transportJNI {
     public static final native long new_TransportBuilder();
 
     public static final native void delete_TransportBuilder(long jarg1);
-
-    public static final native long TransportBuilder_build(
-            long jarg1,
-            TransportBuilder jarg1_,
-            int jarg2,
-            long jarg3,
-            FrontConfig jarg3_,
-            long jarg4);
 
     public static final native long TransportBuilder_buildProTransport(
             long jarg1, TransportBuilder jarg1_, long jarg2, FrontConfig jarg2_);

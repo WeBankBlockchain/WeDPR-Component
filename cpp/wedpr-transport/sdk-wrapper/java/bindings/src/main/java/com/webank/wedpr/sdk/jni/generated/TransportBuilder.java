@@ -52,19 +52,6 @@ public class TransportBuilder {
         this(wedpr_java_transportJNI.new_TransportBuilder(), true);
     }
 
-    public Transport build(
-            SDKMode mode, FrontConfig config, SWIGTYPE_p_ppc__gateway__IGateway__Ptr gateway) {
-        long cPtr =
-                wedpr_java_transportJNI.TransportBuilder_build(
-                        swigCPtr,
-                        this,
-                        mode.swigValue(),
-                        FrontConfig.getCPtr(config),
-                        config,
-                        SWIGTYPE_p_ppc__gateway__IGateway__Ptr.getCPtr(gateway));
-        return (cPtr == 0) ? null : new Transport(cPtr, true);
-    }
-
     public Transport buildProTransport(FrontConfig config) {
         long cPtr =
                 wedpr_java_transportJNI.TransportBuilder_buildProTransport(

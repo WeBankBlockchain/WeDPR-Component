@@ -205,6 +205,18 @@ WRAP(ppc::protocol::MessagePayloadBuilder)
 WRAP(ppc::protocol::MessageOptionalHeaderBuilder)
 WRAP(ppc::sdk::Transport)
 
+// the method no need to wrapper
+%ignore ppc::sdk::TransportBuilder::build;
+%ignore ppc::front::IFront::onReceiveMessage;
+%ignore ppc::front::IFront::asyncSendMessage;
+%ignore ppc::front::IFront::asyncGetAgencies;
+%ignore ppc::front::IFront::registerTopicHandler;
+%ignore ppc::front::IFront::registerMessageHandler;
+%ignore ppc::front::IFront::asyncSendResponse;
+%ignore ppc::front::IFront::populateErrorCallback;
+%ignore ppc::front::IFront::populateMessageDispatcherCallback;
+%ignore ppc::front::IFront::populateMsgCallback;
+
 /*
 ///// tests  ///
 %inline {

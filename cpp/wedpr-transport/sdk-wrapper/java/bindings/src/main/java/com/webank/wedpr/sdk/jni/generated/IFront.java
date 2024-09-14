@@ -59,41 +59,13 @@ public class IFront extends IFrontClient {
         wedpr_java_transportJNI.IFront_stop(swigCPtr, this);
     }
 
-    /**
-     * <br>
-     *
-     * @param topic the topic<br>
-     * @param callback the callback called when receive specified topic
-     */
-    public void registerTopicHandler(
-            String topic,
-            SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_ppc__protocol__Message_tF_t callback) {
-        wedpr_java_transportJNI.IFront_registerTopicHandler__SWIG_0(
-                swigCPtr,
-                this,
-                topic,
-                SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_ppc__protocol__Message_tF_t
-                        .getCPtr(callback));
-    }
-
-    public void registerTopicHandler(String topic, MessageDispatcherHandler callback) {
-        wedpr_java_transportJNI.IFront_registerTopicHandler__SWIG_1(
+    public void register_topic_handler(String topic, MessageDispatcherHandler callback) {
+        wedpr_java_transportJNI.IFront_register_topic_handler(
                 swigCPtr, this, topic, MessageDispatcherHandler.getCPtr(callback), callback);
     }
 
-    public void registerMessageHandler(
-            String componentType,
-            SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_ppc__protocol__Message_tF_t callback) {
-        wedpr_java_transportJNI.IFront_registerMessageHandler__SWIG_0(
-                swigCPtr,
-                this,
-                componentType,
-                SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_ppc__protocol__Message_tF_t
-                        .getCPtr(callback));
-    }
-
-    public void registerMessageHandler(String componentType, MessageDispatcherHandler callback) {
-        wedpr_java_transportJNI.IFront_registerMessageHandler__SWIG_1(
+    public void register_msg_handler(String componentType, MessageDispatcherHandler callback) {
+        wedpr_java_transportJNI.IFront_register_msg_handler(
                 swigCPtr,
                 this,
                 componentType,
@@ -101,48 +73,7 @@ public class IFront extends IFrontClient {
                 callback);
     }
 
-    /**
-     * async send message<br>
-     * <br>
-     *
-     * @param routeType the route type<br>
-     * @param routeInfo the route info, include<br>
-     *     - topic the topic<br>
-     *     - dstInst the dst agency(must set when 'route by agency' and 'route by<br>
-     *     component')<br>
-     *     - dstNodeID the dst nodeID(must set when 'route by nodeID')<br>
-     *     - componentType the componentType(must set when 'route by component')<br>
-     * @param payload the payload to send<br>
-     * @param seq the message seq<br>
-     * @param timeout timeout<br>
-     * @param callback callback
-     */
-    public void asyncSendMessage(
-            int routeType,
-            MessageOptionalHeader routeInfo,
-            ubytes payload,
-            int seq,
-            int timeout,
-            SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_tF_t errorCallback,
-            SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_t_std__shared_ptrT_ppc__protocol__Message_t_std__functionT_void_fstd__shared_ptrT_bcos__bytes_t_RRF_tF_t
-                    callback) {
-        wedpr_java_transportJNI.IFront_asyncSendMessage__SWIG_0(
-                swigCPtr,
-                this,
-                routeType,
-                MessageOptionalHeader.getCPtr(routeInfo),
-                routeInfo,
-                ubytes.swigRelease(payload),
-                payload,
-                seq,
-                timeout,
-                SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_tF_t.getCPtr(
-                        errorCallback),
-                SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_t_std__shared_ptrT_ppc__protocol__Message_t_std__functionT_void_fstd__shared_ptrT_bcos__bytes_t_RRF_tF_t
-                        .getCPtr(callback));
-    }
-
-    public void asyncSendMessage(
+    public void async_send_message(
             int routeType,
             MessageOptionalHeader routeInfo,
             byte[] payload,
@@ -151,7 +82,7 @@ public class IFront extends IFrontClient {
             int timeout,
             ErrorCallback errorCallback,
             IMessageHandler msgHandler) {
-        wedpr_java_transportJNI.IFront_asyncSendMessage__SWIG_1(
+        wedpr_java_transportJNI.IFront_async_send_message(
                 swigCPtr,
                 this,
                 routeType,
@@ -167,28 +98,9 @@ public class IFront extends IFrontClient {
                 msgHandler);
     }
 
-    public void asyncSendResponse(
-            ubytes dstNode,
-            String traceID,
-            ubytes payload,
-            int seq,
-            SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_tF_t errorCallback) {
-        wedpr_java_transportJNI.IFront_asyncSendResponse__SWIG_0(
-                swigCPtr,
-                this,
-                ubytes.getCPtr(dstNode),
-                dstNode,
-                traceID,
-                ubytes.swigRelease(payload),
-                payload,
-                seq,
-                SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_tF_t.getCPtr(
-                        errorCallback));
-    }
-
-    public void asyncSendResponse(
+    public void async_send_response(
             ubytes dstNode, String traceID, ubytes payload, int seq, ErrorCallback errorCallback) {
-        wedpr_java_transportJNI.IFront_asyncSendResponse__SWIG_1(
+        wedpr_java_transportJNI.IFront_async_send_response(
                 swigCPtr,
                 this,
                 ubytes.getCPtr(dstNode),
@@ -246,16 +158,6 @@ public class IFront extends IFrontClient {
     public Message peek(String topic) {
         long cPtr = wedpr_java_transportJNI.IFront_peek(swigCPtr, this, topic);
         return (cPtr == 0) ? null : new Message(cPtr, true);
-    }
-
-    public void asyncGetAgencies(
-            SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_t_std__setT_std__string_tF_t
-                    callback) {
-        wedpr_java_transportJNI.IFront_asyncGetAgencies(
-                swigCPtr,
-                this,
-                SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_t_std__setT_std__string_tF_t
-                        .getCPtr(callback));
     }
 
     /**

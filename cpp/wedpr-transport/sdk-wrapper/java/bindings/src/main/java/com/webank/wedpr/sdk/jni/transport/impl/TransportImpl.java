@@ -107,7 +107,7 @@ public class TransportImpl implements WeDPRTransport {
 
     @Override
     public void registerTopicHandler(String topic, MessageDispatcherCallback messageHandler) {
-        this.transport.getFront().registerTopicHandler(topic, messageHandler);
+        this.transport.getFront().register_topic_handler(topic, messageHandler);
     }
 
     /**
@@ -134,7 +134,7 @@ public class TransportImpl implements WeDPRTransport {
         routeInfo.setDstNode(dstNode, BigInteger.valueOf(dstNode.length));
         this.transport
                 .getFront()
-                .asyncSendMessage(
+                .async_send_message(
                         RouteType.ROUTE_THROUGH_NODEID.ordinal(),
                         routeInfo,
                         payload,
@@ -169,7 +169,7 @@ public class TransportImpl implements WeDPRTransport {
         routeInfo.setDstInst(agency);
         this.transport
                 .getFront()
-                .asyncSendMessage(
+                .async_send_message(
                         RouteType.ROUTE_THROUGH_AGENCY.ordinal(),
                         routeInfo,
                         payload,
@@ -197,7 +197,7 @@ public class TransportImpl implements WeDPRTransport {
         routeInfo.setComponentType(component);
         this.transport
                 .getFront()
-                .asyncSendMessage(
+                .async_send_message(
                         RouteType.ROUTE_THROUGH_COMPONENT.ordinal(),
                         routeInfo,
                         payload,
@@ -232,7 +232,7 @@ public class TransportImpl implements WeDPRTransport {
         routeInfo.setDstInst(dstInst);
         this.transport
                 .getFront()
-                .asyncSendMessage(
+                .async_send_message(
                         RouteType.ROUTE_THROUGH_TOPIC.ordinal(),
                         routeInfo,
                         payload,
