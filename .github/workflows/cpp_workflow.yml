@@ -75,7 +75,6 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE ctest
-          make coverage
 
   build_sdk:
     name: build sdk
@@ -131,13 +130,16 @@ jobs:
         run: |
           brew install lcov
           bash cpp/tools/install_depends.sh -o macos
-          mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON -DBUILD_SDK=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=OFF -DBUILD_SDK=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
       - name: Test
-        if: runner.os != 'Windows'
+        if: runner.os == 'macOS'
         run: |
           cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE make test
-          make coverage
+      - name: Test and upload coverage
+        if: runner.os == 'Linux'
+        run: |
+          cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE make test
       - uses: actions/upload-artifact@v4
         if: runner.os == 'macos'
         with:
