@@ -167,13 +167,13 @@ int64_t MessageHeaderImpl::decode(bcos::bytesConstRef data)
 
 uint16_t MessageHeaderImpl::routeType() const
 {
+    if (m_ext & (uint16_t)ppc::gateway::GatewayMsgExtFlag::RouteByNodeID)
+    {
+        return (uint16_t)RouteType::ROUTE_THROUGH_NODEID;
+    }
     if (m_ext & (uint16_t)ppc::gateway::GatewayMsgExtFlag::RouteByComponent)
     {
         return (uint16_t)RouteType::ROUTE_THROUGH_COMPONENT;
-    }
-    if (m_ext & (uint16_t)ppc::gateway::GatewayMsgExtFlag::RouteByAgency)
-    {
-        return (uint16_t)RouteType::ROUTE_THROUGH_AGENCY;
     }
     if (m_ext & (uint16_t)ppc::gateway::GatewayMsgExtFlag::RouteByAgency)
     {

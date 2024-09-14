@@ -86,7 +86,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 }
 
-archivesBaseName = 'wedpr-java-transport-jni'
+archivesBaseName = 'wedpr-gateway-sdk'
 group = 'com.webank.wedpr'
 version = '1.0.0-SNAPSHOT'
 

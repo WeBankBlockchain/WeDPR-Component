@@ -98,7 +98,7 @@ bool LocalRouter::dispatcherMessage(Message::Ptr const& msg, ReceiveMsgFunc call
                         return;
                     }
                     LOCAL_ROUTER_LOG(WARNING) << LOG_DESC("dispatcherMessage to front failed")
-                                              << LOG_KV("code", error->errorMessage())
+                                              << LOG_KV("code", error->errorCode())
                                               << LOG_KV("msg", error->errorMessage());
                 });
             }

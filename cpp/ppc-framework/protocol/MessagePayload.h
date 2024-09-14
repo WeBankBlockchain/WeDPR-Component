@@ -69,13 +69,14 @@ public:
 
 protected:
     // the front payload version, used to support compatibility
-    uint8_t m_version;
+    // Note: must init here to 0, otherwise, it will be unexpected value in some other platform
+    uint8_t m_version = 0;
     // the seq
-    uint16_t m_seq;
+    uint16_t m_seq = 0;
     // the traceID
     std::string m_traceID;
     bcos::bytes m_data;
-    uint16_t m_ext;
+    uint16_t m_ext = 0;
     int64_t mutable m_length;
 };
 

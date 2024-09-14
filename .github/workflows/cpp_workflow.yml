@@ -63,7 +63,7 @@ jobs:
           export GCC='gcc-10'
           export CXX='g++-10'
           bash cpp/tools/install_depends.sh -o ubuntu
-          mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON ../
           make -j3
       - name: Build for macos
         if: runner.os == 'macOS'

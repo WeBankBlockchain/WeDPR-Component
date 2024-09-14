@@ -159,6 +159,7 @@ public:
     virtual bool hasOptionalField() const = 0;
 
 protected:
+    // Note: must init here to 0, otherwise, it will be unexpected value in some other platform
     // the msg version, used to support compatibility
     uint8_t m_version = 0;
     // the traceID
@@ -168,11 +169,11 @@ protected:
     // the dstGwNode
     std::string m_dstGwNode;
     // the packetType
-    uint16_t m_packetType;
+    uint16_t m_packetType = 0;
     // the ttl
     int16_t m_ttl = 0;
     // the ext(contains the router policy and response flag)
-    uint16_t m_ext;
+    uint16_t m_ext = 0;
     //// the optional field(used to route between components and nodes)
     MessageOptionalHeader::Ptr m_optionalField;
     uint16_t mutable m_length;
@@ -324,7 +325,8 @@ inline std::string printWsMessage(bcos::boostssl::MessageFace::Ptr const& _msg)
     }
     std::ostringstream stringstream;
     stringstream << LOG_KV("rsp", _msg->isRespPacket()) << LOG_KV("traceID", _msg->seq())
-                 << LOG_KV("packetType", _msg->packetType()) << LOG_KV("length", _msg->length());
+                 << LOG_KV("packetType", _msg->packetType()) << LOG_KV("length", _msg->length())
+                 << LOG_KV("ext", _msg->ext());
     return stringstream.str();
 }
 
