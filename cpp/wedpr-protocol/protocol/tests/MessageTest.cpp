@@ -110,15 +110,14 @@ BOOST_AUTO_TEST_CASE(testMessage)
     bcos::bytes dstNode;
     std::string srcInst;
     std::string dstInst;
-    std::shared_ptr<bcos::bytes> payload;
+    std::shared_ptr<bcos::bytes> payload = nullptr;
 
     auto msg = fakeMsg(msgBuilder, version, traceID, srcGwNode, dstGwNode, packetType, ttl, ext,
         topic, componentType, srcNode, srcInst, dstNode, dstInst, payload);
     checkEncodeDecode(msgBuilder, msg);
     // with payload
-    payload = std::make_shared<bcos::bytes>();
     std::string payloadData = "payloadf@#$@#$sdfs234";
-    *payload = bcos::bytes(payloadData.begin(), payloadData.end());
+    payload = std::make_shared<bcos::bytes>(payloadData.begin(), payloadData.end());
     msg = fakeMsg(msgBuilder, version, traceID, srcGwNode, dstGwNode, packetType, ttl, ext, topic,
         componentType, srcNode, srcInst, dstNode, dstInst, payload);
     checkEncodeDecode(msgBuilder, msg);

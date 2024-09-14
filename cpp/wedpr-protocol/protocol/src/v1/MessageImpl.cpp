@@ -33,6 +33,7 @@ bool MessageImpl::encode(bcos::bytes& _buffer)
     {
         _buffer.insert(_buffer.end(), m_payload->begin(), m_payload->end());
     }
+    return true;
 }
 
 bool MessageImpl::encode(bcos::boostssl::EncodedMsg& encodedMsg)
