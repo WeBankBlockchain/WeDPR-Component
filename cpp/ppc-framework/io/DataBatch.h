@@ -20,7 +20,6 @@
 #pragma once
 #include "../Common.h"
 #include <bcos-utilities/Common.h>
-#include <tbb/tbb.h>
 #include <boost/lexical_cast.hpp>
 #include <algorithm>
 #include <memory>
@@ -199,18 +198,8 @@ public:
 
     DataSchema getDataSchema() const { return m_dataSchema; }
 
-    uint32_t dedup()
-    {
-        if (!m_data || m_data->empty())
-        {
-            return 0;
-        }
 
-        tbb::parallel_sort(m_data->begin(), m_data->end());
-        auto unique_end = std::unique(m_data->begin(), m_data->end());
-        m_data->erase(unique_end, m_data->end());
-        return m_data->size();
-    }
+    std::shared_ptr<std::vector<DataType>>& mutableData() { return m_data; }
 
 private:
     std::shared_ptr<std::vector<DataType>> m_data;

@@ -2,6 +2,7 @@
 #include "ppc-psi/src/ecdh-multi-psi/EcdhMultiCache.h"
 #include "ppc-psi/src/ecdh-multi-psi/EcdhMultiPSIConfig.h"
 #include "ppc-psi/src/psi-framework/TaskState.h"
+#include <tbb/tbb.h>
 
 namespace ppc::psi
 {
