@@ -1,19 +1,32 @@
-file(GLOB_RECURSE SRCS wedpr_java_transport.i)
-set_source_files_properties(${SRCS} PROPERTIES CPLUSPLUS ON)
+option(AUTO_GENERATE "Auto generate the targes" OFF)
+if(AUTO_GENERATE)
+    if(WIN32)
+      message(STATUS "Getting SWIG for Windows: ...")
+      include(swig)
+      message(STATUS "Getting SWIG for Windows: ...DONE")
+    endif()
+    # only auto-generate should find swig
+    include(java)
+    file(GLOB_RECURSE SRCS wedpr_java_transport.i)
+    set_source_files_properties(${SRCS} PROPERTIES CPLUSPLUS ON)
 
-set(WEDPR_TRANSPORT_PACKAGE "com.webank.wedpr.sdk.jni.generated")
+    set(WEDPR_TRANSPORT_PACKAGE "com.webank.wedpr.sdk.jni.generated")
 
-set_property(SOURCE swig/wedpr_java_transport.i PROPERTY COMPILE_OPTIONS
-  -package ${WEDPR_TRANSPORT_PACKAGE})
+    set_property(SOURCE swig/wedpr_java_transport.i PROPERTY COMPILE_OPTIONS
+      -package ${WEDPR_TRANSPORT_PACKAGE})
 
-file(MAKE_DIRECTORY ${WEDPR_JAVA_TRANSPORT_DIR})
-file(MAKE_DIRECTORY ${WEDPR_JAVA_TRANSPORT_LIB_DIR})
+    file(MAKE_DIRECTORY ${WEDPR_JAVA_TRANSPORT_DIR})
+    file(MAKE_DIRECTORY ${WEDPR_JAVA_TRANSPORT_LIB_DIR})
 
-swig_add_library(${WEDPR_JAVA_TRANSPORT}
-  TYPE MODULE
-  LANGUAGE java
-  OUTPUT_DIR ${WEDPR_JAVA_TRANSPORT_DIR}
-  SOURCES ${SRCS})
+    swig_add_library(${WEDPR_JAVA_TRANSPORT}
+      TYPE MODULE
+      LANGUAGE java
+      OUTPUT_DIR ${WEDPR_JAVA_TRANSPORT_DIR}
+      SOURCES ${SRCS})
+else()
+    file(GLOB_RECURSE SRCS src/*.cxx)
+    add_library(${WEDPR_JAVA_TRANSPORT} SHARED ${SRCS})
+endif()  
 
 SET(LIBRARY_OUTPUT_PATH ${WEDPR_JAVA_TRANSPORT_LIB_DIR})
 message("LIBRARY_OUTPUT_PATH: ${WEDPR_JAVA_TRANSPORT_LIB_DIR}")

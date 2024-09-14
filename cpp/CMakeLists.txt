@@ -89,17 +89,6 @@ set(ALL_SOURCE_LIST
         wedpr-computing/ppc-psi wedpr-computing/ppc-mpc wedpr-computing/ppc-pir ${CEM_SOURCE}
         wedpr-initializer wedpr-main)
 
-if(BUILD_WEDPR_TOOLKIT)
-    # fetch the python dependencies
-    option(FETCH_PYTHON_DEPS "Install python required modules if not available" ON)
-    message(STATUS "Python fetch dependencies: ${FETCH_PYTHON_DEPS}")
-    if(WIN32)
-        message(STATUS "Getting SWIG for Windows: ...")
-        include(swig)
-        message(STATUS "Getting SWIG for Windows: ...DONE")
-    endif()
-endif()
-
 if(BUILD_ALL)
     add_sources("${ALL_SOURCE_LIST}")
 elseif(BUILD_UDF)

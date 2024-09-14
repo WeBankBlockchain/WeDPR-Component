@@ -43,8 +43,6 @@ public class IFrontClient {
     /**
      * : receive message from gateway, call by gateway<br>
      * <br>
-     *
-     * @return void
      */
     public void onReceiveMessage(
             Message _msg,

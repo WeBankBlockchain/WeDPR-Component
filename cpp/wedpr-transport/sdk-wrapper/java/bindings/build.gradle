@@ -7,6 +7,9 @@ plugins {
     id "de.undercouch.download" version "4.1.2"
     id 'com.github.sherter.google-java-format' version '0.9'
 }
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+apply plugin: 'signing'
 
 // Additional attribute definition
 ext {
@@ -93,7 +96,7 @@ version = '1.0.0-SNAPSHOT'
 jar {
     exclude '**/*.xml'
     exclude '**/*.properties'
-    /*manifest {
+    manifest {
         try {
             def repo = grgit.open(currentDir: project.rootDir)
             if (repo != null) {
@@ -109,7 +112,7 @@ jar {
         } catch (Exception e) {
             e.printStackTrace()
         }
-    } from sourceSets.main.output*/
+    } from sourceSets.main.output
 
     doLast {
         copy {
@@ -164,7 +167,7 @@ publishing {
 
             pom {
                 name = 'wedpr'
-                description = 'wedpr java transport jni'
+                description = 'wedpr java gateway sdk'
                 url = 'http://www.fisco-bcos.org'
 
                 licenses {
@@ -200,7 +203,8 @@ publishing {
                 password 'deployment123'
             }
         }
+        signing {
+            sign publishing.publications.mavenJava
+        }
     }
-
 }
-
