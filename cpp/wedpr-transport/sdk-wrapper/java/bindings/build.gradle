@@ -24,6 +24,7 @@ ext {
     junitVersion = "4.13.2"
     log4jVersion = "2.23.0"
     jmhVersion = "1.36"
+    println("*ossrhUsername: " + ossrhUsername)
 }
 
 println("Notice: current gradle version is " + gradle.gradleVersion)
@@ -199,8 +200,8 @@ publishing {
             url = !version.endsWith("SNAPSHOT") ? releasesRepoURL : snapshotsRepoURL
 
             credentials {
-                username 'deployment'
-                password 'deployment123'
+                username ossrhUsername
+                password ossrhPassword
             }
         }
         signing {
