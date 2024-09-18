@@ -54,7 +54,7 @@ public:
         bcos::bytes&& payload, long timeout, ppc::protocol::ReceiveMsgFunc callback) override;
 
     void asyncGetPeers(std::function<void(bcos::Error::Ptr, std::string)> callback) override;
-    void asyncGetAgencies(
+    void asyncGetAgencies(std::vector<std::string> const& components,
         std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) override;
 
     void asyncSendbroadcastMessage(ppc::protocol::RouteType routeType,

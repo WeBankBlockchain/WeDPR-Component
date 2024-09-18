@@ -63,6 +63,7 @@ public:
     virtual void onMessage(ppc::protocol::Message::Ptr msg) = 0;
 };
 
+
 class SendResponseHandler
 {
 public:
@@ -90,6 +91,16 @@ public:
 
     virtual void onMessage(bcos::Error::Ptr e, ppc::protocol::Message::Ptr msg,
         SendResponseHandler sendResponseHandler) = 0;
+};
+
+class GetPeersInfoHandler
+{
+public:
+    using Ptr = std::shared_ptr<GetPeersInfoHandler>;
+    GetPeersInfoHandler() = default;
+    virtual ~GetPeersInfoHandler() {}
+
+    virtual void onPeersInfo(bcos::Error::Ptr e, std::string const& peersInfo) = 0;
 };
 
 ///////// the callback definition for sdk wrapper /////////
@@ -183,14 +194,15 @@ public:
 
     // !!! Note: the 'payload ' type(char*) should not been changed, since it used to pass-in java
     // byte[] data
-    virtual void async_send_response(char* dstNode, uint64_t dstNodeSize, std::string const& traceID,
-        char* payload, uint64_t payloadSize, int seq, ErrorCallback::Ptr errorCallback)
+    virtual void async_send_response(char* dstNode, uint64_t dstNodeSize,
+        std::string const& traceID, char* payload, uint64_t payloadSize, int seq,
+        ErrorCallback::Ptr errorCallback)
     {
         // TODO: optimize here
         bcos::bytes copiedDstNode(dstNode, dstNode + dstNodeSize);
         bcos::bytes copyedPayload(payload, payload + payloadSize);
-        asyncSendResponse(
-            copiedDstNode, traceID, std::move(copyedPayload), seq, populateErrorCallback(errorCallback));
+        asyncSendResponse(copiedDstNode, traceID, std::move(copyedPayload), seq,
+            populateErrorCallback(errorCallback));
     }
 
     // the sync interface for async_send_message
@@ -209,8 +221,10 @@ public:
     virtual ppc::protocol::Message::Ptr pop(std::string const& topic, long timeoutMs) = 0;
     virtual ppc::protocol::Message::Ptr peek(std::string const& topic) = 0;
 
-    virtual void asyncGetAgencies(
+    virtual void asyncGetAgencies(std::vector<std::string> const& components,
         std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) = 0;
+
+    virtual void asyncGetPeers(GetPeersInfoHandler::Ptr getPeersCallback) = 0;
 
     /**
      * @brief register the nodeInfo to the gateway
@@ -222,6 +236,8 @@ public:
      * @brief unRegister the nodeInfo to the gateway
      */
     virtual bcos::Error::Ptr unRegisterNodeInfo() = 0;
+
+    virtual ppc::protocol::INodeInfo::Ptr const& nodeInfo() = 0;
 
     /**
      * @brief register the topic
@@ -237,6 +253,8 @@ public:
      */
     virtual bcos::Error::Ptr unRegisterTopic(std::string const& topic) = 0;
 
+    virtual void registerComponent(std::string const& component) = 0;
+    virtual void unRegisterComponent(std::string const& component) = 0;
 
 private:
     ppc::protocol::ReceiveMsgFunc populateErrorCallback(ErrorCallback::Ptr errorCallback)

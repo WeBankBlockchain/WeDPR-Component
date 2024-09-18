@@ -166,6 +166,11 @@ public class IFront extends IFrontClient {
         return (cPtr == 0) ? null : new Message(cPtr, true);
     }
 
+    public void asyncGetPeers(GetPeersInfoHandler getPeersCallback) {
+        wedpr_java_transportJNI.IFront_asyncGetPeers(
+                swigCPtr, this, GetPeersInfoHandler.getCPtr(getPeersCallback), getPeersCallback);
+    }
+
     /**
      * register the nodeInfo to the gateway<br>
      *
@@ -182,6 +187,11 @@ public class IFront extends IFrontClient {
     public Error unRegisterNodeInfo() {
         long cPtr = wedpr_java_transportJNI.IFront_unRegisterNodeInfo(swigCPtr, this);
         return (cPtr == 0) ? null : new Error(cPtr, true);
+    }
+
+    public SWIGTYPE_p_ppc__protocol__INodeInfo__Ptr nodeInfo() {
+        return new SWIGTYPE_p_ppc__protocol__INodeInfo__Ptr(
+                wedpr_java_transportJNI.IFront_nodeInfo(swigCPtr, this), false);
     }
 
     /**
@@ -204,5 +214,13 @@ public class IFront extends IFrontClient {
     public Error unRegisterTopic(String topic) {
         long cPtr = wedpr_java_transportJNI.IFront_unRegisterTopic(swigCPtr, this, topic);
         return (cPtr == 0) ? null : new Error(cPtr, true);
+    }
+
+    public void registerComponent(String component) {
+        wedpr_java_transportJNI.IFront_registerComponent(swigCPtr, this, component);
+    }
+
+    public void unRegisterComponent(String component) {
+        wedpr_java_transportJNI.IFront_unRegisterComponent(swigCPtr, this, component);
     }
 }

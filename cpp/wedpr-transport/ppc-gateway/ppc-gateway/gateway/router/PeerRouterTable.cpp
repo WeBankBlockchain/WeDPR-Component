@@ -116,13 +116,30 @@ void PeerRouterTable::removeP2PID(std::string const& p2pNode)
     removeP2PNodeIDFromAgencyInfos(p2pNode);
 }
 
-std::set<std::string> PeerRouterTable::agencies() const
+std::set<std::string> PeerRouterTable::agencies(std::vector<std::string> const& components) const
 {
     std::set<std::string> agencies;
     bcos::ReadGuard l(x_mutex);
     for (auto const& it : m_agency2GatewayInfos)
     {
-        agencies.insert(it.first);
+        // get all agencies
+        if (components.empty())
+        {
+            agencies.insert(it.first);
+            continue;
+        }
+        // get agencies according to component
+        for (auto const& gatewayInfo : it.second)
+        {
+            for (auto const& component : components)
+            {
+                if (gatewayInfo->existComponent(component))
+                {
+                    agencies.insert(it.first);
+                    break;
+                }
+            }
+        }
     }
     return agencies;
 }

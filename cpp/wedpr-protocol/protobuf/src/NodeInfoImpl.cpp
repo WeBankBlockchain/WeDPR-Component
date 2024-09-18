@@ -25,16 +25,28 @@ using namespace ppc::protocol;
 
 void NodeInfoImpl::encode(bcos::bytes& data) const
 {
+    encodeFields();
+    encodePBObject(data, m_rawNodeInfo);
+}
+
+void NodeInfoImpl::encodeFields() const
+{
+    bcos::ReadGuard l(x_components);
     // set the components
     for (auto const& component : m_components)
     {
         m_rawNodeInfo->add_components(component);
     }
-    encodePBObject(data, m_rawNodeInfo);
 }
 void NodeInfoImpl::decode(bcos::bytesConstRef data)
 {
     decodePBObject(m_rawNodeInfo, data);
+    decodeFields();
+}
+
+void NodeInfoImpl::decodeFields()
+{
+    bcos::WriteGuard l(x_components);
     m_components = std::set<std::string>(
         m_rawNodeInfo->components().begin(), m_rawNodeInfo->components().end());
 }

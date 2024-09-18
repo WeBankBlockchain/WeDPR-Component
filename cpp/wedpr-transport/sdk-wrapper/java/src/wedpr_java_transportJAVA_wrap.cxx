@@ -781,7 +781,7 @@ namespace Swig {
 namespace Swig {
   namespace {
     jclass jclass_wedpr_java_transportJNI = NULL;
-    jmethodID director_method_ids[3];
+    jmethodID director_method_ids[4];
   }
 }
 
@@ -1202,6 +1202,66 @@ void SwigDirector_IMessageHandler::swig_connect_director(JNIEnv *jenv, jobject j
 }
 
 
+SwigDirector_GetPeersInfoHandler::SwigDirector_GetPeersInfoHandler(JNIEnv *jenv) : ppc::front::GetPeersInfoHandler(), Swig::Director(jenv) {
+}
+
+SwigDirector_GetPeersInfoHandler::~SwigDirector_GetPeersInfoHandler() {
+  swig_disconnect_director_self("swigDirectorDisconnect");
+}
+
+
+void SwigDirector_GetPeersInfoHandler::onPeersInfo(bcos::Error::Ptr e,std::string const &peersInfo) {
+  JNIEnvWrapper swigjnienv(this) ;
+  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+  jobject swigjobj = (jobject) NULL ;
+  jlong je  ;
+  jstring jpeersInfo = 0 ;
+  
+  if (!swig_override[0]) {
+    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method ppc::front::GetPeersInfoHandler::onPeersInfo.");
+    return;
+  }
+  swigjobj = swig_get_self(jenv);
+  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+    je = 0;
+    if (e) {
+      *((std::shared_ptr<  bcos::Error > **)&je) = new std::shared_ptr<  bcos::Error >(e);
+    } 
+    jpeersInfo = jenv->NewStringUTF((&peersInfo)->c_str());
+    Swig::LocalRefGuard peersInfo_refguard(jenv, jpeersInfo); 
+    jenv->CallStaticVoidMethod(Swig::jclass_wedpr_java_transportJNI, Swig::director_method_ids[3], swigjobj, je, jpeersInfo);
+    jthrowable swigerror = jenv->ExceptionOccurred();
+    if (swigerror) {
+      Swig::DirectorException::raise(jenv, swigerror);
+    }
+    
+  } else {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object in ppc::front::GetPeersInfoHandler::onPeersInfo ");
+  }
+  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+}
+
+void SwigDirector_GetPeersInfoHandler::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
+  static jclass baseclass = swig_new_global_ref(jenv, "com/webank/wedpr/sdk/jni/generated/GetPeersInfoHandler");
+  if (!baseclass) return;
+  static SwigDirectorMethod methods[] = {
+    SwigDirectorMethod(jenv, baseclass, "onPeersInfo", "(Lcom/webank/wedpr/sdk/jni/generated/Error;Ljava/lang/String;)V")
+  };
+  
+  if (swig_set_self(jenv, jself, swig_mem_own, weak_global)) {
+    bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
+    for (int i = 0; i < 1; ++i) {
+      swig_override[i] = false;
+      if (derived) {
+        jmethodID methid = jenv->GetMethodID(jcls, methods[i].name, methods[i].desc);
+        swig_override[i] = methods[i].methid && (methid != methods[i].methid);
+        jenv->ExceptionClear();
+      }
+    }
+  }
+}
+
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -1395,6 +1455,30 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::front::IMessageHandler > **)&jarg1 : &tempnull1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1SharedGetPeersInfoHandler(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::shared_ptr< ppc::front::GetPeersInfoHandler > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::shared_ptr< ppc::front::GetPeersInfoHandler > *)new std::shared_ptr< ppc::front::GetPeersInfoHandler >();
+  *(std::shared_ptr< ppc::front::GetPeersInfoHandler > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::front::GetPeersInfoHandler >(*result) : 0;
+  if (1) delete result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1SharedGetPeersInfoHandler(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::shared_ptr< ppc::front::GetPeersInfoHandler > *arg1 = (std::shared_ptr< ppc::front::GetPeersInfoHandler > *) 0 ;
+  std::shared_ptr< ppc::front::GetPeersInfoHandler > tempnull1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = jarg1 ? *(std::shared_ptr< ppc::front::GetPeersInfoHandler > **)&jarg1 : &tempnull1; 
   delete arg1;
 }
 
@@ -5912,6 +5996,84 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
 }
 
 
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1GetPeersInfoHandler(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  ppc::front::GetPeersInfoHandler *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (ppc::front::GetPeersInfoHandler *)new SwigDirector_GetPeersInfoHandler(jenv);
+  
+  *(std::shared_ptr<  ppc::front::GetPeersInfoHandler > **)&jresult = result ? new std::shared_ptr<  ppc::front::GetPeersInfoHandler >(result SWIG_NO_NULL_DELETER_1) : 0;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1GetPeersInfoHandler(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  ppc::front::GetPeersInfoHandler *arg1 = (ppc::front::GetPeersInfoHandler *) 0 ;
+  std::shared_ptr< ppc::front::GetPeersInfoHandler > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::front::GetPeersInfoHandler > **)&jarg1;
+  arg1 = (ppc::front::GetPeersInfoHandler *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GetPeersInfoHandler_1onPeersInfo(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jstring jarg3) {
+  ppc::front::GetPeersInfoHandler *arg1 = (ppc::front::GetPeersInfoHandler *) 0 ;
+  bcos::Error::Ptr arg2 ;
+  std::string *arg3 = 0 ;
+  std::shared_ptr< ppc::front::GetPeersInfoHandler > *smartarg1 = 0 ;
+  bcos::Error::Ptr *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::front::GetPeersInfoHandler > **)&jarg1;
+  arg1 = (ppc::front::GetPeersInfoHandler *)(smartarg1 ? smartarg1->get() : 0); 
+  argp2 = *(bcos::Error::Ptr **)&jarg2;
+  if (argp2) arg2 = *argp2; 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return ;
+  std::string arg3_str(arg3_pstr);
+  arg3 = &arg3_str;
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  (arg1)->onPeersInfo(arg2,(std::string const &)*arg3);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GetPeersInfoHandler_1director_1connect(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jswig_mem_own, jboolean jweak_global) {
+  std::shared_ptr< ppc::front::GetPeersInfoHandler > *obj = *((std::shared_ptr< ppc::front::GetPeersInfoHandler > **)&objarg);
+  (void)jcls;
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_GetPeersInfoHandler *director = static_cast<SwigDirector_GetPeersInfoHandler *>(obj->operator->());
+  director->swig_connect_director(jenv, jself, jenv->GetObjectClass(jself), (jswig_mem_own == JNI_TRUE), (jweak_global == JNI_TRUE));
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GetPeersInfoHandler_1change_1ownership(JNIEnv *jenv, jclass jcls, jobject jself, jlong objarg, jboolean jtake_or_release) {
+  std::shared_ptr< ppc::front::GetPeersInfoHandler > *obj = *((std::shared_ptr< ppc::front::GetPeersInfoHandler > **)&objarg);
+  // Keep a local instance of the smart pointer around while we are using the raw pointer
+  // Avoids using smart pointer specific API.
+  SwigDirector_GetPeersInfoHandler *director = dynamic_cast<SwigDirector_GetPeersInfoHandler *>(obj->operator->());
+  (void)jcls;
+  if (director) {
+    director->swig_java_change_ownership(jenv, jself, jtake_or_release ? true : false);
+  }
+}
+
+
 SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1IFront(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
   std::shared_ptr< ppc::front::IFront > *smartarg1 = 0 ;
@@ -6339,6 +6501,25 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
 }
 
 
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1asyncGetPeers(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
+  ppc::front::GetPeersInfoHandler::Ptr arg2 ;
+  std::shared_ptr< ppc::front::IFront > *smartarg1 = 0 ;
+  ppc::front::GetPeersInfoHandler::Ptr *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
+  arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
+  argp2 = *(ppc::front::GetPeersInfoHandler::Ptr **)&jarg2;
+  if (argp2) arg2 = *argp2; 
+  (arg1)->asyncGetPeers(arg2);
+}
+
+
 SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1registerNodeInfo(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
   jlong jresult = 0 ;
   ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
@@ -6377,6 +6558,24 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
   result = (arg1)->unRegisterNodeInfo();
   *(bcos::Error::Ptr **)&jresult = result ? new bcos::Error::Ptr(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1nodeInfo(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
+  std::shared_ptr< ppc::front::IFront > *smartarg1 = 0 ;
+  ppc::protocol::INodeInfo::Ptr *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
+  arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (ppc::protocol::INodeInfo::Ptr *) &(arg1)->nodeInfo();
+  *(ppc::protocol::INodeInfo::Ptr **)&jresult = result; 
   return jresult;
 }
 
@@ -6434,6 +6633,54 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   result = (arg1)->unRegisterTopic((std::string const &)*arg2);
   *(bcos::Error::Ptr **)&jresult = result ? new bcos::Error::Ptr(result) : 0; 
   return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1registerComponent(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
+  std::string *arg2 = 0 ;
+  std::shared_ptr< ppc::front::IFront > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
+  arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  (arg1)->registerComponent((std::string const &)*arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1unRegisterComponent(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
+  std::string *arg2 = 0 ;
+  std::shared_ptr< ppc::front::IFront > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
+  arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  (arg1)->unRegisterComponent((std::string const &)*arg2);
 }
 
 
@@ -6790,7 +7037,7 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   static struct {
     const char *method;
     const char *signature;
-  } methods[3] = {
+  } methods[4] = {
     {
       "SwigDirector_ErrorCallback_onError", "(Lcom/webank/wedpr/sdk/jni/generated/ErrorCallback;J)V" 
     },
@@ -6799,6 +7046,9 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     },
     {
       "SwigDirector_IMessageHandler_onMessage", "(Lcom/webank/wedpr/sdk/jni/generated/IMessageHandler;JJJ)V" 
+    },
+    {
+      "SwigDirector_GetPeersInfoHandler_onPeersInfo", "(Lcom/webank/wedpr/sdk/jni/generated/GetPeersInfoHandler;JLjava/lang/String;)V" 
     }
   };
   Swig::jclass_wedpr_java_transportJNI = (jclass) jenv->NewGlobalRef(jcls);

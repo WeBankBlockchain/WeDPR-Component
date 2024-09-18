@@ -77,7 +77,7 @@ void ProTransportImpl::keepAlive()
 {
     try
     {
-        m_gateway->registerNodeInfo(m_config->generateNodeInfo());
+        m_gateway->registerNodeInfo(m_front->nodeInfo());
     }
     catch (std::exception const& e)
     {

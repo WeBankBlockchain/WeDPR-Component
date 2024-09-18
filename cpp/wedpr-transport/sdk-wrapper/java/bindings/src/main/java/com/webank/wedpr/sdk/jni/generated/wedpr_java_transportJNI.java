@@ -41,6 +41,10 @@ public class wedpr_java_transportJNI {
 
     public static final native void delete_SharedIMessageHandler(long jarg1);
 
+    public static final native long new_SharedGetPeersInfoHandler();
+
+    public static final native void delete_SharedGetPeersInfoHandler(long jarg1);
+
     public static final native long new_SharedGateway();
 
     public static final native void delete_SharedGateway(long jarg1);
@@ -647,6 +651,19 @@ public class wedpr_java_transportJNI {
     public static final native void IMessageHandler_change_ownership(
             IMessageHandler obj, long cptr, boolean take_or_release);
 
+    public static final native long new_GetPeersInfoHandler();
+
+    public static final native void delete_GetPeersInfoHandler(long jarg1);
+
+    public static final native void GetPeersInfoHandler_onPeersInfo(
+            long jarg1, GetPeersInfoHandler jarg1_, long jarg2, Error jarg2_, String jarg3);
+
+    public static final native void GetPeersInfoHandler_director_connect(
+            GetPeersInfoHandler obj, long cptr, boolean mem_own, boolean weak_global);
+
+    public static final native void GetPeersInfoHandler_change_ownership(
+            GetPeersInfoHandler obj, long cptr, boolean take_or_release);
+
     public static final native void delete_IFront(long jarg1);
 
     public static final native void IFront_start(long jarg1, IFront jarg1_);
@@ -712,13 +729,24 @@ public class wedpr_java_transportJNI {
 
     public static final native long IFront_peek(long jarg1, IFront jarg1_, String jarg2);
 
+    public static final native void IFront_asyncGetPeers(
+            long jarg1, IFront jarg1_, long jarg2, GetPeersInfoHandler jarg2_);
+
     public static final native long IFront_registerNodeInfo(long jarg1, IFront jarg1_, long jarg2);
 
     public static final native long IFront_unRegisterNodeInfo(long jarg1, IFront jarg1_);
 
+    public static final native long IFront_nodeInfo(long jarg1, IFront jarg1_);
+
     public static final native long IFront_registerTopic(long jarg1, IFront jarg1_, String jarg2);
 
     public static final native long IFront_unRegisterTopic(long jarg1, IFront jarg1_, String jarg2);
+
+    public static final native void IFront_registerComponent(
+            long jarg1, IFront jarg1_, String jarg2);
+
+    public static final native void IFront_unRegisterComponent(
+            long jarg1, IFront jarg1_, String jarg2);
 
     public static final native void delete_IFrontBuilder(long jarg1);
 
@@ -781,6 +809,11 @@ public class wedpr_java_transportJNI {
                 (e == 0) ? null : new Error(e, true),
                 (msg == 0) ? null : new Message(msg, true),
                 new SendResponseHandler(sendResponseHandler, true));
+    }
+
+    public static void SwigDirector_GetPeersInfoHandler_onPeersInfo(
+            GetPeersInfoHandler jself, long e, String peersInfo) {
+        jself.onPeersInfo((e == 0) ? null : new Error(e, true), peersInfo);
     }
 
     private static final native void swig_module_init();

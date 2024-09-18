@@ -53,7 +53,6 @@ public:
     virtual std::vector<ppc::front::IFrontClient::Ptr> chooseReceiver(
         ppc::protocol::Message::Ptr const& msg);
 
-    // TODO: register component
     virtual bool dispatcherMessage(ppc::protocol::Message::Ptr const& msg,
         ppc::protocol::ReceiveMsgFunc callback, bool holding = true);
 

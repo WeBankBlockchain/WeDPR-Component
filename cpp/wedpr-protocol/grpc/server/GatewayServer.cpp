@@ -75,14 +75,19 @@ grpc::ServerUnaryReactor* GatewayServer::asyncGetPeers(
     return reactor;
 }
 
-grpc::ServerUnaryReactor* GatewayServer::asyncGetAgencies(
-    grpc::CallbackServerContext* context, const ppc::proto::Empty*, ppc::proto::AgenciesInfo* reply)
+grpc::ServerUnaryReactor* GatewayServer::asyncGetAgencies(grpc::CallbackServerContext* context,
+    const ppc::proto::Condition* condition, ppc::proto::AgenciesInfo* reply)
 {
     ServerUnaryReactor* reactor(context->DefaultReactor());
     try
     {
+        std::vector<std::string> components;
+        for (int i = 0; i < condition->components_size(); i++)
+        {
+            components.emplace_back(condition->components(i));
+        }
         m_gateway->asyncGetAgencies(
-            [reactor, reply](bcos::Error::Ptr error, std::set<std::string> agencies) {
+            components, [reactor, reply](bcos::Error::Ptr error, std::set<std::string> agencies) {
                 toSerializedError(reply->mutable_error(), error);
                 for (auto const& it : agencies)
                 {

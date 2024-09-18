@@ -4,7 +4,7 @@ find_package(SWIG REQUIRED)
 include(${SWIG_USE_FILE})
 
 # Add subdirectories for each language if desired
-option(BUILD_PYTHON "Build Python SWIG module" ON)
+option(BUILD_PYTHON "Build Python SWIG module" OFF)
 if(BUILD_PYTHON)
     # fetch the python dependencies
     option(FETCH_PYTHON_DEPS "Install python required modules if not available" ON)

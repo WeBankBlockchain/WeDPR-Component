@@ -65,12 +65,16 @@ void GatewayClient::asyncGetPeers(std::function<void(bcos::Error::Ptr, std::stri
         });
 }
 
-void GatewayClient::asyncGetAgencies(
+void GatewayClient::asyncGetAgencies(std::vector<std::string> const& components,
     std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback)
 {
     auto response = std::make_shared<AgenciesInfo>();
     auto context = std::make_shared<ClientContext>();
-    auto request = std::make_shared<Empty>();
+    auto request = std::make_shared<Condition>();
+    for (auto const& it : components)
+    {
+        request->add_components(it);
+    }
     // lambda keeps the lifecycle for clientContext
     m_stub->async()->asyncGetAgencies(
         context.get(), request.get(), response.get(), [context, callback, response](Status status) {

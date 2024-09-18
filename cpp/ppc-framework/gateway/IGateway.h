@@ -66,7 +66,7 @@ public:
         bcos::bytes&& payload) = 0;
 
     virtual void asyncGetPeers(std::function<void(bcos::Error::Ptr, std::string)> callback) = 0;
-    virtual void asyncGetAgencies(
+    virtual void asyncGetAgencies(std::vector<std::string> const& components,
         std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) = 0;
 
     virtual bcos::Error::Ptr registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) = 0;

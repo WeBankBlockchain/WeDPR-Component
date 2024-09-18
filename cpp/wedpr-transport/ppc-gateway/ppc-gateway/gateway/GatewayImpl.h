@@ -68,7 +68,7 @@ public:
     bcos::Error::Ptr unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
 
     void asyncGetPeers(std::function<void(bcos::Error::Ptr, std::string)> callback) override;
-    void asyncGetAgencies(
+    void asyncGetAgencies(std::vector<std::string> const& components,
         std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) override;
 
 protected:

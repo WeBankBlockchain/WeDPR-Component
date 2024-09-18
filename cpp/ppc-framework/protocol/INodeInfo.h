@@ -47,7 +47,10 @@ public:
 
     // components
     virtual void setComponents(std::set<std::string> const& components) = 0;
+    virtual bool addComponent(std::string const& component) = 0;
+    virtual bool eraseComponent(std::string const& component) = 0;
     virtual std::set<std::string> const& components() const = 0;
+    virtual std::vector<std::string> copiedComponents() const = 0;
 
     virtual void encode(bcos::bytes& data) const = 0;
     virtual void decode(bcos::bytesConstRef data) = 0;
@@ -58,7 +61,7 @@ public:
     virtual bool equal(INodeInfo::Ptr const& info)
     {
         return (nodeID().toBytes() == info->nodeID().toBytes()) &&
-               (components() == info->components());
+               (copiedComponents() == info->copiedComponents());
     }
 
     virtual void toJson(Json::Value& jsonObject) const = 0;

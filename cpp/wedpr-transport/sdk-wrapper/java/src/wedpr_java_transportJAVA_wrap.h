@@ -54,5 +54,20 @@ protected:
     Swig::BoolArray<1> swig_override;
 };
 
+class SwigDirector_GetPeersInfoHandler : public ppc::front::GetPeersInfoHandler, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_GetPeersInfoHandler(JNIEnv *jenv);
+    virtual ~SwigDirector_GetPeersInfoHandler();
+    virtual void onPeersInfo(bcos::Error::Ptr e,std::string const &peersInfo);
+public:
+    bool swig_overrides(int n) {
+      return (n < 1 ? swig_override[n] : false);
+    }
+protected:
+    Swig::BoolArray<1> swig_override;
+};
+
 
 #endif

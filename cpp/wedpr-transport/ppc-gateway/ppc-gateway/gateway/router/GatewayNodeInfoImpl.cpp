@@ -59,6 +59,19 @@ INodeInfo::Ptr GatewayNodeInfoImpl::nodeInfo(bcos::bytes const& nodeID) const
     return nullptr;
 }
 
+bool GatewayNodeInfoImpl::existComponent(std::string const& component) const
+{
+    bcos::ReadGuard l(x_nodeList);
+    for (auto const& it : m_nodeList)
+    {
+        if (it.second->components().count(component))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void GatewayNodeInfoImpl::updateNodeList()
 {
     // Note: can't use clear_nodelist here, for clear_nodelist will destroy the allocated nodelist,
@@ -68,11 +81,13 @@ void GatewayNodeInfoImpl::updateNodeList()
     for (auto const& it : m_nodeList)
     {
         auto nodeInfo = std::dynamic_pointer_cast<NodeInfoImpl>(it.second);
+        nodeInfo->encodeFields();
         m_rawGatewayInfo->mutable_nodelist()->UnsafeArenaAddAllocated(
             nodeInfo->rawNodeInfo().get());
     }
 }
 
+// Note: this is wrappered with lock
 bool GatewayNodeInfoImpl::tryAddNodeInfo(INodeInfo::Ptr const& info)
 {
     auto nodeID = info->nodeID().toBytes();

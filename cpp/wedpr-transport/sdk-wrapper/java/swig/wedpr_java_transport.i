@@ -41,6 +41,7 @@ PRIMITIVE_TYPEMAP(unsigned long int, long long);
 %shared_ptr(ppc::front::ErrorCallback);
 %shared_ptr(ppc::front::MessageDispatcherHandler);
 %shared_ptr(ppc::front::IMessageHandler);
+%shared_ptr(ppc::front::GetPeersInfoHandler);
 
 %shared_ptr(ppc::gateway::IGateway);
 %shared_ptr(bcos::Error);
@@ -133,6 +134,7 @@ namespace bcos{
 %template(SharedErrorCallback) std::shared_ptr<ppc::front::ErrorCallback>;
 %template(SharedMessageDispatcherHandler) std::shared_ptr<ppc::front::MessageDispatcherHandler>;
 %template(SharedIMessageHandler) std::shared_ptr<ppc::front::IMessageHandler>;
+%template(SharedGetPeersInfoHandler) std::shared_ptr<ppc::front::GetPeersInfoHandler>;
 
 %template(SharedGateway) std::shared_ptr<ppc::gateway::IGateway>;
 
@@ -153,6 +155,7 @@ namespace bcos{
 %feature("director") ppc::front::ErrorCallback;
 %feature("director") ppc::front::MessageDispatcherHandler;
 %feature("director") ppc::front::IMessageHandler;
+%feature("director") ppc::front::GetPeersInfoHandler;
 
 // Note: the field data should equal to the fieldMap of class or the function
 %include various.i 

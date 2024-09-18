@@ -85,6 +85,8 @@ public:
 
     void toJson(Json::Value& jsonObject) const override;
 
+    bool existComponent(std::string const& component) const override;
+
 private:
     void updateNodeList();
 

@@ -41,7 +41,10 @@ message PeersInfo{
     string peersInfo = 2;
 };
 message Empty{
+};
 
+message Condition{
+    repeated string components = 1;
 };
 
 service Front {
@@ -50,7 +53,7 @@ service Front {
 service Gateway{
     rpc asyncSendMessage(SendedMessageRequest) returns(Error){}
     rpc asyncGetPeers(Empty)returns(PeersInfo){}
-    rpc asyncGetAgencies(Empty)returns(AgenciesInfo){}
+    rpc asyncGetAgencies(Condition)returns(AgenciesInfo){}
     rpc registerNodeInfo(NodeInfo) returns(Error){}
     rpc unRegisterNodeInfo(NodeInfo)returns(Error){}
     rpc registerTopic(NodeInfo) returns(Error){}

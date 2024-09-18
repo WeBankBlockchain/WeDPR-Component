@@ -141,11 +141,13 @@ public:
         return m_gatewayClient->registerTopic(bcos::ref(m_nodeID), topic);
     }
 
-    void asyncGetAgencies(
+    void asyncGetAgencies(std::vector<std::string> const& components,
         std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) override
     {
-        m_gatewayClient->asyncGetAgencies(callback);
+        m_gatewayClient->asyncGetAgencies(components, callback);
     }
+
+    void asyncGetPeers(GetPeersInfoHandler::Ptr getPeersCallback) override;
 
     /**
      * @brief unRegister the topic
@@ -169,6 +171,11 @@ public:
 
     void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
         bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback) override;
+
+    ppc::protocol::INodeInfo::Ptr const& nodeInfo() override { return m_nodeInfo; }
+
+    void registerComponent(std::string const& component) override;
+    void unRegisterComponent(std::string const& component) override;
 
 private:
     void asyncSendMessageToGateway(bool responsePacket,

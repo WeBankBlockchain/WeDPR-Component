@@ -59,6 +59,7 @@ public:
     virtual void unRegisterTopic(bcos::bytes const& nodeID, std::string const& topic) = 0;
 
     virtual std::map<bcos::bytes, ppc::protocol::INodeInfo::Ptr> nodeList() const = 0;
+    virtual bool existComponent(std::string const& component) const = 0;
     virtual uint16_t nodeSize() const = 0;
     virtual void toJson(Json::Value& jsonObject) const = 0;
 };

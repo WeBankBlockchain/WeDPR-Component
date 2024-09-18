@@ -24,6 +24,7 @@ import com.webank.wedpr.sdk.jni.transport.IMessage;
 import com.webank.wedpr.sdk.jni.transport.IMessageBuilder;
 import com.webank.wedpr.sdk.jni.transport.TransportConfig;
 import com.webank.wedpr.sdk.jni.transport.WeDPRTransport;
+import com.webank.wedpr.sdk.jni.transport.handlers.GetPeersCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
@@ -70,8 +71,8 @@ public class TransportImpl implements WeDPRTransport {
      * @throws Exception failed case
      */
     @Override
-    public void registerComponent(String component) throws Exception {
-        // Note: the front must exist after Transport created
+    public void registerComponent(String component) {
+        this.transport.getFront().registerComponent(component);
     }
 
     /**
@@ -81,7 +82,9 @@ public class TransportImpl implements WeDPRTransport {
      * @throws Exception failed case
      */
     @Override
-    public void unRegisterComponent(String component) throws Exception {}
+    public void unRegisterComponent(String component) {
+        this.transport.getFront().unRegisterComponent(component);
+    }
 
     /**
      * register the topic
@@ -91,7 +94,8 @@ public class TransportImpl implements WeDPRTransport {
      */
     @Override
     public void registerTopic(String topic) throws Exception {
-        this.transport.getFront().registerTopic(topic);
+        Error result = this.transport.getFront().registerTopic(topic);
+        Common.checkResult("registerTopic", result);
     }
 
     /**
@@ -102,7 +106,30 @@ public class TransportImpl implements WeDPRTransport {
      */
     @Override
     public void unRegisterTopic(String topic) throws Exception {
-        this.transport.getFront().unRegisterTopic(topic);
+        Error result = this.transport.getFront().unRegisterTopic(topic);
+        Common.checkResult("unRegisterTopic", result);
+    }
+
+    /**
+     * register handlers according to component
+     *
+     * @param component the component of the message should handled by the given callback
+     * @param messageDispatcherCallback the message callback
+     */
+    @Override
+    public void registerComponentHandler(
+            String component, MessageDispatcherCallback messageDispatcherCallback) {
+        this.transport.getFront().register_msg_handler(component, messageDispatcherCallback);
+    }
+
+    /**
+     * async get peers information
+     *
+     * @param handler the handler that handle the peersInfo
+     */
+    @Override
+    public void asyncGetPeers(GetPeersCallback handler) {
+        this.transport.getFront().asyncGetPeers(handler);
     }
 
     @Override

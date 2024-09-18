@@ -16,6 +16,7 @@
 package com.webank.wedpr.sdk.jni.transport;
 
 import com.webank.wedpr.sdk.jni.common.WeDPRSDKException;
+import com.webank.wedpr.sdk.jni.transport.handlers.GetPeersCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
@@ -56,6 +57,22 @@ public interface WeDPRTransport {
      * @throws Exception failed case
      */
     void unRegisterTopic(String topic) throws Exception;
+
+    /**
+     * register handlers according to component
+     *
+     * @param component the component of the message should handled by the given callback
+     * @param messageDispatcherCallback the message callback
+     */
+    void registerComponentHandler(
+            String component, MessageDispatcherCallback messageDispatcherCallback);
+
+    /**
+     * async get peers information
+     *
+     * @param handler the handler that handle the peersInfo
+     */
+    void asyncGetPeers(GetPeersCallback handler);
 
     //// the async interfaces
     /**

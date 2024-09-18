@@ -32,7 +32,9 @@ public:
     NodeInfoImpl() { m_rawNodeInfo = std::make_shared<ppc::proto::NodeInfo>(); }
     explicit NodeInfoImpl(std::shared_ptr<ppc::proto::NodeInfo> rawNodeInfo)
       : m_rawNodeInfo(rawNodeInfo)
-    {}
+    {
+        decodeFields();
+    }
     NodeInfoImpl(bcos::bytesConstRef const& data) : NodeInfoImpl() { decode(data); }
 
     NodeInfoImpl(bcos::bytesConstRef const& nodeID, std::string const& endPoint) : NodeInfoImpl()
@@ -54,9 +56,45 @@ public:
 
     void setComponents(std::set<std::string> const& components) override
     {
+        bcos::WriteGuard l(x_components);
         m_components = components;
     }
-    std::set<std::string> const& components() const override { return m_components; }
+
+    std::set<std::string> const& components() const override
+    {
+        bcos::ReadGuard l(x_components);
+        return m_components;
+    }
+
+    std::vector<std::string> copiedComponents() const override
+    {
+        bcos::ReadGuard l(x_components);
+        return std::vector<std::string>(m_components.begin(), m_components.end());
+    }
+
+    bool addComponent(std::string const& component) override
+    {
+        bcos::UpgradableGuard l(x_components);
+        if (m_components.count(component))
+        {
+            return false;
+        }
+        bcos::UpgradeGuard ul(l);
+        m_components.insert(component);
+        return true;
+    }
+
+    bool eraseComponent(std::string const& component) override
+    {
+        bcos::UpgradableGuard l(x_components);
+        if (!m_components.count(component))
+        {
+            return false;
+        }
+        bcos::UpgradeGuard ul(l);
+        m_components.erase(component);
+        return true;
+    }
 
     std::string const& endPoint() const override { return m_rawNodeInfo->endpoint(); }
 
@@ -78,9 +116,15 @@ public:
 
     void toJson(Json::Value& jsonObject) const override;
 
+    virtual void encodeFields() const;
+
+protected:
+    virtual void decodeFields();
+
 private:
     std::shared_ptr<ppc::front::IFrontClient> m_front;
     std::set<std::string> m_components;
+    mutable bcos::SharedMutex x_components;
     std::shared_ptr<ppc::proto::NodeInfo> m_rawNodeInfo;
 };
 

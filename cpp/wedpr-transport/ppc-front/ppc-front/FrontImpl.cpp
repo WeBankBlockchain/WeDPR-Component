@@ -276,3 +276,27 @@ bcos::Error::Ptr FrontImpl::push(uint16_t routeType, MessageOptionalHeader::Ptr 
         [promise](bcos::Error::Ptr error) { promise->set_value(error); }, nullptr);
     return promise->get_future().get();
 }
+
+void FrontImpl::asyncGetPeers(GetPeersInfoHandler::Ptr getPeersCallback)
+{
+    m_gatewayClient->asyncGetPeers(
+        [getPeersCallback](bcos::Error::Ptr error, std::string peersInfo) {
+            getPeersCallback->onPeersInfo(error, peersInfo);
+        });
+}
+
+void FrontImpl::registerComponent(std::string const& component)
+{
+    // Note: the node will report the latest components
+    auto ret = m_nodeInfo->addComponent(component);
+    FRONT_LOG(INFO) << LOG_DESC("registerComponent") << LOG_KV("component", component)
+                    << LOG_KV("insert", ret);
+}
+
+void FrontImpl::unRegisterComponent(std::string const& component)
+{
+    // Note: the node will report the latest components
+    auto ret = m_nodeInfo->eraseComponent(component);
+    FRONT_LOG(INFO) << LOG_DESC("unRegisterComponent") << LOG_KV("component", component)
+                    << LOG_KV("erase", ret);
+}
