@@ -99,15 +99,21 @@ public class IFront extends IFrontClient {
     }
 
     public void async_send_response(
-            ubytes dstNode, String traceID, ubytes payload, int seq, ErrorCallback errorCallback) {
+            byte[] dstNode,
+            java.math.BigInteger dstNodeSize,
+            String traceID,
+            byte[] payload,
+            java.math.BigInteger payloadSize,
+            int seq,
+            ErrorCallback errorCallback) {
         wedpr_java_transportJNI.IFront_async_send_response(
                 swigCPtr,
                 this,
-                ubytes.getCPtr(dstNode),
                 dstNode,
+                dstNodeSize,
                 traceID,
-                ubytes.swigRelease(payload),
                 payload,
+                payloadSize,
                 seq,
                 ErrorCallback.getCPtr(errorCallback),
                 errorCallback);

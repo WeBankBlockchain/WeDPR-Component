@@ -6080,51 +6080,104 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
 }
 
 
-SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1async_1send_1response(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_, jstring jarg3, jlong jarg4, jobject jarg4_, jint jarg5, jlong jarg6, jobject jarg6_) {
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1async_1send_1response(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2, jobject jarg3, jstring jarg4, jbyteArray jarg5, jobject jarg6, jint jarg7, jlong jarg8, jobject jarg8_) {
   ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
-  bcos::bytes *arg2 = 0 ;
-  std::string *arg3 = 0 ;
-  bcos::bytes *arg4 = 0 ;
-  int arg5 ;
-  ppc::front::ErrorCallback::Ptr arg6 ;
+  char *arg2 = (char *) 0 ;
+  uint64_t arg3 ;
+  std::string *arg4 = 0 ;
+  char *arg5 = (char *) 0 ;
+  uint64_t arg6 ;
+  int arg7 ;
+  ppc::front::ErrorCallback::Ptr arg8 ;
   std::shared_ptr< ppc::front::IFront > *smartarg1 = 0 ;
-  std::unique_ptr< bcos::bytes > rvrdeleter4 ;
-  ppc::front::ErrorCallback::Ptr *argp6 ;
+  ppc::front::ErrorCallback::Ptr *argp8 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
-  (void)jarg2_;
-  (void)jarg4_;
-  (void)jarg6_;
+  (void)jarg8_;
   
   smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
   arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
-  
-  arg2 = (bcos::bytes *)((*(std::shared_ptr< const bcos::bytes > **)&jarg2) ? (*(std::shared_ptr< const bcos::bytes > **)&jarg2)->get() : 0);
-  if (!arg2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "bcos::bytes const & reference is null");
-    return ;
-  } 
-  if(!jarg3) {
+  {
+    arg2 = (char *) jenv->GetByteArrayElements(jarg2, 0); 
+  }
+  {
+    jclass clazz;
+    jmethodID mid;
+    jbyteArray ba;
+    jbyte* bae;
+    jsize sz;
+    int i;
+    
+    if (!jarg3) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "BigInteger null");
+      return ;
+    }
+    clazz = jenv->GetObjectClass(jarg3);
+    mid = jenv->GetMethodID(clazz, "toByteArray", "()[B");
+    ba = (jbyteArray)jenv->CallObjectMethod(jarg3, mid);
+    bae = jenv->GetByteArrayElements(ba, 0);
+    sz = jenv->GetArrayLength(ba);
+    arg3 = 0;
+    if (sz > 0) {
+      arg3 = (uint64_t)(signed char)bae[0];
+      for(i=1; i<sz; i++) {
+        arg3 = (arg3 << 8) | (uint64_t)(unsigned char)bae[i];
+      }
+    }
+    jenv->ReleaseByteArrayElements(ba, bae, 0);
+  }
+  if(!jarg4) {
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
     return ;
   }
-  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
-  if (!arg3_pstr) return ;
-  std::string arg3_str(arg3_pstr);
-  arg3 = &arg3_str;
-  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
-  arg4 = *(bcos::bytes **)&jarg4;
-  if (!arg4) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "bcos::bytes && is null");
-    return ;
+  const char *arg4_pstr = (const char *)jenv->GetStringUTFChars(jarg4, 0); 
+  if (!arg4_pstr) return ;
+  std::string arg4_str(arg4_pstr);
+  arg4 = &arg4_str;
+  jenv->ReleaseStringUTFChars(jarg4, arg4_pstr); 
+  {
+    arg5 = (char *) jenv->GetByteArrayElements(jarg5, 0); 
   }
-  rvrdeleter4.reset(arg4); 
-  arg5 = (int)jarg5; 
-  argp6 = *(ppc::front::ErrorCallback::Ptr **)&jarg6;
-  if (argp6) arg6 = *argp6; 
-  (arg1)->async_send_response((bcos::bytes const &)*arg2,(std::string const &)*arg3,(bcos::bytes &&)*arg4,arg5,arg6);
+  {
+    jclass clazz;
+    jmethodID mid;
+    jbyteArray ba;
+    jbyte* bae;
+    jsize sz;
+    int i;
+    
+    if (!jarg6) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "BigInteger null");
+      return ;
+    }
+    clazz = jenv->GetObjectClass(jarg6);
+    mid = jenv->GetMethodID(clazz, "toByteArray", "()[B");
+    ba = (jbyteArray)jenv->CallObjectMethod(jarg6, mid);
+    bae = jenv->GetByteArrayElements(ba, 0);
+    sz = jenv->GetArrayLength(ba);
+    arg6 = 0;
+    if (sz > 0) {
+      arg6 = (uint64_t)(signed char)bae[0];
+      for(i=1; i<sz; i++) {
+        arg6 = (arg6 << 8) | (uint64_t)(unsigned char)bae[i];
+      }
+    }
+    jenv->ReleaseByteArrayElements(ba, bae, 0);
+  }
+  arg7 = (int)jarg7; 
+  argp8 = *(ppc::front::ErrorCallback::Ptr **)&jarg8;
+  if (argp8) arg8 = *argp8; 
+  (arg1)->async_send_response(arg2,arg3,(std::string const &)*arg4,arg5,arg6,arg7,arg8);
+  {
+    jenv->ReleaseByteArrayElements(jarg2, (jbyte *) arg2, 0); 
+  }
+  {
+    jenv->ReleaseByteArrayElements(jarg5, (jbyte *) arg5, 0); 
+  }
+  
+  
 }
 
 

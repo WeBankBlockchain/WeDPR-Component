@@ -132,6 +132,22 @@ public interface WeDPRTransport {
             MessageErrorCallback errorCallback,
             MessageCallback msgCallback);
 
+    /**
+     * send response to given node
+     *
+     * @param dstNode the node that should receive the response
+     * @param traceID the traceID of the response
+     * @param payload the payload
+     * @param seq the seq
+     * @param errorCallback the error callback
+     */
+    void asyncSendResponse(
+            byte[] dstNode,
+            String traceID,
+            byte[] payload,
+            int seq,
+            MessageErrorCallback errorCallback);
+
     /** @param topic the topic to remove */
     void removeTopic(String topic) throws WeDPRSDKException;
 

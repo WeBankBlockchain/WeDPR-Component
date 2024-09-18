@@ -243,6 +243,25 @@ public class TransportImpl implements WeDPRTransport {
                         msgCallback);
     }
 
+    @Override
+    public void asyncSendResponse(
+            byte[] dstNode,
+            String traceID,
+            byte[] payload,
+            int seq,
+            MessageErrorCallback errorCallback) {
+        this.transport
+                .getFront()
+                .async_send_response(
+                        dstNode,
+                        BigInteger.valueOf(dstNode.length),
+                        traceID,
+                        payload,
+                        BigInteger.valueOf(payload.length),
+                        seq,
+                        errorCallback);
+    }
+
     /** @param topic the topic to remove */
     @Override
     public void removeTopic(String topic) throws WeDPRSDKException {

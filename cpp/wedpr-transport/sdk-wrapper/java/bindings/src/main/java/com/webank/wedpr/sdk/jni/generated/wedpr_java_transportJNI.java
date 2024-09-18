@@ -677,14 +677,14 @@ public class wedpr_java_transportJNI {
     public static final native void IFront_async_send_response(
             long jarg1,
             IFront jarg1_,
-            long jarg2,
-            ubytes jarg2_,
-            String jarg3,
-            long jarg4,
-            ubytes jarg4_,
-            int jarg5,
-            long jarg6,
-            ErrorCallback jarg6_);
+            byte[] jarg2,
+            java.math.BigInteger jarg3,
+            String jarg4,
+            byte[] jarg5,
+            java.math.BigInteger jarg6,
+            int jarg7,
+            long jarg8,
+            ErrorCallback jarg8_);
 
     public static final native long IFront_push__SWIG_0(
             long jarg1,

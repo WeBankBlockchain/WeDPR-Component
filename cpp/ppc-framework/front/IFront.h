@@ -183,11 +183,14 @@ public:
 
     // !!! Note: the 'payload ' type(char*) should not been changed, since it used to pass-in java
     // byte[] data
-    virtual void async_send_response(bcos::bytes const& dstNode, std::string const& traceID,
-        bcos::bytes&& payload, int seq, ErrorCallback::Ptr errorCallback)
+    virtual void async_send_response(char* dstNode, uint64_t dstNodeSize, std::string const& traceID,
+        char* payload, uint64_t payloadSize, int seq, ErrorCallback::Ptr errorCallback)
     {
+        // TODO: optimize here
+        bcos::bytes copiedDstNode(dstNode, dstNode + dstNodeSize);
+        bcos::bytes copyedPayload(payload, payload + payloadSize);
         asyncSendResponse(
-            dstNode, traceID, std::move(payload), seq, populateErrorCallback(errorCallback));
+            copiedDstNode, traceID, std::move(copyedPayload), seq, populateErrorCallback(errorCallback));
     }
 
     // the sync interface for async_send_message
