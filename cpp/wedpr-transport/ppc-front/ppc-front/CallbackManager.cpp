@@ -116,8 +116,17 @@ void CallbackManager::handleCallback(bcos::Error::Ptr const& error, std::string 
     {
         return;
     }
-    m_threadPool->enqueue(
-        [error, callback, message, resFunc] { callback->msgCallback(error, message, resFunc); });
+    m_threadPool->enqueue([error, callback, message, resFunc] {
+        try
+        {
+            callback->msgCallback(error, message, resFunc);
+        }
+        catch (std::exception const& e)
+        {
+            FRONT_LOG(WARNING) << LOG_DESC("handleCallback exception")
+                               << LOG_KV("error", boost::diagnostic_information(e));
+        }
+    });
 }
 
 

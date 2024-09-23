@@ -15,6 +15,7 @@
 
 package com.webank.wedpr.sdk.jni.demo;
 
+import com.webank.wedpr.sdk.jni.common.WeDPRSDKException;
 import com.webank.wedpr.sdk.jni.generated.*;
 import com.webank.wedpr.sdk.jni.generated.Error;
 import com.webank.wedpr.sdk.jni.transport.IMessage;
@@ -24,6 +25,7 @@ import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
 import com.webank.wedpr.sdk.jni.transport.impl.TransportImpl;
 import com.webank.wedpr.sdk.jni.transport.model.TransportEndPoint;
+import lombok.SneakyThrows;
 
 public class TransportDemo {
     public static class MessageDispatcherCallbackImpl extends MessageDispatcherCallback {
@@ -37,6 +39,7 @@ public class TransportDemo {
             this.nodeID = nodeID;
         }
 
+        @SneakyThrows(Exception.class)
         @Override
         public void onMessage(IMessage message) {
             System.out.println(
@@ -47,6 +50,7 @@ public class TransportDemo {
                             + ", payload: "
                             + new String(message.getPayload())
                             + "#######");
+            throw new WeDPRSDKException("Exception test");
         }
     }
 
@@ -58,7 +62,7 @@ public class TransportDemo {
         }
 
         @Override
-        public void onError(Error error) {
+        public void onErrorResult(Error error) {
             System.out.println(
                     "##### Node: "
                             + nodeID

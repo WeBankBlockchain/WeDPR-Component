@@ -17,10 +17,25 @@ package com.webank.wedpr.sdk.jni.transport.handlers;
 
 import com.webank.wedpr.sdk.jni.generated.Error;
 import com.webank.wedpr.sdk.jni.generated.GetPeersInfoHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class GetPeersCallback extends GetPeersInfoHandler {
+    private static final Logger logger = LoggerFactory.getLogger(GetPeersCallback.class);
 
-    public abstract void onPeersInfo(Error e, String peersInfo);
+    public abstract void onPeers(Error e, String peersInfo);
+
+    public void onPeersInfo(Error e, String peersInfo) {
+        try {
+            onPeers(e, peersInfo);
+        } catch (Exception exception) {
+            logger.warn(
+                    "onPeersInfo exception, result: {}, peersInfo: {}, e: ",
+                    e.toString(),
+                    peersInfo,
+                    exception);
+        }
+    }
 
     // release the ownership to c++, in case of it's released by the jvm
     @Override

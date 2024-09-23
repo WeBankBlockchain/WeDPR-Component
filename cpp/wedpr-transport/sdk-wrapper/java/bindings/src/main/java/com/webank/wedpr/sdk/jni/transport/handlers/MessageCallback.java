@@ -21,8 +21,12 @@ import com.webank.wedpr.sdk.jni.generated.Message;
 import com.webank.wedpr.sdk.jni.generated.SendResponseHandler;
 import com.webank.wedpr.sdk.jni.transport.IMessage;
 import com.webank.wedpr.sdk.jni.transport.IMessageBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class MessageCallback extends IMessageHandler {
+    private static final Logger logger = LoggerFactory.getLogger(MessageCallback.class);
+
     public abstract void onMessage(
             Error error, IMessage message, SendResponseHandler sendResponseHandler);
 
@@ -34,6 +38,10 @@ public abstract class MessageCallback extends IMessageHandler {
 
     @Override
     public void onMessage(Error e, Message msg, SendResponseHandler sendResponseHandler) {
-        onMessage(e, IMessageBuilder.build(msg), sendResponseHandler);
+        try {
+            onMessage(e, IMessageBuilder.build(msg), sendResponseHandler);
+        } catch (Exception exception) {
+            logger.warn("onMessage exception, msg: {}, e:", msg.toString(), exception);
+        }
     }
 }

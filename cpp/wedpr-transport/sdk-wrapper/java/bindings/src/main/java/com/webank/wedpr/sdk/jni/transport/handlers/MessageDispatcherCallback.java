@@ -19,8 +19,12 @@ import com.webank.wedpr.sdk.jni.generated.Message;
 import com.webank.wedpr.sdk.jni.generated.MessageDispatcherHandler;
 import com.webank.wedpr.sdk.jni.transport.IMessage;
 import com.webank.wedpr.sdk.jni.transport.IMessageBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class MessageDispatcherCallback extends MessageDispatcherHandler {
+    private static final Logger logger = LoggerFactory.getLogger(MessageDispatcherCallback.class);
+
     public abstract void onMessage(IMessage message);
 
     // TODO: check this will cause memory leak or not
@@ -32,6 +36,10 @@ public abstract class MessageDispatcherCallback extends MessageDispatcherHandler
 
     @Override
     public void onMessage(Message msg) {
-        onMessage(IMessageBuilder.build(msg));
+        try {
+            onMessage(IMessageBuilder.build(msg));
+        } catch (Exception e) {
+            logger.warn("onMessage exception, msg: {}, e:", msg.toString(), e);
+        }
     }
 }
