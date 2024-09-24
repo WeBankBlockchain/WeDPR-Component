@@ -22,6 +22,9 @@ import com.webank.wedpr.sdk.jni.transport.impl.MessageImpl;
 
 public class IMessageBuilder {
     public static IMessage build(Message msg) {
+        if (msg == null) {
+            return null;
+        }
         return new MessageImpl(msg);
     }
 

@@ -15,12 +15,12 @@
 
 package com.webank.wedpr.sdk.jni.demo;
 
-import com.webank.wedpr.sdk.jni.common.WeDPRSDKException;
 import com.webank.wedpr.sdk.jni.generated.*;
 import com.webank.wedpr.sdk.jni.generated.Error;
 import com.webank.wedpr.sdk.jni.transport.IMessage;
 import com.webank.wedpr.sdk.jni.transport.TransportConfig;
 import com.webank.wedpr.sdk.jni.transport.WeDPRTransport;
+import com.webank.wedpr.sdk.jni.transport.handlers.MessageCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
 import com.webank.wedpr.sdk.jni.transport.impl.TransportImpl;
@@ -30,13 +30,15 @@ import lombok.SneakyThrows;
 public class TransportDemo {
     public static class MessageDispatcherCallbackImpl extends MessageDispatcherCallback {
         private final String nodeID;
+        private final WeDPRTransport weDPRTransport;
 
         // java -cp 'conf/:lib/*:apps/*' com.webank.wedpr.sdk.jni.demo.TransportDemo agency0Node
         // "127.0.0.1" 9020 "ipv4:127.0.0.1:40600,127.0.0.1:40601" "agency1Node"
         // java -cp 'conf/:lib/*:apps/*' com.webank.wedpr.sdk.jni.demo.TransportDemo agency1Node
         // "127.0.0.1" 9021 "ipv4:127.0.0.1:40620,127.0.0.1:40621" "agency0Node"
-        public MessageDispatcherCallbackImpl(String nodeID) {
+        public MessageDispatcherCallbackImpl(String nodeID, WeDPRTransport transport) {
             this.nodeID = nodeID;
+            this.weDPRTransport = transport;
         }
 
         @SneakyThrows(Exception.class)
@@ -50,7 +52,36 @@ public class TransportDemo {
                             + ", payload: "
                             + new String(message.getPayload())
                             + "#######");
-            throw new WeDPRSDKException("Exception test");
+
+            String response = "#### hello, response!";
+            System.out.println(
+                    "#### sendResponse: "
+                            + response
+                            + ", traceID: "
+                            + message.getHeader().getTraceID());
+            this.weDPRTransport.asyncSendResponse(
+                    message.getHeader().getSrcNode(),
+                    message.getHeader().getTraceID(),
+                    response.getBytes(),
+                    0,
+                    new MessageErrorCallbackImpl(this.nodeID));
+        }
+    }
+
+    public static class MessageCallbackImpl extends MessageCallback {
+
+        @Override
+        public void onMessage(
+                Error error, IMessage message, SendResponseHandler sendResponseHandler) {
+            if (error != null && error.errorCode() != 0) {
+                System.out.println("#### MessageCallbackImpl error: " + error.errorMessage());
+                return;
+            }
+            System.out.println(
+                    "#### receive response: "
+                            + message
+                            + ", payload: "
+                            + new String(message.getPayload()));
         }
     }
 
@@ -111,7 +142,7 @@ public class TransportDemo {
         // send Message to the gateway
         String topic = "testTopic";
         MessageDispatcherCallback messageDispatcherCallback =
-                new MessageDispatcherCallbackImpl(nodeID);
+                new MessageDispatcherCallbackImpl(nodeID, transport);
         transport.registerTopicHandler(topic, messageDispatcherCallback);
         System.out.println("##### register topic success");
 
@@ -130,7 +161,7 @@ public class TransportDemo {
                         0,
                         10000,
                         new MessageErrorCallbackImpl(nodeID),
-                        null);
+                        new MessageCallbackImpl());
 
                 // push
                 String syncPayload = "sync_" + payLoad;
