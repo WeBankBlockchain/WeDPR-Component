@@ -2,6 +2,7 @@
 
 %include "stdint.i"
 %include "typemaps.i"
+%include <exception.i>
 
 #if defined(SWIGJAVA)
 #if defined(SWIGWORDSIZE64)
@@ -173,11 +174,10 @@ namespace bcos{
 %typemap(argout) OutputBuffer {
     JCALL3(ReleaseByteArrayElements, jenv, $input, (jbyte *) $1.data, 0);
 }
-// Note: will cause copy herer
+// Note: will cause copy here
 %typemap(out) OutputBuffer {
     $result = JCALL1(NewByteArray, jenv, $1.len);
     JCALL4(SetByteArrayRegion, jenv, $result, 0, $1.len, (jbyte *) $1.data);
-    delete[] $1.data;
 }
 %typemap(javain) OutputBuffer "$javainput"
 %typemap(javaout) OutputBuffer { return $jnicall; }

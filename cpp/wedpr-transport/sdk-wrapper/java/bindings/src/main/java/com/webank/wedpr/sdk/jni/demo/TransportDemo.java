@@ -58,7 +58,9 @@ public class TransportDemo {
                     "#### sendResponse: "
                             + response
                             + ", traceID: "
-                            + message.getHeader().getTraceID());
+                            + message.getHeader().getTraceID()
+                            + ",srcNode: "
+                            + new String(message.getHeader().getSrcNode()));
             this.weDPRTransport.asyncSendResponse(
                     message.getHeader().getSrcNode(),
                     message.getHeader().getTraceID(),
