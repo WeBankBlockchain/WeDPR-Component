@@ -7,6 +7,7 @@ import numpy as np
 
 from ppc_common.ppc_protos.generated.ppc_model_pb2 import BestSplitInfo
 from ppc_common.ppc_utils.utils import AlgorithmType
+from ppc_model.model_crypto.crypto_aes import encrypt_data, decrypt_data, cipher_to_base64, base64_to_cipher
 from ppc_model.interface.model_base import VerticalModel
 from ppc_model.datasets.data_reduction.feature_selection import FeatureSelection
 from ppc_model.datasets.dataset import SecureDataset
@@ -258,6 +259,71 @@ class VerticalBooster(VerticalModel):
             log.info(
                 f"task {self.ctx.task_id}: Saved serial_weight to {self.ctx.model_data_file} finished.")
 
+        self.merge_model_file()
+
+    def merge_model_file(self):
+
+        # 加密文件
+        lr_model = {}
+        with open(self.ctx.model_data_file, 'rb') as f:
+            model_data = f.read()
+        model_data_enc = encrypt_data(self.ctx.key, model_data)
+        
+        my_agency_id = self.ctx.components.config_data['AGENCY_ID']
+        lr_model[my_agency_id] = cipher_to_base64(model_data_enc)
+
+        # 发送&接受文件
+        for partner_index in range(0, len(self.ctx.participant_id_list)):
+            if self.ctx.participant_id_list[partner_index] != my_agency_id:
+                self._send_byte_data(
+                    self.ctx, f'{LRMessage.MODEL_DATA.value}_model_data',
+                    model_data_enc, partner_index)
+        for partner_index in range(0, len(self.ctx.participant_id_list)):
+            if self.ctx.participant_id_list[partner_index] != my_agency_id:
+                model_data_enc = self._receive_byte_data(
+                    self.ctx, f'{LRMessage.MODEL_DATA.value}_model_data', partner_index)
+                lr_model[self.ctx.participant_id_list[partner_index]] = cipher_to_base64(model_data_enc)
+
+        # 上传密文模型
+        with open(self.ctx.model_enc_file, 'w') as f:
+            json.dump(lr_model, f)
+        ResultFileHandling._upload_file(self.ctx.components.storage_client,
+                                        self.ctx.model_enc_file, self.ctx.remote_model_enc_file)
+        self.ctx.components.logger().info(
+            f"task {self.ctx.task_id}: Saved enc model to {self.ctx.model_enc_file} finished.")
+
+    def split_model_file(self):
+        # 下载密文模型
+        try:
+            ResultFileHandling._download_file(self.ctx.components.storage_client,
+                                              self.ctx.remote_model_enc_file, self.ctx.model_enc_file)
+        except:
+            pass
+
+        # 发送/接受文件
+        my_agency_id = self.ctx.components.config_data['AGENCY_ID']
+        if os.path.exists(self.ctx.model_enc_file):
+            
+            with open(self.ctx.model_enc_file, 'r') as f:
+                lr_model = json.load(f)
+
+            for partner_index in range(0, len(self.ctx.participant_id_list)):
+                if self.ctx.participant_id_list[partner_index] != my_agency_id:
+                    model_data_enc = base64_to_cipher(lr_model[self.ctx.participant_id_list[partner_index]])
+                    self._send_byte_data(
+                        self.ctx, f'{LRMessage.MODEL_DATA.value}_model_data',
+                        model_data_enc, partner_index)
+            model_data_enc = base64_to_cipher(lr_model[my_agency_id])
+
+        else:
+            model_data_enc = self._receive_byte_data(
+                self.ctx, f'{LRMessage.MODEL_DATA.value}_model_data', 0)
+        
+        # 解密文件
+        model_data = decrypt_data(self.ctx.key, model_data_enc)
+        with open(self.ctx.model_data_file, 'wb') as f:
+            f.write(model_data)
+
     def load_model(self, file_path=None):
         log = self.ctx.components.logger()
         if file_path is not None:
@@ -267,8 +333,11 @@ class VerticalBooster(VerticalModel):
             self.ctx.remote_model_data_file = os.path.join(
                 self.ctx.model_params.training_job_id, self.ctx.MODEL_DATA_FILE)
 
-        ResultFileHandling._download_file(self.ctx.components.storage_client,
-                                          self.ctx.model_data_file, self.ctx.remote_model_data_file)
+        try:
+            ResultFileHandling._download_file(self.ctx.components.storage_client,
+                                              self.ctx.model_data_file, self.ctx.remote_model_data_file)
+        except:
+            self.split_model_file()
 
         with open(self.ctx.model_data_file, 'r') as f:
             serial_weight = json.load(f)

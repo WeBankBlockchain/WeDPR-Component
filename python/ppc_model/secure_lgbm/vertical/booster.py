@@ -6,6 +6,7 @@ import numpy as np
 
 from ppc_common.ppc_protos.generated.ppc_model_pb2 import BestSplitInfo
 from ppc_common.ppc_utils.utils import AlgorithmType
+from ppc_model.model_crypto.crypto_aes import encrypt_data, decrypt_data, cipher_to_base64, base64_to_cipher
 from ppc_model.interface.model_base import VerticalModel
 from ppc_model.datasets.dataset import SecureDataset
 from ppc_model.common.protocol import PheMessage
@@ -241,6 +242,89 @@ class VerticalBooster(VerticalModel):
             log.info(
                 f"task {self.ctx.task_id}: Saved serial_trees to {self.ctx.model_data_file} finished.")
 
+        self.merge_model_file()
+
+    def merge_model_file(self):
+
+        # 加密文件
+        lgbm_model = {}
+        with open(self.ctx.feature_bin_file, 'rb') as f:
+            feature_bin_data = f.read()
+        with open(self.ctx.model_data_file, 'rb') as f:
+            model_data = f.read()
+        feature_bin_enc = encrypt_data(self.ctx.key, feature_bin_data)
+        model_data_enc = encrypt_data(self.ctx.key, model_data)
+        
+        my_agency_id = self.ctx.components.config_data['AGENCY_ID']
+        lgbm_model[my_agency_id] = [cipher_to_base64(feature_bin_enc), cipher_to_base64(model_data_enc)]
+
+        # 发送&接受文件
+        for partner_index in range(0, len(self.ctx.participant_id_list)):
+            if self.ctx.participant_id_list[partner_index] != my_agency_id:
+                self._send_byte_data(
+                    self.ctx, f'{LGBMMessage.MODEL_DATA.value}_feature_bin',
+                    feature_bin_enc, partner_index)
+                self._send_byte_data(
+                    self.ctx, f'{LGBMMessage.MODEL_DATA.value}_model_data',
+                    model_data_enc, partner_index)
+        for partner_index in range(0, len(self.ctx.participant_id_list)):
+            if self.ctx.participant_id_list[partner_index] != my_agency_id:
+                feature_bin_enc = self._receive_byte_data(
+                    self.ctx, f'{LGBMMessage.MODEL_DATA.value}_feature_bin', partner_index)
+                model_data_enc = self._receive_byte_data(
+                    self.ctx, f'{LGBMMessage.MODEL_DATA.value}_model_data', partner_index)
+                lgbm_model[self.ctx.participant_id_list[partner_index]] = \
+                    [cipher_to_base64(feature_bin_enc), cipher_to_base64(model_data_enc)]
+
+        # 上传密文模型
+        with open(self.ctx.model_enc_file, 'w') as f:
+            json.dump(lgbm_model, f)
+        ResultFileHandling._upload_file(self.ctx.components.storage_client,
+                                        self.ctx.model_enc_file, self.ctx.remote_model_enc_file)
+        self.ctx.components.logger().info(
+            f"task {self.ctx.task_id}: Saved enc model to {self.ctx.model_enc_file} finished.")
+
+    def split_model_file(self):
+        # 下载密文模型
+        try:
+            ResultFileHandling._download_file(self.ctx.components.storage_client,
+                                              self.ctx.remote_model_enc_file, self.ctx.model_enc_file)
+        except:
+            pass
+
+        # 发送/接受文件
+        my_agency_id = self.ctx.components.config_data['AGENCY_ID']
+        if os.path.exists(self.ctx.model_enc_file):
+            
+            with open(self.ctx.model_enc_file, 'r') as f:
+                lgbm_model = json.load(f)
+
+            for partner_index in range(0, len(self.ctx.participant_id_list)):
+                if self.ctx.participant_id_list[partner_index] != my_agency_id:
+                    feature_bin_enc, model_data_enc = \
+                        [base64_to_cipher(i) for i in lgbm_model[self.ctx.participant_id_list[partner_index]]]
+                    self._send_byte_data(
+                        self.ctx, f'{LGBMMessage.MODEL_DATA.value}_feature_bin',
+                        feature_bin_enc, partner_index)
+                    self._send_byte_data(
+                        self.ctx, f'{LGBMMessage.MODEL_DATA.value}_model_data',
+                        model_data_enc, partner_index)
+            feature_bin_enc, model_data_enc = [base64_to_cipher(i) for i in lgbm_model[my_agency_id]]
+
+        else:
+            feature_bin_enc = self._receive_byte_data(
+                self.ctx, f'{LGBMMessage.MODEL_DATA.value}_feature_bin', 0)
+            model_data_enc = self._receive_byte_data(
+                self.ctx, f'{LGBMMessage.MODEL_DATA.value}_model_data', 0)
+        
+        # 解密文件
+        feature_bin_data = decrypt_data(self.ctx.key, feature_bin_enc)
+        model_data = decrypt_data(self.ctx.key, model_data_enc)
+        with open(self.ctx.feature_bin_file, 'wb') as f:
+            f.write(feature_bin_data)
+        with open(self.ctx.model_data_file, 'wb') as f:
+            f.write(model_data)
+
     def load_model(self, file_path=None):
         log = self.ctx.components.logger()
         if file_path is not None:
@@ -254,10 +338,13 @@ class VerticalBooster(VerticalModel):
             self.ctx.remote_model_data_file = os.path.join(
                 self.ctx.model_params.training_job_id, self.ctx.MODEL_DATA_FILE)
 
-        ResultFileHandling._download_file(self.ctx.components.storage_client,
-                                          self.ctx.feature_bin_file, self.ctx.remote_feature_bin_file)
-        ResultFileHandling._download_file(self.ctx.components.storage_client,
-                                          self.ctx.model_data_file, self.ctx.remote_model_data_file)
+        try:
+            ResultFileHandling._download_file(self.ctx.components.storage_client,
+                                              self.ctx.feature_bin_file, self.ctx.remote_feature_bin_file)
+            ResultFileHandling._download_file(self.ctx.components.storage_client,
+                                              self.ctx.model_data_file, self.ctx.remote_model_data_file)
+        except:
+            self.split_model_file()
 
         with open(self.ctx.feature_bin_file, 'r') as f:
             X_split_dict = json.load(f)

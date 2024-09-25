@@ -4,14 +4,13 @@ from ppc_model.common.global_context import components
 from ppc_model.interface.task_engine import TaskEngine
 from ppc_model.datasets.dataset import SecureDataset
 from ppc_model.metrics.evaluation import Evaluation
-from ppc_model.metrics.model_plot import ModelPlot
 from ppc_model.common.model_result import ResultFileHandling
 from ppc_model.secure_lr.secure_lr_context import SecureLRContext
 from ppc_model.secure_lr.vertical import VerticalLRActiveParty, VerticalLRPassiveParty
 
 
-class SecureLRTrainingEngine(TaskEngine):
-    task_type = ModelTask.LR_TRAINING
+class SecureLGBMPredictionEngine(TaskEngine):
+    task_type = ModelTask.LR_PREDICTING
 
     @staticmethod
     def run(args):
@@ -27,13 +26,13 @@ class SecureLRTrainingEngine(TaskEngine):
             raise PpcException(PpcErrorCode.ROLE_TYPE_ERROR.get_code(),
                                PpcErrorCode.ROLE_TYPE_ERROR.get_message())
 
-        booster.fit()
-        booster.save_model()
+        booster.load_model()
+        booster.predict()
 
-        # 获取训练集和验证集的预测概率值
-        train_praba = booster.get_train_praba()
+        # 获取测试集的预测概率值
         test_praba = booster.get_test_praba()
 
-        # 获取训练集和验证集的预测值评估指标
-        Evaluation(task_info, secure_dataset, train_praba, test_praba)
+        # 获取测试集的预测值评估指标
+        Evaluation(task_info, secure_dataset, test_praba=test_praba)
+
         ResultFileHandling(task_info)

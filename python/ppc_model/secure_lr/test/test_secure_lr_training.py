@@ -137,40 +137,40 @@ class TestXgboostTraining(unittest.TestCase):
         def active_worker():
             try:
                 booster_a.fit()
-                # booster_a.save_model()
-                # train_praba = booster_a.get_train_praba()
-                # test_praba = booster_a.get_test_praba()
-                # Evaluation(task_info_a, secure_dataset_a,
-                #            train_praba, test_praba)
-                # ResultFileHandling(task_info_a)
-                # booster_a.load_model()
-                # booster_a.predict()
-                # test_praba = booster_a.get_test_praba()
-                # task_info_a.algorithm_type = 'Predict'
-                # task_info_a.sync_file_list = {}
-                # Evaluation(task_info_a, secure_dataset_a,
-                #            test_praba=test_praba)
-                # ResultFileHandling(task_info_a)
+                booster_a.save_model()
+                train_praba = booster_a.get_train_praba()
+                test_praba = booster_a.get_test_praba()
+                Evaluation(task_info_a, secure_dataset_a,
+                           train_praba, test_praba)
+                ResultFileHandling(task_info_a)
+                booster_a.load_model()
+                booster_a.predict()
+                test_praba = booster_a.get_test_praba()
+                task_info_a.algorithm_type = 'Predict'
+                task_info_a.sync_file_list = {}
+                Evaluation(task_info_a, secure_dataset_a,
+                           test_praba=test_praba)
+                ResultFileHandling(task_info_a)
             except Exception as e:
                 task_info_a.components.logger().info(traceback.format_exc())
 
         def passive_worker():
             try:
                 booster_b.fit()
-                # booster_b.save_model()
-                # train_praba = booster_b.get_train_praba()
-                # test_praba = booster_b.get_test_praba()
-                # Evaluation(task_info_b, secure_dataset_b,
-                #            train_praba, test_praba)
-                # ResultFileHandling(task_info_b)
-                # booster_b.load_model()
-                # booster_b.predict()
-                # test_praba = booster_b.get_test_praba()
-                # task_info_b.algorithm_type = 'Predict'
-                # task_info_b.sync_file_list = {}
-                # Evaluation(task_info_b, secure_dataset_b,
-                #            test_praba=test_praba)
-                # ResultFileHandling(task_info_b)
+                booster_b.save_model()
+                train_praba = booster_b.get_train_praba()
+                test_praba = booster_b.get_test_praba()
+                Evaluation(task_info_b, secure_dataset_b,
+                           train_praba, test_praba)
+                ResultFileHandling(task_info_b)
+                booster_b.load_model()
+                booster_b.predict()
+                test_praba = booster_b.get_test_praba()
+                task_info_b.algorithm_type = 'Predict'
+                task_info_b.sync_file_list = {}
+                Evaluation(task_info_b, secure_dataset_b,
+                           test_praba=test_praba)
+                ResultFileHandling(task_info_b)
             except Exception as e:
                 task_info_b.components.logger().info(traceback.format_exc())
 

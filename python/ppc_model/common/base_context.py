@@ -22,6 +22,9 @@ class BaseContext:
     # TRAIN_MODEL_OUTPUT_FILE = "train_model_output.csv"
     TRAIN_MODEL_OUTPUT_FILE = "xgb_train_output.csv"
 
+    MODEL_FILE = "model.kpl"
+    MODEL_ENC_FILE = "model_enc.kpl"
+
     def __init__(self, job_id: str, job_temp_dir: str):
         self.job_id = job_id
         self.workspace = os.path.join(job_temp_dir, self.job_id)
@@ -85,6 +88,11 @@ class BaseContext:
         self.metrics_iteration_file = os.path.join(
             self.workspace, utils.METRICS_OVER_ITERATION_FILE)
 
+        self.model_file = os.path.join(
+            self.workspace, self.MODEL_FILE)
+        self.model_enc_file = os.path.join(
+            self.workspace, self.MODEL_ENC_FILE)
+
         self.remote_summary_evaluation_file = os.path.join(
             self.job_id, utils.MPC_XGB_EVALUATION_TABLE)
         self.remote_feature_importance_file = os.path.join(
@@ -123,6 +131,24 @@ class BaseContext:
         self.remote_metrics_iteration_file = os.path.join(
             self.job_id, utils.METRICS_OVER_ITERATION_FILE)
 
+        self.remote_model_file = os.path.join(
+            self.job_id, self.MODEL_FILE)
+        self.remote_model_enc_file = os.path.join(
+            self.job_id, self.MODEL_ENC_FILE)
+
+        # self.get_key_pair()
+        self.load_key('aes_key.bin')
+
     @staticmethod
     def feature_engineering_input_path(job_id: str, job_temp_dir: str):
         return os.path.join(job_temp_dir, job_id, BaseContext.MODEL_PREPARE_FILE)
+
+    def get_key_pair(self):
+        with open('public_key.pem', 'rb') as f:
+            self.public_pem = f.read()
+        with open('private_key.pem', 'rb') as f:
+            self.private_pem = f.read()
+
+    def load_key(self, filename):
+        with open(filename, 'rb') as file:
+            self.key = file.read()
