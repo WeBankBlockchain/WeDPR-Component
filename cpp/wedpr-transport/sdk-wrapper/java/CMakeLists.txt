@@ -1,4 +1,5 @@
 option(AUTO_GENERATE "Auto generate the targes" OFF)
+# Note: use SWIG Version 4.2.1
 if(AUTO_GENERATE)
     if(WIN32)
       message(STATUS "Getting SWIG for Windows: ...")
