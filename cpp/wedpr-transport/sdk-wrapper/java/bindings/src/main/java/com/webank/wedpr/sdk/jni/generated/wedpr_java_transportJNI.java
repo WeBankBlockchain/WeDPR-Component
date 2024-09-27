@@ -353,10 +353,10 @@ public class wedpr_java_transportJNI {
     public static final native byte[] MessageOptionalHeader_dstNodeBuffer(
             long jarg1, MessageOptionalHeader jarg1_);
 
-    public static final native void MessageOptionalHeader_setDstNode__SWIG_0(
+    public static final native void MessageOptionalHeader_setDstNode(
             long jarg1, MessageOptionalHeader jarg1_, long jarg2, ubytes jarg2_);
 
-    public static final native void MessageOptionalHeader_setDstNode__SWIG_1(
+    public static final native void MessageOptionalHeader_setDstNodeBuffer(
             long jarg1, MessageOptionalHeader jarg1_, byte[] jarg2, java.math.BigInteger jarg3);
 
     public static final native String MessageOptionalHeader_dstInst(
@@ -703,7 +703,7 @@ public class wedpr_java_transportJNI {
             long jarg8,
             ErrorCallback jarg8_);
 
-    public static final native long IFront_push__SWIG_0(
+    public static final native long IFront_push(
             long jarg1,
             IFront jarg1_,
             int jarg2,
@@ -714,7 +714,7 @@ public class wedpr_java_transportJNI {
             int jarg5,
             int jarg6);
 
-    public static final native long IFront_push__SWIG_1(
+    public static final native long IFront_push_msg(
             long jarg1,
             IFront jarg1_,
             int jarg2,

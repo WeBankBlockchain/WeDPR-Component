@@ -79,11 +79,3 @@ class LibLoader:
             return "{}{}.{}".format(LibLoader.LIB_PREFIX, LibLoader.TRANSPORT_LIB_NAME, LibLoader.LINUX_LIB_PORSTFIX)
         raise Exception(
             f"get_lib_name failed for not support the os_type: {os_type}")
-
-    @staticmethod
-    def load_lib():
-        lib_path = os.path.join(
-            LibLoader.TRANSPORT_LIB_PATH, LibLoader.get_lib_name())
-        print(f"#### lib_path: {lib_path}")
-        lib = ctypes.cdll.LoadLibrary(lib_path)
-        return lib

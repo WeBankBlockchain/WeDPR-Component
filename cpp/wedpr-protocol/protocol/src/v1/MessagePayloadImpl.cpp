@@ -58,6 +58,7 @@ int64_t MessagePayloadImpl::decode(bcos::bytesConstRef buffer)
         BOOST_THROW_EXCEPTION(
             WeDPRException() << errinfo_comment("Malform payload for too small!"));
     }
+    m_length = buffer.size();
     auto pointer = buffer.data();
     // the version
     m_version = boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)pointer));

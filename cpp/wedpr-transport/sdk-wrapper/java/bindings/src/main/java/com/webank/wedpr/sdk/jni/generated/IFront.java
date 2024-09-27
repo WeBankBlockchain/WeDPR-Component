@@ -122,7 +122,7 @@ public class IFront extends IFrontClient {
     public Error push(
             int routeType, MessageOptionalHeader routeInfo, ubytes payload, int seq, int timeout) {
         long cPtr =
-                wedpr_java_transportJNI.IFront_push__SWIG_0(
+                wedpr_java_transportJNI.IFront_push(
                         swigCPtr,
                         this,
                         routeType,
@@ -135,7 +135,7 @@ public class IFront extends IFrontClient {
         return (cPtr == 0) ? null : new Error(cPtr, true);
     }
 
-    public Error push(
+    public Error push_msg(
             int routeType,
             MessageOptionalHeader routeInfo,
             byte[] payload,
@@ -143,7 +143,7 @@ public class IFront extends IFrontClient {
             int seq,
             int timeout) {
         long cPtr =
-                wedpr_java_transportJNI.IFront_push__SWIG_1(
+                wedpr_java_transportJNI.IFront_push_msg(
                         swigCPtr,
                         this,
                         routeType,

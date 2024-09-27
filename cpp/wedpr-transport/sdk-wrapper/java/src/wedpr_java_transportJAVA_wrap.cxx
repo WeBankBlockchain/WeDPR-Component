@@ -3935,7 +3935,7 @@ SWIGEXPORT jbyteArray JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1jav
 }
 
 
-SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_MessageOptionalHeader_1setDstNode_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_MessageOptionalHeader_1setDstNode(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   ppc::protocol::MessageOptionalHeader *arg1 = (ppc::protocol::MessageOptionalHeader *) 0 ;
   bcos::bytes *arg2 = 0 ;
   std::shared_ptr< ppc::protocol::MessageOptionalHeader > *smartarg1 = 0 ;
@@ -3957,7 +3957,7 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
 }
 
 
-SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_MessageOptionalHeader_1setDstNode_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2, jobject jarg3) {
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_MessageOptionalHeader_1setDstNodeBuffer(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2, jobject jarg3) {
   ppc::protocol::MessageOptionalHeader *arg1 = (ppc::protocol::MessageOptionalHeader *) 0 ;
   char *arg2 = (char *) 0 ;
   uint64_t arg3 ;
@@ -3998,7 +3998,7 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     }
     jenv->ReleaseByteArrayElements(ba, bae, 0);
   }
-  (arg1)->setDstNode(arg2,arg3);
+  (arg1)->setDstNodeBuffer(arg2,arg3);
   {
     jenv->ReleaseByteArrayElements(jarg2, (jbyte *) arg2, 0); 
   }
@@ -6393,7 +6393,7 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
 }
 
 
-SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1push_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jobject jarg3_, jlong jarg4, jobject jarg4_, jint jarg5, jint jarg6) {
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1push(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jobject jarg3_, jlong jarg4, jobject jarg4_, jint jarg5, jint jarg6) {
   jlong jresult = 0 ;
   ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
   uint16_t arg2 ;
@@ -6430,7 +6430,7 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
 }
 
 
-SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1push_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jobject jarg3_, jbyteArray jarg4, jobject jarg5, jint jarg6, jint jarg7) {
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1push_1msg(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jobject jarg3_, jbyteArray jarg4, jobject jarg5, jint jarg6, jint jarg7) {
   jlong jresult = 0 ;
   ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
   uint16_t arg2 ;
@@ -6483,7 +6483,7 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   }
   arg6 = (int)jarg6; 
   arg7 = (long)jarg7; 
-  result = (arg1)->push(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,arg4,arg5,arg6,arg7);
+  result = (arg1)->push_msg(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,arg4,arg5,arg6,arg7);
   *(bcos::Error::Ptr **)&jresult = result ? new bcos::Error::Ptr(result) : 0; 
   {
     jenv->ReleaseByteArrayElements(jarg4, (jbyte *) arg4, 0); 

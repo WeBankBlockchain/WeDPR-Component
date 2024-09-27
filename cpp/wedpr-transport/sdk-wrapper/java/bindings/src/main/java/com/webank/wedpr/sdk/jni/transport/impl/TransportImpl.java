@@ -158,7 +158,7 @@ public class TransportImpl implements WeDPRTransport {
             MessageCallback msgCallback) {
         MessageOptionalHeader routeInfo =
                 IMessageBuilder.buildRouteInfo(this.transport.routeInfoBuilder(), topic);
-        routeInfo.setDstNode(dstNode, BigInteger.valueOf(dstNode.length));
+        routeInfo.setDstNodeBuffer(dstNode, BigInteger.valueOf(dstNode.length));
         this.transport
                 .getFront()
                 .async_send_message(
@@ -302,11 +302,11 @@ public class TransportImpl implements WeDPRTransport {
             throws WeDPRSDKException {
         MessageOptionalHeader routeInfo =
                 IMessageBuilder.buildRouteInfo(this.transport.routeInfoBuilder(), topic);
-        routeInfo.setDstNode(dstNodeID, BigInteger.valueOf(dstNodeID.length));
+        routeInfo.setDstNodeBuffer(dstNodeID, BigInteger.valueOf(dstNodeID.length));
         Error result =
                 this.transport
                         .getFront()
-                        .push(
+                        .push_msg(
                                 RouteType.ROUTE_THROUGH_NODEID.ordinal(),
                                 routeInfo,
                                 payload,
@@ -327,7 +327,7 @@ public class TransportImpl implements WeDPRTransport {
         Error result =
                 this.transport
                         .getFront()
-                        .push(
+                        .push_msg(
                                 RouteType.ROUTE_THROUGH_COMPONENT.ordinal(),
                                 routeInfo,
                                 payload,
@@ -346,7 +346,7 @@ public class TransportImpl implements WeDPRTransport {
         Error result =
                 this.transport
                         .getFront()
-                        .push(
+                        .push_msg(
                                 RouteType.ROUTE_THROUGH_TOPIC.ordinal(),
                                 routeInfo,
                                 payload,

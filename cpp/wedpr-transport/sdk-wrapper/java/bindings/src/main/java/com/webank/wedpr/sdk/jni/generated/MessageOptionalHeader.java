@@ -89,12 +89,12 @@ public class MessageOptionalHeader {
     }
 
     public void setDstNode(ubytes dstNode) {
-        wedpr_java_transportJNI.MessageOptionalHeader_setDstNode__SWIG_0(
+        wedpr_java_transportJNI.MessageOptionalHeader_setDstNode(
                 swigCPtr, this, ubytes.getCPtr(dstNode), dstNode);
     }
 
-    public void setDstNode(byte[] data, java.math.BigInteger length) {
-        wedpr_java_transportJNI.MessageOptionalHeader_setDstNode__SWIG_1(
+    public void setDstNodeBuffer(byte[] data, java.math.BigInteger length) {
+        wedpr_java_transportJNI.MessageOptionalHeader_setDstNodeBuffer(
                 swigCPtr, this, data, length);
     }
 

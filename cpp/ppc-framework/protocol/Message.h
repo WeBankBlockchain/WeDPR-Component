@@ -73,7 +73,11 @@ public:
 
     // !!! Note: the first paramater type(char*) should not been changed, for it's used for pass-in
     // java byte[] into c bytes
-    virtual void setDstNode(char* data, uint64_t length) { m_dstNode.assign(data, data + length); }
+    // Note: the python not support function override
+    virtual void setDstNodeBuffer(char* data, uint64_t length)
+    {
+        m_dstNode.assign(data, data + length);
+    }
 
     // the target agency that need receive the message
     virtual std::string const& dstInst() const { return m_dstInst; }

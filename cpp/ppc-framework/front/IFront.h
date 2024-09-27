@@ -211,7 +211,11 @@ public:
         long timeout) = 0;
 
     // TODO: optmize here
-    virtual bcos::Error::Ptr push(uint16_t routeType,
+    // Note: the python not support function overload, for different interfaces with the same
+    // functionality, it is best to define methods with different names the 'payload', 'payloadSize'
+    // should not been changed any more, since the swig has defined by the name to convert python
+    // bytes to cpp (char*, uint64_t) %pybuffer_binary(char* payload, uint64_t payloadSize)
+    virtual bcos::Error::Ptr push_msg(uint16_t routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, char* payload,
         uint64_t payloadSize, int seq, long timeout)
     {

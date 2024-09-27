@@ -1,18 +1,19 @@
 %define MODULEIMPORT
 "
-from utils.lib_loader import LibLoader 
-_wedpr_python_transport = LibLoader.load_lib()
+# Import the low-level C/C++ module
+from libs import _wedpr_python_transport
 "
 %enddef
  
 %module(moduleimport=MODULEIMPORT) wedpr_python_transport
+%module(directors="1") wedpr_python_transport
 
 %include <stdint.i>
 %include <cpointer.i>
 %include <std_vector.i>
 %include <std_string.i>
 %include <std_shared_ptr.i>
-
+%include "typemaps.i"
 
 // shared_ptr definition
 %shared_ptr(ppc::front::FrontConfig);
@@ -40,6 +41,8 @@ _wedpr_python_transport = LibLoader.load_lib()
 
 %{
 #define SWIG_FILE_WITH_INIT
+#include <stdlib.h>
+#include <string.h>
 #include <vector>
 #include <iostream>
 #include <stdint.h>
@@ -129,6 +132,14 @@ namespace bcos{
 
 %template(ubytes) std::vector<uint8_t>;
 %template(ibytes) std::vector<int8_t>;
+
+%include <pybuffer.i>
+%pybuffer_binary(char* data, uint64_t length)
+%pybuffer_binary(char* payload, uint64_t payloadSize)
+
+%typemap(out) OutputBuffer {
+    $result = PyBytes_FromStringAndSize((const char *)$1.data, $1.len);
+}
 
 /// callbacks
 %feature("director") ppc::front::ErrorCallback;
