@@ -24,6 +24,7 @@ ext {
     junitVersion = "4.13.2"
     log4jVersion = "2.23.0"
     jmhVersion = "1.36"
+    apacheCommonLangVersion = "3.14.0"
     println("*ossrhUsername: " + ossrhUsername)
 }
 
@@ -81,6 +82,7 @@ dependencies {
     api ('org.slf4j:slf4j-api:1.7.36')
 
     implementation("org.projectlombok:lombok:${lombokVersion}")
+    implementation("org.apache.commons:commons-lang3:${apacheCommonLangVersion}")
     jmhImplementation ("org.openjdk.jmh:jmh-core:${jmhVersion}")
     jmhAnnotationProcessor ("org.openjdk.jmh:jmh-generator-annprocess:${jmhVersion}")
 

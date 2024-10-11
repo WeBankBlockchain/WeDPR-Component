@@ -29,6 +29,8 @@ import com.webank.wedpr.sdk.jni.transport.handlers.MessageCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
 import java.math.BigInteger;
+import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -147,6 +149,7 @@ public class TransportImpl implements WeDPRTransport {
      * @param timeout the timeout setting
      * @param errorCallback the handler called after receive the message related to the topic
      */
+    @SneakyThrows(Exception.class)
     @Override
     public void asyncSendMessageByNodeID(
             String topic,
@@ -158,6 +161,10 @@ public class TransportImpl implements WeDPRTransport {
             MessageCallback msgCallback) {
         MessageOptionalHeader routeInfo =
                 IMessageBuilder.buildRouteInfo(this.transport.routeInfoBuilder(), topic);
+        if (dstNode == null) {
+            throw new WeDPRSDKException(
+                    "asyncSendMessageByNodeID failed for the dstNode information is empty");
+        }
         routeInfo.setDstNodeBuffer(dstNode, BigInteger.valueOf(dstNode.length));
         this.transport
                 .getFront()
@@ -182,6 +189,7 @@ public class TransportImpl implements WeDPRTransport {
      * @param timeout the timeout
      * @param errorCallback the handler called after receive the message related to the topic
      */
+    @SneakyThrows(Exception.class)
     @Override
     public void asyncSendMessageByAgency(
             String topic,
@@ -193,6 +201,10 @@ public class TransportImpl implements WeDPRTransport {
             MessageCallback msgCallback) {
         MessageOptionalHeader routeInfo =
                 IMessageBuilder.buildRouteInfo(this.transport.routeInfoBuilder(), topic);
+        if (StringUtils.isBlank(agency)) {
+            throw new WeDPRSDKException(
+                    "asyncSendMessageByAgency failed for the dstInst information is empty");
+        }
         routeInfo.setDstInst(agency);
         this.transport
                 .getFront()
@@ -207,6 +219,7 @@ public class TransportImpl implements WeDPRTransport {
                         msgCallback);
     }
 
+    @SneakyThrows(Exception.class)
     @Override
     public void asyncSendMessageByComponent(
             String topic,
@@ -220,7 +233,14 @@ public class TransportImpl implements WeDPRTransport {
         // set the routeInfo
         MessageOptionalHeader routeInfo =
                 IMessageBuilder.buildRouteInfo(this.transport.routeInfoBuilder(), topic);
-        routeInfo.setDstInst(dstInst);
+        // Note: support not specify the dstInst
+        if (StringUtils.isNotBlank(dstInst)) {
+            routeInfo.setDstInst(dstInst);
+        }
+        if (StringUtils.isBlank(component)) {
+            throw new WeDPRSDKException(
+                    "asyncSendMessageByComponent failed for the component information is empty");
+        }
         routeInfo.setComponentType(component);
         this.transport
                 .getFront()
@@ -244,6 +264,7 @@ public class TransportImpl implements WeDPRTransport {
      * @param timeout the timeout
      * @param errorCallback the handler
      */
+    @SneakyThrows(Exception.class)
     @Override
     public void asyncSendMessageByTopic(
             String topic,
@@ -256,6 +277,9 @@ public class TransportImpl implements WeDPRTransport {
         // set the routeInfo
         MessageOptionalHeader routeInfo =
                 IMessageBuilder.buildRouteInfo(this.transport.routeInfoBuilder(), topic);
+        if (StringUtils.isBlank(dstInst)) {
+            throw new WeDPRSDKException("asyncSendMessageByTopic failed for the dstInst is empty");
+        }
         routeInfo.setDstInst(dstInst);
         this.transport
                 .getFront()
@@ -270,6 +294,7 @@ public class TransportImpl implements WeDPRTransport {
                         msgCallback);
     }
 
+    @SneakyThrows(Exception.class)
     @Override
     public void asyncSendResponse(
             byte[] dstNode,
@@ -277,6 +302,9 @@ public class TransportImpl implements WeDPRTransport {
             byte[] payload,
             int seq,
             MessageErrorCallback errorCallback) {
+        if (dstNode == null) {
+            throw new WeDPRSDKException("asyncSendMessageByTopic failed for the dstNode is empty");
+        }
         this.transport
                 .getFront()
                 .async_send_response(
@@ -290,8 +318,12 @@ public class TransportImpl implements WeDPRTransport {
     }
 
     /** @param topic the topic to remove */
+    @SneakyThrows(Exception.class)
     @Override
     public void removeTopic(String topic) throws WeDPRSDKException {
+        if (StringUtils.isBlank(topic)) {
+            throw new WeDPRSDKException("removeTopic failed for the topic is empty");
+        }
         Error result = this.transport.getFront().unRegisterTopic(topic);
         Common.checkResult("removeTopic", result);
     }
@@ -302,6 +334,9 @@ public class TransportImpl implements WeDPRTransport {
             throws WeDPRSDKException {
         MessageOptionalHeader routeInfo =
                 IMessageBuilder.buildRouteInfo(this.transport.routeInfoBuilder(), topic);
+        if (dstNodeID == null) {
+            throw new WeDPRSDKException("pushByNodeID failed for the dstNode is empty");
+        }
         routeInfo.setDstNodeBuffer(dstNodeID, BigInteger.valueOf(dstNodeID.length));
         Error result =
                 this.transport
@@ -322,7 +357,12 @@ public class TransportImpl implements WeDPRTransport {
             throws WeDPRSDKException {
         MessageOptionalHeader routeInfo =
                 IMessageBuilder.buildRouteInfo(this.transport.routeInfoBuilder(), topic);
-        routeInfo.setDstInst(dstInst);
+        if (StringUtils.isNotBlank(dstInst)) {
+            routeInfo.setDstInst(dstInst);
+        }
+        if (StringUtils.isBlank(component)) {
+            throw new WeDPRSDKException("pushByComponent failed for the component is empty");
+        }
         routeInfo.setComponentType(component);
         Error result =
                 this.transport
@@ -342,6 +382,9 @@ public class TransportImpl implements WeDPRTransport {
             throws WeDPRSDKException {
         MessageOptionalHeader routeInfo =
                 IMessageBuilder.buildRouteInfo(this.transport.routeInfoBuilder(), topic);
+        if (StringUtils.isBlank(dstInst)) {
+            throw new WeDPRSDKException("pushByInst failed for the dstInst is empty");
+        }
         routeInfo.setDstInst(dstInst);
         Error result =
                 this.transport
@@ -358,6 +401,9 @@ public class TransportImpl implements WeDPRTransport {
 
     @Override
     public IMessage pop(String topic, int timeout) throws WeDPRSDKException {
+        if (StringUtils.isBlank(topic)) {
+            throw new WeDPRSDKException("pop failed for the topic is empty");
+        }
         Message msg = this.transport.getFront().pop(topic, timeout);
         if (msg == null) {
             throw new WeDPRSDKException(
@@ -366,8 +412,12 @@ public class TransportImpl implements WeDPRTransport {
         return IMessageBuilder.build(msg);
     }
 
+    @SneakyThrows(Exception.class)
     @Override
     public IMessage peek(String topic) {
+        if (StringUtils.isBlank(topic)) {
+            throw new WeDPRSDKException("peek failed for the topic is empty");
+        }
         Message msg = this.transport.getFront().peek(topic);
         if (msg == null) {
             return null;

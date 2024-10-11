@@ -15,10 +15,13 @@
 
 package com.webank.wedpr.sdk.jni.transport;
 
+import com.webank.wedpr.sdk.jni.common.WeDPRSDKException;
 import com.webank.wedpr.sdk.jni.generated.Message;
 import com.webank.wedpr.sdk.jni.generated.MessageOptionalHeader;
 import com.webank.wedpr.sdk.jni.generated.MessageOptionalHeaderBuilder;
 import com.webank.wedpr.sdk.jni.transport.impl.MessageImpl;
+import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 
 public class IMessageBuilder {
     public static IMessage build(Message msg) {
@@ -28,8 +31,12 @@ public class IMessageBuilder {
         return new MessageImpl(msg);
     }
 
+    @SneakyThrows(Exception.class)
     public static MessageOptionalHeader buildRouteInfo(
             MessageOptionalHeaderBuilder routeInfoBuilder, String topic) {
+        if (StringUtils.isBlank(topic)) {
+            throw new WeDPRSDKException("buildRouteInfo for invalid empty topic!");
+        }
         // return the ownership to cpp, since it is created by cpp
         MessageOptionalHeader routeInfo = routeInfoBuilder.build();
         routeInfo.setTopic(topic);
