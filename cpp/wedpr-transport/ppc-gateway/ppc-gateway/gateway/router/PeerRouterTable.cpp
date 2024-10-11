@@ -190,19 +190,47 @@ GatewayNodeInfos PeerRouterTable::selectRouterByAgency(Message::Ptr const& msg) 
     return it->second;
 }
 
+// Note: selectRouterByComponent support not specified the dstInst
 GatewayNodeInfos PeerRouterTable::selectRouterByComponent(Message::Ptr const& msg) const
 {
     GatewayNodeInfos result;
-    bcos::ReadGuard l(x_mutex);
-    auto it = m_agency2GatewayInfos.find(msg->header()->optionalField()->dstInst());
-    // no router found
-    if (it == m_agency2GatewayInfos.end())
+    auto dstInst = msg->header()->optionalField()->dstInst();
+    std::vector<GatewayNodeInfos> selectedRouterInfos;
     {
-        return result;
+        bcos::ReadGuard l(x_mutex);
+        if (dstInst.size() > 0)
+        {
+            // specified the dstInst
+            auto it = m_agency2GatewayInfos.find(dstInst);
+            // no router found
+            if (it == m_agency2GatewayInfos.end())
+            {
+                return result;
+            }
+            selectedRouterInfos.emplace_back(it->second);
+        }
+        else
+        {
+            // the dstInst not specified, query from all agencies
+            for (auto const& it : m_agency2GatewayInfos)
+            {
+                selectedRouterInfos.emplace_back(it.second);
+            }
+        }
     }
-    auto const& gatewayInfos = it->second;
+    for (auto const& it : selectedRouterInfos)
+    {
+        selectRouterByComponent(result, msg, it);
+    }
+    return result;
+}
+
+
+void PeerRouterTable::selectRouterByComponent(GatewayNodeInfos& choosedGateway,
+    Message::Ptr const& msg, GatewayNodeInfos const& singleAgencyGatewayInfos) const
+{
     // foreach all gateways to find the component
-    for (auto const& it : gatewayInfos)
+    for (auto const& it : singleAgencyGatewayInfos)
     {
         auto const& nodeListInfo = it->nodeList();
         for (auto const& nodeInfo : nodeListInfo)
@@ -210,12 +238,11 @@ GatewayNodeInfos PeerRouterTable::selectRouterByComponent(Message::Ptr const& ms
             if (nodeInfo.second->components().count(
                     msg->header()->optionalField()->componentType()))
             {
-                result.insert(it);
+                choosedGateway.insert(it);
                 break;
             }
         }
     }
-    return result;
 }
 
 void PeerRouterTable::asyncBroadcastMessage(ppc::protocol::Message::Ptr const& msg) const

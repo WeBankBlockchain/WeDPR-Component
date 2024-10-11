@@ -54,6 +54,9 @@ public:
 private:
     virtual GatewayNodeInfos selectRouterByNodeID(ppc::protocol::Message::Ptr const& msg) const;
     virtual GatewayNodeInfos selectRouterByComponent(ppc::protocol::Message::Ptr const& msg) const;
+    void selectRouterByComponent(GatewayNodeInfos& choosedGateway,
+        ppc::protocol::Message::Ptr const& msg,
+        GatewayNodeInfos const& singleAgencyGatewayInfos) const;
     virtual GatewayNodeInfos selectRouterByAgency(ppc::protocol::Message::Ptr const& msg) const;
     void removeP2PNodeIDFromNodeIDInfos(GatewayNodeInfo::Ptr const& gatewayInfo);
     void insertGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo);

@@ -303,7 +303,7 @@ public class TransportImpl implements WeDPRTransport {
             int seq,
             MessageErrorCallback errorCallback) {
         if (dstNode == null) {
-            throw new WeDPRSDKException("asyncSendMessageByTopic failed for the dstNode is empty");
+            throw new WeDPRSDKException("asyncSendResponse failed for the dstNode is empty");
         }
         this.transport
                 .getFront()

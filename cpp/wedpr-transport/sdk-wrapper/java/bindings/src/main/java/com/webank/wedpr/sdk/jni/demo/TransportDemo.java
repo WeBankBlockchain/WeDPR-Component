@@ -52,7 +52,8 @@ public class TransportDemo {
                             + ", payload: "
                             + new String(message.getPayload())
                             + "#######");
-
+            // the case access payload multiple times
+            String payload = new String(message.getPayload());
             String response = "#### hello, response!";
             System.out.println(
                     "#### sendResponse: "
