@@ -206,6 +206,7 @@ class ModelJobResult:
     def __init__(self, xgb_job, job_id, components, property_name=DEFAULT_PROPERTY_NAME):
         self.job_id = job_id
         self.xgb_job = xgb_job
+        self.base_context = BaseContext(job_id, ".tmp")
         self.components = components
         self.logger = components.logger()
         self.property_name = property_name
@@ -278,6 +279,12 @@ class ModelJobResult:
         self.feature_importance_table = {property: DataItem(name=property, data=feature_importance_table.to_dict(),
                                                             type=DataType.TABLE).to_dict()}
 
+    def load_encrypted_model_data(self):
+        try:
+            return self.components.storage_client.get_data(self.base_context.remote_model_enc_file).decode("utf-8")
+        except:
+            pass
+
     def load_iteration_metrics(self, iteration_path, property):
         if not self.xgb_job:
             return
@@ -317,6 +324,7 @@ class TaskResultHandler:
         self.result_list = []
         self.predict = False
         self.xgb_job = False
+        self.model_data = None
         if self.task_result_request.task_type == ModelTask.XGB_PREDICTING.name or self.task_result_request.task_type == ModelTask.LR_PREDICTING.name:
             self.predict = True
         if self.task_result_request.task_type == ModelTask.XGB_PREDICTING.name or self.task_result_request.task_type == ModelTask.XGB_TRAINING.name:
@@ -330,7 +338,12 @@ class TaskResultHandler:
         merged_result = dict()
         for result in self.result_list:
             merged_result.update(result.to_dict())
-        response = {"jobPlanetResult":  merged_result}
+
+        if self.model_data is None:
+            response = {"jobPlanetResult":  merged_result}
+        else:
+            response = {"jobPlanetResult":  merged_result,
+                        "modelData": self.model_data}
         return utils.make_response(PpcErrorCode.SUCCESS.get_code(), PpcErrorCode.SUCCESS.get_msg(), response)
 
     def _get_evaluation_result(self):
@@ -371,6 +384,7 @@ class TaskResultHandler:
             # the metrics iteration graph
             self.model.load_iteration_metrics(
                 utils.METRICS_OVER_ITERATION_FILE, "IterationGraph")
+            self.model_data = self.model.load_encrypted_model_data()
 
         if self.predict:
             # the train evaluation result
