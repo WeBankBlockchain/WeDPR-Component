@@ -1,4 +1,7 @@
 # Note: here can't be refactored by autopep
+import sys
+sys.path.append("../")
+
 from ppc_model.secure_lgbm.secure_lgbm_training_engine import SecureLGBMTrainingEngine
 from ppc_model.secure_lgbm.secure_lgbm_prediction_engine import SecureLGBMPredictionEngine
 from ppc_model.secure_lr.secure_lr_training_engine import SecureLRTrainingEngine
@@ -21,8 +24,6 @@ from threading import Thread
 from concurrent import futures
 import os
 import multiprocessing
-import sys
-sys.path.append("../")
 
 
 app = Flask(__name__)
