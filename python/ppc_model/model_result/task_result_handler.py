@@ -2,6 +2,7 @@
 from ppc_common.ppc_utils.utils import PpcException, PpcErrorCode
 from ppc_common.ppc_utils import utils
 from ppc_model.common.protocol import ModelTask
+from ppc_model.common.base_context import BaseContext
 from ppc_common.ppc_ml.model.algorithm_info import ClassificationType
 from ppc_model.common.model_result import ResultFileHandling
 from ppc_common.ppc_ml.model.algorithm_info import EvaluationType
@@ -194,7 +195,7 @@ class FeatureProcessingResult:
         return self.result
 
 
-class XGBJobResult:
+class ModelJobResult:
     DEFAULT_PROPERTY_NAME = "outputModelResult"
     MODEL_RESULT = "ModelResult"
     MODEL_RESULT_PATH = "modelResultPath"
@@ -202,8 +203,9 @@ class XGBJobResult:
     TEST_RESULT_PATH = "testResultPath"
     WOE_RESULT_PATH = "woeIVResultPath"
 
-    def __init__(self, job_id, components, property_name=DEFAULT_PROPERTY_NAME):
+    def __init__(self, xgb_job, job_id, components, property_name=DEFAULT_PROPERTY_NAME):
         self.job_id = job_id
+        self.xgb_job = xgb_job
         self.components = components
         self.logger = components.logger()
         self.property_name = property_name
@@ -212,12 +214,14 @@ class XGBJobResult:
         self.model_result_path = None
         self.train_result_path = None
         self.woe_iv_result_path = None
-        self.xgb_result_path = None
+        self.model_result_path_dict = None
         self.evaluation_table = None
         self.feature_importance_table = None
         self.iteration_metrics = None
 
-    def fetch_model_result(self):
+    def fetch_xgb_model_result(self):
+        if not self.xgb_job:
+            return
         self.model_result_list = []
         i = 0
         # while True:
@@ -240,25 +244,25 @@ class XGBJobResult:
         self.job_result = job_result_object.to_dict()
 
     def load_model_result_path(self, predict: bool):
-        self.xgb_result_path = dict()
+        self.model_result_path_dict = dict()
         self.model_result_path = ResultFileHandling.get_remote_path(
             self.components, self.job_id, BaseContext.MODEL_DATA_FILE)
-        self.xgb_result_path.update(
-            {XGBJobResult.MODEL_RESULT_PATH: self.model_result_path})
+        self.model_result_path_dict.update(
+            {ModelJobResult.MODEL_RESULT_PATH: self.model_result_path})
 
         self.train_result_path = ResultFileHandling.get_remote_path(
             self.components, self.job_id, BaseContext.TRAIN_MODEL_OUTPUT_FILE)
-        self.xgb_result_path.update(
-            {XGBJobResult.TRAIN_RESULT_PATH: self.train_result_path})
+        self.model_result_path_dict.update(
+            {ModelJobResult.TRAIN_RESULT_PATH: self.train_result_path})
 
-        self.xgb_result_path.update(
-            {XGBJobResult.TEST_RESULT_PATH: ResultFileHandling.get_remote_path(
+        self.model_result_path_dict.update(
+            {ModelJobResult.TEST_RESULT_PATH: ResultFileHandling.get_remote_path(
                 self.components, self.job_id, BaseContext.TEST_MODEL_OUTPUT_FILE)})
 
         self.woe_iv_result_path = ResultFileHandling.get_remote_path(
             self.components, self.job_id, BaseContext.WOE_IV_FILE)
-        self.xgb_result_path.update(
-            {XGBJobResult.WOE_RESULT_PATH: self.woe_iv_result_path})
+        self.model_result_path_dict.update(
+            {ModelJobResult.WOE_RESULT_PATH: self.woe_iv_result_path})
 
     def load_evaluation_table(self, evaluation_path, property):
         evaluation_table_object = TableResult(self.components,
@@ -267,12 +271,16 @@ class XGBJobResult:
                                                     type=DataType.TABLE).to_dict()}
 
     def load_feature_importance_table(self, feature_importance_path, property):
+        if not self.xgb_job:
+            return
         feature_importance_table = TableResult(self.components,
                                                self.job_id, ResultFileMeta(feature_importance_path))
         self.feature_importance_table = {property: DataItem(name=property, data=feature_importance_table.to_dict(),
                                                             type=DataType.TABLE).to_dict()}
 
     def load_iteration_metrics(self, iteration_path, property):
+        if not self.xgb_job:
+            return
         try:
             iteration_metrics_data = DataItem(data=ResultFileHandling.make_graph_data(self.components, self.job_id, utils.METRICS_OVER_ITERATION_FILE),
                                               name='iteration_metrics', name_property="ModelPlotName", data_property="ModelPlotData",
@@ -295,9 +303,9 @@ class XGBJobResult:
             result.update(self.feature_importance_table)
         if self.iteration_metrics is not None:
             result.update({self.iteration_property: self.iteration_metrics})
-        if self.xgb_result_path is not None:
+        if self.model_result_path_dict is not None:
             result.update(
-                {XGBJobResult.MODEL_RESULT: self.xgb_result_path})
+                {ModelJobResult.MODEL_RESULT: self.model_result_path_dict})
         return result
 
 
@@ -308,8 +316,11 @@ class TaskResultHandler:
         self.logger = components.logger()
         self.result_list = []
         self.predict = False
-        if self.task_result_request.task_type == ModelTask.XGB_PREDICTING.name:
+        self.xgb_job = False
+        if self.task_result_request.task_type == ModelTask.XGB_PREDICTING.name or self.task_result_request.task_type == ModelTask.LR_PREDICTING.name:
             self.predict = True
+        if self.task_result_request.task_type == ModelTask.XGB_PREDICTING.name or self.task_result_request.task_type == ModelTask.XGB_TRAINING.name:
+            self.xgb_job = True
         self.logger.info(
             f"Init jobResultHandler for: {self.task_result_request.job_id}")
         self._get_evaluation_result()
@@ -323,7 +334,7 @@ class TaskResultHandler:
         return utils.make_response(PpcErrorCode.SUCCESS.get_code(), PpcErrorCode.SUCCESS.get_msg(), response)
 
     def _get_evaluation_result(self):
-        if self.task_result_request.task_type == ModelTask.XGB_TRAINING.name:
+        if not self.predict:
             # the train evaluation result
             self.train_evaluation_result = JobEvaluationResult(
                 property_name="outputMetricsGraphs",
@@ -347,18 +358,18 @@ class TaskResultHandler:
                 "mpc_metric_ks.csv", "KSTable")
             self.result_list.append(self.validation_evaluation_result)
 
-            self.xgb_model = XGBJobResult(
-                self.task_result_request.job_id, self.components, XGBJobResult.DEFAULT_PROPERTY_NAME)
-            self.xgb_model.fetch_model_result()
+            self.model = ModelJobResult(self.xgb_job,
+                                        self.task_result_request.job_id, self.components, ModelJobResult.DEFAULT_PROPERTY_NAME)
+            self.model.fetch_xgb_model_result()
             # the ks-auc table
-            self.xgb_model.load_evaluation_table(
+            self.model.load_evaluation_table(
                 utils.MPC_XGB_EVALUATION_TABLE, "EvaluationTable")
             # the feature-importance table
-            self.xgb_model.load_feature_importance_table(
+            self.model.load_feature_importance_table(
                 utils.XGB_FEATURE_IMPORTANCE_TABLE, "FeatureImportance")
-            self.result_list.append(self.xgb_model)
+            self.result_list.append(self.model)
             # the metrics iteration graph
-            self.xgb_model.load_iteration_metrics(
+            self.model.load_iteration_metrics(
                 utils.METRICS_OVER_ITERATION_FILE, "IterationGraph")
 
         if self.predict:
@@ -374,13 +385,13 @@ class TaskResultHandler:
                 "mpc_eval_metric_ks.csv", "KSTable")
             self.result_list.append(self.predict_evaluation_result)
 
-        # load xgb_result
-        self.xgb_result = XGBJobResult(
-            self.task_result_request.job_id, self.components, XGBJobResult.DEFAULT_PROPERTY_NAME)
-        self.xgb_result.load_result(
-            "xgb_train_output.csv", "outputTrainPreview")
-        self.xgb_result.load_model_result_path(self.predict)
-        self.result_list.append(self.xgb_result)
+        # load model_result
+        self.model_result = ModelJobResult(self.xgb_job,
+                                           self.task_result_request.job_id, self.components, ModelJobResult.DEFAULT_PROPERTY_NAME)
+        self.model_result.load_result(
+            BaseContext.TRAIN_MODEL_OUTPUT_FILE, "outputTrainPreview")
+        self.model_result.load_model_result_path(self.predict)
+        self.result_list.append(self.model_result)
 
     def _get_feature_processing_result(self):
         self.feature_processing_result = FeatureProcessingResult(

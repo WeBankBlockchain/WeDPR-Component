@@ -17,10 +17,10 @@ class BaseContext:
     MODEL_DATA_FILE = utils.XGB_TREE_PERFIX + '.json'
     TEST_MODEL_RESULT_FILE = "model_result.csv"
     # TEST_MODEL_OUTPUT_FILE = "model_output.csv"
-    TEST_MODEL_OUTPUT_FILE = "xgb_output.csv"
+    TEST_MODEL_OUTPUT_FILE = "test_model_output.csv"
     TRAIN_MODEL_RESULT_FILE = "train_model_result.csv"
     # TRAIN_MODEL_OUTPUT_FILE = "train_model_output.csv"
-    TRAIN_MODEL_OUTPUT_FILE = "xgb_train_output.csv"
+    TRAIN_MODEL_OUTPUT_FILE = "train_model_output.csv"
 
     MODEL_FILE = "model.kpl"
     MODEL_ENC_FILE = "model_enc.kpl"
