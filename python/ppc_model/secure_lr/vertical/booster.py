@@ -264,17 +264,17 @@ class VerticalBooster(VerticalModel):
     def merge_model_file(self):
 
         # 加密文件
-        lgbm_model = {}
-        lgbm_model['model_type'] = 'lr_model'
-        lgbm_model['label_provider'] = self.ctx.participant_id_list[0]
-        lgbm_model['label_column'] = 'y'
-        lgbm_model['participant_agency_list'] = []
+        lr_model = {}
+        lr_model['model_type'] = 'lr_model'
+        lr_model['label_provider'] = self.ctx.participant_id_list[0]
+        lr_model['label_column'] = 'y'
+        lr_model['participant_agency_list'] = []
         for partner_index in range(0, len(self.ctx.participant_id_list)):
             agency_info = {'agency': self.ctx.participant_id_list[partner_index]}
             agency_info['fields'] = self.ctx._all_feature_name[partner_index]
-            lgbm_model['participant_agency_list'].append(agency_info)
+            lr_model['participant_agency_list'].append(agency_info)
         
-        lgbm_model['model_dict'] = self.ctx.model_params
+        lr_model['model_dict'] = self.ctx.model_params
         model_text = {}
         with open(self.ctx.model_data_file, 'rb') as f:
             model_data = f.read()
@@ -294,11 +294,11 @@ class VerticalBooster(VerticalModel):
                 model_data_enc = self._receive_byte_data(
                     self.ctx, f'{LRMessage.MODEL_DATA.value}_model_data', partner_index)
                 model_text[self.ctx.participant_id_list[partner_index]] = cipher_to_base64(model_data_enc)
-        lgbm_model['model_text'] = model_text
+        lr_model['model_text'] = model_text
 
         # 上传密文模型
         with open(self.ctx.model_enc_file, 'w') as f:
-            json.dump(lgbm_model, f)
+            json.dump(lr_model, f)
         ResultFileHandling._upload_file(self.ctx.components.storage_client,
                                         self.ctx.model_enc_file, self.ctx.remote_model_enc_file)
         self.ctx.components.logger().info(
