@@ -279,9 +279,13 @@ class AgencyConfig:
         # parse the node config
         utilities.log_debug("load the node config")
         node_config_section_name = "[[agency.node]]"
+        # Note: the node is not required to exist
         node_config_list = utilities.get_item_value(
-            self.config, "node", None, node_must_exists, node_config_section_name)
+            self.config, "node", None, False, node_config_section_name)
         self.node_list = {}
+        # the case without node
+        if node_config_list is None:
+            return
         # TODO: check the node-name
         for node_object in node_config_list:
             node_config = NodeConfig(

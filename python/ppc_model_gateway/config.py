@@ -5,8 +5,6 @@ import os
 
 import yaml
 
-from ppc_common.ppc_initialize.dataset_handler_initialize import DataSetHandlerInitialize
-
 path = os.getcwd()
 log_dir = os.sep.join([path, 'logs'])
 chain_log_dir = os.sep.join([path, 'bin', 'logs'])

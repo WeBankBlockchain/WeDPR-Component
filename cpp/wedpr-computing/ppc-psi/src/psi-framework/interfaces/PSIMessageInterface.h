@@ -76,7 +76,8 @@ public:
     virtual void setTaskID(std::string const& _taskID) { m_taskID = _taskID; }
     virtual void setSeq(uint32_t _seq) { m_seq = _seq; }
     virtual void setFrom(std::string const& _from) { m_from = _from; }
-
+    virtual void setFromNode(bcos::bytes const& fromNode) { m_fromNode = fromNode; }
+    virtual bcos::bytes fromNode() const { return m_fromNode; }
 
     virtual std::string const& taskID() const { return m_taskID; }
     virtual uint32_t seq() const { return m_seq; }
@@ -88,7 +89,11 @@ public:
 private:
     std::string m_taskID;
     int32_t m_seq;
+    // the agency
     std::string m_from;
+    // the fromNode
+    bcos::bytes m_fromNode;
+
     std::string m_uuid;
 };
 

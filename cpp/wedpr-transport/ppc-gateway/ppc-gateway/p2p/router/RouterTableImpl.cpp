@@ -18,6 +18,7 @@
  * @date 2022-5-24
  */
 #include "RouterTableImpl.h"
+#include "ppc-framework/Helper.h"
 #include "ppc-gateway/Common.h"
 
 using namespace bcos;

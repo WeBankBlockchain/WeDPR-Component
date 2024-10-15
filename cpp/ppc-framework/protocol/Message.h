@@ -18,9 +18,10 @@
  * @date 2024-08-22
  */
 #pragma once
-#include "../Common.h"
 #include "MessagePayload.h"
 #include "RouteType.h"
+#include "ppc-framework/Helper.h"
+#include "ppc-framework/libwrapper/Buffer.h"
 #include <bcos-boostssl/interfaces/MessageFace.h>
 #include <bcos-utilities/Common.h>
 #include <bcos-utilities/DataConvertUtility.h>
@@ -46,11 +47,37 @@ public:
 
     // the source nodeID that send the message
     virtual bcos::bytes const& srcNode() const { return m_srcNode; }
+    /// for swig-wrapper(pass the binary data)
+    OutputBuffer srcNodeBuffer() const
+    {
+        // Note: this will be copied to java through jni
+        return OutputBuffer{(unsigned char*)m_srcNode.data(), m_srcNode.size()};
+    }
+
     virtual void setSrcNode(bcos::bytes const& srcNode) { m_srcNode = srcNode; }
+
+    // !!! Note: the first paramater type should not been changed, for it's used for pass-in java
+    // byte[] into c bytes
+    virtual void setSrcNode(char* data, uint64_t length) { m_srcNode.assign(data, data + length); }
 
     // the target nodeID that should receive the message
     virtual bcos::bytes const& dstNode() const { return m_dstNode; }
+
+    // for swig-wrapper(pass the binary to java)
+    OutputBuffer dstNodeBuffer() const
+    {
+        // Note: this will be copied to java through jni
+        return OutputBuffer{(unsigned char*)m_dstNode.data(), m_dstNode.size()};
+    }
     virtual void setDstNode(bcos::bytes const& dstNode) { m_dstNode = dstNode; }
+
+    // !!! Note: the first paramater type(char*) should not been changed, for it's used for pass-in
+    // java byte[] into c bytes
+    // Note: the python not support function override
+    virtual void setDstNodeBuffer(char* data, uint64_t length)
+    {
+        m_dstNode.assign(data, data + length);
+    }
 
     // the target agency that need receive the message
     virtual std::string const& dstInst() const { return m_dstInst; }
@@ -136,6 +163,7 @@ public:
     virtual bool hasOptionalField() const = 0;
 
 protected:
+    // Note: must init here to 0, otherwise, it will be unexpected value in some other platform
     // the msg version, used to support compatibility
     uint8_t m_version = 0;
     // the traceID
@@ -145,11 +173,11 @@ protected:
     // the dstGwNode
     std::string m_dstGwNode;
     // the packetType
-    uint16_t m_packetType;
+    uint16_t m_packetType = 0;
     // the ttl
     int16_t m_ttl = 0;
     // the ext(contains the router policy and response flag)
-    uint16_t m_ext;
+    uint16_t m_ext = 0;
     //// the optional field(used to route between components and nodes)
     MessageOptionalHeader::Ptr m_optionalField;
     uint16_t mutable m_length;
@@ -184,6 +212,16 @@ public:
     }
 
     std::shared_ptr<bcos::bytes> payload() const override { return m_payload; }
+    // for swig wrapper
+    OutputBuffer payloadBuffer() const
+    {
+        if (!m_payload)
+        {
+            return OutputBuffer{nullptr, 0};
+        }
+        return OutputBuffer{(unsigned char*)m_payload->data(), m_payload->size()};
+    }
+
     void setPayload(std::shared_ptr<bcos::bytes> _payload) override
     {
         m_payload = std::move(_payload);
@@ -196,6 +234,11 @@ public:
 
     MessagePayload::Ptr const& frontMessage() const { return m_frontMessage; }
 
+    // Note: swig wrapper require define all methods
+    virtual bool encode(bcos::bytes& _buffer) = 0;
+    // encode and return the {header, payload}
+    virtual bool encode(bcos::boostssl::EncodedMsg& _encodedMsg) = 0;
+    virtual int64_t decode(bcos::bytesConstRef _buffer) = 0;
 
 protected:
     MessageHeader::Ptr m_header;
@@ -249,10 +292,10 @@ inline std::string printOptionalField(MessageOptionalHeader::Ptr optionalHeader)
     std::ostringstream stringstream;
     stringstream << LOG_KV("topic", optionalHeader->topic())
                  << LOG_KV("componentType", optionalHeader->componentType())
-                 << LOG_KV("srcNode", *(bcos::toHexString(optionalHeader->srcNode())))
-                 << LOG_KV("dstNode", *(bcos::toHexString(optionalHeader->dstNode())))
-                 << LOG_KV("dstInst", optionalHeader->dstInst());
-
+                 << LOG_KV("srcNode", printNodeID(optionalHeader->srcNode()))
+                 << LOG_KV("dstNode", printNodeID(optionalHeader->dstNode()))
+                 << LOG_KV("srcInst", printNodeID(optionalHeader->srcInst()))
+                 << LOG_KV("dstInst", printNodeID(optionalHeader->dstInst()));
     return stringstream.str();
 }
 
@@ -265,6 +308,7 @@ inline std::string printMessage(Message::Ptr const& _msg)
     std::ostringstream stringstream;
     stringstream << LOG_KV("from", _msg->header()->srcP2PNodeIDView())
                  << LOG_KV("to", _msg->header()->dstP2PNodeIDView())
+                 << LOG_KV("routeType", (ppc::protocol::RouteType)_msg->header()->routeType())
                  << LOG_KV("ttl", _msg->header()->ttl())
                  << LOG_KV("rsp", _msg->header()->isRespPacket())
                  << LOG_KV("traceID", _msg->header()->traceID())
@@ -285,7 +329,8 @@ inline std::string printWsMessage(bcos::boostssl::MessageFace::Ptr const& _msg)
     }
     std::ostringstream stringstream;
     stringstream << LOG_KV("rsp", _msg->isRespPacket()) << LOG_KV("traceID", _msg->seq())
-                 << LOG_KV("packetType", _msg->packetType()) << LOG_KV("length", _msg->length());
+                 << LOG_KV("packetType", _msg->packetType()) << LOG_KV("length", _msg->length())
+                 << LOG_KV("ext", _msg->ext());
     return stringstream.str();
 }
 

@@ -31,10 +31,11 @@ using namespace ppc::rpc;
 using namespace ppc::tools;
 using namespace ppc::protocol;
 
-Rpc::Rpc(std::shared_ptr<boostssl::ws::WsService> _wsService, std::string const& _selfPartyID,
-    std::string const& _token, std::string const& _prePath)
+Rpc::Rpc(std::shared_ptr<boostssl::ws::WsService> _wsService, ppc::gateway::IGateway::Ptr gateway,
+    std::string const& _selfPartyID, std::string const& _token, std::string const& _prePath)
   : m_prePath(_prePath),
     m_wsService(std::move(_wsService)),
+    m_gateway(std::move(gateway)),
     m_taskFactory(std::make_shared<JsonTaskFactory>(_selfPartyID, _prePath)),
     m_token(_token)
 {
@@ -74,7 +75,8 @@ Rpc::Rpc(std::shared_ptr<boostssl::ws::WsService> _wsService, std::string const&
         boost::bind(&Rpc::killBsModeTask, this, boost::placeholders::_1, boost::placeholders::_2);
     m_methodToHandler[UPDATE_BS_MODE_TASK_STATUS] = boost::bind(
         &Rpc::updateBsModeTaskStatus, this, boost::placeholders::_1, boost::placeholders::_2);
-
+    m_methodToHandler[GET_PEERS] =
+        boost::bind(&Rpc::getPeers, this, boost::placeholders::_1, boost::placeholders::_2);
     RPC_LOG(INFO) << LOG_DESC("init rpc success") << LOG_KV("selfParty", _selfPartyID);
 }
 
@@ -343,6 +345,32 @@ void Rpc::sendEcdhCipher(Json::Value const& _req, RespFunc _respFunc)
     auto request = std::make_shared<psi::SendEcdhCipherRequest>(_req);
     auto result = m_bsEcdhPSI->sendEcdhCipher(request);
     _respFunc(result->error(), result->serializeToJson());
+}
+
+void Rpc::getPeers(Json::Value const& _req, RespFunc _respFunc)
+{
+    if (m_gateway == nullptr)
+    {
+        BOOST_THROW_EXCEPTION(BCOS_ERROR(-1, "the gateway not initialized!"));
+    }
+    m_gateway->asyncGetPeers([_respFunc](bcos::Error::Ptr error, std::string peersInfo) {
+        try
+        {
+            Json::Value root;
+            Json::Reader jsonReader;
+
+            if (!jsonReader.parse(peersInfo, root))
+            {
+                BOOST_THROW_EXCEPTION(BCOS_ERROR(-1, "Invalid json string: " + peersInfo));
+            }
+            _respFunc(error, std::move(root));
+        }
+        catch (std::exception const& e)
+        {
+            RPC_LOG(WARNING) << LOG_DESC("getPeers exception")
+                             << LOG_KV("error", boost::diagnostic_information(e));
+        }
+    });
 }
 
 void Rpc::sendPartnerCipher(Json::Value const& _req, RespFunc _respFunc)

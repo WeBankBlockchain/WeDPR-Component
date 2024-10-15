@@ -47,7 +47,7 @@ void MPCInitializer::init(std::string const& _configPath)
     auto storageConfig = ppcConfig->storageConfig();
     auto mpcConfig = ppcConfig->mpcConfig();
     auto rpcFactory = std::make_shared<RpcFactory>(ppcConfig->agencyID());
-    m_rpc = rpcFactory->buildRpc(ppcConfig);
+    m_rpc = rpcFactory->buildRpc(ppcConfig, nullptr);
     auto mpcService = std::make_shared<MPCService>();
     mpcService->setMPCConfig(mpcConfig);
     mpcService->setStorageConfig(storageConfig);

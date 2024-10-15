@@ -75,7 +75,6 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE ctest
-          make coverage
 
   build_sdk:
     name: build sdk
@@ -129,20 +128,24 @@ jobs:
       - name: Build for macos
         if: runner.os == 'macOS'
         run: |
+          brew install lcov
           bash cpp/tools/install_depends.sh -o macos
-          mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON -DBUILD_SDK=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=OFF -DBUILD_SDK=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
       - name: Test
-        if: runner.os != 'Windows'
+        if: runner.os == 'macOS'
         run: |
           cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE make test
-          make coverage
-      - uses: actions/upload-artifact@v2
+      - name: Test and upload coverage
+        if: runner.os == 'Linux'
+        run: |
+          cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE make test
+      - uses: actions/upload-artifact@v4
         if: runner.os == 'macos'
         with:
           name: libppc-crypto-sdk-jni.dylib
           path: ./cpp/wedpr-component-sdk/bindings/java/src/main/resources/META-INF/native/libppc-crypto-sdk-jni.dylib
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: runner.os == 'Windows'
         with:
           name: libppc-crypto-sdk-jni.dylib
@@ -185,7 +188,7 @@ jobs:
       - name: Prepare vcpkg
         if: runner.os != 'Windows'
         uses: friendlyanon/setup-vcpkg@v1
-        with: { committish: 7e3dcf74e37034eea358934a90a11d618520e139 }
+        with: { committish: 51b14cd4e1230dd51c11ffeff6f7d53c61cc5297 }
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly-2022-07-28
@@ -206,19 +209,19 @@ jobs:
         run: |
           export OMP_NUM_THREADS=1
           cd build && CTEST_OUTPUT_ON_FAILURE=TRUE make test
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: ppc-air-node-centos-x64
           path: ./cpp/build/bin/ppc-air-node
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: ppc-pro-node-centos-x64
           path: ./cpp/build/bin/ppc-pro-node
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: ppc-gateway-service-centos-x64
           path: ./cpp/build/bin/ppc-gateway-service
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: libppc-crypto-sdk-jni.so
           path: ./cpp/wedpr-component-sdk/bindings/java/src/main/resources/META-INF/native/libppc-crypto-sdk-jni.so

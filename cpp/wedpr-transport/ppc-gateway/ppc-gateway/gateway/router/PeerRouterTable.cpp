@@ -19,6 +19,7 @@
  */
 #include "PeerRouterTable.h"
 #include "ppc-framework/Common.h"
+#include "ppc-framework/Helper.h"
 #include <random>
 
 using namespace bcos;
@@ -31,6 +32,35 @@ void PeerRouterTable::updateGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo)
     PEER_ROUTER_LOG(INFO) << LOG_DESC("updateGatewayInfo")
                           << LOG_KV("detail", printNodeStatus(gatewayInfo));
     auto nodeList = gatewayInfo->nodeList();
+
+    removeP2PNodeIDFromNodeIDInfos(gatewayInfo);
+    insertGatewayInfo(gatewayInfo);
+}
+
+void PeerRouterTable::insertGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo)
+{
+    auto nodeList = gatewayInfo->nodeList();
+    bcos::WriteGuard l(x_mutex);
+    // insert new information for the gateway
+    for (auto const& it : nodeList)
+    {
+        // update nodeID => gatewayInfos
+        if (!m_nodeID2GatewayInfos.count(it.first))
+        {
+            m_nodeID2GatewayInfos.insert(std::make_pair(it.first, GatewayNodeInfos()));
+        }
+        m_nodeID2GatewayInfos[it.first].insert(gatewayInfo);
+    }
+    if (!m_agency2GatewayInfos.count(gatewayInfo->agency()))
+    {
+        m_agency2GatewayInfos.insert(std::make_pair(gatewayInfo->agency(), GatewayNodeInfos()));
+    }
+    // update agency => gatewayInfos
+    m_agency2GatewayInfos[gatewayInfo->agency()].insert(gatewayInfo);
+}
+
+void PeerRouterTable::removeP2PNodeIDFromNodeIDInfos(GatewayNodeInfo::Ptr const& gatewayInfo)
+{
     bcos::WriteGuard l(x_mutex);
     // remove the origin information of the gateway
     auto it = m_nodeID2GatewayInfos.begin();
@@ -49,22 +79,69 @@ void PeerRouterTable::updateGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo)
         }
         it++;
     }
-    // insert new information for the gateway
-    for (auto const& it : nodeList)
+}
+
+void PeerRouterTable::removeP2PNodeIDFromAgencyInfos(std::string const& p2pNode)
+{
+    bcos::WriteGuard l(x_mutex);
+    for (auto it = m_agency2GatewayInfos.begin(); it != m_agency2GatewayInfos.end();)
     {
-        // update nodeID => gatewayInfos
-        if (!m_nodeID2GatewayInfos.count(it.first))
+        auto& gatewayInfos = it->second;
+        for (auto pGateway = gatewayInfos.begin(); pGateway != gatewayInfos.end();)
         {
-            m_nodeID2GatewayInfos.insert(std::make_pair(it.first, GatewayNodeInfos()));
+            if ((*pGateway)->p2pNodeID() == p2pNode)
+            {
+                pGateway = gatewayInfos.erase(pGateway);
+                continue;
+            }
+            pGateway++;
         }
-        m_nodeID2GatewayInfos[it.first].insert(gatewayInfo);
+        if (gatewayInfos.empty())
+        {
+            it = m_agency2GatewayInfos.erase(it);
+            continue;
+        }
+        it++;
     }
-    if (!m_agency2GatewayInfos.count(gatewayInfo->agency()))
+}
+
+void PeerRouterTable::removeP2PID(std::string const& p2pNode)
+{
+    PEER_ROUTER_LOG(INFO) << LOG_DESC("PeerRouterTable: removeP2PID")
+                          << LOG_KV("p2pID", printP2PIDElegantly(p2pNode));
+    // remove P2PNode from m_nodeID2GatewayInfos
+    auto gatewayInfo = m_gatewayInfoFactory->build(p2pNode);
+    removeP2PNodeIDFromNodeIDInfos(gatewayInfo);
+    // remove P2PNode from m_agency2GatewayInfos
+    removeP2PNodeIDFromAgencyInfos(p2pNode);
+}
+
+std::set<std::string> PeerRouterTable::agencies(std::vector<std::string> const& components) const
+{
+    std::set<std::string> agencies;
+    bcos::ReadGuard l(x_mutex);
+    for (auto const& it : m_agency2GatewayInfos)
     {
-        m_agency2GatewayInfos.insert(std::make_pair(gatewayInfo->agency(), GatewayNodeInfos()));
+        // get all agencies
+        if (components.empty())
+        {
+            agencies.insert(it.first);
+            continue;
+        }
+        // get agencies according to component
+        for (auto const& gatewayInfo : it.second)
+        {
+            for (auto const& component : components)
+            {
+                if (gatewayInfo->existComponent(component))
+                {
+                    agencies.insert(it.first);
+                    break;
+                }
+            }
+        }
     }
-    // update agency => gatewayInfos
-    m_agency2GatewayInfos[gatewayInfo->agency()].insert(gatewayInfo);
+    return agencies;
 }
 
 GatewayNodeInfos PeerRouterTable::selectRouter(
@@ -113,19 +190,47 @@ GatewayNodeInfos PeerRouterTable::selectRouterByAgency(Message::Ptr const& msg) 
     return it->second;
 }
 
+// Note: selectRouterByComponent support not specified the dstInst
 GatewayNodeInfos PeerRouterTable::selectRouterByComponent(Message::Ptr const& msg) const
 {
     GatewayNodeInfos result;
-    bcos::ReadGuard l(x_mutex);
-    auto it = m_agency2GatewayInfos.find(msg->header()->optionalField()->dstInst());
-    // no router found
-    if (it == m_agency2GatewayInfos.end())
+    auto dstInst = msg->header()->optionalField()->dstInst();
+    std::vector<GatewayNodeInfos> selectedRouterInfos;
     {
-        return result;
+        bcos::ReadGuard l(x_mutex);
+        if (dstInst.size() > 0)
+        {
+            // specified the dstInst
+            auto it = m_agency2GatewayInfos.find(dstInst);
+            // no router found
+            if (it == m_agency2GatewayInfos.end())
+            {
+                return result;
+            }
+            selectedRouterInfos.emplace_back(it->second);
+        }
+        else
+        {
+            // the dstInst not specified, query from all agencies
+            for (auto const& it : m_agency2GatewayInfos)
+            {
+                selectedRouterInfos.emplace_back(it.second);
+            }
+        }
     }
-    auto const& gatewayInfos = it->second;
+    for (auto const& it : selectedRouterInfos)
+    {
+        selectRouterByComponent(result, msg, it);
+    }
+    return result;
+}
+
+
+void PeerRouterTable::selectRouterByComponent(GatewayNodeInfos& choosedGateway,
+    Message::Ptr const& msg, GatewayNodeInfos const& singleAgencyGatewayInfos) const
+{
     // foreach all gateways to find the component
-    for (auto const& it : gatewayInfos)
+    for (auto const& it : singleAgencyGatewayInfos)
     {
         auto const& nodeListInfo = it->nodeList();
         for (auto const& nodeInfo : nodeListInfo)
@@ -133,12 +238,11 @@ GatewayNodeInfos PeerRouterTable::selectRouterByComponent(Message::Ptr const& ms
             if (nodeInfo.second->components().count(
                     msg->header()->optionalField()->componentType()))
             {
-                result.insert(it);
+                choosedGateway.insert(it);
                 break;
             }
         }
     }
-    return result;
 }
 
 void PeerRouterTable::asyncBroadcastMessage(ppc::protocol::Message::Ptr const& msg) const

@@ -189,7 +189,7 @@ private:
         m_signalled.wait_for(l, boost::chrono::milliseconds(5));
     }
     void responsePSIResultSyncStatus(int32_t _code, std::string const& _msg,
-        std::string const& _peer, std::string const& _taskID, std::string const& _uuid,
+        bcos::bytes const& _peer, std::string const& _taskID, std::string const& _uuid,
         uint32_t _seq);
 
     void broadcastSyncTaskInfo(

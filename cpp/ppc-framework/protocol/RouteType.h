@@ -45,6 +45,9 @@ inline std::ostream& operator<<(std::ostream& _out, RouteType const& _type)
     case RouteType::ROUTE_THROUGH_AGENCY:
         _out << "RouteThroughAgency";
         break;
+    case RouteType::ROUTE_THROUGH_TOPIC:
+        _out << "RouteThroughTopic";
+        break;
     default:
         _out << "UnknownRouteType";
         break;

@@ -38,6 +38,15 @@ inline grpc::ChannelArguments toChannelConfig(ppc::protocol::GrpcConfig::Ptr con
             "{\"healthCheckConfig\": "
             "{\"serviceName\": \"\"}}");
     }
+    // disable dns lookup
+    if (!grpcConfig->enableDnslookup())
+    {
+        args.SetInt("grpc.enable_dns_srv_lookup", 0);
+    }
+    else
+    {
+        args.SetInt("grpc.enable_dns_srv_lookup", 1);
+    }
     return args;
 }
 }  // namespace ppc::protocol

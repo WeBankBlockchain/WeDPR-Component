@@ -19,7 +19,13 @@ if(UNIX AND NOT APPLE)
 endif()
 
 # Find Python 3
-find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
+find_package(Python REQUIRED COMPONENTS Interpreter Development)
+message("Python_FOUND:${Python_FOUND}")
+message("Python_VERSION:${Python_VERSION}")
+message("Python_Development_FOUND:${Python_Development_FOUND}")
+message("Python_LIBRARIES:${Python_LIBRARIES}")
+message("Python_INCLUDE_DIRS:${Python_INCLUDE_DIRS}")
+
 list(APPEND CMAKE_SWIG_FLAGS "-py3" "-DPY3")
 
 function(search_python_module)

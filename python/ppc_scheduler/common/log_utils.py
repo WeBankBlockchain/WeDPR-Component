@@ -6,12 +6,16 @@ from ppc_common.ppc_utils import utils, path
 
 
 def job_start_log_info(job_id):
-    return f"=====================start_{job_id}====================="
-
+    return f"=====================start_job_{job_id}====================="
 
 def job_end_log_info(job_id):
-    return f"======================end_{job_id}======================"
+    return f"======================end_job_{job_id}======================"
 
+def worker_start_log_info(work_id):
+    return f"=====================start_work_{work_id}====================="
+
+def worker_end_log_info(work_id):
+    return f"======================end_work_{work_id}======================"
 
 def upload_job_log(storage_client, job_id, extra=None):
     job_log_path = None
@@ -26,8 +30,11 @@ def upload_job_log(storage_client, job_id, extra=None):
             job_log.write(extra)
             job_log.close()
         storage_client.upload_file(job_log_path, job_id + os.sep + utils.LOG_NAME)
+    except (Exception) as e:
+        print(e)
     finally:
-        os.remove(job_log_path)
+        if os.path.exists(job_log_path):
+            os.remove(job_log_path)
 
 
 def read_line_inverse(file):

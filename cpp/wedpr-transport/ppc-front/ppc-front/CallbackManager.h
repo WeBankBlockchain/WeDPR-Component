@@ -64,6 +64,9 @@ public:
     virtual void registerTopicHandler(
         std::string const& topic, ppc::protocol::MessageDispatcherCallback callback);
 
+    virtual void registerMessageHandler(
+        std::string const& componentType, ppc::protocol::MessageDispatcherCallback callback);
+
     virtual ppc::protocol::Message::Ptr pop(std::string const& topic, int timeoutMs)
     {
         auto it = m_msgCache.find(topic);
@@ -94,6 +97,10 @@ private:
         msgQueue->push(std::move(msg));
     }
 
+    ppc::protocol::MessageDispatcherCallback getHandlerByTopic(std::string const& topic);
+    ppc::protocol::MessageDispatcherCallback getHandlerByComponentType(
+        std::string const& componentType);
+
 private:
     bcos::ThreadPool::Ptr m_threadPool;
     std::shared_ptr<boost::asio::io_service> m_ioService;
@@ -104,6 +111,10 @@ private:
     // topic => messageDispatcherCallback
     std::map<std::string, ppc::protocol::MessageDispatcherCallback> m_topicHandlers;
     mutable bcos::SharedMutex x_topicHandlers;
+
+    // componentType => messageDispatcherCallback
+    std::map<std::string, ppc::protocol::MessageDispatcherCallback> m_msgHandlers;
+    mutable bcos::SharedMutex x_msgHandlers;
 
     // the messageCache for the message with no topic handler defined
     uint64_t m_maxMsgCacheSize = 10000;

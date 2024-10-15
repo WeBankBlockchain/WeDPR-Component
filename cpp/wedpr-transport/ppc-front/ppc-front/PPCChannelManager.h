@@ -21,7 +21,6 @@
 #pragma once
 
 #include "PPCChannel.h"
-#include <gperftools/malloc_extension.h>
 #include <thread>
 
 namespace ppc::front
@@ -37,7 +36,6 @@ public:
     {
         std::unordered_map<std::string, HoldingMessage::Ptr>().swap(m_holdingMessages);
         std::unordered_map<std::string, front::Channel::Ptr>().swap(m_channels);
-        MallocExtension::instance()->ReleaseFreeMemory();
         FRONT_LOG(INFO) << LOG_DESC("the PPCChannelManager destroyed");
     }
 

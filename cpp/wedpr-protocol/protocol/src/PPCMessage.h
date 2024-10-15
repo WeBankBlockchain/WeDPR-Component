@@ -83,6 +83,10 @@ public:
     // set the message to be response
     void setResponse() override { m_isResponse = true; }
 
+    void setSenderNode(bcos::bytes const& senderNode) override { m_senderNode = senderNode; }
+
+    bcos::bytes const& senderNode() const override { return m_senderNode; }
+
 protected:
     std::string encodeMap(const std::map<std::string, std::string>& _map);
     std::map<std::string, std::string> decodeMap(const std::string& _encval);
@@ -95,6 +99,8 @@ private:
     uint32_t m_seq = 0;
     std::string m_taskID;
     std::string m_sender;
+    bcos::bytes m_senderNode;
+
     bool m_isResponse;
     // the uuid used to find the response-callback
     std::string m_uuid;

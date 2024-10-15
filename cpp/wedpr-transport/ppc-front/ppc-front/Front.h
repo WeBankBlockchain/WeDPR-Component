@@ -19,6 +19,7 @@
  */
 
 #pragma once
+#include "bcos-utilities/Timer.h"
 #include "ppc-framework/front/FrontInterface.h"
 #include "ppc-framework/front/IFront.h"
 #include "ppc-framework/protocol/PPCMessageFace.h"
@@ -29,8 +30,11 @@ class Front : public FrontInterface, public std::enable_shared_from_this<Front>
 {
 public:
     using Ptr = std::shared_ptr<Front>;
-    Front(IFront::Ptr front) : m_front(std::move(front)) {}
+    Front(ppc::front::PPCMessageFaceFactory::Ptr ppcMsgFactory, IFront::Ptr front);
     ~Front() override {}
+
+    void start() override;
+    void stop() override;
 
     /**
      * @brief: send message to other party by gateway
@@ -44,9 +48,8 @@ public:
         uint32_t _timeout, ErrorCallbackFunc _callback, CallbackFunc _respCallback) override;
 
     // send response when receiving message from given agencyID
-    void asyncSendResponse(const std::string& _agencyID, std::string const& _uuid,
-        front::PPCMessageFace::Ptr _message, ErrorCallbackFunc _callback) override;
-
+    void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
+        front::PPCMessageFace::Ptr message, ErrorCallbackFunc _callback) override;
     /**
      * @brief notice task info to gateway
      * @param _taskInfo the latest task information
@@ -58,28 +61,26 @@ public:
 
     // register message handler for algorithm
     void registerMessageHandler(uint8_t _taskType, uint8_t _algorithmType,
-        std::function<void(front::PPCMessageFace::Ptr)> _handler) override
+        std::function<void(front::PPCMessageFace::Ptr)> _handler) override;
+
+    std::vector<std::string> agencies() const override
     {
-        uint16_t type = ((uint16_t)_taskType << 8) | _algorithmType;
-        auto self = weak_from_this();
-        m_front->registerTopicHandler(
-            std::to_string(type), [self, _handler](ppc::protocol::Message::Ptr msg) {
-                auto front = self.lock();
-                if (!front)
-                {
-                    return;
-                }
-                if (msg == nullptr)
-                {
-                    _handler(nullptr);
-                    return;
-                }
-                _handler(front->m_messageFactory->decodePPCMessage(msg));
-            });
+        bcos::ReadGuard l(x_agencyList);
+        return m_agencyList;
     }
+
+protected:
+    void fetchGatewayMetaInfo();
 
 private:
     IFront::Ptr m_front;
+
+    // the agency list
+    std::vector<std::string> m_agencyList;
+    mutable bcos::SharedMutex x_agencyList;
+
+    std::shared_ptr<bcos::Timer> m_fetcher;
+
     ppc::front::PPCMessageFaceFactory::Ptr m_messageFactory;
 };
 }  // namespace ppc::front

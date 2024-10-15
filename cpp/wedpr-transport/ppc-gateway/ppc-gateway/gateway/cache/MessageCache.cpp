@@ -30,10 +30,10 @@ void MessageCache::insertCache(
     std::string const& topic, ppc::protocol::Message::Ptr const& msg, ReceiveMsgFunc callback)
 {
     // hold the message
-    GATEWAY_LOG(DEBUG) << LOG_BADGE("MessageCache: insertCache") << LOG_KV("topic", topic);
+    GATEWAY_LOG(DEBUG) << LOG_BADGE("MessageCache: insertCache") << printMessage(msg);
     bcos::ReadGuard l(x_msgCache);
     auto it = m_msgCache.find(topic);
-    if (it == m_msgCache.end())
+    if (it != m_msgCache.end())
     {
         it->second->messages.emplace_back(MessageInfo{msg, callback});
         return;

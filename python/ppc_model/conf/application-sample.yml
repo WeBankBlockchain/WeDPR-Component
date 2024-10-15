@@ -23,10 +23,10 @@ DB_TYPE: "mysql"
 SQLALCHEMY_DATABASE_URI: "mysql://[*user_ppcsmodeladm]:[*pass_ppcsmodeladm]@[@4346-TDSQL_VIP]:[@4346-TDSQL_PORT]/ppcsmodeladm?autocommit=true&charset=utf8mb4"
 
 # interagency services
-HDFS_ENDPOINT: "http://127.0.0.1:50070"
+HDFS_URL: "http://127.0.0.1:50070"
 # HDFS,
 STORAGE_TYPE: "HDFS"
-HDFS_ENDPOINT: "http://127.0.0.1:9870"
+HDFS_URL: "http://127.0.0.1:9870"
 HDFS_USER: "ppc"
 HDFS_HOME: "/user/ppc/model/webank"
 

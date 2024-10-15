@@ -21,9 +21,9 @@
 
 #include "ppc-framework/Common.h"
 #include "ppc-framework/protocol/PPCMessageFace.h"
-
 #include <bcos-utilities/Common.h>
 #include <bcos-utilities/Log.h>
+#include <tbb/tbb.h>
 
 
 namespace ppc::psi
@@ -64,5 +64,18 @@ enum class CM2020PSIRetCode : int
     UNDEFINED_TASK_ROLE = -3001,
     INVALID_TASK_PARAM = -3002
 };
+
+inline uint32_t dedupDataBatch(ppc::io::DataBatch::Ptr dataBatch)
+{
+    if (!dataBatch || dataBatch->mutableData() == nullptr || dataBatch->mutableData()->empty())
+    {
+        return 0;
+    }
+    auto& data = dataBatch->mutableData();
+    tbb::parallel_sort(data->begin(), data->end());
+    auto unique_end = std::unique(data->begin(), data->end());
+    data->erase(unique_end, data->end());
+    return data->size();
+}
 
 }  // namespace ppc::psi

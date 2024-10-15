@@ -31,23 +31,40 @@ class PeerRouterTable
 {
 public:
     using Ptr = std::shared_ptr<PeerRouterTable>;
-    PeerRouterTable(Service::Ptr service) : m_service(std::move(service)) {}
+    PeerRouterTable(Service::Ptr service, GatewayNodeInfoFactory::Ptr gatewayInfoFactory)
+      : m_service(std::move(service)), m_gatewayInfoFactory(std::move(gatewayInfoFactory))
+    {}
     virtual ~PeerRouterTable() = default;
 
     virtual void updateGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo);
+    virtual void removeP2PID(std::string const& p2pNode);
     virtual GatewayNodeInfos selectRouter(
         ppc::protocol::RouteType const& routeType, ppc::protocol::Message::Ptr const& msg) const;
 
     virtual void asyncBroadcastMessage(ppc::protocol::Message::Ptr const& msg) const;
 
+    std::set<std::string> agencies(std::vector<std::string> const& components) const;
+
+    std::map<std::string, GatewayNodeInfos> gatewayInfos() const
+    {
+        bcos::ReadGuard l(x_mutex);
+        return m_agency2GatewayInfos;
+    }
+
 private:
     virtual GatewayNodeInfos selectRouterByNodeID(ppc::protocol::Message::Ptr const& msg) const;
     virtual GatewayNodeInfos selectRouterByComponent(ppc::protocol::Message::Ptr const& msg) const;
+    void selectRouterByComponent(GatewayNodeInfos& choosedGateway,
+        ppc::protocol::Message::Ptr const& msg,
+        GatewayNodeInfos const& singleAgencyGatewayInfos) const;
     virtual GatewayNodeInfos selectRouterByAgency(ppc::protocol::Message::Ptr const& msg) const;
-
+    void removeP2PNodeIDFromNodeIDInfos(GatewayNodeInfo::Ptr const& gatewayInfo);
+    void insertGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo);
+    void removeP2PNodeIDFromAgencyInfos(std::string const& p2pNode);
 
 private:
     Service::Ptr m_service;
+    GatewayNodeInfoFactory::Ptr m_gatewayInfoFactory;
     // nodeID => p2pNodes
     std::map<bcos::bytes, GatewayNodeInfos> m_nodeID2GatewayInfos;
     // agency => p2pNodes

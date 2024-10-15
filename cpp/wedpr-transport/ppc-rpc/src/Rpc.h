@@ -19,6 +19,7 @@
  */
 #pragma once
 #include "ppc-framework/front/FrontInterface.h"
+#include "ppc-framework/gateway/IGateway.h"
 #include "ppc-framework/rpc/RpcInterface.h"
 #include "ppc-framework/rpc/RpcStatusInterface.h"
 #include "protocol/src/JsonTaskImpl.h"
@@ -35,7 +36,8 @@ class Rpc : public RpcInterface
 {
 public:
     using Ptr = std::shared_ptr<Rpc>;
-    Rpc(std::shared_ptr<bcos::boostssl::ws::WsService> _wsService, std::string const& _selfPartyID,
+    Rpc(std::shared_ptr<bcos::boostssl::ws::WsService> _wsService,
+        ppc::gateway::IGateway::Ptr gateway, std::string const& _selfPartyID,
         std::string const& _token, std::string const& _prePath = "data");
     ~Rpc() override { stop(); }
     void start() override
@@ -131,11 +133,14 @@ protected:
     virtual void killBsModeTask(Json::Value const& _req, RespFunc _respFunc);
     virtual void updateBsModeTaskStatus(Json::Value const& _req, RespFunc _respFunc);
 
+    virtual void getPeers(Json::Value const& _req, RespFunc _respFunc);
+
     void checkHostResource();
 
 private:
     std::string m_prePath;
     std::shared_ptr<bcos::boostssl::ws::WsService> m_wsService;
+    ppc::gateway::IGateway::Ptr m_gateway;
     RpcStatusInterface::Ptr m_rpcStorage;
 
     // Note: here use jsonTaskFactory to decrease the overhead to convert json::value to string when

@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 # Note: here can't be refactored by autopep
+import sys
+sys.path.append("src/")
 from controller import commandline_helper
 from common import utilities
 import traceback
-import sys
-sys.path.append("src/")
 
 
 def main():

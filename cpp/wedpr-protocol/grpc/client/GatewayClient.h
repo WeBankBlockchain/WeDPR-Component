@@ -27,9 +27,7 @@ class GatewayClient : public ppc::gateway::IGateway, public GrpcClient
 {
 public:
     using Ptr = std::shared_ptr<GatewayClient>;
-    GatewayClient(ppc::protocol::GrpcConfig::Ptr const& grpcConfig, std::string const& endPoints)
-      : GrpcClient(grpcConfig, endPoints), m_stub(ppc::proto::Gateway::NewStub(m_channel))
-    {}
+    GatewayClient(ppc::protocol::GrpcConfig::Ptr const& grpcConfig, std::string const& endPoints);
 
     ~GatewayClient() override = default;
 
@@ -55,6 +53,10 @@ public:
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID,
         bcos::bytes&& payload, long timeout, ppc::protocol::ReceiveMsgFunc callback) override;
 
+    void asyncGetPeers(std::function<void(bcos::Error::Ptr, std::string)> callback) override;
+    void asyncGetAgencies(std::vector<std::string> const& components,
+        std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) override;
+
     void asyncSendbroadcastMessage(ppc::protocol::RouteType routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID,
         bcos::bytes&& payload) override
@@ -66,5 +68,6 @@ public:
 
 private:
     std::unique_ptr<ppc::proto::Gateway::Stub> m_stub;
+    std::map<std::string, std::unique_ptr<ppc::proto::Gateway::Stub>> m_broadcastStubs;
 };
 }  // namespace ppc::protocol

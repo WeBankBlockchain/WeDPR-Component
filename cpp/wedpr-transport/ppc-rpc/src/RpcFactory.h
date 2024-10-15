@@ -19,6 +19,7 @@
  */
 #pragma once
 #include "Rpc.h"
+#include "ppc-framework/gateway/IGateway.h"
 #include <memory>
 namespace bcos::boostssl::ws
 {
@@ -37,8 +38,8 @@ public:
     RpcFactory(std::string const& _selfPartyID) : m_selfPartyID(_selfPartyID) {}
     virtual ~RpcFactory() = default;
 
-    Rpc::Ptr buildRpc(std::shared_ptr<ppc::tools::PPCConfig const> _config);
-
+    Rpc::Ptr buildRpc(
+        std::shared_ptr<ppc::tools::PPCConfig const> _config, ppc::gateway::IGateway::Ptr gateway);
 
 private:
     std::shared_ptr<bcos::boostssl::ws::WsConfig> initConfig(

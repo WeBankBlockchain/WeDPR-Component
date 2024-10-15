@@ -1,6 +1,5 @@
 class JobStatus:
     RUNNING = 'RUNNING'
     SUCCESS = 'SUCCESS'
-    FAILURE = 'FAILURE'
-    TIMEOUT = 'TIMEOUT'
+    FAILURE = 'FAILED'
     KILLED = 'KILLED'

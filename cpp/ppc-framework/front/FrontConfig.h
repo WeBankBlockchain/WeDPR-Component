@@ -73,6 +73,8 @@ public:
     virtual std::vector<std::string> const& getComponents() const { return m_components; }
     void setComponents(std::vector<std::string> const& components) { m_components = components; }
 
+    void addComponent(std::string const& component) { m_components.emplace_back(component); }
+
     std::vector<std::string>& mutableComponents() { return m_components; }
 
 protected:

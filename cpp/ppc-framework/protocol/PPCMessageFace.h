@@ -54,7 +54,10 @@ public:
     virtual std::string const& taskID() const = 0;
     virtual void setTaskID(std::string const&) = 0;
     virtual std::string const& sender() const = 0;
+    virtual bcos::bytes const& senderNode() const = 0;
     virtual void setSender(std::string const&) = 0;
+    virtual void setSenderNode(bcos::bytes const&) = 0;
+
     virtual std::shared_ptr<bcos::bytes> data() const = 0;
     virtual void setData(std::shared_ptr<bcos::bytes>) = 0;
     virtual std::map<std::string, std::string> header() = 0;

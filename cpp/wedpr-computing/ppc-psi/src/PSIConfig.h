@@ -20,6 +20,7 @@
 #pragma once
 #include "Common.h"
 #include "bcos-utilities/Common.h"
+#include "ppc-framework/Helper.h"
 #include "ppc-framework/front/FrontInterface.h"
 #include "ppc-framework/io/DataResourceLoader.h"
 #include "ppc-framework/protocol/Protocol.h"
@@ -96,14 +97,15 @@ public:
             _responseCallback);
     }
 
-    void asyncSendResponse(std::string const& _peerID, std::string const& _taskID,
+    void asyncSendResponse(bcos::bytes const& fromNode, std::string const& _taskID,
         std::string const& _uuid, PSIMessageInterface::Ptr const& _msg,
         ppc::front::ErrorCallbackFunc _callback, uint32_t _seq = 0)
     {
         auto ppcMsg = generatePPCMsg(_taskID, _msg, _seq);
-        PSI_LOG(TRACE) << LOG_DESC("sendResponse") << LOG_KV("peer", _peerID) << printPPCMsg(ppcMsg)
-                       << LOG_KV("msgType", (int)_msg->packetType()) << LOG_KV("uuid", _uuid);
-        m_front->asyncSendResponse(_peerID, _uuid, ppcMsg, _callback);
+        PSI_LOG(TRACE) << LOG_DESC("sendResponse") << LOG_KV("peer", printNodeID(fromNode))
+                       << printPPCMsg(ppcMsg) << LOG_KV("msgType", (int)_msg->packetType())
+                       << LOG_KV("uuid", _uuid);
+        m_front->asyncSendResponse(fromNode, _uuid, ppcMsg, _callback);
     }
 
     ppc::io::DataResourceLoader::Ptr const& dataResourceLoader() const
@@ -114,18 +116,7 @@ public:
     int taskExpireTime() const { return m_taskExpireTime; }
     void setTaskExpireTime(int _taskExpireTime) { m_taskExpireTime = _taskExpireTime; }
 
-    std::vector<std::string> agencyList() const
-    {
-        bcos::ReadGuard l(x_agencyList);
-        return m_agencyList;
-    }
-
-    // for ut
-    void setAgencyList(std::vector<std::string> const& agencyList)
-    {
-        bcos::WriteGuard l(x_agencyList);
-        m_agencyList = agencyList;
-    }
+    std::vector<std::string> agencyList() const { return m_front->agencies(); }
 
 protected:
     ppc::front::PPCMessageFace::Ptr generatePPCMsg(
@@ -160,10 +151,5 @@ protected:
 
     // the task-expire time
     int m_taskExpireTime = 10000;
-
-    // the agency list, for task-sync
-    // TODO: fetch from the gateway
-    std::vector<std::string> m_agencyList;
-    mutable bcos::SharedMutex x_agencyList;
 };
 }  // namespace ppc::psi

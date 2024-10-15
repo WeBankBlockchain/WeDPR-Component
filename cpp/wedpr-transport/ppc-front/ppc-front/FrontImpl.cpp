@@ -37,7 +37,7 @@ FrontImpl::FrontImpl(std::shared_ptr<bcos::ThreadPool> threadPool,
     m_gatewayClient(gateway)
 {
     m_nodeID = m_nodeInfo->nodeID().toBytes();
-    m_callbackManager = std::make_shared<CallbackManager>(m_threadPool, ioService);
+    m_callbackManager = std::make_shared<CallbackManager>(m_threadPool, m_ioService);
 }
 
 /**
@@ -106,6 +106,23 @@ void FrontImpl::stop()
     }
 }
 
+void FrontImpl::asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
+    bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback)
+{
+    // generate the frontMessage
+    auto frontMessage = m_messageFactory->build();
+    frontMessage->setTraceID(traceID);
+    frontMessage->setSeq(seq);
+    frontMessage->setData(std::move(payload));
+
+    auto routeInfo = m_routerInfoBuilder->build();
+    routeInfo->setSrcNode(m_nodeID);
+    routeInfo->setDstNode(dstNode);
+
+    asyncSendMessageToGateway(true, std::move(frontMessage), RouteType::ROUTE_THROUGH_NODEID,
+        traceID, routeInfo, -1, errorCallback);
+}
+
 /**
  * @brief async send message
  *
@@ -121,7 +138,7 @@ void FrontImpl::stop()
  * @param timeout timeout
  * @param callback callback
  */
-void FrontImpl::asyncSendMessage(RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo,
+void FrontImpl::asyncSendMessage(uint16_t routeType, MessageOptionalHeader::Ptr const& routeInfo,
     bcos::bytes&& payload, int seq, long timeout, ReceiveMsgFunc errorCallback,
     MessageCallback callback)
 {
@@ -134,8 +151,9 @@ void FrontImpl::asyncSendMessage(RouteType routeType, MessageOptionalHeader::Ptr
     m_callbackManager->addCallback(traceID, timeout, callback);
     auto self = weak_from_this();
     // send the message to the gateway
-    asyncSendMessageToGateway(false, std::move(frontMessage), routeType, traceID, routeInfo,
-        timeout, [self, traceID, routeInfo, errorCallback](bcos::Error::Ptr error) {
+    asyncSendMessageToGateway(false, std::move(frontMessage), (ppc::protocol::RouteType)routeType,
+        traceID, routeInfo, timeout,
+        [self, traceID, routeInfo, errorCallback](bcos::Error::Ptr error) {
             auto front = self.lock();
             if (!front)
             {
@@ -206,6 +224,9 @@ void FrontImpl::asyncSendMessageToGateway(bool responsePacket, MessagePayload::P
     routeInfo->setSrcNode(m_nodeID);
     auto payload = std::make_shared<bcos::bytes>();
     frontMessage->encode(*payload);
+    FRONT_LOG(TRACE) << LOG_DESC("asyncSendMessageToGateway") << LOG_KV("routeType", routeType)
+                     << LOG_KV("traceID", traceID) << printOptionalField(routeInfo)
+                     << LOG_KV("payloadSize", frontMessage->length());
     m_gatewayClient->asyncSendMessage(
         routeType, routeInfo, traceID, std::move(*payload), timeout, callback);
 }
@@ -246,7 +267,7 @@ void FrontImpl::onReceiveMessage(Message::Ptr const& msg, ReceiveMsgFunc callbac
 }
 
 // the sync interface for asyncSendMessage
-bcos::Error::Ptr FrontImpl::push(RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo,
+bcos::Error::Ptr FrontImpl::push(uint16_t routeType, MessageOptionalHeader::Ptr const& routeInfo,
     bcos::bytes&& payload, int seq, long timeout)
 {
     auto promise = std::make_shared<std::promise<bcos::Error::Ptr>>();
@@ -254,4 +275,28 @@ bcos::Error::Ptr FrontImpl::push(RouteType routeType, MessageOptionalHeader::Ptr
         routeType, routeInfo, std::move(payload), seq, timeout,
         [promise](bcos::Error::Ptr error) { promise->set_value(error); }, nullptr);
     return promise->get_future().get();
+}
+
+void FrontImpl::asyncGetPeers(GetPeersInfoHandler::Ptr getPeersCallback)
+{
+    m_gatewayClient->asyncGetPeers(
+        [getPeersCallback](bcos::Error::Ptr error, std::string peersInfo) {
+            getPeersCallback->onPeersInfo(error, peersInfo);
+        });
+}
+
+void FrontImpl::registerComponent(std::string const& component)
+{
+    // Note: the node will report the latest components
+    auto ret = m_nodeInfo->addComponent(component);
+    FRONT_LOG(INFO) << LOG_DESC("registerComponent") << LOG_KV("component", component)
+                    << LOG_KV("insert", ret);
+}
+
+void FrontImpl::unRegisterComponent(std::string const& component)
+{
+    // Note: the node will report the latest components
+    auto ret = m_nodeInfo->eraseComponent(component);
+    FRONT_LOG(INFO) << LOG_DESC("unRegisterComponent") << LOG_KV("component", component)
+                    << LOG_KV("erase", ret);
 }

@@ -110,18 +110,27 @@ BOOST_AUTO_TEST_CASE(testMessage)
     bcos::bytes dstNode;
     std::string srcInst;
     std::string dstInst;
-    std::shared_ptr<bcos::bytes> payload;
+    std::shared_ptr<bcos::bytes> payload = nullptr;
 
     auto msg = fakeMsg(msgBuilder, version, traceID, srcGwNode, dstGwNode, packetType, ttl, ext,
         topic, componentType, srcNode, srcInst, dstNode, dstInst, payload);
     checkEncodeDecode(msgBuilder, msg);
     // with payload
-    payload = std::make_shared<bcos::bytes>();
     std::string payloadData = "payloadf@#$@#$sdfs234";
-    *payload = bcos::bytes(payloadData.begin(), payloadData.end());
+    payload = std::make_shared<bcos::bytes>(payloadData.begin(), payloadData.end());
     msg = fakeMsg(msgBuilder, version, traceID, srcGwNode, dstGwNode, packetType, ttl, ext, topic,
         componentType, srcNode, srcInst, dstNode, dstInst, payload);
     checkEncodeDecode(msgBuilder, msg);
+
+    // with payload over 65535
+    for (uint32_t i = 0; i < 10000000; i++)
+    {
+        payload->emplace_back(i);
+    }
+    msg = fakeMsg(msgBuilder, version, traceID, srcGwNode, dstGwNode, packetType, ttl, ext, topic,
+        componentType, srcNode, srcInst, dstNode, dstInst, payload);
+    checkEncodeDecode(msgBuilder, msg);
+
 
     // with header router
     traceID = "1233";

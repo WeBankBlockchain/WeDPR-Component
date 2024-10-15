@@ -53,7 +53,6 @@ public:
     virtual std::vector<ppc::front::IFrontClient::Ptr> chooseReceiver(
         ppc::protocol::Message::Ptr const& msg);
 
-    // TODO: register component
     virtual bool dispatcherMessage(ppc::protocol::Message::Ptr const& msg,
         ppc::protocol::ReceiveMsgFunc callback, bool holding = true);
 
@@ -65,6 +64,8 @@ public:
         return data;
     }
     uint32_t statusSeq() { return m_statusSeq; }
+
+    GatewayNodeInfo::Ptr const& routerInfo() const { return m_routerInfo; }
 
 private:
     uint32_t increaseSeq()

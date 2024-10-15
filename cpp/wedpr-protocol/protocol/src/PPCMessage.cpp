@@ -17,8 +17,8 @@
  * @author: shawnhe
  * @date 2022-10-19
  */
-
 #include "PPCMessage.h"
+#include "Common.h"
 #include <json/json.h>
 #include <boost/asio/detail/socket_ops.hpp>
 
@@ -98,7 +98,7 @@ int64_t PPCMessage::decode(uint32_t _length, bcos::byte* _data)
         p += dataLength;
     }
 
-    if (p)
+    if (p < _data + _length)
     {
         m_header.insert(m_header.begin(), p, _data + _length);
     }
@@ -149,19 +149,20 @@ PPCMessageFace::Ptr PPCMessageFactory::decodePPCMessage(Message::Ptr msg)
     // Note: this field is been setted when onReceiveMessage
     if (frontMsg)
     {
+        ppcMsg->decode(bcos::ref(frontMsg->data()));
         ppcMsg->setSeq(frontMsg->seq());
         ppcMsg->setUuid(frontMsg->traceID());
         if (frontMsg->isRespPacket())
         {
             ppcMsg->setResponse();
         }
-        ppcMsg->decode(bcos::ref(frontMsg->data()));
     }
     if (msg->header() && msg->header()->optionalField())
     {
         auto const& routeInfo = msg->header()->optionalField();
         ppcMsg->setTaskID(routeInfo->topic());
         ppcMsg->setSender(routeInfo->srcInst());
+        ppcMsg->setSenderNode(routeInfo->srcNode());
     }
     return ppcMsg;
 }

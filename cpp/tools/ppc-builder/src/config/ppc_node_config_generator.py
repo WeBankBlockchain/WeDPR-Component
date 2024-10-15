@@ -104,7 +104,7 @@ class PPCNodeConfigGenerator:
             config_content, node_config.rpc_config, node_index)
         # load the transport config
         self.__generate_transport_config__(config_content,
-                                           node_config, node_id, ip)
+                                           node_config, node_id, ip, node_index)
         # load the storage config
         self.__generate_storage_config__(
             config_content, node_config.storage_config)
@@ -192,7 +192,7 @@ class PPCNodeConfigGenerator:
             hdfs_storage_config.name_node_port)
         config_content[section_name]["token"] = hdfs_storage_config.token
 
-    def __generate_transport_config__(self, config_content, node_config, node_id, deploy_ip):
+    def __generate_transport_config__(self, config_content, node_config, node_id, deploy_ip, node_index):
         """_summary_
 
         Args:
@@ -203,18 +203,18 @@ class PPCNodeConfigGenerator:
             ; the threadPoolSize
             thread_count = 4
             ; the gatewayService endpoint information
-            service.gateway_target =  
+            gateway_target =  
             ; the components
-            service.components =
+            components =
             nodeid=
         """
         section = "transport"
         config_content[section]["listen_ip"] = node_config.grpc_listen_ip
         config_content[section]["listen_port"] = str(
-            node_config.grpc_listen_port)
+            node_config.grpc_listen_port + node_index)
         config_content[section]["host_ip"] = deploy_ip
-        config_content[section]["service.gateway_target"] = node_config.gateway_config.gateway_grpc_target
-        config_content[section]["service.components"] = node_config.components
+        config_content[section]["gateway_target"] = node_config.gateway_config.gateway_grpc_target
+        config_content[section]["components"] = node_config.components
         config_content[section]["nodeid"] = node_id
 
     def __generate_ra2018psi_config__(self, config_content, ra2018psi_config):

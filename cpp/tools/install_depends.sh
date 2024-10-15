@@ -67,7 +67,7 @@ install_centos_depends()
 {
     LOG_INFO "install depends for centos ..."
     # install the basic package
-    sudo yum install -y bison flex epel-release centos-release-scl flex bison patch devtoolset-11 rh-perl530-perl cmake3 zlib-devel ccache lcov python-devel python3-devel krb5-devel autoconf
+    sudo yum install -y lcov bison flex epel-release centos-release-scl flex bison patch devtoolset-11 rh-perl530-perl cmake3 zlib-devel ccache lcov python-devel python3-devel krb5-devel autoconf
     LOG_INFO "install basic-package-depends for centos success..."
     
     LOG_INFO "install gsasl ... "
@@ -85,7 +85,7 @@ install_ubuntu_depends()
 {
     LOG_INFO "install depends for ubuntu ..."
     # install the basic package
-    sudo apt install -y bison flex g++ libssl-dev openssl cmake git build-essential autoconf texinfo flex patch bison libgmp-dev zlib1g-dev automake pkg-config libtool wget libkrb5-dev autoconf
+    sudo apt install -y lcov bison flex g++ libssl-dev openssl cmake git build-essential autoconf texinfo flex patch bison libgmp-dev zlib1g-dev automake pkg-config libtool wget libkrb5-dev autoconf
     LOG_INFO "install basic-package-depends for ubuntu success..."
    
     LOG_INFO "install gsasl ... "
@@ -106,7 +106,7 @@ install_ubuntu_depends()
 install_macos_depends()
 {
     LOG_INFO "install depends for macos ..."
-    brew install clang cmake autoconf gsasl nasm
+    brew install clang cmake autoconf gsasl nasm lcov
     LOG_INFO "install depends for macos success ..."
 }
 

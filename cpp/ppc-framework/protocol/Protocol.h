@@ -396,7 +396,6 @@ inline std::ostream& operator<<(std::ostream& _out, HashImplName const& _type)
 
 enum class MessageType : uint16_t
 {
-    GatewayMessage = 0x0000,
     RpcRequest = 0x1000,  // the rpc request type
 };
 

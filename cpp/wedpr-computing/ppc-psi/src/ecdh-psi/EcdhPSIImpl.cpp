@@ -566,7 +566,7 @@ void EcdhPSIImpl::onHandshakeResponse(PSIMessageInterface::Ptr const& _msg)
     psiMsg->setErrorCode(0);
     psiMsg->setErrorMessage("success");
     auto startT = bcos::utcSteadyTime();
-    m_config->asyncSendResponse(taskState->peerID(), taskState->task()->id(), _msg->uuid(), psiMsg,
+    m_config->asyncSendResponse(_msg->fromNode(), taskState->task()->id(), _msg->uuid(), psiMsg,
         [this, startT, _msg](bcos::Error::Ptr _error) {
             if (!_error || _error->errorCode() == 0)
             {

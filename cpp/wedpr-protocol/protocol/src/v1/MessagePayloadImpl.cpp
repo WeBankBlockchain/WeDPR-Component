@@ -42,8 +42,8 @@ int64_t MessagePayloadImpl::encode(bcos::bytes& buffer) const
     buffer.insert(buffer.end(), (byte*)&traceIDLen, (byte*)&traceIDLen + 2);
     buffer.insert(buffer.end(), m_traceID.begin(), m_traceID.end());
     // data
-    uint16_t dataLen = boost::asio::detail::socket_ops::host_to_network_short(m_data.size());
-    buffer.insert(buffer.end(), (byte*)&dataLen, (byte*)&dataLen + 2);
+    uint32_t dataLen = boost::asio::detail::socket_ops::host_to_network_long(m_data.size());
+    buffer.insert(buffer.end(), (byte*)&dataLen, (byte*)&dataLen + 4);
     buffer.insert(buffer.end(), m_data.begin(), m_data.end());
     // update the length
     m_length = buffer.size();
@@ -58,6 +58,7 @@ int64_t MessagePayloadImpl::decode(bcos::bytesConstRef buffer)
         BOOST_THROW_EXCEPTION(
             WeDPRException() << errinfo_comment("Malform payload for too small!"));
     }
+    m_length = buffer.size();
     auto pointer = buffer.data();
     // the version
     m_version = boost::asio::detail::socket_ops::network_to_host_short(*((uint16_t*)pointer));
@@ -74,5 +75,5 @@ int64_t MessagePayloadImpl::decode(bcos::bytesConstRef buffer)
     auto offset =
         decodeNetworkBuffer(m_traceID, buffer.data(), buffer.size(), (pointer - buffer.data()));
     // data
-    return decodeNetworkBuffer(m_data, buffer.data(), buffer.size(), offset);
+    return decodeNetworkBuffer(m_data, buffer.data(), buffer.size(), offset, true);
 }
