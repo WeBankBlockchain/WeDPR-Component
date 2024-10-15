@@ -20,18 +20,15 @@ class WorkerFactory:
             return PythonWorker(components, job_context, worker_id, worker_type, worker_args, *args, *kwargs)
         elif worker_type == WorkerType.T_SHELL:
             return ShellWorker(components, job_context, worker_id, worker_type, worker_args, *args, **kwargs)
-        elif worker_type == WorkerType.T_PSI or \
-            worker_type == WorkerType.T_ML_PSI:
+        elif worker_type == WorkerType.T_PSI:
             return PsiWorker(components, job_context, worker_id, worker_type, worker_args, *args, **kwargs)
         elif worker_type == WorkerType.T_MPC:
             return MpcWorker(components, job_context, worker_id, worker_type, worker_args, *args, **kwargs)
-        elif worker_type == WorkerType.T_PREPROCESSING or \
-                worker_type == WorkerType.T_FEATURE_ENGINEERING or \
-                worker_type == WorkerType.T_TRAINING or \
-                worker_type == WorkerType.T_PREDICTION:
+        elif worker_type == WorkerType.T_MODEL:
             return ModelWorker(components, job_context, worker_id, worker_type, worker_args, *args, **kwargs)
         elif worker_type == WorkerType.T_ON_SUCCESS or \
                 worker_type == WorkerType.T_ON_FAILURE:
             return DefaultWorker(components, job_context, worker_id, worker_type, worker_args, *args, **kwargs)
         else:
-            raise PpcException(PpcErrorCode.UNSUPPORTED_WORK_TYPE, f"Unsupported worker type: {worker_type}")
+            raise PpcException(PpcErrorCode.UNSUPPORTED_WORK_TYPE,
+                               f"Unsupported worker type: {worker_type}")

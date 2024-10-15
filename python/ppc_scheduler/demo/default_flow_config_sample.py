@@ -1,5 +1,5 @@
 flow_dict = {
-    
+
     "SHELL": [
         {
             "index": 1,
@@ -24,7 +24,7 @@ flow_dict = {
             ]
         }
     ],
-    
+
     "PSI": [
         {
             "index": 1,
@@ -61,18 +61,18 @@ flow_dict = {
     "PREPROCESSING": [
         {
             "index": 1,
-            "type": "T_PREPROCESSING"
+            "type": "T_MODEL"
         }
     ],
 
     "FEATURE_ENGINEERING": [
         {
             "index": 1,
-            "type": "T_PREPROCESSING"
+            "type": "T_MODEL"
         },
         {
             "index": 2,
-            "type": "T_FEATURE_ENGINEERING",
+            "type": "T_MODEL",
             "upstreams": [
                 {
                     "index": 1
@@ -84,11 +84,11 @@ flow_dict = {
     "TRAINING": [
         {
             "index": 1,
-            "type": "T_PREPROCESSING"
+            "type": "T_MODEL"
         },
         {
             "index": 2,
-            "type": "T_TRAINING",
+            "type": "T_MODEL",
             "upstreams": [
                 {
                     "index": 1
@@ -100,11 +100,11 @@ flow_dict = {
     "PREDICTION": [
         {
             "index": 1,
-            "type": "T_PREPROCESSING"
+            "type": "T_MODEL"
         },
         {
             "index": 2,
-            "type": "T_PREDICTION",
+            "type": "T_MODEL",
             "upstreams": [
                 {
                     "index": 1
@@ -116,11 +116,11 @@ flow_dict = {
     "FEATURE_ENGINEERING_TRAINING": [
         {
             "index": 1,
-            "type": "T_PREPROCESSING"
+            "type": "T_MODEL"
         },
         {
             "index": 2,
-            "type": "T_FEATURE_ENGINEERING",
+            "type": "T_MODEL",
             "upstreams": [
                 {
                     "index": 1
@@ -129,7 +129,7 @@ flow_dict = {
         },
         {
             "index": 3,
-            "type": "T_TRAINING",
+            "type": "T_MODEL",
             "upstreams": [
                 {
                     "index": 2
@@ -145,7 +145,7 @@ flow_dict = {
         },
         {
             "index": 2,
-            "type": "T_PREPROCESSING",
+            "type": "T_MODEL",
             "upstreams": [
                 {
                     "index": 1
@@ -154,7 +154,7 @@ flow_dict = {
         },
         {
             "index": 3,
-            "type": "T_FEATURE_ENGINEERING",
+            "type": "T_MODEL",
             "upstreams": [
                 {
                     "index": 2
@@ -170,7 +170,7 @@ flow_dict = {
         },
         {
             "index": 2,
-            "type": "T_PREPROCESSING",
+            "type": "T_MODEL",
             "upstreams": [
                 {
                     "index": 1
@@ -179,7 +179,7 @@ flow_dict = {
         },
         {
             "index": 3,
-            "type": "T_TRAINING",
+            "type": "T_MODEL",
             "upstreams": [
                 {
                     "index": 2
@@ -195,7 +195,7 @@ flow_dict = {
         },
         {
             "index": 2,
-            "type": "T_PREPROCESSING",
+            "type": "T_MODEL",
             "upstreams": [
                 {
                     "index": 1
@@ -204,7 +204,7 @@ flow_dict = {
         },
         {
             "index": 3,
-            "type": "T_FEATURE_ENGINEERING",
+            "type": "T_MODEL",
             "upstreams": [
                 {
                     "index": 2
@@ -213,7 +213,7 @@ flow_dict = {
         },
         {
             "index": 4,
-            "type": "T_TRAINING",
+            "type": "T_MODEL",
             "upstreams": [
                 {
                     "index": 3
