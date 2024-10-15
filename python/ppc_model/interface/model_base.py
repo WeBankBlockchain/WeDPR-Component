@@ -31,3 +31,7 @@ class ModelBase(ABC):
 
 class VerticalModel(ModelBase):
     mode = "VERTICAL"
+
+    def __init__(self, ctx):
+        super().__init__(ctx)
+        self._all_feature_name = []
