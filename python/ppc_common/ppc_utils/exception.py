@@ -110,6 +110,8 @@ class PpcErrorCode(Enum):
     TASK_IS_KILLED = {11002: "the task is killed!"}
 
     ROLE_TYPE_ERROR = {12000: "role type is illegal."}
+    
+    UNSUPPORTED_WORK_TYPE = {13000: "unsupported work type."}
 
     def get_code(self):
         return list(self.value.keys())[0]

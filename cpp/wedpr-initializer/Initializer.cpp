@@ -27,7 +27,7 @@
 #include "ppc-psi/src/bs-ecdh-psi/BsEcdhPSIFactory.h"
 #include "ppc-psi/src/cm2020-psi/CM2020PSIFactory.h"
 #include "protocol/src/PPCMessage.h"
-#include "wedpr-transport/sdk/TransportBuilder.h"
+#include "wedpr-transport/sdk/src/TransportBuilder.h"
 #if 0
 //TODO: optimize here
 #include "ppc-psi/src/ecdh-conn-psi/EcdhConnPSIFactory.h"
@@ -52,17 +52,19 @@ using namespace ppc::crypto;
 using namespace ppc::sdk;
 
 Initializer::Initializer(ppc::protocol::NodeArch _arch, std::string const& _configPath)
-  : m_arch(_arch), m_configPath(_configPath)
+  : m_arch((uint16_t)_arch), m_configPath(_configPath)
 {
     m_transportBuilder = std::make_shared<TransportBuilder>();
     // load the config
     m_config = std::make_shared<PPCConfig>();
-    if (m_arch == ppc::protocol::NodeArch::PRO)
+    if (m_arch == (uint16_t)ppc::protocol::NodeArch::PRO)
     {
+        INIT_LOG(INFO) << LOG_DESC("loadNodeConfig for pro node");
         m_config->loadNodeConfig(true, m_transportBuilder->frontConfigBuilder(), _configPath);
     }
     else
     {
+        INIT_LOG(INFO) << LOG_DESC("loadNodeConfig for air node");
         m_config->loadNodeConfig(false, m_transportBuilder->frontConfigBuilder(), _configPath);
     }
 }
@@ -74,14 +76,13 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
     m_protocolInitializer = std::make_shared<ProtocolInitializer>();
     m_protocolInitializer->init(m_config);
 
-    auto ppcMessageFactory = std::make_shared<PPCMessageFactory>();
     // init the frontService
     INIT_LOG(INFO) << LOG_DESC("init the frontService") << LOG_KV("agency", m_config->agencyID());
     auto frontThreadPool = std::make_shared<bcos::ThreadPool>("front", m_config->threadPoolSize());
 
     // Note: must set the  m_holdingMessageMinutes before init the node
     TransportBuilder transportBuilder;
-    if (m_arch == ppc::protocol::NodeArch::AIR)
+    if (m_arch == (uint16_t)ppc::protocol::NodeArch::AIR)
     {
         m_transport = transportBuilder.build(SDKMode::AIR, m_config->frontConfig(), gateway);
     }
@@ -89,7 +90,8 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
     {
         m_transport = transportBuilder.build(SDKMode::PRO, m_config->frontConfig(), nullptr);
     }
-    m_ppcFront = std::make_shared<Front>(m_transport->getFront());
+    m_ppcFront =
+        std::make_shared<Front>(std::make_shared<PPCMessageFactory>(), m_transport->getFront());
 
     INIT_LOG(INFO) << LOG_DESC("init the frontService success")
                    << LOG_KV("frontDetail", printFrontDesc(m_config->frontConfig()))
@@ -417,6 +419,10 @@ void Initializer::start()
     {
         m_transport->start();
     }
+    if (m_ppcFront)
+    {
+        m_ppcFront->start();
+    }
     /*if (m_ecdhConnPSI)
     {
         m_ecdhConnPSI->start();
@@ -455,10 +461,14 @@ void Initializer::start()
 
 void Initializer::stop()
 {
-    // stop the network firstly
     if (m_transport)
     {
         m_transport->stop();
+    }
+    // stop the network firstly
+    if (m_ppcFront)
+    {
+        m_ppcFront->stop();
     }
     /*if (m_ecdhConnPSI)
     {

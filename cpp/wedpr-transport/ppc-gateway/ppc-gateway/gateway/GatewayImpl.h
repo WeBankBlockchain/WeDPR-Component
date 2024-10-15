@@ -67,6 +67,10 @@ public:
     bcos::Error::Ptr registerTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
     bcos::Error::Ptr unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
 
+    void asyncGetPeers(std::function<void(bcos::Error::Ptr, std::string)> callback) override;
+    void asyncGetAgencies(std::vector<std::string> const& components,
+        std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) override;
+
 protected:
     virtual void onReceiveP2PMessage(
         bcos::boostssl::MessageFace::Ptr msg, bcos::boostssl::ws::WsSession::Ptr session);

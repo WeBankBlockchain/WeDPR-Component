@@ -5,6 +5,7 @@ from ppc_scheduler.workflow.common.worker_type import WorkerType
 class ComputingNodeManager:
     type_map = {
         WorkerType.T_PSI: 'PSI',
+        WorkerType.T_ML_PSI: 'PSI',
         WorkerType.T_MPC: 'MPC',
         WorkerType.T_PREPROCESSING: 'MODEL',
         WorkerType.T_FEATURE_ENGINEERING: 'MODEL',

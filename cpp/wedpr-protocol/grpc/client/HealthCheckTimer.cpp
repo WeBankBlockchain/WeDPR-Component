@@ -45,7 +45,6 @@ void HealthCheckTimer::start()
             return;
         }
         healthChecker->checkHealth();
-        healthChecker->m_timer->restart();
     });
     if (m_timer)
     {
@@ -78,6 +77,8 @@ void HealthCheckTimer::registerHealthCheckHandler(HealthCheckHandler::Ptr health
     }
     bcos::WriteGuard l(x_healthCheckHandlers);
     m_healthCheckHandlers[healthCheckHandler->serviceName] = healthCheckHandler;
+    HEALTH_LOG(INFO) << LOG_DESC("registerHealthCheckHandler for ")
+                     << healthCheckHandler->serviceName;
 }
 
 

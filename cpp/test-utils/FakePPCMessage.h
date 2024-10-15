@@ -74,7 +74,13 @@ public:
     // set the message to be response
     void setResponse() override { m_response = true; }
 
+
+    bcos::bytes const& senderNode() const override { return m_senderNode; }
+
+    void setSenderNode(bcos::bytes const& senderNode) override { m_senderNode = senderNode; }
+
 private:
+    bcos::bytes m_senderNode;
     uint8_t m_version;
     uint8_t m_taskType;
     uint8_t m_algorithmType;

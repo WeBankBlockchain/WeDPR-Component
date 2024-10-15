@@ -26,9 +26,9 @@ def to_worker_inputs(job_workers, inputs_statement):
     worker_inputs = []
     for each in inputs_statement:
         output_index = each['output_index']
-        upstream_unit = each['upstream_unit']
+        upstream = each['upstream']
         worker_inputs.append({
             'output_index': output_index,
-            'upstream_outputs': job_workers[upstream_unit]
+            'upstream_outputs': job_workers[upstream]
         })
     return worker_inputs

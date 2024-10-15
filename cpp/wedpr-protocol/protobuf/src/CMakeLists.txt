@@ -24,4 +24,4 @@ endforeach()
 
 file(GLOB_RECURSE SRCS *.cpp)
 add_library(${PB_PROTOCOL_TARGET} ${SRCS} ${MESSAGES_SRCS})
-target_link_libraries(${PB_PROTOCOL_TARGET} PUBLIC ${BCOS_UTILITIES_TARGET} protobuf::libprotobuf ${CPU_FEATURES_LIB})
+target_link_libraries(${PB_PROTOCOL_TARGET} PUBLIC ${BCOS_UTILITIES_TARGET} jsoncpp_static protobuf::libprotobuf ${CPU_FEATURES_LIB})

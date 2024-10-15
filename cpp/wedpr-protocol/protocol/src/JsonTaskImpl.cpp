@@ -211,10 +211,17 @@ void JsonTaskImpl::decodeDataResourceDesc(DataResourceDesc::Ptr _desc, Json::Val
                 BOOST_THROW_EXCEPTION(
                     InvalidParameter() << errinfo_comment("The \"..\" cannot be in the path"));
             }
-            boost::filesystem::path prePath(m_prePath);
-            boost::filesystem::path inputPath(path);
-            boost::filesystem::path filePath(prePath / inputPath);
-            _desc->setPath(filePath.string());
+            if (path.starts_with("/"))
+            {
+                _desc->setPath(path);
+            }
+            else
+            {
+                boost::filesystem::path prePath(m_prePath);
+                boost::filesystem::path inputPath(path);
+                boost::filesystem::path filePath(prePath / inputPath);
+                _desc->setPath(filePath.string());
+            }
         }
         else
         {

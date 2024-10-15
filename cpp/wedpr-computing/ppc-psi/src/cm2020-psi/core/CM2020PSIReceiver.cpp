@@ -908,7 +908,7 @@ void CM2020PSIReceiver::saveResults()
             }
             CM2020_PSI_LOG(INFO) << LOG_BADGE("before dedup") << LOG_KV("taskID", m_taskID)
                                  << LOG_KV("originCount", finalResults->size());
-            m_resultCount = finalResults->dedup();
+            m_resultCount = dedupDataBatch(finalResults);
             CM2020_PSI_LOG(INFO) << LOG_BADGE("after dedup") << LOG_KV("taskID", m_taskID)
                                  << LOG_KV("resultCount", m_resultCount);
             m_taskState->writeLines(finalResults, DataSchema::Bytes);

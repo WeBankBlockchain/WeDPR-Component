@@ -52,7 +52,7 @@ public:
      */
     void stop() override;
 
-    bcos::Error::Ptr push(ppc::protocol::RouteType routeType,
+    bcos::Error::Ptr push(uint16_t routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
         long timeout) override;
     /**
@@ -70,7 +70,7 @@ public:
      * @param timeout timeout
      * @param callback callback
      */
-    void asyncSendMessage(ppc::protocol::RouteType routeType,
+    void asyncSendMessage(uint16_t routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
         long timeout, ppc::protocol::ReceiveMsgFunc errorCallback,
         ppc::protocol::MessageCallback callback) override;
@@ -104,24 +104,30 @@ public:
         m_callbackManager->registerTopicHandler(topic, callback);
     }
 
+    void registerMessageHandler(std::string const& componentType,
+        ppc::protocol::MessageDispatcherCallback callback) override
+    {
+        m_callbackManager->registerMessageHandler(componentType, callback);
+    }
+
     /**
      * @brief register the nodeInfo to the gateway
      * @param nodeInfo the nodeInfo
      */
-    void registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) override
+    bcos::Error::Ptr registerNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) override
     {
         FRONT_LOG(INFO) << LOG_DESC("registerNodeInfo")
                         << LOG_KV("nodeInfo", printNodeInfo(m_nodeInfo));
-        m_gatewayClient->registerNodeInfo(m_nodeInfo);
+        return m_gatewayClient->registerNodeInfo(m_nodeInfo);
     }
 
     /**
      * @brief unRegister the nodeInfo to the gateway
      */
-    void unRegisterNodeInfo() override
+    bcos::Error::Ptr unRegisterNodeInfo() override
     {
         FRONT_LOG(INFO) << LOG_DESC("unRegisterNodeInfo");
-        m_gatewayClient->unRegisterNodeInfo(bcos::ref(m_nodeID));
+        return m_gatewayClient->unRegisterNodeInfo(bcos::ref(m_nodeID));
     }
 
     /**
@@ -129,21 +135,29 @@ public:
      *
      * @param topic the topic to register
      */
-    void registerTopic(std::string const& topic) override
+    bcos::Error::Ptr registerTopic(std::string const& topic) override
     {
         FRONT_LOG(INFO) << LOG_DESC("register topic: ") << topic;
-        m_gatewayClient->registerTopic(bcos::ref(m_nodeID), topic);
+        return m_gatewayClient->registerTopic(bcos::ref(m_nodeID), topic);
     }
+
+    void asyncGetAgencies(std::vector<std::string> const& components,
+        std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) override
+    {
+        m_gatewayClient->asyncGetAgencies(components, callback);
+    }
+
+    void asyncGetPeers(GetPeersInfoHandler::Ptr getPeersCallback) override;
 
     /**
      * @brief unRegister the topic
      *
      * @param topic the topic to unregister
      */
-    void unRegisterTopic(std::string const& topic) override
+    bcos::Error::Ptr unRegisterTopic(std::string const& topic) override
     {
         FRONT_LOG(INFO) << LOG_DESC("unregister topic: ") << topic;
-        m_gatewayClient->unRegisterTopic(bcos::ref(m_nodeID), topic);
+        return m_gatewayClient->unRegisterTopic(bcos::ref(m_nodeID), topic);
     }
 
     ppc::protocol::MessageOptionalHeaderBuilder::Ptr const routerInfoBuilder() const
@@ -154,6 +168,14 @@ public:
     {
         return m_messageFactory;
     }
+
+    void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
+        bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback) override;
+
+    ppc::protocol::INodeInfo::Ptr const& nodeInfo() override { return m_nodeInfo; }
+
+    void registerComponent(std::string const& component) override;
+    void unRegisterComponent(std::string const& component) override;
 
 private:
     void asyncSendMessageToGateway(bool responsePacket,

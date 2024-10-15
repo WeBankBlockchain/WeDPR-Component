@@ -184,7 +184,7 @@ public:
     bcos::Error::Ptr eraseTaskInfo(std::string const&) override { return nullptr; }
 
     // send response when receiving message from given agencyID
-    void asyncSendResponse(const std::string& _agencyID, std::string const& _uuid,
+    void asyncSendResponse(bcos::bytes const& peer, std::string const& _uuid,
         front::PPCMessageFace::Ptr _message, ErrorCallbackFunc _callback) override
     {
         if (m_uuidToCallback.count(_uuid))
@@ -193,11 +193,26 @@ public:
             removeCallback(_uuid);
             if (callback)
             {
-                callback(nullptr, _agencyID, _message, nullptr);
+                callback(nullptr, std::string(peer.begin(), peer.end()), _message, nullptr);
             }
         }
     }
 
+    // for ut
+    void setAgencyList(std::vector<std::string> const& agencyList)
+    {
+        bcos::WriteGuard l(x_agencyList);
+        m_agencyList = agencyList;
+    }
+
+    std::vector<std::string> agencies() const override
+    {
+        bcos::ReadGuard l(x_agencyList);
+        return m_agencyList;
+    }
+
+    void start() override {}
+    void stop() override {}
 
 private:
     // the uuid to _callback
@@ -231,5 +246,9 @@ private:
     std::map<std::string, CallbackFunc> m_uuidToCallback;
     bcos::Mutex m_mutex;
     std::atomic<int64_t> m_uuid = 0;
+
+    // the agency list, for task-sync
+    std::vector<std::string> m_agencyList;
+    mutable bcos::SharedMutex x_agencyList;
 };
 }  // namespace ppc::test

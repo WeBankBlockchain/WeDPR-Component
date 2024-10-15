@@ -41,6 +41,8 @@ public:
 
     virtual void start();
     virtual void stop();
+    std::set<std::string> onEraseSession(std::string const& sessionNodeID);
+    std::set<std::string> onNewSession(std::string const& sessionNodeID);
 
 private:
     void onReceiveRouterSeq(
@@ -54,6 +56,7 @@ private:
         bcos::boostssl::MessageFace::Ptr msg, bcos::boostssl::ws::WsSession::Ptr session);
 
     void joinRouterTable(std::string const& _generatedFrom, RouterTableInterface::Ptr _routerTable);
+    bool eraseSeq(std::string const& _p2pNodeID);
 
     void onP2PNodesUnreachable(std::set<std::string> const& _p2pNodeIDs);
 

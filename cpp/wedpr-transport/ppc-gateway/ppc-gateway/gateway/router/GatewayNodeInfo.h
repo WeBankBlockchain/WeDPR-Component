@@ -18,7 +18,9 @@
  * @date 2024-08-26
  */
 #pragma once
+#include "ppc-framework/Helper.h"
 #include "ppc-framework/protocol/INodeInfo.h"
+#include "ppc-utilities/Utilities.h"
 #include <bcos-utilities/Log.h>
 #include <memory>
 #include <sstream>
@@ -48,7 +50,7 @@ public:
     virtual std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouterByAgency(
         bool selectAll) const = 0;
     virtual std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouterByTopic(
-        bool selectAll, std::string const& topic) const = 0;
+        bool selectAll, bcos::bytes const& fromNode, std::string const& topic) const = 0;
 
     virtual void encode(bcos::bytes& data) const = 0;
     virtual void decode(bcos::bytesConstRef data) = 0;
@@ -57,7 +59,9 @@ public:
     virtual void unRegisterTopic(bcos::bytes const& nodeID, std::string const& topic) = 0;
 
     virtual std::map<bcos::bytes, ppc::protocol::INodeInfo::Ptr> nodeList() const = 0;
+    virtual bool existComponent(std::string const& component) const = 0;
     virtual uint16_t nodeSize() const = 0;
+    virtual void toJson(Json::Value& jsonObject) const = 0;
 };
 
 class GatewayNodeInfoFactory
@@ -68,6 +72,7 @@ public:
     virtual ~GatewayNodeInfoFactory() = default;
 
     virtual GatewayNodeInfo::Ptr build() const = 0;
+    virtual GatewayNodeInfo::Ptr build(std::string const& p2pNode) const = 0;
 };
 struct GatewayNodeInfoCmp
 {

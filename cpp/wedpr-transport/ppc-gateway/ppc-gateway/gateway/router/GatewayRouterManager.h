@@ -36,6 +36,8 @@ public:
     virtual void start();
     virtual void stop();
 
+    void removeUnreachableP2pNode(std::string const& p2pNode);
+
 protected:
     virtual void onReceiveNodeSeqMessage(
         bcos::boostssl::MessageFace::Ptr msg, bcos::boostssl::ws::WsSession::Ptr session);

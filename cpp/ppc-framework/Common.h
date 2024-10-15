@@ -61,28 +61,6 @@ DERIVE_PPC_EXCEPTION(DataSchemaNotSetted);
 DERIVE_PPC_EXCEPTION(UnsupportedDataSchema);
 DERIVE_PPC_EXCEPTION(WeDPRException);
 
-constexpr static int MAX_PORT = 65535;
-constexpr static int DEFAULT_SECURITY_PARAM = 128;
-
-constexpr static size_t RSA_PUBLIC_KEY_PREFIX = 18;
-constexpr static size_t RSA_PUBLIC_KEY_TRUNC = 8;
-constexpr static size_t RSA_PUBLIC_KEY_TRUNC_LENGTH = 26;
-
-inline std::string_view printP2PIDElegantly(std::string_view p2pId) noexcept
-{
-    if (p2pId.length() < RSA_PUBLIC_KEY_TRUNC_LENGTH)
-    {
-        return p2pId;
-    }
-    return p2pId.substr(RSA_PUBLIC_KEY_PREFIX, RSA_PUBLIC_KEY_TRUNC);
-}
-
-template <typename T>
-inline std::string printNodeID(T const& nodeID)
-{
-    return std::string(nodeID.begin(), nodeID.begin() + 8);
-}
-
 #if ENABLE_CPU_FEATURES
 #if X86
 static const cpu_features::X86Features CPU_FEATURES = cpu_features::GetX86Info().features;

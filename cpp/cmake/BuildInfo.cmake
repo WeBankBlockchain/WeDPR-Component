@@ -1,6 +1,6 @@
 function(create_build_info)
     # Set build platform; to be written to BuildInfo.h
-    set(PPC_BUILD_OS "${CMAKE_SYSTEM_NAME}")
+    set(PPC_BUILD_OS "${CMAKE_HOST_SYSTEM_NAME}")
 
     if (CMAKE_COMPILER_IS_MINGW)
         set(PPC_BUILD_COMPILER "mingw")
@@ -27,7 +27,7 @@ function(create_build_info)
     # Generate header file containing useful build information
     add_custom_target(BuildInfo.h ALL
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-        COMMAND ${CMAKE_COMMAND} -DPPC_SOURCE_DIR="${PROJECT_SOURCE_DIR}"
+        COMMAND ${CMAKE_COMMAND} -DPPC_SOURCE_DIR="${PROJECT_SOURCE_DIR}/.."
         -DPPC_BUILDINFO_IN="${CMAKE_CURRENT_SOURCE_DIR}/cmake/templates/BuildInfo.h.in"
         -DPPC_DST_DIR="${PROJECT_BINARY_DIR}/include"
         -DPPC_CMAKE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/cmake"

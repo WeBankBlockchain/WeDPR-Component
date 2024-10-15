@@ -164,4 +164,4 @@ class PPCGatewayConfigGenerator:
         section = "transport"
         config_content[section]["listen_ip"] = config.grpc_listen_ip
         # the listen port
-        config_content[section]["listen_port"] = str(config.grpc_listen_port)
+        config_content[section]["listen_port"] = str(grpc_listen_port)

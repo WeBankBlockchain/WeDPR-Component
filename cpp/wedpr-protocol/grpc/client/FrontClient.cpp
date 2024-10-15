@@ -18,6 +18,7 @@
  * @date 2024-09-02
  */
 #include "FrontClient.h"
+#include "Common.h"
 #include "protobuf/src/RequestConverter.h"
 #include "wedpr-protocol/protobuf/src/Common.h"
 
@@ -28,13 +29,16 @@ using namespace grpc;
 void FrontClient::onReceiveMessage(ppc::protocol::Message::Ptr const& msg, ReceiveMsgFunc callback)
 {
     // TODO: optimize here
-    ReceivedMessage receivedMsg;
+    std::unique_ptr<ReceivedMessage> request(new ReceivedMessage());
     bcos::bytes encodedData;
     msg->encode(encodedData);
-    receivedMsg.set_data(encodedData.data(), encodedData.size());
+    request->set_data(encodedData.data(), encodedData.size());
 
-    ClientContext context;
+    // The ClientContext instance used for creating an rpc must remain alive and valid for the
+    // lifetime of the rpc
+    auto context = std::make_shared<ClientContext>();
     auto response = std::make_shared<Error>();
-    m_stub->async()->onReceiveMessage(&context, &receivedMsg, response.get(),
-        [response, callback](Status status) { callback(toError(status, std::move(*response))); });
+    // lambda keeps the lifecycle for clientContext
+    m_stub->async()->onReceiveMessage(context.get(), request.get(), response.get(),
+        [context, response, callback](Status status) { callback(toError(status, *response)); });
 }

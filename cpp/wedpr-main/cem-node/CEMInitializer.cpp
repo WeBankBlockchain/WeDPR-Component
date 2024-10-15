@@ -46,7 +46,7 @@ void CEMInitializer::init(std::string const& _configPath)
     auto storageConfig = ppcConfig->storageConfig();
     auto cemConfig = ppcConfig->cemConfig();
     auto rpcFactory = std::make_shared<RpcFactory>(ppcConfig->agencyID());
-    m_rpc = rpcFactory->buildRpc(ppcConfig);
+    m_rpc = rpcFactory->buildRpc(ppcConfig, nullptr);
     auto cemService = std::make_shared<CEMService>();
     cemService->setCEMConfig(cemConfig);
     cemService->setStorageConfig(storageConfig);

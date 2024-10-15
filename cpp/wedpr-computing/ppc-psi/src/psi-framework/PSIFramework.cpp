@@ -150,6 +150,7 @@ void PSIFramework::onReceiveMessage(PPCMessageFace::Ptr _msg)
         psiMsg->setTaskID(_msg->taskID());
         psiMsg->setSeq(_msg->seq());
         psiMsg->setUUID(_msg->uuid());
+        psiMsg->setFromNode(_msg->senderNode());
         m_msgQueue->push(psiMsg);
         PSI_FRAMEWORK_LOG(TRACE) << LOG_DESC("onReceiveMessage") << printPSIMessage(psiMsg)
                                  << LOG_KV("uuid", _msg->uuid());
@@ -699,7 +700,7 @@ void PSIFramework::sendHandshakeRequest(TaskState::Ptr const& _taskState)
 
 
 void PSIFramework::responsePSIResultSyncStatus(int32_t _code, std::string const& _msg,
-    std::string const& _peer, std::string const& _taskID, std::string const& _uuid, uint32_t _seq)
+    bcos::bytes const& _peer, std::string const& _taskID, std::string const& _uuid, uint32_t _seq)
 {
     // response to the client
     auto psiMsg =
@@ -732,15 +733,17 @@ void PSIFramework::handlePSIResultSyncMsg(PSIMessageInterface::Ptr _resultSyncMs
             << printPSIMessage(_resultSyncMsg);
         std::string msg =
             "sync psi result for task " + _resultSyncMsg->taskID() + " failed for task not found!";
-        responsePSIResultSyncStatus((int32_t)PSIRetCode::TaskNotFound, msg, _resultSyncMsg->from(),
-            _resultSyncMsg->taskID(), _resultSyncMsg->uuid(), _resultSyncMsg->seq());
+        responsePSIResultSyncStatus((int32_t)PSIRetCode::TaskNotFound, msg,
+            _resultSyncMsg->fromNode(), _resultSyncMsg->taskID(), _resultSyncMsg->uuid(),
+            _resultSyncMsg->seq());
         return;
     }
     try
     {
         taskState->storePSIResult(m_dataResourceLoader, _resultSyncMsg->takeData());
-        responsePSIResultSyncStatus((int32_t)PSIRetCode::Success, "success", _resultSyncMsg->from(),
-            _resultSyncMsg->taskID(), _resultSyncMsg->uuid(), _resultSyncMsg->seq());
+        responsePSIResultSyncStatus((int32_t)PSIRetCode::Success, "success",
+            _resultSyncMsg->fromNode(), _resultSyncMsg->taskID(), _resultSyncMsg->uuid(),
+            _resultSyncMsg->seq());
     }
     catch (std::exception const& e)
     {
@@ -749,7 +752,7 @@ void PSIFramework::handlePSIResultSyncMsg(PSIMessageInterface::Ptr _resultSyncMs
         auto errorMessage = "sync psi result for " + _resultSyncMsg->taskID() +
                             " failed, error: " + std::string(boost::diagnostic_information(e));
         responsePSIResultSyncStatus((int32_t)PSIRetCode::SyncPSIResultFailed, errorMessage,
-            _resultSyncMsg->from(), _resultSyncMsg->taskID(), _resultSyncMsg->uuid(),
+            _resultSyncMsg->fromNode(), _resultSyncMsg->taskID(), _resultSyncMsg->uuid(),
             _resultSyncMsg->seq());
         // cancel the task
         auto error = BCOS_ERROR_PTR((int32_t)PSIRetCode::SyncPSIResultFailed, errorMessage);

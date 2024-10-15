@@ -9,6 +9,6 @@ def load(config: dict, logger):
             'HDFS_USER', None, config, False)
         hdfs_home = common_func.get_config_value(
             "HDFS_HOME", None, config, False)
-        return HdfsStorage(config['HDFS_ENDPOINT'],  hdfs_user, hdfs_home)
+        return HdfsStorage(config['HDFS_URL'],  hdfs_user, hdfs_home)
     else:
         raise Exception('unsupported storage type')

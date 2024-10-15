@@ -24,7 +24,7 @@
 #include "ppc-framework/rpc/RpcInterface.h"
 #include "ppc-framework/rpc/RpcTypeDef.h"
 #include "ppc-psi/src/bs-ecdh-psi/BsEcdhPSIImpl.h"
-#include "wedpr-transport/sdk/Transport.h"
+#include "wedpr-transport/sdk/src/Transport.h"
 #include <bcos-boostssl/httpserver/Common.h>
 #include <bcos-utilities/Timer.h>
 
@@ -82,7 +82,7 @@ protected:
 
 
 private:
-    ppc::protocol::NodeArch m_arch;
+    uint16_t m_arch;
     std::string m_configPath;
     std::shared_ptr<ppc::tools::PPCConfig> m_config;
     ProtocolInitializer::Ptr m_protocolInitializer;

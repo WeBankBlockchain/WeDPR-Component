@@ -2,8 +2,8 @@
   "registries": [
     {
       "kind": "git",
-      "repository": "https://github.com/cyjseagull/registry",
-      "baseline": "6160f4167d4ab801f16a18bdd842a75edf7b069e",
+      "repository": "https://github.com/FISCO-BCOS/registry",
+      "baseline": "b483a0287c6ee7017983942af540e3ee672b0994",
       "packages": [
         "openssl",
         "bcos-utilities",
