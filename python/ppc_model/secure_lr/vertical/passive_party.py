@@ -1,6 +1,7 @@
 import itertools
 import multiprocessing
 import time
+import json
 import numpy as np
 from pandas import DataFrame
 
@@ -19,6 +20,7 @@ class VerticalLRPassiveParty(VerticalBooster):
     def __init__(self, ctx: SecureLRContext, dataset: SecureDataset) -> None:
         super().__init__(ctx, dataset)
         self.params = ctx.model_params
+        self._all_feature_name = []
         self._loss_func = BinaryLoss()
         self.log = ctx.components.logger()
         self.log.info(
@@ -86,6 +88,9 @@ class VerticalLRPassiveParty(VerticalBooster):
                              b''.join(s.encode('utf-8') + b' ' for s in self.dataset.feature_name), 0)
         self.params.my_categorical_idx = self._get_categorical_idx(
             self.dataset.feature_name, self.params.categorical_feature)
+        feature_name_bytes = self._receive_byte_data(
+            self.ctx, LRMessage.FEATURE_NAME.value, 0)
+        self._all_feature_name = json.loads(feature_name_bytes.decode('utf-8'))
 
     def _build_iter(self, feature_select, idx):
 

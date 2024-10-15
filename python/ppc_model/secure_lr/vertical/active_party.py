@@ -1,5 +1,6 @@
 import itertools
 import time
+import json
 
 import numpy as np
 from pandas import DataFrame
@@ -115,6 +116,9 @@ class VerticalLRActiveParty(VerticalBooster):
                 [s.decode('utf-8') for s in feature_name_bytes.split(b' ') if s])
             self._all_feature_num += len([s.decode('utf-8')
                                          for s in feature_name_bytes.split(b' ') if s])
+        for i in range(1, len(self.ctx.participant_id_list)):
+            self._send_byte_data(self.ctx, LRMessage.FEATURE_NAME.value,
+                                 json.dumps(self._all_feature_name).encode('utf-8'), i)
 
         self.log.info(f'task {self.ctx.task_id}: total feature number:{self._all_feature_num}, '
                       f'total feature name: {self._all_feature_name}.')

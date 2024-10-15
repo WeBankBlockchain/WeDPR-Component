@@ -248,6 +248,17 @@ class VerticalBooster(VerticalModel):
 
         # 加密文件
         lgbm_model = {}
+        lgbm_model['model_type'] = 'xgb_model'
+        lgbm_model['label_provider'] = self.ctx.participant_id_list[0]
+        lgbm_model['label_column'] = 'y'
+        lgbm_model['participant_agency_list'] = []
+        for partner_index in range(0, len(self.ctx.participant_id_list)):
+            agency_info = {'agency': self.ctx.participant_id_list[partner_index]}
+            agency_info['fields'] = self.ctx._all_feature_name[partner_index]
+            lgbm_model['participant_agency_list'].append(agency_info)
+        
+        lgbm_model['model_dict'] = self.ctx.model_params
+        model_text = {}
         with open(self.ctx.feature_bin_file, 'rb') as f:
             feature_bin_data = f.read()
         with open(self.ctx.model_data_file, 'rb') as f:
@@ -256,7 +267,7 @@ class VerticalBooster(VerticalModel):
         model_data_enc = encrypt_data(self.ctx.key, model_data)
         
         my_agency_id = self.ctx.components.config_data['AGENCY_ID']
-        lgbm_model[my_agency_id] = [cipher_to_base64(feature_bin_enc), cipher_to_base64(model_data_enc)]
+        model_text[my_agency_id] = [cipher_to_base64(feature_bin_enc), cipher_to_base64(model_data_enc)]
 
         # 发送&接受文件
         for partner_index in range(0, len(self.ctx.participant_id_list)):
@@ -273,8 +284,9 @@ class VerticalBooster(VerticalModel):
                     self.ctx, f'{LGBMMessage.MODEL_DATA.value}_feature_bin', partner_index)
                 model_data_enc = self._receive_byte_data(
                     self.ctx, f'{LGBMMessage.MODEL_DATA.value}_model_data', partner_index)
-                lgbm_model[self.ctx.participant_id_list[partner_index]] = \
+                model_text[self.ctx.participant_id_list[partner_index]] = \
                     [cipher_to_base64(feature_bin_enc), cipher_to_base64(model_data_enc)]
+        lgbm_model['model_text'] = model_text
 
         # 上传密文模型
         with open(self.ctx.model_enc_file, 'w') as f:
@@ -285,38 +297,11 @@ class VerticalBooster(VerticalModel):
             f"task {self.ctx.task_id}: Saved enc model to {self.ctx.model_enc_file} finished.")
 
     def split_model_file(self):
-        # 下载密文模型
-        try:
-            ResultFileHandling._download_file(self.ctx.components.storage_client,
-                                              self.ctx.remote_model_enc_file, self.ctx.model_enc_file)
-        except:
-            pass
-
-        # 发送/接受文件
+        # 传入模型
         my_agency_id = self.ctx.components.config_data['AGENCY_ID']
-        if os.path.exists(self.ctx.model_enc_file):
-            
-            with open(self.ctx.model_enc_file, 'r') as f:
-                lgbm_model = json.load(f)
+        model_text = self.ctx.model_predict_algorithm['model_text']
+        feature_bin_enc, model_data_enc = [base64_to_cipher(i) for i in model_text[my_agency_id]]
 
-            for partner_index in range(0, len(self.ctx.participant_id_list)):
-                if self.ctx.participant_id_list[partner_index] != my_agency_id:
-                    feature_bin_enc, model_data_enc = \
-                        [base64_to_cipher(i) for i in lgbm_model[self.ctx.participant_id_list[partner_index]]]
-                    self._send_byte_data(
-                        self.ctx, f'{LGBMMessage.MODEL_DATA.value}_feature_bin',
-                        feature_bin_enc, partner_index)
-                    self._send_byte_data(
-                        self.ctx, f'{LGBMMessage.MODEL_DATA.value}_model_data',
-                        model_data_enc, partner_index)
-            feature_bin_enc, model_data_enc = [base64_to_cipher(i) for i in lgbm_model[my_agency_id]]
-
-        else:
-            feature_bin_enc = self._receive_byte_data(
-                self.ctx, f'{LGBMMessage.MODEL_DATA.value}_feature_bin', 0)
-            model_data_enc = self._receive_byte_data(
-                self.ctx, f'{LGBMMessage.MODEL_DATA.value}_model_data', 0)
-        
         # 解密文件
         feature_bin_data = decrypt_data(self.ctx.key, feature_bin_enc)
         model_data = decrypt_data(self.ctx.key, model_data_enc)

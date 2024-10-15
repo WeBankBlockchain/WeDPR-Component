@@ -1,5 +1,6 @@
 import multiprocessing
 import time
+import json
 import numpy as np
 from pandas import DataFrame
 
@@ -16,6 +17,7 @@ class VerticalLGBMPassiveParty(VerticalBooster):
     def __init__(self, ctx: SecureLGBMContext, dataset: SecureDataset) -> None:
         super().__init__(ctx, dataset)
         self.params = ctx.model_params
+        self._all_feature_name = []
         self.log = ctx.components.logger()
         self.log.info(
             f'task {self.ctx.task_id}: print all params: {self.params.get_all_params()}')
@@ -94,6 +96,9 @@ class VerticalLGBMPassiveParty(VerticalBooster):
                              b''.join(s.encode('utf-8') + b' ' for s in self.dataset.feature_name), 0)
         self.params.my_categorical_idx = self._get_categorical_idx(
             self.dataset.feature_name, self.params.categorical_feature)
+        feature_name_bytes = self._receive_byte_data(
+            self.ctx, LGBMMessage.FEATURE_NAME.value, 0)
+        self._all_feature_name = json.loads(feature_name_bytes.decode('utf-8'))
 
         # 初始化分桶数据集
         feat_bin = FeatureBinning(self.ctx)
