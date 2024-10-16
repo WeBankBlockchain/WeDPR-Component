@@ -1,12 +1,12 @@
 import os
 
-from ppc_dev.wedpr_data.data_context import DataContext
-from ppc_dev.common.base_result import BaseResult
+from wedpr_ml_toolkit.wedpr_data.data_context import DataContext
+from wedpr_ml_toolkit.common.base_result import BaseResult
 
 
-class FeResult(BaseResult):
+class PSIResult(BaseResult):
 
-    FE_RESULT_FILE = "fe_result.csv"
+    PSI_RESULT_FILE = "psi_result.csv"
 
     def __init__(self, dataset: DataContext, job_id: str):
 
@@ -20,8 +20,8 @@ class FeResult(BaseResult):
 
         result_list = []
         for dataset in self.dataset.datasets:
-            dataset.update_path(os.path.join(self.job_id, self.FE_RESULT_FILE))
+            dataset.update_path(os.path.join(self.job_id, self.PSI_RESULT_FILE))
             result_list.append(dataset)
 
-        fe_result = DataContext(*result_list)
-        return fe_result
+        psi_result = DataContext(*result_list)
+        return psi_result

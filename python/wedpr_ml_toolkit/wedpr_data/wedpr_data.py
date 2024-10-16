@@ -1,7 +1,8 @@
+import os
 import pandas as pd
 
-from ppc_dev.common.base_context import BaseContext
-from ppc_dev.job_exceuter.hdfs_client import HDFSApi
+from wedpr_ml_toolkit.common.base_context import BaseContext
+from wedpr_ml_toolkit.job_exceuter.hdfs_client import HDFSApi
 
 
 class WedprData:
@@ -26,6 +27,7 @@ class WedprData:
         self.shape = None
 
         self.storage_client = HDFSApi(self.ctx.hdfs_endpoint)
+        self.storage_workspace = os.path.join(self.ctx.workspace, self.agency.agency_id, self.ctx.user_name, 'share')
 
         if self.values is not None:
             self.columns = self.values.columns
@@ -42,6 +44,8 @@ class WedprData:
         # 保存数据到hdfs目录
         if path is not None:
             self.dataset_path = path
+        if not self.dataset_path.startswith(self.ctx.workspace):
+            self.dataset_path = os.path.join(self.storage_workspace, self.dataset_path)
         if self.storage_client is not None:
             self.storage_client.upload(self.values, self.dataset_path)
 
@@ -53,7 +57,7 @@ class WedprData:
             self.shape = self.values.shape
         if path is not None:
             self.dataset_path = path
-        if self.storage_client is not None:
+        if values is not None and self.storage_client is not None:
             self.storage_client.upload(self.values, self.dataset_path)
 
     def update_path(self, path: str = None):

@@ -10,4 +10,4 @@ class BaseContext:
         self.pws_endpoint = pws_endpoint
         self.hdfs_endpoint = hdfs_endpoint
         self.token = token
-        self.workspace = os.path.join(self.project_id, self.user_name)
+        self.workspace = './milestone2'

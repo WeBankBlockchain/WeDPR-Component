@@ -3,9 +3,9 @@ import numpy as np
 
 from ppc_common.ppc_utils import utils
 
-from ppc_dev.wedpr_data.data_context import DataContext
-from ppc_dev.common.base_result import BaseResult
-from ppc_dev.job_exceuter.hdfs_client import HDFSApi
+from wedpr_ml_toolkit.wedpr_data.data_context import DataContext
+from wedpr_ml_toolkit.common.base_result import BaseResult
+from wedpr_ml_toolkit.job_exceuter.hdfs_client import HDFSApi
 
 
 class ModelResult(BaseResult):
