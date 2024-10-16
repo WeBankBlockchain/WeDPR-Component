@@ -65,10 +65,10 @@ class JobEvaluationResult:
         EvaluationType.ACCURACY: utils.MPC_TRAIN_SET_METRIC_ACCURACY_FILE}
 
     DEFAULT_EVAL_EVALUATION_FILES = {
-        EvaluationType.ROC: utils.MPC_EVAL_METRIC_ROC_FILE,
-        EvaluationType.PR: utils.MPC_EVAL_METRIC_PR_FILE,
-        EvaluationType.KS: utils.MPC_EVAL_METRIC_KS_FILE,
-        EvaluationType.ACCURACY: utils.MPC_EVAL_METRIC_ACCURACY_FILE
+        EvaluationType.ROC: utils.MPC_TRAIN_METRIC_ROC_FILE,
+        EvaluationType.PR: utils.MPC_TRAIN_METRIC_PR_FILE,
+        EvaluationType.KS: utils.MPC_TRAIN_METRIC_KS_FILE,
+        EvaluationType.ACCURACY: utils.MPC_TRAIN_METRIC_ACCURACY_FILE
     }
 
     def __init__(self, property_name, classification_type,
@@ -357,7 +357,7 @@ class TaskResultHandler:
                 components=self.components)
             # load the ks table
             self.train_evaluation_result.load_ks_table(
-                "mpc_train_metric_ks.csv", "TrainKSTable")
+                utils.MPC_TRAIN_METRIC_KS_TABLE, "TrainKSTable")
             self.result_list.append(self.train_evaluation_result)
 
             self.validation_evaluation_result = JobEvaluationResult(
@@ -368,7 +368,7 @@ class TaskResultHandler:
                 components=self.components)
             # load the ks_table
             self.validation_evaluation_result.load_ks_table(
-                "mpc_metric_ks.csv", "KSTable")
+                utils.MPC_TRAIN_METRIC_KS_TABLE, "KSTable")
             self.result_list.append(self.validation_evaluation_result)
 
             self.model = ModelJobResult(self.xgb_job,
@@ -396,7 +396,7 @@ class TaskResultHandler:
                 components=self.components)
             # load ks_table
             self.predict_evaluation_result.load_ks_table(
-                "mpc_eval_metric_ks.csv", "KSTable")
+                utils.MPC_TRAIN_METRIC_KS_TABLE, "KSTable")
             self.result_list.append(self.predict_evaluation_result)
 
         # load model_result

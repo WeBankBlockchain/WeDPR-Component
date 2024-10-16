@@ -16,10 +16,12 @@ from ppc_model.network.stub import PushRequest, PullRequest
 from ppc_model.common.model_result import ResultFileHandling
 from ppc_model.datasets.feature_binning.feature_binning import FeatureBinning
 from ppc_model.secure_lr.secure_lr_context import SecureLRContext, LRMessage
-
+from ppc_model.secure_model_base.secure_model_booster import SecureModelBooster
 
 # 抽离sgb的公共部分
-class VerticalBooster(VerticalModel):
+
+
+class VerticalBooster(SecureModelBooster):
     def __init__(self, ctx: SecureLRContext, dataset: SecureDataset) -> None:
         super().__init__(ctx)
         self.dataset = dataset
@@ -77,8 +79,8 @@ class VerticalBooster(VerticalModel):
 
     def _init_each_iter(self):
 
-        idx = self._get_sample_idx(self._iter_id-1, self.dataset.train_X.shape[0], 
-                                   size = self.params.batch_size)
+        idx = self._get_sample_idx(self._iter_id-1, self.dataset.train_X.shape[0],
+                                   size=self.params.batch_size)
         feature_select = FeatureSelection.feature_selecting(
             list(self.dataset.feature_name),
             self.params.train_feature, self.params.feature_rate)
@@ -91,11 +93,12 @@ class VerticalBooster(VerticalModel):
         my_agency_id = self.ctx.components.config_data['AGENCY_ID']
 
         start_time = time.time()
-        self.log.info(f'task {self.ctx.task_id}: Starting iter-{self._iter_id} '
-                      f'encrypt d in {my_agency_id} party.')
-        enc_dlist = self.ctx.phe.encrypt_batch_parallel((d_list).astype('object'))
-        self.log.info(f'task {self.ctx.task_id}: Finished iter-{self._iter_id} '
-                      f'encrypt d time_costs: {time.time() - start_time}.')
+        self.logger.info(f'task {self.ctx.task_id}: Starting iter-{self._iter_id} '
+                         f'encrypt d in {my_agency_id} party.')
+        enc_dlist = self.ctx.phe.encrypt_batch_parallel(
+            (d_list).astype('object'))
+        self.logger.info(f'task {self.ctx.task_id}: Finished iter-{self._iter_id} '
+                         f'encrypt d time_costs: {time.time() - start_time}.')
 
         for partner_index in range(len(self.ctx.participant_id_list)):
             if self.ctx.participant_id_list[partner_index] != my_agency_id:
@@ -105,7 +108,7 @@ class VerticalBooster(VerticalModel):
     def _receive_d_instance_list(self):
 
         my_agency_id = self.ctx.components.config_data['AGENCY_ID']
-        
+
         public_key_list = []
         d_other_list = []
         partner_index_list = []
@@ -127,24 +130,29 @@ class VerticalBooster(VerticalModel):
             # 计算明文*密文 matmul
             # deriv_other_i = np.matmul(x.T, d_other_list[i])
             deriv_other_i = self.enc_matmul(x.T, d_other_list[i])
-            
+
             # 发送密文，接受密文并解密
             self._send_enc_data(self.ctx, f'{LRMessage.ENC_D_HIST.value}_{self._iter_id}',
                                 deriv_other_i, partner_index)
             _, enc_deriv_i = self._receive_enc_data(
                 self.ctx, f'{LRMessage.ENC_D_HIST.value}_{self._iter_id}', partner_index)
-            deriv_i_rec = np.array(self.ctx.phe.decrypt_batch(enc_deriv_i), dtype='object')
-            deriv_i = self.recover_d(self.ctx, deriv_i_rec, is_square=True) / x_.shape[0]
-            
+            deriv_i_rec = np.array(
+                self.ctx.phe.decrypt_batch(enc_deriv_i), dtype='object')
+            deriv_i = self.recover_d(
+                self.ctx, deriv_i_rec, is_square=True) / x_.shape[0]
+
             # 发送明文，接受明文并计算
             self._send_byte_data(self.ctx, f'{LRMessage.D_MATMUL.value}_{self._iter_id}',
                                  deriv_i.astype('float').tobytes(), partner_index)
             deriv_x_i = np.frombuffer(self._receive_byte_data(
-                    self.ctx, f'{LRMessage.D_MATMUL.value}_{self._iter_id}', partner_index), dtype=np.float)
-            self.log.info(f'{self.ctx.components.config_data["AGENCY_ID"]}, deriv: {deriv}.')
-            self.log.info(f'{self.ctx.components.config_data["AGENCY_ID"]}, deriv_x_i: {deriv_x_i}.')
+                self.ctx, f'{LRMessage.D_MATMUL.value}_{self._iter_id}', partner_index), dtype=np.float)
+            self.logger.info(
+                f'{self.ctx.components.config_data["AGENCY_ID"]}, deriv: {deriv}.')
+            self.logger.info(
+                f'{self.ctx.components.config_data["AGENCY_ID"]}, deriv_x_i: {deriv_x_i}.')
             deriv += deriv_x_i
-        self.log.info(f'{self.ctx.components.config_data["AGENCY_ID"]}, deriv: {deriv}.')
+        self.logger.info(
+            f'{self.ctx.components.config_data["AGENCY_ID"]}, deriv: {deriv}.')
         return deriv
 
     def _calculate_deriv1(self, x_, d, partner_index_list, d_other_list):
@@ -159,12 +167,13 @@ class VerticalBooster(VerticalModel):
                                 deriv_other_i, partner_index)
             _, enc_deriv_i = self._receive_enc_data(
                 self.ctx, f'{LRMessage.ENC_D_HIST.value}_{self._iter_id}', partner_index)
-            deriv_i = np.array(self.ctx.phe.decrypt_batch(enc_deriv_i), dtype='object')
-            deriv += (self.recover_d(self.ctx, deriv_i, is_square=True) / x_.shape[0])
+            deriv_i = np.array(self.ctx.phe.decrypt_batch(
+                enc_deriv_i), dtype='object')
+            deriv += (self.recover_d(self.ctx, deriv_i,
+                      is_square=True) / x_.shape[0])
         return deriv
 
     def _send_enc_data(self, ctx, key_type, enc_data, partner_index, matrix_data=False):
-        log = ctx.components.logger()
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
 
@@ -185,12 +194,11 @@ class VerticalBooster(VerticalModel):
                     ctx.codec, ctx.phe.public_key, enc_data)
             ))
 
-        log.info(
+        self.logger.info(
             f"task {ctx.task_id}: Sending {key_type} to {partner_id} finished, "
             f"data_length: {len(enc_data)}, time_costs: {time.time() - start_time}s")
 
     def _receive_enc_data(self, ctx, key_type, partner_index, matrix_data=False):
-        log = ctx.components.logger()
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
 
@@ -207,13 +215,12 @@ class VerticalBooster(VerticalModel):
             public_key, enc_data = PheMessage.unpacking_data(
                 ctx.codec, byte_data)
 
-        log.info(
+        self.logger.info(
             f"task {ctx.task_id}: Received {key_type} from {partner_id} finished, "
             f"data_size: {len(byte_data) / 1024}KB, time_costs: {time.time() - start_time}s")
         return public_key, enc_data
 
     def _send_byte_data(self, ctx, key_type, byte_data, partner_index):
-        log = ctx.components.logger()
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
 
@@ -224,12 +231,11 @@ class VerticalBooster(VerticalModel):
             data=byte_data
         ))
 
-        log.info(
+        self.logger.info(
             f"task {ctx.task_id}: Sending {key_type} to {partner_id} finished, "
             f"data_size: {len(byte_data) / 1024}KB, time_costs: {time.time() - start_time}s")
 
     def _receive_byte_data(self, ctx, key_type, partner_index):
-        log = ctx.components.logger()
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
 
@@ -239,47 +245,32 @@ class VerticalBooster(VerticalModel):
             key=key_type
         ))
 
-        log.info(
+        self.logger.info(
             f"task {ctx.task_id}: Received {key_type} from {partner_id} finished, "
             f"data_size: {len(byte_data) / 1024}KB, time_costs: {time.time() - start_time}s")
         return byte_data
 
     def save_model(self, file_path=None):
-        log = self.ctx.components.logger()
-        if file_path is not None:
-            self.ctx.model_data_file = os.path.join(
-                file_path, self.ctx.MODEL_DATA_FILE)
+        super().save_model(file_path, "lr_model")
 
+    def save_model_hook(self, model_file_path):
         if not os.path.exists(self.ctx.model_data_file):
             serial_weight = list(self._train_weights)
             with open(self.ctx.model_data_file, 'w') as f:
                 json.dump(serial_weight, f)
             ResultFileHandling._upload_file(self.ctx.components.storage_client,
                                             self.ctx.model_data_file, self.ctx.remote_model_data_file)
-            log.info(
+            self.logger.info(
                 f"task {self.ctx.task_id}: Saved serial_weight to {self.ctx.model_data_file} finished.")
 
-        self.merge_model_file()
-
-    def merge_model_file(self):
+    def merge_model_file(self, lr_model):
 
         # 加密文件
-        lr_model = {}
-        lr_model['model_type'] = 'lr_model'
-        lr_model['label_provider'] = self.ctx.participant_id_list[0]
-        lr_model['label_column'] = 'y'
-        lr_model['participant_agency_list'] = []
-        for partner_index in range(0, len(self.ctx.participant_id_list)):
-            agency_info = {'agency': self.ctx.participant_id_list[partner_index]}
-            agency_info['fields'] = self._all_feature_name[partner_index]
-            lr_model['participant_agency_list'].append(agency_info)
-        
-        lr_model['model_dict'] = self.ctx.model_params.get_all_params()
         model_text = {}
         with open(self.ctx.model_data_file, 'rb') as f:
             model_data = f.read()
         model_data_enc = encrypt_data(self.ctx.key, model_data)
-        
+
         my_agency_id = self.ctx.components.config_data['AGENCY_ID']
         model_text[my_agency_id] = cipher_to_base64(model_data_enc)
 
@@ -293,7 +284,8 @@ class VerticalBooster(VerticalModel):
             if self.ctx.participant_id_list[partner_index] != my_agency_id:
                 model_data_enc = self._receive_byte_data(
                     self.ctx, f'{LRMessage.MODEL_DATA.value}_model_data', partner_index)
-                model_text[self.ctx.participant_id_list[partner_index]] = cipher_to_base64(model_data_enc)
+                model_text[self.ctx.participant_id_list[partner_index]
+                           ] = cipher_to_base64(model_data_enc)
         lr_model['model_text'] = model_text
 
         # 上传密文模型
@@ -301,7 +293,7 @@ class VerticalBooster(VerticalModel):
             json.dump(lr_model, f)
         ResultFileHandling._upload_file(self.ctx.components.storage_client,
                                         self.ctx.model_enc_file, self.ctx.remote_model_enc_file)
-        self.ctx.components.logger().info(
+        self.logger.info(
             f"task {self.ctx.task_id}: Saved enc model to {self.ctx.model_enc_file} finished.")
 
     def split_model_file(self):
@@ -316,7 +308,6 @@ class VerticalBooster(VerticalModel):
             f.write(model_data)
 
     def load_model(self, file_path=None):
-        log = self.ctx.components.logger()
         if file_path is not None:
             self.ctx.model_data_file = os.path.join(
                 file_path, self.ctx.MODEL_DATA_FILE)
@@ -330,7 +321,7 @@ class VerticalBooster(VerticalModel):
         with open(self.ctx.model_data_file, 'r') as f:
             serial_weight = json.load(f)
         self._train_weights = np.array(serial_weight)
-        log.info(
+        self.logger.info(
             f"task {self.ctx.task_id}: Load serial_weight from {self.ctx.model_data_file} finished.")
 
     def get_weights(self):
@@ -356,8 +347,9 @@ class VerticalBooster(VerticalModel):
 
     @staticmethod
     def recover_d(ctx, d_sum_list: np.ndarray, is_square=False, expand=1000):
-        
-        d_sum_list[d_sum_list > 2**(ctx.phe.key_length-1)] -= 2**(ctx.phe.key_length)
+
+        d_sum_list[d_sum_list > 2 **
+                   (ctx.phe.key_length-1)] -= 2**(ctx.phe.key_length)
 
         if is_square:
             return (d_sum_list / expand / expand).astype('float')

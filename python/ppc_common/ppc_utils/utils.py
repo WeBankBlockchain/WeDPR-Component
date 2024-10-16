@@ -67,11 +67,6 @@ MPC_TRAIN_SET_METRIC_KS_FILE = "mpc_train_metric_ks.svg"
 MPC_TRAIN_SET_METRIC_PR_FILE = "mpc_train_metric_pr.svg"
 MPC_TRAIN_SET_METRIC_ACCURACY_FILE = "mpc_train_metric_accuracy.svg"
 MPC_TRAIN_SET_METRIC_KS_TABLE = "mpc_train_metric_ks.csv"
-MPC_EVAL_METRIC_ROC_FILE = "mpc_eval_metric_roc.svg"
-MPC_EVAL_METRIC_KS_FILE = "mpc_eval_metric_ks.svg"
-MPC_EVAL_METRIC_PR_FILE = "mpc_eval_metric_pr.svg"
-MPC_EVAL_METRIC_ACCURACY_FILE = "mpc_eval_metric_accuracy.svg"
-MPC_EVAL_METRIC_KS_TABLE = "mpc_eval_metric_ks.csv"
 MPC_TRAIN_METRIC_CONFUSION_MATRIX_FILE = "mpc_metric_confusion_matrix.svg"
 METRICS_OVER_ITERATION_FILE = "metrics_over_iterations.svg"
 
@@ -110,6 +105,7 @@ class PPCModleType(Enum):
 class CryptoType(Enum):
     ECDSA = 1
     GM = 2
+
 
 @unique
 class HashType(Enum):

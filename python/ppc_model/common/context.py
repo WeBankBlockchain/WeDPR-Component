@@ -1,4 +1,3 @@
-import unittest
 
 from ppc_model.common.base_context import BaseContext
 from ppc_model.common.initializer import Initializer

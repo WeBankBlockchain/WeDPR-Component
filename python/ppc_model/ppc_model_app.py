@@ -2,28 +2,29 @@
 import sys
 sys.path.append("../")
 
-from ppc_model.secure_lgbm.secure_lgbm_training_engine import SecureLGBMTrainingEngine
-from ppc_model.secure_lgbm.secure_lgbm_prediction_engine import SecureLGBMPredictionEngine
-from ppc_model.secure_lr.secure_lr_training_engine import SecureLRTrainingEngine
-from ppc_model.preprocessing.preprocessing_engine import PreprocessingEngine
-from ppc_model.network.http.restx import api
-from ppc_model.network.http.model_controller import ns2 as log_namespace
-from ppc_model.network.http.model_controller import ns as task_namespace
-from ppc_model.network.grpc.grpc_server import ModelService
-from ppc_model.feature_engineering.feature_engineering_engine import FeatureEngineeringEngine
-from ppc_model.common.protocol import ModelTask
-from ppc_model.common.global_context import components
-from ppc_common.ppc_utils import utils
-from ppc_common.ppc_protos.generated import ppc_model_pb2_grpc
-from paste.translogger import TransLogger
-from flask import Flask, Blueprint
-from cheroot.wsgi import Server as WSGIServer
-from cheroot.ssl.builtin import BuiltinSSLAdapter
-import grpc
-from threading import Thread
-from concurrent import futures
-import os
 import multiprocessing
+import os
+from concurrent import futures
+from threading import Thread
+import grpc
+from cheroot.ssl.builtin import BuiltinSSLAdapter
+from cheroot.wsgi import Server as WSGIServer
+from flask import Flask, Blueprint
+from paste.translogger import TransLogger
+from ppc_common.ppc_protos.generated import ppc_model_pb2_grpc
+from ppc_common.ppc_utils import utils
+from ppc_model.common.global_context import components
+from ppc_model.common.protocol import ModelTask
+from ppc_model.feature_engineering.feature_engineering_engine import FeatureEngineeringEngine
+from ppc_model.network.grpc.grpc_server import ModelService
+from ppc_model.network.http.model_controller import ns as task_namespace
+from ppc_model.network.http.model_controller import ns2 as log_namespace
+from ppc_model.network.http.restx import api
+from ppc_model.preprocessing.preprocessing_engine import PreprocessingEngine
+from ppc_model.secure_lr.secure_lr_prediction_engine import SecureLRPredictionEngine
+from ppc_model.secure_lr.secure_lr_training_engine import SecureLRTrainingEngine
+from ppc_model.secure_lgbm.secure_lgbm_prediction_engine import SecureLGBMPredictionEngine
+from ppc_model.secure_lgbm.secure_lgbm_training_engine import SecureLGBMTrainingEngine
 
 
 app = Flask(__name__)
@@ -53,6 +54,8 @@ def register_task_handler():
         ModelTask.XGB_PREDICTING, SecureLGBMPredictionEngine.run)
     task_manager.register_task_handler(
         ModelTask.LR_TRAINING, SecureLRTrainingEngine.run)
+    task_manager.register_task_handler(
+        ModelTask.LR_PREDICTING, SecureLRPredictionEngine.run)
 
 
 def model_serve():

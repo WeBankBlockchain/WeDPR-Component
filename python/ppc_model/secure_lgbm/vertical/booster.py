@@ -13,11 +13,12 @@ from ppc_model.common.protocol import PheMessage
 from ppc_model.network.stub import PushRequest, PullRequest
 from ppc_model.common.model_result import ResultFileHandling
 from ppc_model.datasets.feature_binning.feature_binning import FeatureBinning
+from ppc_model.secure_model_base.secure_model_booster import SecureModelBooster
 from ppc_model.secure_lgbm.secure_lgbm_context import SecureLGBMContext, LGBMMessage
 
 
 # 抽离sgb的公共部分
-class VerticalBooster(VerticalModel):
+class VerticalBooster(SecureModelBooster):
     def __init__(self, ctx: SecureLGBMContext, dataset: SecureDataset) -> None:
         super().__init__(ctx)
         self.dataset = dataset
@@ -129,7 +130,6 @@ class VerticalBooster(VerticalModel):
         return left_mask, right_mask
 
     def _send_enc_data(self, ctx, key_type, enc_data, partner_index, matrix_data=False):
-        log = ctx.components.logger()
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
 
@@ -150,12 +150,11 @@ class VerticalBooster(VerticalModel):
                     ctx.codec, ctx.phe.public_key, enc_data)
             ))
 
-        log.info(
+        self.logger.info(
             f"task {ctx.task_id}: Sending {key_type} to {partner_id} finished, "
             f"data_length: {len(enc_data)}, time_costs: {time.time() - start_time}s")
 
     def _receive_enc_data(self, ctx, key_type, partner_index, matrix_data=False):
-        log = ctx.components.logger()
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
 
@@ -172,13 +171,12 @@ class VerticalBooster(VerticalModel):
             public_key, enc_data = PheMessage.unpacking_data(
                 ctx.codec, byte_data)
 
-        log.info(
+        self.logger.info(
             f"task {ctx.task_id}: Received {key_type} from {partner_id} finished, "
             f"data_size: {len(byte_data) / 1024}KB, time_costs: {time.time() - start_time}s")
         return public_key, enc_data
 
     def _send_byte_data(self, ctx, key_type, byte_data, partner_index):
-        log = ctx.components.logger()
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
 
@@ -189,12 +187,11 @@ class VerticalBooster(VerticalModel):
             data=byte_data
         ))
 
-        log.info(
+        self.logger.info(
             f"task {ctx.task_id}: Sending {key_type} to {partner_id} finished, "
             f"data_size: {len(byte_data) / 1024}KB, time_costs: {time.time() - start_time}s")
 
     def _receive_byte_data(self, ctx, key_type, partner_index):
-        log = ctx.components.logger()
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
 
@@ -204,7 +201,7 @@ class VerticalBooster(VerticalModel):
             key=key_type
         ))
 
-        log.info(
+        self.logger.info(
             f"task {ctx.task_id}: Received {key_type} from {partner_id} finished, "
             f"data_size: {len(byte_data) / 1024}KB, time_costs: {time.time() - start_time}s")
         return byte_data
@@ -215,13 +212,13 @@ class VerticalBooster(VerticalModel):
         return feat_bin.data_binning(test_X, X_split)[0]
 
     def save_model(self, file_path=None):
-        log = self.ctx.components.logger()
+        super().save_model(file_path, "lgbm_model")
+
+    def save_model_hook(self, file_path):
+        # save the feature_bin
         if file_path is not None:
             self.ctx.feature_bin_file = os.path.join(
                 file_path, self.ctx.FEATURE_BIN_FILE)
-            self.ctx.model_data_file = os.path.join(
-                file_path, self.ctx.MODEL_DATA_FILE)
-
         if self._X_split is not None and not os.path.exists(self.ctx.feature_bin_file):
             X_split_dict = {k: v for k, v in zip(
                 self.dataset.feature_name, self._X_split)}
@@ -229,35 +226,19 @@ class VerticalBooster(VerticalModel):
                 json.dump(X_split_dict, f)
             ResultFileHandling._upload_file(self.ctx.components.storage_client,
                                             self.ctx.feature_bin_file, self.ctx.remote_feature_bin_file)
-            log.info(
+            self.logger.info(
                 f"task {self.ctx.task_id}: Saved x_split to {self.ctx.feature_bin_file} finished.")
-
         if not os.path.exists(self.ctx.model_data_file):
             serial_trees = [self._serial_tree(tree) for tree in self._trees]
             with open(self.ctx.model_data_file, 'w') as f:
                 json.dump(serial_trees, f)
             ResultFileHandling._upload_file(self.ctx.components.storage_client,
                                             self.ctx.model_data_file, self.ctx.remote_model_data_file)
-            log.info(
+            self.logger.info(
                 f"task {self.ctx.task_id}: Saved serial_trees to {self.ctx.model_data_file} finished.")
 
-        self.merge_model_file()
-
-    def merge_model_file(self):
-
+    def merge_model_file(self, lgbm_model):
         # 加密文件
-        lgbm_model = {}
-        lgbm_model['model_type'] = 'xgb_model'
-        lgbm_model['label_provider'] = self.ctx.participant_id_list[0]
-        lgbm_model['label_column'] = 'y'
-        lgbm_model['participant_agency_list'] = []
-        for partner_index in range(0, len(self.ctx.participant_id_list)):
-            agency_info = {
-                'agency': self.ctx.participant_id_list[partner_index]}
-            agency_info['fields'] = self._all_feature_name[partner_index]
-            lgbm_model['participant_agency_list'].append(agency_info)
-
-        lgbm_model['model_dict'] = self.ctx.model_params.get_all_params()
         model_text = {}
         with open(self.ctx.feature_bin_file, 'rb') as f:
             feature_bin_data = f.read()
@@ -295,10 +276,11 @@ class VerticalBooster(VerticalModel):
             json.dump(lgbm_model, f)
         ResultFileHandling._upload_file(self.ctx.components.storage_client,
                                         self.ctx.model_enc_file, self.ctx.remote_model_enc_file)
-        self.ctx.components.logger().info(
+        self.logger.info(
             f"task {self.ctx.task_id}: Saved enc model to {self.ctx.model_enc_file} finished.")
 
     def split_model_file(self):
+
         # 传入模型
         my_agency_id = self.ctx.components.config_data['AGENCY_ID']
         model_text = self.ctx.model_predict_algorithm['model_text']
@@ -314,7 +296,6 @@ class VerticalBooster(VerticalModel):
             f.write(model_data)
 
     def load_model(self, file_path=None):
-        log = self.ctx.components.logger()
         if file_path is not None:
             self.ctx.feature_bin_file = os.path.join(
                 file_path, self.ctx.FEATURE_BIN_FILE)
@@ -333,13 +314,13 @@ class VerticalBooster(VerticalModel):
             X_split_dict = json.load(f)
         feature_name = list(X_split_dict.keys())
         x_split = list(X_split_dict.values())
-        log.info(
+        self.logger.info(
             f"task {self.ctx.task_id}: Load x_split from {self.ctx.feature_bin_file} finished.")
         assert len(feature_name) == len(self.dataset.feature_name)
 
         with open(self.ctx.model_data_file, 'r') as f:
             serial_trees = json.load(f)
-        log.info(
+        self.logger.info(
             f"task {self.ctx.task_id}: Load serial_trees from {self.ctx.model_data_file} finished.")
 
         trees = [self._deserial_tree(tree) for tree in serial_trees]
