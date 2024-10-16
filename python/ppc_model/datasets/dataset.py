@@ -189,6 +189,15 @@ class SecureDataset:
             self.model_data = self.model_data.drop(columns=drop_columns)
 
     def _construct_dataset(self):
+        if self.algorithm_type == AlgorithmType.Predict.name:
+            my_fields = [
+                item["fields"] for item in self.ctx.model_predict_algorithm['participant_agency_list'] 
+                if item["agency"] == self.ctx.components.config_data['AGENCY_ID']]
+            if 'y' in self.model_data.columns and 'y' not in my_fields:
+                my_fields = ['y'] + my_fields
+            if 'id' in self.model_data.columns and 'id' not in my_fields:
+                my_fields = ['id'] + my_fields
+            self.model_data = self.model_data[my_fields]
 
         if os.path.exists(self.iv_selected_file):
             self._dataset_fe_selected(self.iv_selected_file, 'feature')

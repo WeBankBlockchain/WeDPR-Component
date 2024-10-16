@@ -20,8 +20,6 @@ class ProcessingContext(Context):
         self.job_algorithm_type = args['algorithm_type']
         self.need_run_psi = args['need_run_psi']
         self.model_dict = args['model_dict']
-        self.training_job_id = common_func.get_config_value(
-            "training_job_id", None, args, False)
         if "psi_result_path" in args:
             self.remote_psi_result_path = args["psi_result_path"]
         self.model_setting = ModelSetting(self.model_dict)

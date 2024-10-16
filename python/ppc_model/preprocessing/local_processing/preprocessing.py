@@ -79,24 +79,7 @@ def process_dataframe(dataset_df: pd.DataFrame, model_setting: ModelSetting, xgb
 
     column_info = {}
 
-    if ppc_job_type == utils.AlgorithmType.Predict.name:
-        column_info_fm = pd.read_csv(
-            ctx.preprocessing_result_file, index_col=0)
-        column_info_train_str = json.dumps(
-            column_info_fm.to_dict(orient='index'))
-        if column_info_train_str is None:
-            raise PpcException(-1, "column_info_train is None")
-        try:
-            # 对应orient='records'
-            # column_info_train = json.loads(column_info_train_str, orient='records')
-            column_info_train = json.loads(column_info_train_str)
-        except Exception as e:
-            log.error(
-                f"jobid: {job_id} column_info_train json.loads error, e:{e}")
-            raise PpcException(-1, "column_info_train json.loads error")
-        dataset_df = process_train_dataframe(dataset_df, column_info_train)
-        column_info = column_info_train
-    elif ppc_job_type == utils.AlgorithmType.Train.name:
+    if ppc_job_type != utils.AlgorithmType.Predict.name:
         # 如果是训练任务 先默认所有数据都存在
         column_info = {col: {'isExisted': True} for col in dataset_df.columns}
 
@@ -141,7 +124,7 @@ def process_dataframe(dataset_df: pd.DataFrame, model_setting: ModelSetting, xgb
         log.info(f"jobid: {job_id} move id column finish.")
 
     # 2.1 缺失值筛选
-    if ppc_job_type == utils.AlgorithmType.Train.name:
+    if ppc_job_type != utils.AlgorithmType.Predict.name:
         if 0 <= model_setting.na_select <= 1:
             log.info(f"jobid: {job_id} run fillna start")
             df_filled, column_info = process_na_dataframe(
@@ -152,13 +135,9 @@ def process_dataframe(dataset_df: pd.DataFrame, model_setting: ModelSetting, xgb
                 f"jobid: {job_id} xgb_model_dict['na_select'] is range not 0 to 1, xgb_model_dict:{model_setting}")
             raise PpcException(PpcErrorCode.XGB_PREPROCESSING_ERROR.get_code(),
                                "xgb_model_dict['na_select'] range not 0 to 1")
-    elif ppc_job_type == utils.AlgorithmType.Predict.name:
-        log.info(f"jobid: {job_id} don't need run fillna for predict job.")
     else:
-        log.error(
-            f"jobid: {job_id} ppc_job_type is not Train or Predict, ppc_job_type:{ppc_job_type}")
-        raise PpcException(PpcErrorCode.XGB_PREPROCESSING_ERROR.get_code(),
-                           "ppc_job_type is not Train or Predict")
+        log.info(f"jobid: {job_id} don't need run fillna for predict job.")
+
     # 2.2 缺失值处理
     if model_setting.fillna == 1:
         # 填充
@@ -184,7 +163,7 @@ def process_dataframe(dataset_df: pd.DataFrame, model_setting: ModelSetting, xgb
         ), "xgb_model_dict['fillna'] is not 0 or 1")
 
     # 6.1 特征选择 进行 psi稳定性指标筛选 计算特征相关性 降维可以减少模型的复杂度，提高模型的泛化能力
-    if ppc_job_type == utils.AlgorithmType.Train.name:
+    if ppc_job_type != utils.AlgorithmType.Predict.name:
         if model_setting.psi_select_col in df_filled.columns.tolist() and model_setting.psi_select_col != 0:
             log.info(f"jobid: {job_id} run psi_select_col start")
             psi_select_base = model_setting.psi_select_base
@@ -215,17 +194,12 @@ def process_dataframe(dataset_df: pd.DataFrame, model_setting: ModelSetting, xgb
                 f"jobid: {job_id} xgb_model_dict['psi_select_col'] is not 0 or in col, model_setting:{model_setting}")
             raise PpcException(PpcErrorCode.XGB_PREPROCESSING_ERROR.get_code(),
                                "xgb_model_dict['psi_select_col'] is not 0 or in col")
-    elif ppc_job_type == utils.AlgorithmType.Predict.name:
+    else:
         log.info(
             f"jobid: {job_id} don't need run psi_select_col for predict job.")
-    else:
-        log.error(
-            f"jobid: {job_id} ppc_job_type is not Train or Predict, ppc_job_type:{ppc_job_type}")
-        raise PpcException(PpcErrorCode.XGB_PREPROCESSING_ERROR.get_code(),
-                           "ppc_job_type is not Train or Predict")
 
     # 6.2 特征选择 进行 corr_select 计算特征相关性
-    if ppc_job_type == utils.AlgorithmType.Train.name:
+    if ppc_job_type != utils.AlgorithmType.Predict.name:
         if model_setting.corr_select > 0:
             log.info(f"jobid: {job_id} run corr_select start")
             corr_select = model_setting.corr_select
@@ -247,14 +221,9 @@ def process_dataframe(dataset_df: pd.DataFrame, model_setting: ModelSetting, xgb
                 f"jobid: {job_id} xgb_model_dict['corr_select'] is not >= 0, model_setting:{model_setting}")
             raise PpcException(PpcErrorCode.XGB_PREPROCESSING_ERROR.get_code(),
                                "xgb_model_dict['corr_select'] is not >= 0")
-    elif ppc_job_type == utils.AlgorithmType.Predict.name:
+    else:
         log.info(
             f"jobid: {job_id} don't need run corr_select for predict job.")
-    else:
-        log.error(
-            f"jobid: {job_id} ppc_job_type is not Train or Predict, ppc_job_type:{ppc_job_type}")
-        raise PpcException(PpcErrorCode.XGB_PREPROCESSING_ERROR.get_code(),
-                           "ppc_job_type is not Train or Predict")
 
     # 3. 离群值处理 3-sigma 法
     if model_setting.filloutlier == 1:

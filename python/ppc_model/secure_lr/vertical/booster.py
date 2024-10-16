@@ -320,9 +320,6 @@ class VerticalBooster(VerticalModel):
         if file_path is not None:
             self.ctx.model_data_file = os.path.join(
                 file_path, self.ctx.MODEL_DATA_FILE)
-        if self.ctx.algorithm_type == AlgorithmType.Predict.name:
-            self.ctx.remote_model_data_file = os.path.join(
-                self.ctx.model_params.training_job_id, self.ctx.MODEL_DATA_FILE)
 
         try:
             ResultFileHandling._download_file(self.ctx.components.storage_client,

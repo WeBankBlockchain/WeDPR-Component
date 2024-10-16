@@ -25,9 +25,6 @@ class LocalProcessingParty(ABC):
         dataset_file_path = self.ctx.dataset_file_path
         storage_client = self.ctx.components.storage_client
         job_algorithm_type = self.ctx.job_algorithm_type
-        if job_algorithm_type == utils.AlgorithmType.Predict.name:
-            storage_client.download_file(os.path.join(self.ctx.training_job_id, self.ctx.PREPROCESSING_RESULT_FILE),
-                                         self.ctx.preprocessing_result_file)
         psi_result_path = self.ctx.psi_result_path
         model_prepare_file = self.ctx.model_prepare_file
         storage_client.download_file(dataset_path, dataset_file_path)
