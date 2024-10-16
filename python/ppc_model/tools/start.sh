@@ -2,7 +2,6 @@
 
 dirpath="$(cd "$(dirname "$0")" && pwd)"
 cd $dirpath
-LOG_DIR=/data/app/logs/ppcs-model4ef/
 
 # kill crypto process
 crypto_pro_num=`ps -ef  | grep /ppc/scripts | grep j- | grep -v 'grep' | awk '{print $2}' | wc -l`
@@ -35,5 +34,3 @@ check_service() {
 
 sleep 5
 check_service ppc_model_app.py
-rm -rf logs
-ln -s ${LOG_DIR} logs

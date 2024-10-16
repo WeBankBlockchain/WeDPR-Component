@@ -6,12 +6,8 @@ class WorkerType:
 
     # specific job worker
     T_PSI = 'PSI'
-    T_ML_PSI = 'ML_PSI'
     T_MPC = 'MPC'
-    T_PREPROCESSING = 'PREPROCESSING'
-    T_FEATURE_ENGINEERING = 'FEATURE_ENGINEERING'
-    T_TRAINING = 'XGB_TRAINING'
-    T_PREDICTION = 'XGB_PREDICTING'
+    T_MODEL = "MODEL"
 
     # finish job
     T_ON_SUCCESS = 'T_ON_SUCCESS'

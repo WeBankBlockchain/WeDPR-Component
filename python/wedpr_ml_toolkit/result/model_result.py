@@ -12,14 +12,14 @@ class ModelResult(BaseResult):
 
     FEATURE_BIN_FILE = "feature_bin.json"
     MODEL_DATA_FILE = utils.XGB_TREE_PERFIX + '.json'
-    TEST_MODEL_OUTPUT_FILE = "xgb_output.csv"
-    TRAIN_MODEL_OUTPUT_FILE = "xgb_train_output.csv"
+    TEST_MODEL_OUTPUT_FILE = "test_output.csv"
+    TRAIN_MODEL_OUTPUT_FILE = "train_output.csv"
 
     def __init__(self, dataset: DataContext, job_id: str, job_type: str):
 
         super().__init__(dataset.ctx)
         self.job_id = job_id
-        
+
         participant_id_list = []
         for dataset in self.dataset.datasets:
             participant_id_list.append(dataset.agency.agency_id)
@@ -32,8 +32,10 @@ class ModelResult(BaseResult):
 
         # train_praba, test_praba, train_y, test_y, feature_importance, split_xbin, trees, params
         # 从hdfs读取结果文件信息，构造为属性
-        train_praba_path = os.path.join(self.job_id, self.TRAIN_MODEL_OUTPUT_FILE)
-        test_praba_path = os.path.join(self.job_id, self.TEST_MODEL_OUTPUT_FILE)
+        train_praba_path = os.path.join(
+            self.job_id, self.TRAIN_MODEL_OUTPUT_FILE)
+        test_praba_path = os.path.join(
+            self.job_id, self.TEST_MODEL_OUTPUT_FILE)
         train_output = HDFSApi.download(train_praba_path)
         test_output = HDFSApi.download(test_praba_path)
         self.train_praba = train_output['class_pred'].values

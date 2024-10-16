@@ -1,15 +1,17 @@
-from ppc_model_gateway.endpoints.partner_to_node import PartnerToNodeService
-from ppc_model_gateway.endpoints.node_to_partner import NodeToPartnerService
-from ppc_model_gateway import config
-from ppc_common.ppc_utils import utils
-from ppc_common.ppc_protos.generated import ppc_model_pb2_grpc
-import grpc
-from threading import Thread
-from concurrent import futures
-import os
 # Note: here can't be refactored by autopep
 import sys
 sys.path.append("../")
+
+import os
+from concurrent import futures
+from threading import Thread
+import grpc
+from ppc_common.ppc_protos.generated import ppc_model_pb2_grpc
+from ppc_common.ppc_utils import utils
+from ppc_model_gateway import config
+from ppc_model_gateway.endpoints.node_to_partner import NodeToPartnerService
+from ppc_model_gateway.endpoints.partner_to_node import PartnerToNodeService
+
 
 
 log = config.get_logger()

@@ -2,7 +2,6 @@
 
 dirpath="$(cd "$(dirname "$0")" && pwd)"
 cd $dirpath
-LOG_DIR=/data/app/logs/ppcs-modelgateway/
 
 export PYTHONPATH=$dirpath/../
 source /data/app/ppcs-modelgateway/gateway_env/bin/deactivate
@@ -31,5 +30,3 @@ check_service() {
 
 sleep 5
 check_service ppc_model_gateway_app.py
-rm -rf logs
-ln -s ${LOG_DIR} logs

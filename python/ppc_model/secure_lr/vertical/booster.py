@@ -271,10 +271,10 @@ class VerticalBooster(VerticalModel):
         lr_model['participant_agency_list'] = []
         for partner_index in range(0, len(self.ctx.participant_id_list)):
             agency_info = {'agency': self.ctx.participant_id_list[partner_index]}
-            agency_info['fields'] = self.ctx._all_feature_name[partner_index]
+            agency_info['fields'] = self._all_feature_name[partner_index]
             lr_model['participant_agency_list'].append(agency_info)
         
-        lr_model['model_dict'] = self.ctx.model_params
+        lr_model['model_dict'] = self.ctx.model_params.get_all_params()
         model_text = {}
         with open(self.ctx.model_data_file, 'rb') as f:
             model_data = f.read()

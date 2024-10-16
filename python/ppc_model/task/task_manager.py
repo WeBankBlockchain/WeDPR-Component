@@ -162,7 +162,7 @@ class TaskManager:
         log_file = self._get_log_file_path()
         if log_file is None or log_file == "":
             current_working_dir = os.getcwd()
-            relative_log_path = "logs/ppcs-model4ef-node.log"
+            relative_log_path = "logs/wedpr-model.log"
             log_file = os.path.join(current_working_dir, relative_log_path)
 
         start_keyword = LOG_START_FLAG_FORMATTER.format(job_id=job_id)

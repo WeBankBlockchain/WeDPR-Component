@@ -44,25 +44,30 @@ class JobManager:
         # TODO: The database persists job information
         with self._rw_lock.gen_wlock():
             if job_id in self._jobs:
-                self.logger.info(f"Job already exists, job_id: {job_id}, status: {self._jobs[job_id][0]}")
+                self.logger.info(
+                    f"Job already exists, job_id: {job_id}, status: {self._jobs[job_id][0]}")
                 return
-            self._jobs[job_id] = [JobStatus.RUNNING, datetime.datetime.now(), 0]
+            self._jobs[job_id] = [
+                JobStatus.RUNNING, datetime.datetime.now(), 0]
         self.logger.info(log_utils.job_start_log_info(job_id))
-        
+
         # Create job context
-        job_context = JobContext.create_job_context(request_body, self._workspace)
+        job_context = JobContext.create_job_context(
+            request_body, self._workspace)
         # Build job workflow
-        flow_context = self._flow_builder.build_flow_context(job_id=job_context.job_id, workflow_configs=job_context.workflow_configs)
+        flow_context = self._flow_builder.build_flow_context(
+            job_id=job_context.job_id, workflow_configs=job_context.workflow_configs)
         # Persistent workflow
         self._flow_builder.save_flow_context(job_context.job_id, flow_context)
         # Run workflow
-        self._async_executor.execute(job_id, self._run_job_flow, self._on_task_finish, (job_context, flow_context))
+        self._async_executor.execute(
+            job_id, self._run_job_flow, self._on_task_finish, (job_context, flow_context))
 
     def _run_job_flow(self, job_context, flow_context):
         """
         run job flow
         """
-        
+
         # the scheduler module starts scheduling tasks
         self._scheduler.run(job_context, flow_context)
 
@@ -98,17 +103,20 @@ class JobManager:
             self._jobs[job_id][2] = time_costs
             if is_succeeded:
                 self._jobs[job_id][0] = JobStatus.SUCCESS
-                self.logger.info(f"Job {job_id} completed, time_costs: {time_costs}s")
+                self.logger.info(
+                    f"Job {job_id} completed, time_costs: {time_costs}s")
             else:
                 self._jobs[job_id][0] = JobStatus.FAILURE
-                self.logger.warn(f"Job {job_id} failed, time_costs: {time_costs}s, error: {e}")
+                self.logger.warn(
+                    f"Job {job_id} failed, time_costs: {time_costs}s, error: {e}")
             self.logger.info(log_utils.job_end_log_info(job_id))
 
     def _loop_action(self):
         while True:
             time.sleep(20)
             self._terminate_timeout_jobs()
-            self._cleanup_finished_jobs()
+            # TODO: store into the database
+            # self._cleanup_finished_jobs()
             self._report_jobs()
 
     def _terminate_timeout_jobs(self):
@@ -139,7 +147,7 @@ class JobManager:
                     del self._jobs[job_id]
                 self._thread_event_manager.remove_event(job_id)
                 self.logger.info(f"Cleanup job cache, job_id: {job_id}")
-                
+
     def _report_jobs(self):
         with self._rw_lock.gen_rlock():
             job_count = len(self._jobs)

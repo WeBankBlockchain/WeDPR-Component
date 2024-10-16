@@ -16,8 +16,8 @@ SSL_CRT: "./ssl.crt"
 SSL_KEY: "./ssl.key"
 
 
-PEM_PATH: "/data/app/ppcs-model4ef/wedpr-model-node/ppc_model_service/server.pem"
-SHARE_PATH: "/data/app/ppcs-model4ef/wedpr-model-node/ppc_model_service/dataset_share/"
+PEM_PATH: "/data/app/wedpr-model/wedpr-model-node/ppc_model_service/server.pem"
+SHARE_PATH: "/data/app/wedpr-model/wedpr-model-node/ppc_model_service/dataset_share/"
 
 DB_TYPE: "mysql"
 SQLALCHEMY_DATABASE_URI: "mysql://[*user_ppcsmodeladm]:[*pass_ppcsmodeladm]@[@4346-TDSQL_VIP]:[@4346-TDSQL_PORT]/ppcsmodeladm?autocommit=true&charset=utf8mb4"

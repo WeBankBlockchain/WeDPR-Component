@@ -227,6 +227,9 @@ class SecureLGBMContext(Context):
         if model_setting.train_features is not None and len(model_setting.train_features) > 0:
             self.model_params.train_feature = model_setting.train_features.split(
                 ',')
+        if model_setting.categorical is not None and len(model_setting.categorical) > 0:
+            self.model_params.categorical_feature = model_setting.categorical.split(
+                ',')
         self.model_params.n_estimators = model_setting.num_trees
         self.model_params.feature_rate = model_setting.colsample_bytree
         self.model_params.min_split_gain = model_setting.gamma

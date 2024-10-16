@@ -182,6 +182,9 @@ class SecureLRContext(Context):
         if model_setting.train_features is not None and len(model_setting.train_features) > 0:
             self.model_params.train_feature = model_setting.train_features.split(
                 ',')
+        if model_setting.categorical is not None and len(model_setting.categorical) > 0:
+            self.model_params.categorical_feature = model_setting.categorical.split(
+                ',')
         self.model_params.random_state = model_setting.seed
         self.sync_file_list = {}
         if self.algorithm_type == AlgorithmType.Train.name:
@@ -196,17 +199,28 @@ class SecureLRContext(Context):
         return self.model_params
 
     def set_sync_file(self):
-        self.sync_file_list['summary_evaluation'] = [self.summary_evaluation_file, self.remote_summary_evaluation_file]
-        self.sync_file_list['train_ks_table'] = [self.train_metric_ks_table, self.remote_train_metric_ks_table]
-        self.sync_file_list['train_metric_roc'] = [self.train_metric_roc_file, self.remote_train_metric_roc_file]
-        self.sync_file_list['train_metric_ks'] = [self.train_metric_ks_file, self.remote_train_metric_ks_file]
-        self.sync_file_list['train_metric_pr'] = [self.train_metric_pr_file, self.remote_train_metric_pr_file]
-        self.sync_file_list['train_metric_acc'] = [self.train_metric_acc_file, self.remote_train_metric_acc_file]
-        self.sync_file_list['test_ks_table'] = [self.test_metric_ks_table, self.remote_test_metric_ks_table]
-        self.sync_file_list['test_metric_roc'] = [self.test_metric_roc_file, self.remote_test_metric_roc_file]
-        self.sync_file_list['test_metric_ks'] = [self.test_metric_ks_file, self.remote_test_metric_ks_file]
-        self.sync_file_list['test_metric_pr'] = [self.test_metric_pr_file, self.remote_test_metric_pr_file]
-        self.sync_file_list['test_metric_acc'] = [self.test_metric_acc_file, self.remote_test_metric_acc_file]
+        self.sync_file_list['summary_evaluation'] = [
+            self.summary_evaluation_file, self.remote_summary_evaluation_file]
+        self.sync_file_list['train_ks_table'] = [
+            self.train_metric_ks_table, self.remote_train_metric_ks_table]
+        self.sync_file_list['train_metric_roc'] = [
+            self.train_metric_roc_file, self.remote_train_metric_roc_file]
+        self.sync_file_list['train_metric_ks'] = [
+            self.train_metric_ks_file, self.remote_train_metric_ks_file]
+        self.sync_file_list['train_metric_pr'] = [
+            self.train_metric_pr_file, self.remote_train_metric_pr_file]
+        self.sync_file_list['train_metric_acc'] = [
+            self.train_metric_acc_file, self.remote_train_metric_acc_file]
+        self.sync_file_list['test_ks_table'] = [
+            self.test_metric_ks_table, self.remote_test_metric_ks_table]
+        self.sync_file_list['test_metric_roc'] = [
+            self.test_metric_roc_file, self.remote_test_metric_roc_file]
+        self.sync_file_list['test_metric_ks'] = [
+            self.test_metric_ks_file, self.remote_test_metric_ks_file]
+        self.sync_file_list['test_metric_pr'] = [
+            self.test_metric_pr_file, self.remote_test_metric_pr_file]
+        self.sync_file_list['test_metric_acc'] = [
+            self.test_metric_acc_file, self.remote_test_metric_acc_file]
 
 
 class LRMessage(Enum):
