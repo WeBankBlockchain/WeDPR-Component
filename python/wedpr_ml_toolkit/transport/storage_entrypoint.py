@@ -2,18 +2,17 @@ import pandas as pd
 import io
 
 from ppc_common.deps_services import storage_loader
+from ppc_common.deps_services.hdfs_storage import HdfsStorage
 from wedpr_ml_toolkit.config.wedpr_ml_config import StorageConfig
+from wedpr_ml_toolkit.config.wedpr_ml_config import UserConfig
 
 
 class StorageEntryPoint:
-    def __init__(self, storage_config: StorageConfig):
+    def __init__(self, user_config: UserConfig, storage_config: StorageConfig):
         self.storage_config = storage_config
-
-        config_data = {}
-        config_data['STORAGE_TYPE'] = 'HDFS'
-        config_data['HDFS_URL'] = self.storage_config.endpoint
-        config_data['HDFS_ENDPOINT'] = self.storage_config.endpoint
-        self.storage_client = storage_loader.load(config_data, logger=None)
+        self.user_config = user_config
+        self.storage_client = HdfsStorage(
+            self.storage_config.storage_endpoint, self.user_config.user, self.user_config.get_workspace_path())
 
     def upload(self, dataframe, hdfs_path):
         """

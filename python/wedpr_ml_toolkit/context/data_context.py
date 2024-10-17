@@ -1,6 +1,6 @@
 import os
 
-from wedpr_ml_toolkit.utils import utils
+from wedpr_ml_toolkit.common import utils
 
 
 class DataContext:

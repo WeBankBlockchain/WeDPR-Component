@@ -6,6 +6,15 @@ from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobParam
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobInfo
 from abc import abstractmethod
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import WeDPRRemoteJobClient
+from enum import Enum
+
+
+class JobType(Enum):
+    PSI = "PSI",
+    PREPROCESSING = "PREPROCESSING",
+    FEATURE_ENGINEERING = "FEATURE_ENGINEERING",
+    XGB_TRAINING = "XGB_TRAINING",
+    XGB_PREDICTING = "XGB_PREDICTING"
 
 
 class JobContext:
@@ -63,11 +72,20 @@ class JobContext:
         pass
 
     @abstractmethod
-    def get_job_type(self) -> str:
+    def get_job_type(self) -> JobType:
         pass
 
-    def submit(self, project_name):
-        return self.submit(self.build(project_name))
+    def submit(self):
+        return self.remote_job_client.submit_job(self.build())
+
+    @abstractmethod
+    def parse_result(self, result_detail):
+        pass
+
+    def fetch_job_result(self, job_id, block_until_success):
+        job_result = self.query_job_status(job_id, block_until_success)
+        # TODO: determine success or not here
+        return self.parse_result(self.remote_job_client.query_job_detail(job_id))
 
 
 class PSIJobContext(JobContext):
@@ -75,8 +93,8 @@ class PSIJobContext(JobContext):
         super().__init__(remote_job_client, project_name, dataset, my_agency)
         self.merge_field = merge_field
 
-    def get_job_type(self) -> str:
-        return "PSI"
+    def get_job_type(self) -> JobType:
+        return JobType.PSI
 
     def build(self) -> JobParam:
         self.dataset_list = self.dataset.to_psi_format(
@@ -92,8 +110,8 @@ class PreprocessingJobContext(JobContext):
         super().__init__(remote_job_client, project_name, dataset, my_agency)
         self.model_setting = model_setting
 
-    def get_job_type(self) -> str:
-        return "PREPROCESSING"
+    def get_job_type(self) -> JobType:
+        return JobType.PREPROCESSING
 
     # TODO: build the request
     def build(self) -> JobParam:
@@ -105,8 +123,8 @@ class FeatureEngineeringJobContext(JobContext):
         super().__init__(remote_job_client, project_name, dataset, my_agency)
         self.model_setting = model_setting
 
-    def get_job_type(self) -> str:
-        return "FEATURE_ENGINEERING"
+    def get_job_type(self) -> JobType:
+        return JobType.FEATURE_ENGINEERING
 
     # TODO: build the jobParam
     def build(self) -> JobParam:
@@ -118,8 +136,8 @@ class SecureLGBMTrainingJobContext(JobContext):
         super().__init__(remote_job_client, project_name, dataset, my_agency)
         self.model_setting = model_setting
 
-    def get_job_type(self) -> str:
-        return "XGB_TRAINING"
+    def get_job_type(self) -> JobType:
+        return JobType.XGB_TRAINING
 
     # TODO: build the jobParam
     def build(self) -> JobParam:
@@ -131,8 +149,8 @@ class SecureLGBMPredictJobContext(JobContext):
         super().__init__(remote_job_client, project_name, dataset, my_agency)
         self.model_setting = model_setting
 
-    def get_job_type(self) -> str:
-        return "XGB_PREDICTING"
+    def get_job_type(self) -> JobType:
+        return JobType.XGB_PREDICTING
 
     # TODO: build the jobParam
     def build(self) -> JobParam:
