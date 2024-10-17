@@ -13,16 +13,16 @@ from wedpr_ml_toolkit.wedpr_session.wedpr_session import WedprSession
 # 从jupyter环境中获取project_id等信息
 # create workspace
 # 相同项目/刷新专家模式project_id固定
-project_id = 'p-123'
+project_id = '测试-xinyi'
 user = 'flyhuang1'
-my_agency='sgd'
+my_agency='SGD'
 pws_endpoint = 'http://139.159.202.235:8005'  # http
 hdfs_endpoint = 'http://192.168.0.18:50070'  # client
 token = 'abc...'
 
 
 # 自定义合作方机构
-partner_agency1='webank'
+partner_agency1='WeBank'
 partner_agency2='TX'
 
 # 初始化project ctx 信息
@@ -45,7 +45,8 @@ dataset1.storage_client = None
 dataset1.save_values(path='d-101')  # './milestone2\\sgd\\flyhuang1\\share\\d-101'
 
 # hdfs_path
-dataset2 = WedprData(ctx, dataset_path='/user/ppc/milestone2/webank/flyhuang/d-9606695119693829', agency=agency2)
+ctx2 = BaseContext(project_id, 'flyhuang', pws_endpoint, hdfs_endpoint, token)
+dataset2 = WedprData(ctx2, dataset_path='/user/ppc/milestone2/webank/flyhuang/d-9606695119693829', agency=agency2)
 dataset2.storage_client = None
 # dataset2.load_values()
 if dataset2.storage_client is None:

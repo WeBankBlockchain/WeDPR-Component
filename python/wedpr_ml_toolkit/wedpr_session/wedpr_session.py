@@ -32,7 +32,7 @@ class WedprSession:
         self.check_agencies()
         job_response = self.excute.run(params)
 
-        return job_response.job_id
+        return job_response['data']
 
     def psi(self, dataset: DataContext = None, merge_filed: str = 'id'):
         
@@ -44,16 +44,16 @@ class WedprSession:
         # 构造参数
         # params = {merge_filed: merge_filed}
         params = {'jobType': 'PSI', 
-                  'projectName': 'jupyter', 
+                  'projectName': self.dataset.ctx.project_id, 
                   'param': json.dumps({'dataSetList': self.dataset_list}).replace('"', '\\"'),
                   'taskParties': self.task_parties, 
-                  'datasetList': [None, None]}
+                  'datasetList': self.dataset_id_list}
         
         # 执行任务
         job_id = self.task(params)
 
         # 结果处理
-        psi_result = PSIResult(dataset, job_id)
+        psi_result = PSIResult(dataset, 'psi-' + job_id)
 
         return psi_result
 

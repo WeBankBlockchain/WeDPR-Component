@@ -1,3 +1,4 @@
+import json
 import random
 import time
 import requests
@@ -40,8 +41,9 @@ class PWSApi:
         response = requests.request("POST", self.pws_url, json=payload, headers=headers)
         if response.status_code != 200:
             raise Exception(f"创建任务失败: {response.json()}")
-        return
-        # return self._poll_task_status(response.data, self.token)
+        print(response.text)
+        # self._poll_task_status(response.data, self.token)
+        return json.loads(response.text)
 
     def _poll_task_status(self, job_id, token):
         while True:
