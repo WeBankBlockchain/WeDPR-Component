@@ -190,9 +190,10 @@ class SecureDataset:
 
     def _construct_dataset(self):
         if self.algorithm_type == AlgorithmType.Predict.name:
-            my_fields = [
-                item["fields"] for item in self.ctx.model_predict_algorithm['participant_agency_list'] 
-                if item["agency"] == self.ctx.components.config_data['AGENCY_ID']]
+            my_fields = []
+            for item in self.ctx.model_predict_algorithm['participant_agency_list']:
+                if item["agency"] == self.ctx.components.config_data['AGENCY_ID']:
+                    my_fields = item["fields"]
             if 'y' in self.model_data.columns and 'y' not in my_fields:
                 my_fields = ['y'] + my_fields
             if 'id' in self.model_data.columns and 'id' not in my_fields:

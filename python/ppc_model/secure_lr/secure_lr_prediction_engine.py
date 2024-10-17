@@ -9,7 +9,7 @@ from ppc_model.secure_lr.secure_lr_context import SecureLRContext
 from ppc_model.secure_lr.vertical import VerticalLRActiveParty, VerticalLRPassiveParty
 
 
-class SecureLGBMPredictionEngine(TaskEngine):
+class SecureLRPredictionEngine(TaskEngine):
     task_type = ModelTask.LR_PREDICTING
 
     @staticmethod
