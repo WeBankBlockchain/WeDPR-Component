@@ -8,15 +8,18 @@ class DataContext:
     def __init__(self, *datasets):
         self.datasets = list(datasets)
         self.ctx = self.datasets[0].ctx
-        
+
         self._check_datasets()
 
     def _save_dataset(self, dataset):
         if dataset.dataset_path is None:
-            dataset.dataset_id = utils.make_id(utils.IdPrefixEnum.DATASET.value)
-            dataset.dataset_path = os.path.join(dataset.storage_workspace, dataset.dataset_id)
+            dataset.dataset_id = utils.make_id(
+                utils.IdPrefixEnum.DATASET.value)
+            dataset.dataset_path = os.path.join(
+                dataset.storage_workspace, dataset.dataset_id)
             if dataset.storage_client is not None:
-                dataset.storage_client.upload(dataset.values, dataset.dataset_path)
+                dataset.storage_client.upload(
+                    dataset.values, dataset.dataset_path)
 
     def _check_datasets(self):
         for dataset in self.datasets:

@@ -2,16 +2,17 @@ import pandas as pd
 import io
 
 from ppc_common.deps_services import storage_loader
+from wedpr_ml_toolkit.config.wedpr_ml_config import StorageConfig
 
 
-class HDFSApi:
-    def __init__(self, hdfs_endpoint):
-        self.hdfs_endpoint = hdfs_endpoint
+class StorageEntryPoint:
+    def __init__(self, storage_config: StorageConfig):
+        self.storage_config = storage_config
 
         config_data = {}
         config_data['STORAGE_TYPE'] = 'HDFS'
-        config_data['HDFS_URL'] = self.hdfs_endpoint
-        config_data['HDFS_ENDPOINT'] = self.hdfs_endpoint
+        config_data['HDFS_URL'] = self.storage_config.endpoint
+        config_data['HDFS_ENDPOINT'] = self.storage_config.endpoint
         self.storage_client = storage_loader.load(config_data, logger=None)
 
     def upload(self, dataframe, hdfs_path):
@@ -34,7 +35,7 @@ class HDFSApi:
         :return: Pandas DataFrame
         """
         content = self.storage_client.get_data(hdfs_path)
-        dataframe = pd.read_csv(io.BytesIO(content)) 
+        dataframe = pd.read_csv(io.BytesIO(content))
         return dataframe
 
     def download_byte(self, hdfs_path):
