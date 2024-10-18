@@ -10,7 +10,7 @@ class Properties:
             properties = {}
             for line in pro_file:
                 if line.find('=') > 0:
-                    strs = line.replace('\n', '').split('=')
+                    strs = line.strip("\"").replace('\n', '').split('=')
                     properties[strs[0].strip()] = strs[1].strip()
         except Exception as e:
             raise e

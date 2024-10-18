@@ -6,15 +6,7 @@ from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobParam
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobInfo
 from abc import abstractmethod
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import WeDPRRemoteJobClient
-from enum import Enum
-
-
-class JobType(Enum):
-    PSI = "PSI",
-    PREPROCESSING = "PREPROCESSING",
-    FEATURE_ENGINEERING = "FEATURE_ENGINEERING",
-    XGB_TRAINING = "XGB_TRAINING",
-    XGB_PREDICTING = "XGB_PREDICTING"
+from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobType
 
 
 class JobContext:
@@ -99,7 +91,7 @@ class PSIJobContext(JobContext):
     def build(self) -> JobParam:
         self.dataset_list = self.dataset.to_psi_format(
             self.merge_field, self.result_receiver_id_list)
-        job_info = JobInfo(self.get_job_type(), self.project_name, json.dumps(
+        job_info = JobInfo(job_type=self.get_job_type(), project_name=self.project_name, param=json.dumps(
             {'dataSetList': self.dataset_list}).replace('"', '\\"'))
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param

@@ -17,7 +17,7 @@ def make_id(prefix):
 
 
 def generate_nonce(nonce_len):
-    return ''.join(random.choice(Constant.NUMERIC_ARRAY) for _ in range(nonce_len))
+    return ''.join(str(random.choice(Constant.NUMERIC_ARRAY)) for _ in range(nonce_len))
 
 
 def add_params_to_url(url, params):
