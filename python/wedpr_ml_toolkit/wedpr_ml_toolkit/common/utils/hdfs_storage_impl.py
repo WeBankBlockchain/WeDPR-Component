@@ -2,13 +2,10 @@ import os
 from typing import AnyStr
 
 from hdfs.client import InsecureClient
-from ppc_common.ppc_utils import common_func
-from ppc_common.deps_services.storage_api import StorageApi, StorageType
-
-from ppc_common.ppc_utils import utils
+from wedpr_ml_toolkit.common.utils import utils
 
 
-class HdfsStorage(StorageApi):
+class HdfsStorageImpl:
 
     DEFAULT_HDFS_USER = "ppc"
     DEFAULT_HDFS_USER_PATH = "/user/"
@@ -16,8 +13,7 @@ class HdfsStorage(StorageApi):
     # endpoint: http://127.0.0.1:50070
     def __init__(self, endpoint, hdfs_user, hdfs_home=None):
         self.endpoint = endpoint
-        self._user = common_func.get_config_value(
-            "HDFS_USER", HdfsStorage.DEFAULT_HDFS_USER, hdfs_user, False)
+        self._user = hdfs_user
         self._hdfs_storage_path = hdfs_home
         if hdfs_home is None:
             self._hdfs_storage_path = os.path.join(
@@ -29,9 +25,6 @@ class HdfsStorage(StorageApi):
 
     def get_home_path(self):
         return self._hdfs_storage_path
-
-    def storage_type(self):
-        return StorageType.HDFS
 
     def download_file(self, hdfs_path, local_file_path, enable_cache=False):
         # hit the cache
