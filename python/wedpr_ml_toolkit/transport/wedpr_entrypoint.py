@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
-from transport.credential_generator import CredentialGenerator
-from common.utils.constant import Constant
+from wedpr_ml_toolkit.transport.credential_generator import CredentialGenerator
+from wedpr_ml_toolkit.common.utils.constant import Constant
 import json
 
 

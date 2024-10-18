@@ -1,8 +1,7 @@
-from transport.wedpr_entrypoint import WeDPREntryPoint
-from common.utils.constant import Constant
-from config.wedpr_ml_config import AuthConfig
-from config.wedpr_ml_config import JobConfig
-import random
+from wedpr_ml_toolkit.transport.wedpr_entrypoint import WeDPREntryPoint
+from wedpr_ml_toolkit.common.utils.constant import Constant
+from wedpr_ml_toolkit.config.wedpr_ml_config import AuthConfig
+from wedpr_ml_toolkit.config.wedpr_ml_config import JobConfig
 import json
 import time
 

@@ -2,8 +2,9 @@
 import uuid
 from enum import Enum
 import random
-from common.utils.constant import Constant
+from wedpr_ml_toolkit.common.utils.constant import Constant
 from urllib.parse import urlencode, urlparse, parse_qs, quote
+
 
 class IdPrefixEnum(Enum):
     DATASET = "d-"
@@ -14,8 +15,10 @@ class IdPrefixEnum(Enum):
 def make_id(prefix):
     return prefix + str(uuid.uuid4()).replace("-", "")
 
+
 def generate_nonce(nonce_len):
     return ''.join(random.choice(Constant.NUMERIC_ARRAY) for _ in range(nonce_len))
+
 
 def add_params_to_url(url, params):
     parsed_url = urlparse(url)

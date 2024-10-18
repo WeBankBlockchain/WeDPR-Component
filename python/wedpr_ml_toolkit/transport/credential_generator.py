@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import hashlib
-from common import utils
+from wedpr_ml_toolkit.common import utils
 import time
 
 
