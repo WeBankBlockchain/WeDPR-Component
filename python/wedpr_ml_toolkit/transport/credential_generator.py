@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import hashlib
-from wedpr_ml_toolkit.common import utils
-import time
+from wedpr_ml_toolkit.common.utils import utils
+from datetime import datetime
 
 
 class CredentialInfo:
@@ -9,23 +9,24 @@ class CredentialInfo:
     NONCE_KEY = "nonce"
     TIMESTAMP_KEY = "timestamp"
     SIGNATURE_KEY = "signature"
+    HASH_ALGORITHM_KEY = "hashAlgorithm"
 
-    def __init__(self, access_key_id: str, nonce: str, timestamp: str, signature: str):
+    def __init__(self, access_key_id: str, nonce: str, timestamp: int, signature: str):
         self.access_key_id = access_key_id
         self.nonce = nonce
         self.timestamp = timestamp
         self.signature = signature
+        # use SHA3-256 algorithm
+        self.hash_algorithm = "SHA3-256"
 
     def to_dict(self):
         result = {}
-        result.update(CredentialInfo.ACCESS_ID_KEY, self.access_key_id)
-        result.update(CredentialInfo.NONCE_KEY, self.nonce)
-        result.update(CredentialInfo.TIMESTAMP_KEY, self.timestamp)
-        result.update(CredentialInfo.SIGNATURE_KEY, self.signature)
-
-    def update_url_with_auth_info(self, url):
-        auth_params = self.to_dict()
-        return utils.add_params_to_url(auth_params)
+        result.update({CredentialInfo.ACCESS_ID_KEY: self.access_key_id})
+        result.update({CredentialInfo.NONCE_KEY: self.nonce})
+        result.update({CredentialInfo.TIMESTAMP_KEY: self.timestamp})
+        result.update({CredentialInfo.SIGNATURE_KEY: self.signature})
+        result.update({CredentialInfo.HASH_ALGORITHM_KEY: self.hash_algorithm})
+        return result
 
 
 class CredentialGenerator:
@@ -36,7 +37,8 @@ class CredentialGenerator:
 
     def generate_credential(self) -> CredentialInfo:
         nonce = utils.generate_nonce(self.nonce_len)
-        timestamp = int(time.time())
+        # convert to the million-seconds timestamp
+        timestamp = int(datetime.now().timestamp() * 1000)
         # generate the signature
         signature = CredentialGenerator.generate_signature(
             self.access_key_id, self.access_key_secret, nonce, timestamp)
@@ -46,10 +48,11 @@ class CredentialGenerator:
     def generate_signature(access_key_id, access_key_secret, nonce, timestamp) -> str:
         anti_replay_info_hash = hashlib.sha3_256()
         # hash(access_key_id + nonce + timestamp)
-        anti_replay_info = f"{access_key_id}{nonce}{timestamp}"
-        anti_replay_info_hash.update(anti_replay_info)
+        anti_replay_info_hash.update(
+            bytes(access_key_id + nonce + str(timestamp), encoding='utf-8'))
         # hash(anti_replay_info + access_key_secret)
         signature_hash = hashlib.sha3_256()
-        signature_hash.update(anti_replay_info_hash.hexdigest())
-        signature_hash.update(access_key_secret)
+        signature_hash.update(
+            bytes(anti_replay_info_hash.hexdigest(), encoding='utf-8'))
+        signature_hash.update(bytes(access_key_secret, encoding='utf-8'))
         return signature_hash.hexdigest()
