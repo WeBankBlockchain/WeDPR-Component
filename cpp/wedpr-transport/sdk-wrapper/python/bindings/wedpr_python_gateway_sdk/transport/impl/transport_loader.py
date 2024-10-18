@@ -52,7 +52,7 @@ class TransportLoader:
     def load(transport_config: TransportConfig) -> Transport:
         transport = TransportLoader.transport_builder.buildProTransport(
             transport_config.get_front_config())
-        return Transport(transport)
+        return Transport(transport, transport_config)
 
     @staticmethod
     def build(self, transport_threadpool_size: int = 4,

@@ -8,6 +8,7 @@ from wedpr_python_gateway_sdk.transport.impl.route_info_builder import RouteInfo
 from wedpr_python_gateway_sdk.transport.impl.message_factory import MessageFactory
 from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import MessageOptionalHeader
 from wedpr_python_gateway_sdk.transport.api.transport_api import TransportAPI
+from wedpr_python_gateway_sdk.transport.impl.transport_config import TransportConfig
 
 from enum import Enum
 import signal
@@ -23,10 +24,14 @@ class RouteType(Enum):
 class Transport(TransportAPI):
     should_exit = False
 
-    def __init__(self, transport: Transport):
+    def __init__(self, transport: Transport, transport_config: TransportConfig):
         self.__transport = transport
+        self.__transport_config = transport_config
         self.__route_info_builder = RouteInfoBuilder(
             self.__transport.routeInfoBuilder())
+
+    def get_config(self) -> TransportConfig:
+        return self.__transport_config
 
     def start(self):
         self.__transport.start()
