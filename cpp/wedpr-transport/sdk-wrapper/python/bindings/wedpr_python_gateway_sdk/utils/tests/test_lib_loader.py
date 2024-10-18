@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from wedpr_python_gateway_sdk.utils.lib_loader import LibLoader
 
 
 class TestLibLoader(unittest.TestCase):

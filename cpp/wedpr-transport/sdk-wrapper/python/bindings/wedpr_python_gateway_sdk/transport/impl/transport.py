@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from transport.generated.wedpr_python_transport import TransportBuilder
-from transport.generated.wedpr_python_transport import Transport
-from transport.generated.wedpr_python_transport import Error
-from transport.api.message_api import MessageAPI
-from transport.impl.route_info_builder import RouteInfoBuilder
-from transport.impl.message_factory import MessageFactory
-from transport.generated.wedpr_python_transport import MessageOptionalHeader
-from transport.api.transport_api import TransportAPI
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import TransportBuilder
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import Transport
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import Error
+from wedpr_python_gateway_sdk.transport.api.message_api import MessageAPI
+from wedpr_python_gateway_sdk.transport.impl.route_info_builder import RouteInfoBuilder
+from wedpr_python_gateway_sdk.transport.impl.message_factory import MessageFactory
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import MessageOptionalHeader
+from wedpr_python_gateway_sdk.transport.api.transport_api import TransportAPI
 
 from enum import Enum
 import signal

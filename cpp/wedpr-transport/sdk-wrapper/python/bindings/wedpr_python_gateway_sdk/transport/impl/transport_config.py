@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from transport.generated.wedpr_python_transport import FrontConfig
-from transport.generated.wedpr_python_transport import TransportBuilder
-from transport.generated.wedpr_python_transport import EndPoint
-from transport.generated.wedpr_python_transport import GrpcConfig
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import FrontConfig
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import TransportBuilder
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import EndPoint
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import GrpcConfig
 
 
 class TransportConfig:

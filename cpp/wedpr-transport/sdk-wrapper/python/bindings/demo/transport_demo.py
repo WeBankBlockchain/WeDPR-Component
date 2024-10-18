@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 # Note: here can't be refactored by autopep
-import os
 import sys
+import os
 root_path = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(os.path.join(root_path, "../.."))
+sys.path.append(os.path.join(root_path, "../"))
 
-
-import argparse
-from transport.impl.transport import Transport
-from transport.impl.transport_config import TransportConfig
-from transport.impl.transport_loader import TransportLoader
 import time
+from wedpr_python_gateway_sdk.transport.impl.transport_loader import TransportLoader
+from wedpr_python_gateway_sdk.transport.impl.transport_config import TransportConfig
+from wedpr_python_gateway_sdk.transport.impl.transport import Transport
+import argparse
+import sys
 
 
 def parse_args():

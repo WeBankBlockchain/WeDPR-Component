@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import shutil
 import pkg_resources
-from utils.lib_loader import LibLoader
+from wedpr_python_gateway_sdk.utils.lib_loader import LibLoader
 
 
 def __bootstrap__():

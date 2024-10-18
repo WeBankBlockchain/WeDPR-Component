@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from transport.impl.transport_config import TransportConfig
-from transport.generated.wedpr_python_transport import TransportBuilder
-from transport.impl.transport import Transport
+from wedpr_python_gateway_sdk.transport.impl.transport_config import TransportConfig
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import TransportBuilder
+from wedpr_python_gateway_sdk.transport.impl.transport import Transport
 import signal
 
 

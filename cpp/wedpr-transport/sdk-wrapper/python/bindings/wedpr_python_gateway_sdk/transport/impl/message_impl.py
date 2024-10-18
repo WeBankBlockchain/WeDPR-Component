@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from transport.api.message_api import MessageHeaderAPI
-from transport.api.message_api import MessageAPI
-from transport.generated.wedpr_python_transport import Message
-from transport.generated.wedpr_python_transport import MessageHeader
+from wedpr_python_gateway_sdk.transport.api.message_api import MessageHeaderAPI
+from wedpr_python_gateway_sdk.transport.api.message_api import MessageAPI
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import Message
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import MessageHeader
 
 
 class MessageHeaderImpl(MessageHeaderAPI):

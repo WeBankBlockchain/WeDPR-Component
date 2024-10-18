@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from transport.generated.wedpr_python_transport import MessageOptionalHeaderBuilder
-from transport.generated.wedpr_python_transport import MessageOptionalHeader
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import MessageOptionalHeaderBuilder
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import MessageOptionalHeader
 
 
 class RouteInfoBuilder:

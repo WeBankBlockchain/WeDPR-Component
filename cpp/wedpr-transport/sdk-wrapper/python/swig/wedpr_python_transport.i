@@ -1,7 +1,7 @@
 %define MODULEIMPORT
 "
 # Import the low-level C/C++ module
-from libs import _wedpr_python_transport
+from wedpr_python_gateway_sdk.libs import _wedpr_python_transport
 "
 %enddef
  

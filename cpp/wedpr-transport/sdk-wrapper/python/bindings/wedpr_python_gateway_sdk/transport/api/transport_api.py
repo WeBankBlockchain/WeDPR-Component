@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from abc import ABC, abstractmethod
-from transport.api.message_api import MessageAPI
+from wedpr_python_gateway_sdk.transport.api.message_api import MessageAPI
 
 
 class TransportAPI(ABC):

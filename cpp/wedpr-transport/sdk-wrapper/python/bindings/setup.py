@@ -20,7 +20,7 @@ class bdist_egg_disabled(bdist_egg):
 setup_args = dict(
     name='wedpr-python-gateway-sdk',
     packages=find_packages(),
-    version="1.0.0-rc1",
+    version="1.0.0-rc1-20241018",
     description="wedpr-python-gateway-sdk: The gateway sdk for WeDPR",
     long_description_content_type="text/markdown",
     author="WeDPR Development Team",
@@ -31,6 +31,10 @@ setup_args = dict(
     keywords=['Interactive', 'Interpreter', 'Shell', 'Web'],
     python_requires=">=3.8",
     include_package_data=True,
+    package_data={
+        # the library setting
+        '': ['wedpr_python_gateway_sdk/libs/libwedpr_python_transport.*'],
+    },
     classifiers=[
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',

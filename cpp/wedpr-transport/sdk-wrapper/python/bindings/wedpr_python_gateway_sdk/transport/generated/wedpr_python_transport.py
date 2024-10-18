@@ -8,7 +8,7 @@ import weakref
 from sys import version_info as _swig_python_version_info
 
 # Import the low-level C/C++ module
-from libs import _wedpr_python_transport
+from wedpr_python_gateway_sdk.libs import _wedpr_python_transport
 
 
 try:
