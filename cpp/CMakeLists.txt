@@ -76,16 +76,21 @@ endif()
 set(TRANSPORT_SDK_SOURCE_LIST 
     wedpr-protocol 
     wedpr-transport/ppc-front 
-    wedpr-transport/sdk wedpr-transport/sdk-wrapper)
+    wedpr-transport/sdk 
+    wedpr-transport/sdk-wrapper)
+
+set(TRANSPORT_SDK_TOOLKIT_SOURCE_LIST
+    ${TRANSPORT_SDK_SOURCE_LIST} 
+    wedpr-transport/sdk-wrapper)
 
 set(ALL_SOURCE_LIST 
         ${SDK_SOURCE_LIST} 
+        ${TRANSPORT_SDK_SOURCE_LIST}
         wedpr-crypto/ppc-crypto 
-        wedpr-protocol
         wedpr-helper/libhelper wedpr-helper/ppc-tools
         wedpr-storage/ppc-io wedpr-storage/ppc-storage
-        wedpr-transport/ppc-gateway wedpr-transport/ppc-front 
-        wedpr-transport/ppc-http wedpr-transport/ppc-rpc wedpr-transport/sdk
+        wedpr-transport/ppc-gateway 
+        wedpr-transport/ppc-http
         wedpr-computing/ppc-psi wedpr-computing/ppc-mpc wedpr-computing/ppc-pir ${CEM_SOURCE}
         wedpr-initializer wedpr-main)
 
@@ -96,7 +101,7 @@ elseif(BUILD_UDF)
 elseif(BUILD_SDK)
     add_sources("${SDK_SOURCE_LIST}")
 elseif(BUILD_WEDPR_TOOLKIT)
-    add_sources("${TRANSPORT_SDK_SOURCE_LIST}")
+    add_sources("${TRANSPORT_SDK_TOOLKIT_SOURCE_LIST}")
 endif()
 ########### set the sources end ########### 
 

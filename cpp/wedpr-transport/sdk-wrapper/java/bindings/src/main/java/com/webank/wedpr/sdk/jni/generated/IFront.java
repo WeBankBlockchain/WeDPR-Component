@@ -223,4 +223,15 @@ public class IFront extends IFrontClient {
     public void unRegisterComponent(String component) {
         wedpr_java_transportJNI.IFront_unRegisterComponent(swigCPtr, this, component);
     }
+
+    public StringVec selectNodesByRoutePolicy(short routeType, MessageOptionalHeader routeInfo) {
+        return new StringVec(
+                wedpr_java_transportJNI.IFront_selectNodesByRoutePolicy(
+                        swigCPtr,
+                        this,
+                        routeType,
+                        MessageOptionalHeader.getCPtr(routeInfo),
+                        routeInfo),
+                true);
+    }
 }

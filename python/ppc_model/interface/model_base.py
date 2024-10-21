@@ -1,6 +1,7 @@
 from abc import ABC
 
 from pandas import DataFrame
+from ppc_model.network.wedpr_model_transport import ModelRouter
 
 
 class ModelBase(ABC):
@@ -8,6 +9,9 @@ class ModelBase(ABC):
 
     def __init__(self, ctx):
         self.ctx = ctx
+        self.ctx.model_router = ModelRouter(logger=self.ctx.components.logger(),
+                                            transport=self.ctx.components.transport,
+                                            participant_id_list=self.ctx.participant_id_list)
 
     def fit(
         self,

@@ -8,7 +8,7 @@ from ppc_common.ppc_utils import utils
 from ppc_common.ppc_utils.utils import AlgorithmType
 from ppc_model.common.context import Context
 from ppc_model.common.protocol import TaskRole
-from ppc_model.network.stub import PushRequest, PullRequest
+from ppc_model.network.wedpr_model_transport import ModelRouter
 
 
 class ResultFileHandling:
@@ -135,20 +135,21 @@ class ResultFileHandling:
 
     def _sync_result_files(self):
         for key, value in self.ctx.sync_file_list.items():
-            self.sync_result_file(self.ctx, value[0], value[1], key)
+            self.sync_result_file(
+                self.ctx, self.ctx.model_router, value[0], value[1], key)
 
     @staticmethod
-    def sync_result_file(ctx, local_file, remote_file, key_file):
+    def sync_result_file(ctx, model_router: ModelRouter, local_file, remote_file, key_file):
         if ctx.role == TaskRole.ACTIVE_PARTY:
             with open(local_file, 'rb') as f:
                 byte_data = f.read()
             for partner_index in range(1, len(ctx.participant_id_list)):
                 if ctx.participant_id_list[partner_index] in ctx.result_receiver_id_list:
-                    SendMessage._send_byte_data(ctx.components.stub, ctx, f'{CommonMessage.SYNC_FILE.value}_{key_file}',
+                    SendMessage._send_byte_data(model_router, ctx, f'{CommonMessage.SYNC_FILE.value}_{key_file}',
                                                 byte_data, partner_index)
         else:
             if ctx.components.config_data['AGENCY_ID'] in ctx.result_receiver_id_list:
-                byte_data = SendMessage._receive_byte_data(ctx.components.stub, ctx,
+                byte_data = SendMessage._receive_byte_data(model_router, ctx,
                                                            f'{CommonMessage.SYNC_FILE.value}_{key_file}', 0)
                 with open(local_file, 'wb') as f:
                     f.write(byte_data)
@@ -164,34 +165,23 @@ class CommonMessage(Enum):
 class SendMessage:
 
     @staticmethod
-    def _send_byte_data(stub, ctx, key_type, byte_data, partner_index):
+    def _send_byte_data(model_router: ModelRouter, ctx, key_type, byte_data, partner_index):
         log = ctx.components.logger()
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
-
-        stub.push(PushRequest(
-            receiver=partner_id,
-            task_id=ctx.task_id,
-            key=key_type,
-            data=byte_data
-        ))
-
+        model_router.push(task_id=ctx.task_id, task_type=key_type,
+                          dst_agency=partner_id, payload=byte_data)
         log.info(
             f"task {ctx.task_id}: Sending {key_type} to {partner_id} finished, "
             f"data_size: {len(byte_data) / 1024}KB, time_costs: {time.time() - start_time}s")
 
     @staticmethod
-    def _receive_byte_data(stub, ctx, key_type, partner_index):
+    def _receive_byte_data(model_router: ModelRouter, ctx, key_type, partner_index):
         log = ctx.components.logger()
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
-
-        byte_data = stub.pull(PullRequest(
-            sender=partner_id,
-            task_id=ctx.task_id,
-            key=key_type
-        ))
-
+        byte_data = model_router.pop(
+            task_id=ctx.task_id, task_type=key_type, from_inst=partner_id)
         log.info(
             f"task {ctx.task_id}: Received {key_type} from {partner_id} finished, "
             f"data_size: {len(byte_data) / 1024}KB, time_costs: {time.time() - start_time}s")

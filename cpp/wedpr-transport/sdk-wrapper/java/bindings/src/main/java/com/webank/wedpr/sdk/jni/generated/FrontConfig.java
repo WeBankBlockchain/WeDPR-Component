@@ -94,22 +94,22 @@ public class FrontConfig {
                 wedpr_java_transportJNI.FrontConfig_generateNodeInfo(swigCPtr, this), true);
     }
 
-    public SWIGTYPE_p_std__vectorT_std__string_t getComponents() {
-        return new SWIGTYPE_p_std__vectorT_std__string_t(
+    public StringVec getComponents() {
+        return new StringVec(
                 wedpr_java_transportJNI.FrontConfig_getComponents(swigCPtr, this), false);
     }
 
-    public void setComponents(SWIGTYPE_p_std__vectorT_std__string_t components) {
+    public void setComponents(StringVec components) {
         wedpr_java_transportJNI.FrontConfig_setComponents(
-                swigCPtr, this, SWIGTYPE_p_std__vectorT_std__string_t.getCPtr(components));
+                swigCPtr, this, StringVec.getCPtr(components), components);
     }
 
     public void addComponent(String component) {
         wedpr_java_transportJNI.FrontConfig_addComponent(swigCPtr, this, component);
     }
 
-    public SWIGTYPE_p_std__vectorT_std__string_t mutableComponents() {
-        return new SWIGTYPE_p_std__vectorT_std__string_t(
+    public StringVec mutableComponents() {
+        return new StringVec(
                 wedpr_java_transportJNI.FrontConfig_mutableComponents(swigCPtr, this), false);
     }
 

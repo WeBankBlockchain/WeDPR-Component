@@ -62,6 +62,9 @@ class MessageHeaderImpl(MessageHeaderAPI):
     def detail(self) -> str:
         return f"version: {self.get_version()}, topic: {self.get_topic()}, src_inst: {self.get_src_inst()},src_node: {str(self.get_src_node())}, dst_inst: {self.get_dst_inst()}, dst_node: {str(self.get_dst_node())}"
 
+    def __repr__(self):
+        return self.detail()
+
 
 class MessageImpl(MessageAPI):
     def __init__(self, message: Message):
@@ -85,3 +88,6 @@ class MessageImpl(MessageAPI):
 
     def detail(self) -> str:
         return f"seq: {self.get_seq()}, header: {self.get_header().detail()}, length: {self.get_length()}"
+
+    def __repr__(self):
+        return self.detail()

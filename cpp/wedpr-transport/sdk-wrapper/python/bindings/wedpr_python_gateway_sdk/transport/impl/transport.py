@@ -2,6 +2,7 @@
 
 from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import TransportBuilder
 from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import Transport
+from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import StringVec
 from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import Error
 from wedpr_python_gateway_sdk.transport.api.message_api import MessageAPI
 from wedpr_python_gateway_sdk.transport.impl.route_info_builder import RouteInfoBuilder
@@ -9,6 +10,7 @@ from wedpr_python_gateway_sdk.transport.impl.message_factory import MessageFacto
 from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import MessageOptionalHeader
 from wedpr_python_gateway_sdk.transport.api.transport_api import TransportAPI
 from wedpr_python_gateway_sdk.transport.impl.transport_config import TransportConfig
+import random
 
 from enum import Enum
 import signal
@@ -44,6 +46,26 @@ class Transport(TransportAPI):
             return self.__transport.getFront().push_msg(route_type, route_info, payload, seq, timeout)
         except Exception as e:
             raise e
+
+    def select_node_list_by_route_policy(self, route_type: RouteType, dst_inst: str, dst_component: str, dst_node: str = None) -> tuple:
+        dst_node_bytes = None
+        if dst_node is not None:
+            dst_node_bytes = bytes(dst_node, encodings="utf-8")
+        route_info = self.__route_info_builder.build(topic=None, dst_inst=dst_inst,
+                                                     component=dst_component, dst_node=dst_node_bytes)
+        try:
+            return self.__transport.getFront().selectNodesByRoutePolicy(
+                route_type.value, route_info)
+        except Exception as e:
+            raise e
+
+    def select_node_by_route_policy(self, route_type: RouteType, dst_inst: str, dst_component: str, dst_node: str = None) -> str:
+        node_list = self.select_node_list_by_route_policy(
+            route_type, dst_inst, dst_component, dst_node)
+        if node_list is None or len(node_list) == 0:
+            return None
+        selected_node_idx = random.randint(0, len(node_list) - 1)
+        return node_list[selected_node_idx]
 
     def push_by_nodeid(self, topic: str, dstNode: bytes, seq: int, payload: bytes, timeout: int):
         route_info = self.__route_info_builder.build(

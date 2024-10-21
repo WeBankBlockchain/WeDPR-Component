@@ -8,12 +8,11 @@ import numpy as np
 from ppc_common.ppc_async_executor.thread_event_manager import ThreadEventManager
 from ppc_common.ppc_mock.mock_objects import MockLogger, MockStorageClient
 from ppc_model.common.initializer import Initializer
-from ppc_model.common.mock.rpc_client_mock import RpcClientMock
+from ppc_model.common.mock.mock_model_transport import MockModelRouterApi
 from ppc_model.common.protocol import TaskRole
 from ppc_model.feature_engineering.feature_engineering_context import FeatureEngineeringContext
 from ppc_model.feature_engineering.vertical.active_party import VerticalFeatureEngineeringActiveParty
 from ppc_model.feature_engineering.vertical.passive_party import VerticalFeatureEngineeringPassiveParty
-from ppc_model.network.stub import ModelStub
 
 ACTIVE_PARTY = 'ACTIVE_PARTY'
 
@@ -65,27 +64,9 @@ def mock_args(num_features, iv_thresh):
 class TestFeatureEngineering(unittest.TestCase):
 
     def setUp(self):
-        self._active_rpc_client = RpcClientMock()
-        self._passive_rpc_client = RpcClientMock()
-        self._thread_event_manager = ThreadEventManager()
-        self._active_stub = ModelStub(
-            agency_id=ACTIVE_PARTY,
-            thread_event_manager=self._thread_event_manager,
-            rpc_client=self._active_rpc_client,
-            send_retry_times=3,
-            retry_interval_s=0.1
-        )
-        self._passive_stub = ModelStub(
-            agency_id=PASSIVE_PARTY,
-            thread_event_manager=self._thread_event_manager,
-            rpc_client=self._passive_rpc_client,
-            send_retry_times=3,
-            retry_interval_s=0.1
-        )
-        self._active_rpc_client.set_message_handler(
-            self._passive_stub.on_message_received)
-        self._passive_rpc_client.set_message_handler(
-            self._active_stub.on_message_received)
+        participants = [PASSIVE_PARTY, ACTIVE_PARTY]
+        self._active_transport = MockModelRouterApi(participants)
+        self._passive_transport = MockModelRouterApi(participants)
 
     def test_fit(self):
         num_samples = 100000
@@ -96,7 +77,7 @@ class TestFeatureEngineering(unittest.TestCase):
 
         active_components = Initializer(log_config_path='', config_path='')
         active_components.homo_algorithm = 0
-        active_components.stub = self._active_stub
+        active_components.transport = self._active_transport
         active_components.config_data = {'JOB_TEMP_DIR': '/tmp'}
         active_components.mock_logger = MockLogger()
         active_components.storage_client = MockStorageClient()
@@ -112,7 +93,7 @@ class TestFeatureEngineering(unittest.TestCase):
 
         passive_components = Initializer(log_config_path='', config_path='')
         passive_components.homo_algorithm = 0
-        passive_components.stub = self._passive_stub
+        passive_components.transport = self._passive_transport
         passive_components.config_data = {'JOB_TEMP_DIR': '/tmp'}
         passive_components.mock_logger = MockLogger()
         passive_components.storage_client = MockStorageClient()

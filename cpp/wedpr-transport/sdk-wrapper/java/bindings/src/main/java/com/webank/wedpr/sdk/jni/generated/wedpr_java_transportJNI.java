@@ -146,6 +146,40 @@ public class wedpr_java_transportJNI {
 
     public static final native void delete_ibytes(long jarg1);
 
+    public static final native long new_StringVec__SWIG_0();
+
+    public static final native long new_StringVec__SWIG_1(long jarg1, StringVec jarg1_);
+
+    public static final native boolean StringVec_isEmpty(long jarg1, StringVec jarg1_);
+
+    public static final native void StringVec_clear(long jarg1, StringVec jarg1_);
+
+    public static final native long new_StringVec__SWIG_2(int jarg1, String jarg2);
+
+    public static final native int StringVec_doCapacity(long jarg1, StringVec jarg1_);
+
+    public static final native void StringVec_doReserve(long jarg1, StringVec jarg1_, int jarg2);
+
+    public static final native int StringVec_doSize(long jarg1, StringVec jarg1_);
+
+    public static final native void StringVec_doAdd__SWIG_0(
+            long jarg1, StringVec jarg1_, String jarg2);
+
+    public static final native void StringVec_doAdd__SWIG_1(
+            long jarg1, StringVec jarg1_, int jarg2, String jarg3);
+
+    public static final native String StringVec_doRemove(long jarg1, StringVec jarg1_, int jarg2);
+
+    public static final native String StringVec_doGet(long jarg1, StringVec jarg1_, int jarg2);
+
+    public static final native String StringVec_doSet(
+            long jarg1, StringVec jarg1_, int jarg2, String jarg3);
+
+    public static final native void StringVec_doRemoveRange(
+            long jarg1, StringVec jarg1_, int jarg2, int jarg3);
+
+    public static final native void delete_StringVec(long jarg1);
+
     public static final native long Error_buildError__SWIG_0(
             byte[] jarg1, byte[] jarg2, int jarg3, int jarg4, String jarg5);
 
@@ -239,7 +273,7 @@ public class wedpr_java_transportJNI {
     public static final native long FrontConfig_getComponents(long jarg1, FrontConfig jarg1_);
 
     public static final native void FrontConfig_setComponents(
-            long jarg1, FrontConfig jarg1_, long jarg2);
+            long jarg1, FrontConfig jarg1_, long jarg2, StringVec jarg2_);
 
     public static final native void FrontConfig_addComponent(
             long jarg1, FrontConfig jarg1_, String jarg2);
@@ -747,6 +781,9 @@ public class wedpr_java_transportJNI {
 
     public static final native void IFront_unRegisterComponent(
             long jarg1, IFront jarg1_, String jarg2);
+
+    public static final native long IFront_selectNodesByRoutePolicy(
+            long jarg1, IFront jarg1_, short jarg2, long jarg3, MessageOptionalHeader jarg3_);
 
     public static final native void delete_IFrontBuilder(long jarg1);
 

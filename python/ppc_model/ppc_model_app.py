@@ -13,7 +13,6 @@ from ppc_model.preprocessing.preprocessing_engine import PreprocessingEngine
 from ppc_model.network.http.restx import api
 from ppc_model.network.http.model_controller import ns2 as log_namespace
 from ppc_model.network.http.model_controller import ns as task_namespace
-from ppc_model.network.grpc.grpc_server import ModelService
 from ppc_model.feature_engineering.feature_engineering_engine import FeatureEngineeringEngine
 from ppc_model.common.protocol import ModelTask
 from ppc_model.common.global_context import components
@@ -66,15 +65,7 @@ if __name__ == '__main__':
     server = WSGIServer((app.config['HOST'], app.config['HTTP_PORT']),
                         TransLogger(app, setup_console_handler=False), numthreads=2)
 
-    ssl_switch = app.config['SSL_SWITCH']
     protocol = 'http'
-    if ssl_switch == 1:
-        protocol = 'https'
-        server.ssl_adapter = BuiltinSSLAdapter(
-            certificate=app.config['SSL_CRT'],
-            private_key=app.config['SSL_KEY'],
-            certificate_chain=app.config['CA_CRT'])
-
     message = f"Starting ppc model server at {protocol}://{app.config['HOST']}:{app.config['HTTP_PORT']}"
     print(message)
     components.logger().info(message)

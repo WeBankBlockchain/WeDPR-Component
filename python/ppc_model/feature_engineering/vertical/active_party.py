@@ -11,7 +11,6 @@ from ppc_model.feature_engineering.feature_engineering_context import FeatureEng
 from ppc_model.feature_engineering.vertical.utils import is_continuous_feature, calculate_woe_iv, \
     calculate_woe_iv_with_pos_event
 from ppc_model.interface.model_base import VerticalModel
-from ppc_model.network.stub import PushRequest, PullRequest
 
 
 class VerticalFeatureEngineeringActiveParty(VerticalModel):
@@ -131,12 +130,8 @@ class VerticalFeatureEngineeringActiveParty(VerticalModel):
     def _get_all_enc_aggr_labels(self, partner_id):
         log = self.ctx.components.logger()
         start_time = time.time()
-        data = self.ctx.components.stub.pull(PullRequest(
-            sender=partner_id,
-            task_id=self.ctx.task_id,
-            key=FeMessage.AGGR_LABELS.value
-        ))
-
+        data = self.ctx.model_router.pop(task_id=self.ctx.task_id,
+                                         task_type=FeMessage.AGGR_LABELS.value, from_inst=partner_id)
         enc_aggr_labels_list_pb = EncAggrLabelsList()
         utils.bytes_to_pb(enc_aggr_labels_list_pb, data)
         public_key = self.ctx.codec.decode_enc_key(
@@ -163,12 +158,10 @@ class VerticalFeatureEngineeringActiveParty(VerticalModel):
 
         data = PheMessage.packing_data(
             self.ctx.codec, self.ctx.phe.public_key, enc_labels)
-        self.ctx.components.stub.push(PushRequest(
-            receiver=receiver,
-            task_id=self.ctx.task_id,
-            key=FeMessage.ENC_LABELS.value,
-            data=data
-        ))
+        self.ctx.model_router.push(task_id=self.ctx.task_id,
+                                   task_type=FeMessage.ENC_LABELS.value,
+                                   dst_agency=receiver,
+                                   payload=data)
         log.info(
             f"Sending enc labels to {receiver} finished, task_id: {self.ctx.task_id}, label_num: {len(enc_labels)}, "
             f"size: {len(data) / 1024}KB, time_costs: {time.time() - start_time}s")
@@ -183,7 +176,6 @@ class VerticalFeatureEngineeringActiveParty(VerticalModel):
         self.ctx.components.storage_client.upload_file(self.ctx.woe_iv_file,
                                                        self.ctx.job_id + os.sep + self.ctx.WOE_IV_FILE)
         log.info(f"Saving fe results finished, task_id: {task_id}")
-
         with open(self.ctx.woe_iv_file, 'rb') as f:
             woe_iv = f.read()
         with open(self.ctx.iv_selected_file, 'rb') as f:
@@ -191,16 +183,12 @@ class VerticalFeatureEngineeringActiveParty(VerticalModel):
         for i in range(1, len(self.ctx.participant_id_list)):
             partner_id = self.ctx.participant_id_list[i]
             if partner_id in self.ctx.result_receiver_id_list:
-                self.ctx.components.stub.push(PushRequest(
-                    receiver=partner_id,
-                    task_id=self.ctx.task_id,
-                    key=FeMessage.WOE_FILE.value,
-                    data=woe_iv
-                ))
-            self.ctx.components.stub.push(PushRequest(
-                receiver=partner_id,
-                task_id=self.ctx.task_id,
-                key=FeMessage.IV_SELECTED_FILE.value,
-                data=iv_selected
-            ))
+                self.ctx.model_router.push(task_id=self.ctx.task_id,
+                                           task_type=FeMessage.WOE_FILE.value,
+                                           dst_agency=partner_id,
+                                           payload=woe_iv)
+            self.ctx.model_router.push(task_id=self.ctx.task_id,
+                                       task_type=FeMessage.IV_SELECTED_FILE.value,
+                                       dst_agency=partner_id,
+                                       payload=iv_selected)
             log.info(f"Sending fe results finished, task_id: {task_id}")

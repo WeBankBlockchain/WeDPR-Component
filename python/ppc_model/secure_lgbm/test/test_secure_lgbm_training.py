@@ -6,12 +6,11 @@ from sklearn.datasets import load_breast_cancer
 from ppc_model.common.initializer import Initializer
 from ppc_common.ppc_mock.mock_objects import MockLogger
 from ppc_common.ppc_async_executor.thread_event_manager import ThreadEventManager
-from ppc_model.network.stub import ModelStub
 from ppc_model.datasets.dataset import SecureDataset
 from ppc_model.metrics.evaluation import Evaluation
 from ppc_model.metrics.model_plot import ModelPlot
 from ppc_model.common.model_result import ResultFileHandling
-from ppc_model.common.mock.rpc_client_mock import RpcClientMock
+from ppc_model.common.mock.mock_model_transport import MockModelRouterApi
 from ppc_model.secure_lgbm.secure_lgbm_context import SecureLGBMContext
 from ppc_model.secure_lgbm.vertical import VerticalLGBMActiveParty, VerticalLGBMPassiveParty
 
@@ -73,34 +72,18 @@ class TestXgboostTraining(unittest.TestCase):
     df_with_y, df_without_y = SecureDataset.hetero_split_dataset(df)
 
     def setUp(self):
-        self._active_rpc_client = RpcClientMock()
-        self._passive_rpc_client = RpcClientMock()
         self._thread_event_manager = ThreadEventManager()
-        self._active_stub = ModelStub(
-            agency_id=ACTIVE_PARTY,
-            thread_event_manager=self._thread_event_manager,
-            rpc_client=self._active_rpc_client,
-            send_retry_times=3,
-            retry_interval_s=0.1
-        )
-        self._passive_stub = ModelStub(
-            agency_id=PASSIVE_PARTY,
-            thread_event_manager=self._thread_event_manager,
-            rpc_client=self._passive_rpc_client,
-            send_retry_times=3,
-            retry_interval_s=0.1
-        )
-        self._active_rpc_client.set_message_handler(
-            self._passive_stub.on_message_received)
-        self._passive_rpc_client.set_message_handler(
-            self._active_stub.on_message_received)
+        participants = [PASSIVE_PARTY, ACTIVE_PARTY]
+        self._active_transport = MockModelRouterApi(participants)
+        self._passive_transport = MockModelRouterApi(participants)
 
     def test_fit(self):
         args_a, args_b = mock_args()
         plot_lock = threading.Lock()
 
-        active_components = Initializer(log_config_path='', config_path='', plot_lock=plot_lock)
-        active_components.stub = self._active_stub
+        active_components = Initializer(
+            log_config_path='', config_path='', plot_lock=plot_lock)
+        active_components.transport = self._active_transport
         active_components.config_data = {
             'JOB_TEMP_DIR': '/tmp/active', 'AGENCY_ID': ACTIVE_PARTY}
         active_components.mock_logger = MockLogger()
@@ -115,9 +98,9 @@ class TestXgboostTraining(unittest.TestCase):
         print(secure_dataset_a.test_X.shape)
         print(secure_dataset_a.test_y.shape)
 
-        passive_components = Initializer(log_config_path='', config_path='', plot_lock=plot_lock)
-        passive_components.stub = self._passive_stub
-        passive_components.stub = self._passive_stub
+        passive_components = Initializer(
+            log_config_path='', config_path='', plot_lock=plot_lock)
+        passive_components.transport = self._passive_transport
         passive_components.config_data = {
             'JOB_TEMP_DIR': '/tmp/passive', 'AGENCY_ID': PASSIVE_PARTY}
         passive_components.mock_logger = MockLogger()

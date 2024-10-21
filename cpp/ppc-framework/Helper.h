@@ -42,7 +42,17 @@ inline std::string_view printP2PIDElegantly(std::string_view p2pId) noexcept
 template <typename T>
 inline std::string_view printNodeID(T const& nodeID)
 {
-    size_t offset = nodeID.size() >= 15 ? 15 : nodeID.size();
-    return std::string_view((const char*)nodeID.data(), offset);
+    return std::string_view((const char*)nodeID.data(), nodeID.size());
+}
+
+template <typename T>
+inline std::string printCollection(T const& collection)
+{
+    std::ostringstream oss;
+    for (auto const& it : collection)
+    {
+        oss << it << ",";
+    }
+    return oss.str();
 }
 }  // namespace ppc

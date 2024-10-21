@@ -115,6 +115,7 @@ namespace ppc::front{
 
 namespace std{
     class vector;
+    class string;
 }
 
 namespace bcos{
@@ -151,6 +152,7 @@ namespace bcos{
 
 %template(ubytes) std::vector<uint8_t>;
 %template(ibytes) std::vector<int8_t>;
+%template(StringVec) std::vector<std::string>;
 
 /// callbacks
 %feature("director") ppc::front::ErrorCallback;

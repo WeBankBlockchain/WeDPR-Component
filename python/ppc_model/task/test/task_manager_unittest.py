@@ -4,20 +4,11 @@ import unittest
 from ppc_common.ppc_async_executor.thread_event_manager import ThreadEventManager
 from ppc_common.ppc_mock.mock_objects import MockLogger
 from ppc_model.common.protocol import ModelTask
-from ppc_model.common.mock.rpc_client_mock import RpcClientMock
 from ppc_model.task.task_manager import TaskManager
-from ppc_model.network.stub import ModelStub, PushRequest, PullRequest
 
-rpc_client = RpcClientMock()
 thread_event_manager = ThreadEventManager()
-stub = ModelStub(
-    agency_id='TEST_AGENCY',
-    thread_event_manager=thread_event_manager,
-    rpc_client=rpc_client,
-    send_retry_times=3,
-    retry_interval_s=0.1
-)
-rpc_client.set_message_handler(stub.on_message_received)
+
+# TODO: complement here
 
 
 def my_send_task(args):
@@ -25,49 +16,25 @@ def my_send_task(args):
     time.sleep(1)
     byte_array = bytearray(31 * 1024 * 1024)
     bytes_data = bytes(byte_array)
-    stub.push(PushRequest(
-        receiver=args['receiver'],
-        task_id=args['task_id'],
-        key=args['key'],
-        data=bytes_data
-    ))
     time.sleep(1)
 
 
 def my_receive_task(args):
-    print("start my_receive_task")
-    stub.pull(PullRequest(
-        sender=args['sender'],
-        task_id=args['task_id'],
-        key=args['key'],
-    ))
-    time.sleep(1)
     print("finish my_receive_task")
 
 
 def my_failed_task(args):
     print("start my_failed_task")
-    time.sleep(1)
     raise Exception('For Test')
 
 
 def my_long_task(args):
     print("start my_long_task")
-    stub.pull(PullRequest(
-        sender=args['sender'],
-        task_id=args['task_id'],
-        key='not_ready',
-    ))
     print("finish my_receive_task")
 
 
 def my_timeout_task(args):
     print("start my_timeout_task")
-    stub.pull(PullRequest(
-        sender=args['sender'],
-        task_id=args['task_id'],
-        key='not_ready',
-    ))
     print("finish my_timeout_task")
 
 
@@ -77,7 +44,6 @@ class TestTaskManager(unittest.TestCase):
         self._task_manager = TaskManager(
             logger=MockLogger(),
             thread_event_manager=thread_event_manager,
-            stub=stub,
             task_timeout_h=0.0005
         )
         self._task_manager.register_task_handler(

@@ -23,9 +23,12 @@ import com.webank.wedpr.sdk.jni.transport.WeDPRTransport;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
+import com.webank.wedpr.sdk.jni.transport.impl.RouteType;
 import com.webank.wedpr.sdk.jni.transport.impl.TransportImpl;
 import com.webank.wedpr.sdk.jni.transport.model.TransportEndPoint;
+import java.util.List;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 
 public class TransportDemo {
     public static class MessageDispatcherCallbackImpl extends MessageDispatcherCallback {
@@ -140,8 +143,9 @@ public class TransportDemo {
         WeDPRTransport transport = TransportImpl.build(transportConfig);
 
         transport.start();
+        String component = "WEDPR_COMPONENT_TEST";
+        transport.registerComponent(component);
         System.out.println("####### start the transport success");
-
         // send Message to the gateway
         String topic = "testTopic";
         MessageDispatcherCallback messageDispatcherCallback =
@@ -179,6 +183,12 @@ public class TransportDemo {
                                 + ", payload: "
                                 + new String(msg.getPayload())
                                 + "####");
+                // selectNodeListByPolicy
+                List<String> nodeList =
+                        transport.selectNodeListByPolicy(
+                                RouteType.ROUTE_THROUGH_COMPONENT, null, component, null);
+                System.out.println(
+                        "###### selectNodeListByPolicy result: " + StringUtils.join(nodeList, ","));
                 i++;
             } catch (Exception e) {
                 System.out.println("#### exception: " + e.getMessage());

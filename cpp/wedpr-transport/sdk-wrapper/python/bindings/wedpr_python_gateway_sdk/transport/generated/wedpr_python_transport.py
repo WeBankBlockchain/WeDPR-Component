@@ -624,6 +624,117 @@ class ibytes(object):
 _wedpr_python_transport.ibytes_swigregister(ibytes)
 
 
+class StringVec(object):
+    thisown = property(lambda x: x.this.own(), lambda x,
+                       v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def iterator(self):
+        return _wedpr_python_transport.StringVec_iterator(self)
+
+    def __iter__(self):
+        return self.iterator()
+
+    def __nonzero__(self):
+        return _wedpr_python_transport.StringVec___nonzero__(self)
+
+    def __bool__(self):
+        return _wedpr_python_transport.StringVec___bool__(self)
+
+    def __len__(self):
+        return _wedpr_python_transport.StringVec___len__(self)
+
+    def __getslice__(self, i, j):
+        return _wedpr_python_transport.StringVec___getslice__(self, i, j)
+
+    def __setslice__(self, *args):
+        return _wedpr_python_transport.StringVec___setslice__(self, *args)
+
+    def __delslice__(self, i, j):
+        return _wedpr_python_transport.StringVec___delslice__(self, i, j)
+
+    def __delitem__(self, *args):
+        return _wedpr_python_transport.StringVec___delitem__(self, *args)
+
+    def __getitem__(self, *args):
+        return _wedpr_python_transport.StringVec___getitem__(self, *args)
+
+    def __setitem__(self, *args):
+        return _wedpr_python_transport.StringVec___setitem__(self, *args)
+
+    def pop(self):
+        return _wedpr_python_transport.StringVec_pop(self)
+
+    def append(self, x):
+        return _wedpr_python_transport.StringVec_append(self, x)
+
+    def empty(self):
+        return _wedpr_python_transport.StringVec_empty(self)
+
+    def size(self):
+        return _wedpr_python_transport.StringVec_size(self)
+
+    def swap(self, v):
+        return _wedpr_python_transport.StringVec_swap(self, v)
+
+    def begin(self):
+        return _wedpr_python_transport.StringVec_begin(self)
+
+    def end(self):
+        return _wedpr_python_transport.StringVec_end(self)
+
+    def rbegin(self):
+        return _wedpr_python_transport.StringVec_rbegin(self)
+
+    def rend(self):
+        return _wedpr_python_transport.StringVec_rend(self)
+
+    def clear(self):
+        return _wedpr_python_transport.StringVec_clear(self)
+
+    def get_allocator(self):
+        return _wedpr_python_transport.StringVec_get_allocator(self)
+
+    def pop_back(self):
+        return _wedpr_python_transport.StringVec_pop_back(self)
+
+    def erase(self, *args):
+        return _wedpr_python_transport.StringVec_erase(self, *args)
+
+    def __init__(self, *args):
+        _wedpr_python_transport.StringVec_swiginit(
+            self, _wedpr_python_transport.new_StringVec(*args))
+
+    def push_back(self, x):
+        return _wedpr_python_transport.StringVec_push_back(self, x)
+
+    def front(self):
+        return _wedpr_python_transport.StringVec_front(self)
+
+    def back(self):
+        return _wedpr_python_transport.StringVec_back(self)
+
+    def assign(self, n, x):
+        return _wedpr_python_transport.StringVec_assign(self, n, x)
+
+    def resize(self, *args):
+        return _wedpr_python_transport.StringVec_resize(self, *args)
+
+    def insert(self, *args):
+        return _wedpr_python_transport.StringVec_insert(self, *args)
+
+    def reserve(self, n):
+        return _wedpr_python_transport.StringVec_reserve(self, n)
+
+    def capacity(self):
+        return _wedpr_python_transport.StringVec_capacity(self)
+    __swig_destroy__ = _wedpr_python_transport.delete_StringVec
+
+
+# Register StringVec in _wedpr_python_transport:
+_wedpr_python_transport.StringVec_swigregister(StringVec)
+
+
 class Error(object):
     thisown = property(lambda x: x.this.own(), lambda x,
                        v: x.this.own(v), doc="The membership flag")
@@ -1504,6 +1615,9 @@ class IFront(IFrontClient):
 
     def unRegisterComponent(self, component):
         return _wedpr_python_transport.IFront_unRegisterComponent(self, component)
+
+    def selectNodesByRoutePolicy(self, routeType, routeInfo):
+        return _wedpr_python_transport.IFront_selectNodesByRoutePolicy(self, routeType, routeInfo)
 
 
 # Register IFront in _wedpr_python_transport:

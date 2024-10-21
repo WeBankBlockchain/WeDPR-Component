@@ -11,17 +11,14 @@ from ppc_common.ppc_async_executor.async_thread_executor import AsyncThreadExecu
 from ppc_common.ppc_async_executor.thread_event_manager import ThreadEventManager
 from ppc_common.ppc_utils.exception import PpcException, PpcErrorCode
 from ppc_model.common.protocol import ModelTask, TaskStatus, LOG_START_FLAG_FORMATTER, LOG_END_FLAG_FORMATTER
-from ppc_model.network.stub import ModelStub
 
 
 class TaskManager:
     def __init__(self, logger,
                  thread_event_manager: ThreadEventManager,
-                 stub: ModelStub,
                  task_timeout_h: Union[int, float]):
         self.logger = logger
         self._thread_event_manager = thread_event_manager
-        self._stub = stub
         self._task_timeout_s = task_timeout_h * 3600
         self._rw_lock = rwlock.RWLockWrite()
         self._tasks: dict[str, list] = {}
@@ -90,6 +87,12 @@ class TaskManager:
         with self._rw_lock.gen_wlock():
             self._tasks[task_id][0] = TaskStatus.FAILED.value
 
+    def task_finished(self, task_id: str) -> bool:
+        (status, _, _) = self.status(task_id)
+        if status == TaskStatus.RUNNING:
+            return False
+        return True
+
     def status(self, task_id: str) -> [str, float, float]:
         """
         返回: 任务状态, 通讯量(MB), 执行耗时(s)
@@ -100,9 +103,9 @@ class TaskManager:
                     PpcErrorCode.TASK_NOT_FOUND.get_code(),
                     PpcErrorCode.TASK_NOT_FOUND.get_msg())
             status = self._tasks[task_id][0]
-            traffic_volume = self._stub.traffic_volume(task_id)
             time_costs = self._tasks[task_id][2]
-            return status, traffic_volume, time_costs
+            # TODO: the traffic_volume
+            return status, 0, time_costs
 
     def _on_task_finish(self, task_id: str, is_succeeded: bool, e: Exception = None):
         with self._rw_lock.gen_wlock():
@@ -154,7 +157,6 @@ class TaskManager:
                 if job_id in self._jobs:
                     del self._jobs[job_id]
                 self._thread_event_manager.remove_event(task_id)
-                self._stub.cleanup_cache(task_id)
                 self.logger.info(
                     f"Cleanup task cache, task_id: {task_id}, job_id: {job_id}")
 

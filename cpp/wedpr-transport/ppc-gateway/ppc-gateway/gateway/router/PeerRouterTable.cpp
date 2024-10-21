@@ -180,6 +180,8 @@ std::vector<std::string> PeerRouterTable::selectTargetNodes(
             targetNodeList.insert(std::string(it.first.begin(), it.first.end()));
         }
     }
+    PEER_ROUTER_LOG(INFO) << LOG_DESC("selectTargetNodes, result: ")
+                          << printCollection(targetNodeList);
     return std::vector<std::string>(targetNodeList.begin(), targetNodeList.end());
 }
 

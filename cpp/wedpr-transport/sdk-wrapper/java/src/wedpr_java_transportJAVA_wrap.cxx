@@ -1056,6 +1056,68 @@ SWIGINTERN void std_vector_Sl_int8_t_Sg__doRemoveRange(std::vector< int8_t > *se
           throw std::out_of_range("vector index out of range");
         }
       }
+SWIGINTERN std::vector< std::string > *new_std_vector_Sl_std_string_Sg___SWIG_2(jint count,std::string const &value){
+        if (count < 0)
+          throw std::out_of_range("vector count must be positive");
+        return new std::vector< std::string >(static_cast<std::vector< std::string >::size_type>(count), value);
+      }
+SWIGINTERN jint std_vector_Sl_std_string_Sg__doCapacity(std::vector< std::string > *self){
+        return SWIG_VectorSize(self->capacity());
+      }
+SWIGINTERN void std_vector_Sl_std_string_Sg__doReserve(std::vector< std::string > *self,jint n){
+        if (n < 0)
+          throw std::out_of_range("vector reserve size must be positive");
+        self->reserve(n);
+      }
+SWIGINTERN jint std_vector_Sl_std_string_Sg__doSize(std::vector< std::string > const *self){
+        return SWIG_VectorSize(self->size());
+      }
+SWIGINTERN void std_vector_Sl_std_string_Sg__doAdd__SWIG_0(std::vector< std::string > *self,std::vector< std::string >::value_type const &x){
+        self->push_back(x);
+      }
+SWIGINTERN void std_vector_Sl_std_string_Sg__doAdd__SWIG_1(std::vector< std::string > *self,jint index,std::vector< std::string >::value_type const &x){
+        jint size = static_cast<jint>(self->size());
+        if (0 <= index && index <= size) {
+          self->insert(self->begin() + index, x);
+        } else {
+          throw std::out_of_range("vector index out of range");
+        }
+      }
+SWIGINTERN std::vector< std::string >::value_type std_vector_Sl_std_string_Sg__doRemove(std::vector< std::string > *self,jint index){
+        jint size = static_cast<jint>(self->size());
+        if (0 <= index && index < size) {
+          std::string const old_value = (*self)[index];
+          self->erase(self->begin() + index);
+          return old_value;
+        } else {
+          throw std::out_of_range("vector index out of range");
+        }
+      }
+SWIGINTERN std::vector< std::string >::value_type const &std_vector_Sl_std_string_Sg__doGet(std::vector< std::string > *self,jint index){
+        jint size = static_cast<jint>(self->size());
+        if (index >= 0 && index < size)
+          return (*self)[index];
+        else
+          throw std::out_of_range("vector index out of range");
+      }
+SWIGINTERN std::vector< std::string >::value_type std_vector_Sl_std_string_Sg__doSet(std::vector< std::string > *self,jint index,std::vector< std::string >::value_type const &val){
+        jint size = static_cast<jint>(self->size());
+        if (index >= 0 && index < size) {
+          std::string const old_value = (*self)[index];
+          (*self)[index] = val;
+          return old_value;
+        }
+        else
+          throw std::out_of_range("vector index out of range");
+      }
+SWIGINTERN void std_vector_Sl_std_string_Sg__doRemoveRange(std::vector< std::string > *self,jint fromIndex,jint toIndex){
+        jint size = static_cast<jint>(self->size());
+        if (0 <= fromIndex && fromIndex <= toIndex && toIndex <= size) {
+          self->erase(self->begin() + fromIndex, self->begin() + toIndex);
+        } else {
+          throw std::out_of_range("vector index out of range");
+        }
+      }
 
 struct SWIG_null_deleter {
   void operator() (void const *) const {
@@ -2309,6 +2371,308 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
 }
 
 
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1StringVec_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::vector< std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::vector< std::string > *)new std::vector< std::string >();
+  *(std::vector< std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1StringVec_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::vector< std::string > *arg1 = 0 ;
+  std::vector< std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1;
+  if (!arg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::vector< std::string > const & is null");
+    return 0;
+  } 
+  result = (std::vector< std::string > *)new std::vector< std::string >((std::vector< std::string > const &)*arg1);
+  *(std::vector< std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_StringVec_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  result = (bool)((std::vector< std::string > const *)arg1)->empty();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_StringVec_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1StringVec_1_1SWIG_12(JNIEnv *jenv, jclass jcls, jint jarg1, jstring jarg2) {
+  jlong jresult = 0 ;
+  jint arg1 ;
+  std::string *arg2 = 0 ;
+  std::vector< std::string > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  try {
+    result = (std::vector< std::string > *)new_std_vector_Sl_std_string_Sg___SWIG_2(SWIG_STD_MOVE(arg1),(std::string const &)*arg2);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  *(std::vector< std::string > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_StringVec_1doCapacity(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  jint result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  try {
+    result = std_vector_Sl_std_string_Sg__doCapacity(arg1);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_StringVec_1doReserve(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  jint arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  arg2 = jarg2; 
+  try {
+    std_vector_Sl_std_string_Sg__doReserve(arg1,SWIG_STD_MOVE(arg2));
+  } catch(std::length_error &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return ;
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return ;
+  }
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_StringVec_1doSize(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  jint result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  try {
+    result = std_vector_Sl_std_string_Sg__doSize((std::vector< std::string > const *)arg1);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_StringVec_1doAdd_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  std::vector< std::string >::value_type *arg2 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::vector< std::string >::value_type arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  std_vector_Sl_std_string_Sg__doAdd__SWIG_0(arg1,(std::string const &)*arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_StringVec_1doAdd_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jstring jarg3) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  jint arg2 ;
+  std::vector< std::string >::value_type *arg3 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  arg2 = jarg2; 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return ;
+  std::vector< std::string >::value_type arg3_str(arg3_pstr);
+  arg3 = &arg3_str;
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  try {
+    std_vector_Sl_std_string_Sg__doAdd__SWIG_1(arg1,SWIG_STD_MOVE(arg2),(std::string const &)*arg3);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return ;
+  }
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_StringVec_1doRemove(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jstring jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  jint arg2 ;
+  std::vector< std::string >::value_type result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  arg2 = jarg2; 
+  try {
+    result = std_vector_Sl_std_string_Sg__doRemove(arg1,SWIG_STD_MOVE(arg2));
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_StringVec_1doGet(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jstring jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  jint arg2 ;
+  std::vector< std::string >::value_type *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  arg2 = jarg2; 
+  try {
+    result = (std::vector< std::string >::value_type *) &std_vector_Sl_std_string_Sg__doGet(arg1,SWIG_STD_MOVE(arg2));
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_StringVec_1doSet(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jstring jarg3) {
+  jstring jresult = 0 ;
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  jint arg2 ;
+  std::vector< std::string >::value_type *arg3 = 0 ;
+  std::vector< std::string >::value_type result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  arg2 = jarg2; 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return 0;
+  std::vector< std::string >::value_type arg3_str(arg3_pstr);
+  arg3 = &arg3_str;
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  try {
+    result = std_vector_Sl_std_string_Sg__doSet(arg1,SWIG_STD_MOVE(arg2),(std::string const &)*arg3);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_StringVec_1doRemoveRange(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  jint arg2 ;
+  jint arg3 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  arg2 = jarg2; 
+  arg3 = jarg3; 
+  try {
+    std_vector_Sl_std_string_Sg__doRemoveRange(arg1,SWIG_STD_MOVE(arg2),SWIG_STD_MOVE(arg3));
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return ;
+  }
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1StringVec(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::vector< std::string > *arg1 = (std::vector< std::string > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::vector< std::string > **)&jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Error_1buildError_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jbyteArray jarg1, jbyteArray jarg2, jint jarg3, jint jarg4, jstring jarg5) {
   jlong jresult = 0 ;
   char *arg1 = (char *) 0 ;
@@ -3078,7 +3442,7 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
 }
 
 
-SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_FrontConfig_1setComponents(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_FrontConfig_1setComponents(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   ppc::front::FrontConfig *arg1 = (ppc::front::FrontConfig *) 0 ;
   std::vector< std::string > *arg2 = 0 ;
   std::shared_ptr< ppc::front::FrontConfig > *smartarg1 = 0 ;
@@ -3086,6 +3450,7 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
+  (void)jarg2_;
   
   smartarg1 = *(std::shared_ptr<  ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
@@ -6731,6 +7096,30 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
   (arg1)->unRegisterComponent((std::string const &)*arg2);
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1selectNodesByRoutePolicy(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jshort jarg2, jlong jarg3, jobject jarg3_) {
+  jlong jresult = 0 ;
+  ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
+  int16_t arg2 ;
+  ppc::protocol::MessageOptionalHeader::Ptr *arg3 = 0 ;
+  std::shared_ptr< ppc::front::IFront > *smartarg1 = 0 ;
+  ppc::protocol::MessageOptionalHeader::Ptr tempnull3 ;
+  std::vector< std::string > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg3_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
+  arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int16_t)jarg2; 
+  arg3 = jarg3 ? *(ppc::protocol::MessageOptionalHeader::Ptr **)&jarg3 : &tempnull3; 
+  result = (arg1)->selectNodesByRoutePolicy(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3);
+  *(std::vector< std::string > **)&jresult = new std::vector< std::string >(result); 
+  return jresult;
 }
 
 

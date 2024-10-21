@@ -29,6 +29,8 @@ import com.webank.wedpr.sdk.jni.transport.handlers.MessageCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -423,5 +425,33 @@ public class TransportImpl implements WeDPRTransport {
             return null;
         }
         return IMessageBuilder.build(msg);
+    }
+
+    @Override
+    public List<String> selectNodeListByPolicy(
+            RouteType routeType, String dstInst, String dstComponent, String dstNode) {
+        MessageOptionalHeader routeInfo =
+                IMessageBuilder.buildRouteInfo(this.transport.routeInfoBuilder());
+        if (StringUtils.isNotBlank(dstInst)) {
+            routeInfo.setDstInst(dstInst);
+        }
+        if (StringUtils.isNotBlank(dstComponent)) {
+            routeInfo.setComponentType(dstComponent);
+        }
+        if (StringUtils.isNotBlank(dstNode)) {
+            routeInfo.setDstNodeBuffer(dstNode.getBytes(), BigInteger.valueOf(dstNode.length()));
+        }
+        StringVec result =
+                this.transport
+                        .getFront()
+                        .selectNodesByRoutePolicy((short) routeType.ordinal(), routeInfo);
+        if (result == null) {
+            return null;
+        }
+        List<String> nodeList = new ArrayList<>();
+        for (int i = 0; i < result.size(); i++) {
+            nodeList.add(result.get(i));
+        }
+        return nodeList;
     }
 }

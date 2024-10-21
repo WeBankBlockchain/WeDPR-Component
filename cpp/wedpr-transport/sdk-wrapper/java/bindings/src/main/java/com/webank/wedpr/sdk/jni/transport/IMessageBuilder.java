@@ -43,4 +43,13 @@ public class IMessageBuilder {
         routeInfo.disOwnMemory();
         return routeInfo;
     }
+
+    @SneakyThrows(Exception.class)
+    public static MessageOptionalHeader buildRouteInfo(
+            MessageOptionalHeaderBuilder routeInfoBuilder) {
+        // return the ownership to cpp, since it is created by cpp
+        MessageOptionalHeader routeInfo = routeInfoBuilder.build();
+        routeInfo.disOwnMemory();
+        return routeInfo;
+    }
 }

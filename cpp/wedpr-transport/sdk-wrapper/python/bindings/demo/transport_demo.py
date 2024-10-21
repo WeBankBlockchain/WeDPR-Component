@@ -4,19 +4,23 @@ import sys
 import os
 root_path = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(root_path, "../"))
+# Note: here can't be refactored by autopep
 
 import time
 from wedpr_python_gateway_sdk.transport.impl.transport_loader import TransportLoader
 from wedpr_python_gateway_sdk.transport.impl.transport_config import TransportConfig
 from wedpr_python_gateway_sdk.transport.impl.transport import Transport
+from wedpr_python_gateway_sdk.transport.impl.transport import RouteType
+import traceback
 import argparse
-import sys
 
 
 def parse_args():
     parser = argparse.ArgumentParser(prog=sys.argv[0])
     parser.add_argument("-t", '--threadpool_size',
                         help='the threadpool size', default=4, required=True)
+    parser.add_argument('--dst_inst',
+                        help='the dist inst', default=None, required=True)
     parser.add_argument("-n", '--node_id',
                         help='the nodeID', required=False)
     parser.add_argument("-g", '--gateway_targets',
@@ -39,6 +43,8 @@ def message_event_loop(args):
     transport = TransportLoader.load(transport_config)
     print(f"Create transport success, config: {transport_config.desc()}")
     transport.start()
+    component = "WEDPR_COMPONENT_TEST"
+    transport.register_component(component)
     print(f"Start transport success")
     test_topic = "sync_message_event_loop_test"
     while Transport.should_exit is False:
@@ -52,7 +58,28 @@ def message_event_loop(args):
                 continue
             print(
                 f"Receive message: {msg.detail()}, buffer: {str(msg.get_payload())}")
+
+            node_list = transport.select_node_list_by_route_policy(route_type=RouteType.ROUTE_THROUGH_COMPONENT,
+                                                                   dst_inst=args.dst_inst,
+                                                                   dst_component=component)
+            if node_list is None:
+                print(
+                    f"####select_node_list_by_route_policy: not find component: {component}")
+                continue
+            for node in node_list:
+                print(
+                    f"##### select_node_list_by_route_policy result: {node}, component: {component}")
+
+            selected_node = transport.select_node_by_route_policy(route_type=RouteType.ROUTE_THROUGH_COMPONENT,
+                                                                  dst_inst=args.dst_inst,
+                                                                  dst_component=component)
+            if selected_node is None:
+                print(
+                    f"####select_node_by_route_policy: not find component: {component}")
+            print(
+                f"##### select_node_by_route_policy, selected_node: {selected_node}, component: {component}")
         except Exception as e:
+            traceback.print_exc()
             print(f"exception: {e}")
         time.sleep(2)
     print(f"stop the transport")

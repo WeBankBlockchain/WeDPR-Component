@@ -1,3 +1,5 @@
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 import unittest
 import threading
 import traceback
@@ -6,16 +8,10 @@ from sklearn.datasets import load_breast_cancer
 
 from ppc_model.common.initializer import Initializer
 from ppc_common.ppc_mock.mock_objects import MockLogger
-from ppc_common.ppc_async_executor.thread_event_manager import ThreadEventManager
-from ppc_model.network.stub import ModelStub
 from ppc_model.datasets.dataset import SecureDataset
 from ppc_model.metrics.evaluation import Evaluation
-from ppc_model.metrics.model_plot import ModelPlot
 from ppc_model.metrics.loss import BinaryLoss
-from ppc_model.common.model_result import ResultFileHandling
-from ppc_model.common.mock.rpc_client_mock import RpcClientMock
 from ppc_model.secure_lr.secure_lr_context import SecureLRContext
-from ppc_model.secure_lr.vertical import VerticalLRActiveParty, VerticalLRPassiveParty
 from ppc_model.secure_lr.vertical.booster import VerticalBooster
 
 
@@ -90,7 +86,8 @@ bias = 0
 
 # for _ in range(max_iter):
 for i in range(1):
-    idx = VerticalBooster._get_sample_idx(i, secure_dataset.train_X.shape[0], size = 8)
+    idx = VerticalBooster._get_sample_idx(
+        i, secure_dataset.train_X.shape[0], size=8)
     x_, y_ = secure_dataset.train_X[idx], secure_dataset.train_y[idx]
 
     g = BinaryLoss.dot_product(x_, train_weights) + bias
@@ -119,7 +116,8 @@ train_weights = VerticalBooster._init_weight(secure_dataset.train_X.shape[1])
 
 # for _ in range(max_iter):
 for i in range(2):
-    idx = VerticalBooster._get_sample_idx(i, secure_dataset.train_X.shape[0], size = 8)
+    idx = VerticalBooster._get_sample_idx(
+        i, secure_dataset.train_X.shape[0], size=8)
     x_, y_ = secure_dataset.train_X[idx], secure_dataset.train_y[idx]
 
     g = BinaryLoss.dot_product(x_, train_weights)
@@ -141,7 +139,6 @@ print(auc)
 
 # df ---------------------------------------------
 # MinMaxScaler
-from sklearn.preprocessing import MinMaxScaler
 
 # 创建MinMaxScaler对象
 scaler = MinMaxScaler()
@@ -153,7 +150,7 @@ train_praba = VerticalBooster._init_praba(secure_dataset.train_X.shape[0])
 train_weights = VerticalBooster._init_weight(secure_dataset.train_X.shape[1])
 
 for i in range(2):
-    idx = VerticalBooster._get_sample_idx(i, train_X.shape[0], size = 8)
+    idx = VerticalBooster._get_sample_idx(i, train_X.shape[0], size=8)
     x_, y_ = train_X[idx], secure_dataset.train_y[idx]
 
     g = BinaryLoss.dot_product(x_, train_weights)
@@ -174,7 +171,6 @@ print(auc)
 
 
 # StandardScaler
-from sklearn.preprocessing import StandardScaler 
 
 # 创建MinMaxScaler对象
 scaler = StandardScaler()
@@ -186,7 +182,7 @@ train_praba = VerticalBooster._init_praba(secure_dataset.train_X.shape[0])
 train_weights = VerticalBooster._init_weight(secure_dataset.train_X.shape[1])
 
 for i in range(2):
-    idx = VerticalBooster._get_sample_idx(i, train_X.shape[0], size = 8)
+    idx = VerticalBooster._get_sample_idx(i, train_X.shape[0], size=8)
     x_, y_ = train_X[idx], secure_dataset.train_y[idx]
 
     g = BinaryLoss.dot_product(x_, train_weights)
@@ -204,4 +200,3 @@ g = BinaryLoss.dot_product(train_X, train_weights)
 train_praba = BinaryLoss.sigmoid(g)
 auc = Evaluation.fevaluation(secure_dataset.train_y, train_praba)['auc']
 print(auc)
-
