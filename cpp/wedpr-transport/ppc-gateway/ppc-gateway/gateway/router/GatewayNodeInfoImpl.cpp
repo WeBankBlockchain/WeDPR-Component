@@ -64,7 +64,7 @@ bool GatewayNodeInfoImpl::existComponent(std::string const& component) const
     bcos::ReadGuard l(x_nodeList);
     for (auto const& it : m_nodeList)
     {
-        if (it.second->components().count(component))
+        if (it.second->componentExist(component))
         {
             return true;
         }

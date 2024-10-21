@@ -12,9 +12,9 @@ class MockModelTransportApi(ModelTransportApi):
     def get_topic(task_id: str, task_type: str, dst_agency: str):
         return f"{dst_agency}_{task_id}{task_type}"
 
-    def push_by_nodeid(self, task_id: str, task_type: str, dst_node: str, dst_inst: str, payload: bytes, seq: int = 0):
+    def push_by_nodeid(self, task_id: str, task_type: str, dst_node: str, payload: bytes, seq: int = 0):
         self.msg_queue.update({MockModelTransportApi.get_topic(
-            task_id, task_type, dst_inst): payload})
+            task_id, task_type, self.agency_name): payload})
 
     def pop(self, task_id: str, task_type: str, dst_inst: str):
         topic = MockModelTransportApi.get_topic(task_id, task_type, dst_inst)

@@ -65,6 +65,11 @@ public:
         bcos::ReadGuard l(x_components);
         return m_components;
     }
+    bool componentExist(std::string const& component) const override
+    {
+        bcos::ReadGuard l(x_components);
+        return m_components.count(component);
+    }
 
     std::vector<std::string> copiedComponents() const override
     {

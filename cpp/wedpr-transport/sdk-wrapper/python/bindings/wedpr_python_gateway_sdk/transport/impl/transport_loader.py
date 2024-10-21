@@ -55,7 +55,7 @@ class TransportLoader:
         return Transport(transport, transport_config)
 
     @staticmethod
-    def build(self, transport_threadpool_size: int = 4,
+    def build(transport_threadpool_size: int = 4,
               transport_node_id: str = None,
               transport_gateway_targets: str = None,
               transport_host_ip: str = None,

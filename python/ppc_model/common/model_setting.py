@@ -42,7 +42,7 @@ class FeatureEngineeringEngineSetting:
             "iv_thresh", 0.1, model_dict, False))
 
 
-class CommmonModelSetting:
+class CommonModelSetting:
     def __init__(self, model_dict):
         self.learning_rate = float(common_func.get_config_value(
             "learning_rate", 0.1, model_dict, False))
@@ -67,7 +67,7 @@ class CommmonModelSetting:
             "n_jobs", 0, model_dict, False))
 
 
-class SecureLGBMSetting(CommmonModelSetting):
+class SecureLGBMSetting(CommonModelSetting):
     def __init__(self, model_dict):
         super().__init__(model_dict)
         self.test_size = float(common_func.get_config_value(
@@ -107,7 +107,7 @@ class SecureLGBMSetting(CommmonModelSetting):
             "one_hot", 0, model_dict, False)
 
 
-class SecureLRSetting(CommmonModelSetting):
+class SecureLRSetting(CommonModelSetting):
     def __init__(self, model_dict):
         super().__init__(model_dict)
         self.feature_rate = float(common_func.get_config_value(
@@ -123,8 +123,8 @@ class ModelSetting(PreprocessingSetting, FeatureEngineeringEngineSetting, Secure
         # init PreprocessingSetting
         super().__init__(model_dict)
         # init FeatureEngineeringEngineSetting
-        super(FeatureEngineeringEngineSetting, self).__init__(model_dict)
+        FeatureEngineeringEngineSetting.__init__(self, model_dict)
         # init SecureLGBMSetting
-        super(SecureLGBMSetting, self).__init__(model_dict)
+        SecureLGBMSetting.__init__(self, model_dict)
         # init SecureLRSetting
-        super(SecureLRSetting, self).__init__(model_dict)
+        SecureLRSetting.__init__(self, model_dict)

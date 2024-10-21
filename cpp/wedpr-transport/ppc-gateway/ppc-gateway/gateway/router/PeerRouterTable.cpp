@@ -34,6 +34,7 @@ void PeerRouterTable::updateGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo)
     auto nodeList = gatewayInfo->nodeList();
 
     removeP2PNodeIDFromNodeIDInfos(gatewayInfo);
+    removeP2PNodeIDFromAgencyInfos(gatewayInfo->p2pNodeID());
     insertGatewayInfo(gatewayInfo);
 }
 
@@ -170,6 +171,9 @@ std::vector<std::string> PeerRouterTable::selectTargetNodes(
     auto selectedP2PNodes = selectRouter(routeType, routeInfo);
     if (selectedP2PNodes.empty())
     {
+        PEER_ROUTER_LOG(INFO) << LOG_DESC("selectTargetNodes with empty result")
+                              << LOG_KV("routeType", routeType)
+                              << LOG_KV("routeInfo", printOptionalField(routeInfo));
         return std::vector<std::string>();
     }
     for (auto const& it : selectedP2PNodes)
@@ -177,11 +181,20 @@ std::vector<std::string> PeerRouterTable::selectTargetNodes(
         auto nodeList = it->nodeList();
         for (auto const& it : nodeList)
         {
+            if (routeType == RouteType::ROUTE_THROUGH_COMPONENT)
+            {
+                if (it.second->componentExist(routeInfo->componentType()))
+                {
+                    targetNodeList.insert(std::string(it.first.begin(), it.first.end()));
+                }
+                continue;
+            }
             targetNodeList.insert(std::string(it.first.begin(), it.first.end()));
         }
     }
     PEER_ROUTER_LOG(INFO) << LOG_DESC("selectTargetNodes, result: ")
-                          << printCollection(targetNodeList);
+                          << printCollection(targetNodeList) << LOG_KV("routeType", routeType)
+                          << LOG_KV("routeInfo", printOptionalField(routeInfo));
     return std::vector<std::string>(targetNodeList.begin(), targetNodeList.end());
 }
 
@@ -261,7 +274,7 @@ void PeerRouterTable::selectRouterByComponent(GatewayNodeInfos& choosedGateway,
         auto const& nodeListInfo = it->nodeList();
         for (auto const& nodeInfo : nodeListInfo)
         {
-            if (nodeInfo.second->components().count(routeInfo->componentType()))
+            if (nodeInfo.second->componentExist(routeInfo->componentType()))
             {
                 choosedGateway.insert(it);
                 break;
@@ -269,6 +282,7 @@ void PeerRouterTable::selectRouterByComponent(GatewayNodeInfos& choosedGateway,
         }
     }
 }
+
 
 void PeerRouterTable::asyncBroadcastMessage(ppc::protocol::Message::Ptr const& msg) const
 {

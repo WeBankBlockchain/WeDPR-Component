@@ -167,7 +167,7 @@ class VerticalBooster(SecureModelBooster):
         partner_id = ctx.participant_id_list[partner_index]
 
         self.ctx.model_router.push(
-            task_id=ctx.task_id, task_type=key_type, dst_agency=partner_id, data=byte_data)
+            task_id=ctx.task_id, task_type=key_type, dst_agency=partner_id, payload=byte_data)
         self.logger.info(
             f"task {ctx.task_id}: Sending {key_type} to {partner_id} finished, "
             f"data_size: {len(byte_data) / 1024}KB, time_costs: {time.time() - start_time}s")

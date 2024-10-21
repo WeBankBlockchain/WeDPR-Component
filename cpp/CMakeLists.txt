@@ -76,8 +76,7 @@ endif()
 set(TRANSPORT_SDK_SOURCE_LIST 
     wedpr-protocol 
     wedpr-transport/ppc-front 
-    wedpr-transport/sdk 
-    wedpr-transport/sdk-wrapper)
+    wedpr-transport/sdk)
 
 set(TRANSPORT_SDK_TOOLKIT_SOURCE_LIST
     ${TRANSPORT_SDK_SOURCE_LIST} 
@@ -90,6 +89,7 @@ set(ALL_SOURCE_LIST
         wedpr-helper/libhelper wedpr-helper/ppc-tools
         wedpr-storage/ppc-io wedpr-storage/ppc-storage
         wedpr-transport/ppc-gateway 
+        wedpr-transport/ppc-rpc
         wedpr-transport/ppc-http
         wedpr-computing/ppc-psi wedpr-computing/ppc-mpc wedpr-computing/ppc-pir ${CEM_SOURCE}
         wedpr-initializer wedpr-main)

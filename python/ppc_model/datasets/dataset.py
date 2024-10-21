@@ -112,7 +112,7 @@ class SecureDataset:
     def _customized_split_dataset(self):
         if self.ctx.role == TaskRole.ACTIVE_PARTY:
             for partner_index in range(1, len(self.ctx.participant_id_list)):
-                byte_data = SendMessage._receive_byte_data(self.ctx.components.stub, self.ctx,
+                byte_data = SendMessage._receive_byte_data(self.ctx.model_router, self.ctx,
                                                            f'{CommonMessage.EVAL_SET_FILE.value}', partner_index)
                 if not os.path.exists(self.eval_column_file) and byte_data != bytes():
                     with open(self.eval_column_file, 'wb') as f:
@@ -120,7 +120,7 @@ class SecureDataset:
             with open(self.eval_column_file, 'rb') as f:
                 byte_data = f.read()
             for partner_index in range(1, len(self.ctx.participant_id_list)):
-                SendMessage._send_byte_data(self.ctx.components.stub, self.ctx, f'{CommonMessage.EVAL_SET_FILE.value}',
+                SendMessage._send_byte_data(self.ctx.model_router, self.ctx, f'{CommonMessage.EVAL_SET_FILE.value}',
                                             byte_data, partner_index)
         else:
             if not os.path.exists(self.eval_column_file):
@@ -128,9 +128,9 @@ class SecureDataset:
             else:
                 with open(self.eval_column_file, 'rb') as f:
                     byte_data = f.read()
-            SendMessage._send_byte_data(self.ctx.components.stub, self.ctx, f'{CommonMessage.EVAL_SET_FILE.value}',
+            SendMessage._send_byte_data(self.ctx.model_router, self.ctx, f'{CommonMessage.EVAL_SET_FILE.value}',
                                         byte_data, 0)
-            byte_data = SendMessage._receive_byte_data(self.ctx.components.stub, self.ctx,
+            byte_data = SendMessage._receive_byte_data(self.ctx.model_router, self.ctx,
                                                        f'{CommonMessage.EVAL_SET_FILE.value}', 0)
             if not os.path.exists(self.eval_column_file):
                 with open(self.eval_column_file, 'wb') as f:

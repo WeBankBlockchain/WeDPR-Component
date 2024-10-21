@@ -89,7 +89,7 @@ class TaskManager:
 
     def task_finished(self, task_id: str) -> bool:
         (status, _, _) = self.status(task_id)
-        if status == TaskStatus.RUNNING:
+        if status == TaskStatus.RUNNING.value:
             return False
         return True
 

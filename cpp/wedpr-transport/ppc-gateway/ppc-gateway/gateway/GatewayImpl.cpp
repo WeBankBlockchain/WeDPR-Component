@@ -253,6 +253,7 @@ bcos::Error::Ptr GatewayImpl::registerNodeInfo(ppc::protocol::INodeInfo::Ptr con
                 return;
             }
             gateway->m_localRouter->unRegisterNode(nodeInfo->nodeID().toBytes());
+            gateway->m_localRouter->increaseSeq();
         },
         true);
     return nullptr;

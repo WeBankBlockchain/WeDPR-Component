@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 
 class ModelTransportApi(ABC):
     @abstractmethod
-    def push_by_nodeid(self, task_id: str, task_type: str, dst_node: str, dst_inst: str, payload: bytes, seq: int = 0):
+    def push_by_nodeid(self, task_id: str, task_type: str, dst_node: str, payload: bytes, seq: int = 0):
         pass
 
     @abstractmethod

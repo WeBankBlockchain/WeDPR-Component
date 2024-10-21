@@ -151,7 +151,7 @@ class VerticalFeatureEngineeringPassiveParty(VerticalModel):
 
     def _get_and_save_result(self):
         active_party = self.ctx.participant_id_list[0]
-        if self.ctx.components.stub.agency_id in self.ctx.result_receiver_id_list:
+        if self.ctx.components.transport.self_agency_id in self.ctx.result_receiver_id_list:
             # 保存来自标签方的woe/iv结果
             data = self.ctx.model_router.pop(
                 task_id=self.ctx.task_id, task_type=FeMessage.WOE_FILE.value, from_inst=active_party)
