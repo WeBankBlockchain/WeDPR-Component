@@ -31,6 +31,11 @@ message SendedMessageRequest{
     string traceID = 5;
 };
 
+message SelectRouteRequest{
+    int32 routeType = 1;
+    RouteInfo routeInfo = 2;
+}
+
 message AgenciesInfo{
     Error error = 1;
     repeated string agencies = 2;
@@ -47,12 +52,17 @@ message Condition{
     repeated string components = 1;
 };
 
+message NodeList{
+    repeated string nodeList = 1;
+    Error error = 2;
+};
 service Front {
     rpc onReceiveMessage (ReceivedMessage) returns (Error) {}
 }
 service Gateway{
     rpc asyncSendMessage(SendedMessageRequest) returns(Error){}
     rpc asyncGetPeers(Empty)returns(PeersInfo){}
+    rpc selectNodesByRoutePolicy(SelectRouteRequest)returns(NodeList){}
     rpc asyncGetAgencies(Condition)returns(AgenciesInfo){}
     rpc registerNodeInfo(NodeInfo) returns(Error){}
     rpc unRegisterNodeInfo(NodeInfo)returns(Error){}

@@ -39,6 +39,10 @@ public:
     grpc::ServerUnaryReactor* asyncSendMessage(grpc::CallbackServerContext* context,
         const ppc::proto::SendedMessageRequest* sendedMsg, ppc::proto::Error* reply) override;
 
+    grpc::ServerUnaryReactor* selectNodesByRoutePolicy(grpc::CallbackServerContext* context,
+        const ppc::proto::SelectRouteRequest* selectRouteRequest,
+        ppc::proto::NodeList* reply) override;
+
     grpc::ServerUnaryReactor* asyncGetPeers(grpc::CallbackServerContext* context,
         const ppc::proto::Empty* request, ppc::proto::PeersInfo* reply) override;
     grpc::ServerUnaryReactor* asyncGetAgencies(grpc::CallbackServerContext* context,
@@ -56,6 +60,7 @@ public:
 
     grpc::ServerUnaryReactor* unRegisterTopic(grpc::CallbackServerContext* context,
         const ppc::proto::NodeInfo* nodeInfo, ppc::proto::Error* reply) override;
+
 
 private:
     ppc::gateway::IGateway::Ptr m_gateway;

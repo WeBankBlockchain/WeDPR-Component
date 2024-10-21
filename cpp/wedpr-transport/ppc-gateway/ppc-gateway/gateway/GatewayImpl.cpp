@@ -166,7 +166,8 @@ void GatewayImpl::asyncSendMessage(ppc::protocol::RouteType routeType,
         return;
     }
     // try to find the dstP2PNode
-    auto selectedP2PNodes = m_peerRouter->selectRouter(routeType, p2pMessage);
+    auto selectedP2PNodes =
+        m_peerRouter->selectRouter(routeType, p2pMessage->header()->optionalField());
     if (selectedP2PNodes.empty())
     {
         GATEWAY_LOG(INFO) << LOG_DESC("can't find the gateway to send the message")

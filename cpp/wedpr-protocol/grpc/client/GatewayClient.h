@@ -66,6 +66,9 @@ public:
     bcos::Error::Ptr registerTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
     bcos::Error::Ptr unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic) override;
 
+    std::vector<std::string> selectNodesByRoutePolicy(ppc::protocol::RouteType routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) override;
+
 private:
     std::unique_ptr<ppc::proto::Gateway::Stub> m_stub;
     std::map<std::string, std::unique_ptr<ppc::proto::Gateway::Stub>> m_broadcastStubs;

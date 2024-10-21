@@ -43,6 +43,17 @@ inline MessageOptionalHeader::Ptr generateRouteInfo(
     return routeInfo;
 }
 
+inline void setRouteInfo(
+    ppc::proto::RouteInfo* route_info, MessageOptionalHeader::Ptr const& routeInfo)
+{
+    // set the route information
+    route_info->set_topic(routeInfo->topic());
+    route_info->set_componenttype(routeInfo->componentType());
+    route_info->set_srcnode(routeInfo->srcNode().data(), routeInfo->srcNode().size());
+    route_info->set_dstnode(routeInfo->dstNode().data(), routeInfo->dstNode().size());
+    route_info->set_dstinst(routeInfo->dstInst().data(), routeInfo->dstInst().size());
+}
+
 inline ppc::proto::SendedMessageRequest* generateRequest(std::string const& traceID,
     RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload,
     long timeout)
@@ -51,17 +62,20 @@ inline ppc::proto::SendedMessageRequest* generateRequest(std::string const& trac
     request->set_traceid(traceID);
     request->set_routetype(uint16_t(routeType));
     // set the route information
-    request->mutable_routeinfo()->set_topic(routeInfo->topic());
-    request->mutable_routeinfo()->set_componenttype(routeInfo->componentType());
-    request->mutable_routeinfo()->set_srcnode(
-        routeInfo->srcNode().data(), routeInfo->srcNode().size());
-    request->mutable_routeinfo()->set_dstnode(
-        routeInfo->dstNode().data(), routeInfo->dstNode().size());
-    request->mutable_routeinfo()->set_dstinst(
-        routeInfo->dstInst().data(), routeInfo->dstInst().size());
+    setRouteInfo(request->mutable_routeinfo(), routeInfo);
     // set the payload(TODO: optimize here)
     request->set_payload(payload.data(), payload.size());
     request->set_timeout(timeout);
+    return request;
+}
+
+inline ppc::proto::SelectRouteRequest* generateSelectRouteRequest(
+    RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo)
+{
+    auto request = new ppc::proto::SelectRouteRequest();
+    request->set_routetype(uint16_t(routeType));
+    // set the route information
+    setRouteInfo(request->mutable_routeinfo(), routeInfo);
     return request;
 }
 

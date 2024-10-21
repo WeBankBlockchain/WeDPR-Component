@@ -177,6 +177,13 @@ public:
     void registerComponent(std::string const& component) override;
     void unRegisterComponent(std::string const& component) override;
 
+    std::vector<std::string> selectNodesByRoutePolicy(
+        int16_t routeType, ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) override
+    {
+        return m_gatewayClient->selectNodesByRoutePolicy(
+            (ppc::protocol::RouteType)routeType, routeInfo);
+    }
+
 private:
     void asyncSendMessageToGateway(bool responsePacket,
         ppc::protocol::MessagePayload::Ptr&& frontMessage, ppc::protocol::RouteType routeType,

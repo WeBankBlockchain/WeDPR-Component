@@ -71,6 +71,12 @@ public:
     void asyncGetAgencies(std::vector<std::string> const& components,
         std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) override;
 
+    std::vector<std::string> selectNodesByRoutePolicy(ppc::protocol::RouteType routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) override
+    {
+        return m_peerRouter->selectTargetNodes(routeType, routeInfo);
+    }
+
 protected:
     virtual void onReceiveP2PMessage(
         bcos::boostssl::MessageFace::Ptr msg, bcos::boostssl::ws::WsSession::Ptr session);

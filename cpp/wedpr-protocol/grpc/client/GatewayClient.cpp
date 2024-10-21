@@ -53,6 +53,30 @@ void GatewayClient::asyncSendMessage(RouteType routeType,
             Status status) { callback(toError(status, *response)); });
 }
 
+std::vector<std::string> GatewayClient::selectNodesByRoutePolicy(
+    RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo)
+{
+    std::unique_ptr<ppc::proto::SelectRouteRequest> request(
+        generateSelectRouteRequest(routeType, routeInfo));
+    auto context = std::make_shared<ClientContext>();
+    auto response = std::make_shared<NodeList>();
+    // lambda keeps the lifecycle for clientContext
+    auto status = m_stub->selectNodesByRoutePolicy(context.get(), *request, response.get());
+    if (!status.ok())
+    {
+        throw std::runtime_error(
+            "selectNodesByRoutePolicy failed, code: " + std::to_string(status.error_code()) +
+            ", msg: " + status.error_message());
+    }
+    if (response->error().errorcode() != 0)
+    {
+        throw std::runtime_error("selectNodesByRoutePolicy failed, code: " +
+                                 std::to_string(response->error().errorcode()) +
+                                 ", msg: " + response->error().errormessage());
+    }
+    return std::vector<std::string>(response->nodelist().begin(), response->nodelist().end());
+}
+
 void GatewayClient::asyncGetPeers(std::function<void(bcos::Error::Ptr, std::string)> callback)
 {
     auto response = std::make_shared<PeersInfo>();
