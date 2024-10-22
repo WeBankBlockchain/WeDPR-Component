@@ -13,15 +13,6 @@
       "host": true
     },
     {
-      "name": "openssl",
-      "version>=": "1.1.1-tassl"
-    },
-    "libsodium",
-    {
-      "name": "libsodium",
-      "version>=": "1.0.18"
-    },
-    {
       "name": "bcos-utilities",
       "version>=": "1.0.0"
     },
@@ -121,25 +112,38 @@
           "name": "grpc",
           "version>=": "1.51.1"
         },
+        {
+          "name": "bcos-boostssl",
+          "version>=": "3.2.3"
+        },
         "tarscpp",
         "tbb",
         "libxml2"
+      ]
+    },
+    "sdk": {
+      "description": "sdk dependencies",
+      "dependencies": [
+        {
+          "name": "openssl",
+          "version>=": "1.1.1-tassl"
+        },
+        "libsodium",
+        {
+          "name": "libsodium",
+          "version>=": "1.0.18"
+        }
       ]
     },
     "toolkit": {
       "description": "tooklit dependencies",
       "dependencies": [
         {
-          "name": "bcos-boostssl",
-          "version>=": "3.2.3"
-        },
-        {
           "name": "grpc",
           "version>=": "1.51.1"
         },
         "tarscpp",
-        "tbb",
-        "libxml2"
+        "tbb"
       ]
     }
   }
