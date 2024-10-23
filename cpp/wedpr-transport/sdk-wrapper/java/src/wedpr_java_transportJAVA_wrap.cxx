@@ -5072,6 +5072,200 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
 }
 
 
+SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1version(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
+  uint16_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (uint16_t)((ppc::protocol::Message const *)arg1)->version();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1setVersion(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  uint16_t arg2 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (uint16_t)jarg2; 
+  (arg1)->setVersion(arg2);
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1packetType(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
+  uint16_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (uint16_t)((ppc::protocol::Message const *)arg1)->packetType();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1setPacketType(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  uint16_t arg2 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (uint16_t)jarg2; 
+  (arg1)->setPacketType(arg2);
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1seq(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
+  std::string *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (std::string *) &((ppc::protocol::Message const *)arg1)->seq();
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1setSeq(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::string arg2 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  } 
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  (&arg2)->assign(arg2_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  (arg1)->setSeq(arg2);
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1ext(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
+  uint16_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (uint16_t)((ppc::protocol::Message const *)arg1)->ext();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1setExt(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  uint16_t arg2 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (uint16_t)jarg2; 
+  (arg1)->setExt(arg2);
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1isRespPacket(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (bool)((ppc::protocol::Message const *)arg1)->isRespPacket();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1setRespPacket(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  (arg1)->setRespPacket();
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1setPayload(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::shared_ptr< bcos::bytes > arg2 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  std::shared_ptr< bcos::bytes > *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  argp2 = *(std::shared_ptr< bcos::bytes > **)&jarg2;
+  if (argp2) arg2 = *argp2; 
+  (arg1)->setPayload(arg2);
+}
+
+
 SWIGEXPORT jbyteArray JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1payloadBuffer(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jbyteArray jresult = 0 ;
   ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
@@ -5215,25 +5409,6 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   result = ((ppc::protocol::Message const *)arg1)->payload();
   *(std::shared_ptr< bcos::bytes > **)&jresult = result ? new std::shared_ptr< bcos::bytes >(result) : 0; 
   return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1setPayload(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
-  std::shared_ptr< bcos::bytes > arg2 ;
-  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
-  std::shared_ptr< bcos::bytes > *argp2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  
-  smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
-  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  argp2 = *(std::shared_ptr< bcos::bytes > **)&jarg2;
-  if (argp2) arg2 = *argp2; 
-  (arg1)->setPayload(arg2);
 }
 
 

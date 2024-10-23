@@ -66,6 +66,10 @@ macro(configure_project)
     endif ()
 
     set(VISIBILITY_FLAG " -fvisibility=hidden -fvisibility-inlines-hidden")
+    set(PROGRAM_POSTFIX "")
+    if(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
+        set(PROGRAM_POSTFIX ".exe")
+    endif()
 
     set(MARCH_TYPE "-march=x86-64 -mtune=generic ${VISIBILITY_FLAG}")
     if (ARCH_NATIVE)

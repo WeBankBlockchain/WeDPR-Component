@@ -278,9 +278,6 @@ jobs:
         run: |
           alias cmake='cmake3'
           . /opt/rh/devtoolset-11/enable
-          . /opt/rh/rh-perl530/enable
-          export LIBCLANG_PATH=/opt/rh/llvm-toolset-7/root/lib64/
-          export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
           mkdir -p cpp/build
           cd cpp/build
           cmake3 -DCMAKE_BUILD_TYPE=Release -DTESTS=ON -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake ../

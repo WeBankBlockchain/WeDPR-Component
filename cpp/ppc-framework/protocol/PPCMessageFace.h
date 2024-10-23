@@ -21,7 +21,7 @@
 
 #pragma once
 #include "Protocol.h"
-#include "ppc-framework/protocol/P2PMessage.h"
+#include "ppc-framework/protocol/Message.h"
 #include <bcos-utilities/Common.h>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>

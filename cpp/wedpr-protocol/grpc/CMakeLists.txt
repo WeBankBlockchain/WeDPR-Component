@@ -5,7 +5,7 @@ file(GLOB_RECURSE MESSAGES_PROTOS "${PROTO_INPUT_PATH}/Service*.proto")
 
 # create PROTO_OUTPUT_PATH
 file(MAKE_DIRECTORY ${PROTO_OUTPUT_PATH})
-
+set(GRPC_CPP_PLUGIN_EXEC "grpc_cpp_plugin${PROGRAM_POSTFIX}")
 find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin REQUIRED)
 find_program(PROTOC_BINARY protoc REQUIRED)
 

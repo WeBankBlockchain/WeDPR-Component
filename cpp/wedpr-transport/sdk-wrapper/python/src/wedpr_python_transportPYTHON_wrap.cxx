@@ -18958,6 +18958,437 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Message_version(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::Message const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  uint16_t result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_version" "', argument " "1"" of type '" "ppc::protocol::Message const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = (uint16_t)((ppc::protocol::Message const *)arg1)->version();
+  resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Message_setVersion(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  uint16_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::Message > tempshared1 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  unsigned short val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "Message_setVersion", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_setVersion" "', argument " "1"" of type '" "ppc::protocol::Message *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  ecode2 = SWIG_AsVal_unsigned_SS_short(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Message_setVersion" "', argument " "2"" of type '" "uint16_t""'");
+  } 
+  arg2 = static_cast< uint16_t >(val2);
+  (arg1)->setVersion(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Message_packetType(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::Message const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  uint16_t result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_packetType" "', argument " "1"" of type '" "ppc::protocol::Message const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = (uint16_t)((ppc::protocol::Message const *)arg1)->packetType();
+  resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Message_setPacketType(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  uint16_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::Message > tempshared1 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  unsigned short val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "Message_setPacketType", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_setPacketType" "', argument " "1"" of type '" "ppc::protocol::Message *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  ecode2 = SWIG_AsVal_unsigned_SS_short(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Message_setPacketType" "', argument " "2"" of type '" "uint16_t""'");
+  } 
+  arg2 = static_cast< uint16_t >(val2);
+  (arg1)->setPacketType(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Message_seq(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::Message const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::string *result = 0 ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_seq" "', argument " "1"" of type '" "ppc::protocol::Message const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = (std::string *) &((ppc::protocol::Message const *)arg1)->seq();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Message_setSeq(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::Message > tempshared1 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "Message_setSeq", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_setSeq" "', argument " "1"" of type '" "ppc::protocol::Message *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "Message_setSeq" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  (arg1)->setSeq(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Message_ext(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::Message const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  uint16_t result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_ext" "', argument " "1"" of type '" "ppc::protocol::Message const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = (uint16_t)((ppc::protocol::Message const *)arg1)->ext();
+  resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Message_setExt(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  uint16_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::Message > tempshared1 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  unsigned short val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "Message_setExt", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_setExt" "', argument " "1"" of type '" "ppc::protocol::Message *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  ecode2 = SWIG_AsVal_unsigned_SS_short(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Message_setExt" "', argument " "2"" of type '" "uint16_t""'");
+  } 
+  arg2 = static_cast< uint16_t >(val2);
+  (arg1)->setExt(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Message_isRespPacket(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::Message const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_isRespPacket" "', argument " "1"" of type '" "ppc::protocol::Message const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = (bool)((ppc::protocol::Message const *)arg1)->isRespPacket();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Message_setRespPacket(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::Message > tempshared1 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_setRespPacket" "', argument " "1"" of type '" "ppc::protocol::Message *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  (arg1)->setRespPacket();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Message_setPayload(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::shared_ptr< bcos::bytes > arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::Message > tempshared1 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "Message_setPayload", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_setPayload" "', argument " "1"" of type '" "ppc::protocol::Message *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    int newmem = 0;
+    res2 = SWIG_ConvertPtrAndOwn(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_bcos__bytes_t,  0 , &newmem);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Message_setPayload" "', argument " "2"" of type '" "std::shared_ptr< bcos::bytes >""'");
+    }
+    if (argp2) arg2 = *(reinterpret_cast< std::shared_ptr< bcos::bytes > * >(argp2));
+    if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< std::shared_ptr< bcos::bytes > * >(argp2);
+  }
+  (arg1)->setPayload(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Message_payloadBuffer(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
@@ -19257,52 +19688,6 @@ SWIGINTERN PyObject *_wrap_Message_payload(PyObject *self, PyObject *args) {
     std::shared_ptr<  bcos::bytes > *smartresult = result ? new std::shared_ptr<  bcos::bytes >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_bcos__bytes_t, SWIG_POINTER_OWN);
   }
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Message_setPayload(PyObject *self, PyObject *args) {
-  PyObject *resultobj = 0;
-  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
-  std::shared_ptr< bcos::bytes > arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  std::shared_ptr< ppc::protocol::Message > tempshared1 ;
-  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  PyObject *swig_obj[2] ;
-  
-  (void)self;
-  if (!SWIG_Python_UnpackTuple(args, "Message_setPayload", 2, 2, swig_obj)) SWIG_fail;
-  {
-    int newmem = 0;
-    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_setPayload" "', argument " "1"" of type '" "ppc::protocol::Message *""'");
-    }
-    if (newmem & SWIG_CAST_NEW_MEMORY) {
-      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
-      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
-      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
-    } else {
-      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
-      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
-    }
-  }
-  {
-    int newmem = 0;
-    res2 = SWIG_ConvertPtrAndOwn(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_bcos__bytes_t,  0 , &newmem);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Message_setPayload" "', argument " "2"" of type '" "std::shared_ptr< bcos::bytes >""'");
-    }
-    if (argp2) arg2 = *(reinterpret_cast< std::shared_ptr< bcos::bytes > * >(argp2));
-    if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< std::shared_ptr< bcos::bytes > * >(argp2);
-  }
-  (arg1)->setPayload(arg2);
-  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -24220,6 +24605,17 @@ static PyMethodDef SwigMethods[] = {
 	 { "delete_Message", _wrap_delete_Message, METH_O, NULL},
 	 { "Message_header", _wrap_Message_header, METH_O, NULL},
 	 { "Message_setHeader", _wrap_Message_setHeader, METH_VARARGS, NULL},
+	 { "Message_version", _wrap_Message_version, METH_O, " the overloaed implementation ==="},
+	 { "Message_setVersion", _wrap_Message_setVersion, METH_VARARGS, NULL},
+	 { "Message_packetType", _wrap_Message_packetType, METH_O, NULL},
+	 { "Message_setPacketType", _wrap_Message_setPacketType, METH_VARARGS, NULL},
+	 { "Message_seq", _wrap_Message_seq, METH_O, NULL},
+	 { "Message_setSeq", _wrap_Message_setSeq, METH_VARARGS, NULL},
+	 { "Message_ext", _wrap_Message_ext, METH_O, NULL},
+	 { "Message_setExt", _wrap_Message_setExt, METH_VARARGS, NULL},
+	 { "Message_isRespPacket", _wrap_Message_isRespPacket, METH_O, NULL},
+	 { "Message_setRespPacket", _wrap_Message_setRespPacket, METH_O, NULL},
+	 { "Message_setPayload", _wrap_Message_setPayload, METH_VARARGS, NULL},
 	 { "Message_payloadBuffer", _wrap_Message_payloadBuffer, METH_O, NULL},
 	 { "Message_setFrontMessage", _wrap_Message_setFrontMessage, METH_VARARGS, NULL},
 	 { "Message_frontMessage", _wrap_Message_frontMessage, METH_O, NULL},
@@ -24227,7 +24623,6 @@ static PyMethodDef SwigMethods[] = {
 	 { "Message_decode", _wrap_Message_decode, METH_VARARGS, NULL},
 	 { "Message_length", _wrap_Message_length, METH_O, NULL},
 	 { "Message_payload", _wrap_Message_payload, METH_O, NULL},
-	 { "Message_setPayload", _wrap_Message_setPayload, METH_VARARGS, NULL},
 	 { "Message_swigregister", Message_swigregister, METH_O, NULL},
 	 { "delete_MessageHeaderBuilder", _wrap_delete_MessageHeaderBuilder, METH_O, NULL},
 	 { "MessageHeaderBuilder_build", _wrap_MessageHeaderBuilder_build, METH_VARARGS, NULL},

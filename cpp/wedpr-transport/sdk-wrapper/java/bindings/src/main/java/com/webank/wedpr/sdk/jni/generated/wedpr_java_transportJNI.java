@@ -489,6 +489,29 @@ public class wedpr_java_transportJNI {
     public static final native void Message_setHeader(
             long jarg1, Message jarg1_, long jarg2, MessageHeader jarg2_);
 
+    public static final native int Message_version(long jarg1, Message jarg1_);
+
+    public static final native void Message_setVersion(long jarg1, Message jarg1_, int jarg2);
+
+    public static final native int Message_packetType(long jarg1, Message jarg1_);
+
+    public static final native void Message_setPacketType(long jarg1, Message jarg1_, int jarg2);
+
+    public static final native String Message_seq(long jarg1, Message jarg1_);
+
+    public static final native void Message_setSeq(long jarg1, Message jarg1_, String jarg2);
+
+    public static final native int Message_ext(long jarg1, Message jarg1_);
+
+    public static final native void Message_setExt(long jarg1, Message jarg1_, int jarg2);
+
+    public static final native boolean Message_isRespPacket(long jarg1, Message jarg1_);
+
+    public static final native void Message_setRespPacket(long jarg1, Message jarg1_);
+
+    public static final native void Message_setPayload(
+            long jarg1, Message jarg1_, long jarg2, ubytes jarg2_);
+
     public static final native byte[] Message_payloadBuffer(long jarg1, Message jarg1_);
 
     public static final native void Message_setFrontMessage(
@@ -504,9 +527,6 @@ public class wedpr_java_transportJNI {
     public static final native long Message_length(long jarg1, Message jarg1_);
 
     public static final native long Message_payload(long jarg1, Message jarg1_);
-
-    public static final native void Message_setPayload(
-            long jarg1, Message jarg1_, long jarg2, ubytes jarg2_);
 
     public static final native void delete_MessageHeaderBuilder(long jarg1);
 

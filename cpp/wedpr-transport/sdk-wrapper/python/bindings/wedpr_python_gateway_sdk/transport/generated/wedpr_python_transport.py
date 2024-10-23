@@ -1168,6 +1168,40 @@ class Message(object):
     def setHeader(self, header):
         return _wedpr_python_transport.Message_setHeader(self, header)
 
+    def version(self):
+        r""" the overloaed implementation ==="""
+        return _wedpr_python_transport.Message_version(self)
+
+    def setVersion(self, version):
+        return _wedpr_python_transport.Message_setVersion(self, version)
+
+    def packetType(self):
+        return _wedpr_python_transport.Message_packetType(self)
+
+    def setPacketType(self, packetType):
+        return _wedpr_python_transport.Message_setPacketType(self, packetType)
+
+    def seq(self):
+        return _wedpr_python_transport.Message_seq(self)
+
+    def setSeq(self, traceID):
+        return _wedpr_python_transport.Message_setSeq(self, traceID)
+
+    def ext(self):
+        return _wedpr_python_transport.Message_ext(self)
+
+    def setExt(self, ext):
+        return _wedpr_python_transport.Message_setExt(self, ext)
+
+    def isRespPacket(self):
+        return _wedpr_python_transport.Message_isRespPacket(self)
+
+    def setRespPacket(self):
+        return _wedpr_python_transport.Message_setRespPacket(self)
+
+    def setPayload(self, _payload):
+        return _wedpr_python_transport.Message_setPayload(self, _payload)
+
     def payloadBuffer(self):
         return _wedpr_python_transport.Message_payloadBuffer(self)
 
@@ -1188,9 +1222,6 @@ class Message(object):
 
     def payload(self):
         return _wedpr_python_transport.Message_payload(self)
-
-    def setPayload(self, _payload):
-        return _wedpr_python_transport.Message_setPayload(self, _payload)
 
 
 # Register Message in _wedpr_python_transport:

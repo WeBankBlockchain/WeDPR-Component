@@ -50,6 +50,52 @@ public class Message {
                 swigCPtr, this, MessageHeader.getCPtr(header), header);
     }
 
+    /** the overloaed implementation === */
+    public int version() {
+        return wedpr_java_transportJNI.Message_version(swigCPtr, this);
+    }
+
+    public void setVersion(int version) {
+        wedpr_java_transportJNI.Message_setVersion(swigCPtr, this, version);
+    }
+
+    public int packetType() {
+        return wedpr_java_transportJNI.Message_packetType(swigCPtr, this);
+    }
+
+    public void setPacketType(int packetType) {
+        wedpr_java_transportJNI.Message_setPacketType(swigCPtr, this, packetType);
+    }
+
+    public String seq() {
+        return wedpr_java_transportJNI.Message_seq(swigCPtr, this);
+    }
+
+    public void setSeq(String traceID) {
+        wedpr_java_transportJNI.Message_setSeq(swigCPtr, this, traceID);
+    }
+
+    public int ext() {
+        return wedpr_java_transportJNI.Message_ext(swigCPtr, this);
+    }
+
+    public void setExt(int ext) {
+        wedpr_java_transportJNI.Message_setExt(swigCPtr, this, ext);
+    }
+
+    public boolean isRespPacket() {
+        return wedpr_java_transportJNI.Message_isRespPacket(swigCPtr, this);
+    }
+
+    public void setRespPacket() {
+        wedpr_java_transportJNI.Message_setRespPacket(swigCPtr, this);
+    }
+
+    public void setPayload(ubytes _payload) {
+        wedpr_java_transportJNI.Message_setPayload(
+                swigCPtr, this, ubytes.getCPtr(_payload), _payload);
+    }
+
     public byte[] payloadBuffer() {
         return wedpr_java_transportJNI.Message_payloadBuffer(swigCPtr, this);
     }
@@ -81,11 +127,6 @@ public class Message {
     public ubytes payload() {
         long cPtr = wedpr_java_transportJNI.Message_payload(swigCPtr, this);
         return (cPtr == 0) ? null : new ubytes(cPtr, true);
-    }
-
-    public void setPayload(ubytes _payload) {
-        wedpr_java_transportJNI.Message_setPayload(
-                swigCPtr, this, ubytes.getCPtr(_payload), _payload);
     }
 
     public void disOwnMemory() {
