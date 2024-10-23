@@ -1,5 +1,3 @@
-project(ppc-protobuf VERSION ${VERSION})
-
 add_subdirectory(src)
 if (TESTS)
     enable_testing()

@@ -116,7 +116,9 @@ jobs:
       - name: Build for windows
         if: runner.os == 'Windows'
         run: |
-          mkdir -p cpp/build && cd cpp/build && cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_BUILD_TYPE=Release -DTESTS=OFF -DBUILD_SDK=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake .. && MSBuild /version && MSBuild wedpr-component.sln /p:Configuration=Release /p:Platform=x64
+          mkdir -p cpp/build && cd cpp/build && cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_BUILD_TYPE=Release -DTESTS=OFF -DBUILD_SDK=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+          MSBuild /version
+          MSBuild wedpr-component.sln /p:Configuration=Release /p:Platform=x64
       - name: Build for linux
         if: runner.os == 'Linux'
         run: |
@@ -229,21 +231,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04]
-    container: docker.io/centos:7
+        os: [ubuntu-latest]
+    container:
+      image: docker.io/centos:7
+      volumes:
+        - /usr/local/share/vcpkg:/usr/local/share/vcpkg
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 5
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 16
-          cache: 'npm'
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: deps_cache
         with:
           path: |
             deps/
+            /usr/local/share/vcpkg/buildtrees
+            /usr/local/share/vcpkg/packages
             /home/runner/.ccache
             /Users/runner/.ccache/
           key: centos-notest-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
@@ -253,17 +256,20 @@ jobs:
             centos-notest-${{ matrix.os }}-
       - name: Prepare centos tools
         run: |
-          sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo
+          rpm -ivh https://cbs.centos.org/kojifiles/packages/centos-release-scl-rh/2/3.el7.centos/noarch/centos-release-scl-rh-2-3.el7.centos.noarch.rpm
+          rpm -ivh https://cbs.centos.org/kojifiles/packages/centos-release-scl/2/3.el7.centos/noarch/centos-release-scl-2-3.el7.centos.noarch.rpm
+          sed -i s/mirror.centos.org/mirrors.aliyun.com/g /etc/yum.repos.d/*.repo
           sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo
           sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
-          yum install -y java-11-openjdk-devel git make gcc gcc-c++ glibc-static glibc-devel openssl cmake3 ccache devtoolset-11 llvm-toolset-7.0 rh-perl530-perl libzstd-devel zlib-devel flex bison python-devel python3-devel
-          yum install -y devtoolset-10 devtoolset-11 llvm-toolset-7 rh-perl530-perl cmake3 zlib-devel ccache lcov python-devel python3-devel
+          cat /etc/yum.repos.d/*.repo
+          yum clean all
+          yum makecache
+          yum update -y
+          yum install -y epel-release centos-release-scl centos-release-scl-rh
           yum install -y https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo.x86_64.rpm
+          yum install -y java-11-openjdk-devel git make gcc gcc-c++ glibc-static glibc-devel openssl cmake3 ccache devtoolset-11 llvm-toolset-7.0 rh-perl530-perl libzstd-devel zlib-devel flex bison python-devel python3-devel
+          yum install -y rh-perl530-perl cmake3 zlib-devel ccache lcov python-devel python3-devel
           yum install -y git
-      - name: Prepare vcpkg
-        if: runner.os != 'Windows'
-        uses: friendlyanon/setup-vcpkg@v1
-        with: { committish: 51b14cd4e1230dd51c11ffeff6f7d53c61cc5297 }
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly-2022-07-28
@@ -278,7 +284,7 @@ jobs:
           . /opt/rh/llvm-toolset-7/enable
           mkdir -p cpp/build
           cd cpp/build
-          cmake3 -DCMAKE_BUILD_TYPE=Release -DTESTS=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          cmake3 -DCMAKE_BUILD_TYPE=Release -DTESTS=ON -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake ../
           cmake3 --build . --parallel 3
       - name: Test
         run: |

@@ -1,4 +1,3 @@
-project(ppc-http VERSION ${VERSION})
 add_subdirectory(src)
 
 if (DEMO)
