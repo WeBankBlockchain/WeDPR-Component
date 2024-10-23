@@ -206,7 +206,7 @@ WsSession::Ptr Service::getSessionByNodeID(std::string const& _nodeID)
 void Service::asyncSendMessageByNodeID(
     std::string const& dstNodeID, MessageFace::Ptr msg, Options options, RespCallBack respFunc)
 {
-    auto p2pMsg = std::dynamic_pointer_cast<Message>(msg);
+    auto p2pMsg = std::dynamic_pointer_cast<P2PMessage>(msg);
     p2pMsg->header()->setDstGwNode(dstNodeID);
     p2pMsg->header()->setSrcGwNode(m_nodeID);
     return asyncSendMessageWithForward(dstNodeID, msg, options, respFunc);
@@ -215,17 +215,17 @@ void Service::asyncSendMessageByNodeID(
 void Service::asyncSendMessageWithForward(
     std::string const& dstNodeID, MessageFace::Ptr msg, Options options, RespCallBack respFunc)
 {
-    auto p2pMsg = std::dynamic_pointer_cast<Message>(msg);
+    auto p2pMsg = std::dynamic_pointer_cast<P2PMessage>(msg);
     // without nextHop: maybe network unreachable or with distance equal to 1
     auto nextHop = m_routerTable->getNextHop(dstNodeID);
     if (nextHop.empty())
     {
-        SERVICE_LOG(TRACE) << LOG_DESC("asyncSendMessage directly") << printMessage(p2pMsg);
+        SERVICE_LOG(TRACE) << LOG_DESC("asyncSendMessage directly") << printP2PMessage(p2pMsg);
         return asyncSendMessage(dstNodeID, msg, options, respFunc);
     }
     // with nextHop, send the message to nextHop
     SERVICE_LOG(TRACE) << LOG_DESC("asyncSendMessageWithForward to nextHop")
-                       << printMessage(p2pMsg);
+                       << printP2PMessage(p2pMsg);
     return asyncSendMessage(nextHop, msg, options, respFunc);
 }
 
@@ -279,19 +279,19 @@ void Service::asyncSendMessage(
 
 void Service::onRecvMessage(MessageFace::Ptr _msg, std::shared_ptr<WsSession> _session)
 {
-    auto p2pMsg = std::dynamic_pointer_cast<Message>(_msg);
+    auto p2pMsg = std::dynamic_pointer_cast<P2PMessage>(_msg);
     // find the dstNode
     if (p2pMsg->header()->dstGwNode().empty() || p2pMsg->header()->dstGwNode() == m_nodeID)
     {
         SERVICE_LOG(TRACE) << LOG_DESC("onRecvMessage, dispatch for find the dst node")
-                           << printMessage(p2pMsg);
+                           << printP2PMessage(p2pMsg);
         WsService::onRecvMessage(_msg, _session);
         return;
     }
     // forward the message
     if (p2pMsg->header()->ttl() >= m_routerTable->unreachableDistance())
     {
-        SERVICE_LOG(WARNING) << LOG_DESC("onRecvMessage: ttl expired") << printMessage(p2pMsg);
+        SERVICE_LOG(WARNING) << LOG_DESC("onRecvMessage: ttl expired") << printP2PMessage(p2pMsg);
         return;
     }
     p2pMsg->header()->setTTL(p2pMsg->header()->ttl() + 1);
@@ -311,7 +311,7 @@ void Service::asyncBroadcastMessage(bcos::boostssl::MessageFace::Ptr msg, Option
         }
         for (auto const& node : reachableNodes)
         {
-            auto p2pMsg = std::dynamic_pointer_cast<Message>(msg);
+            auto p2pMsg = std::dynamic_pointer_cast<P2PMessage>(msg);
             p2pMsg->header()->setDstGwNode(node);
             asyncSendMessageByNodeID(node, msg, options);
         }
@@ -336,8 +336,8 @@ void Service::asyncSendMessageByP2PNodeID(uint16_t type, std::string const& dstN
 void Service::sendRespMessageBySession(bcos::boostssl::ws::WsSession::Ptr const& session,
     bcos::boostssl::MessageFace::Ptr msg, std::shared_ptr<bcos::bytes>&& payload)
 {
-    auto respMessage = std::dynamic_pointer_cast<Message>(m_messageFactory->buildMessage());
-    auto requestMsg = std::dynamic_pointer_cast<Message>(msg);
+    auto respMessage = std::dynamic_pointer_cast<P2PMessage>(m_messageFactory->buildMessage());
+    auto requestMsg = std::dynamic_pointer_cast<P2PMessage>(msg);
     if (requestMsg->header() && requestMsg->header()->optionalField())
     {
         respMessage->header()->optionalField()->setDstNode(
@@ -360,7 +360,8 @@ void Service::sendRespMessageBySession(bcos::boostssl::ws::WsSession::Ptr const&
     WsSessions sessions;
     sessions.emplace_back(session);
     WsService::asyncSendMessage(sessions, respMessage);
-    SERVICE_LOG(TRACE) << "sendRespMessageBySession: " << LOG_KV("resp", printMessage(respMessage))
+    SERVICE_LOG(TRACE) << "sendRespMessageBySession: "
+                       << LOG_KV("resp", printP2PMessage(respMessage))
                        << LOG_KV("sessionNode", printP2PIDElegantly(session->nodeId()))
                        << LOG_KV("payloadSize",
                               respMessage->payload() ? respMessage->payload()->size() : 0);

@@ -21,7 +21,7 @@
 #include "../cache/MessageCache.h"
 #include "GatewayNodeInfo.h"
 #include "ppc-framework/protocol/INodeInfo.h"
-#include "ppc-framework/protocol/Message.h"
+#include "ppc-framework/protocol/P2PMessage.h"
 #include "ppc-framework/protocol/RouteType.h"
 
 namespace ppc::gateway
@@ -51,9 +51,9 @@ public:
     virtual void unRegisterTopic(bcos::bytesConstRef nodeID, std::string const& topic);
 
     virtual std::vector<ppc::front::IFrontClient::Ptr> chooseReceiver(
-        ppc::protocol::Message::Ptr const& msg);
+        ppc::protocol::P2PMessage::Ptr const& msg);
 
-    virtual bool dispatcherMessage(ppc::protocol::Message::Ptr const& msg,
+    virtual bool dispatcherMessage(ppc::protocol::P2PMessage::Ptr const& msg,
         ppc::protocol::ReceiveMsgFunc callback, bool holding = true);
 
     std::shared_ptr<bcos::bytes> generateNodeStatus()

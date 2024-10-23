@@ -20,6 +20,7 @@ endif()
 if(BUILD_ALL OR BUILD_WEDPR_TOOLKIT)
     find_package(TBB REQUIRED)
     find_package(gRPC REQUIRED)
+    find_package(jsoncpp REQUIRED)
 endif()
 ##### the sdk dependencies #####
 if(BUILD_ALL OR BUILD_SDK OR BUILD_UDF)
@@ -29,7 +30,6 @@ endif()
 
 ##### the full-dependencies #####
 if(BUILD_ALL)
-    find_package(jsoncpp REQUIRED)
     find_package(${BCOS_BOOSTSSL_TARGET} REQUIRED)
     # tcmalloc
     include(ProjectTCMalloc)

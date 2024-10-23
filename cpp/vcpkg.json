@@ -49,11 +49,6 @@
       "version": "1.51.1#1"
     },
     {
-      "name": "zlib",
-      "version": "1.2.12",
-      "port-version": 1
-    },
-    {
       "name": "jsoncpp",
       "version": "1.9.5"
     }
@@ -122,8 +117,7 @@
         },
         "tarscpp",
         "tbb",
-        "libxml2",
-        "jsoncpp"
+        "libxml2"
       ]
     },
     "sdk": {
@@ -148,6 +142,7 @@
           "version>=": "1.51.1"
         },
         "tarscpp",
+        "jsoncpp",
         "tbb"
       ]
     }

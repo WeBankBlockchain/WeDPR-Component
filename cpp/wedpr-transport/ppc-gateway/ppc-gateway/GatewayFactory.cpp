@@ -23,6 +23,7 @@
 #include "bcos-boostssl/websocket/WsInitializer.h"
 #include "ppc-gateway/p2p/Service.h"
 #include "ppc-gateway/p2p/router/RouterTableImpl.h"
+#include "ppc-gateway/protocol/P2PMessageImpl.h"
 #include "ppc-tools/src/config/PPCConfig.h"
 #include "protocol/src/v1/MessageHeaderImpl.h"
 #include "protocol/src/v1/MessageImpl.h"
@@ -54,8 +55,9 @@ Service::Ptr GatewayFactory::buildService() const
 
     auto wsInitializer = std::make_shared<WsInitializer>();
     // set the messageFactory
-    wsInitializer->setMessageFactory(
-        std::make_shared<MessageBuilderImpl>(std::make_shared<MessageHeaderBuilderImpl>()));
+    auto msgBuilder =
+        std::make_shared<MessageBuilderImpl>(std::make_shared<MessageHeaderBuilderImpl>());
+    wsInitializer->setMessageFactory(std::make_shared<P2PMessageBuilderImpl>(msgBuilder));
     // set the config
     wsInitializer->setConfig(wsConfig);
     auto p2pService = std::make_shared<Service>(m_contextConfig->nodeID(),

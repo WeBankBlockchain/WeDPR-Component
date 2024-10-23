@@ -22,7 +22,6 @@
 #include "RouteType.h"
 #include "ppc-framework/Helper.h"
 #include "ppc-framework/libwrapper/Buffer.h"
-#include <bcos-boostssl/interfaces/MessageFace.h>
 #include <bcos-utilities/Common.h>
 #include <bcos-utilities/DataConvertUtility.h>
 #include <bcos-utilities/Error.h>
@@ -183,35 +182,28 @@ protected:
     uint16_t mutable m_length;
 };
 
-class Message : virtual public bcos::boostssl::MessageFace
+class Message
 {
 public:
     using Ptr = std::shared_ptr<Message>;
     Message() = default;
-    ~Message() override {}
+    virtual ~Message() {}
 
     virtual MessageHeader::Ptr header() const { return m_header; }
     virtual void setHeader(MessageHeader::Ptr header) { m_header = std::move(header); }
-
     /// the overloaed implementation ===
-    uint16_t version() const override { return m_header->version(); }
-    void setVersion(uint16_t version) override { m_header->setVersion(version); }
-    uint16_t packetType() const override { return m_header->packetType(); }
-    void setPacketType(uint16_t packetType) override { m_header->setPacketType(packetType); }
-    std::string const& seq() const override { return m_header->traceID(); }
-    void setSeq(std::string traceID) override { m_header->setTraceID(traceID); }
-    uint16_t ext() const override { return m_header->ext(); }
-    void setExt(uint16_t ext) override { m_header->setExt(ext); }
+    uint16_t version() const { return m_header->version(); }
+    void setVersion(uint16_t version) { m_header->setVersion(version); }
+    uint16_t packetType() const { return m_header->packetType(); }
+    void setPacketType(uint16_t packetType) { m_header->setPacketType(packetType); }
+    std::string const& seq() const { return m_header->traceID(); }
+    void setSeq(std::string traceID) { m_header->setTraceID(traceID); }
+    uint16_t ext() const { return m_header->ext(); }
+    void setExt(uint16_t ext) { m_header->setExt(ext); }
 
-    bool isRespPacket() const override { return m_header->isRespPacket(); }
-    void setRespPacket() override { m_header->setRespPacket(); }
-
-    virtual uint32_t length() const override
-    {
-        return m_header->length() + (m_payload ? m_payload->size() : 0);
-    }
-
-    std::shared_ptr<bcos::bytes> payload() const override { return m_payload; }
+    bool isRespPacket() const { return m_header->isRespPacket(); }
+    void setRespPacket() { m_header->setRespPacket(); }
+    void setPayload(std::shared_ptr<bcos::bytes> _payload) { m_payload = std::move(_payload); }
     // for swig wrapper
     OutputBuffer payloadBuffer() const
     {
@@ -220,11 +212,6 @@ public:
             return OutputBuffer{nullptr, 0};
         }
         return OutputBuffer{(unsigned char*)m_payload->data(), m_payload->size()};
-    }
-
-    void setPayload(std::shared_ptr<bcos::bytes> _payload) override
-    {
-        m_payload = std::move(_payload);
     }
 
     void setFrontMessage(MessagePayload::Ptr frontMessage)
@@ -236,9 +223,14 @@ public:
 
     // Note: swig wrapper require define all methods
     virtual bool encode(bcos::bytes& _buffer) = 0;
-    // encode and return the {header, payload}
-    virtual bool encode(bcos::boostssl::EncodedMsg& _encodedMsg) = 0;
     virtual int64_t decode(bcos::bytesConstRef _buffer) = 0;
+
+    virtual uint32_t length() const
+    {
+        return m_header->length() + (m_payload ? m_payload->size() : 0);
+    }
+
+    virtual std::shared_ptr<bcos::bytes> payload() const { return m_payload; }
 
 protected:
     MessageHeader::Ptr m_header;
@@ -259,12 +251,12 @@ public:
     virtual MessageOptionalHeader::Ptr build(MessageOptionalHeader::Ptr const& optionalHeader) = 0;
 };
 
-class MessageBuilder : public bcos::boostssl::MessageFaceFactory
+class MessageBuilder
 {
 public:
     using Ptr = std::shared_ptr<MessageBuilder>;
     MessageBuilder() = default;
-    ~MessageBuilder() override = default;
+    virtual ~MessageBuilder() = default;
 
     virtual Message::Ptr build() = 0;
     virtual Message::Ptr build(bcos::bytesConstRef buffer) = 0;
@@ -320,20 +312,6 @@ inline std::string printMessage(Message::Ptr const& _msg)
     }
     return stringstream.str();
 }
-
-inline std::string printWsMessage(bcos::boostssl::MessageFace::Ptr const& _msg)
-{
-    if (!_msg)
-    {
-        return "nullptr";
-    }
-    std::ostringstream stringstream;
-    stringstream << LOG_KV("rsp", _msg->isRespPacket()) << LOG_KV("traceID", _msg->seq())
-                 << LOG_KV("packetType", _msg->packetType()) << LOG_KV("length", _msg->length())
-                 << LOG_KV("ext", _msg->ext());
-    return stringstream.str();
-}
-
 // function to send response
 using SendResponseFunction = std::function<void(std::shared_ptr<bcos::bytes>&& payload)>;
 using ReceiveMsgFunc = std::function<void(bcos::Error::Ptr)>;

@@ -95,7 +95,7 @@ void GatewayRouterManager::onReceiveNodeSeqMessage(MessageFace::Ptr msg, WsSessi
 {
     auto statusSeq =
         boost::asio::detail::socket_ops::network_to_host_long(*((uint32_t*)msg->payload()->data()));
-    auto p2pMessage = std::dynamic_pointer_cast<Message>(msg);
+    auto p2pMessage = std::dynamic_pointer_cast<P2PMessage>(msg);
     auto const& from = (p2pMessage->header()->srcGwNode().size() > 0) ?
                            p2pMessage->header()->srcGwNode() :
                            session->nodeId();
@@ -128,7 +128,8 @@ bool GatewayRouterManager::statusChanged(std::string const& p2pNodeID, uint32_t 
 void GatewayRouterManager::broadcastStatusSeq()
 {
     m_timer->restart();
-    auto message = std::dynamic_pointer_cast<Message>(m_service->messageFactory()->buildMessage());
+    auto message =
+        std::dynamic_pointer_cast<P2PMessage>(m_service->messageFactory()->buildMessage());
     message->setPacketType((uint16_t)GatewayPacketType::SyncNodeSeq);
     auto seq = m_localRouter->statusSeq();
     auto statusSeq = boost::asio::detail::socket_ops::host_to_network_long(seq);
@@ -142,7 +143,7 @@ void GatewayRouterManager::broadcastStatusSeq()
 void GatewayRouterManager::onReceiveRequestNodeStatusMsg(
     MessageFace::Ptr msg, WsSession::Ptr session)
 {
-    auto p2pMessage = std::dynamic_pointer_cast<Message>(msg);
+    auto p2pMessage = std::dynamic_pointer_cast<P2PMessage>(msg);
     auto const& from = (!p2pMessage->header()->srcGwNode().empty()) ?
                            p2pMessage->header()->srcGwNode() :
                            session->nodeId();
@@ -167,7 +168,7 @@ void GatewayRouterManager::onRecvResponseNodeStatusMsg(MessageFace::Ptr msg, WsS
     auto nodeStatus = m_nodeStatusFactory->build();
     nodeStatus->decode(bytesConstRef(msg->payload()->data(), msg->payload()->size()));
 
-    auto p2pMessage = std::dynamic_pointer_cast<Message>(msg);
+    auto p2pMessage = std::dynamic_pointer_cast<P2PMessage>(msg);
     auto const& from = (!p2pMessage->header()->srcGwNode().empty()) ?
                            p2pMessage->header()->srcGwNode() :
                            session->nodeId();

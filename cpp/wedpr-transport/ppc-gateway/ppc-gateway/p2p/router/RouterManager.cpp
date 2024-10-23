@@ -20,7 +20,7 @@
 #include "RouterManager.h"
 #include "ppc-framework/Helper.h"
 #include "ppc-framework/gateway/GatewayProtocol.h"
-#include "ppc-framework/protocol/Message.h"
+#include "ppc-framework/protocol/P2PMessage.h"
 #include <boost/asio/detail/socket_ops.hpp>
 
 using namespace bcos;
@@ -76,7 +76,7 @@ void RouterManager::onReceiveRouterSeq(MessageFace::Ptr msg, WsSession::Ptr sess
                              << LOG_KV("peer", printP2PIDElegantly(session->nodeId()))
                              << LOG_KV("seq", statusSeq);
     // request router table to peer
-    auto p2pMsg = std::dynamic_pointer_cast<Message>(msg);
+    auto p2pMsg = std::dynamic_pointer_cast<P2PMessage>(msg);
     auto dstP2PNodeID = (!p2pMsg->header()->srcGwNode().empty()) ? p2pMsg->header()->srcGwNode() :
                                                                    session->nodeId();
     m_service->asyncSendMessageByP2PNodeID((uint16_t)GatewayPacketType::RouterTableRequest,
@@ -117,7 +117,7 @@ void RouterManager::onReceiveRouterTableRequest(MessageFace::Ptr msg, WsSession:
 
     auto routerTableData = std::make_shared<bytes>();
     m_service->routerTable()->encode(*routerTableData);
-    auto p2pMsg = std::dynamic_pointer_cast<Message>(msg);
+    auto p2pMsg = std::dynamic_pointer_cast<P2PMessage>(msg);
     auto dstP2PNodeID = (!p2pMsg->header()->srcGwNode().empty()) ? p2pMsg->header()->srcGwNode() :
                                                                    session->nodeId();
     m_service->asyncSendMessageByP2PNodeID(

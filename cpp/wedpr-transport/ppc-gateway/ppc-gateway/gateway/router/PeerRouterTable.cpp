@@ -284,7 +284,7 @@ void PeerRouterTable::selectRouterByComponent(GatewayNodeInfos& choosedGateway,
 }
 
 
-void PeerRouterTable::asyncBroadcastMessage(ppc::protocol::Message::Ptr const& msg) const
+void PeerRouterTable::asyncBroadcastMessage(ppc::protocol::P2PMessage::Ptr const& msg) const
 {
     bcos::ReadGuard l(x_mutex);
     for (auto const& it : m_agency2GatewayInfos)
@@ -303,7 +303,7 @@ void PeerRouterTable::asyncBroadcastMessage(ppc::protocol::Message::Ptr const& m
         }
         PEER_ROUTER_LOG(TRACE) << LOG_DESC("asyncBroadcastMessage")
                                << LOG_KV("nodeID", printP2PIDElegantly(selectedNode->p2pNodeID()))
-                               << LOG_KV("msg", printMessage(msg));
+                               << LOG_KV("msg", printP2PMessage(msg));
         m_service->asyncSendMessageByNodeID(selectedNode->p2pNodeID(), msg);
     }
 }

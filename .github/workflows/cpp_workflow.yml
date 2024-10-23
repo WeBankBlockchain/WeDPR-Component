@@ -51,11 +51,11 @@ jobs:
             !c:/vcpkg/buildtrees
             !c:/vcpkg/packages
             !c:/vcpkg/downloads
-          key: build-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+          key: build-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
           restore-keys: |
-            build-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
-            build-${{ matrix.os }}-${{ github.base_ref }}-
-            build-${{ matrix.os }}-
+            build-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+            build-all-${{ matrix.os }}-${{ github.base_ref }}-
+            build-all-${{ matrix.os }}-
       - name: Build for linux
         if: runner.os == 'Linux'
         run: |
@@ -105,11 +105,11 @@ jobs:
             ${{ env.VCPKG_ROOT }}/buildtrees
             ${{ env.VCPKG_ROOT }}/packages
             ${{ env.VCPKG_ROOT }}/downloads
-          key: build-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+          key: build-sdk-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
           restore-keys: |
-            build-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
-            build-${{ matrix.os }}-${{ github.base_ref }}-
-            build-${{ matrix.os }}-
+            build-sdk-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+            build-sdk-${{ matrix.os }}-${{ github.base_ref }}-
+            build-sdk-${{ matrix.os }}-
       - name: Add MSbuild to PATH
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v1.1
@@ -118,7 +118,7 @@ jobs:
         run: |
           mkdir -p cpp/build && cd cpp/build && cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_BUILD_TYPE=Release -DTESTS=OFF -DBUILD_SDK=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake ..
           MSBuild /version
-          MSBuild wedpr-component.sln /p:Configuration=Release /p:Platform=x64
+          MSBuild WeDPR-Component.sln /p:Configuration=Release /p:Platform=x64
       - name: Build for linux
         if: runner.os == 'Linux'
         run: |
@@ -184,18 +184,18 @@ jobs:
             ${{ env.VCPKG_ROOT }}/buildtrees
             ${{ env.VCPKG_ROOT }}/packages
             ${{ env.VCPKG_ROOT }}/downloads
-          key: build-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+          key: build-toolkit-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
           restore-keys: |
-            build-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
-            build-${{ matrix.os }}-${{ github.base_ref }}-
-            build-${{ matrix.os }}-
+            build-toolkit-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+            build-toolkit-${{ matrix.os }}-${{ github.base_ref }}-
+            build-toolkit-${{ matrix.os }}-
       - name: Add MSbuild to PATH
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v1.1
       - name: Build for windows
         if: runner.os == 'Windows'
         run: |
-          mkdir -p cpp/build && cd cpp/build && cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_BUILD_TYPE=Release -DTESTS=OFF -DBUILD_WEDPR_TOOLKIT=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake .. && MSBuild /version && MSBuild wedpr-component.sln /p:Configuration=Release /p:Platform=x64
+          mkdir -p cpp/build && cd cpp/build && cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_BUILD_TYPE=Release -DTESTS=OFF -DBUILD_WEDPR_TOOLKIT=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake .. && MSBuild /version && MSBuild WeDPR-Component.sln /p:Configuration=Release /p:Platform=x64
       - name: Build for linux
         if: runner.os == 'Linux'
         run: |
@@ -249,11 +249,11 @@ jobs:
             /usr/local/share/vcpkg/packages
             /home/runner/.ccache
             /Users/runner/.ccache/
-          key: centos-notest-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+          key: centos-notest-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
           restore-keys: |
-            centos-notest-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
-            centos-notest-${{ matrix.os }}-${{ github.base_ref }}-
-            centos-notest-${{ matrix.os }}-
+            centos-notest-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+            centos-notest-all-${{ matrix.os }}-${{ github.base_ref }}-
+            centos-notest-all-${{ matrix.os }}-
       - name: Prepare centos tools
         run: |
           rpm -ivh https://cbs.centos.org/kojifiles/packages/centos-release-scl-rh/2/3.el7.centos/noarch/centos-release-scl-rh-2-3.el7.centos.noarch.rpm
@@ -277,11 +277,10 @@ jobs:
       - name: Build
         run: |
           alias cmake='cmake3'
-          . /opt/rh/devtoolset-10/enable
+          . /opt/rh/devtoolset-11/enable
           . /opt/rh/rh-perl530/enable
           export LIBCLANG_PATH=/opt/rh/llvm-toolset-7/root/lib64/
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
-          . /opt/rh/llvm-toolset-7/enable
           mkdir -p cpp/build
           cd cpp/build
           cmake3 -DCMAKE_BUILD_TYPE=Release -DTESTS=ON -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake ../

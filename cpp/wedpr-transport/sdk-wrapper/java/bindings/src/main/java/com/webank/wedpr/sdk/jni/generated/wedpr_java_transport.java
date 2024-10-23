@@ -21,9 +21,4 @@ public class wedpr_java_transport {
     public static String printMessage(Message _msg) {
         return wedpr_java_transportJNI.printMessage(Message.getCPtr(_msg), _msg);
     }
-
-    public static String printWsMessage(SWIGTYPE_p_bcos__boostssl__MessageFace__Ptr _msg) {
-        return wedpr_java_transportJNI.printWsMessage(
-                SWIGTYPE_p_bcos__boostssl__MessageFace__Ptr.getCPtr(_msg));
-    }
 }

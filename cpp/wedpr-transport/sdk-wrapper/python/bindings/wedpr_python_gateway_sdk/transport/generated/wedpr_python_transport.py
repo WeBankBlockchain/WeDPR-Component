@@ -1168,48 +1168,8 @@ class Message(object):
     def setHeader(self, header):
         return _wedpr_python_transport.Message_setHeader(self, header)
 
-    def version(self):
-        r""" the overloaed implementation ==="""
-        return _wedpr_python_transport.Message_version(self)
-
-    def setVersion(self, version):
-        return _wedpr_python_transport.Message_setVersion(self, version)
-
-    def packetType(self):
-        return _wedpr_python_transport.Message_packetType(self)
-
-    def setPacketType(self, packetType):
-        return _wedpr_python_transport.Message_setPacketType(self, packetType)
-
-    def seq(self):
-        return _wedpr_python_transport.Message_seq(self)
-
-    def setSeq(self, traceID):
-        return _wedpr_python_transport.Message_setSeq(self, traceID)
-
-    def ext(self):
-        return _wedpr_python_transport.Message_ext(self)
-
-    def setExt(self, ext):
-        return _wedpr_python_transport.Message_setExt(self, ext)
-
-    def isRespPacket(self):
-        return _wedpr_python_transport.Message_isRespPacket(self)
-
-    def setRespPacket(self):
-        return _wedpr_python_transport.Message_setRespPacket(self)
-
-    def length(self):
-        return _wedpr_python_transport.Message_length(self)
-
-    def payload(self):
-        return _wedpr_python_transport.Message_payload(self)
-
     def payloadBuffer(self):
         return _wedpr_python_transport.Message_payloadBuffer(self)
-
-    def setPayload(self, _payload):
-        return _wedpr_python_transport.Message_setPayload(self, _payload)
 
     def setFrontMessage(self, frontMessage):
         return _wedpr_python_transport.Message_setFrontMessage(self, frontMessage)
@@ -1217,11 +1177,20 @@ class Message(object):
     def frontMessage(self):
         return _wedpr_python_transport.Message_frontMessage(self)
 
-    def encode(self, *args):
-        return _wedpr_python_transport.Message_encode(self, *args)
+    def encode(self, _buffer):
+        return _wedpr_python_transport.Message_encode(self, _buffer)
 
     def decode(self, _buffer):
         return _wedpr_python_transport.Message_decode(self, _buffer)
+
+    def length(self):
+        return _wedpr_python_transport.Message_length(self)
+
+    def payload(self):
+        return _wedpr_python_transport.Message_payload(self)
+
+    def setPayload(self, _payload):
+        return _wedpr_python_transport.Message_setPayload(self, _payload)
 
 
 # Register Message in _wedpr_python_transport:
@@ -1286,10 +1255,6 @@ def printOptionalField(optionalHeader):
 
 def printMessage(_msg):
     return _wedpr_python_transport.printMessage(_msg)
-
-
-def printWsMessage(_msg):
-    return _wedpr_python_transport.printWsMessage(_msg)
 
 
 FrontMsgExtFlag_Response = _wedpr_python_transport.FrontMsgExtFlag_Response

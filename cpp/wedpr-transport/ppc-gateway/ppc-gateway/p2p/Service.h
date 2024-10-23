@@ -20,7 +20,7 @@
 
 #pragma once
 #include "../Common.h"
-#include "ppc-framework/protocol/Message.h"
+#include "ppc-framework/protocol/P2PMessage.h"
 #include "router/RouterTableInterface.h"
 #include <bcos-boostssl/websocket/WsService.h>
 namespace ppc::gateway

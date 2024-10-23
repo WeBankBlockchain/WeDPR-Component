@@ -86,7 +86,7 @@ protected:
 private:
     bool m_running = false;
     Service::Ptr m_service;
-    ppc::protocol::MessageBuilder::Ptr m_msgBuilder;
+    ppc::protocol::P2PMessageBuilder::Ptr m_msgBuilder;
 
     ppc::front::IFrontBuilder::Ptr m_frontBuilder;
     std::string m_agency;
