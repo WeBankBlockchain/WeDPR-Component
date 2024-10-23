@@ -1,8 +1,5 @@
 project(wedpr-transport-swig VERSION ${VERSION})
 
-find_package(SWIG REQUIRED)
-include(${SWIG_USE_FILE})
-
 # Add subdirectories for each language if desired
 option(BUILD_PYTHON "Build Python SWIG module" OFF)
 if(BUILD_PYTHON)

@@ -32,6 +32,10 @@ install_gsasl_depend()
     if [[ "${os_type}" == "centos" ]];then
         cd libgsasl-1.8.0 && ./configure --with-pic && make -j4 && make install
     fi
+    # macos
+    if [[ "${os_type}" == "macos" ]];then
+        cd libgsasl-1.8.0 && ./configure --with-pic && make -j4 && make install
+    fi
     # ubuntu
     if [[ "${os_type}" == "ubuntu" ]];then
         cd libgsasl-1.8.0 && ./configure --with-pic --disable-ntlm --disable-gs2 --disable-gssapi --without-stringprep && make -j4 && make install
@@ -106,7 +110,8 @@ install_ubuntu_depends()
 install_macos_depends()
 {
     LOG_INFO "install depends for macos ..."
-    brew install clang cmake autoconf gsasl nasm lcov
+    brew install autoconf nasm lcov
+    install_gsasl_depend "macos"
     LOG_INFO "install depends for macos success ..."
 }
 

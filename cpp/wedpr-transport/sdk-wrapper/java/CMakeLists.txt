@@ -1,13 +1,8 @@
 option(AUTO_GENERATE "Auto generate the targes" OFF)
 # Note: use SWIG Version 4.2.1
 if(AUTO_GENERATE)
-    if(WIN32)
-      message(STATUS "Getting SWIG for Windows: ...")
-      include(swig)
-      message(STATUS "Getting SWIG for Windows: ...DONE")
-    endif()
+    include(${SWIG_USE_FILE})
     # only auto-generate should find swig
-    include(java)
     file(GLOB_RECURSE SRCS wedpr_java_transport.i)
     set_source_files_properties(${SRCS} PROPERTIES CPLUSPLUS ON)
 

@@ -102,6 +102,7 @@ elseif(BUILD_SDK)
     add_sources("${SDK_SOURCE_LIST}")
 elseif(BUILD_WEDPR_TOOLKIT)
     add_sources("${TRANSPORT_SDK_TOOLKIT_SOURCE_LIST}")
+    include(swig)
 endif()
 ########### set the sources end ########### 
 
