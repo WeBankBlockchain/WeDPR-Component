@@ -509,27 +509,24 @@ public class wedpr_java_transportJNI {
 
     public static final native void Message_setRespPacket(long jarg1, Message jarg1_);
 
-    public static final native long Message_length(long jarg1, Message jarg1_);
-
-    public static final native long Message_payload(long jarg1, Message jarg1_);
-
-    public static final native byte[] Message_payloadBuffer(long jarg1, Message jarg1_);
-
     public static final native void Message_setPayload(
             long jarg1, Message jarg1_, long jarg2, ubytes jarg2_);
+
+    public static final native byte[] Message_payloadBuffer(long jarg1, Message jarg1_);
 
     public static final native void Message_setFrontMessage(
             long jarg1, Message jarg1_, long jarg2, MessagePayload jarg2_);
 
     public static final native long Message_frontMessage(long jarg1, Message jarg1_);
 
-    public static final native boolean Message_encode__SWIG_0(
+    public static final native boolean Message_encode(
             long jarg1, Message jarg1_, long jarg2, ubytes jarg2_);
 
-    public static final native boolean Message_encode__SWIG_1(
-            long jarg1, Message jarg1_, long jarg2);
-
     public static final native long Message_decode(long jarg1, Message jarg1_, long jarg2);
+
+    public static final native long Message_length(long jarg1, Message jarg1_);
+
+    public static final native long Message_payload(long jarg1, Message jarg1_);
 
     public static final native void delete_MessageHeaderBuilder(long jarg1);
 
@@ -572,8 +569,6 @@ public class wedpr_java_transportJNI {
     public static final native String printOptionalField(long jarg1, MessageOptionalHeader jarg1_);
 
     public static final native String printMessage(long jarg1, Message jarg1_);
-
-    public static final native String printWsMessage(long jarg1);
 
     public static final native int FrontMsgExtFlag_Response_get();
 

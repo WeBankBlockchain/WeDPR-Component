@@ -1,4 +1,3 @@
-project(ppc-pir VERSION ${VERSION})
 add_subdirectory(src)
 
 if (TESTS)

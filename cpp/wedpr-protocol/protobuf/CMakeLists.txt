@@ -1,5 +1,3 @@
-project(ppc-protocol VERSION ${VERSION})
-
 add_subdirectory(src)
 if (TESTS)
     enable_testing()

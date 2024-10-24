@@ -5247,39 +5247,22 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
 }
 
 
-SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1length(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1setPayload(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
-  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
-  uint32_t result;
+  std::shared_ptr< bcos::bytes > arg2 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  std::shared_ptr< bcos::bytes > *argp2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
+  (void)jarg2_;
   
-  smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint32_t)((ppc::protocol::Message const *)arg1)->length();
-  jresult = (jlong)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1payload(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
-  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
-  std::shared_ptr< bcos::bytes > result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  
-  smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
-  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::Message const *)arg1)->payload();
-  *(std::shared_ptr< bcos::bytes > **)&jresult = result ? new std::shared_ptr< bcos::bytes >(result) : 0; 
-  return jresult;
+  argp2 = *(std::shared_ptr< bcos::bytes > **)&jarg2;
+  if (argp2) arg2 = *argp2; 
+  (arg1)->setPayload(arg2);
 }
 
 
@@ -5301,25 +5284,6 @@ SWIGEXPORT jbyteArray JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1jav
     jenv->SetByteArrayRegion(jresult, 0, (&result)->len, (jbyte *) (&result)->data);
   }
   return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1setPayload(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
-  std::shared_ptr< bcos::bytes > arg2 ;
-  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
-  std::shared_ptr< bcos::bytes > *argp2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  
-  smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
-  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  argp2 = *(std::shared_ptr< bcos::bytes > **)&jarg2;
-  if (argp2) arg2 = *argp2; 
-  (arg1)->setPayload(arg2);
 }
 
 
@@ -5360,7 +5324,7 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
 }
 
 
-SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1encode_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1encode(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
   jboolean jresult = 0 ;
   ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
   bcos::bytes *arg2 = 0 ;
@@ -5378,30 +5342,6 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
   arg2 = (bcos::bytes *)((*(std::shared_ptr<  bcos::bytes > **)&jarg2) ? (*(std::shared_ptr<  bcos::bytes > **)&jarg2)->get() : 0);
   if (!arg2) {
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "bcos::bytes & reference is null");
-    return 0;
-  } 
-  result = (bool)(arg1)->encode(*arg2);
-  jresult = (jboolean)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1encode_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
-  jboolean jresult = 0 ;
-  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
-  bcos::boostssl::EncodedMsg *arg2 = 0 ;
-  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
-  bool result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  
-  smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
-  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = *(bcos::boostssl::EncodedMsg **)&jarg2;
-  if (!arg2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "bcos::boostssl::EncodedMsg & is null");
     return 0;
   } 
   result = (bool)(arg1)->encode(*arg2);
@@ -5432,6 +5372,42 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   arg2 = *argp2; 
   result = (int64_t)(arg1)->decode(arg2);
   jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1length(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
+  uint32_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (uint32_t)((ppc::protocol::Message const *)arg1)->length();
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1payload(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::shared_ptr< ppc::protocol::Message const > *smartarg1 = 0 ;
+  std::shared_ptr< bcos::bytes > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  result = ((ppc::protocol::Message const *)arg1)->payload();
+  *(std::shared_ptr< bcos::bytes > **)&jresult = result ? new std::shared_ptr< bcos::bytes >(result) : 0; 
   return jresult;
 }
 
@@ -5692,24 +5668,6 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   (void)jarg1_;
   arg1 = jarg1 ? *(ppc::protocol::Message::Ptr **)&jarg1 : &tempnull1; 
   result = ppc::protocol::printMessage((std::shared_ptr< ppc::protocol::Message > const &)*arg1);
-  jresult = jenv->NewStringUTF((&result)->c_str()); 
-  return jresult;
-}
-
-
-SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_printWsMessage(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  jstring jresult = 0 ;
-  bcos::boostssl::MessageFace::Ptr *arg1 = 0 ;
-  std::string result;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(bcos::boostssl::MessageFace::Ptr **)&jarg1;
-  if (!arg1) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "bcos::boostssl::MessageFace::Ptr const & is null");
-    return 0;
-  } 
-  result = ppc::protocol::printWsMessage((bcos::boostssl::MessageFace::Ptr const &)*arg1);
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }

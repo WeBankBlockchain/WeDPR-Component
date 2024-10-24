@@ -19,7 +19,7 @@
  */
 #pragma once
 #include "ppc-framework/front/IFront.h"
-#include "ppc-framework/protocol/Message.h"
+#include "ppc-framework/protocol/P2PMessage.h"
 #include "tbb/concurrent_vector.h"
 #include <bcos-utilities/Common.h>
 #include <boost/asio.hpp>
@@ -29,7 +29,7 @@ namespace ppc::gateway
 {
 struct MessageInfo
 {
-    ppc::protocol::Message::Ptr msg;
+    ppc::protocol::P2PMessage::Ptr msg;
     ppc::protocol::ReceiveMsgFunc callback;
 };
 struct HoldingMessageQueue
@@ -50,7 +50,7 @@ public:
     {}
     virtual ~MessageCache() = default;
 
-    void insertCache(std::string const& topic, ppc::protocol::Message::Ptr const& msg,
+    void insertCache(std::string const& topic, ppc::protocol::P2PMessage::Ptr const& msg,
         ppc::protocol::ReceiveMsgFunc callback);
     HoldingMessageQueue::Ptr pop(std::string const& topic);
 

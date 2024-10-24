@@ -1,5 +1,3 @@
-project(ppc-crypto-core VERSION ${VERSION})
-
 add_subdirectory(src)
 if (TESTS)
     enable_testing()

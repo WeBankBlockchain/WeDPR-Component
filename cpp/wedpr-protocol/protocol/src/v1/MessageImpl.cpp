@@ -36,24 +36,6 @@ bool MessageImpl::encode(bcos::bytes& _buffer)
     return true;
 }
 
-bool MessageImpl::encode(bcos::boostssl::EncodedMsg& encodedMsg)
-{
-    try
-    {
-        // header
-        m_header->encode(encodedMsg.header);
-        // assign the payload back
-        encodedMsg.payload = m_payload;
-        return true;
-    }
-    catch (std::exception const& e)
-    {
-        PROTOCOL_LOG(WARNING) << LOG_DESC("encode message failed")
-                              << LOG_KV("error", boost::diagnostic_information(e));
-        return false;
-    }
-}
-
 int64_t MessageImpl::decode(bytesConstRef buffer)
 {
     if (buffer.size() > m_maxMessageLen)

@@ -1,8 +1,4 @@
 cmake_minimum_required(VERSION 3.14)
-
-include(Version)
-project(ppc-gateway VERSION ${VERSION})
-
 find_package(Boost COMPONENTS filesystem)
 
 file(GLOB_RECURSE SRCS ppc-gateway/*.cpp)

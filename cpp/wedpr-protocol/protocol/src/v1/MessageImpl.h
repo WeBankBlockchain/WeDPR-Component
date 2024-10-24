@@ -20,7 +20,6 @@
 #pragma once
 #include "ppc-framework/Common.h"
 #include "ppc-framework/protocol/Message.h"
-#include "ppc-utilities/Utilities.h"
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -46,11 +45,9 @@ public:
     ~MessageImpl() override = default;
 
     bool encode(bcos::bytes& _buffer) override;
-    // encode and return the {header, payload}
-    bool encode(bcos::boostssl::EncodedMsg& _encodedMsg) override;
     int64_t decode(bcos::bytesConstRef _buffer) override;
 
-private:
+protected:
     MessageHeaderBuilder::Ptr m_headerBuilder;
 
     // default max message length is 100MB
@@ -82,6 +79,11 @@ public:
         return std::make_shared<MessageImpl>(m_msgHeaderBuilder, m_maxMessageLen, buffer);
     }
 
+    virtual MessageOptionalHeader::Ptr build(MessageOptionalHeader::Ptr const& optionalHeader)
+    {
+        return m_msgHeaderBuilder->build(optionalHeader);
+    }
+
     Message::Ptr build(ppc::protocol::RouteType routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload) override
     {
@@ -92,18 +94,7 @@ public:
         return msg;
     }
 
-    bcos::boostssl::MessageFace::Ptr buildMessage() override
-    {
-        return std::make_shared<MessageImpl>(m_msgHeaderBuilder, m_maxMessageLen);
-    }
-
-    virtual MessageOptionalHeader::Ptr build(MessageOptionalHeader::Ptr const& optionalHeader)
-    {
-        return m_msgHeaderBuilder->build(optionalHeader);
-    }
-    std::string newSeq() override { return generateUUID(); }
-
-private:
+protected:
     MessageHeaderBuilder::Ptr m_msgHeaderBuilder;
     // default max message length is 100MB
     size_t m_maxMessageLen = 100 * 1024 * 1024;

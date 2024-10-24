@@ -1,8 +1,3 @@
-cmake_minimum_required(VERSION 3.14)
-
-include(Version)
-project(wedpr-tars-protocol VERSION ${VERSION})
-
 # for tars generator
 set(TARS_HEADER_DIR ${CMAKE_BINARY_DIR}/generated/tars)
 find_program(TARS_TARS2CPP tars2cpp REQUIRED)

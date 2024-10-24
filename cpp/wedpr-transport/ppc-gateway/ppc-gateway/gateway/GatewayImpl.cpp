@@ -35,7 +35,7 @@ GatewayImpl::GatewayImpl(Service::Ptr const& service,
     std::shared_ptr<boost::asio::io_service> ioService, std::string const& agency)
   : m_service(service),
     m_msgBuilder(
-        std::dynamic_pointer_cast<ppc::protocol::MessageBuilder>(service->messageFactory())),
+        std::dynamic_pointer_cast<ppc::protocol::P2PMessageBuilder>(service->messageFactory())),
     m_frontBuilder(frontBuilder),
     m_agency(agency),
     m_p2pRouterManager(std::make_shared<RouterManager>(service)),
@@ -155,13 +155,14 @@ void GatewayImpl::asyncSendMessage(ppc::protocol::RouteType routeType,
     auto p2pMessage = m_msgBuilder->build(routeType, routeInfo, std::move(payload));
     p2pMessage->setSeq(traceID);
     p2pMessage->setPacketType((uint16_t)GatewayPacketType::P2PMessage);
-    GATEWAY_LOG(TRACE) << LOG_DESC("asyncSendMessage") << LOG_KV("msg", printMessage(p2pMessage));
+    GATEWAY_LOG(TRACE) << LOG_DESC("asyncSendMessage")
+                       << LOG_KV("msg", printP2PMessage(p2pMessage));
     auto nodeList = m_localRouter->chooseReceiver(p2pMessage);
     // case send to the same agency
     if (!nodeList.empty())
     {
         GATEWAY_LOG(TRACE) << LOG_DESC("hit the local router, dispatch message directly")
-                           << LOG_KV("msg", printMessage(p2pMessage));
+                           << LOG_KV("msg", printP2PMessage(p2pMessage));
         m_localRouter->dispatcherMessage(p2pMessage, callback);
         return;
     }
@@ -171,7 +172,7 @@ void GatewayImpl::asyncSendMessage(ppc::protocol::RouteType routeType,
     if (selectedP2PNodes.empty())
     {
         GATEWAY_LOG(INFO) << LOG_DESC("can't find the gateway to send the message")
-                          << LOG_KV("detail", printMessage(p2pMessage));
+                          << LOG_KV("detail", printP2PMessage(p2pMessage));
         if (callback)
         {
             callback(std::make_shared<bcos::Error>(
@@ -189,7 +190,7 @@ void GatewayImpl::asyncSendMessage(ppc::protocol::RouteType routeType,
 void GatewayImpl::onReceiveP2PMessage(MessageFace::Ptr msg, WsSession::Ptr session)
 {
     // try to dispatcher to the front
-    auto p2pMessage = std::dynamic_pointer_cast<Message>(msg);
+    auto p2pMessage = std::dynamic_pointer_cast<P2PMessage>(msg);
     auto self = std::weak_ptr<GatewayImpl>(shared_from_this());
     // Note: the callback can only been called once since it binds the callback seq
     auto callback = [p2pMessage, session, self](Error::Ptr error) {
@@ -209,7 +210,7 @@ void GatewayImpl::onReceiveP2PMessage(MessageFace::Ptr msg, WsSession::Ptr sessi
             GATEWAY_LOG(WARNING) << LOG_DESC("onReceiveP2PMessage: dispatcherMessage failed")
                                  << LOG_KV("code", error->errorCode())
                                  << LOG_KV("msg", error->errorMessage())
-                                 << printMessage(p2pMessage);
+                                 << printP2PMessage(p2pMessage);
             errorCode = std::to_string(error->errorCode());
         }
 
@@ -224,18 +225,18 @@ void GatewayImpl::onReceiveP2PMessage(MessageFace::Ptr msg, WsSession::Ptr sessi
         GATEWAY_LOG(ERROR)
             << LOG_DESC(
                    "onReceiveP2PMessage failed to find the node that can dispatch this message")
-            << LOG_KV("msg", printMessage(p2pMessage));
+            << LOG_KV("msg", printP2PMessage(p2pMessage));
         callback(std::make_shared<bcos::Error>(CommonError::NotFoundFrontServiceDispatchMsg,
             "unable to find the node to dispatcher this message, message detail: " +
-                printMessage(p2pMessage)));
+                printP2PMessage(p2pMessage)));
     }
 }
 
 void GatewayImpl::onReceiveBroadcastMessage(MessageFace::Ptr msg, WsSession::Ptr)
 {
-    auto p2pMessage = std::dynamic_pointer_cast<Message>(msg);
+    auto p2pMessage = std::dynamic_pointer_cast<P2PMessage>(msg);
     GATEWAY_LOG(TRACE) << LOG_DESC("onReceiveBroadcastMessage, dispatcher")
-                       << LOG_KV("msg", printMessage(p2pMessage));
+                       << LOG_KV("msg", printP2PMessage(p2pMessage));
     m_localRouter->dispatcherMessage(p2pMessage, nullptr);
 }
 

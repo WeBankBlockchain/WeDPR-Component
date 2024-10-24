@@ -1,5 +1,3 @@
-project(ppc-tools VERSION ${VERSION})
-
 aux_source_directory(src/cuckoo SRCS)
 aux_source_directory(src/config SRCS)
 

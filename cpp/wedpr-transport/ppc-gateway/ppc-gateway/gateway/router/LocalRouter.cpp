@@ -76,7 +76,8 @@ void LocalRouter::unRegisterTopic(bcos::bytesConstRef _nodeID, std::string const
     m_routerInfo->unRegisterTopic(_nodeID.toBytes(), topic);
 }
 
-bool LocalRouter::dispatcherMessage(Message::Ptr const& msg, ReceiveMsgFunc callback, bool holding)
+bool LocalRouter::dispatcherMessage(
+    P2PMessage::Ptr const& msg, ReceiveMsgFunc callback, bool holding)
 {
     auto frontList = chooseReceiver(msg);
     // find the front
@@ -88,11 +89,11 @@ bool LocalRouter::dispatcherMessage(Message::Ptr const& msg, ReceiveMsgFunc call
         {
             if (i == 0)
             {
-                front->onReceiveMessage(msg, callback);
+                front->onReceiveMessage(msg->msg(), callback);
             }
             else
             {
-                front->onReceiveMessage(msg, [](bcos::Error::Ptr error) {
+                front->onReceiveMessage(msg->msg(), [](bcos::Error::Ptr error) {
                     if (!error || error->errorCode() == 0)
                     {
                         return;
@@ -126,7 +127,7 @@ bool LocalRouter::dispatcherMessage(Message::Ptr const& msg, ReceiveMsgFunc call
 }
 
 std::vector<ppc::front::IFrontClient::Ptr> LocalRouter::chooseReceiver(
-    ppc::protocol::Message::Ptr const& msg)
+    ppc::protocol::P2PMessage::Ptr const& msg)
 {
     std::vector<ppc::front::IFrontClient::Ptr> receivers;
     auto const& dstInst = msg->header()->optionalField()->dstInst();
@@ -168,6 +169,6 @@ std::vector<ppc::front::IFrontClient::Ptr> LocalRouter::chooseReceiver(
     default:
         BOOST_THROW_EXCEPTION(WeDPRException() << errinfo_comment(
                                   "chooseReceiver failed for unknown routeType, message detail: " +
-                                  printMessage(msg)));
+                                  printP2PMessage(msg)));
     }
 }

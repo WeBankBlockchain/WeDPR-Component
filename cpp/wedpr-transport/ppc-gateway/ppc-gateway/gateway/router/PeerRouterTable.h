@@ -19,7 +19,7 @@
  */
 #pragma once
 #include "GatewayNodeInfo.h"
-#include "ppc-framework/protocol/Message.h"
+#include "ppc-framework/protocol/P2PMessage.h"
 #include "ppc-framework/protocol/RouteType.h"
 #include "ppc-gateway/p2p/Service.h"
 #include <bcos-utilities/Common.h>
@@ -44,7 +44,7 @@ public:
     virtual std::vector<std::string> selectTargetNodes(ppc::protocol::RouteType const& routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) const;
 
-    virtual void asyncBroadcastMessage(ppc::protocol::Message::Ptr const& msg) const;
+    virtual void asyncBroadcastMessage(ppc::protocol::P2PMessage::Ptr const& msg) const;
 
     std::set<std::string> agencies(std::vector<std::string> const& components) const;
 

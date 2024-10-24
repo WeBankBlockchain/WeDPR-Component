@@ -1,7 +1,3 @@
-cmake_minimum_required(VERSION 3.14)
-
-project(pro-psi-node)
-
 include_directories(${CMAKE_SOURCE_DIR})
 
 aux_source_directory(./ SRC_LIST)

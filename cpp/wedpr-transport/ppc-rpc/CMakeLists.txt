@@ -1,4 +1,3 @@
-project(ppc-rpc VERSION ${VERSION})
 add_subdirectory(src)
 
 if (TESTS)

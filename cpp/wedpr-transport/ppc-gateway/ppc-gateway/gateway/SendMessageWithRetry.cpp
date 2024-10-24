@@ -47,12 +47,12 @@ void SendMessageWithRetry::trySendMessage()
     if (m_dstNodeList.empty())
     {
         GATEWAY_LOG(DEBUG) << LOG_DESC("Gateway::SendMessageWithRetry: unable to send the message")
-                           << printMessage(m_p2pMessage);
+                           << printP2PMessage(m_p2pMessage);
         if (m_respFunc)
         {
             m_respFunc(std::make_shared<bcos::Error>(
                 -1, "can't find the gateway to send the message, detail: " +
-                        printMessage(m_p2pMessage)));
+                        printP2PMessage(m_p2pMessage)));
         }
         return;
     }
@@ -66,7 +66,7 @@ void SendMessageWithRetry::trySendMessage()
         {
             GATEWAY_LOG(DEBUG) << LOG_BADGE("trySendMessage")
                                << LOG_DESC("send message failed, retry again")
-                               << LOG_KV("msg", printMessage(self->m_p2pMessage))
+                               << LOG_KV("msg", printP2PMessage(self->m_p2pMessage))
                                << LOG_KV("code", error->errorCode())
                                << LOG_KV("msg", error->errorMessage())
                                << LOG_KV("timeCost", (utcTime() - startT));
@@ -85,13 +85,13 @@ void SendMessageWithRetry::trySendMessage()
             {
                 GATEWAY_LOG(DEBUG)
                     << LOG_BADGE("trySendMessage again") << LOG_KV("respCode", respCode)
-                    << LOG_KV("msg", printMessage(self->m_p2pMessage));
+                    << LOG_KV("msg", printP2PMessage(self->m_p2pMessage));
                 // try again
                 self->trySendMessage();
                 return;
             }
             GATEWAY_LOG(TRACE) << LOG_BADGE("asyncSendMessageByNodeID success")
-                               << LOG_KV("msg", printMessage(self->m_p2pMessage));
+                               << LOG_KV("msg", printP2PMessage(self->m_p2pMessage));
             // send message successfully
             if (self->m_respFunc)
             {
@@ -102,7 +102,7 @@ void SendMessageWithRetry::trySendMessage()
         catch (const std::exception& e)
         {
             GATEWAY_LOG(ERROR) << LOG_BADGE("trySendMessage and receive response exception")
-                               << LOG_KV("msg", printMessage(self->m_p2pMessage))
+                               << LOG_KV("msg", printP2PMessage(self->m_p2pMessage))
                                << LOG_KV("error", boost::diagnostic_information(e));
 
             self->trySendMessage();

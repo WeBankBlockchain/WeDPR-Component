@@ -1,5 +1,3 @@
-project(wedpr-component-sdk VERSION ${VERSION})
-
 # export windows dll symbol
 if(WIN32)
     message(STATUS "Compile on Windows")

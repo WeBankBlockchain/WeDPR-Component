@@ -18,7 +18,7 @@
  * @date 2024-08-26
  */
 #pragma once
-#include "ppc-framework/protocol/Message.h"
+#include "ppc-framework/protocol/P2PMessage.h"
 #include "ppc-gateway/gateway/router/GatewayNodeInfo.h"
 #include "ppc-gateway/p2p/Service.h"
 #include <bcos-utilities/Common.h>
@@ -31,7 +31,7 @@ class SendMessageWithRetry : public std::enable_shared_from_this<SendMessageWith
 public:
     using Ptr = std::shared_ptr<SendMessageWithRetry>;
     SendMessageWithRetry(Service::Ptr const& service, GatewayNodeInfos&& dstNodeList,
-        ppc::protocol::Message::Ptr&& p2pMessage, ppc::protocol::ReceiveMsgFunc respFunc,
+        ppc::protocol::P2PMessage::Ptr&& p2pMessage, ppc::protocol::ReceiveMsgFunc respFunc,
         long timeout)
       : m_service(service),
         m_dstNodeList(std::move(dstNodeList)),
@@ -54,7 +54,7 @@ private:
     // mutex for p2pIDs
     mutable bcos::RecursiveMutex x_mutex;
     GatewayNodeInfos m_dstNodeList;
-    ppc::protocol::Message::Ptr m_p2pMessage;
+    ppc::protocol::P2PMessage::Ptr m_p2pMessage;
     Service::Ptr m_service;
     ppc::protocol::ReceiveMsgFunc m_respFunc;
     long m_timeout;
