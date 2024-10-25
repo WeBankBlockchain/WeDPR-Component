@@ -37,7 +37,6 @@ google~=3.0.0
 paste~=3.5.0
 func_timeout==4.3.0
 cheroot==8.5.2
-prefect==1.4.0
 gmssl~=3.2.1
 readerwriterlock~=1.0.4
 jsoncomment~=0.2.3

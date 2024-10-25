@@ -3,11 +3,13 @@ on:
   push:
     paths-ignore:
       - "docs/**"
+      - "python/**"
       - "Changelog.md"
       - "README.md"
   pull_request:
     paths-ignore:
       - "docs/**"
+      - "python/**"
       - "Changelog.md"
       - "README.md"
   release:

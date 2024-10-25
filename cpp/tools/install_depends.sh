@@ -38,7 +38,7 @@ install_gsasl_depend()
     fi
     # ubuntu
     if [[ "${os_type}" == "ubuntu" ]];then
-        cd libgsasl-1.8.0 && ./configure --with-pic --disable-ntlm --disable-gs2 --disable-gssapi --without-stringprep && make -j4 && make install
+        cd libgsasl-1.8.0 && ./configure --with-pic && make -j4 && make install
     fi
     LOG_INFO "download and install gsasl success..."
 }

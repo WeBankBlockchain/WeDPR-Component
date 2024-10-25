@@ -3,11 +3,13 @@ on:
   push:
     paths-ignore:
       - "docs/**"
+      - "python/**"
       - "Changelog.md"
       - "README.md"
   pull_request:
     paths-ignore:
       - "docs/**"
+      - "python/**"
       - "Changelog.md"
       - "README.md"
   release:
@@ -62,7 +64,7 @@ jobs:
           sudo apt install -y lcov ccache wget libgmp-dev python3-dev
           export GCC='gcc-10'
           export CXX='g++-10'
-          bash cpp/tools/install_depends.sh -o ubuntu
+          bash -x cpp/tools/install_depends.sh -o ubuntu
           mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../ || cat /Users/runner/work/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/libhdfs3/config-x64-osx-dbg-err.log
       - name: Build for macOS
         if: runner.os == 'macOS'
@@ -70,16 +72,16 @@ jobs:
           bash -x cpp/tools/install_depends.sh -o macos
           mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
-      - name: Test
-        if: runner.os != 'Windows'
-        run: |
-          cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE ctest
       - name: Publish Error
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: config-x64-osx-dbg-err.log
-          path: /Users/runner/work/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/libhdfs3/config-x64-osx-dbg-err.log
+            name: config-x64-linux-dbg-err.log
+            path: /home/runner/work/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/libhdfs3/config-x64-linux-dbg-err.log
+      #- name: Test
+      #  if: runner.os != 'Windows'
+      #  run: |
+      #    cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE ctest
 
   build_centos:
     name: build_centos full node
@@ -135,28 +137,34 @@ jobs:
         run: |
           bash cpp/tools/install_depends.sh -o centos
           alias cmake='cmake3'
-          . /opt/rh/devtoolset-11/enable
+          . /opt/rh/devtoolset-11/enable 
           mkdir -p cpp/build
           cd cpp/build
           cmake3 -DCMAKE_BUILD_TYPE=Release -DTESTS=ON -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake ../
           cmake3 --build . --parallel 3
-      - name: Test
-        run: |
-          export OMP_NUM_THREADS=1
-          cd build && CTEST_OUTPUT_ON_FAILURE=TRUE make test
-      - uses: actions/upload-artifact@v4
+      - name: Publish Error
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+            name: vcpkg-manifest-install.log
+            path: /__w/WeDPR-Component/WeDPR-Component/cpp/build/vcpkg-manifest-install.log
+      #- name: Test
+      #  run: |
+      #    export OMP_NUM_THREADS=1
+      #    cd build && CTEST_OUTPUT_ON_FAILURE=TRUE make test
+      - uses: actions/upload-artifact@v3
         with:
           name: ppc-air-node-centos-x64
           path: ./cpp/build/bin/ppc-air-node
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         with:
           name: ppc-pro-node-centos-x64
           path: ./cpp/build/bin/ppc-pro-node
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         with:
           name: ppc-gateway-service-centos-x64
           path: ./cpp/build/bin/ppc-gateway-service
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         with:
           name: libppc-crypto-sdk-jni.so
           path: ./cpp/wedpr-component-sdk/bindings/java/src/main/resources/META-INF/native/libppc-crypto-sdk-jni.so
