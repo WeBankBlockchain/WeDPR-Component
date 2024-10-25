@@ -26,6 +26,23 @@ install_gsasl_depend()
         return
     fi
     LOG_INFO "download and install gsasl..."
+    wget --no-check-certificate https://ftp.gnu.org/gnu/gsasl/gsasl-1.8.0.tar.gz && tar -xvf gsasl-1.8.0.tar.gz 
+    
+    # centos
+    if [[ "${os_type}" == "centos" ]];then
+        cd gsasl-1.8.0 && ./configure --with-pic && make -j4 && make install
+    fi
+    # macos
+    if [[ "${os_type}" == "macos" ]];then
+        cd gsasl-1.8.0 && ./configure --with-pic && make -j4 && make install
+    fi
+    # ubuntu
+    if [[ "${os_type}" == "ubuntu" ]];then
+        cd gsasl-1.8.0 && ./configure --with-pic && make -j4 && make install
+    fi
+    LOG_INFO "download and install gsasl success..."
+
+    LOG_INFO "download and install libgsasl..."
     wget --no-check-certificate https://ftp.gnu.org/gnu/gsasl/libgsasl-1.8.0.tar.gz && tar -xvf libgsasl-1.8.0.tar.gz 
     
     # centos
@@ -40,7 +57,7 @@ install_gsasl_depend()
     if [[ "${os_type}" == "ubuntu" ]];then
         cd libgsasl-1.8.0 && ./configure --with-pic && make -j4 && make install
     fi
-    LOG_INFO "download and install gsasl success..."
+    LOG_INFO "download and install libgsasl success..."
 }
 
 install_nasm_depend()
