@@ -79,7 +79,7 @@ jobs:
         run: |
           brew install lcov
           bash cpp/tools/install_depends.sh -o macos
-          mkdir -p cpp/build && cd cpp/build && cmake -DBUILD_WEDPR_TOOLKIT=ON -DBUILD_PYTHON=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          mkdir -p cpp/build && cd cpp/build && cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_WEDPR_TOOLKIT=ON -DBUILD_PYTHON=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
       - uses: actions/upload-artifact@v4
         if: runner.os == 'macos'
@@ -147,3 +147,7 @@ jobs:
             cd cpp/build
             cmake3 -DCMAKE_BUILD_TYPE=Release -DBUILD_WEDPR_TOOLKIT=ON -DBUILD_PYTHON=ON -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake ../
             cmake3 --build . --parallel 3
+        - uses: actions/upload-artifact@v3
+          with:
+            name: libwedpr_java_transport_jni.so
+            path: ./cpp/wedpr-transport/sdk-wrapper/java/bindings/src/main/resources/META-INF/native/libwedpr_java_transport_jni.so
