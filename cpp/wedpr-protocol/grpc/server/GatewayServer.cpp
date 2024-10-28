@@ -29,7 +29,8 @@ ServerUnaryReactor* GatewayServer::asyncSendMessage(CallbackServerContext* conte
     ServerUnaryReactor* reactor(context->DefaultReactor());
     try
     {
-        // TODO: optimize here
+        // TODO: optimize here (since bytes of protobuf is represented with string, no zero-copy
+        // method has been found yet, unless the payload is stored in string)
         bcos::bytes payloadData(sendedMsg->payload().begin(), sendedMsg->payload().end());
         auto routeInfo = generateRouteInfo(m_routeInfoBuilder, sendedMsg->routeinfo());
         m_gateway->asyncSendMessage((ppc::protocol::RouteType)sendedMsg->routetype(), routeInfo,

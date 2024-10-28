@@ -38,8 +38,8 @@ public:
         ppc::io::DataResourceLoader::Ptr const& _dataResourceLoader, uint32_t _dataBatchSize,
         int _holdingMessageMinutes, bcos::ThreadPool::Ptr const& _threadPool = nullptr,
         int _threadPoolSize = std::thread::hardware_concurrency())
-      : PSIConfig(ppc::protocol::PSIAlgorithmType::ECDH_PSI_2PC, _selfParty, _front, _ppcMsgFactory,
-            _dataResourceLoader, _holdingMessageMinutes),
+      : PSIConfig(ppc::protocol::TaskAlgorithmType::ECDH_PSI_2PC, _selfParty, _front,
+            _ppcMsgFactory, _dataResourceLoader, _holdingMessageMinutes),
         m_msgFactory(_msgFactory),
         m_threadPool(_threadPool),
         m_ecdhCryptoFactory(_ecdhCryptoFactory),

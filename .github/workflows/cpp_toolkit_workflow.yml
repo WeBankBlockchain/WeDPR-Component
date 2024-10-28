@@ -53,9 +53,9 @@ jobs:
             ${{ env.VCPKG_ROOT }}/buildtrees
             ${{ env.VCPKG_ROOT }}/packages
             ${{ env.VCPKG_ROOT }}/downloads
-          key: build-toolkit-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+          key: build-toolkit-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/cpp_toolkit_workflow.yml') }}
           restore-keys: |
-            build-toolkit-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+            build-toolkit-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/cpp_toolkit_workflow.yml') }}
             build-toolkit-${{ matrix.os }}-${{ github.base_ref }}-
             build-toolkit-${{ matrix.os }}-
       - name: Add MSbuild to PATH
@@ -118,9 +118,9 @@ jobs:
               /usr/local/share/vcpkg/packages
               /home/runner/.ccache
               /Users/runner/.ccache/
-            key: centos-toolkit-notest-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+            key: centos-toolkit-notest-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/cpp_toolkit_workflow.yml') }}
             restore-keys: |
-              centos-toolkit-notest-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/workflow.yml') }}
+              centos-toolkit-notest-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/cpp_toolkit_workflow.yml') }}
               centos-toolkit-notest-all-${{ matrix.os }}-${{ github.base_ref }}-
               centos-toolkit-notest-all-${{ matrix.os }}-
         - name: Prepare centos tools

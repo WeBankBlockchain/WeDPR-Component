@@ -373,7 +373,7 @@ void EcdhPSIImpl::blindData(TaskState::Ptr const& _taskState)
             ECDH_LOG(WARNING) << LOG_DESC("blindData: send SyncDataBatchInfo request error")
                               << LOG_KV("code", _error->errorCode())
                               << LOG_KV("msg", _error->errorMessage());
-            // cancel the task(TODO:retry)
+            // cancel the task
             psi->cancelTask(std::move(_error), _taskState->task()->id());
         });
     ECDH_LOG(INFO) << LOG_DESC("blindData success") << printTaskInfo(_taskState->task())
@@ -653,9 +653,9 @@ void EcdhPSIImpl::onHandshakeRequest(PSIMessageInterface::Ptr const& _msg)
     std::set<int> clientHashList(hashList.begin(), hashList.end());
 
     auto supportedCurves = g_PPCConfig.supportedCurves(
-        (uint8_t)TaskType::PSI, (uint8_t)PSIAlgorithmType::ECDH_PSI_2PC);
+        (uint8_t)TaskType::PSI, (uint8_t)TaskAlgorithmType::ECDH_PSI_2PC);
     auto supportedHashList = g_PPCConfig.supportedHashList(
-        (uint8_t)TaskType::PSI, (uint8_t)PSIAlgorithmType::ECDH_PSI_2PC);
+        (uint8_t)TaskType::PSI, (uint8_t)TaskAlgorithmType::ECDH_PSI_2PC);
     std::set<int> localCurves(supportedCurves.begin(), supportedCurves.end());
     std::set<int> localHashTypes(supportedHashList.begin(), supportedHashList.end());
     auto handshakeResponse =

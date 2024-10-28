@@ -94,7 +94,7 @@ enum PSIRetCode : int
     TaskIsNotRunning = -1025,
     OnException = -1026,
     TaskExists = -1027,
-    TaskKilled= -1028,
+    TaskKilled = -1028,
     TaskCountReachMax = -1029,
     TaskTimeout = -1030
 };

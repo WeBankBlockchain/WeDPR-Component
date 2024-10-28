@@ -92,7 +92,7 @@ void CM2020PSISender::runSender()
     try
     {
         auto message = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(protocol::TaskType::PSI),
-            uint8_t(protocol::PSIAlgorithmType::CM_PSI_2PC), m_taskID,
+            uint8_t(protocol::TaskAlgorithmType::CM_PSI_2PC), m_taskID,
             std::make_shared<bcos::bytes>());
         message->setMessageType(uint8_t(CM2020PSIMessageType::HELLO_RECEIVER));
 
@@ -176,7 +176,7 @@ void CM2020PSISender::syncInputsSize()
     auto data = std::make_shared<bcos::bytes>();
     encodeUnsignedNum(data, m_sInputSize);
     auto message = m_config->ppcMsgFactory()->buildPPCMessage(
-        uint8_t(TaskType::PSI), uint8_t(PSIAlgorithmType::CM_PSI_2PC), m_taskID, data);
+        uint8_t(TaskType::PSI), uint8_t(TaskAlgorithmType::CM_PSI_2PC), m_taskID, data);
     message->setMessageType(uint8_t(CM2020PSIMessageType::SENDER_SIZE));
 
     m_config->front()->asyncSendMessage(
@@ -239,8 +239,8 @@ void CM2020PSISender::onPointAReceived(front::PPCMessageFace::Ptr _message)
         auto retPair = m_ot->receiverGeneratePointsB(m_otChoices, pointA);
 
         // send batch point B to ot sender
-        auto message = m_config->ppcMsgFactory()->buildPPCMessage(
-            uint8_t(TaskType::PSI), uint8_t(PSIAlgorithmType::CM_PSI_2PC), m_taskID, retPair.first);
+        auto message = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(TaskType::PSI),
+            uint8_t(TaskAlgorithmType::CM_PSI_2PC), m_taskID, retPair.first);
         message->setMessageType(uint8_t(CM2020PSIMessageType::POINT_B_ARRAY));
 
         m_config->front()->asyncSendMessage(
@@ -413,7 +413,8 @@ void CM2020PSISender::noticeReceiverDoNextRound()
     CM2020_PSI_LOG(INFO) << LOG_BADGE("noticeReceiverDoNextRound") << LOG_KV("taskID", m_taskID)
                          << LOG_KV("round", m_oprfRound);
     auto message = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(protocol::TaskType::PSI),
-        uint8_t(protocol::PSIAlgorithmType::CM_PSI_2PC), m_taskID, std::make_shared<bcos::bytes>());
+        uint8_t(protocol::TaskAlgorithmType::CM_PSI_2PC), m_taskID,
+        std::make_shared<bcos::bytes>());
     message->setMessageType(uint8_t(CM2020PSIMessageType::DO_NEXT_ROUND));
     m_config->front()->asyncSendMessage(
         m_taskState->peerID(), message, m_config->networkTimeout(),
@@ -634,7 +635,7 @@ void CM2020PSISender::computeAndSendHash()
             }
 
             auto message = m_config->ppcMsgFactory()->buildPPCMessage(
-                uint8_t(TaskType::PSI), uint8_t(PSIAlgorithmType::CM_PSI_2PC), m_taskID, buffer);
+                uint8_t(TaskType::PSI), uint8_t(TaskAlgorithmType::CM_PSI_2PC), m_taskID, buffer);
             message->setMessageType(uint8_t(CM2020PSIMessageType::HASHES));
             message->setSeq(round);
 

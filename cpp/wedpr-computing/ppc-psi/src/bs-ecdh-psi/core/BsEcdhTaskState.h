@@ -162,7 +162,7 @@ private:
     {
         m_status = protocol::TaskStatus::RUNNING;
         m_autoPauseThreshold = PAUSE_THRESHOLD;
-	m_latestActiveTime = bcos::utcSteadyTime();
+        m_latestActiveTime = bcos::utcSteadyTime();
     }
 
     void turnToPausing()

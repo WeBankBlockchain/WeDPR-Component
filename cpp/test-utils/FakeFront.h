@@ -89,7 +89,7 @@ public:
         uint8_t type = _message->algorithmType();
         switch (type)
         {
-        case uint8_t(PSIAlgorithmType::RA_PSI_2PC):
+        case uint8_t(TaskAlgorithmType::RA_PSI_2PC):
         {
             if (!m_agencyToRA2018.count(_agencyID))
             {
@@ -103,7 +103,7 @@ public:
             _callback(nullptr);
             break;
         }
-        case uint8_t(PSIAlgorithmType::LABELED_PSI_2PC):
+        case uint8_t(TaskAlgorithmType::LABELED_PSI_2PC):
         {
             if (!m_agencyToLabeledPSI.count(_agencyID))
             {
@@ -117,7 +117,7 @@ public:
             _callback(nullptr);
             break;
         }
-        case uint8_t(PSIAlgorithmType::CM_PSI_2PC):
+        case uint8_t(TaskAlgorithmType::CM_PSI_2PC):
         {
             if (!m_agencyToCM2020.count(_agencyID))
             {
@@ -131,7 +131,7 @@ public:
             _callback(nullptr);
             break;
         }
-        case uint8_t(PSIAlgorithmType::ECDH_PSI_2PC):
+        case uint8_t(TaskAlgorithmType::ECDH_PSI_2PC):
         {
             if (!m_agencyToEcdhPSI.count(_agencyID))
             {
@@ -145,7 +145,7 @@ public:
             _callback(nullptr);
             break;
         }
-        case uint8_t(PSIAlgorithmType::ECDH_PSI_MULTI):
+        case uint8_t(TaskAlgorithmType::ECDH_PSI_MULTI):
         {
             if (!m_agencyToEcdhMutliPSI.count(_agencyID))
             {
@@ -159,7 +159,7 @@ public:
             _callback(nullptr);
             break;
         }
-        case uint8_t(PSIAlgorithmType::OT_PIR_2PC):
+        case uint8_t(TaskAlgorithmType::OT_PIR_2PC):
         {
             if (!m_agencyToOTPIR.count(_agencyID))
             {

@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE(test_ppcMesage)
 {
     int version = 1;
     int taskType = uint8_t(protocol::TaskType::PSI);
-    int algorithmType = uint8_t(protocol::PSIAlgorithmType::CM_PSI_2PC);
+    int algorithmType = uint8_t(protocol::TaskAlgorithmType::CM_PSI_2PC);
     int messageType = 4;
     std::string taskID = "12345678";
     int seq = 5;

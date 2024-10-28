@@ -87,7 +87,7 @@ void testEcdhImplFunc(int64_t _dataBatchSize, std::string const& _serverPSIDataS
     std::string taskID = "runPSI";
     clientPSITask->setId(taskID);
     clientPSITask->setType((int8_t)TaskType::PSI);
-    clientPSITask->setAlgorithm((int8_t)PSIAlgorithmType::ECDH_PSI_2PC);
+    clientPSITask->setAlgorithm((int8_t)TaskAlgorithmType::ECDH_PSI_2PC);
     clientPSITask->setSelf(clientParty);
     clientPSITask->addParty(serverParty);
 
@@ -103,7 +103,7 @@ void testEcdhImplFunc(int64_t _dataBatchSize, std::string const& _serverPSIDataS
         serverPSITask->setId(taskID);
     }
     serverPSITask->setType((int8_t)TaskType::PSI);
-    serverPSITask->setAlgorithm((int8_t)PSIAlgorithmType::ECDH_PSI_2PC);
+    serverPSITask->setAlgorithm((int8_t)TaskAlgorithmType::ECDH_PSI_2PC);
     serverPSITask->addParty(clientParty);
     // run psi
     testPSI(factory, serverPSI, clientPSI, serverPSITask, clientPSITask, _expectPSISuccess,

@@ -33,7 +33,8 @@ class GatewayImpl : public IGateway, public std::enable_shared_from_this<Gateway
 public:
     using Ptr = std::shared_ptr<GatewayImpl>;
     GatewayImpl(Service::Ptr const& service, ppc::front::IFrontBuilder::Ptr const& frontBuilder,
-        std::shared_ptr<boost::asio::io_service> ioService, std::string const& agency);
+        std::shared_ptr<boost::asio::io_service> ioService, std::string const& agency,
+        uint16_t seqSyncPeriod = 5000);
     ~GatewayImpl() override = default;
 
     void start() override;

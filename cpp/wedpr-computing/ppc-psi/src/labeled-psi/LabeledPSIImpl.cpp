@@ -37,7 +37,7 @@ using namespace ppc::task;
 
 LabeledPSIImpl::LabeledPSIImpl(LabeledPSIConfig::Ptr _config, unsigned _idleTimeMs)
   : Worker("LabeledPSI", _idleTimeMs),
-    TaskGuarder(_config, PSIAlgorithmType::LABELED_PSI_2PC, "Labeled-PSI-Timer"),
+    TaskGuarder(_config, TaskAlgorithmType::LABELED_PSI_2PC, "Labeled-PSI-Timer"),
     m_config(std::move(_config)),
     m_msgQueue(std::make_shared<LabeledPSIMsgQueue>()),
     m_worker(std::make_shared<bcos::ThreadPool>("senderDB-worker", 1))

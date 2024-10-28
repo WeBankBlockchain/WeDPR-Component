@@ -241,6 +241,8 @@ public:
     // for ut
     void setAgencyID(std::string const& agencyID) { m_agencyID = agencyID; }
 
+    uint16_t seqSyncPeriod() const { return m_seqSyncPeriod; }
+
 private:
     virtual void loadEndpointConfig(ppc::protocol::EndPoint& endPoint, bool requireHostIp,
         std::string const& sectionName, boost::property_tree::ptree const& pt);
@@ -295,6 +297,8 @@ private:
     GatewayConfig m_gatewayConfig;
     // the gateway holding message time, in minutes, default 30min
     int m_holdingMessageMinutes = 30;
+
+    uint16_t m_seqSyncPeriod = 5000;
 
     // the front config
     // TODO: parse the frontConfig

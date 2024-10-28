@@ -20,7 +20,7 @@ public:
         int _holdingMessageMinutes, EcdhMultiPSIMessageFactory::Ptr const& _psiMsgFactory,
         const front::PPCMessageFactory::Ptr& _ppcMsgFactory =
             std::make_shared<front::PPCMessageFactory>())
-      : PSIConfig(ppc::protocol::PSIAlgorithmType::ECDH_PSI_MULTI, _selfPartyID, std::move(_front),
+      : PSIConfig(ppc::protocol::TaskAlgorithmType::ECDH_PSI_MULTI, _selfPartyID, std::move(_front),
             _ppcMsgFactory, std::move(_dataResourceLoader), _holdingMessageMinutes),
         m_threadPool(std::move(_threadPool)),
         m_cryptoBox(std::move(_cryptoBox)),

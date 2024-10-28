@@ -32,7 +32,8 @@ class GatewayRouterManager
 public:
     using Ptr = std::shared_ptr<GatewayRouterManager>;
     GatewayRouterManager(Service::Ptr service, GatewayNodeInfoFactory::Ptr nodeStatusFactory,
-        LocalRouter::Ptr localRouter, PeerRouterTable::Ptr peerRouter);
+        LocalRouter::Ptr localRouter, PeerRouterTable::Ptr peerRouter,
+        uint16_t seqSyncPeriod = 5000);
     virtual void start();
     virtual void stop();
 
@@ -66,7 +67,6 @@ private:
     std::map<std::string, uint32_t> m_p2pID2Seq;
     mutable bcos::SharedMutex x_p2pID2Seq;
 
-    // TODO: make this configurable
-    unsigned const SEQ_SYNC_PERIOD = 3000;
+    uint16_t m_seqSyncPeriod;
 };
 }  // namespace ppc::gateway

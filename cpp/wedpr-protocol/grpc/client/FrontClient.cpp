@@ -28,11 +28,11 @@ using namespace grpc;
 
 void FrontClient::onReceiveMessage(ppc::protocol::Message::Ptr const& msg, ReceiveMsgFunc callback)
 {
-    // TODO: optimize here
     std::unique_ptr<ReceivedMessage> request(new ReceivedMessage());
     bcos::bytes encodedData;
     msg->encode(encodedData);
-    request->set_data(encodedData.data(), encodedData.size());
+    *request->mutable_data() =
+        std::move(std::string_view((const char*)encodedData.data(), encodedData.size()));
 
     // The ClientContext instance used for creating an rpc must remain alive and valid for the
     // lifetime of the rpc

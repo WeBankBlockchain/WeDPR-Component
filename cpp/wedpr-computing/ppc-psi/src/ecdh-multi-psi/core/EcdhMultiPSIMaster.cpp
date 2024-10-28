@@ -19,7 +19,8 @@ EcdhMultiPSIMaster::EcdhMultiPSIMaster(EcdhMultiPSIConfig::Ptr _config, TaskStat
     m_taskID = task->id();
     m_masterCipherDataCache = std::make_shared<MasterCipherDataCache>();
     m_final_counts[m_taskID] = 0;
-    m_syncResult = (task->syncResultToPeer() && std::find(receivers.begin(), receivers.end(), m_config->selfParty()) != receivers.end());
+    m_syncResult = (task->syncResultToPeer() && std::find(receivers.begin(), receivers.end(),
+                                                    m_config->selfParty()) != receivers.end());
 }
 
 void EcdhMultiPSIMaster::asyncStartRunTask(ppc::protocol::Task::ConstPtr _task)

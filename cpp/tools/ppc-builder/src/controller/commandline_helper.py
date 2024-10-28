@@ -83,6 +83,6 @@ def execute_command(args):
     if command == utilities.CommandInfo.generate_config:
         generate_node_config(args, toml_config)
         return
-    # TODO: implement extend
+    # TODO: implement expand
     if command == utilities.CommandInfo.extend:
         utilities.log_error("unimplemented command %s" % command)

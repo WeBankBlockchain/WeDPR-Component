@@ -39,7 +39,7 @@ using namespace ppc::psi;
 
 OtPIRImpl::OtPIRImpl(const OtPIRConfig::Ptr& _config, unsigned _idleTimeMs)
   : Worker("OT-PIR", _idleTimeMs),
-    TaskGuarder(_config, PSIAlgorithmType::OT_PIR_2PC, "OT-PIR-Timer"),
+    TaskGuarder(_config, TaskAlgorithmType::OT_PIR_2PC, "OT-PIR-Timer"),
     m_config(_config),
     m_msgQueue(std::make_shared<OtPIRMsgQueue>()),
     m_ioService(std::make_shared<boost::asio::io_service>()),
@@ -221,7 +221,6 @@ void OtPIRImpl::checkFinishedTask()
         removeReceiver(taskID);
         removeSender(taskID);
         removePendingTask(taskID);
-        // TODO: 为什么这里要再调用一下执行任务
         // asyncRunTask();
     }
 }
@@ -314,7 +313,7 @@ void OtPIRImpl::onHelloReceiver(const ppc::front::PPCMessageFace::Ptr& _message)
         // PIR_LOG(INFO) << LOG_BADGE("buildPPCMessage");
 
         auto message = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(protocol::TaskType::PIR),
-            uint8_t(protocol::PSIAlgorithmType::OT_PIR_2PC), m_taskID,
+            uint8_t(protocol::TaskAlgorithmType::OT_PIR_2PC), m_taskID,
             std::make_shared<bcos::bytes>());
         message->setMessageType(uint8_t(OTPIRMessageType::RESULTS));
         ppctars::serialize::encode(receiverMessageParams, *message->data());
@@ -510,7 +509,8 @@ void OtPIRImpl::runSenderGenerateCipher(PirTaskMessage taskMessage)
     // senderMessageParams.requestAgencyDataset = taskMessage.requestAgencyDataset;
     senderMessageParams.sendObfuscatedHash = senderMessage.sendObfuscatedHash;
     auto message = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(protocol::TaskType::PIR),
-        uint8_t(protocol::PSIAlgorithmType::OT_PIR_2PC), m_taskID, std::make_shared<bcos::bytes>());
+        uint8_t(protocol::TaskAlgorithmType::OT_PIR_2PC), m_taskID,
+        std::make_shared<bcos::bytes>());
     message->setMessageType(uint8_t(OTPIRMessageType::HELLO_RECEIVER));
     ppctars::serialize::encode(senderMessageParams, *message->data());
     addSender(senderMessage);

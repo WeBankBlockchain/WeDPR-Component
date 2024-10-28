@@ -46,7 +46,7 @@ Service::Ptr GatewayFactory::buildService() const
     wsConfig->setSmSSL(gwConfig.networkConfig.enableSM);
     wsConfig->setMaxMsgSize(gwConfig.maxAllowedMsgSize);
     wsConfig->setReconnectPeriod(gwConfig.reconnectTime);
-    // TODO: setHeartbeatPeriod, setSendMsgTimeout
+    // default HeartbeatPeriod is 10s
     wsConfig->setThreadPoolSize(gwConfig.networkConfig.threadPoolSize);
     // connected peers
     wsConfig->setConnectPeers(m_gatewayConfig->nodeIPEndpointSetPtr());
@@ -73,6 +73,7 @@ Service::Ptr GatewayFactory::buildService() const
 IGateway::Ptr GatewayFactory::build(ppc::front::IFrontBuilder::Ptr const& frontBuilder) const
 {
     auto service = buildService();
-    return std::make_shared<GatewayImpl>(
-        service, frontBuilder, std::make_shared<boost::asio::io_service>(), m_config->agencyID());
+    return std::make_shared<GatewayImpl>(service, frontBuilder,
+        std::make_shared<boost::asio::io_service>(), m_config->agencyID(),
+        m_config->seqSyncPeriod());
 }

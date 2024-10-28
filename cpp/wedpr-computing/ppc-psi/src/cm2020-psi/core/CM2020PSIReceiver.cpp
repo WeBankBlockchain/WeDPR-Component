@@ -95,7 +95,7 @@ void CM2020PSIReceiver::runReceiver()
         }
 
         auto message = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(protocol::TaskType::PSI),
-            uint8_t(protocol::PSIAlgorithmType::CM_PSI_2PC), m_taskID,
+            uint8_t(protocol::TaskAlgorithmType::CM_PSI_2PC), m_taskID,
             std::make_shared<bcos::bytes>());
         message->setMessageType(uint8_t(CM2020PSIMessageType::HELLO_SENDER));
         ppctars::serialize::encode(cm2020Params, *message->data());
@@ -189,7 +189,7 @@ void CM2020PSIReceiver::syncInputsSize()
                           << LOG_KV("data", *bcos::toHexString(*data))
                           << LOG_KV("m_rInputSize", m_rInputSize);
     auto message = m_config->ppcMsgFactory()->buildPPCMessage(
-        uint8_t(TaskType::PSI), uint8_t(PSIAlgorithmType::CM_PSI_2PC), m_taskID, data);
+        uint8_t(TaskType::PSI), uint8_t(TaskAlgorithmType::CM_PSI_2PC), m_taskID, data);
     message->setMessageType(uint8_t(CM2020PSIMessageType::RECEIVER_SIZE));
 
     m_config->front()->asyncSendMessage(
@@ -216,7 +216,7 @@ void CM2020PSIReceiver::runRandomOT()
     m_otState = m_ot->senderGeneratePointA();
 
     auto message = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(protocol::TaskType::PSI),
-        uint8_t(protocol::PSIAlgorithmType::CM_PSI_2PC), m_taskID, m_otState.second);
+        uint8_t(protocol::TaskAlgorithmType::CM_PSI_2PC), m_taskID, m_otState.second);
     message->setMessageType(uint8_t(CM2020PSIMessageType::POINT_A));
 
     // send point A to ot receiver
@@ -506,7 +506,7 @@ void CM2020PSIReceiver::negotiateMatrix(uint32_t _bucketIndex, uint32_t _matrixI
         auto sendBuffer = std::make_shared<bcos::bytes>(
             buffer->begin() + rLen, buffer->begin() + rLen + currentLen);
         auto message = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(protocol::TaskType::PSI),
-            uint8_t(protocol::PSIAlgorithmType::CM_PSI_2PC), m_taskID, sendBuffer);
+            uint8_t(protocol::TaskAlgorithmType::CM_PSI_2PC), m_taskID, sendBuffer);
         message->setSeq(_bucketIndex * totalRound + round);
         message->setMessageType(uint8_t(CM2020PSIMessageType::MATRIX));
 
@@ -808,7 +808,7 @@ void CM2020PSIReceiver::syncResults(uint32_t _count)
     auto countData = std::make_shared<bcos::bytes>();
     encodeUnsignedNum(countData, uint32_t(_count));
     auto message = m_config->ppcMsgFactory()->buildPPCMessage(
-        uint8_t(TaskType::PSI), uint8_t(PSIAlgorithmType::CM_PSI_2PC), m_taskID, countData);
+        uint8_t(TaskType::PSI), uint8_t(TaskAlgorithmType::CM_PSI_2PC), m_taskID, countData);
     message->setMessageType(uint8_t(CM2020PSIMessageType::RESULTS_SIZE));
 
     auto error = m_config->sendMessage(m_taskState->peerID(), message);
@@ -837,7 +837,7 @@ void CM2020PSIReceiver::syncResults(uint32_t _count)
             if (count == currentLen)
             {
                 auto resMessage = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(TaskType::PSI),
-                    uint8_t(PSIAlgorithmType::CM_PSI_2PC), m_taskID, buffer);
+                    uint8_t(TaskAlgorithmType::CM_PSI_2PC), m_taskID, buffer);
                 resMessage->setMessageType(uint8_t(CM2020PSIMessageType::RESULTS));
                 resMessage->setSeq(round);
 

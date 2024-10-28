@@ -50,7 +50,7 @@ void LabeledPSISender::handlePsiParamsRequest(const PPCMessageFace::Ptr& _messag
     {
         auto tarsParams = fromPSIParams(m_senderDB->getParams(), m_senderDB->getBinBundleCount());
         auto paramsMessage = m_messageFactory->buildPPCMessage(uint8_t(TaskType::PSI),
-            uint8_t(PSIAlgorithmType::LABELED_PSI_2PC), taskID, std::make_shared<bcos::bytes>());
+            uint8_t(TaskAlgorithmType::LABELED_PSI_2PC), taskID, std::make_shared<bcos::bytes>());
         paramsMessage->setMessageType(uint8_t(LabeledPSIMessageType::PARAMS_RESPONSE));
         ppctars::serialize::encode(tarsParams, *paramsMessage->data());
 
@@ -91,7 +91,7 @@ void LabeledPSISender::handleBlindedItems(const front::PPCMessageFace::Ptr& _mes
         evaluatedData.data = m_config->oprfServer()->evaluate(blindedData.data);
 
         auto evaluatedMessage = m_messageFactory->buildPPCMessage(uint8_t(TaskType::PSI),
-            uint8_t(PSIAlgorithmType::LABELED_PSI_2PC), taskID, std::make_shared<bcos::bytes>());
+            uint8_t(TaskAlgorithmType::LABELED_PSI_2PC), taskID, std::make_shared<bcos::bytes>());
         evaluatedMessage->setMessageType(uint8_t(LabeledPSIMessageType::OPRF_EVALUATED_ITEMS));
         ppctars::serialize::encode(evaluatedData, *evaluatedMessage->data());
 
@@ -432,7 +432,7 @@ void LabeledPSISender::sendResultPackage(const std::string& _taskID, const std::
     }
 
     auto resultMessage = m_messageFactory->buildPPCMessage(uint8_t(TaskType::PSI),
-        uint8_t(PSIAlgorithmType::LABELED_PSI_2PC), _taskID, std::make_shared<bcos::bytes>());
+        uint8_t(TaskAlgorithmType::LABELED_PSI_2PC), _taskID, std::make_shared<bcos::bytes>());
     resultMessage->setMessageType(uint8_t(LabeledPSIMessageType::RESPONSE));
     resultMessage->setSeq(_seq);
     ppctars::serialize::encode(queryResponse, *resultMessage->data());

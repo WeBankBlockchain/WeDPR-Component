@@ -57,8 +57,7 @@ inline std::ostream& operator<<(std::ostream& _out, TaskType const& _type)
 }
 
 // the PSIAlgorithm type
-// TODO: rename PSIAlgorithmType to TaskAlgorithmType
-enum class PSIAlgorithmType : uint8_t
+enum class TaskAlgorithmType : uint8_t
 {
     // PSI implementation for https://eprint.iacr.org/2020/729.pdf(Private Set Intersection in the
     // Internet Setting from Lightweight Oblivious PRF)
@@ -76,34 +75,29 @@ enum class PSIAlgorithmType : uint8_t
     BS_ECDH_PSI = 0x06,
 };
 
-// enum class PSIAlgorithmType : uint8_t
-// {
-//     OT_PIR_2PC = 0x10,
-// };
-
-inline std::ostream& operator<<(std::ostream& _out, PSIAlgorithmType const& _type)
+inline std::ostream& operator<<(std::ostream& _out, TaskAlgorithmType const& _type)
 {
     switch (_type)
     {
-    case PSIAlgorithmType::CM_PSI_2PC:
+    case TaskAlgorithmType::CM_PSI_2PC:
         _out << "CM_PSI_2PC";
         break;
-    case PSIAlgorithmType::RA_PSI_2PC:
+    case TaskAlgorithmType::RA_PSI_2PC:
         _out << "RA_PSI_2PC";
         break;
-    case PSIAlgorithmType::LABELED_PSI_2PC:
+    case TaskAlgorithmType::LABELED_PSI_2PC:
         _out << "LABELED_PSI_2PC";
         break;
-    case PSIAlgorithmType::ECDH_PSI_2PC:
+    case TaskAlgorithmType::ECDH_PSI_2PC:
         _out << "ECDH_PSI_2PC";
         break;
-    case PSIAlgorithmType::OT_PIR_2PC:
+    case TaskAlgorithmType::OT_PIR_2PC:
         _out << "OT_PIR_2PC";
         break;
-    case PSIAlgorithmType::ECDH_PSI_MULTI:
+    case TaskAlgorithmType::ECDH_PSI_MULTI:
         _out << "ECDH_PSI_MULTI";
         break;
-    case PSIAlgorithmType::ECDH_PSI_CONN:
+    case TaskAlgorithmType::ECDH_PSI_CONN:
         _out << "ECDH_PSI_CONN";
         break;
     default:

@@ -34,12 +34,12 @@ class PSIConfig
 {
 public:
     using Ptr = std::shared_ptr<PSIConfig>;
-    PSIConfig(ppc::protocol::PSIAlgorithmType _algorithmType,
+    PSIConfig(ppc::protocol::TaskAlgorithmType _algorithmType,
         ppc::io::DataResourceLoader::Ptr _dataResourceLoader)
       : m_algorithmType(_algorithmType), m_dataResourceLoader(std::move(_dataResourceLoader))
     {}
 
-    PSIConfig(ppc::protocol::PSIAlgorithmType _algorithmType, const std::string& _selfParty,
+    PSIConfig(ppc::protocol::TaskAlgorithmType _algorithmType, const std::string& _selfParty,
         ppc::front::FrontInterface::Ptr _front,
         ppc::front::PPCMessageFaceFactory::Ptr _ppcMsgFactory,
         ppc::io::DataResourceLoader::Ptr _dataResourceLoader, int _holdingMessageMinutes)
@@ -62,7 +62,7 @@ public:
     ppc::front::FrontInterface::Ptr const& front() const { return m_front; }
     std::string selfParty() const { return m_selfParty; }
 
-    ppc::protocol::PSIAlgorithmType algorithmType() const { return m_algorithmType; }
+    ppc::protocol::TaskAlgorithmType algorithmType() const { return m_algorithmType; }
     ppc::front::PPCMessageFaceFactory::Ptr const& ppcMsgFactory() const { return m_ppcMsgFactory; }
     int networkTimeout() const { return m_networkTimeout; }
 
@@ -139,7 +139,7 @@ protected:
 
 protected:
     // the psi-alogrithm-type
-    ppc::protocol::PSIAlgorithmType m_algorithmType;
+    ppc::protocol::TaskAlgorithmType m_algorithmType;
     std::string m_selfParty;
     ppc::front::FrontInterface::Ptr m_front;
     // the front message factory

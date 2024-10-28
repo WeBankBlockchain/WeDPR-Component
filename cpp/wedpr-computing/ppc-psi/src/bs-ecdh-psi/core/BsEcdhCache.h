@@ -34,7 +34,6 @@
 
 namespace ppc::psi
 {
-
 enum TaskStep : int
 {
     Initializing = 1,

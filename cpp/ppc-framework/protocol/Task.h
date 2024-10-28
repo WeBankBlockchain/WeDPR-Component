@@ -162,7 +162,7 @@ inline std::string printTaskInfo(Task::ConstPtr _task)
     std::ostringstream stringstream;
     stringstream << LOG_KV("id", _task->id())
                  << LOG_KV("type", (ppc::protocol::TaskType)_task->type())
-                 << LOG_KV("algorithm", (ppc::protocol::PSIAlgorithmType)_task->algorithm())
+                 << LOG_KV("algorithm", (ppc::protocol::TaskAlgorithmType)_task->algorithm())
                  << LOG_KV("taskPtr", _task);
     if (_task->selfParty())
     {

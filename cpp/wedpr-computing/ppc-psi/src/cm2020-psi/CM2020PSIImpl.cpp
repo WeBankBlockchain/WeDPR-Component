@@ -32,7 +32,7 @@ using namespace ppc::task;
 
 CM2020PSIImpl::CM2020PSIImpl(const CM2020PSIConfig::Ptr& _config, unsigned _idleTimeMs)
   : Worker("CM2020-PSI", _idleTimeMs),
-    TaskGuarder(_config, PSIAlgorithmType::CM_PSI_2PC, "CM2020-PSI-Timer"),
+    TaskGuarder(_config, TaskAlgorithmType::CM_PSI_2PC, "CM2020-PSI-Timer"),
     m_config(_config),
     m_msgQueue(std::make_shared<CM2020PSIMsgQueue>()),
     m_ioService(std::make_shared<boost::asio::io_service>()),

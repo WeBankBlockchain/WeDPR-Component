@@ -184,8 +184,6 @@ private:
     std::unordered_map<std::string, crypto::ReceiverMessage> m_receivers;
     mutable bcos::SharedMutex x_receivers;
 
-
-    // TODO: 改为prefix-message的map 预处理的数据集
     std::vector<std::pair<bcos::bytes, bcos::bytes>> messageKeypair;
     std::queue<std::pair<ppc::protocol::Task::ConstPtr, ppc::task::TaskResponseCallback>>
         m_taskQueue;

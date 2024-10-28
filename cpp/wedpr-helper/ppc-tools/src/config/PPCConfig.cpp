@@ -65,6 +65,14 @@ void PPCConfig::loadGatewayConfig(boost::property_tree::ptree const& _pt)
     }
     // load the holdingMessageMinutes, in minutes
     m_holdingMessageMinutes = loadHoldingMessageMinutes(_pt, "gateway.holding_msg_minutes");
+    // load seqSyncPeriod
+    m_seqSyncPeriod = _pt.get<int>("gateway.seq_sync_period_ms", 5000);
+    if (m_seqSyncPeriod < 3000)
+    {
+        BOOST_THROW_EXCEPTION(
+            InvalidConfig() << errinfo_comment(
+                "The value of gateway.seq_sync_period_ms must no little than 3s"));
+    }
     // load the grpcConfig
     m_grpcConfig = loadGrpcConfig("transport", _pt);
     // load the GrpcServerConfig

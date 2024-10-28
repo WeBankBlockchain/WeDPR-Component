@@ -19,7 +19,7 @@
  */
 #include "GrpcServer.h"
 #include "Common.h"
-#include <grpcpp/ext/proto_server_reflection_plugin.h>
+#include "grpcpp/ext/proto_server_reflection_plugin.h"
 
 using namespace ppc::protocol;
 using namespace grpc;

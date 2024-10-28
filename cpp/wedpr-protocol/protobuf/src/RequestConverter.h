@@ -24,6 +24,7 @@
 #include "ppc-framework/protocol/Protocol.h"
 #include <bcos-utilities/Common.h>
 #include <bcos-utilities/Error.h>
+#include <grpcpp/grpcpp.h>
 #include <memory>
 
 namespace ppc::protocol
@@ -64,7 +65,9 @@ inline ppc::proto::SendedMessageRequest* generateRequest(std::string const& trac
     // set the route information
     setRouteInfo(request->mutable_routeinfo(), routeInfo);
     // set the payload(TODO: optimize here)
-    request->set_payload(payload.data(), payload.size());
+    *request->mutable_payload() =
+        std::move(std::string_view((const char*)payload.data(), payload.size()));
+
     request->set_timeout(timeout);
     return request;
 }

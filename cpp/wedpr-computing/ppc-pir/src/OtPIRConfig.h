@@ -44,7 +44,7 @@ public:
         uint16_t _parallelism = 3,
         const front::PPCMessageFactory::Ptr& _msgFactory =
             std::make_shared<front::PPCMessageFactory>())
-      : PSIConfig(ppc::protocol::PSIAlgorithmType::OT_PIR_2PC, _selfPartyID, std::move(_front),
+      : PSIConfig(ppc::protocol::TaskAlgorithmType::OT_PIR_2PC, _selfPartyID, std::move(_front),
             _msgFactory, std::move(_dataResourceLoader), _holdingMessageMinutes),
         m_cryptoBox(std::move(_cryptoBox)),
         m_threadPool(std::move(_threadPool)),

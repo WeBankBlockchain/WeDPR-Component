@@ -13,7 +13,7 @@ using namespace ppc::task;
 EcdhMultiPSIImpl::EcdhMultiPSIImpl(const EcdhMultiPSIConfig::Ptr& _config, unsigned _idleTimeMs)
   : m_config(std::move(_config)),
     m_msgQueue(std::make_shared<EcdhMultiPSIMsgQueue>()),
-    TaskGuarder(_config, PSIAlgorithmType::ECDH_PSI_MULTI, "ECDH-MULTI-PSI-Timer")
+    TaskGuarder(_config, TaskAlgorithmType::ECDH_PSI_MULTI, "ECDH-MULTI-PSI-Timer")
 {}
 
 void EcdhMultiPSIImpl::onReceiveMessage(ppc::front::PPCMessageFace::Ptr _msg)

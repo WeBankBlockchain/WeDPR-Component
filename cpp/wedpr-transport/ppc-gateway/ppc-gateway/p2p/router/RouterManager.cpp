@@ -172,14 +172,29 @@ void RouterManager::onP2PNodesUnreachable(std::set<std::string> const& _p2pNodeI
             ReadGuard readGuard(x_unreachableHandlers);
             handlers = m_unreachableHandlers;
         }
-        // TODO: async here
-        for (auto const& node : _p2pNodeIDs)
-        {
-            for (auto const& it : m_unreachableHandlers)
+        auto self = weak_from_this();
+        m_service->threadPool()->enqueue([self, _p2pNodeIDs]() {
+            try
             {
-                it(node);
+                auto mgr = self.lock();
+                if (!mgr)
+                {
+                    return;
+                }
+                for (auto const& node : _p2pNodeIDs)
+                {
+                    for (auto const& it : mgr->m_unreachableHandlers)
+                    {
+                        it(node);
+                    }
+                }
             }
-        }
+            catch (std::exception const& e)
+            {
+                SERVICE_ROUTER_LOG(WARNING) << LOG_DESC("call unreachable handlers error for ")
+                                            << boost::diagnostic_information(e);
+            }
+        });
     }
     catch (std::exception const& e)
     {

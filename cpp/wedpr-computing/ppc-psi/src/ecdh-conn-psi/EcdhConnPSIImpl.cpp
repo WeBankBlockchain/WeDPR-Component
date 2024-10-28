@@ -33,7 +33,7 @@ using namespace ppc::task;
 EcdhConnPSIImpl::EcdhConnPSIImpl(const EcdhConnPSIConfig::Ptr& _config, unsigned _idleTimeMs)
   : m_config(std::move(_config)),
     m_msgPool(std::make_shared<EcdhConnPSIMsgPool>()),
-    TaskGuarder(_config, PSIAlgorithmType::ECDH_PSI_CONN, "ECDH-CONN-PSI-Timer"),
+    TaskGuarder(_config, TaskAlgorithmType::ECDH_PSI_CONN, "ECDH-CONN-PSI-Timer"),
     m_ecdhConnTaskStateFactory(std::make_shared<EcdhConnTaskStateFactory>())
 {}
 

@@ -25,22 +25,6 @@ install_gsasl_depend()
         LOG_INFO "the libgasal.a has already exists!"
         return
     fi
-    LOG_INFO "download and install gsasl..."
-    wget --no-check-certificate https://ftp.gnu.org/gnu/gsasl/gsasl-1.8.0.tar.gz && tar -xvf gsasl-1.8.0.tar.gz 
-    
-    # centos
-    if [[ "${os_type}" == "centos" ]];then
-        cd gsasl-1.8.0 && ./configure --with-pic && make -j4 && make install
-    fi
-    # macos
-    if [[ "${os_type}" == "macos" ]];then
-        cd gsasl-1.8.0 && ./configure --with-pic && make -j4 && make install
-    fi
-    # ubuntu
-    if [[ "${os_type}" == "ubuntu" ]];then
-        cd gsasl-1.8.0 && ./configure --with-pic && make -j4 && make install
-    fi
-    LOG_INFO "download and install gsasl success..."
 
     LOG_INFO "download and install libgsasl..."
     wget --no-check-certificate https://ftp.gnu.org/gnu/gsasl/libgsasl-1.8.0.tar.gz && tar -xvf libgsasl-1.8.0.tar.gz 
@@ -57,6 +41,8 @@ install_gsasl_depend()
     if [[ "${os_type}" == "ubuntu" ]];then
         cd libgsasl-1.8.0 && ./configure --with-pic && make -j4 && make install
     fi
+    cd .. && rm -rf libgsasl-1.8.0 && rm -rf libgsasl-1.8.0.tar.gz
+    df -lh
     LOG_INFO "download and install libgsasl success..."
 }
 
@@ -74,6 +60,7 @@ install_nasm_depend()
     LOG_INFO "download and install nasm 2.15..."
     wget --no-check-certificate https://www.nasm.us/pub/nasm/releasebuilds/2.15/nasm-2.15.tar.gz && tar -xvf nasm-2.15.tar.gz
     cd nasm-2.15 && ./configure && make -j4 && make install
+    cd .. && rm -rf nasm-2.15.tar.gz && rm -rf nasm-2.15
     LOG_INFO "download and install nasm success..."
 }
 

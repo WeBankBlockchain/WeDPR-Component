@@ -17,12 +17,14 @@
  * @author: yujiechen
  * @date 2024-09-06
  */
-
 #include "protobuf/src/NodeInfoImpl.h"
+#include "protobuf/src/RequestConverter.h"
+#include <bcos-utilities/Common.h>
 #include <bcos-utilities/testutils/TestPromptFixture.h>
 #include <boost/test/unit_test.hpp>
 
 using namespace ppc;
+using namespace ppc::proto;
 using namespace ppc::protocol;
 using namespace bcos::test;
 
@@ -54,6 +56,31 @@ void testNodeInfoEncodeDecode(INodeInfoFactory::Ptr factory, INodeInfo::Ptr node
     }
 }
 
+void testPayloadMove(int payloadSize, int round)
+{
+    bcos::bytes payload;
+    char tmp = 'a';
+    for (int i = 0; i < payloadSize; i++)
+    {
+        payload.emplace_back((char)(tmp + 1));
+    }
+    auto startT = bcos::utcSteadyTime();
+    auto request = new ppc::proto::SendedMessageRequest();
+    for (int i = 0; i < round; i++)
+    {
+        std::unique_ptr<ppc::proto::SendedMessageRequest> request(
+            new ppc::proto::SendedMessageRequest());
+        //*request->mutable_payload() = std::move(std::string_view((const char*)payload.data(),
+        //payload.size()));
+        *request->mutable_payload() = std::string_view((const char*)payload.data(), payload.size());
+        // request->set_payload((const char*)payload.data(), payload.size());
+        // std::cout << "#### request size: " << request->payload().size() << ", origin payload
+        // size: " << payloadSize << std::endl;
+        BOOST_CHECK(*request->mutable_payload() == std::string(payload.begin(), payload.end()));
+    }
+    std::cout << "### testPayloadMove, timecost: " << (bcos::utcSteadyTime() - startT) << std::endl;
+}
+
 BOOST_AUTO_TEST_CASE(testNodeInfo)
 {
     auto nodeInfoFactory = std::make_shared<NodeInfoFactory>();
@@ -66,6 +93,13 @@ BOOST_AUTO_TEST_CASE(testNodeInfo)
     }
     auto nodeInfo = fakeNodeInfo(nodeInfoFactory, nodeID, endPoint, components);
     testNodeInfoEncodeDecode(nodeInfoFactory, nodeInfo);
+}
+
+BOOST_AUTO_TEST_CASE(payloadMoveTest)
+{
+    testPayloadMove(10, 1);
+    testPayloadMove(100000, 10);
+    testPayloadMove(10000000, 10);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

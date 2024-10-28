@@ -221,7 +221,6 @@ BigNum OpenSSLPaillier::decrypt(bcos::bytesConstRef const& _cipherData, void* _k
     result.div(result.bn().get(), NULL, pk->n.bn().get(), ctx.get());
 
     // result * lambdaInverse mod n
-    // TODO: check the overhead here
     auto lambdaInverse = sk->lambda.Invert(pk->n);
     result.modMul(result.bn().get(), lambdaInverse.bn().get(), pk->n.bn().get(), ctx.get());
     // decode result to support negative case

@@ -37,7 +37,7 @@ public:
         ppc::io::DataResourceLoader::Ptr _dataResourceLoader, uint32_t _timeoutMinutes)
     {
         auto config = std::make_shared<PSIConfig>(
-            ppc::protocol::PSIAlgorithmType::BS_ECDH_PSI, std::move(_dataResourceLoader));
+            ppc::protocol::TaskAlgorithmType::BS_ECDH_PSI, std::move(_dataResourceLoader));
         return std::make_shared<BsEcdhPSIImpl>(
             std::move(config), std::move(_threadPool), _timeoutMinutes);
     }

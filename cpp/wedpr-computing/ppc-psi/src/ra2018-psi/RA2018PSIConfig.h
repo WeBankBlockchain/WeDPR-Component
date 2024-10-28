@@ -42,7 +42,7 @@ public:
         std::string const& _dbName = "ra2018", uint64_t _cuckooFilterCacheSize = 255 * 1024 * 1024,
         uint64_t _ra2018CacheCapacity = 1024 * 1024 * 1024, int _dataBatchSize = -1,
         int _threadPoolSize = std::thread::hardware_concurrency())
-      : PSIConfig(ppc::protocol::PSIAlgorithmType::RA_PSI_2PC, _selfParty, _front, _ppcMsgFactory,
+      : PSIConfig(ppc::protocol::TaskAlgorithmType::RA_PSI_2PC, _selfParty, _front, _ppcMsgFactory,
             _dataResourceLoader, _holdingMessageMinutes),
         m_oprf(std::move(_oprf)),
         m_binHashImpl(std::move(_binHashImpl)),

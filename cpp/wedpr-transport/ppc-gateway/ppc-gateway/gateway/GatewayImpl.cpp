@@ -32,7 +32,8 @@ using namespace bcos::boostssl::ws;
 
 GatewayImpl::GatewayImpl(Service::Ptr const& service,
     ppc::front::IFrontBuilder::Ptr const& frontBuilder,
-    std::shared_ptr<boost::asio::io_service> ioService, std::string const& agency)
+    std::shared_ptr<boost::asio::io_service> ioService, std::string const& agency,
+    uint16_t seqSyncPeriod)
   : m_service(service),
     m_msgBuilder(
         std::dynamic_pointer_cast<ppc::protocol::P2PMessageBuilder>(service->messageFactory())),
@@ -52,7 +53,7 @@ GatewayImpl::GatewayImpl(Service::Ptr const& service,
         boost::bind(&GatewayImpl::onReceiveBroadcastMessage, this, boost::placeholders::_1,
             boost::placeholders::_2));
     m_gatewayRouterManager = std::make_shared<GatewayRouterManager>(
-        m_service, m_gatewayInfoFactory, m_localRouter, m_peerRouter);
+        m_service, m_gatewayInfoFactory, m_localRouter, m_peerRouter, seqSyncPeriod);
 
     m_service->registerOnNewSession([this](WsSession::Ptr _session) {
         if (!_session)
