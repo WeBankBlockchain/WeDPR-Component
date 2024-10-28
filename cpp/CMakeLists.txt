@@ -29,13 +29,15 @@ if (NOT DEFINED URL_BASE)
     #set(URL_BASE "github.com.cnpmjs.org")
 endif ()
 
-# export windows dll symbol
-if(WIN32)
-    message(STATUS "Compile on Windows")
+if (WIN32)
+    set(VCPKG_C_FLAGS -D_WIN32_WINNT=0x0600 -DWINVER=0x0600)
+    set(VCPKG_CXX_FLAGS -D_WIN32_WINNT=0x0600 -DWINVER=0x0600)
+    add_definitions(-D_WIN32_WINNT=0x0600)
+    add_definitions(-DBOOST_USE_WINAPI_VERSION=BOOST_WINAPI_VERSION_WIN7)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS "ON")
-endif()
-
-
+else ()
+    add_definitions(-DBOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX)
+endif ()
 
 # basic settings
 include(Options)

@@ -64,7 +64,7 @@ jobs:
       - name: Build for windows
         if: runner.os == 'Windows'
         run: |
-          mkdir -p cpp/build && cd cpp/build && cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_BUILD_TYPE=Release -DTESTS=OFF -DBUILD_WEDPR_TOOLKIT=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake .. && MSBuild /version && MSBuild WeDPR-Component.sln /p:Configuration=Release /p:Platform=x64
+          mkdir -p cpp/build && cd cpp/build && cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_BUILD_TYPE=Release -DTESTS=OFF -DBUILD_WEDPR_TOOLKIT=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static  -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake .. && MSBuild /version && MSBuild WeDPR-Component.sln /p:Configuration=Release /p:Platform=x64
       - name: Build for linux
         if: runner.os == 'Linux'
         run: |
@@ -90,7 +90,7 @@ jobs:
         if: runner.os == 'Windows'
         with:
           name: libwedpr_java_transport_jni.dll
-          path: D:\a\WeDPR-Component\cpp\wedpr-transport\sdk-wrapper\java\bindings\src\main\resources\META-INF\native\Release\libwedpr_java_transport_jni.dll
+          path: D:\a\WeDPR-Component\WeDPR-Component\cpp\wedpr-transport\sdk-wrapper\java\bindings\src\main\resources\META-INF\native\Release\wedpr_java_transport_jni.dll
 
 
   build_centos_for_toolkit:

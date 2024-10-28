@@ -109,6 +109,7 @@
         },
         {
           "name": "grpc",
+          "features": ["codegen"],
           "version>=": "1.51.1"
         },
         {

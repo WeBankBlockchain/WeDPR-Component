@@ -163,10 +163,11 @@ void FrontImpl::asyncSendMessage(uint16_t routeType, MessageOptionalHeader::Ptr 
             if (error && error->errorCode() != 0)
             {
                 // send failed
-                FRONT_LOG(ERROR) << LOG_DESC("asyncSendMessage failed")
-                                 << LOG_KV("routeInfo", printOptionalField(routeInfo))
-                                 << LOG_KV("traceID", traceID) << LOG_KV("code", error->errorCode())
-                                 << LOG_KV("msg", error->errorMessage());
+                FRONT_LOG(WARNING)
+                    << LOG_DESC("asyncSendMessage failed")
+                    << LOG_KV("routeInfo", printOptionalField(routeInfo))
+                    << LOG_KV("traceID", traceID) << LOG_KV("code", error->errorCode())
+                    << LOG_KV("msg", error->errorMessage());
                 // try to trigger the callback
                 front->handleCallback(error, traceID, nullptr);
             }

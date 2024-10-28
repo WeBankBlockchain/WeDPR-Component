@@ -46,6 +46,7 @@ message PeersInfo{
     string peersInfo = 2;
 };
 message Empty{
+    int32 status = 1;
 };
 
 message Condition{

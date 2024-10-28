@@ -50,9 +50,12 @@ inline void setRouteInfo(
     // set the route information
     route_info->set_topic(routeInfo->topic());
     route_info->set_componenttype(routeInfo->componentType());
-    route_info->set_srcnode(routeInfo->srcNode().data(), routeInfo->srcNode().size());
-    route_info->set_dstnode(routeInfo->dstNode().data(), routeInfo->dstNode().size());
-    route_info->set_dstinst(routeInfo->dstInst().data(), routeInfo->dstInst().size());
+    *(route_info->mutable_srcnode()) =
+        std::string_view((const char*)routeInfo->srcNode().data(), routeInfo->srcNode().size());
+    *(route_info->mutable_dstnode()) =
+        std::string_view((const char*)routeInfo->dstNode().data(), routeInfo->dstNode().size());
+    *(route_info->mutable_dstinst()) =
+        std::string_view((const char*)routeInfo->dstInst().data(), routeInfo->dstInst().size());
 }
 
 inline ppc::proto::SendedMessageRequest* generateRequest(std::string const& traceID,
@@ -86,7 +89,7 @@ inline ppc::proto::NodeInfo* toNodeInfoRequest(
     bcos::bytesConstRef const& nodeID, std::string const& topic)
 {
     auto request = new ppc::proto::NodeInfo();
-    request->set_nodeid(nodeID.data(), nodeID.size());
+    *(request->mutable_nodeid()) = std::string_view((const char*)nodeID.data(), nodeID.size());
     request->set_topic(topic);
     return request;
 }
@@ -98,7 +101,8 @@ inline ppc::proto::NodeInfo* toNodeInfoRequest(INodeInfo::Ptr const& nodeInfo)
     {
         return request;
     };
-    request->set_nodeid(nodeInfo->nodeID().data(), nodeInfo->nodeID().size());
+    *(request->mutable_nodeid()) =
+        std::string_view((const char*)nodeInfo->nodeID().data(), nodeInfo->nodeID().size());
     request->set_endpoint(nodeInfo->endPoint());
     auto const& components = nodeInfo->components();
     for (auto const& component : components)

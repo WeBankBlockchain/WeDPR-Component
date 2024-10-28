@@ -135,8 +135,7 @@ jobs:
           yum update -y
           yum install -y epel-release centos-release-scl centos-release-scl-rh
           yum install -y https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo.x86_64.rpm
-          yum install -y wget lcov java-11-openjdk-devel git make gcc gcc-c++ glibc-static glibc-devel cmake3 ccache devtoolset-11 libzstd-devel zlib-devel flex bison python-devel python3-devel
-          yum install -y git
+          yum install -y wget java-11-openjdk-devel git make gcc gcc-c++ glibc-static glibc-devel cmake3 ccache devtoolset-11 libzstd-devel zlib-devel flex bison python-devel python3-devel
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly-2022-07-28
@@ -154,7 +153,7 @@ jobs:
           df /tmp
           du /tmp | sort -n
           ls -lh /tmp
-      - name: Build
+      - name: DependenciesBuild
         run: |
           bash -x cpp/tools/install_depends.sh -o centos
           alias cmake='cmake3'
@@ -163,7 +162,17 @@ jobs:
           mkdir -p cpp/build
           cd cpp/build
           cmake3 -DCMAKE_BUILD_TYPE=Release -DTESTS=ON -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake ../
-          #cmake3 --build . --parallel 3
+      - name: FreeDiskSpace
+        run: |
+          df -lh
+          du -sch /usr/local/share/vcpkg/buildtrees/wedprcrypto/src/*
+          du -sch /usr/local/share/vcpkg/buildtrees/grpc/src/*
+          rm -rf /usr/local/share/vcpkg/buildtrees/wedprcrypto/src
+          rm -rf /usr/local/share/vcpkg/buildtrees/grpc/src
+          rm -rf /usr/local/share/vcpkg/buildtrees/grpc/*-dbg
+      - name: Compile
+        run: |          
+          cd cpp/build && cmake3 --build . --parallel 3
       #- name: Test
       #  run: |
       #    export OMP_NUM_THREADS=1

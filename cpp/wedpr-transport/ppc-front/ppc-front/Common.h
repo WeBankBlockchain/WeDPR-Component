@@ -19,7 +19,6 @@
  */
 
 #pragma once
-
 #include "ppc-framework/Common.h"
 #include <bcos-utilities/BoostLog.h>
 #include <bcos-utilities/Common.h>

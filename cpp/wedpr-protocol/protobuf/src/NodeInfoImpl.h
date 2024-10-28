@@ -39,7 +39,8 @@ public:
 
     NodeInfoImpl(bcos::bytesConstRef const& nodeID, std::string const& endPoint) : NodeInfoImpl()
     {
-        m_rawNodeInfo->set_nodeid(nodeID.data(), nodeID.size());
+        *(m_rawNodeInfo->mutable_nodeid()) =
+            std::string_view((const char*)nodeID.data(), nodeID.size());
         m_rawNodeInfo->set_endpoint(endPoint);
     }
 
@@ -47,7 +48,8 @@ public:
 
     void setNodeID(bcos::bytesConstRef nodeID) override
     {
-        m_rawNodeInfo->set_nodeid(nodeID.data(), nodeID.size());
+        *(m_rawNodeInfo->mutable_nodeid()) =
+            std::string_view((const char*)nodeID.data(), nodeID.size());
     }
     void setEndPoint(std::string const& endPoint) override
     {

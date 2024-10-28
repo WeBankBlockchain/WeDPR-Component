@@ -23,7 +23,7 @@ foreach(proto_file ${MESSAGES_PROTOS})
 endforeach()
 
 add_library(${SERVICE_PB_TARGET} ${GRPC_MESSAGES_SRCS})
-target_link_libraries(${SERVICE_PB_TARGET} PUBLIC ${PB_PROTOCOL_TARGET} gRPC::grpc++_unsecure ${GRPC_CPP_REFLECTION})
+target_link_libraries(${SERVICE_PB_TARGET} PUBLIC ${PB_PROTOCOL_TARGET} gRPC::grpc++_unsecure gRPC::grpc++_reflection)
 
 add_subdirectory(client)
 add_subdirectory(server)
