@@ -42,9 +42,9 @@ int64_t MessagePayloadImpl::encode(bcos::bytes& buffer) const
     buffer.insert(buffer.end(), (byte*)&traceIDLen, (byte*)&traceIDLen + 2);
     buffer.insert(buffer.end(), m_traceID.begin(), m_traceID.end());
     // data
-    uint32_t dataLen = boost::asio::detail::socket_ops::host_to_network_long(m_data.size());
+    uint32_t dataLen = boost::asio::detail::socket_ops::host_to_network_long(m_dataPtr.size());
     buffer.insert(buffer.end(), (byte*)&dataLen, (byte*)&dataLen + 4);
-    buffer.insert(buffer.end(), m_data.begin(), m_data.end());
+    buffer.insert(buffer.end(), m_dataPtr.begin(), m_dataPtr.end());
     // update the length
     m_length = buffer.size();
     return m_length;
@@ -75,5 +75,8 @@ int64_t MessagePayloadImpl::decode(bcos::bytesConstRef buffer)
     auto offset =
         decodeNetworkBuffer(m_traceID, buffer.data(), buffer.size(), (pointer - buffer.data()));
     // data
-    return decodeNetworkBuffer(m_data, buffer.data(), buffer.size(), offset, true);
+    auto ret = decodeNetworkBuffer(m_data, buffer.data(), buffer.size(), offset, true);
+    // reset the dataPtr
+    m_dataPtr = bcos::bytesConstRef((bcos::byte*)m_data.data(), m_data.size());
+    return ret;
 }

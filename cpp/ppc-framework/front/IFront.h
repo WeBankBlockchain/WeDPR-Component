@@ -168,8 +168,8 @@ public:
      * @param callback callback
      */
     virtual void asyncSendMessage(uint16_t routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
-        long timeout, ppc::protocol::ReceiveMsgFunc errorCallback,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytesConstRef payload,
+        int seq, long timeout, ppc::protocol::ReceiveMsgFunc errorCallback,
         ppc::protocol::MessageCallback callback) = 0;
 
     /////// to simplify SDK wrapper ////
@@ -181,14 +181,13 @@ public:
         uint64_t payloadSize, int seq, long timeout, ErrorCallback::Ptr errorCallback,
         IMessageHandler::Ptr msgHandler)
     {
-        // TODO: optimize here
-        bcos::bytes copyedPayload(payload, payload + payloadSize);
-        asyncSendMessage(routeType, routeInfo, std::move(copyedPayload), seq, timeout,
+        asyncSendMessage(routeType, routeInfo,
+            bcos::bytesConstRef((bcos::byte*)payload, payloadSize), seq, timeout,
             populateErrorCallback(errorCallback), populateMsgCallback(msgHandler));
     }
 
-    virtual void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
-        bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback) = 0;
+    virtual void asyncSendResponse(bcos::bytesConstRef dstNode, std::string const& traceID,
+        bcos::bytesConstRef payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback) = 0;
 
     /////// to simplify SDK wrapper  ////
 
@@ -198,19 +197,16 @@ public:
         std::string const& traceID, char* payload, uint64_t payloadSize, int seq,
         ErrorCallback::Ptr errorCallback)
     {
-        // TODO: optimize here
-        bcos::bytes copiedDstNode(dstNode, dstNode + dstNodeSize);
-        bcos::bytes copyedPayload(payload, payload + payloadSize);
-        asyncSendResponse(copiedDstNode, traceID, std::move(copyedPayload), seq,
+        asyncSendResponse(bcos::bytesConstRef((bcos::byte*)dstNode, dstNodeSize), traceID,
+            bcos::bytesConstRef((bcos::byte*)payload, payloadSize), seq,
             populateErrorCallback(errorCallback));
     }
 
     // the sync interface for async_send_message
     virtual bcos::Error::Ptr push(uint16_t routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
-        long timeout) = 0;
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytesConstRef payload,
+        int seq, long timeout) = 0;
 
-    // TODO: optmize here
     // Note: the python not support function overload, for different interfaces with the same
     // functionality, it is best to define methods with different names the 'payload', 'payloadSize'
     // should not been changed any more, since the swig has defined by the name to convert python
@@ -219,8 +215,8 @@ public:
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, char* payload,
         uint64_t payloadSize, int seq, long timeout)
     {
-        bcos::bytes copyedPayload(payload, payload + payloadSize);
-        return push(routeType, routeInfo, std::move(copyedPayload), seq, timeout);
+        return push(routeType, routeInfo, bcos::bytesConstRef((bcos::byte*)payload, payloadSize),
+            seq, timeout);
     }
     virtual ppc::protocol::Message::Ptr pop(std::string const& topic, long timeoutMs) = 0;
     virtual ppc::protocol::Message::Ptr peek(std::string const& topic) = 0;

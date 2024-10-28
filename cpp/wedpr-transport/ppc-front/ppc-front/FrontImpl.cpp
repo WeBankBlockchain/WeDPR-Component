@@ -106,18 +106,18 @@ void FrontImpl::stop()
     }
 }
 
-void FrontImpl::asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
-    bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback)
+void FrontImpl::asyncSendResponse(bcos::bytesConstRef dstNode, std::string const& traceID,
+    bcos::bytesConstRef payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback)
 {
     // generate the frontMessage
     auto frontMessage = m_messageFactory->build();
     frontMessage->setTraceID(traceID);
     frontMessage->setSeq(seq);
-    frontMessage->setData(std::move(payload));
+    frontMessage->setDataPtr(payload);
 
     auto routeInfo = m_routerInfoBuilder->build();
     routeInfo->setSrcNode(m_nodeID);
-    routeInfo->setDstNode(dstNode);
+    routeInfo->setDstNodePtr(dstNode);
 
     asyncSendMessageToGateway(true, std::move(frontMessage), RouteType::ROUTE_THROUGH_NODEID,
         traceID, routeInfo, -1, errorCallback);
@@ -139,7 +139,7 @@ void FrontImpl::asyncSendResponse(bcos::bytes const& dstNode, std::string const&
  * @param callback callback
  */
 void FrontImpl::asyncSendMessage(uint16_t routeType, MessageOptionalHeader::Ptr const& routeInfo,
-    bcos::bytes&& payload, int seq, long timeout, ReceiveMsgFunc errorCallback,
+    bcos::bytesConstRef payload, int seq, long timeout, ReceiveMsgFunc errorCallback,
     MessageCallback callback)
 {
     // generate the frontMessage
@@ -147,7 +147,7 @@ void FrontImpl::asyncSendMessage(uint16_t routeType, MessageOptionalHeader::Ptr 
     auto traceID = ppc::generateUUID();
     frontMessage->setTraceID(traceID);
     frontMessage->setSeq(seq);
-    frontMessage->setData(std::move(payload));
+    frontMessage->setDataPtr(payload);
     m_callbackManager->addCallback(traceID, timeout, callback);
     auto self = weak_from_this();
     // send the message to the gateway
@@ -268,11 +268,11 @@ void FrontImpl::onReceiveMessage(Message::Ptr const& msg, ReceiveMsgFunc callbac
 
 // the sync interface for asyncSendMessage
 bcos::Error::Ptr FrontImpl::push(uint16_t routeType, MessageOptionalHeader::Ptr const& routeInfo,
-    bcos::bytes&& payload, int seq, long timeout)
+    bcos::bytesConstRef payload, int seq, long timeout)
 {
     auto promise = std::make_shared<std::promise<bcos::Error::Ptr>>();
     asyncSendMessage(
-        routeType, routeInfo, std::move(payload), seq, timeout,
+        routeType, routeInfo, payload, seq, timeout,
         [promise](bcos::Error::Ptr error) { promise->set_value(error); }, nullptr);
     return promise->get_future().get();
 }

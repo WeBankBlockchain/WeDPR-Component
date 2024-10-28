@@ -53,8 +53,8 @@ public:
     void stop() override;
 
     bcos::Error::Ptr push(uint16_t routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
-        long timeout) override;
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytesConstRef payload,
+        int seq, long timeout) override;
     /**
      * @brief async send message
      *
@@ -71,8 +71,8 @@ public:
      * @param callback callback
      */
     void asyncSendMessage(uint16_t routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
-        long timeout, ppc::protocol::ReceiveMsgFunc errorCallback,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytesConstRef payload,
+        int seq, long timeout, ppc::protocol::ReceiveMsgFunc errorCallback,
         ppc::protocol::MessageCallback callback) override;
 
     /**
@@ -169,8 +169,8 @@ public:
         return m_messageFactory;
     }
 
-    void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
-        bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback) override;
+    void asyncSendResponse(bcos::bytesConstRef dstNode, std::string const& traceID,
+        bcos::bytesConstRef payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback) override;
 
     ppc::protocol::INodeInfo::Ptr const& nodeInfo() override { return m_nodeInfo; }
 
