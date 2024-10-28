@@ -1,7 +1,6 @@
 option(AUTO_GENERATE "Auto generate the targes" OFF)
 # Note: use SWIG Version 4.2.1
 if(AUTO_GENERATE)
-    include(${SWIG_USE_FILE})
     # only auto-generate should find swig
     file(GLOB_RECURSE SRCS wedpr_java_transport.i)
     set_source_files_properties(${SRCS} PROPERTIES CPLUSPLUS ON)

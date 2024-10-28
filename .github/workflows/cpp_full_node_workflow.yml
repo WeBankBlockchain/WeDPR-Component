@@ -141,7 +141,7 @@ jobs:
           yum update -y
           yum install -y epel-release centos-release-scl centos-release-scl-rh
           yum install -y https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo.x86_64.rpm
-          yum install -y java-11-openjdk-devel git make gcc gcc-c++ glibc-static glibc-devel openssl cmake3 ccache devtoolset-11 llvm-toolset-7.0 rh-perl530-perl libzstd-devel zlib-devel flex bison python-devel python3-devel
+          yum install -y wget java-11-openjdk-devel git make gcc gcc-c++ glibc-static glibc-devel openssl cmake3 ccache devtoolset-11 llvm-toolset-7.0 rh-perl530-perl libzstd-devel zlib-devel flex bison python-devel python3-devel
           yum install -y rh-perl530-perl cmake3 zlib-devel ccache lcov python-devel python3-devel
           yum install -y git
       - uses: actions-rs/toolchain@v1
@@ -150,7 +150,7 @@ jobs:
           override: true
       - name: Build
         run: |
-          sudo bash -x cpp/tools/install_depends.sh -o centos
+          bash -x cpp/tools/install_depends.sh -o centos
           alias cmake='cmake3'
           . /opt/rh/devtoolset-11/enable 
           mkdir -p cpp/build

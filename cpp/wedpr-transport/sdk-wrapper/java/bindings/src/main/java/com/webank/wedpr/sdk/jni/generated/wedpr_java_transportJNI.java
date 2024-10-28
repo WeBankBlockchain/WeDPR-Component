@@ -369,26 +369,14 @@ public class wedpr_java_transportJNI {
     public static final native void MessageOptionalHeader_setComponentType(
             long jarg1, MessageOptionalHeader jarg1_, String jarg2);
 
-    public static final native long MessageOptionalHeader_srcNode(
-            long jarg1, MessageOptionalHeader jarg1_);
-
     public static final native byte[] MessageOptionalHeader_srcNodeBuffer(
             long jarg1, MessageOptionalHeader jarg1_);
 
-    public static final native void MessageOptionalHeader_setSrcNode__SWIG_0(
-            long jarg1, MessageOptionalHeader jarg1_, long jarg2, ubytes jarg2_);
-
-    public static final native void MessageOptionalHeader_setSrcNode__SWIG_1(
+    public static final native void MessageOptionalHeader_setSrcNodeBuffer(
             long jarg1, MessageOptionalHeader jarg1_, byte[] jarg2, java.math.BigInteger jarg3);
-
-    public static final native long MessageOptionalHeader_dstNode(
-            long jarg1, MessageOptionalHeader jarg1_);
 
     public static final native byte[] MessageOptionalHeader_dstNodeBuffer(
             long jarg1, MessageOptionalHeader jarg1_);
-
-    public static final native void MessageOptionalHeader_setDstNode(
-            long jarg1, MessageOptionalHeader jarg1_, long jarg2, ubytes jarg2_);
 
     public static final native void MessageOptionalHeader_setDstNodeBuffer(
             long jarg1, MessageOptionalHeader jarg1_, byte[] jarg2, java.math.BigInteger jarg3);
@@ -585,12 +573,7 @@ public class wedpr_java_transportJNI {
     public static final native void MessagePayload_setVersion(
             long jarg1, MessagePayload jarg1_, short jarg2);
 
-    public static final native long MessagePayload_data(long jarg1, MessagePayload jarg1_);
-
     public static final native byte[] MessagePayload_dataBuffer(long jarg1, MessagePayload jarg1_);
-
-    public static final native void MessagePayload_setData__SWIG_0(
-            long jarg1, MessagePayload jarg1_, long jarg2, ubytes jarg2_);
 
     public static final native int MessagePayload_seq(long jarg1, MessagePayload jarg1_);
 
@@ -732,17 +715,6 @@ public class wedpr_java_transportJNI {
             long jarg8,
             ErrorCallback jarg8_);
 
-    public static final native long IFront_push(
-            long jarg1,
-            IFront jarg1_,
-            int jarg2,
-            long jarg3,
-            MessageOptionalHeader jarg3_,
-            long jarg4,
-            ubytes jarg4_,
-            int jarg5,
-            int jarg6);
-
     public static final native long IFront_push_msg(
             long jarg1,
             IFront jarg1_,
@@ -760,10 +732,6 @@ public class wedpr_java_transportJNI {
 
     public static final native void IFront_asyncGetPeers(
             long jarg1, IFront jarg1_, long jarg2, GetPeersInfoHandler jarg2_);
-
-    public static final native long IFront_registerNodeInfo(long jarg1, IFront jarg1_, long jarg2);
-
-    public static final native long IFront_unRegisterNodeInfo(long jarg1, IFront jarg1_);
 
     public static final native long IFront_nodeInfo(long jarg1, IFront jarg1_);
 

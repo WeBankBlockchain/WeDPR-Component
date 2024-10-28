@@ -57,7 +57,10 @@ public:
 
     // !!! Note: the first paramater type should not been changed, for it's used for pass-in java
     // byte[] into c bytes
-    virtual void setSrcNode(char* data, uint64_t length) { m_srcNode.assign(data, data + length); }
+    virtual void setSrcNodeBuffer(char* data, uint64_t length)
+    {
+        m_srcNode.assign(data, data + length);
+    }
 
     // the target nodeID that should receive the message
     virtual bcos::bytes const& dstNode() const { return m_dstNode; }

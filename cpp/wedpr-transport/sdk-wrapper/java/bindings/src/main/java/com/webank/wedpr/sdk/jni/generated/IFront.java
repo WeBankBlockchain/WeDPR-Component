@@ -119,22 +119,6 @@ public class IFront extends IFrontClient {
                 errorCallback);
     }
 
-    public Error push(
-            int routeType, MessageOptionalHeader routeInfo, ubytes payload, int seq, int timeout) {
-        long cPtr =
-                wedpr_java_transportJNI.IFront_push(
-                        swigCPtr,
-                        this,
-                        routeType,
-                        MessageOptionalHeader.getCPtr(routeInfo),
-                        routeInfo,
-                        ubytes.swigRelease(payload),
-                        payload,
-                        seq,
-                        timeout);
-        return (cPtr == 0) ? null : new Error(cPtr, true);
-    }
-
     public Error push_msg(
             int routeType,
             MessageOptionalHeader routeInfo,
@@ -169,24 +153,6 @@ public class IFront extends IFrontClient {
     public void asyncGetPeers(GetPeersInfoHandler getPeersCallback) {
         wedpr_java_transportJNI.IFront_asyncGetPeers(
                 swigCPtr, this, GetPeersInfoHandler.getCPtr(getPeersCallback), getPeersCallback);
-    }
-
-    /**
-     * register the nodeInfo to the gateway<br>
-     *
-     * @param nodeInfo the nodeInfo
-     */
-    public Error registerNodeInfo(SWIGTYPE_p_ppc__protocol__INodeInfo__Ptr nodeInfo) {
-        long cPtr =
-                wedpr_java_transportJNI.IFront_registerNodeInfo(
-                        swigCPtr, this, SWIGTYPE_p_ppc__protocol__INodeInfo__Ptr.getCPtr(nodeInfo));
-        return (cPtr == 0) ? null : new Error(cPtr, true);
-    }
-
-    /** unRegister the nodeInfo to the gateway */
-    public Error unRegisterNodeInfo() {
-        long cPtr = wedpr_java_transportJNI.IFront_unRegisterNodeInfo(swigCPtr, this);
-        return (cPtr == 0) ? null : new Error(cPtr, true);
     }
 
     public SWIGTYPE_p_ppc__protocol__INodeInfo__Ptr nodeInfo() {

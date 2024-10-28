@@ -160,6 +160,18 @@ namespace bcos{
 %ignore ppc::front::IFront::populateErrorCallback;
 %ignore ppc::front::IFront::populateMessageDispatcherCallback;
 %ignore ppc::front::IFront::populateMsgCallback;
+%ignore ppc::front::IFront::push;
+%ignore ppc::front::IFront::registerNodeInfo;
+%ignore ppc::front::IFront::unRegisterNodeInfo;
+%ignore ppc::protocol::MessageOptionalHeader::srcNode;
+%ignore ppc::protocol::MessageOptionalHeader::dstNode;
+%ignore ppc::protocol::MessageOptionalHeader::setDstNode;
+%ignore ppc::protocol::MessageOptionalHeader::setDstNodePtr;
+%ignore ppc::protocol::MessageOptionalHeader::setSrcNode;
+%ignore ppc::protocol::MessagePayload::data;
+%ignore ppc::protocol::MessagePayload::setData;
+%ignore ppc::protocol::MessagePayload::setDataPtr;
+%ignore ppc::protocol::MessagePayload::dataPtr;
 
 /*
 ///// tests  ///

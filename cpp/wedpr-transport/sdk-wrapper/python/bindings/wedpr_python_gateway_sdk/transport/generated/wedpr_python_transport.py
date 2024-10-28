@@ -1015,24 +1015,15 @@ class MessageOptionalHeader(object):
     def setComponentType(self, componentType):
         return _wedpr_python_transport.MessageOptionalHeader_setComponentType(self, componentType)
 
-    def srcNode(self):
-        return _wedpr_python_transport.MessageOptionalHeader_srcNode(self)
-
     def srcNodeBuffer(self):
         r""" for swig-wrapper(pass the binary data)"""
         return _wedpr_python_transport.MessageOptionalHeader_srcNodeBuffer(self)
 
-    def setSrcNode(self, *args):
-        return _wedpr_python_transport.MessageOptionalHeader_setSrcNode(self, *args)
-
-    def dstNode(self):
-        return _wedpr_python_transport.MessageOptionalHeader_dstNode(self)
+    def setSrcNodeBuffer(self, data):
+        return _wedpr_python_transport.MessageOptionalHeader_setSrcNodeBuffer(self, data)
 
     def dstNodeBuffer(self):
         return _wedpr_python_transport.MessageOptionalHeader_dstNodeBuffer(self)
-
-    def setDstNode(self, dstNode):
-        return _wedpr_python_transport.MessageOptionalHeader_setDstNode(self, dstNode)
 
     def setDstNodeBuffer(self, data):
         return _wedpr_python_transport.MessageOptionalHeader_setDstNodeBuffer(self, data)
@@ -1312,14 +1303,8 @@ class MessagePayload(object):
     def setVersion(self, version):
         return _wedpr_python_transport.MessagePayload_setVersion(self, version)
 
-    def data(self):
-        return _wedpr_python_transport.MessagePayload_data(self)
-
     def dataBuffer(self):
         return _wedpr_python_transport.MessagePayload_dataBuffer(self)
-
-    def setData(self, *args):
-        return _wedpr_python_transport.MessagePayload_setData(self, *args)
 
     def seq(self):
         return _wedpr_python_transport.MessagePayload_seq(self)
@@ -1558,9 +1543,6 @@ class IFront(IFrontClient):
     def async_send_response(self, dstNode, dstNodeSize, traceID, payload, seq, errorCallback):
         return _wedpr_python_transport.IFront_async_send_response(self, dstNode, dstNodeSize, traceID, payload, seq, errorCallback)
 
-    def push(self, routeType, routeInfo, payload, seq, timeout):
-        return _wedpr_python_transport.IFront_push(self, routeType, routeInfo, payload, seq, timeout)
-
     def push_msg(self, routeType, routeInfo, payload, seq, timeout):
         return _wedpr_python_transport.IFront_push_msg(self, routeType, routeInfo, payload, seq, timeout)
 
@@ -1572,18 +1554,6 @@ class IFront(IFrontClient):
 
     def asyncGetPeers(self, getPeersCallback):
         return _wedpr_python_transport.IFront_asyncGetPeers(self, getPeersCallback)
-
-    def registerNodeInfo(self, nodeInfo):
-        r"""
-        register the nodeInfo to the gateway
-        :type nodeInfo: ppc::protocol::INodeInfo::Ptr
-        :param nodeInfo: the nodeInfo
-        """
-        return _wedpr_python_transport.IFront_registerNodeInfo(self, nodeInfo)
-
-    def unRegisterNodeInfo(self):
-        r"""unRegister the nodeInfo to the gateway"""
-        return _wedpr_python_transport.IFront_unRegisterNodeInfo(self)
 
     def nodeInfo(self):
         return _wedpr_python_transport.IFront_nodeInfo(self)

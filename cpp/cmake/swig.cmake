@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.18)
 
 # Will need swig
 set(CMAKE_SWIG_FLAGS)
+
 find_package(SWIG REQUIRED)
 include(UseSWIG)
 

@@ -9,7 +9,7 @@ message("Python_Development_FOUND:${Python_Development_FOUND}")
 message("Python_LIBRARIES:${Python_LIBRARIES}")
 message("Python_INCLUDE_DIRS:${Python_INCLUDE_DIRS}")
 
-list(APPEND CMAKE_SWIG_FLAGS "-py3" "-DPY3")
+list(APPEND CMAKE_SWIG_FLAGS "-DPY3")
 
 function(search_python_module)
   set(options NO_VERSION)
