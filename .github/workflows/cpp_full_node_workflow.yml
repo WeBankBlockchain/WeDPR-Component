@@ -87,10 +87,10 @@ jobs:
         with:
           name: ppc-gateway-service-macOS
           path: ./cpp/build/bin/ppc-gateway-service
-      #- name: Test
-      #  if: runner.os != 'Windows'
-      #  run: |
-      #    cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+      - name: Test
+        if: runner.os != 'Windows'
+        run: |
+          cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE ctest
 
   build_centos:
     name: build_centos full node

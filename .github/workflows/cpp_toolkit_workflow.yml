@@ -91,6 +91,16 @@ jobs:
         with:
           name: libwedpr_java_transport_jni.dll
           path: D:\a\WeDPR-Component\WeDPR-Component\cpp\wedpr-transport\sdk-wrapper\java\bindings\src\main\resources\META-INF\native\Release\wedpr_java_transport_jni.dll
+      - uses: actions/upload-artifact@v4
+        if: runner.os == 'macos'
+        with:
+          name: libwedpr_python_transport.dylib
+          path: ./cpp/wedpr-transport/sdk-wrapper/python/bindings/wedpr_python_gateway_sdk/libs/libwedpr_python_transport.dylib
+      - uses: actions/upload-artifact@v4
+        if: runner.os == 'Windows'
+        with:
+          name: libwedpr_python_transport.dll
+          path: D:\a\WeDPR-Component\WeDPR-Component\cpp\wedpr-transport\sdk-wrapper\python\bindings\wedpr_python_gateway_sdk\libs\Release\wedpr_python_transport.dll
 
 
   build_centos_for_toolkit:
@@ -151,3 +161,7 @@ jobs:
           with:
             name: libwedpr_java_transport_jni.so
             path: ./cpp/wedpr-transport/sdk-wrapper/java/bindings/src/main/resources/META-INF/native/libwedpr_java_transport_jni.so
+        - uses: actions/upload-artifact@v3
+          with:
+            name: libwedpr_python_transport.so
+            path: ./cpp/wedpr-transport/sdk-wrapper/python/bindings/wedpr_python_gateway_sdk/libs/libwedpr_python_transport.so

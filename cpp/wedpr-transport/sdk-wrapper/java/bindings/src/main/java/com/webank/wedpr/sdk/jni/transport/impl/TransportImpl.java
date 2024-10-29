@@ -69,7 +69,6 @@ public class TransportImpl implements WeDPRTransport {
     }
 
     /**
-     *
      * @param component the component used to router
      * @throws Exception failed case
      */
@@ -79,7 +78,6 @@ public class TransportImpl implements WeDPRTransport {
     }
 
     /**
-     *
      * @param component the component used to route
      * @throws Exception failed case
      */
