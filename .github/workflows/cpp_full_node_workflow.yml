@@ -165,9 +165,8 @@ jobs:
       - name: FreeDiskSpace
         run: |
           df -lh
-          du -sch /usr/local/share/vcpkg/buildtrees/wedprcrypto/src/*
+          du -sch /usr/local/share/vcpkg/buildtrees/*
           du -sch /usr/local/share/vcpkg/buildtrees/grpc/src/*
-          rm -rf /usr/local/share/vcpkg/buildtrees/wedprcrypto/src
           rm -rf /usr/local/share/vcpkg/buildtrees/grpc/src
           rm -rf /usr/local/share/vcpkg/buildtrees/grpc/*-dbg
       - name: Compile
