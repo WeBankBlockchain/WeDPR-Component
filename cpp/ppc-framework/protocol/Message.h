@@ -71,12 +71,7 @@ public:
         // Note: this will be copied to java through jni
         return OutputBuffer{(unsigned char*)m_dstNode.data(), m_dstNode.size()};
     }
-    virtual void setDstNode(bcos::bytes const& dstNode)
-    {
-        m_dstNode = dstNode;
-        m_dstNodePtr = bcos::bytesConstRef((bcos::byte*)m_dstNode.data(), m_dstNode.size());
-    }
-    virtual void setDstNodePtr(bcos::bytesConstRef const& dstNodePtr) { m_dstNodePtr = dstNodePtr; }
+    virtual void setDstNode(bcos::bytes const& dstNode) { m_dstNode = dstNode; }
     // !!! Note: the first paramater type(char*) should not been changed, for it's used for pass-in
     // java byte[] into c bytes
     // Note: the python not support function override
@@ -107,7 +102,6 @@ protected:
     std::string m_srcInst;
     // the target nodeID that should receive the message
     bcos::bytes m_dstNode;
-    bcos::bytesConstRef m_dstNodePtr;  // to decrease the copy overhead
     // the target agency that need receive the message
     std::string m_dstInst;
 };

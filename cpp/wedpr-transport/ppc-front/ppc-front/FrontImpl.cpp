@@ -117,7 +117,7 @@ void FrontImpl::asyncSendResponse(bcos::bytesConstRef dstNode, std::string const
 
     auto routeInfo = m_routerInfoBuilder->build();
     routeInfo->setSrcNode(m_nodeID);
-    routeInfo->setDstNodePtr(dstNode);
+    routeInfo->setDstNode(dstNode.toBytes());
 
     asyncSendMessageToGateway(true, std::move(frontMessage), RouteType::ROUTE_THROUGH_NODEID,
         traceID, routeInfo, -1, errorCallback);
@@ -226,7 +226,8 @@ void FrontImpl::asyncSendMessageToGateway(bool responsePacket, MessagePayload::P
     auto payload = std::make_shared<bcos::bytes>();
     frontMessage->encode(*payload);
     FRONT_LOG(TRACE) << LOG_DESC("asyncSendMessageToGateway") << LOG_KV("routeType", routeType)
-                     << LOG_KV("traceID", traceID) << printOptionalField(routeInfo)
+                     << LOG_KV("response", responsePacket) << LOG_KV("traceID", traceID)
+                     << printOptionalField(routeInfo)
                      << LOG_KV("payloadSize", frontMessage->length());
     m_gatewayClient->asyncSendMessage(
         routeType, routeInfo, traceID, std::move(*payload), timeout, callback);

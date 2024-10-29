@@ -65,7 +65,8 @@ jobs:
           export GCC='gcc-10'
           export CXX='g++-10'
           sudo bash -x cpp/tools/install_depends.sh -o ubuntu
-          mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../ || cat /Users/runner/work/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/libhdfs3/config-x64-osx-dbg-err.log
+          mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          make -j3
       - name: Build for macOS
         if: runner.os == 'macOS'
         run: |
@@ -90,7 +91,7 @@ jobs:
       - name: Test
         if: runner.os != 'Windows'
         run: |
-          cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE ctest
+          cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE make test ARGS="--output-on-failure"
 
   build_centos:
     name: build_centos full node
@@ -169,8 +170,11 @@ jobs:
           du -sch /usr/local/share/vcpkg/buildtrees/grpc/src/*
           rm -rf /usr/local/share/vcpkg/buildtrees/grpc/src
           rm -rf /usr/local/share/vcpkg/buildtrees/grpc/*-dbg
+          df -lh
       - name: Compile
-        run: |          
+        run: |   
+          alias cmake='cmake3'
+          . /opt/rh/devtoolset-11/enable       
           cd cpp/build && cmake3 --build . --parallel 3
       #- name: Test
       #  run: |

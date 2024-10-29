@@ -166,7 +166,6 @@ namespace bcos{
 %ignore ppc::protocol::MessageOptionalHeader::srcNode;
 %ignore ppc::protocol::MessageOptionalHeader::dstNode;
 %ignore ppc::protocol::MessageOptionalHeader::setDstNode;
-%ignore ppc::protocol::MessageOptionalHeader::setDstNodePtr;
 %ignore ppc::protocol::MessageOptionalHeader::setSrcNode;
 %ignore ppc::protocol::MessagePayload::data;
 %ignore ppc::protocol::MessagePayload::setData;

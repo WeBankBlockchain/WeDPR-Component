@@ -36,7 +36,6 @@ ServerUnaryReactor* FrontServer::onReceiveMessage(
         auto msg = m_msgBuilder->build(bcos::bytesConstRef(
             (bcos::byte*)receivedMsg->data().data(), receivedMsg->data().size()));
         m_front->onReceiveMessage(msg, [reactor, reply](bcos::Error::Ptr error) {
-            FRONT_SERVER_LOG(TRACE) << LOG_DESC("onReceiveMessage");
             toSerializedError(reply, error);
             reactor->Finish(Status::OK);
         });

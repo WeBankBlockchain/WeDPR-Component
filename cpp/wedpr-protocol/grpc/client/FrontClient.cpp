@@ -29,16 +29,18 @@ using namespace grpc;
 void FrontClient::onReceiveMessage(ppc::protocol::Message::Ptr const& msg, ReceiveMsgFunc callback)
 {
     std::unique_ptr<ReceivedMessage> request(new ReceivedMessage());
-    bcos::bytes encodedData;
-    msg->encode(encodedData);
+    auto encodedData = std::make_shared<bcos::bytes>();
+    msg->encode(*encodedData);
     *request->mutable_data() =
-        std::move(std::string_view((const char*)encodedData.data(), encodedData.size()));
+        std::string_view((const char*)encodedData->data(), encodedData->size());
 
     // The ClientContext instance used for creating an rpc must remain alive and valid for the
     // lifetime of the rpc
     auto context = std::make_shared<ClientContext>();
     auto response = std::make_shared<Error>();
     // lambda keeps the lifecycle for clientContext
+    // Note: hold the encodedData in case of invalid
     m_stub->async()->onReceiveMessage(context.get(), request.get(), response.get(),
-        [context, response, callback](Status status) { callback(toError(status, *response)); });
+        [context, response, callback, encodedData](
+            Status status) { callback(toError(status, *response)); });
 }
