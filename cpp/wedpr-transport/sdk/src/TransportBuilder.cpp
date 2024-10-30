@@ -29,6 +29,9 @@
 using namespace ppc::sdk;
 using namespace ppc::front;
 
+bcos::BoostLogInitializer::Ptr TransportBuilder::g_logInitializer;
+std::once_flag TransportBuilder::g_flag;
+
 TransportBuilder::TransportBuilder()
 {
     m_frontConfigBuilder = std::make_shared<FrontConfigBuilderImpl>(

@@ -111,6 +111,8 @@ bool LocalRouter::dispatcherMessage(
     if (msg->header() && msg->header()->optionalField() &&
         msg->header()->optionalField()->topic().empty())
     {
+        LOCAL_ROUTER_LOG(WARNING) << LOG_DESC("dispatcherMessage failed for no target found!")
+                                  << printP2PMessage(msg);
         return false;
     }
     if (!holding)
