@@ -770,6 +770,8 @@ public class wedpr_java_transportJNI {
     public static final native long TransportBuilder_frontConfigBuilder(
             long jarg1, TransportBuilder jarg1_);
 
+    public static final native void TransportBuilder_initLog(String jarg1);
+
     public static final native long new_Transport(long jarg1, FrontConfig jarg1_);
 
     public static final native void delete_Transport(long jarg1);

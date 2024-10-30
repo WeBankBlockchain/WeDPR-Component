@@ -23238,6 +23238,36 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_TransportBuilder_initLog(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::string *arg1 = 0 ;
+  int res1 = SWIG_OLDOBJ ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    std::string *ptr = (std::string *)0;
+    res1 = SWIG_AsPtr_std_string(swig_obj[0], &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TransportBuilder_initLog" "', argument " "1"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TransportBuilder_initLog" "', argument " "1"" of type '" "std::string const &""'"); 
+    }
+    arg1 = ptr;
+  }
+  ppc::sdk::TransportBuilder::initLog((std::string const &)*arg1);
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *TransportBuilder_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
@@ -24118,6 +24148,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "TransportBuilder_buildProTransport", _wrap_TransportBuilder_buildProTransport, METH_VARARGS, NULL},
 	 { "TransportBuilder_buildConfig", _wrap_TransportBuilder_buildConfig, METH_VARARGS, NULL},
 	 { "TransportBuilder_frontConfigBuilder", _wrap_TransportBuilder_frontConfigBuilder, METH_O, NULL},
+	 { "TransportBuilder_initLog", _wrap_TransportBuilder_initLog, METH_O, NULL},
 	 { "TransportBuilder_swigregister", TransportBuilder_swigregister, METH_O, NULL},
 	 { "TransportBuilder_swiginit", TransportBuilder_swiginit, METH_VARARGS, NULL},
 	 { "new_Transport", _wrap_new_Transport, METH_O, NULL},

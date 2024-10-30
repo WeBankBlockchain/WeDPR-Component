@@ -58,16 +58,16 @@ inline void setRouteInfo(
 }
 
 inline ppc::proto::SendedMessageRequest* generateRequest(std::string const& traceID,
-    RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo,
-    std::shared_ptr<bcos::bytes> payload, long timeout)
+    RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload,
+    long timeout)
 {
     auto request = new ppc::proto::SendedMessageRequest();
     request->set_traceid(traceID);
     request->set_routetype(uint16_t(routeType));
     // set the route information
     setRouteInfo(request->mutable_routeinfo(), routeInfo);
-    *request->mutable_payload() = std::string_view((const char*)payload->data(), payload->size());
-
+    *request->mutable_payload() =
+        std::move(std::string_view((const char*)payload.data(), payload.size()));
     request->set_timeout(timeout);
     return request;
 }
@@ -99,7 +99,7 @@ inline ppc::proto::NodeInfo* toNodeInfoRequest(INodeInfo::Ptr const& nodeInfo)
         return request;
     };
     *(request->mutable_nodeid()) =
-        std::string((const char*)nodeInfo->nodeID().data(), nodeInfo->nodeID().size());
+        std::string_view((const char*)nodeInfo->nodeID().data(), nodeInfo->nodeID().size());
     request->set_endpoint(nodeInfo->endPoint());
     auto const& components = nodeInfo->components();
     for (auto const& component : components)

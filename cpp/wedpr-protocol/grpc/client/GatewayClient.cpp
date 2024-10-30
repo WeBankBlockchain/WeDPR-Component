@@ -43,16 +43,13 @@ void GatewayClient::asyncSendMessage(RouteType routeType,
     MessageOptionalHeader::Ptr const& routeInfo, std::string const& traceID, bcos::bytes&& payload,
     long timeout, ReceiveMsgFunc callback)
 {
-    auto payloadPtr = std::make_shared<bcos::bytes>(std::move(payload));
-
     std::unique_ptr<ppc::proto::SendedMessageRequest> request(
-        generateRequest(traceID, routeType, routeInfo, payloadPtr, timeout));
+        generateRequest(traceID, routeType, routeInfo, std::move(payload), timeout));
     auto context = std::make_shared<ClientContext>();
     auto response = std::make_shared<Error>();
     // lambda keeps the lifecycle for clientContext
-    // Note: hold the payloadPtr in case of invalidation
     m_stub->async()->asyncSendMessage(context.get(), request.get(), response.get(),
-        [context, traceID, callback, response, payloadPtr](
+        [context, traceID, callback, response](
             Status status) { callback(toError(status, *response)); });
 }
 

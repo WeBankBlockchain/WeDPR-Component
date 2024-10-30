@@ -38,6 +38,8 @@ public class TransportConfig {
     }
 
     private static synchronized void createTransportBuilder() {
+        // TODO: make log path configuration here
+        TransportBuilder.initLog("conf/wedpr_sdk_log_config.ini");
         logger.info("init transportBuilder");
         transportBuilder = new TransportBuilder();
         logger.info("init transportBuilder success");

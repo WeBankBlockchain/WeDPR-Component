@@ -56,10 +56,18 @@ public:
         std::call_once(g_flag, [configPath]() {
             // init the log
             boost::property_tree::ptree pt;
-            boost::property_tree::read_ini(configPath, pt);
+            try
+            {
+                boost::property_tree::read_ini(configPath, pt);
+            }
+            catch (std::exception const& e)
+            {
+                // disable the log when the configPath not exists
+                pt.put("log.enable", false);
+            }
 
             g_logInitializer = std::make_shared<bcos::BoostLogInitializer>();
-            g_logInitializer->initLog(pt);
+            g_logInitializer->initLog(pt, bcos::FileLogger, "gateway_sdk_log");
         });
     }
 
