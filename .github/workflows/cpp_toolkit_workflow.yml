@@ -39,6 +39,12 @@ jobs:
         with:
           toolchain: nightly-2022-07-28
           override: true
+      - name: Prepare python
+        if: runner.os == 'Windows'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+          cache: 'pip'
       - name: Prepare vcpkg
         if: runner.os != 'Windows'
         uses: friendlyanon/setup-vcpkg@v1

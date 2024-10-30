@@ -39,11 +39,12 @@ endif()
 # which won't be interpreted inside a generator expression.
 # i.e. we can't use: $<$<PLATFORM_ID:Windows>:${PYTHON_LIBRARIES}>
 # see: https://cmake.org/cmake/help/git-stage/command/target_link_libraries.html#command:target_link_libraries
-if(MSVC)
-  target_link_libraries(${WEDPR_PYTHON_TRANSPORT} PRIVATE ${WEDPR_TRANSPORT_SDK_TARGET} ${Python3_LIBRARIES})
-else()
-  target_link_libraries(${WEDPR_PYTHON_TRANSPORT} PRIVATE ${WEDPR_TRANSPORT_SDK_TARGET})
-endif()
+#if(MSVC)
+#  message("## Python3_LIBRARIES: ${Python3_LIBRARIES}")
+#  target_link_libraries(${WEDPR_PYTHON_TRANSPORT} PRIVATE ${WEDPR_TRANSPORT_SDK_TARGET} ${Python3_LIBRARIES})
+#else()
+target_link_libraries(${WEDPR_PYTHON_TRANSPORT} PRIVATE ${WEDPR_TRANSPORT_SDK_TARGET})
+#endif()
 SET(LIBRARY_OUTPUT_PATH ${WEDPR_PYTHON_TRANSPORT_LIB_DIR})
 
 message(STATUS "CMAKE_INSTALL_INCLUDEDIR => ${CMAKE_INSTALL_INCLUDEDIR}")
