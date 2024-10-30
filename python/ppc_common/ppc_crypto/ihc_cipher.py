@@ -64,7 +64,7 @@ class IhcCiphertext():
         return len_bytes + c_left_bytes + c_right_bytes
 
     @classmethod
-    def decode(cls, encoded_data: bytes):
+    def decode(cls, encoded_data: bytes, key_length: int = 256):
         # 解码整数的长度
         len_c_left, len_c_right = struct.unpack('>II', encoded_data[:8])
 
@@ -73,7 +73,7 @@ class IhcCiphertext():
             encoded_data[8:8 + len_c_left], byteorder='big')
         c_right = int.from_bytes(
             encoded_data[8 + len_c_left:8 + len_c_left + len_c_right], byteorder='big')
-        return cls(c_left, c_right, cls.number_codec)
+        return cls(c_left, c_right, NumberCodec(key_length))
 
 
 class IhcCipher(PheCipher):
