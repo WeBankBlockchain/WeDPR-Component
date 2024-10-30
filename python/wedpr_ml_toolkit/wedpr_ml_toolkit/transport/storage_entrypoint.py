@@ -26,14 +26,14 @@ class StorageEntryPoint:
         self.storage_client.save_data(csv_buffer.getvalue(), hdfs_path)
         return
 
-    def download(self, hdfs_path):
+    def download(self, hdfs_path, header=None):
         """
         从HDFS下载数据并返回为Pandas DataFrame
         :param hdfs_path: HDFS文件路径
         :return: Pandas DataFrame
         """
         content = self.storage_client.get_data(hdfs_path)
-        dataframe = pd.read_csv(io.BytesIO(content))
+        dataframe = pd.read_csv(io.BytesIO(content), header=header)
         return dataframe
 
     def download_byte(self, hdfs_path):

@@ -7,7 +7,6 @@ class DataContext:
 
     def __init__(self, *datasets):
         self.datasets = list(datasets)
-        self.ctx = self.datasets[0].ctx
 
         self._check_datasets()
 
@@ -28,13 +27,13 @@ class DataContext:
     def to_psi_format(self, merge_filed, result_receiver_id_list):
         dataset_psi = []
         for dataset in self.datasets:
-            if dataset.agency.agency_id in result_receiver_id_list:
+            if dataset.agency in result_receiver_id_list:
                 result_receiver = "true"
             else:
                 result_receiver = "false"
             dataset_psi_info = {"idFields": [merge_filed],
-                                "dataset": {"owner": dataset.ctx.user_name,
-                                            "ownerAgency": dataset.agency.agency_id,
+                                "dataset": {"owner": dataset.dataset_owner,
+                                            "ownerAgency": dataset.agency,
                                             "path": dataset.dataset_path,
                                             "storageTypeStr": "HDFS",
                                             "datasetID": dataset.dataset_id},
@@ -42,8 +41,24 @@ class DataContext:
             dataset_psi.append(dataset_psi_info)
         return dataset_psi
 
-    def to_model_formort(self):
+    def to_model_formort(self, merge_filed, result_receiver_id_list):
         dataset_model = []
         for dataset in self.datasets:
-            dataset_model.append(dataset.dataset_path)
+            if dataset.agency in result_receiver_id_list:
+                result_receiver = "true"
+            else:
+                result_receiver = "false"
+            if dataset.is_label_holder:
+                label_provider = "true"
+            else:
+                label_provider = "false"
+            dataset_psi_info = {"idFields": [merge_filed],
+                                "dataset": {"owner": dataset.dataset_owner,
+                                            "ownerAgency": dataset.agency,
+                                            "path": dataset.dataset_path,
+                                            "storageTypeStr": "HDFS",
+                                            "datasetID": dataset.dataset_id},
+                                "labelProvider": label_provider,
+                                "receiveResult": result_receiver}
+            dataset_model.append(dataset_psi_info)
         return dataset_model

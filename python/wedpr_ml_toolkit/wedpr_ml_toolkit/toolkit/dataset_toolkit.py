@@ -10,11 +10,13 @@ class DatasetToolkit:
                  storage_workspace,
                  dataset_id=None,
                  dataset_path=None,
+                 dataset_owner=None,
                  agency=None,
                  values=None,
                  is_label_holder=False):
         self.dataset_id = dataset_id
         self.dataset_path = dataset_path
+        self.dataset_owner = dataset_owner
         self.agency = agency
         self.values = values
         self.is_label_holder = is_label_holder
@@ -28,10 +30,10 @@ class DatasetToolkit:
             self.columns = self.values.columns
             self.shape = self.values.shape
 
-    def load_values(self):
+    def load_values(self, header = None):
         # 加载hdfs的数据集
         if self.storage_client is not None:
-            self.values = self.storage_client.download(self.dataset_path)
+            self.values = self.storage_client.download(self.dataset_path, header=header)
             self.columns = self.values.columns
             self.shape = self.values.shape
 
@@ -39,7 +41,8 @@ class DatasetToolkit:
         # 保存数据到hdfs目录
         if path is not None:
             self.dataset_path = path
-        if not self.dataset_path.startswith(self.storage_workspace):
+        if self.storage_workspace is not None and \
+            not self.dataset_path.startswith(self.storage_workspace):
             self.dataset_path = os.path.join(
                 self.storage_workspace, self.dataset_path)
         if self.storage_client is not None:

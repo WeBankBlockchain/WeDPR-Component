@@ -51,6 +51,11 @@ class HttpConfig(BaseObject):
         self.timeout_seconds = timeout_seconds
 
 
+class AgencyConfig(BaseObject):
+    def __init__(self, agency_name=None):
+        self.agency_name = agency_name
+
+
 class WeDPRMlConfig:
     def __init__(self, config_dict):
         self.auth_config = AuthConfig()
@@ -63,6 +68,8 @@ class WeDPRMlConfig:
         self.user_config.set_params(**config_dict)
         self.http_config = HttpConfig()
         self.http_config.set_params(**config_dict)
+        self.agency_config = AgencyConfig()
+        self.agency_config.set_params(**config_dict)
 
 
 class WeDPRMlConfigBuilder:

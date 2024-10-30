@@ -16,6 +16,13 @@ class JobType(Enum):
     FEATURE_ENGINEERING = "FEATURE_ENGINEERING",
     XGB_TRAINING = "XGB_TRAINING",
     XGB_PREDICTING = "XGB_PREDICTING"
+    LR_TRAINING = "LR_TRAINING",
+    LR_PREDICTING = "LR_PREDICTING"
+
+
+class ModelType(Enum):
+    XGB_MODEL_SETTING = "XGB_MODEL_SETTING",
+    LR_MODEL_SETTING = "LR_MODEL_SETTING",
 
 
 class JobStatus(Enum):
@@ -53,8 +60,9 @@ class JobStatus(Enum):
 
 
 class JobInfo(BaseObject):
-    def __init__(self, job_id: str = None, job_type: JobType = None, project_name: str = None, param: str = None, **params: Any):
-        self.id = job_id
+    def __init__(self, job_id: str = None, job_type: JobType = None, project_id: str = None, param: str = None, **params: Any):
+        if job_id is not None:
+            self.id = job_id
         self.name = None
         self.owner = None
         self.ownerAgency = None
@@ -63,7 +71,7 @@ class JobInfo(BaseObject):
         else:
             self.jobType = None
         self.parties = None
-        self.projectName = project_name
+        self.projectId = project_id
         self.param = param
         self.status = None
         self.result = None
@@ -76,9 +84,34 @@ class JobInfo(BaseObject):
         return f"job_id: {self.id}, owner: {self.owner}, ownerAgency: {self.ownerAgency}, jobType: {self.jobType}, status: {self.status}"
 
 
+class ModelInfo(BaseObject):
+    def __init__(self, model, model_type, **params: Any):
+        
+        self.type = model_type
+        # self.setting = json.loads(model)
+        self.setting = model
+        self.startTime = None
+        self.endTime = None
+        self.step = None
+        self.id = None
+        self.name = None
+        self.agency = None
+        self.owner = None
+
+        self.set_params(**params)
+
+
+class ModelResult:
+    def __init__(self, job_id: str, train_result = None, test_result = None, model = None, model_type = None):
+        self.job_id = job_id
+        self.train_result = train_result
+        self.test_result = test_result
+        self.model = ModelInfo(model, model_type).__dict__
+
+
 class JobParam:
     def __init__(self, job_info: JobInfo, task_parities, dataset_list):
-        self.job = job_info
+        self.job = job_info.__dict__
         self.taskParties = task_parities
         self.datasetList = dataset_list
 
@@ -159,7 +192,7 @@ class WeDPRRemoteJobClient(WeDPREntryPoint, BaseObject):
 
     def submit_job(self, job_params: JobParam) -> WeDPRResponse:
         wedpr_response = self.send_request(True,
-                                           self.job_config._submit_job_uri, None, None, json.dumps(job_params))
+                                           self.job_config.submit_job_uri, None, None, json.dumps(job_params.__dict__))
         submit_result = WeDPRResponse(**wedpr_response)
         # return the job_id
         if submit_result.success():

@@ -11,6 +11,8 @@ from wedpr_ml_toolkit.context.job_context import PreprocessingJobContext
 from wedpr_ml_toolkit.context.job_context import FeatureEngineeringJobContext
 from wedpr_ml_toolkit.context.job_context import SecureLGBMPredictJobContext
 from wedpr_ml_toolkit.context.job_context import SecureLGBMTrainingJobContext
+from wedpr_ml_toolkit.context.job_context import SecureLRPredictJobContext
+from wedpr_ml_toolkit.context.job_context import SecureLRTrainingJobContext
 from wedpr_ml_toolkit.context.data_context import DataContext
 
 
@@ -40,20 +42,26 @@ class WeDPRMlToolkit:
     def query_job_detail(self, job_id, block_until_finish=False) -> JobDetailResponse:
         return self.remote_job_client.query_job_detail(job_id, block_until_finish)
 
-    def build_job_context(self, job_type: JobType, project_name: str, dataset: DataContext, model_setting=None,
-                          id_fields='id'):
+    def build_job_context(self, job_type: JobType, project_id: str, dataset: DataContext, model_setting=None,
+                          id_fields='id', predict_algorithm=None):
         if job_type == JobType.PSI:
-            return PSIJobContext(self.remote_job_client, project_name, dataset, self.config.agency_config.agency_name,
-                                 id_fields)
+            return PSIJobContext(self.remote_job_client, self.storage_entry_point, project_id, dataset, 
+                                 self.config.agency_config.agency_name, id_fields)
         if job_type == JobType.PREPROCESSING:
-            return PreprocessingJobContext(self.remote_job_client, project_name, model_setting, dataset,
-                                           self.config.agency_config.agency_name)
+            return PreprocessingJobContext(self.remote_job_client, self.storage_entry_point, project_id, 
+                                           model_setting, dataset, self.config.agency_config.agency_name, id_fields)
         if job_type == JobType.FEATURE_ENGINEERING:
-            return FeatureEngineeringJobContext(self.remote_job_client, project_name, model_setting, dataset,
-                                                self.config.agency_config.agency_name)
+            return FeatureEngineeringJobContext(self.remote_job_client, self.storage_entry_point, project_id, 
+                                                model_setting, dataset, self.config.agency_config.agency_name, id_fields)
         if job_type == JobType.XGB_TRAINING:
-            return SecureLGBMTrainingJobContext(self.remote_job_client, project_name, model_setting, dataset,
-                                                self.config.agency_config.agency_name)
+            return SecureLGBMTrainingJobContext(self.remote_job_client, self.storage_entry_point, project_id, 
+                                                model_setting, dataset, self.config.agency_config.agency_name, id_fields)
         if job_type == JobType.XGB_PREDICTING:
-            return SecureLGBMPredictJobContext(self.remote_job_client, project_name, model_setting, dataset,
-                                               self.config.agency_config.agency_name)
+            return SecureLGBMPredictJobContext(self.remote_job_client, self.storage_entry_point, project_id, 
+                                               model_setting, predict_algorithm, dataset, self.config.agency_config.agency_name, id_fields)
+        if job_type == JobType.LR_TRAINING:
+            return SecureLRTrainingJobContext(self.remote_job_client, self.storage_entry_point, project_id, 
+                                                model_setting, dataset, self.config.agency_config.agency_name, id_fields)
+        if job_type == JobType.LR_PREDICTING:
+            return SecureLRPredictJobContext(self.remote_job_client, self.storage_entry_point, project_id, 
+                                               model_setting, predict_algorithm, dataset, self.config.agency_config.agency_name, id_fields)
