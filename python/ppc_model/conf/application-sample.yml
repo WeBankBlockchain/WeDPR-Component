@@ -41,3 +41,6 @@ transport_node_id: "MODEL_WeBank_NODE"
 transport_gateway_targets: "ipv4:127.0.0.1:40600,127.0.0.1:40601"
 transport_host_ip: "127.0.0.1"
 transport_listen_port: 6500
+
+# the log retriever config
+LOG_PATH: "logs/wedpr-model.log"

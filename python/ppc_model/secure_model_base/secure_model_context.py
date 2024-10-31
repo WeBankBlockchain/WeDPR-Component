@@ -98,6 +98,7 @@ class SecureModel(BaseEstimator):
 
 class SecureModelContext(Context):
     def __init__(self,
+                 task_id,
                  args,
                  components: Initializer):
 
@@ -107,7 +108,7 @@ class SecureModelContext(Context):
             role = TaskRole.PASSIVE_PARTY
 
         super().__init__(args['job_id'],
-                         args['task_id'],
+                         task_id,
                          components,
                          role)
         self.is_label_holder = args['is_label_holder']

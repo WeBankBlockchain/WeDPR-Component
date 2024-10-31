@@ -72,7 +72,7 @@ class TestSecureDataset(unittest.TestCase):
                 'random_state': 2024
             }
         }
-        task_info = SecureLGBMContext(args, self.components)
+        task_info = SecureLGBMContext(args['task_id'], args, self.components)
         print(task_info.model_params.get_all_params())
 
         # 模拟构造主动方数据集
@@ -98,7 +98,7 @@ class TestSecureDataset(unittest.TestCase):
                 'random_state': 2024
             }
         }
-        task_info = SecureLGBMContext(args, self.components)
+        task_info = SecureLGBMContext(args['task_id'], args, self.components)
         print(task_info.model_params.get_all_params())
 
         # 模拟构造被动方数据集
@@ -127,7 +127,7 @@ class TestSecureDataset(unittest.TestCase):
                 'eval_set_value': 'OOS'
             }
         }
-        task_info = SecureLGBMContext(args, self.components)
+        task_info = SecureLGBMContext(args['task_id'], args, self.components)
         print(task_info.model_params.get_all_params())
 
         # 模拟构造主动方数据集
@@ -157,7 +157,7 @@ class TestSecureDataset(unittest.TestCase):
             'algorithm_subtype': None,
             'model_dict': {}
         }
-        task_info = SecureLGBMContext(args, self.components)
+        task_info = SecureLGBMContext(args['task_id'], args, self.components)
         print(task_info.model_params.get_all_params())
 
         # 模拟构造主动方数据集
@@ -183,7 +183,7 @@ class TestSecureDataset(unittest.TestCase):
             'algorithm_subtype': None,
             'model_dict': {}
         }
-        task_info = SecureLGBMContext(args, self.components)
+        task_info = SecureLGBMContext(args['task_id'], args, self.components)
         print(task_info.model_params.get_all_params())
 
         # 模拟构造主动方数据集

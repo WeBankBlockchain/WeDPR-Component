@@ -44,12 +44,12 @@ class ModelCollection(Resource):
         """
         response = utils.BASE_RESPONSE
         task_id = model_id
-        status, traffic_volume, time_costs = components.task_manager.status(
+        status, traffic_volume, exec_result = components.task_manager.status(
             task_id)
         response['data'] = {
             'status': status,
             'traffic_volume': traffic_volume,
-            'time_costs': time_costs
+            'exec_result': exec_result,
         }
         return response
 
@@ -62,15 +62,6 @@ class ModelCollection(Resource):
         components.logger().info(f"kill request, job_id: {job_id}")
         components.task_manager.kill_task(job_id)
         return utils.BASE_RESPONSE
-
-
-@ns2.route('/<string:job_id>')
-class ModelLogCollection(Resource):
-    @api.response(200, 'Task status retrieved successfully.', response_task_status)
-    def get(self, job_id):
-        log_content = components.task_manager.record_model_job_log(job_id)
-        return utils.make_response(utils.PpcErrorCode.SUCCESS.get_code(),
-                                   utils.PpcErrorCode.SUCCESS.get_msg(), log_content)
 
 
 @ns_get_job_result.route('/<string:task_id>')

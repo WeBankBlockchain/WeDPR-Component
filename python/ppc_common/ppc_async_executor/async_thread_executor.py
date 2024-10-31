@@ -21,7 +21,7 @@ class AsyncThreadExecutor(AsyncExecutor):
                 args=()):
         def thread_target(logger, on_finish, *args):
             try:
-                target(*args)
+                target(target_id, *args)
                 on_finish(target_id, True)
             except Exception as e:
                 logger.warn(traceback.format_exc())

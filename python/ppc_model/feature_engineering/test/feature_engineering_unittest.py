@@ -82,6 +82,7 @@ class TestFeatureEngineering(unittest.TestCase):
         active_components.mock_logger = MockLogger()
         active_components.storage_client = MockStorageClient()
         active_context = FeatureEngineeringContext(
+            task_id=args_a['task_id'],
             args=args_a,
             components=active_components,
             role=TaskRole.ACTIVE_PARTY,
@@ -98,6 +99,7 @@ class TestFeatureEngineering(unittest.TestCase):
         passive_components.mock_logger = MockLogger()
         passive_components.storage_client = MockStorageClient()
         passive_context = FeatureEngineeringContext(
+            task_id=args_b['task_id'],
             args=args_b,
             components=passive_components,
             role=TaskRole.PASSIVE_PARTY,

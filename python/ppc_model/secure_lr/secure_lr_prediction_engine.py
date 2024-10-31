@@ -13,9 +13,9 @@ class SecureLRPredictionEngine(TaskEngine):
     task_type = ModelTask.LR_PREDICTING
 
     @staticmethod
-    def run(args):
+    def run(task_id, args):
 
-        task_info = SecureLRContext(args, components)
+        task_info = SecureLRContext(task_id, args, components)
         secure_dataset = SecureDataset(task_info)
 
         if task_info.role == TaskRole.ACTIVE_PARTY:

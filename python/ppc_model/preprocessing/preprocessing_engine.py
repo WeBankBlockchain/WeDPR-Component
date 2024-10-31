@@ -10,8 +10,9 @@ class PreprocessingEngine(TaskEngine):
     task_type = ModelTask.PREPROCESSING
 
     @staticmethod
-    def run(args):
+    def run(task_id, args):
         context = ProcessingContext(
+            task_id=task_id,
             args=args,
             components=components,
         )

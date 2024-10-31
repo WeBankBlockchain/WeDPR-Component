@@ -7,6 +7,7 @@ from ppc_common.ppc_ml.model.algorithm_info import ClassificationType
 from ppc_model.common.model_result import ResultFileHandling
 from ppc_common.ppc_ml.model.algorithm_info import EvaluationType
 from ppc_model.common.base_context import BaseContext
+from ppc_model.common.initializer import Initializer
 from enum import Enum
 
 
@@ -317,7 +318,7 @@ class ModelJobResult:
 
 
 class TaskResultHandler:
-    def __init__(self, task_result_request: TaskResultRequest, components):
+    def __init__(self, task_result_request: TaskResultRequest, components: Initializer):
         self.task_result_request = task_result_request
         self.components = components
         self.logger = components.logger()
@@ -344,9 +345,13 @@ class TaskResultHandler:
             response = {"jobPlanetResult":  merged_result,
                         "modelData": self.model_data}
         # record the log
-        log_content = self.components.task_manager.record_model_job_log(
-            self.task_result_request.task_id)
-        response.update({"logData": log_content})
+        log_size, log_path, log_content = self.components.log_retriever.retrieve_log(
+            self.task_result_request.job_id)
+        log_result = {}
+        log_result.update({"logSize": log_size})
+        log_result.update({"logPath": log_path})
+        log_result.update({"logContent": log_content})
+        response.update({"logDetail": log_result})
         return utils.make_response(PpcErrorCode.SUCCESS.get_code(), PpcErrorCode.SUCCESS.get_msg(), response)
 
     def _get_evaluation_result(self):

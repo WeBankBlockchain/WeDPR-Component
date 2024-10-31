@@ -12,7 +12,7 @@ class FeatureEngineeringEngine(TaskEngine):
     task_type = ModelTask.FEATURE_ENGINEERING
 
     @staticmethod
-    def run(args):
+    def run(task_id, args):
         input_path = BaseContext.feature_engineering_input_path(
             args['job_id'], components.config_data['JOB_TEMP_DIR'])
 
@@ -20,6 +20,7 @@ class FeatureEngineeringEngine(TaskEngine):
             field_list, label, feature = SecureDataset.read_dataset(
                 input_path, True)
             context = FeatureEngineeringContext(
+                task_id=task_id,
                 args=args,
                 components=components,
                 role=TaskRole.ACTIVE_PARTY,
@@ -32,6 +33,7 @@ class FeatureEngineeringEngine(TaskEngine):
             field_list, _, feature = SecureDataset.read_dataset(
                 input_path, False)
             context = FeatureEngineeringContext(
+                task_id = task_id,
                 args=args,
                 components=components,
                 role=TaskRole.PASSIVE_PARTY,

@@ -9,8 +9,12 @@ from ppc_common.deps_services import storage_loader
 from ppc_common.ppc_utils import common_func
 from ppc_common.ppc_async_executor.thread_event_manager import ThreadEventManager
 from wedpr_python_gateway_sdk.transport.impl.transport_loader import TransportLoader
+from ppc_common.deps_services.mysql_storage import MySQLStorage
+from ppc_common.ppc_config.sql_storage_config_loader import SQLStorageConfigLoader
 from ppc_model.network.wedpr_model_transport import ModelTransport
 from ppc_model.task.task_manager import TaskManager
+from ppc_model.task.task_manager import TaskPersistent
+from ppc_model.log.log_retriever import LogRetriever
 
 
 class Initializer:
@@ -27,13 +31,23 @@ class Initializer:
         self.job_cache_dir = common_func.get_config_value(
             "JOB_TEMP_DIR", "/tmp", self.config_data, False)
         self.thread_event_manager = ThreadEventManager()
+
+        task_persistent = TaskPersistent(self.logger(), MySQLStorage(
+            storage_config=SQLStorageConfigLoader.load(self.config_data)))
+
+        self.storage_client = storage_loader.load(
+            self.config_data, self.logger())
+        log_path = common_func.get_config_value(
+            "LOG_PATH", "logs/wedpr-model.log", self.config_data, False)
+        self.log_retriever = LogRetriever(
+            self.logger(), self.job_cache_dir, self.storage_client, log_path)
         self.task_manager = TaskManager(
             logger=self.logger(),
+            task_persistent=task_persistent,
+            log_retriever=self.log_retriever,
             thread_event_manager=self.thread_event_manager,
             task_timeout_h=self.config_data['TASK_TIMEOUT_H']
         )
-        self.storage_client = storage_loader.load(
-            self.config_data, self.logger())
         # default send msg timeout
         self.MODEL_COMPONENT = "WEDPR_MODEL"
         self.send_msg_timeout_ms = 5000

@@ -14,9 +14,9 @@ class SecureLGBMTrainingEngine(TaskEngine):
     task_type = ModelTask.XGB_TRAINING
 
     @staticmethod
-    def run(args):
+    def run(task_id, args):
 
-        task_info = SecureLGBMContext(args, components)
+        task_info = SecureLGBMContext(task_id, args, components)
         secure_dataset = SecureDataset(task_info)
 
         if task_info.role == TaskRole.ACTIVE_PARTY:

@@ -73,7 +73,7 @@ active_components = Initializer(log_config_path='', config_path='')
 active_components.config_data = {
     'JOB_TEMP_DIR': '/tmp/active', 'AGENCY_ID': ACTIVE_PARTY}
 active_components.mock_logger = MockLogger()
-task_info_a = SecureLRContext(args_a, active_components)
+task_info_a = SecureLRContext(args_a['task_id'], args_a, active_components)
 
 # df ---------------------------------------------
 secure_dataset = SecureDataset(task_info_a, df)

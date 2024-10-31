@@ -5,5 +5,5 @@ class TaskEngine(ABC):
     task_type: str
 
     @staticmethod
-    def run(args: dict):
+    def run(task_id: str, args: dict):
         ...

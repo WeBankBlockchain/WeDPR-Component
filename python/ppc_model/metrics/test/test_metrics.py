@@ -71,7 +71,7 @@ class TestXgboostTraining(unittest.TestCase):
         active_components.config_data = {
             'JOB_TEMP_DIR': '/tmp/active', 'AGENCY_ID': ACTIVE_PARTY}
         active_components.mock_logger = MockLogger()
-        task_info_a = SecureLGBMContext(self.args_a, active_components)
+        task_info_a = SecureLGBMContext(self.args_a['task_id'], self.args_a, active_components)
         model_data = SecureDataset.simulate_dataset(
             data_size, feature_dim, has_label=True)
         secure_dataset_a = SecureDataset(task_info_a, model_data)
@@ -96,7 +96,7 @@ class TestXgboostTraining(unittest.TestCase):
         passive_components.config_data = {
             'JOB_TEMP_DIR': '/tmp/passive', 'AGENCY_ID': PASSIVE_PARTY}
         passive_components.mock_logger = MockLogger()
-        task_info_b = SecureLGBMContext(self.args_b, passive_components)
+        task_info_b = SecureLGBMContext(self.args_b['task_id'], self.args_b, passive_components)
         model_data = SecureDataset.simulate_dataset(
             data_size, feature_dim, has_label=False)
         secure_dataset_b = SecureDataset(task_info_b, model_data)
@@ -119,7 +119,7 @@ class TestXgboostTraining(unittest.TestCase):
         active_components.config_data = {
             'JOB_TEMP_DIR': '/tmp/active', 'AGENCY_ID': ACTIVE_PARTY}
         active_components.mock_logger = MockLogger()
-        task_info_a = SecureLGBMContext(self.args_a, active_components)
+        task_info_a = SecureLGBMContext(self.args_a['task_id'], self.args_a, active_components)
         model_data = SecureDataset.simulate_dataset(
             data_size, feature_dim, has_label=True)
         secure_dataset_a = SecureDataset(task_info_a, model_data)
