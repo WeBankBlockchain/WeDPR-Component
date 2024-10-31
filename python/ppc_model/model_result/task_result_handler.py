@@ -338,12 +338,15 @@ class TaskResultHandler:
         merged_result = dict()
         for result in self.result_list:
             merged_result.update(result.to_dict())
-
         if self.model_data is None:
             response = {"jobPlanetResult":  merged_result}
         else:
             response = {"jobPlanetResult":  merged_result,
                         "modelData": self.model_data}
+        # record the log
+        log_content = self.components.task_manager.record_model_job_log(
+            self.task_result_request.task_id)
+        response.update({"logData": log_content})
         return utils.make_response(PpcErrorCode.SUCCESS.get_code(), PpcErrorCode.SUCCESS.get_msg(), response)
 
     def _get_evaluation_result(self):
