@@ -188,7 +188,7 @@ class TaskManager:
             return TaskStatus.NotFound.value, 0.0, None
         return result.status, 0, result.exec_result
 
-    def _on_task_finish(self, task_id: str, is_succeeded: bool, e: Exception = None):
+    def _on_task_finish(self, task_id: str, is_succeeded: bool, error_msg: str = None):
         task_result = None
         with self._rw_lock.gen_wlock():
             if task_id not in self._tasks.keys():
@@ -204,9 +204,9 @@ class TaskManager:
                              f"time_costs: {task_result.get_timecost()}s")
         else:
             task_result.task_status = TaskStatus.FAILURE.value
-            task_result.diagnosis_msg = str(e)
+            task_result.diagnosis_msg = error_msg
             self.logger.warn(f"Task {task_id} failed, job_id: {task_result.job_id}, "
-                             f"time_costs: {self._tasks[task_id].get_timecost()}s, error: {e}")
+                             f"time_costs: {self._tasks[task_id].get_timecost()}s, error: {error_msg}")
 
         self.logger.info(LOG_END_FLAG_FORMATTER.format(
             job_id=task_result.job_id))

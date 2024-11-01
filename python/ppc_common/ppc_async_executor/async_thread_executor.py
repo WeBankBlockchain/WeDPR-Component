@@ -31,7 +31,7 @@ class AsyncThreadExecutor(AsyncExecutor):
                                                               f'\n{job_id}.{target_id}')
                 logger.warn(
                     f"Execute task: {target_id} error, job: {job_id}, error: {e}, traceback: {error_detail}")
-                on_finish(target_id, False, e)
+                on_finish(target_id, False, error_detail)
 
         thread = threading.Thread(target=thread_target, args=(
             self.logger, on_target_finish) + args)
