@@ -77,9 +77,12 @@ class ModelResultCollection(Resource):
             f"run task request, task_id: {task_id}, args: {args}")
         user_name = args['user']
         task_type = args['jobType']
+        only_fetch_log = {'True': True, 'False': False}.get(
+            args['onlyFetchLog'])
         components.logger().info(
             f"get_job_direct_result_response, job: {task_id}")
-        task_result_request = TaskResultRequest(task_id, task_type)
+        task_result_request = TaskResultRequest(
+            task_id, task_type, only_fetch_log)
         job_result_handler = TaskResultHandler(
             task_result_request=task_result_request, components=components)
         response = job_result_handler.get_response()

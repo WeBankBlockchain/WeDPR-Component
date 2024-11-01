@@ -12,9 +12,10 @@ from enum import Enum
 
 
 class TaskResultRequest:
-    def __init__(self, job_id, task_type):
+    def __init__(self, job_id, task_type, only_fetch_log):
         self.job_id = job_id
         self.task_type = task_type
+        self.only_fetch_log = only_fetch_log
 
 
 class DataType(Enum):
@@ -336,14 +337,16 @@ class TaskResultHandler:
         self._get_feature_processing_result()
 
     def get_response(self):
-        merged_result = dict()
-        for result in self.result_list:
-            merged_result.update(result.to_dict())
-        if self.model_data is None:
-            response = {"jobPlanetResult":  merged_result}
-        else:
-            response = {"jobPlanetResult":  merged_result,
-                        "modelData": self.model_data}
+        response = dict()
+        if not self.task_result_request.only_fetch_log:
+            merged_result = dict()
+            for result in self.result_list:
+                merged_result.update(result.to_dict())
+            if self.model_data is None:
+                response = {"jobPlanetResult":  merged_result}
+            else:
+                response = {"jobPlanetResult":  merged_result,
+                            "modelData": self.model_data}
         # record the log
         log_size, log_path, log_content = self.components.log_retriever.retrieve_log(
             self.task_result_request.job_id)
