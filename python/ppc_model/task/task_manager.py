@@ -158,21 +158,20 @@ class TaskManager:
         self.log_retriever.upload_log(job_id)
 
     def kill_one_task(self, task_id: str):
+        task_result = None
         with self._rw_lock.gen_rlock():
-            if task_id not in self._tasks or self._tasks[task_id].task_status != TaskStatus.RUNNING.value:
+            if task_id not in self._tasks.keys() or self._tasks[task_id].task_status != TaskStatus.RUNNING.value:
                 return
-
+            task_result = self._tasks[task_id]
         self.logger.info(f"Kill task, task_id: {task_id}")
         self._async_executor.kill(task_id)
 
         # persistent the status to killed
         with self._rw_lock.gen_wlock():
-            if task_id not in self._tasks.keys():
-                return
-            task_result = self._tasks[task_id]
             task_result.task_status = TaskStatus.KILLED.value
             self.task_persistent.on_task_finished(task_result)
             self._tasks.pop(task_id)
+        self.logger.info(f"Kill task success, task_id: {task_id}")
 
     def task_finished(self, task_id: str) -> bool:
         (status, _, _) = self.status(task_id)
@@ -194,9 +193,10 @@ class TaskManager:
         with self._rw_lock.gen_wlock():
             if task_id not in self._tasks.keys():
                 self.logger.warn(
-                    f"_on_task_finish: the task {task_id} not Found!")
+                    f"_on_task_finish: the task {task_id} not Found! maybe killed!")
                 return
             task_result = self._tasks[task_id]
+
         # update the task result
         if is_succeeded:
             task_result.task_status = TaskStatus.SUCCESS.value

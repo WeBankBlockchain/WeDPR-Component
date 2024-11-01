@@ -33,7 +33,7 @@ def parse_args():
     parser.add_argument("-f", '--feature_size',
                         help='the feature size', required=True)
     parser.add_argument("-s", '--sample_capacity',
-                        help='the faked data size(in GB, default 1GB)', default=1, required=False)
+                        help='the faked data size(in MB, default 1MB)', default=1, required=False)
     parser.add_argument("-d", '--id_file',
                         help='the id file', required=False)
     parser.add_argument("-S", '--sample_file',
@@ -108,7 +108,7 @@ def fake_data(args):
     data_type = DataType.value_of(args.data_type)
     sample_capacity_bytes = None
     if args.sample_capacity is not None:
-        sample_capacity_bytes = int(args.sample_capacity) * 1024
+        sample_capacity_bytes = int(args.sample_capacity) * 1024 * 1024
     feature_size = int(args.feature_size)
     granularity = 100
     id = 0

@@ -1,4 +1,6 @@
 import threading
+import inspect
+import ctypes
 import time
 import traceback
 from typing import Callable
@@ -37,15 +39,35 @@ class AsyncThreadExecutor(AsyncExecutor):
         stop_event = threading.Event()
         self.event_manager.add_event(target_id, stop_event)
 
+    def _thread_exit_(self, thread, exit_type):
+        """Raises an exception in the threads with id tid"""
+        thread_id = thread.ident
+        if not inspect.isclass(exit_type):
+            raise TypeError("Only types can be raised (not instances)")
+        res = ctypes.pythonapi.PyThreadState_SetAsyncExc(
+            ctypes.c_long(thread_id), ctypes.py_object(exit_type))
+        if res == 0:
+            self.logger.warn("Invalid thread id")
+        elif res != 1:
+            # """if it returns a number greater than one, you're in trouble,
+            # and you should call it again with exc=NULL to revert the effect"""
+            ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, None)
+            self.logger.warn("PyThreadState_SetAsyncExc failed")
+            raise SystemError("PyThreadState_SetAsyncExc failed")
+        self.logger.info(f"thread_exit success, thread_id: {thread_id}")
+
     def kill(self, target_id: str):
         with self.lock:
             if target_id not in self.threads:
                 return False
             else:
                 thread = self.threads[target_id]
-
         self.event_manager.set_event(target_id)
+        self._thread_exit_(thread, SystemExit)
         thread.join()
+        # clear the thread information
+        with self.lock:
+            self.threads.pop(target_id)
         self.logger.info(f"Target {target_id} has been stopped!")
         return True
 
