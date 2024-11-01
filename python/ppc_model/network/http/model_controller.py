@@ -31,7 +31,7 @@ class ModelCollection(Resource):
         args = request.get_json()
         task_id = model_id
         components.logger().info(
-            f"run task request, task_id: {task_id}, args: {args}")
+            f"run task request, task_id: {task_id}")
         task_type = args['task_type']
         components.task_manager.run_task(
             task_id, ModelTask(task_type), (args,))
@@ -74,7 +74,7 @@ class ModelResultCollection(Resource):
         start_t = time.time()
         args = request.get_json()
         components.logger().info(
-            f"run task request, task_id: {task_id}, args: {args}")
+            f"get task result, task_id: {task_id}, args: {args}")
         user_name = args['user']
         task_type = args['jobType']
         only_fetch_log = {'True': True, 'False': False}.get(

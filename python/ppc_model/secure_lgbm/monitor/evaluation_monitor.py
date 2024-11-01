@@ -113,7 +113,7 @@ class EvaluationMonitor(TrainingCallback):
             except:
                 self.logger.info(f'scores = {model.get_history()}')
                 self.logger.info(f'path = {model.get_workspace()}')
-                err = traceback.format_exc()
+                err = traceback.format_exc().replace('\n', ' ; error ')
                 # self.logger.exception(err)
                 self.logger.info(
                     f'plot moniter in times-{retry_num} failed, traceback: {err}.')

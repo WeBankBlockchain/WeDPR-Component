@@ -19,18 +19,22 @@ class AsyncThreadExecutor(AsyncExecutor):
         self._cleanup_thread.daemon = True
         self._cleanup_thread.start()
 
-    def execute(self, target_id: str, target: Callable, on_target_finish: Callable[[str, bool, Exception], None],
+    def execute(self, job_id: str, target_id: str,
+                target: Callable, on_target_finish: Callable[[str, bool, Exception], None],
                 args=()):
         def thread_target(logger, on_finish, *args):
             try:
                 target(target_id, *args)
                 on_finish(target_id, True)
             except Exception as e:
-                logger.warn(traceback.format_exc())
+                error_detail = traceback.format_exc().replace('\n',
+                                                              f'\n{job_id}.{target_id}')
+                logger.warn(
+                    f"Execute task: {target_id} error, job: {job_id}, error: {e}, traceback: {error_detail}")
                 on_finish(target_id, False, e)
 
         thread = threading.Thread(target=thread_target, args=(
-            self.logger, on_target_finish,) + args)
+            self.logger, on_target_finish) + args)
         thread.start()
 
         with self.lock:

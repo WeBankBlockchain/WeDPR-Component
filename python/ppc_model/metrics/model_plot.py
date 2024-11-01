@@ -56,7 +56,7 @@ class ModelPlot:
                         self.ctx.components.logger().info(
                             f'tree_id = {i}, tree = {tree}')
                         self.ctx.components.logger().info(f'G = {self._G}')
-                        err = traceback.format_exc()
+                        err = traceback.format_exc().replace('\n', ' ; error: ')
                         # self.ctx.components.logger().exception(err)
                         self.ctx.components.logger().info(
                             f'plot tree-{i} in times-{retry_num} failed, traceback: {err}.')

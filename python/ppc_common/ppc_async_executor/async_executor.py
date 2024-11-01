@@ -4,6 +4,7 @@ from typing import Callable
 
 class AsyncExecutor(ABC):
     def execute(self,
+                job_id: str,
                 task_id: str,
                 target: Callable,
                 on_target_finish: Callable[[str, bool, Exception], None],

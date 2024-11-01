@@ -142,7 +142,7 @@ class TaskManager:
         self.logger.info(LOG_START_FLAG_FORMATTER.format(job_id=job_id))
         self.logger.info(f"Run task, job_id: {job_id}, task_id: {task_id}")
         self._async_executor.execute(
-            task_id, self._handlers[task_type.value], self._on_task_finish, args)
+            args[0]['job_id'], task_id, self._handlers[task_type.value], self._on_task_finish, args)
 
     def kill_task(self, job_id: str):
         """

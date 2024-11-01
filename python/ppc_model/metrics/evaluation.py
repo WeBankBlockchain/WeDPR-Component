@@ -163,7 +163,7 @@ class Evaluation:
                         f'y_true = {len(y_true)}, {y_true[0:2]}')
                     ctx.components.logger().info(
                         f'y_praba = {len(y_praba)}, {y_praba[0:2]}')
-                    err = traceback.format_exc()
+                    err = traceback.format_exc().replace('\n', ' ; error: ')
                     # ctx.components.logger().exception(err)
                     ctx.components.logger().info(
                         f'plot metrics in times-{retry_num} failed, traceback: {err}.')
