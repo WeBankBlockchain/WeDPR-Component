@@ -52,7 +52,9 @@ def register_task_handler():
         ModelTask.LR_TRAINING, SecureLRTrainingEngine.run)
     task_manager.register_task_handler(
         ModelTask.LR_PREDICTING, SecureLRPredictionEngine.run)
-
+    # register clear handlers
+    task_manager.register_task_clear_handler(
+        components.model_router.on_task_finish)
 
 if __name__ == '__main__':
     initialize_app(app)

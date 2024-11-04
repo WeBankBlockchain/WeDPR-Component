@@ -105,6 +105,7 @@ class TaskManager:
         self._rw_lock = rwlock.RWLockWrite()
         self._tasks: dict[str, TaskResult] = {}
         self._handlers = {}
+        self._task_clear_handler = []
         self._async_executor = AsyncThreadExecutor(
             event_manager=self._thread_event_manager, logger=logger)
         self._cleanup_thread = threading.Thread(target=self._loop_cleanup)
@@ -118,6 +119,10 @@ class TaskManager:
         param task_handler: 任务执行入口
         """
         self._handlers[task_type.value] = task_handler
+
+    # handler called when task finished
+    def register_task_clear_handler(self, handler: Callable[[str], None]):
+        self._task_clear_handler.append(handler)
 
     def run_task(self, task_id: str, task_type: ModelTask, args=()):
         """
@@ -189,40 +194,44 @@ class TaskManager:
         return result.status, 0, result.exec_result
 
     def _on_task_finish(self, task_id: str, is_succeeded: bool, error_msg: str = None):
-        task_result = None
-        with self._rw_lock.gen_wlock():
-            if task_id not in self._tasks.keys():
-                self.logger.warn(
-                    f"_on_task_finish: the task {task_id} not Found! maybe killed!")
-                return
-            task_result = self._tasks[task_id]
+        try:
+            task_result = None
+            with self._rw_lock.gen_wlock():
+                if task_id not in self._tasks.keys():
+                    self.logger.warn(
+                        f"_on_task_finish: the task {task_id} not Found! maybe killed!")
+                    return
+                task_result = self._tasks[task_id]
 
-        # update the task result
-        if is_succeeded:
-            task_result.task_status = TaskStatus.SUCCESS.value
-            self.logger.info(f"Task {task_id} completed, job_id: {task_result.job_id}, "
-                             f"time_costs: {task_result.get_timecost()}s")
-        else:
-            task_result.task_status = TaskStatus.FAILURE.value
-            task_result.diagnosis_msg = error_msg
-            self.logger.warn(f"Task {task_id} failed, job_id: {task_result.job_id}, "
-                             f"time_costs: {self._tasks[task_id].get_timecost()}s, error: {error_msg}")
+            # update the task result
+            if is_succeeded:
+                task_result.task_status = TaskStatus.SUCCESS.value
+                self.logger.info(f"Task {task_id} completed, job_id: {task_result.job_id}, "
+                                 f"time_costs: {task_result.get_timecost()}s")
+            else:
+                task_result.task_status = TaskStatus.FAILURE.value
+                task_result.diagnosis_msg = error_msg
+                self.logger.warn(f"Task {task_id} failed, job_id: {task_result.job_id}, "
+                                 f"time_costs: {self._tasks[task_id].get_timecost()}s, error: {error_msg}")
 
-        self.logger.info(LOG_END_FLAG_FORMATTER.format(
-            job_id=task_result.job_id))
-        # finalize the task result
-        task_result.finalize()
-        self.task_persistent.on_task_finished(task_result)
+            self.logger.info(LOG_END_FLAG_FORMATTER.format(
+                job_id=task_result.job_id))
+            # finalize the task result
+            task_result.finalize()
+            self.task_persistent.on_task_finished(task_result)
 
-        with self._rw_lock.gen_wlock():
-            # erase from the queue
-            self._tasks.pop(task_id)
+            with self._rw_lock.gen_wlock():
+                # erase from the queue
+                self._tasks.pop(task_id)
 
-            # record and upload the log if all task finished
-        if self.task_persistent.job_finished(task_result.job_id):
-            self.logger.info(
-                f"_on_task_finish: all sub tasks finished, upload the log, task_info: {task_result}")
-            self.log_retriever.upload_log(task_result.job_id)
+                # record and upload the log if all task finished
+            if self.task_persistent.job_finished(task_result.job_id):
+                self.logger.info(
+                    f"_on_task_finish: all sub tasks finished, upload the log, task_info: {task_result}")
+                self.log_retriever.upload_log(task_result.job_id)
+        finally:
+            for handler in self._task_clear_handler:
+                handler(task_id)
 
     def _loop_cleanup(self):
         while True:

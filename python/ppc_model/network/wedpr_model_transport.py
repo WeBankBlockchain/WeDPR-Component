@@ -6,6 +6,8 @@ from ppc_model.network.wedpr_model_transport_api import ModelTransportApi
 from ppc_model.network.wedpr_model_transport_api import ModelRouterApi
 from ppc_model.task.task_manager import TaskManager
 import time
+from readerwriterlock import rwlock
+from enum import Enum
 
 
 class ModelTransport(ModelTransportApi):
@@ -62,14 +64,36 @@ class ModelTransport(ModelTransportApi):
         self.transport.stop()
 
 
+class BaseMessage(Enum):
+    Handshake = "Handshake"
+
+
 class ModelRouter(ModelRouterApi):
-    def __init__(self, logger, transport: ModelTransport, participant_id_list):
+    def __init__(self, logger, transport: ModelTransport):
         self.logger = logger
         self.transport = transport
-        self.participant_id_list = participant_id_list
         self.router_info = {}
-        for participant in self.participant_id_list:
-            self.__init_router__(participant)
+        self._rw_lock = rwlock.RWLockWrite()
+
+    def handshake(self, task_id, participant):
+        self.logger.info(f"handshake with {participant}")
+        endpoint = self.__init_router__(participant)
+        self.transport.push_by_nodeid(
+            task_id=task_id, task_type=BaseMessage.Handshake.value, dst_node=endpoint, payload=bytes(), seq=0)
+
+    def wait_for_handshake(self, task_id, from_inst):
+        result = self.transport.pop(
+            task_id=task_id, task_type=BaseMessage.Handshake.value, dst_inst=from_inst)
+        if result is None:
+            raise Exception(f"wait_for_handshake failed!")
+        with self._rw_lock.gen_wlock():
+            self.router_info.update(
+                {task_id: result.get_src_node().decode("utf-8")})
+
+    def on_task_finish(self, task_id):
+        with self._rw_lock.gen_wlock():
+            if task_id in self.router_info.keys():
+                self.router_info.pop(task_id)
 
     def __init_router__(self, participant):
         result = self.transport.select_node(route_type=RouteType.ROUTE_THROUGH_COMPONENT,
@@ -83,16 +107,16 @@ class ModelRouter(ModelRouterApi):
         self.logger.info(
             f"ModelRouter, select node {result} for participant {participant}, "
             f"component: {self.transport.get_component_type()}")
-        self.router_info.update({participant: result})
         return result
 
-    def __get_dstnode_by_participant(self, participant):
-        if participant in self.router_info.keys():
-            return self.router_info.get(participant)
-        return self.__init_router__(participant)
+    def __get_dstnode_by_task_id(self, task_id):
+        with self._rw_lock.gen_rlock():
+            if task_id in self.router_info.keys():
+                return self.router_info.get(task_id)
+        raise Exception(f"No Router  found for task {task_id}")
 
     def push(self, task_id: str, task_type: str, dst_agency: str, payload: bytes, seq: int = 0):
-        dst_node = self.__get_dstnode_by_participant(dst_agency)
+        dst_node = self.__get_dstnode_by_task_id(task_id)
         self.transport.push_by_nodeid(
             task_id=task_id, task_type=task_type, dst_node=dst_node, payload=payload, seq=seq)
 
