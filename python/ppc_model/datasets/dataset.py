@@ -8,6 +8,7 @@ from ppc_common.ppc_utils.utils import AlgorithmType
 from ppc_model.common.protocol import TaskRole
 from ppc_model.common.model_result import ResultFileHandling, CommonMessage, SendMessage
 from ppc_model.secure_lgbm.secure_lgbm_context import SecureLGBMContext
+from ppc_model.common.base_context import BaseContext
 
 
 class SecureDataset:
@@ -34,6 +35,11 @@ class SecureDataset:
         self.feature_name = None
 
         if model_data is None:
+            # try to download the model_prepare_file
+            BaseContext.load_file(ctx.components.storage_client,
+                                  os.path.join(
+                                      ctx.job_id, BaseContext.MODEL_PREPARE_FILE),
+                                  ctx.model_prepare_file, ctx.components.logger())
             self.model_data = pd.read_csv(
                 ctx.model_prepare_file, header=0, delimiter=delimiter)
         else:

@@ -140,6 +140,12 @@ class BaseContext:
         self.load_key('aes_key.bin')
 
     @staticmethod
+    def load_file(storage_client, remote_path, local_path, logger):
+        if not os.path.exists(local_path):
+            logger.info(f"Download file from: {remote_path} to {local_path}")
+            storage_client.download_file(remote_path, local_path)
+
+    @staticmethod
     def feature_engineering_input_path(job_id: str, job_temp_dir: str):
         return os.path.join(job_temp_dir, job_id, BaseContext.MODEL_PREPARE_FILE)
 
