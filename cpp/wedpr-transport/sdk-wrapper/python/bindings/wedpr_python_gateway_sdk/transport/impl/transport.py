@@ -74,6 +74,13 @@ class Transport(TransportAPI):
             RouteType.ROUTE_THROUGH_NODEID.value, route_info, payload, seq, timeout)
         Transport.check_result("push_by_nodeid", result)
 
+    def push_by_topic(self, topic: str, dstInst: str, seq: int, payload: bytes, timeout: int):
+        route_info = self.__route_info_builder.build(
+            topic=topic, dst_node=None, dst_inst=dstInst, component=None)
+        result = self._push_msg(
+            RouteType.ROUTE_THROUGH_TOPIC.value, route_info, payload, seq, timeout)
+        Transport.check_result("push_by_topic", result)
+
     def push_by_inst(self, topic: str, dstInst: str, seq: int, payload: bytes, timeout: int):
         route_info = self.__route_info_builder.build(
             topic=topic, dst_node=None, dst_inst=dstInst, component=None)

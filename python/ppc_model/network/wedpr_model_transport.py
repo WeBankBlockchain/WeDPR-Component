@@ -27,6 +27,10 @@ class ModelTransport(ModelTransportApi):
     def get_topic(task_id: str, task_type: str, agency: str):
         return f"{agency}_{task_id}_{task_type}"
 
+    @staticmethod
+    def get_topic_without_agency(task_id: str, task_type: str):
+        return f"{task_id}_{task_type}"
+
     def push_by_component(self, task_id: str, task_type: str, dst_inst: str, data):
         self.transport.push_by_component(topic=self.get_topic(task_id, task_type, dst_inst),
                                          dstInst=dst_inst,
@@ -40,18 +44,21 @@ class ModelTransport(ModelTransportApi):
                                       seq=seq, payload=payload,
                                       timeout=self.send_msg_timeout)
 
-    def pop(self, task_id: str, task_type: str, dst_inst: str) -> MessageAPI:
+    def pop_by_topic(self, topic, task_id) -> MessageAPI:
         while not self.task_manager.task_finished(task_id):
-            msg = self.transport.pop(topic=self.get_topic(
-                task_id, task_type, dst_inst), timeout_ms=self.pop_msg_timeout)
+            msg = self.transport.pop(
+                topic=topic, timeout_ms=self.pop_msg_timeout)
             # wait for the msg if the task is running
             if msg is None:
                 time.sleep(0.04)
             else:
                 return msg
         raise Exception(f"Not receive the message of topic:"
-                        f" {self.get_topic(task_id, task_type, dst_inst)} "
+                        f" {topic} "
                         f"even after the task has been killed!")
+
+    def pop(self, task_id: str, task_type: str, dst_inst: str) -> MessageAPI:
+        return self.pop_by_topic(topic=self.get_topic(task_id, task_type, dst_inst), task_id=task_id)
 
     def get_component_type(self):
         return self.component_type
@@ -77,13 +84,20 @@ class ModelRouter(ModelRouterApi):
 
     def handshake(self, task_id, participant):
         self.logger.info(f"handshake with {participant}")
-        endpoint = self.__init_router__(participant)
-        self.transport.push_by_nodeid(
-            task_id=task_id, task_type=BaseMessage.Handshake.value, dst_node=endpoint, payload=bytes(), seq=0)
+        topic = ModelTransport.get_topic_without_agency(
+            task_id, BaseMessage.Handshake.value)
+        self.transport.transport.register_topic(topic)
+        self.transport.transport.push_by_topic(topic=task_id,
+                                               dstInst=participant,
+                                               seq=0, payload=bytes(),
+                                               timeout=self.transport.send_msg_timeout)
 
     def wait_for_handshake(self, task_id, from_inst):
-        result = self.transport.pop(
-            task_id=task_id, task_type=BaseMessage.Handshake.value, dst_inst=from_inst)
+        topic = ModelTransport.get_topic_without_agency(
+            task_id, BaseMessage.Handshake.value)
+        self.transport.transport.register_topic(topic)
+        result = self.transport.pop_by_topic(topic=topic, task_id=task_id)
+
         if result is None:
             raise Exception(f"wait_for_handshake failed!")
         with self._rw_lock.gen_wlock():
@@ -91,23 +105,12 @@ class ModelRouter(ModelRouterApi):
                 {task_id: result.get_src_node().decode("utf-8")})
 
     def on_task_finish(self, task_id):
+        topic = ModelTransport.get_topic_without_agency(
+            task_id, BaseMessage.Handshake.value)
+        self.transport.transport.unregister_topic(topic)
         with self._rw_lock.gen_wlock():
             if task_id in self.router_info.keys():
                 self.router_info.pop(task_id)
-
-    def __init_router__(self, participant):
-        result = self.transport.select_node(route_type=RouteType.ROUTE_THROUGH_COMPONENT,
-                                            dst_agency=participant,
-                                            dst_component=self.transport.get_component_type())
-        self.logger.info(
-            f"__init_router__ for {participant}, result: {result}, component: {self.transport.get_component_type()}")
-        if result is None:
-            raise Exception(
-                f"No router can reach participant {participant}")
-        self.logger.info(
-            f"ModelRouter, select node {result} for participant {participant}, "
-            f"component: {self.transport.get_component_type()}")
-        return result
 
     def __get_dstnode_by_task_id(self, task_id):
         with self._rw_lock.gen_rlock():

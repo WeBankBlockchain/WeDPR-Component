@@ -14,15 +14,19 @@ class TransportAPI(ABC):
         pass
 
     @abstractmethod
-    def push_by_nodeid(topic: str, dstNode: bytes, seq: int, payload: bytes, timeout: int):
+    def push_by_nodeid(self, topic: str, dstNode: bytes, seq: int, payload: bytes, timeout: int):
         pass
 
     @abstractmethod
-    def push_by_inst(topic: str, dstInst: str, seq: int, payload: bytes, timeout: int):
+    def push_by_inst(self, topic: str, dstInst: str, seq: int, payload: bytes, timeout: int):
         pass
 
     @abstractmethod
-    def push_by_component(topic: str, dstInst: str,  component: str, seq: int, payload: bytes, timeout: int):
+    def push_by_component(self, topic: str, dstInst: str,  component: str, seq: int, payload: bytes, timeout: int):
+        pass
+
+    @abstractmethod
+    def push_by_topic(self, topic: str, dstInst: str, seq: int, payload: bytes, timeout: int):
         pass
 
     @abstractmethod

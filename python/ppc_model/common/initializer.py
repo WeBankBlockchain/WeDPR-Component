@@ -92,9 +92,6 @@ class Initializer:
         transport.start()
         self.logger().info(
             f"Start transport success, config: {transport.get_config().desc()}")
-        transport.register_component(component_type)
-        self.logger().info(
-            f"Register the component {component_type} success")
         self.transport = ModelTransport(transport=transport,
                                         self_agency_id=self_agency_id,
                                         task_manager=task_manager,
