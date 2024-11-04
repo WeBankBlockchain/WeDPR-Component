@@ -8,10 +8,6 @@ PUBLIC_KEY_LENGTH: 2048
 MAX_MESSAGE_LENGTH_MB: 100
 TASK_TIMEOUT_H: 1800
 
-
-PEM_PATH: "/data/app/wedpr-model/wedpr-model-node/ppc_model_service/server.pem"
-SHARE_PATH: "/data/app/wedpr-model/wedpr-model-node/ppc_model_service/dataset_share/"
-
 DB_TYPE: "mysql"
 SQLALCHEMY_DATABASE_URI: "mysql://[*user_ppcsmodeladm]:[*pass_ppcsmodeladm]@[@4346-TDSQL_VIP]:[@4346-TDSQL_PORT]/ppcsmodeladm?autocommit=true&charset=utf8mb4"
 
@@ -32,8 +28,6 @@ gm_public_key: ""
 
 UPLOAD_FOLDER: "./upload_data_folder"
 JOB_TEMP_DIR: ".cache/job"
-
-FE_TIMEOUT_S: 5400
 
 # the transport config
 transport_threadpool_size: 4
