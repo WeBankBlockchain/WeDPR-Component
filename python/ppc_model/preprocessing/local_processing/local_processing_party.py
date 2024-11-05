@@ -34,7 +34,8 @@ class LocalProcessingParty(ABC):
                 self.ctx.remote_psi_result_path, psi_result_path)
             log.info(
                 f"prepare_xgb_after_psi, make_dataset_to_xgb_data_plus_psi_data, dataset_file_path={dataset_file_path}, "
-                f"psi_result_path={dataset_file_path}, model_prepare_file={model_prepare_file}")
+                f"psi_result_path={psi_result_path}, model_prepare_file={model_prepare_file}, "
+                f"remote_psi_result_path: {self.ctx.remote_psi_result_path}")
         self.make_dataset_to_xgb_data()
         storage_client.upload_file(
             model_prepare_file, job_id + os.sep + BaseContext.MODEL_PREPARE_FILE)

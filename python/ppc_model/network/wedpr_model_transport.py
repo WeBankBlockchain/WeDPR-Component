@@ -93,22 +93,37 @@ class ModelRouter(ModelRouterApi):
                                                seq=0, payload=bytes(),
                                                timeout=self.transport.send_msg_timeout)
 
-    def wait_for_handshake(self, task_id):
-        topic = ModelTransport.get_topic_without_agency(
-            task_id, BaseMessage.Handshake.value)
-        self.transport.transport.register_topic(topic)
-        result = self.transport.pop_by_topic(topic=topic, task_id=task_id)
-
-        if result is None:
-            raise Exception(f"wait_for_handshake failed!")
-        self.logger.info(
-            f"wait_for_handshake success, task: {task_id}, detail: {result}")
-        with self._rw_lock.gen_wlock():
-            from_inst = result.get_header().get_src_inst()
+    def __all_connected__(self, task_id, participant_id_list, self_agency_id):
+        with self._rw_lock.gen_rlock():
             if task_id not in self.router_info.keys():
-                self.router_info.update({task_id: dict()})
-            self.router_info.get(task_id).update(
-                {from_inst: result.get_header().get_src_node().decode("utf-8")})
+                return False
+            for participant in participant_id_list:
+                if participant == self_agency_id:
+                    continue
+                if participant not in self.router_info.get(task_id).keys():
+                    return False
+            self.logger.info(
+                f"__all_connected__, task: {task_id}, participant_id_list: {participant_id_list}")
+            return True
+
+    def wait_for_handshake(self, task_id, participant_id_list: list, self_agency_id):
+        while not self.__all_connected__(task_id, participant_id_list, self_agency_id):
+            time.sleep(0.04)
+            topic = ModelTransport.get_topic_without_agency(
+                task_id, BaseMessage.Handshake.value)
+            self.transport.transport.register_topic(topic)
+            result = self.transport.pop_by_topic(topic=topic, task_id=task_id)
+
+            if result is None:
+                raise Exception(f"wait_for_handshake failed!")
+            self.logger.info(
+                f"wait_for_handshake success, task: {task_id}, detail: {result}")
+            with self._rw_lock.gen_wlock():
+                from_inst = result.get_header().get_src_inst()
+                if task_id not in self.router_info.keys():
+                    self.router_info.update({task_id: dict()})
+                self.router_info.get(task_id).update(
+                    {from_inst: result.get_header().get_src_node().decode("utf-8")})
 
     def on_task_finish(self, task_id):
         topic = ModelTransport.get_topic_without_agency(

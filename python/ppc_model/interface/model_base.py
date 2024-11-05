@@ -10,33 +10,23 @@ class ModelBase(ABC):
     def __init__(self, ctx):
         self.ctx = ctx
         self.ctx.model_router = self.ctx.components.model_router
-        if self.ctx.role == TaskRole.ACTIVE_PARTY:
-            self.__active_handshake__()
-        else:
-            self.__passive_handshake__()
+        self.__handshake__()
 
-    def __active_handshake__(self):
+    def __handshake__(self):
         # handshake with all passive parties
-        for i in range(1, len(self.ctx.participant_id_list)):
+        for i in range(0, len(self.ctx.participant_id_list)):
             participant = self.ctx.participant_id_list[i]
+            if participant == self.ctx.my_agency_id:
+                continue
             self.ctx.components.logger().info(
-                f"Active: send handshake to passive party: {participant}")
+                f"Send handshake to party: {participant}")
             self.ctx.model_router.handshake(self.ctx.task_id, participant)
-            # wait for handshake response from the passive parties
-            self.ctx.components.logger().info(
-                f"Active: wait for handshake from passive party: {participant}")
-            self.ctx.model_router.wait_for_handshake(self.ctx.task_id)
 
-    def __passive_handshake__(self):
+        # wait for handshake response from the passive parties
         self.ctx.components.logger().info(
-            f"Passive: send handshake to active party: {self.ctx.participant_id_list[0]}")
-        # send handshake to the active party
-        self.ctx.model_router.handshake(
-            self.ctx.task_id, self.ctx.participant_id_list[0])
-        # wait for handshake for the active party
-        self.ctx.components.logger().info(
-            f"Passive: wait for Handshake from active party: {self.ctx.participant_id_list[0]}")
-        self.ctx.model_router.wait_for_handshake(self.ctx.task_id)
+            f"Wait for handshake from all parities")
+        self.ctx.model_router.wait_for_handshake(
+            self.ctx.task_id, self.ctx.participant_id_list, self.ctx.my_agency_id)
 
     def fit(
         self,
