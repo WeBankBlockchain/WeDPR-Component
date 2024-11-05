@@ -225,6 +225,11 @@ public:
                     -1, "task " + m_task->id() + " failed for " +
                             boost::lexical_cast<std::string>(m_failedCount) + " error!");
                 result->setError(std::move(error));
+                result->setStatus(ppc::protocol::toString(ppc::protocol::TaskStatus::FAILED));
+            }
+            else
+            {
+                result->setStatus(ppc::protocol::toString(ppc::protocol::TaskStatus::COMPLETED));
             }
 
             // clear file
@@ -239,6 +244,7 @@ public:
                              << LOG_KV("msg", boost::diagnostic_information(e));
             auto error = std::make_shared<bcos::Error>(-1, boost::diagnostic_information(e));
             result->setError(std::move(error));
+            result->setStatus(ppc::protocol::toString(ppc::protocol::TaskStatus::FAILED));
         }
         if (m_callback)
         {
@@ -262,6 +268,11 @@ public:
         }
         try
         {
+            _result->setStatus(ppc::protocol::toString(ppc::protocol::TaskStatus::COMPLETED));
+            if (_result->error() && _result->error()->errorCode() != 0)
+            {
+                _result->setStatus(ppc::protocol::toString(ppc::protocol::TaskStatus::FAILED));
+            }
             // Note: we consider that the task success even if the handler exception
             if (_noticePeer && !m_onlySelfRun && _result->error() &&
                 _result->error()->errorCode() && m_notifyPeerFinishHandler)
@@ -288,6 +299,7 @@ public:
                              << LOG_KV("msg", boost::diagnostic_information(e));
             auto error = std::make_shared<bcos::Error>(-1, boost::diagnostic_information(e));
             _result->setError(std::move(error));
+            _result->setStatus(ppc::protocol::toString(ppc::protocol::TaskStatus::FAILED));
         }
         if (m_callback)
         {

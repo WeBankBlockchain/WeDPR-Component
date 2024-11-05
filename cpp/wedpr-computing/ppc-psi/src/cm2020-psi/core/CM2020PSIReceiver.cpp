@@ -931,7 +931,7 @@ void CM2020PSIReceiver::onReceiverException(const std::string& _module, const st
 
 void CM2020PSIReceiver::onReceiverTaskDone(bcos::Error::Ptr _error)
 {
-    if (m_taskState->taskDone())
+    if (m_taskState->taskDone() && (!_error || _error->errorCode() == 0))
     {
         return;
     }

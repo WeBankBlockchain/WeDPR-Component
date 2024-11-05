@@ -832,7 +832,7 @@ void CM2020PSISender::onSenderException(const std::string& _message, const std::
 
 void CM2020PSISender::onSenderTaskDone(bcos::Error::Ptr _error)
 {
-    if (m_taskState->taskDone())
+    if (m_taskState->taskDone() && (!_error || _error->errorCode() == 0))
     {
         return;
     }

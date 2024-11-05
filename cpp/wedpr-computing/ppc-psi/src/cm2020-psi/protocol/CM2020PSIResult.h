@@ -44,7 +44,7 @@ public:
     }
 
     // serialize the taskResult to json
-    [[nodiscard]] Json::Value serializeToJson() const override
+    [[nodiscard]] Json::Value serializeToJson() override
     {
         Json::Value response;
         response["taskID"] = taskID();

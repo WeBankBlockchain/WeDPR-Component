@@ -63,14 +63,10 @@ public:
     virtual void setFileInfo(FileInfo::Ptr _fileInfo) { m_fileInfo = std::move(_fileInfo); }
 
     // serialize the taskResult to json
-    virtual Json::Value serializeToJson() const
+    virtual Json::Value serializeToJson()
     {
         Json::Value response;
         response["taskID"] = m_taskID;
-        if (!m_status.empty())
-        {
-            response["status"] = m_status;
-        }
         if (m_timeCost)
         {
             response["timeCost"] = std::to_string(m_timeCost) + "ms";
@@ -81,7 +77,7 @@ public:
             response["fileID"] = m_fileInfo->fileID;
             response["fileMd5"] = m_fileInfo->fileMd5;
         }
-        if (m_error)
+        if (m_error && m_error->errorCode() != 0)
         {
             response["code"] = m_error->errorCode();
             response["message"] = m_error->errorMessage();
@@ -90,6 +86,10 @@ public:
         {
             response["code"] = 0;
             response["message"] = "success";
+        }
+        if (!m_status.empty())
+        {
+            response["status"] = m_status;
         }
         return response;
     }

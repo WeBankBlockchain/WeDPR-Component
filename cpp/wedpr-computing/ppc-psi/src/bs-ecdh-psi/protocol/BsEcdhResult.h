@@ -43,7 +43,7 @@ public:
     [[nodiscard]] Json::Value const& data() const { return m_data; }
 
     // serialize the taskResult to json
-    [[nodiscard]] Json::Value serializeToJson() const override
+    [[nodiscard]] Json::Value serializeToJson() override
     {
         Json::Value response;
         if (m_error && error()->errorCode())

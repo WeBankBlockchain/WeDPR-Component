@@ -540,7 +540,7 @@ void OtPIRImpl::runSenderGenerateCipher(PirTaskMessage taskMessage)
 
 void OtPIRImpl::onReceiverTaskDone(bcos::Error::Ptr _error)
 {
-    if (m_taskState->taskDone())
+    if (m_taskState->taskDone() && (!_error || _error->errorCode() == 0))
     {
         return;
     }

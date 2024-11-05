@@ -226,7 +226,6 @@ void Rpc::runTask(Json::Value const& _req, RespFunc _respFunc)
             _respFunc(result->error(), result->serializeToJson());
             return;
         }
-
         _respFunc(_result->error(), _result->serializeToJson());
     });
 }
