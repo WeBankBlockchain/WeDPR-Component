@@ -64,6 +64,8 @@ void LocalRouter::registerTopic(bcos::bytesConstRef _nodeID, std::string const& 
     }
     for (auto const& msgInfo : msgQueue->messages)
     {
+        LOCAL_ROUTER_LOG(INFO) << LOG_DESC("registerTopic, dispatcher the holding msg queue")
+                               << LOG_KV("topic", topic) << LOG_KV("nodeID", printNodeID(_nodeID));
         dispatcherMessage(msgInfo.msg, msgInfo.callback, false);
     }
 }
@@ -80,6 +82,15 @@ bool LocalRouter::dispatcherMessage(
     P2PMessage::Ptr const& msg, ReceiveMsgFunc callback, bool holding)
 {
     auto frontList = chooseReceiver(msg);
+    auto commonCallback = [](bcos::Error::Ptr error) {
+        if (!error || error->errorCode() == 0)
+        {
+            return;
+        }
+        LOCAL_ROUTER_LOG(WARNING) << LOG_DESC("dispatcherMessage to front failed")
+                                  << LOG_KV("code", error->errorCode())
+                                  << LOG_KV("msg", error->errorMessage());
+    };
     // find the front
     if (!frontList.empty())
     {
@@ -93,15 +104,7 @@ bool LocalRouter::dispatcherMessage(
             }
             else
             {
-                front->onReceiveMessage(msg->msg(), [](bcos::Error::Ptr error) {
-                    if (!error || error->errorCode() == 0)
-                    {
-                        return;
-                    }
-                    LOCAL_ROUTER_LOG(WARNING) << LOG_DESC("dispatcherMessage to front failed")
-                                              << LOG_KV("code", error->errorCode())
-                                              << LOG_KV("msg", error->errorMessage());
-                });
+                front->onReceiveMessage(msg->msg(), commonCallback);
             }
             i++;
         }
@@ -122,7 +125,12 @@ bool LocalRouter::dispatcherMessage(
     // no connection found, cache the topic message and dispatcher later
     if (msg->header()->routeType() == (uint16_t)RouteType::ROUTE_THROUGH_TOPIC && m_cache)
     {
-        m_cache->insertCache(msg->header()->optionalField()->topic(), msg, callback);
+        // send response when hodling the message
+        if (callback)
+        {
+            callback(nullptr);
+        }
+        m_cache->insertCache(msg->header()->optionalField()->topic(), msg, commonCallback);
         return true;
     }
     return false;

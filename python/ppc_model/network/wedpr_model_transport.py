@@ -79,6 +79,7 @@ class ModelRouter(ModelRouterApi):
     def __init__(self, logger, transport: ModelTransport):
         self.logger = logger
         self.transport = transport
+        # task_id=>{agency=>selectedNode}
         self.router_info = {}
         self._rw_lock = rwlock.RWLockWrite()
 
@@ -87,12 +88,12 @@ class ModelRouter(ModelRouterApi):
         topic = ModelTransport.get_topic_without_agency(
             task_id, BaseMessage.Handshake.value)
         self.transport.transport.register_topic(topic)
-        self.transport.transport.push_by_topic(topic=task_id,
+        self.transport.transport.push_by_topic(topic=topic,
                                                dstInst=participant,
                                                seq=0, payload=bytes(),
                                                timeout=self.transport.send_msg_timeout)
 
-    def wait_for_handshake(self, task_id, from_inst):
+    def wait_for_handshake(self, task_id):
         topic = ModelTransport.get_topic_without_agency(
             task_id, BaseMessage.Handshake.value)
         self.transport.transport.register_topic(topic)
@@ -100,9 +101,14 @@ class ModelRouter(ModelRouterApi):
 
         if result is None:
             raise Exception(f"wait_for_handshake failed!")
+        self.logger.info(
+            f"wait_for_handshake success, task: {task_id}, detail: {result}")
         with self._rw_lock.gen_wlock():
-            self.router_info.update(
-                {task_id: result.get_src_node().decode("utf-8")})
+            from_inst = result.get_header().get_src_inst()
+            if task_id not in self.router_info.keys():
+                self.router_info.update({task_id: dict()})
+            self.router_info.get(task_id).update(
+                {from_inst: result.get_header().get_src_node().decode("utf-8")})
 
     def on_task_finish(self, task_id):
         topic = ModelTransport.get_topic_without_agency(
@@ -112,14 +118,15 @@ class ModelRouter(ModelRouterApi):
             if task_id in self.router_info.keys():
                 self.router_info.pop(task_id)
 
-    def __get_dstnode_by_task_id(self, task_id):
+    def __get_dstnode__(self, task_id, dst_agency):
         with self._rw_lock.gen_rlock():
-            if task_id in self.router_info.keys():
-                return self.router_info.get(task_id)
-        raise Exception(f"No Router  found for task {task_id}")
+            if task_id in self.router_info.keys() and dst_agency in self.router_info.get(task_id).keys():
+                return self.router_info.get(task_id).get(dst_agency)
+        raise Exception(
+            f"No Router  found for task {task_id}, dst_agency: {dst_agency}")
 
     def push(self, task_id: str, task_type: str, dst_agency: str, payload: bytes, seq: int = 0):
-        dst_node = self.__get_dstnode_by_task_id(task_id)
+        dst_node = self.__get_dstnode__(task_id, dst_agency)
         self.transport.push_by_nodeid(
             task_id=task_id, task_type=task_type, dst_node=dst_node, payload=payload, seq=seq)
 
