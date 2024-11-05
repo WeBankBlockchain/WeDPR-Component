@@ -32,8 +32,6 @@ class LocalProcessingParty(ABC):
         if need_psi and (not utils.file_exists(psi_result_path)):
             storage_client.download_file(
                 self.ctx.remote_psi_result_path, psi_result_path)
-            self.handle_local_psi_result(
-                self.ctx.remote_psi_result_path, psi_result_path)
             log.info(
                 f"prepare_xgb_after_psi, make_dataset_to_xgb_data_plus_psi_data, dataset_file_path={dataset_file_path}, "
                 f"psi_result_path={dataset_file_path}, model_prepare_file={model_prepare_file}")
@@ -47,25 +45,6 @@ class LocalProcessingParty(ABC):
                                        job_id + os.sep + self.ctx.PREPROCESSING_RESULT_FILE)
         log.info(
             f"call prepare_xgb_after_psi success, job_id={job_id}, timecost: {time.time() - start}")
-
-    def handle_local_psi_result(self, remote_psi_result_path, local_psi_result_path):
-        try:
-            log = self.ctx.components.logger()
-            log.info(
-                f"handle_local_psi_result: start handle_local_psi_result, psi_result_path={local_psi_result_path}")
-            with open(local_psi_result_path, 'r+', encoding='utf-8') as psi_result_file:
-                content = psi_result_file.read()
-                psi_result_file.seek(0, 0)
-                psi_result_file.write('id\n' + content)
-            log.info(
-                f"handle_local_psi_result: call handle_local_psi_result success, psi_result_path={local_psi_result_path}")
-            # upload to remote
-            self.ctx.components.storage_client.upload_file(
-                local_psi_result_path, remote_psi_result_path)
-        except BaseException as e:
-            log.exception(
-                f"handle_local_psi_result: handle_local_psi_result, psi_result_path={local_psi_result_path}, error:{e}")
-            raise e
 
     def make_dataset_to_xgb_data(self):
         log = self.ctx.components.logger()
