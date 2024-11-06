@@ -161,6 +161,28 @@ ServerUnaryReactor* GatewayServer::registerNodeInfo(CallbackServerContext* conte
     return reactor;
 }
 
+grpc::ServerUnaryReactor* GatewayServer::getAliveNodeList(grpc::CallbackServerContext* context,
+    const ppc::proto::Empty* request, ppc::proto::NodeInfoList* reply)
+{
+    ServerUnaryReactor* reactor(context->DefaultReactor());
+    try
+    {
+        auto result = m_gateway->getAliveNodeList();
+        toRawNodeInfoList(reply, result);
+        reactor->Finish(Status::OK);
+    }
+    catch (std::exception const& e)
+    {
+        GATEWAY_SERVER_LOG(WARNING) << LOG_DESC("getAliveNodeList exception")
+                                    << LOG_KV("error", boost::diagnostic_information(e));
+        toSerializedError(reply->mutable_error(),
+            std::make_shared<bcos::Error>(-1,
+                "getAliveNodeList failed for : " + std::string(boost::diagnostic_information(e))));
+        reactor->Finish(Status::OK);
+    }
+    return reactor;
+}
+
 ServerUnaryReactor* GatewayServer::unRegisterNodeInfo(
     CallbackServerContext* context, const ppc::proto::NodeInfo* nodeInfo, ppc::proto::Error* reply)
 {

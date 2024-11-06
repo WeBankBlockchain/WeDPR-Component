@@ -27,7 +27,8 @@ class GatewayClient : public ppc::gateway::IGateway, public GrpcClient
 {
 public:
     using Ptr = std::shared_ptr<GatewayClient>;
-    GatewayClient(ppc::protocol::GrpcConfig::Ptr const& grpcConfig, std::string const& endPoints);
+    GatewayClient(ppc::protocol::GrpcConfig::Ptr const& grpcConfig, std::string const& endPoints,
+        INodeInfoFactory::Ptr nodeInfoFactory);
 
     ~GatewayClient() override = default;
 
@@ -69,8 +70,11 @@ public:
     std::vector<std::string> selectNodesByRoutePolicy(ppc::protocol::RouteType routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) override;
 
+    std::vector<ppc::protocol::INodeInfo::Ptr> getAliveNodeList() const override;
+
 private:
     std::unique_ptr<ppc::proto::Gateway::Stub> m_stub;
     std::map<std::string, std::unique_ptr<ppc::proto::Gateway::Stub>> m_broadcastStubs;
+    INodeInfoFactory::Ptr m_nodeInfoFactory;
 };
 }  // namespace ppc::protocol

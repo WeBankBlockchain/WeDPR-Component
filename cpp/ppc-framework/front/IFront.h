@@ -19,6 +19,7 @@
  */
 #pragma once
 #include "FrontConfig.h"
+#include "INodeDiscovery.h"
 #include "ppc-framework/protocol/Handler.h"
 #include "ppc-framework/protocol/INodeInfo.h"
 #include "ppc-framework/protocol/Message.h"
@@ -259,6 +260,8 @@ public:
     // get the target nodeList according to the routeInfo
     virtual std::vector<std::string> selectNodesByRoutePolicy(
         int16_t routeType, ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) = 0;
+
+    virtual INodeDiscovery::Ptr const getNodeDiscovery() = 0;
 
 private:
     ppc::protocol::ReceiveMsgFunc populateErrorCallback(ErrorCallback::Ptr errorCallback)

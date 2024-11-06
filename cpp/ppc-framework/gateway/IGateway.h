@@ -79,6 +79,8 @@ public:
     // get the target nodeList according to the routeInfo
     virtual std::vector<std::string> selectNodesByRoutePolicy(ppc::protocol::RouteType routeType,
         ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) = 0;
+
+    virtual std::vector<ppc::protocol::INodeInfo::Ptr> getAliveNodeList() const = 0;
 };
 
 }  // namespace ppc::gateway

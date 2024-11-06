@@ -48,6 +48,8 @@ public:
     grpc::ServerUnaryReactor* asyncGetAgencies(grpc::CallbackServerContext* context,
         const ppc::proto::Condition* request, ppc::proto::AgenciesInfo* reply) override;
 
+    grpc::ServerUnaryReactor* getAliveNodeList(grpc::CallbackServerContext* context,
+        const ppc::proto::Empty* request, ppc::proto::NodeInfoList* reply) override;
 
     grpc::ServerUnaryReactor* registerNodeInfo(grpc::CallbackServerContext* context,
         const ppc::proto::NodeInfo* nodeInfo, ppc::proto::Error* reply) override;

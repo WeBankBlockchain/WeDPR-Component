@@ -21,6 +21,7 @@
 #include "CallbackManager.h"
 #include "Common.h"
 #include "ppc-framework/front/IFront.h"
+#include "ppc-framework/front/INodeDiscovery.h"
 #include "ppc-framework/gateway/IGateway.h"
 #include <bcos-utilities/Common.h>
 #include <bcos-utilities/ThreadPool.h>
@@ -184,6 +185,8 @@ public:
             (ppc::protocol::RouteType)routeType, routeInfo);
     }
 
+    INodeDiscovery::Ptr const getNodeDiscovery() override { return m_nodeDiscovery; }
+
 private:
     void asyncSendMessageToGateway(bool responsePacket,
         ppc::protocol::MessagePayload::Ptr&& frontMessage, ppc::protocol::RouteType routeType,
@@ -197,6 +200,7 @@ private:
     bcos::bytes m_nodeID;
     std::shared_ptr<bcos::ThreadPool> m_threadPool;
     ppc::protocol::INodeInfo::Ptr m_nodeInfo;
+    INodeDiscovery::Ptr m_nodeDiscovery;
     ppc::protocol::MessagePayloadBuilder::Ptr m_messageFactory;
     ppc::protocol::MessageOptionalHeaderBuilder::Ptr m_routerInfoBuilder;
 

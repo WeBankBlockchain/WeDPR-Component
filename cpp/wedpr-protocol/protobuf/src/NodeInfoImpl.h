@@ -123,6 +123,10 @@ public:
 
     void toJson(Json::Value& jsonObject) const override;
 
+    std::string const& meta() const override { return m_rawNodeInfo->meta(); }
+    // the node meta information
+    void setMeta(std::string const& meta) override { m_rawNodeInfo->set_meta(meta); }
+
     virtual void encodeFields() const;
 
 protected:

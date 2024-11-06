@@ -65,6 +65,9 @@ public:
                (copiedComponents() == info->copiedComponents());
     }
 
+    virtual std::string const& meta() const = 0;
+    // the node meta information
+    virtual void setMeta(std::string const& meta) = 0;
     virtual void toJson(Json::Value& jsonObject) const = 0;
 };
 class INodeInfoFactory

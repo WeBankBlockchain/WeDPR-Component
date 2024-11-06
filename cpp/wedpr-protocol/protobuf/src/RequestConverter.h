@@ -91,12 +91,11 @@ inline ppc::proto::NodeInfo* toNodeInfoRequest(
     return request;
 }
 
-inline ppc::proto::NodeInfo* toNodeInfoRequest(INodeInfo::Ptr const& nodeInfo)
+inline void toNodeInfoRequest(ppc::proto::NodeInfo* request, INodeInfo::Ptr const& nodeInfo)
 {
-    auto request = new ppc::proto::NodeInfo();
     if (!nodeInfo)
     {
-        return request;
+        return;
     };
     *(request->mutable_nodeid()) =
         std::string_view((const char*)nodeInfo->nodeID().data(), nodeInfo->nodeID().size());
@@ -106,7 +105,17 @@ inline ppc::proto::NodeInfo* toNodeInfoRequest(INodeInfo::Ptr const& nodeInfo)
     {
         request->add_components(component);
     }
-    return request;
+    request->set_meta(nodeInfo->meta());
+}
+
+inline void toRawNodeInfoList(
+    ppc::proto::NodeInfoList* rawNodeInfoList, std::vector<INodeInfo::Ptr> const& nodeInfoList)
+{
+    for (auto const& it : nodeInfoList)
+    {
+        auto rawNodeInfo = rawNodeInfoList->add_nodelist();
+        toNodeInfoRequest(rawNodeInfo, it);
+    }
 }
 
 inline INodeInfo::Ptr toNodeInfo(
@@ -122,7 +131,19 @@ inline INodeInfo::Ptr toNodeInfo(
         componentTypeList.insert(serializedNodeInfo.components(i));
     }
     nodeInfo->setComponents(componentTypeList);
+    nodeInfo->setMeta(serializedNodeInfo.meta());
     return nodeInfo;
+}
+
+inline std::vector<INodeInfo::Ptr> toNodeInfoList(INodeInfoFactory::Ptr const& nodeInfoFactory,
+    ppc::proto::NodeInfoList const& serializedNodeListInfo)
+{
+    std::vector<INodeInfo::Ptr> result;
+    for (int i = 0; i < serializedNodeListInfo.nodelist_size(); i++)
+    {
+        result.emplace_back(toNodeInfo(nodeInfoFactory, serializedNodeListInfo.nodelist(i)));
+    }
+    return result;
 }
 
 inline bcos::Error::Ptr toError(grpc::Status const& status, ppc::proto::Error const& error)
