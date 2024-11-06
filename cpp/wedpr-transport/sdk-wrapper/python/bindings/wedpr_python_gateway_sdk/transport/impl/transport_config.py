@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import json
 from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import FrontConfig
 from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import TransportBuilder
 from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import EndPoint
 from wedpr_python_gateway_sdk.transport.generated.wedpr_python_transport import GrpcConfig
+from wedpr_python_gateway_sdk.transport.api.transport_api import ServiceMeta
 
 
 class TransportConfig:
@@ -16,9 +18,17 @@ class TransportConfig:
         self.__front_config = self.__transport_builder.buildConfig(
             threadpool_size, nodeID)
         self.__front_config.setGatewayGrpcTarget(gateway_targets)
+        self.service_meta = None
 
     def get_front_config(self) -> FrontConfig:
         return self.__front_config
+
+    def register_service_meta(self, service_meta: ServiceMeta):
+        self.service_meta = service_meta
+        self.__front_config.setMeta(json.dumps(self.service_meta.as_dict()))
+
+    def get_service_meta(self) -> ServiceMeta:
+        return self.service_meta
 
     def set_self_endpoint(self, host: str, port: int, listen_ip: str = None):
         endPoint = EndPoint(host, port)
@@ -28,7 +38,7 @@ class TransportConfig:
         self.__front_config.setSelfEndPoint(endPoint)
 
     def set_grpc_config(self, grpc_config: GrpcConfig):
-        self.__front_config.set_grpc_config(grpc_config)
+        self.__front_config.setGrpcConfig(grpc_config)
 
     def get_thread_pool_size(self) -> int:
         return self.__front_config.threadPoolSize()

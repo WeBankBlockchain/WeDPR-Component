@@ -3668,71 +3668,76 @@ namespace Swig {
 #define SWIGTYPE_p_ppc__front__IFrontBuilder swig_types[20]
 #define SWIGTYPE_p_ppc__front__IFrontClient swig_types[21]
 #define SWIGTYPE_p_ppc__front__IMessageHandler swig_types[22]
-#define SWIGTYPE_p_ppc__front__MessageDispatcherHandler swig_types[23]
-#define SWIGTYPE_p_ppc__front__SendResponseHandler swig_types[24]
-#define SWIGTYPE_p_ppc__gateway__IGateway__Ptr swig_types[25]
-#define SWIGTYPE_p_ppc__protocol__EndPoint swig_types[26]
-#define SWIGTYPE_p_ppc__protocol__GrpcConfig swig_types[27]
-#define SWIGTYPE_p_ppc__protocol__GrpcServerConfig swig_types[28]
-#define SWIGTYPE_p_ppc__protocol__INodeInfo__Ptr swig_types[29]
-#define SWIGTYPE_p_ppc__protocol__Message swig_types[30]
-#define SWIGTYPE_p_ppc__protocol__MessageBuilder swig_types[31]
-#define SWIGTYPE_p_ppc__protocol__MessageHeader swig_types[32]
-#define SWIGTYPE_p_ppc__protocol__MessageHeaderBuilder swig_types[33]
-#define SWIGTYPE_p_ppc__protocol__MessageOptionalHeader swig_types[34]
-#define SWIGTYPE_p_ppc__protocol__MessageOptionalHeaderBuilder swig_types[35]
-#define SWIGTYPE_p_ppc__protocol__MessagePayload swig_types[36]
-#define SWIGTYPE_p_ppc__protocol__MessagePayloadBuilder swig_types[37]
-#define SWIGTYPE_p_ppc__protocol__RouteType swig_types[38]
-#define SWIGTYPE_p_ppc__sdk__Transport swig_types[39]
-#define SWIGTYPE_p_ppc__sdk__TransportBuilder swig_types[40]
-#define SWIGTYPE_p_short swig_types[41]
-#define SWIGTYPE_p_signed_char swig_types[42]
-#define SWIGTYPE_p_size_type swig_types[43]
-#define SWIGTYPE_p_std__allocatorT_signed_char_t swig_types[44]
-#define SWIGTYPE_p_std__allocatorT_std__string_t swig_types[45]
-#define SWIGTYPE_p_std__allocatorT_unsigned_char_t swig_types[46]
-#define SWIGTYPE_p_std__exception swig_types[47]
-#define SWIGTYPE_p_std__functionT_void_fF_t swig_types[48]
-#define SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_tF_t swig_types[49]
-#define SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_t_std__shared_ptrT_ppc__protocol__Message_t_std__functionT_void_fstd__shared_ptrT_bcos__bytes_t_RRF_tF_t swig_types[50]
-#define SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__bytes_t_RRF_t swig_types[51]
-#define SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_ppc__protocol__Message_tF_t swig_types[52]
-#define SWIGTYPE_p_std__invalid_argument swig_types[53]
-#define SWIGTYPE_p_std__shared_ptrT_bcos__Error_t swig_types[54]
-#define SWIGTYPE_p_std__shared_ptrT_bcos__bytes_t swig_types[55]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__front__ErrorCallback_t swig_types[56]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfigBuilder_t swig_types[57]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfig_t swig_types[58]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__front__GetPeersInfoHandler_t swig_types[59]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__front__IFrontClient_t swig_types[60]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__front__IFront_t swig_types[61]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__front__IMessageHandler_t swig_types[62]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__front__MessageDispatcherHandler_t swig_types[63]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__gateway__IGateway_t swig_types[64]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t swig_types[65]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageBuilder_t swig_types[66]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageHeaderBuilder_t swig_types[67]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageHeader_t swig_types[68]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageOptionalHeaderBuilder_t swig_types[69]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageOptionalHeader_t swig_types[70]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessagePayloadBuilder_t swig_types[71]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessagePayload_t swig_types[72]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t swig_types[73]
-#define SWIGTYPE_p_std__shared_ptrT_ppc__sdk__Transport_t swig_types[74]
-#define SWIGTYPE_p_std__string swig_types[75]
-#define SWIGTYPE_p_std__string_view swig_types[76]
-#define SWIGTYPE_p_std__vectorT_int8_t_t swig_types[77]
-#define SWIGTYPE_p_std__vectorT_std__string_t swig_types[78]
-#define SWIGTYPE_p_std__vectorT_uint8_t_t swig_types[79]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[80]
-#define SWIGTYPE_p_unsigned_char swig_types[81]
-#define SWIGTYPE_p_unsigned_int swig_types[82]
-#define SWIGTYPE_p_unsigned_long_long swig_types[83]
-#define SWIGTYPE_p_unsigned_short swig_types[84]
-#define SWIGTYPE_p_value_type swig_types[85]
-static swig_type_info *swig_types[87];
-static swig_module_info swig_module = {swig_types, 86, 0, 0, 0, 0};
+#define SWIGTYPE_p_ppc__front__INodeDiscovery swig_types[23]
+#define SWIGTYPE_p_ppc__front__MessageDispatcherHandler swig_types[24]
+#define SWIGTYPE_p_ppc__front__SendResponseHandler swig_types[25]
+#define SWIGTYPE_p_ppc__gateway__IGateway__Ptr swig_types[26]
+#define SWIGTYPE_p_ppc__protocol__EndPoint swig_types[27]
+#define SWIGTYPE_p_ppc__protocol__GrpcConfig swig_types[28]
+#define SWIGTYPE_p_ppc__protocol__GrpcServerConfig swig_types[29]
+#define SWIGTYPE_p_ppc__protocol__INodeInfo swig_types[30]
+#define SWIGTYPE_p_ppc__protocol__Message swig_types[31]
+#define SWIGTYPE_p_ppc__protocol__MessageBuilder swig_types[32]
+#define SWIGTYPE_p_ppc__protocol__MessageHeader swig_types[33]
+#define SWIGTYPE_p_ppc__protocol__MessageHeaderBuilder swig_types[34]
+#define SWIGTYPE_p_ppc__protocol__MessageOptionalHeader swig_types[35]
+#define SWIGTYPE_p_ppc__protocol__MessageOptionalHeaderBuilder swig_types[36]
+#define SWIGTYPE_p_ppc__protocol__MessagePayload swig_types[37]
+#define SWIGTYPE_p_ppc__protocol__MessagePayloadBuilder swig_types[38]
+#define SWIGTYPE_p_ppc__protocol__RouteType swig_types[39]
+#define SWIGTYPE_p_ppc__sdk__Transport swig_types[40]
+#define SWIGTYPE_p_ppc__sdk__TransportBuilder swig_types[41]
+#define SWIGTYPE_p_short swig_types[42]
+#define SWIGTYPE_p_signed_char swig_types[43]
+#define SWIGTYPE_p_size_type swig_types[44]
+#define SWIGTYPE_p_std__allocatorT_signed_char_t swig_types[45]
+#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t swig_types[46]
+#define SWIGTYPE_p_std__allocatorT_std__string_t swig_types[47]
+#define SWIGTYPE_p_std__allocatorT_unsigned_char_t swig_types[48]
+#define SWIGTYPE_p_std__exception swig_types[49]
+#define SWIGTYPE_p_std__functionT_void_fF_t swig_types[50]
+#define SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_tF_t swig_types[51]
+#define SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_t_std__shared_ptrT_ppc__protocol__Message_t_std__functionT_void_fstd__shared_ptrT_bcos__bytes_t_RRF_tF_t swig_types[52]
+#define SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__bytes_t_RRF_t swig_types[53]
+#define SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_ppc__protocol__Message_tF_t swig_types[54]
+#define SWIGTYPE_p_std__invalid_argument swig_types[55]
+#define SWIGTYPE_p_std__shared_ptrT_bcos__Error_t swig_types[56]
+#define SWIGTYPE_p_std__shared_ptrT_bcos__bytes_t swig_types[57]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__front__ErrorCallback_t swig_types[58]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfigBuilder_t swig_types[59]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfig_t swig_types[60]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__front__GetPeersInfoHandler_t swig_types[61]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__front__IFrontClient_t swig_types[62]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__front__IFront_t swig_types[63]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__front__IMessageHandler_t swig_types[64]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__front__INodeDiscovery_t swig_types[65]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__front__MessageDispatcherHandler_t swig_types[66]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__gateway__IGateway_t swig_types[67]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t swig_types[68]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t swig_types[69]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageBuilder_t swig_types[70]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageHeaderBuilder_t swig_types[71]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageHeader_t swig_types[72]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageOptionalHeaderBuilder_t swig_types[73]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageOptionalHeader_t swig_types[74]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessagePayloadBuilder_t swig_types[75]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessagePayload_t swig_types[76]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t swig_types[77]
+#define SWIGTYPE_p_std__shared_ptrT_ppc__sdk__Transport_t swig_types[78]
+#define SWIGTYPE_p_std__string swig_types[79]
+#define SWIGTYPE_p_std__string_view swig_types[80]
+#define SWIGTYPE_p_std__vectorT_int8_t_t swig_types[81]
+#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t swig_types[82]
+#define SWIGTYPE_p_std__vectorT_std__string_t swig_types[83]
+#define SWIGTYPE_p_std__vectorT_uint8_t_t swig_types[84]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[85]
+#define SWIGTYPE_p_unsigned_char swig_types[86]
+#define SWIGTYPE_p_unsigned_int swig_types[87]
+#define SWIGTYPE_p_unsigned_long_long swig_types[88]
+#define SWIGTYPE_p_unsigned_short swig_types[89]
+#define SWIGTYPE_p_value_type swig_types[90]
+static swig_type_info *swig_types[92];
+static swig_module_info swig_module = {swig_types, 91, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -4419,6 +4424,8 @@ SWIGINTERNINLINE PyObject*
 #include "wedpr-transport/sdk/src/Transport.h"
 #include "ppc-framework/libwrapper/Buffer.h"
 #include "ppc-framework/front/IFront.h"
+#include "ppc-framework/protocol/INodeInfo.h"
+#include "ppc-framework/front/INodeDiscovery.h"
 #include "ppc-framework/protocol/RouteType.h"
 #include "ppc-framework/front/FrontConfig.h"
 #include "ppc-framework/protocol/GrpcConfig.h"
@@ -6070,6 +6077,115 @@ SWIGINTERN std::vector< std::string >::iterator std_vector_Sl_std_string_Sg__era
 SWIGINTERN std::vector< std::string >::iterator std_vector_Sl_std_string_Sg__insert__SWIG_0(std::vector< std::string > *self,std::vector< std::string >::iterator pos,std::vector< std::string >::value_type const &x){ return self->insert(pos, x); }
 SWIGINTERN void std_vector_Sl_std_string_Sg__insert__SWIG_1(std::vector< std::string > *self,std::vector< std::string >::iterator pos,std::vector< std::string >::size_type n,std::vector< std::string >::value_type const &x){ self->insert(pos, n, x); }
 
+  namespace swig {
+    template <>  struct traits< std::shared_ptr< ppc::protocol::INodeInfo > > {
+      typedef pointer_category category;
+      static const char* type_name() { return"std::shared_ptr< ppc::protocol::INodeInfo >"; }
+    };
+  }
+
+
+      namespace swig {
+	template <>  struct traits<std::vector< std::shared_ptr< ppc::protocol::INodeInfo >, std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > > {
+	  typedef pointer_category category;
+	  static const char* type_name() {
+	    return "std::vector<" "std::shared_ptr< ppc::protocol::INodeInfo >" "," "std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > >" " >";
+	  }
+	};
+      }
+    
+SWIGINTERN swig::SwigPyIterator *std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__iterator(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,PyObject **PYTHON_SELF){
+      return swig::make_output_iterator(self->begin(), self->begin(), self->end(), *PYTHON_SELF);
+    }
+SWIGINTERN bool std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____nonzero__(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *self){
+      return !(self->empty());
+    }
+SWIGINTERN bool std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____bool__(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *self){
+      return !(self->empty());
+    }
+SWIGINTERN std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____len__(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *self){
+      return self->size();
+    }
+SWIGINTERN std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____getslice__(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type i,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type j){
+      return swig::getslice(self, i, j, 1);
+    }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____setslice____SWIG_0(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type i,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type j){
+      swig::setslice(self, i, j, 1, std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >());
+    }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____setslice____SWIG_1(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type i,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type j,std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > const &v){
+      swig::setslice(self, i, j, 1, v);
+    }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____delslice__(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type i,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type j){
+      swig::delslice(self, i, j, 1);
+    }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____delitem____SWIG_0(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type i){
+      swig::erase(self, swig::getpos(self, i));
+    }
+SWIGINTERN std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____getitem____SWIG_0(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,SWIGPY_SLICEOBJECT *slice){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return NULL;
+      }
+      PySlice_GetIndices(slice, (Py_ssize_t)self->size(), &i, &j, &step);
+      std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >::difference_type id = i;
+      std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >::difference_type jd = j;
+      return swig::getslice(self, id, jd, step);
+    }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____setitem____SWIG_0(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,SWIGPY_SLICEOBJECT *slice,std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > const &v){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return;
+      }
+      PySlice_GetIndices(slice, (Py_ssize_t)self->size(), &i, &j, &step);
+      std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >::difference_type id = i;
+      std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >::difference_type jd = j;
+      swig::setslice(self, id, jd, step, v);
+    }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____setitem____SWIG_1(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,SWIGPY_SLICEOBJECT *slice){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return;
+      }
+      PySlice_GetIndices(slice, (Py_ssize_t)self->size(), &i, &j, &step);
+      std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >::difference_type id = i;
+      std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >::difference_type jd = j;
+      swig::delslice(self, id, jd, step);
+    }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____delitem____SWIG_1(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,SWIGPY_SLICEOBJECT *slice){
+      Py_ssize_t i, j, step;
+      if( !PySlice_Check(slice) ) {
+        SWIG_Error(SWIG_TypeError, "Slice object expected.");
+        return;
+      }
+      PySlice_GetIndices(slice, (Py_ssize_t)self->size(), &i, &j, &step);
+      std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >::difference_type id = i;
+      std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >::difference_type jd = j;
+      swig::delslice(self, id, jd, step);
+    }
+SWIGINTERN std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____getitem____SWIG_1(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type i){
+      return *(swig::cgetpos(self, i));
+    }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____setitem____SWIG_2(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type i,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &x){
+      *(swig::getpos(self,i)) = x;
+    }
+SWIGINTERN std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__pop(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self){
+      if (self->size() == 0)
+	throw std::out_of_range("pop from empty container");
+      std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >::value_type x = self->back();
+      self->pop_back();
+      return x;
+    }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__append(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &x){
+      self->push_back(x);
+    }
+SWIGINTERN std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__erase__SWIG_0(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator pos){ return self->erase(pos); }
+SWIGINTERN std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__erase__SWIG_1(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator first,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator last){ return self->erase(first, last); }
+SWIGINTERN std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__insert__SWIG_0(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator pos,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &x){ return self->insert(pos, x); }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__insert__SWIG_1(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator pos,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type n,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &x){ self->insert(pos, n, x); }
+
 
 
 
@@ -7434,6 +7550,130 @@ SWIGINTERN PyObject *SharedFront_swigregister(PyObject *SWIGUNUSEDPARM(self), Py
 }
 
 SWIGINTERN PyObject *SharedFront_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_SharedNodeDiscovery(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::shared_ptr< ppc::front::INodeDiscovery > *result = 0 ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "new_SharedNodeDiscovery", 0, 0, 0)) SWIG_fail;
+  result = (std::shared_ptr< ppc::front::INodeDiscovery > *)new std::shared_ptr< ppc::front::INodeDiscovery >();
+  {
+    std::shared_ptr<  ppc::front::INodeDiscovery > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::front::INodeDiscovery >(*result) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__INodeDiscovery_t, SWIG_POINTER_OWN);
+    if (SWIG_POINTER_NEW) delete result;
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_SharedNodeDiscovery(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::shared_ptr< ppc::front::INodeDiscovery > *arg1 = (std::shared_ptr< ppc::front::INodeDiscovery > *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::front::INodeDiscovery > tempshared1 ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__front__INodeDiscovery_t,  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_SharedNodeDiscovery" "', argument " "1"" of type '" "std::shared_ptr< ppc::front::INodeDiscovery > *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      if (argp1) tempshared1 = *reinterpret_cast< std::shared_ptr< ppc::front::INodeDiscovery > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< ppc::front::INodeDiscovery > * >(argp1);
+      arg1 = &tempshared1;
+    } else {
+      arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::front::INodeDiscovery > * >(argp1) : &tempshared1;
+    }
+  }
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *SharedNodeDiscovery_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_std__shared_ptrT_ppc__front__INodeDiscovery_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *SharedNodeDiscovery_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_SharedNodeInfo(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::shared_ptr< ppc::protocol::INodeInfo > *result = 0 ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "new_SharedNodeInfo", 0, 0, 0)) SWIG_fail;
+  result = (std::shared_ptr< ppc::protocol::INodeInfo > *)new std::shared_ptr< ppc::protocol::INodeInfo >();
+  {
+    std::shared_ptr<  ppc::protocol::INodeInfo > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::protocol::INodeInfo >(*result) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, SWIG_POINTER_OWN);
+    if (SWIG_POINTER_NEW) delete result;
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_SharedNodeInfo(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::shared_ptr< ppc::protocol::INodeInfo > *arg1 = (std::shared_ptr< ppc::protocol::INodeInfo > *) 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > tempshared1 ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t,  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_SharedNodeInfo" "', argument " "1"" of type '" "std::shared_ptr< ppc::protocol::INodeInfo > *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      if (argp1) tempshared1 = *reinterpret_cast< std::shared_ptr< ppc::protocol::INodeInfo > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = &tempshared1;
+    } else {
+      arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::protocol::INodeInfo > * >(argp1) : &tempshared1;
+    }
+  }
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *SharedNodeInfo_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *SharedNodeInfo_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   return SWIG_Python_InitShadowInstance(args);
 }
 
@@ -13939,6 +14179,1940 @@ SWIGINTERN PyObject *StringVec_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject
   return SWIG_Python_InitShadowInstance(args);
 }
 
+SWIGINTERN PyObject *_wrap_NodeInfoVec_iterator(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  PyObject **arg2 = (PyObject **) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  swig::SwigPyIterator *result = 0 ;
+  
+  arg2 = &swig_obj[0];
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_iterator" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = (swig::SwigPyIterator *)std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__iterator(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_swig__SwigPyIterator, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___nonzero__(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___nonzero__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = (bool)std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____nonzero__((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *)arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___bool__(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___bool__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = (bool)std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____bool__((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *)arg1);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___len__(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___len__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____len__((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *)arg1);
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___getslice__(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  PyObject *swig_obj[3] ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *result = 0 ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "NodeInfoVec___getslice__", 3, 3, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___getslice__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "NodeInfoVec___getslice__" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "NodeInfoVec___getslice__" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type""'");
+  } 
+  arg3 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type >(val3);
+  try {
+    result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *)std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____getslice__(arg1,SWIG_STD_MOVE(arg2),SWIG_STD_MOVE(arg3));
+  } catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  } catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___setslice____SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  
+  (void)self;
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___setslice__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "NodeInfoVec___setslice__" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "NodeInfoVec___setslice__" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type""'");
+  } 
+  arg3 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type >(val3);
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____setslice____SWIG_0(arg1,SWIG_STD_MOVE(arg2),SWIG_STD_MOVE(arg3));
+  } catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  } catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___setslice____SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type arg3 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *arg4 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  int res4 = SWIG_OLDOBJ ;
+  
+  (void)self;
+  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___setslice__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "NodeInfoVec___setslice__" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "NodeInfoVec___setslice__" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type""'");
+  } 
+  arg3 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type >(val3);
+  {
+    std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *ptr = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *)0;
+    res4 = swig::asptr(swig_obj[3], &ptr);
+    if (!SWIG_IsOK(res4)) {
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "NodeInfoVec___setslice__" "', argument " "4"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "NodeInfoVec___setslice__" "', argument " "4"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > const &""'"); 
+    }
+    arg4 = ptr;
+  }
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____setslice____SWIG_1(arg1,SWIG_STD_MOVE(arg2),SWIG_STD_MOVE(arg3),(std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > const &)*arg4);
+  } catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  } catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res4)) delete arg4;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res4)) delete arg4;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___setslice__(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[5] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "NodeInfoVec___setslice__", 0, 4, argv))) SWIG_fail;
+  --argc;
+  if (argc == 3) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_ptrdiff_t(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_NodeInfoVec___setslice____SWIG_0(self, argc, argv);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_ptrdiff_t(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          int res = swig::asptr(argv[3], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+          _v = SWIG_CheckState(res);
+          if (_v) {
+            return _wrap_NodeInfoVec___setslice____SWIG_1(self, argc, argv);
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'NodeInfoVec___setslice__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::__setslice__(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type)\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::__setslice__(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type,std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___delslice__(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  ptrdiff_t val3 ;
+  int ecode3 = 0 ;
+  PyObject *swig_obj[3] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "NodeInfoVec___delslice__", 3, 3, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___delslice__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "NodeInfoVec___delslice__" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type >(val2);
+  ecode3 = SWIG_AsVal_ptrdiff_t(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "NodeInfoVec___delslice__" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type""'");
+  } 
+  arg3 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type >(val3);
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____delslice__(arg1,SWIG_STD_MOVE(arg2),SWIG_STD_MOVE(arg3));
+  } catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  } catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___delitem____SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  
+  (void)self;
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___delitem__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "NodeInfoVec___delitem__" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type >(val2);
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____delitem____SWIG_0(arg1,SWIG_STD_MOVE(arg2));
+  } catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  } catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___getitem____SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  SWIGPY_SLICEOBJECT *arg2 = (SWIGPY_SLICEOBJECT *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *result = 0 ;
+  
+  (void)self;
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___getitem__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec___getitem__" "', argument " "2"" of type '" "SWIGPY_SLICEOBJECT *""'");
+    }
+    arg2 = (SWIGPY_SLICEOBJECT *) swig_obj[1];
+  }
+  try {
+    result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *)std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____getitem____SWIG_0(arg1,arg2);
+  } catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  } catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___setitem____SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  SWIGPY_SLICEOBJECT *arg2 = (SWIGPY_SLICEOBJECT *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res3 = SWIG_OLDOBJ ;
+  
+  (void)self;
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___setitem__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec___setitem__" "', argument " "2"" of type '" "SWIGPY_SLICEOBJECT *""'");
+    }
+    arg2 = (SWIGPY_SLICEOBJECT *) swig_obj[1];
+  }
+  {
+    std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *ptr = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *)0;
+    res3 = swig::asptr(swig_obj[2], &ptr);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "NodeInfoVec___setitem__" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "NodeInfoVec___setitem__" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > const &""'"); 
+    }
+    arg3 = ptr;
+  }
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____setitem____SWIG_0(arg1,arg2,(std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > const &)*arg3);
+  } catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  } catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res3)) delete arg3;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res3)) delete arg3;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___setitem____SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  SWIGPY_SLICEOBJECT *arg2 = (SWIGPY_SLICEOBJECT *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  (void)self;
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___setitem__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec___setitem__" "', argument " "2"" of type '" "SWIGPY_SLICEOBJECT *""'");
+    }
+    arg2 = (SWIGPY_SLICEOBJECT *) swig_obj[1];
+  }
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____setitem____SWIG_1(arg1,arg2);
+  } catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  } catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___delitem____SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  SWIGPY_SLICEOBJECT *arg2 = (SWIGPY_SLICEOBJECT *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  
+  (void)self;
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___delitem__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  {
+    if (!PySlice_Check(swig_obj[1])) {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec___delitem__" "', argument " "2"" of type '" "SWIGPY_SLICEOBJECT *""'");
+    }
+    arg2 = (SWIGPY_SLICEOBJECT *) swig_obj[1];
+  }
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____delitem____SWIG_1(arg1,arg2);
+  } catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  } catch(std::invalid_argument &_e) {
+    SWIG_exception_fail(SWIG_ValueError, (&_e)->what());
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___delitem__(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[3] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "NodeInfoVec___delitem__", 0, 2, argv))) SWIG_fail;
+  --argc;
+  if (argc == 2) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        _v = PySlice_Check(argv[1]);
+      }
+      if (_v) {
+        return _wrap_NodeInfoVec___delitem____SWIG_1(self, argc, argv);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_NodeInfoVec___delitem____SWIG_0(self, argc, argv);
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'NodeInfoVec___delitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::__delitem__(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type)\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::__delitem__(SWIGPY_SLICEOBJECT *)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___getitem____SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *result = 0 ;
+  
+  (void)self;
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___getitem__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "NodeInfoVec___getitem__" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type >(val2);
+  try {
+    result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *) &std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____getitem____SWIG_1((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *)arg1,SWIG_STD_MOVE(arg2));
+  } catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  {
+    std::shared_ptr<  ppc::protocol::INodeInfo > *smartresult = *result ? new std::shared_ptr<  ppc::protocol::INodeInfo >(*result) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, SWIG_POINTER_OWN);
+  }
+  (void)swig::container_owner<swig::traits<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type>::category>::back_reference(resultobj, swig_obj[0]);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___getitem__(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[3] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "NodeInfoVec___getitem__", 0, 2, argv))) SWIG_fail;
+  --argc;
+  if (argc == 2) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        _v = PySlice_Check(argv[1]);
+      }
+      if (_v) {
+        return _wrap_NodeInfoVec___getitem____SWIG_0(self, argc, argv);
+      }
+    }
+  }
+  if (argc == 2) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_NodeInfoVec___getitem____SWIG_1(self, argc, argv);
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'NodeInfoVec___getitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::__getitem__(SWIGPY_SLICEOBJECT *)\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::__getitem__(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type) const\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___setitem____SWIG_2(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  ptrdiff_t val2 ;
+  int ecode2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type tempshared3 ;
+  
+  (void)self;
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec___setitem__" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  ecode2 = SWIG_AsVal_ptrdiff_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "NodeInfoVec___setitem__" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type""'");
+  } 
+  arg2 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type >(val2);
+  {
+    int newmem = 0;
+    res3 = SWIG_ConvertPtrAndOwn(swig_obj[2], &argp3, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t,  0 , &newmem);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "NodeInfoVec___setitem__" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      if (argp3) tempshared3 = *reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp3);
+      delete reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp3);
+      arg3 = &tempshared3;
+    } else {
+      arg3 = (argp3) ? reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp3) : &tempshared3;
+    }
+  }
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg____setitem____SWIG_2(arg1,SWIG_STD_MOVE(arg2),(std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg3);
+  } catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec___setitem__(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[4] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "NodeInfoVec___setitem__", 0, 3, argv))) SWIG_fail;
+  --argc;
+  if (argc == 2) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        _v = PySlice_Check(argv[1]);
+      }
+      if (_v) {
+        return _wrap_NodeInfoVec___setitem____SWIG_1(self, argc, argv);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        _v = PySlice_Check(argv[1]);
+      }
+      if (_v) {
+        int res = swig::asptr(argv[2], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_NodeInfoVec___setitem____SWIG_0(self, argc, argv);
+        }
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_ptrdiff_t(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_NodeInfoVec___setitem____SWIG_2(self, argc, argv);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'NodeInfoVec___setitem__'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::__setitem__(SWIGPY_SLICEOBJECT *,std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > const &)\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::__setitem__(SWIGPY_SLICEOBJECT *)\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::__setitem__(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::difference_type,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_pop(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_pop" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  try {
+    result = std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__pop(arg1);
+  } catch(std::out_of_range &_e) {
+    SWIG_exception_fail(SWIG_IndexError, (&_e)->what());
+  }
+  {
+    std::shared_ptr<  ppc::protocol::INodeInfo > *smartresult = result ? new std::shared_ptr<  ppc::protocol::INodeInfo >(result) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, SWIG_POINTER_OWN);
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_append(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type tempshared2 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "NodeInfoVec_append", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_append" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  {
+    int newmem = 0;
+    res2 = SWIG_ConvertPtrAndOwn(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t,  0 , &newmem);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "NodeInfoVec_append" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      if (argp2) tempshared2 = *reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp2);
+      delete reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp2);
+      arg2 = &tempshared2;
+    } else {
+      arg2 = (argp2) ? reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp2) : &tempshared2;
+    }
+  }
+  std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__append(arg1,(std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_NodeInfoVec__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *result = 0 ;
+  
+  (void)self;
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *)new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_NodeInfoVec__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = 0 ;
+  int res1 = SWIG_OLDOBJ ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *result = 0 ;
+  
+  (void)self;
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *ptr = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *)0;
+    res1 = swig::asptr(swig_obj[0], &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_NodeInfoVec" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_NodeInfoVec" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const &""'"); 
+    }
+    arg1 = ptr;
+  }
+  result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *)new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const &)*arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, SWIG_POINTER_NEW |  0 );
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_empty(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_empty" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = (bool)((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *)arg1)->empty();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_size(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_size" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = ((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *)arg1)->size();
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_swap(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "NodeInfoVec_swap", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_swap" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "NodeInfoVec_swap" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "NodeInfoVec_swap" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > &""'"); 
+  }
+  arg2 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp2);
+  (arg1)->swap(*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_begin(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_begin" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = (arg1)->begin();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_end(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_end" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = (arg1)->end();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_rbegin(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::reverse_iterator result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_rbegin" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = (arg1)->rbegin();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::reverse_iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_rend(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::reverse_iterator result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_rend" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = (arg1)->rend();
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::reverse_iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_clear(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_clear" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  (arg1)->clear();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_get_allocator(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  SwigValueWrapper< std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_get_allocator" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = ((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *)arg1)->get_allocator();
+  resultobj = SWIG_NewPointerObj((new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::allocator_type(result)), SWIGTYPE_p_std__allocatorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_NodeInfoVec__SWIG_2(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type arg1 ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *result = 0 ;
+  
+  (void)self;
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(swig_obj[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_NodeInfoVec" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type""'");
+  } 
+  arg1 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type >(val1);
+  result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *)new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_pop_back(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_pop_back" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  (arg1)->pop_back();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_resize__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  
+  (void)self;
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_resize" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "NodeInfoVec_resize" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type""'");
+  } 
+  arg2 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type >(val2);
+  (arg1)->resize(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_erase__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator result;
+  
+  (void)self;
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_erase" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec_erase" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec_erase" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator""'");
+    }
+  }
+  result = std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__erase__SWIG_0(arg1,SWIG_STD_MOVE(arg2));
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_erase__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  swig::SwigPyIterator *iter3 = 0 ;
+  int res3 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator result;
+  
+  (void)self;
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_erase" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec_erase" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec_erase" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator""'");
+    }
+  }
+  res3 = SWIG_ConvertPtr(swig_obj[2], SWIG_as_voidptrptr(&iter3), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res3) || !iter3) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec_erase" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *>(iter3);
+    if (iter_t) {
+      arg3 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec_erase" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator""'");
+    }
+  }
+  result = std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__erase__SWIG_1(arg1,SWIG_STD_MOVE(arg2),SWIG_STD_MOVE(arg3));
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_erase(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[4] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "NodeInfoVec_erase", 0, 3, argv))) SWIG_fail;
+  --argc;
+  if (argc == 2) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      swig::SwigPyIterator *iter = 0;
+      int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+      _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *>(iter) != 0));
+      if (_v) {
+        return _wrap_NodeInfoVec_erase__SWIG_0(self, argc, argv);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      swig::SwigPyIterator *iter = 0;
+      int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+      _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *>(iter) != 0));
+      if (_v) {
+        swig::SwigPyIterator *iter = 0;
+        int res = SWIG_ConvertPtr(argv[2], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+        _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *>(iter) != 0));
+        if (_v) {
+          return _wrap_NodeInfoVec_erase__SWIG_1(self, argc, argv);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'NodeInfoVec_erase'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::erase(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator)\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::erase(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_NodeInfoVec__SWIG_3(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type arg1 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *arg2 = 0 ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type tempshared2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *result = 0 ;
+  
+  (void)self;
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(swig_obj[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_NodeInfoVec" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type""'");
+  } 
+  arg1 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type >(val1);
+  {
+    int newmem = 0;
+    res2 = SWIG_ConvertPtrAndOwn(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t,  0 , &newmem);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_NodeInfoVec" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      if (argp2) tempshared2 = *reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp2);
+      delete reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp2);
+      arg2 = &tempshared2;
+    } else {
+      arg2 = (argp2) ? reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp2) : &tempshared2;
+    }
+  }
+  result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *)new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >(arg1,(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &)*arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_NodeInfoVec(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[3] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_NodeInfoVec", 0, 2, argv))) SWIG_fail;
+  --argc;
+  if (argc == 0) {
+    return _wrap_new_NodeInfoVec__SWIG_0(self, argc, argv);
+  }
+  if (argc == 1) {
+    int _v = 0;
+    {
+      int res = SWIG_AsVal_size_t(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      return _wrap_new_NodeInfoVec__SWIG_2(self, argc, argv);
+    }
+  }
+  if (argc == 1) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_new_NodeInfoVec__SWIG_1(self, argc, argv);
+    }
+  }
+  if (argc == 2) {
+    int _v = 0;
+    {
+      int res = SWIG_AsVal_size_t(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_new_NodeInfoVec__SWIG_3(self, argc, argv);
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_NodeInfoVec'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::vector()\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::vector(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const &)\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::vector(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type)\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::vector(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_push_back(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type tempshared2 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "NodeInfoVec_push_back", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_push_back" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  {
+    int newmem = 0;
+    res2 = SWIG_ConvertPtrAndOwn(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t,  0 , &newmem);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "NodeInfoVec_push_back" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      if (argp2) tempshared2 = *reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp2);
+      delete reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp2);
+      arg2 = &tempshared2;
+    } else {
+      arg2 = (argp2) ? reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp2) : &tempshared2;
+    }
+  }
+  (arg1)->push_back((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_front(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *result = 0 ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_front" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *) &((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *)arg1)->front();
+  {
+    std::shared_ptr<  ppc::protocol::INodeInfo > *smartresult = *result ? new std::shared_ptr<  ppc::protocol::INodeInfo >(*result) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, SWIG_POINTER_OWN);
+  }
+  (void)swig::container_owner<swig::traits<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type>::category>::back_reference(resultobj, swig_obj[0]);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_back(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *result = 0 ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_back" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *) &((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *)arg1)->back();
+  {
+    std::shared_ptr<  ppc::protocol::INodeInfo > *smartresult = *result ? new std::shared_ptr<  ppc::protocol::INodeInfo >(*result) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, SWIG_POINTER_OWN);
+  }
+  (void)swig::container_owner<swig::traits<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type>::category>::back_reference(resultobj, swig_obj[0]);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_assign(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type tempshared3 ;
+  PyObject *swig_obj[3] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "NodeInfoVec_assign", 3, 3, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_assign" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "NodeInfoVec_assign" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type""'");
+  } 
+  arg2 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type >(val2);
+  {
+    int newmem = 0;
+    res3 = SWIG_ConvertPtrAndOwn(swig_obj[2], &argp3, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t,  0 , &newmem);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "NodeInfoVec_assign" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      if (argp3) tempshared3 = *reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp3);
+      delete reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp3);
+      arg3 = &tempshared3;
+    } else {
+      arg3 = (argp3) ? reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp3) : &tempshared3;
+    }
+  }
+  (arg1)->assign(arg2,(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &)*arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_resize__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type tempshared3 ;
+  
+  (void)self;
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_resize" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "NodeInfoVec_resize" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type""'");
+  } 
+  arg2 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type >(val2);
+  {
+    int newmem = 0;
+    res3 = SWIG_ConvertPtrAndOwn(swig_obj[2], &argp3, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t,  0 , &newmem);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "NodeInfoVec_resize" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      if (argp3) tempshared3 = *reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp3);
+      delete reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp3);
+      arg3 = &tempshared3;
+    } else {
+      arg3 = (argp3) ? reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp3) : &tempshared3;
+    }
+  }
+  (arg1)->resize(arg2,(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &)*arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_resize(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[4] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "NodeInfoVec_resize", 0, 3, argv))) SWIG_fail;
+  --argc;
+  if (argc == 2) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_size_t(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_NodeInfoVec_resize__SWIG_0(self, argc, argv);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_size_t(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_NodeInfoVec_resize__SWIG_1(self, argc, argv);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'NodeInfoVec_resize'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::resize(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type)\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::resize(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_insert__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *arg3 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type tempshared3 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator result;
+  
+  (void)self;
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_insert" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec_insert" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec_insert" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator""'");
+    }
+  }
+  {
+    int newmem = 0;
+    res3 = SWIG_ConvertPtrAndOwn(swig_obj[2], &argp3, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t,  0 , &newmem);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "NodeInfoVec_insert" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      if (argp3) tempshared3 = *reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp3);
+      delete reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp3);
+      arg3 = &tempshared3;
+    } else {
+      arg3 = (argp3) ? reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp3) : &tempshared3;
+    }
+  }
+  result = std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__insert__SWIG_0(arg1,SWIG_STD_MOVE(arg2),(std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg3);
+  resultobj = SWIG_NewPointerObj(swig::make_output_iterator(static_cast< const std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator & >(result)),
+    swig::SwigPyIterator::descriptor(),SWIG_POINTER_OWN);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_insert__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type arg3 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *arg4 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  swig::SwigPyIterator *iter2 = 0 ;
+  int res2 ;
+  size_t val3 ;
+  int ecode3 = 0 ;
+  void *argp4 ;
+  int res4 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type tempshared4 ;
+  
+  (void)self;
+  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_insert" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], SWIG_as_voidptrptr(&iter2), swig::SwigPyIterator::descriptor(), 0);
+  if (!SWIG_IsOK(res2) || !iter2) {
+    SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec_insert" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator""'");
+  } else {
+    swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *iter_t = dynamic_cast<swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *>(iter2);
+    if (iter_t) {
+      arg2 = iter_t->get_current();
+    } else {
+      SWIG_exception_fail(SWIG_ArgError(SWIG_TypeError), "in method '" "NodeInfoVec_insert" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator""'");
+    }
+  }
+  ecode3 = SWIG_AsVal_size_t(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "NodeInfoVec_insert" "', argument " "3"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type""'");
+  } 
+  arg3 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type >(val3);
+  {
+    int newmem = 0;
+    res4 = SWIG_ConvertPtrAndOwn(swig_obj[3], &argp4, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t,  0 , &newmem);
+    if (!SWIG_IsOK(res4)) {
+      SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "NodeInfoVec_insert" "', argument " "4"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      if (argp4) tempshared4 = *reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp4);
+      delete reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp4);
+      arg4 = &tempshared4;
+    } else {
+      arg4 = (argp4) ? reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type * >(argp4) : &tempshared4;
+    }
+  }
+  std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__insert__SWIG_1(arg1,SWIG_STD_MOVE(arg2),SWIG_STD_MOVE(arg3),(std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg4);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_insert(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[5] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "NodeInfoVec_insert", 0, 4, argv))) SWIG_fail;
+  --argc;
+  if (argc == 3) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      swig::SwigPyIterator *iter = 0;
+      int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+      _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *>(iter) != 0));
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_NodeInfoVec_insert__SWIG_0(self, argc, argv);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v = 0;
+    int res = swig::asptr(argv[0], (std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > >**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      swig::SwigPyIterator *iter = 0;
+      int res = SWIG_ConvertPtr(argv[1], SWIG_as_voidptrptr(&iter), swig::SwigPyIterator::descriptor(), 0);
+      _v = (SWIG_IsOK(res) && iter && (dynamic_cast<swig::SwigPyIterator_T<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator > *>(iter) != 0));
+      if (_v) {
+        {
+          int res = SWIG_AsVal_size_t(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          int res = SWIG_ConvertPtr(argv[3], 0, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0);
+          _v = SWIG_CheckState(res);
+          if (_v) {
+            return _wrap_NodeInfoVec_insert__SWIG_1(self, argc, argv);
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'NodeInfoVec_insert'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::insert(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &)\n"
+    "    std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::insert(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::iterator,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_reserve(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "NodeInfoVec_reserve", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_reserve" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "NodeInfoVec_reserve" "', argument " "2"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type""'");
+  } 
+  arg2 = static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type >(val2);
+  (arg1)->reserve(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_NodeInfoVec_capacity(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "NodeInfoVec_capacity" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  result = ((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *)arg1)->capacity();
+  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_NodeInfoVec(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_NodeInfoVec" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
+  }
+  arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *NodeInfoVec_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *NodeInfoVec_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
 SWIGINTERN PyObject *_wrap_Error_buildError__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
   PyObject *resultobj = 0;
   char *arg1 = (char *) 0 ;
@@ -15414,7 +17588,10 @@ SWIGINTERN PyObject *_wrap_FrontConfig_generateNodeInfo(PyObject *self, PyObject
     }
   }
   result = ((ppc::front::FrontConfig const *)arg1)->generateNodeInfo();
-  resultobj = SWIG_NewPointerObj((new ppc::protocol::INodeInfo::Ptr(result)), SWIGTYPE_p_ppc__protocol__INodeInfo__Ptr, SWIG_POINTER_OWN |  0 );
+  {
+    std::shared_ptr<  ppc::protocol::INodeInfo > *smartresult = result ? new std::shared_ptr<  ppc::protocol::INodeInfo >(result) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, SWIG_POINTER_OWN);
+  }
   return resultobj;
 fail:
   return NULL;
@@ -15585,6 +17762,86 @@ SWIGINTERN PyObject *_wrap_FrontConfig_mutableComponents(PyObject *self, PyObjec
   }
   result = (std::vector< std::string,std::allocator< std::string > > *) &(arg1)->mutableComponents();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__string_t, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FrontConfig_meta(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::front::FrontConfig *arg1 = (ppc::front::FrontConfig *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::front::FrontConfig const > tempshared1 ;
+  std::shared_ptr< ppc::front::FrontConfig const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::string result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfig_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FrontConfig_meta" "', argument " "1"" of type '" "ppc::front::FrontConfig const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::front::FrontConfig > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::front::FrontConfig > * >(argp1);
+      arg1 = const_cast< ppc::front::FrontConfig * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::front::FrontConfig > * >(argp1);
+      arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = ((ppc::front::FrontConfig const *)arg1)->meta();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_FrontConfig_setMeta(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::front::FrontConfig *arg1 = (ppc::front::FrontConfig *) 0 ;
+  std::string arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::front::FrontConfig > tempshared1 ;
+  std::shared_ptr< ppc::front::FrontConfig > *smartarg1 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "FrontConfig_setMeta", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfig_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FrontConfig_setMeta" "', argument " "1"" of type '" "ppc::front::FrontConfig *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::front::FrontConfig > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::front::FrontConfig > * >(argp1);
+      arg1 = const_cast< ppc::front::FrontConfig * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::front::FrontConfig > * >(argp1);
+      arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "FrontConfig_setMeta" "', argument " "2"" of type '" "std::string""'"); 
+    }
+    arg2 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  (arg1)->setMeta(arg2);
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -22726,7 +24983,10 @@ SWIGINTERN PyObject *_wrap_IFront_nodeInfo(PyObject *self, PyObject *args) {
     }
   }
   result = (ppc::protocol::INodeInfo::Ptr *) &(arg1)->nodeInfo();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__INodeInfo__Ptr, 0 |  0 );
+  {
+    std::shared_ptr<  ppc::protocol::INodeInfo > *smartresult = *result ? new std::shared_ptr<  ppc::protocol::INodeInfo >(*result) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, SWIG_POINTER_OWN);
+  }
   return resultobj;
 fail:
   return NULL;
@@ -22998,6 +25258,45 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_IFront_getNodeDiscovery(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::front::IFront > tempshared1 ;
+  std::shared_ptr< ppc::front::IFront > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  ppc::front::INodeDiscovery::Ptr result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__front__IFront_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IFront_getNodeDiscovery" "', argument " "1"" of type '" "ppc::front::IFront *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::front::IFront > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::front::IFront > * >(argp1);
+      arg1 = const_cast< ppc::front::IFront * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::front::IFront > * >(argp1);
+      arg1 = const_cast< ppc::front::IFront * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = (arg1)->getNodeDiscovery();
+  {
+    std::shared_ptr<  ppc::front::INodeDiscovery > *smartresult = result ? new std::shared_ptr<  ppc::front::INodeDiscovery >(result) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__INodeDiscovery_t, SWIG_POINTER_OWN);
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *IFront_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
@@ -23092,6 +25391,84 @@ SWIGINTERN PyObject *IFrontBuilder_swigregister(PyObject *SWIGUNUSEDPARM(self), 
   PyObject *obj;
   if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
   SWIG_TypeNewClientData(SWIGTYPE_p_ppc__front__IFrontBuilder, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_delete_INodeDiscovery(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::front::INodeDiscovery *arg1 = (ppc::front::INodeDiscovery *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::front::INodeDiscovery > tempshared1 ;
+  std::shared_ptr< ppc::front::INodeDiscovery > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__front__INodeDiscovery_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_INodeDiscovery" "', argument " "1"" of type '" "ppc::front::INodeDiscovery *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::front::INodeDiscovery > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::front::INodeDiscovery > * >(argp1);
+      arg1 = const_cast< ppc::front::INodeDiscovery * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::front::INodeDiscovery > * >(argp1);
+      arg1 = const_cast< ppc::front::INodeDiscovery * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  (void)arg1; delete smartarg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_INodeDiscovery_getAliveNodeList(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::front::INodeDiscovery *arg1 = (ppc::front::INodeDiscovery *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::front::INodeDiscovery const > tempshared1 ;
+  std::shared_ptr< ppc::front::INodeDiscovery const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__front__INodeDiscovery_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "INodeDiscovery_getAliveNodeList" "', argument " "1"" of type '" "ppc::front::INodeDiscovery const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::front::INodeDiscovery > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::front::INodeDiscovery > * >(argp1);
+      arg1 = const_cast< ppc::front::INodeDiscovery * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::front::INodeDiscovery > * >(argp1);
+      arg1 = const_cast< ppc::front::INodeDiscovery * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = ((ppc::front::INodeDiscovery const *)arg1)->getAliveNodeList();
+  resultobj = swig::from(static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *INodeDiscovery_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_std__shared_ptrT_ppc__front__INodeDiscovery_t, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
@@ -23696,6 +26073,524 @@ SWIGINTERN PyObject *Transport_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject
   return SWIG_Python_InitShadowInstance(args);
 }
 
+SWIGINTERN PyObject *_wrap_delete_INodeInfo(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > tempshared1 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_INodeInfo" "', argument " "1"" of type '" "ppc::protocol::INodeInfo *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  (void)arg1; delete smartarg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_INodeInfo_endPoint(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::string *result = 0 ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "INodeInfo_endPoint" "', argument " "1"" of type '" "ppc::protocol::INodeInfo const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = (std::string *) &((ppc::protocol::INodeInfo const *)arg1)->endPoint();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_INodeInfo_nodeID(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bcos::bytesConstRef result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "INodeInfo_nodeID" "', argument " "1"" of type '" "ppc::protocol::INodeInfo const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = ((ppc::protocol::INodeInfo const *)arg1)->nodeID();
+  resultobj = SWIG_NewPointerObj((new bcos::bytesConstRef(result)), SWIGTYPE_p_bcos__bytesConstRef, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_INodeInfo_setNodeID(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  bcos::bytesConstRef arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > tempshared1 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *smartarg1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "INodeInfo_setNodeID", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "INodeInfo_setNodeID" "', argument " "1"" of type '" "ppc::protocol::INodeInfo *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_bcos__bytesConstRef,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "INodeInfo_setNodeID" "', argument " "2"" of type '" "bcos::bytesConstRef""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "INodeInfo_setNodeID" "', argument " "2"" of type '" "bcos::bytesConstRef""'");
+    } else {
+      bcos::bytesConstRef * temp = reinterpret_cast< bcos::bytesConstRef * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->setNodeID(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_INodeInfo_setEndPoint(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > tempshared1 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "INodeInfo_setEndPoint", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "INodeInfo_setEndPoint" "', argument " "1"" of type '" "ppc::protocol::INodeInfo *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "INodeInfo_setEndPoint" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "INodeInfo_setEndPoint" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  (arg1)->setEndPoint((std::string const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_INodeInfo_addComponent(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > tempshared1 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject *swig_obj[2] ;
+  bool result;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "INodeInfo_addComponent", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "INodeInfo_addComponent" "', argument " "1"" of type '" "ppc::protocol::INodeInfo *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "INodeInfo_addComponent" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "INodeInfo_addComponent" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  result = (bool)(arg1)->addComponent((std::string const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_INodeInfo_eraseComponent(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > tempshared1 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject *swig_obj[2] ;
+  bool result;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "INodeInfo_eraseComponent", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "INodeInfo_eraseComponent" "', argument " "1"" of type '" "ppc::protocol::INodeInfo *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "INodeInfo_eraseComponent" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "INodeInfo_eraseComponent" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  result = (bool)(arg1)->eraseComponent((std::string const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_INodeInfo_componentExist(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject *swig_obj[2] ;
+  bool result;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "INodeInfo_componentExist", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "INodeInfo_componentExist" "', argument " "1"" of type '" "ppc::protocol::INodeInfo const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "INodeInfo_componentExist" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "INodeInfo_componentExist" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  result = (bool)((ppc::protocol::INodeInfo const *)arg1)->componentExist((std::string const &)*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_INodeInfo_copiedComponents(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::vector< std::string,std::allocator< std::string > > result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "INodeInfo_copiedComponents" "', argument " "1"" of type '" "ppc::protocol::INodeInfo const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = ((ppc::protocol::INodeInfo const *)arg1)->copiedComponents();
+  resultobj = swig::from(static_cast< std::vector< std::string,std::allocator< std::string > > >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_INodeInfo_meta(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::string *result = 0 ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "INodeInfo_meta" "', argument " "1"" of type '" "ppc::protocol::INodeInfo const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = (std::string *) &((ppc::protocol::INodeInfo const *)arg1)->meta();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_INodeInfo_setMeta(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > tempshared1 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "INodeInfo_setMeta", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "INodeInfo_setMeta" "', argument " "1"" of type '" "ppc::protocol::INodeInfo *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::INodeInfo > * >(argp1);
+      arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "INodeInfo_setMeta" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "INodeInfo_setMeta" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  (arg1)->setMeta((std::string const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *INodeInfo_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_printNodeInfo(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::INodeInfo::Ptr *arg1 = 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  ppc::protocol::INodeInfo::Ptr tempshared1 ;
+  PyObject *swig_obj[1] ;
+  std::string result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t,  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "printNodeInfo" "', argument " "1"" of type '" "ppc::protocol::INodeInfo::Ptr const &""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      if (argp1) tempshared1 = *reinterpret_cast< ppc::protocol::INodeInfo::Ptr * >(argp1);
+      delete reinterpret_cast< ppc::protocol::INodeInfo::Ptr * >(argp1);
+      arg1 = &tempshared1;
+    } else {
+      arg1 = (argp1) ? reinterpret_cast< ppc::protocol::INodeInfo::Ptr * >(argp1) : &tempshared1;
+    }
+  }
+  result = ppc::protocol::printNodeInfo((std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg1);
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 static PyMethodDef SwigMethods[] = {
 	 { "delete_SwigPyIterator", _wrap_delete_SwigPyIterator, METH_O, NULL},
 	 { "SwigPyIterator_value", _wrap_SwigPyIterator_value, METH_O, NULL},
@@ -23731,6 +26626,14 @@ static PyMethodDef SwigMethods[] = {
 	 { "delete_SharedFront", _wrap_delete_SharedFront, METH_O, NULL},
 	 { "SharedFront_swigregister", SharedFront_swigregister, METH_O, NULL},
 	 { "SharedFront_swiginit", SharedFront_swiginit, METH_VARARGS, NULL},
+	 { "new_SharedNodeDiscovery", _wrap_new_SharedNodeDiscovery, METH_NOARGS, NULL},
+	 { "delete_SharedNodeDiscovery", _wrap_delete_SharedNodeDiscovery, METH_O, NULL},
+	 { "SharedNodeDiscovery_swigregister", SharedNodeDiscovery_swigregister, METH_O, NULL},
+	 { "SharedNodeDiscovery_swiginit", SharedNodeDiscovery_swiginit, METH_VARARGS, NULL},
+	 { "new_SharedNodeInfo", _wrap_new_SharedNodeInfo, METH_NOARGS, NULL},
+	 { "delete_SharedNodeInfo", _wrap_delete_SharedNodeInfo, METH_O, NULL},
+	 { "SharedNodeInfo_swigregister", SharedNodeInfo_swigregister, METH_O, NULL},
+	 { "SharedNodeInfo_swiginit", SharedNodeInfo_swiginit, METH_VARARGS, NULL},
 	 { "new_SharedFrontClient", _wrap_new_SharedFrontClient, METH_NOARGS, NULL},
 	 { "delete_SharedFrontClient", _wrap_delete_SharedFrontClient, METH_O, NULL},
 	 { "SharedFrontClient_swigregister", SharedFrontClient_swigregister, METH_O, NULL},
@@ -23892,6 +26795,41 @@ static PyMethodDef SwigMethods[] = {
 	 { "delete_StringVec", _wrap_delete_StringVec, METH_O, NULL},
 	 { "StringVec_swigregister", StringVec_swigregister, METH_O, NULL},
 	 { "StringVec_swiginit", StringVec_swiginit, METH_VARARGS, NULL},
+	 { "NodeInfoVec_iterator", _wrap_NodeInfoVec_iterator, METH_O, NULL},
+	 { "NodeInfoVec___nonzero__", _wrap_NodeInfoVec___nonzero__, METH_O, NULL},
+	 { "NodeInfoVec___bool__", _wrap_NodeInfoVec___bool__, METH_O, NULL},
+	 { "NodeInfoVec___len__", _wrap_NodeInfoVec___len__, METH_O, NULL},
+	 { "NodeInfoVec___getslice__", _wrap_NodeInfoVec___getslice__, METH_VARARGS, NULL},
+	 { "NodeInfoVec___setslice__", _wrap_NodeInfoVec___setslice__, METH_VARARGS, NULL},
+	 { "NodeInfoVec___delslice__", _wrap_NodeInfoVec___delslice__, METH_VARARGS, NULL},
+	 { "NodeInfoVec___delitem__", _wrap_NodeInfoVec___delitem__, METH_VARARGS, NULL},
+	 { "NodeInfoVec___getitem__", _wrap_NodeInfoVec___getitem__, METH_VARARGS, NULL},
+	 { "NodeInfoVec___setitem__", _wrap_NodeInfoVec___setitem__, METH_VARARGS, NULL},
+	 { "NodeInfoVec_pop", _wrap_NodeInfoVec_pop, METH_O, NULL},
+	 { "NodeInfoVec_append", _wrap_NodeInfoVec_append, METH_VARARGS, NULL},
+	 { "NodeInfoVec_empty", _wrap_NodeInfoVec_empty, METH_O, NULL},
+	 { "NodeInfoVec_size", _wrap_NodeInfoVec_size, METH_O, NULL},
+	 { "NodeInfoVec_swap", _wrap_NodeInfoVec_swap, METH_VARARGS, NULL},
+	 { "NodeInfoVec_begin", _wrap_NodeInfoVec_begin, METH_O, NULL},
+	 { "NodeInfoVec_end", _wrap_NodeInfoVec_end, METH_O, NULL},
+	 { "NodeInfoVec_rbegin", _wrap_NodeInfoVec_rbegin, METH_O, NULL},
+	 { "NodeInfoVec_rend", _wrap_NodeInfoVec_rend, METH_O, NULL},
+	 { "NodeInfoVec_clear", _wrap_NodeInfoVec_clear, METH_O, NULL},
+	 { "NodeInfoVec_get_allocator", _wrap_NodeInfoVec_get_allocator, METH_O, NULL},
+	 { "NodeInfoVec_pop_back", _wrap_NodeInfoVec_pop_back, METH_O, NULL},
+	 { "NodeInfoVec_erase", _wrap_NodeInfoVec_erase, METH_VARARGS, NULL},
+	 { "new_NodeInfoVec", _wrap_new_NodeInfoVec, METH_VARARGS, NULL},
+	 { "NodeInfoVec_push_back", _wrap_NodeInfoVec_push_back, METH_VARARGS, NULL},
+	 { "NodeInfoVec_front", _wrap_NodeInfoVec_front, METH_O, NULL},
+	 { "NodeInfoVec_back", _wrap_NodeInfoVec_back, METH_O, NULL},
+	 { "NodeInfoVec_assign", _wrap_NodeInfoVec_assign, METH_VARARGS, NULL},
+	 { "NodeInfoVec_resize", _wrap_NodeInfoVec_resize, METH_VARARGS, NULL},
+	 { "NodeInfoVec_insert", _wrap_NodeInfoVec_insert, METH_VARARGS, NULL},
+	 { "NodeInfoVec_reserve", _wrap_NodeInfoVec_reserve, METH_VARARGS, NULL},
+	 { "NodeInfoVec_capacity", _wrap_NodeInfoVec_capacity, METH_O, NULL},
+	 { "delete_NodeInfoVec", _wrap_delete_NodeInfoVec, METH_O, NULL},
+	 { "NodeInfoVec_swigregister", NodeInfoVec_swigregister, METH_O, NULL},
+	 { "NodeInfoVec_swiginit", NodeInfoVec_swiginit, METH_VARARGS, NULL},
 	 { "Error_buildError", _wrap_Error_buildError, METH_VARARGS, NULL},
 	 { "new_Error", _wrap_new_Error, METH_VARARGS, NULL},
 	 { "delete_Error", _wrap_delete_Error, METH_O, NULL},
@@ -23934,6 +26872,8 @@ static PyMethodDef SwigMethods[] = {
 	 { "FrontConfig_setComponents", _wrap_FrontConfig_setComponents, METH_VARARGS, NULL},
 	 { "FrontConfig_addComponent", _wrap_FrontConfig_addComponent, METH_VARARGS, NULL},
 	 { "FrontConfig_mutableComponents", _wrap_FrontConfig_mutableComponents, METH_O, NULL},
+	 { "FrontConfig_meta", _wrap_FrontConfig_meta, METH_O, NULL},
+	 { "FrontConfig_setMeta", _wrap_FrontConfig_setMeta, METH_VARARGS, NULL},
 	 { "FrontConfig_swigregister", FrontConfig_swigregister, METH_O, NULL},
 	 { "delete_FrontConfigBuilder", _wrap_delete_FrontConfigBuilder, METH_O, NULL},
 	 { "FrontConfigBuilder_build", _wrap_FrontConfigBuilder_build, METH_VARARGS, NULL},
@@ -24139,10 +27079,14 @@ static PyMethodDef SwigMethods[] = {
 	 { "IFront_registerComponent", _wrap_IFront_registerComponent, METH_VARARGS, NULL},
 	 { "IFront_unRegisterComponent", _wrap_IFront_unRegisterComponent, METH_VARARGS, NULL},
 	 { "IFront_selectNodesByRoutePolicy", _wrap_IFront_selectNodesByRoutePolicy, METH_VARARGS, NULL},
+	 { "IFront_getNodeDiscovery", _wrap_IFront_getNodeDiscovery, METH_O, NULL},
 	 { "IFront_swigregister", IFront_swigregister, METH_O, NULL},
 	 { "delete_IFrontBuilder", _wrap_delete_IFrontBuilder, METH_O, NULL},
 	 { "IFrontBuilder_buildClient", _wrap_IFrontBuilder_buildClient, METH_VARARGS, NULL},
 	 { "IFrontBuilder_swigregister", IFrontBuilder_swigregister, METH_O, NULL},
+	 { "delete_INodeDiscovery", _wrap_delete_INodeDiscovery, METH_O, NULL},
+	 { "INodeDiscovery_getAliveNodeList", _wrap_INodeDiscovery_getAliveNodeList, METH_O, NULL},
+	 { "INodeDiscovery_swigregister", INodeDiscovery_swigregister, METH_O, NULL},
 	 { "new_TransportBuilder", _wrap_new_TransportBuilder, METH_NOARGS, NULL},
 	 { "delete_TransportBuilder", _wrap_delete_TransportBuilder, METH_O, NULL},
 	 { "TransportBuilder_buildProTransport", _wrap_TransportBuilder_buildProTransport, METH_VARARGS, NULL},
@@ -24164,6 +27108,19 @@ static PyMethodDef SwigMethods[] = {
 	 { "Transport_getConfig", _wrap_Transport_getConfig, METH_O, NULL},
 	 { "Transport_swigregister", Transport_swigregister, METH_O, NULL},
 	 { "Transport_swiginit", Transport_swiginit, METH_VARARGS, NULL},
+	 { "delete_INodeInfo", _wrap_delete_INodeInfo, METH_O, NULL},
+	 { "INodeInfo_endPoint", _wrap_INodeInfo_endPoint, METH_O, NULL},
+	 { "INodeInfo_nodeID", _wrap_INodeInfo_nodeID, METH_O, NULL},
+	 { "INodeInfo_setNodeID", _wrap_INodeInfo_setNodeID, METH_VARARGS, NULL},
+	 { "INodeInfo_setEndPoint", _wrap_INodeInfo_setEndPoint, METH_VARARGS, NULL},
+	 { "INodeInfo_addComponent", _wrap_INodeInfo_addComponent, METH_VARARGS, NULL},
+	 { "INodeInfo_eraseComponent", _wrap_INodeInfo_eraseComponent, METH_VARARGS, NULL},
+	 { "INodeInfo_componentExist", _wrap_INodeInfo_componentExist, METH_VARARGS, NULL},
+	 { "INodeInfo_copiedComponents", _wrap_INodeInfo_copiedComponents, METH_O, NULL},
+	 { "INodeInfo_meta", _wrap_INodeInfo_meta, METH_O, NULL},
+	 { "INodeInfo_setMeta", _wrap_INodeInfo_setMeta, METH_VARARGS, NULL},
+	 { "INodeInfo_swigregister", INodeInfo_swigregister, METH_O, NULL},
+	 { "printNodeInfo", _wrap_printNodeInfo, METH_O, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
@@ -24200,13 +27157,14 @@ static swig_type_info _swigt__p_ppc__front__IFront = {"_p_ppc__front__IFront", "
 static swig_type_info _swigt__p_ppc__front__IFrontBuilder = {"_p_ppc__front__IFrontBuilder", "ppc::front::IFrontBuilder *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ppc__front__IFrontClient = {"_p_ppc__front__IFrontClient", "ppc::front::IFrontClient *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ppc__front__IMessageHandler = {"_p_ppc__front__IMessageHandler", "ppc::front::IMessageHandler *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_ppc__front__INodeDiscovery = {"_p_ppc__front__INodeDiscovery", "ppc::front::INodeDiscovery *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ppc__front__MessageDispatcherHandler = {"_p_ppc__front__MessageDispatcherHandler", "ppc::front::MessageDispatcherHandler *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ppc__front__SendResponseHandler = {"_p_ppc__front__SendResponseHandler", "ppc::front::SendResponseHandler *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ppc__gateway__IGateway__Ptr = {"_p_ppc__gateway__IGateway__Ptr", "ppc::gateway::IGateway::Ptr *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ppc__protocol__EndPoint = {"_p_ppc__protocol__EndPoint", "ppc::protocol::EndPoint *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ppc__protocol__GrpcConfig = {"_p_ppc__protocol__GrpcConfig", "ppc::protocol::GrpcConfig *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ppc__protocol__GrpcServerConfig = {"_p_ppc__protocol__GrpcServerConfig", "ppc::protocol::GrpcServerConfig *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_ppc__protocol__INodeInfo__Ptr = {"_p_ppc__protocol__INodeInfo__Ptr", "ppc::protocol::INodeInfo::Ptr *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_ppc__protocol__INodeInfo = {"_p_ppc__protocol__INodeInfo", "ppc::protocol::INodeInfo *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ppc__protocol__Message = {"_p_ppc__protocol__Message", "ppc::protocol::Message *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ppc__protocol__MessageBuilder = {"_p_ppc__protocol__MessageBuilder", "ppc::protocol::MessageBuilder *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ppc__protocol__MessageHeader = {"_p_ppc__protocol__MessageHeader", "ppc::protocol::MessageHeader *", 0, 0, (void*)0, 0};
@@ -24222,6 +27180,7 @@ static swig_type_info _swigt__p_short = {"_p_short", "int16_t *|int_least16_t *|
 static swig_type_info _swigt__p_signed_char = {"_p_signed_char", "int8_t *|int_fast8_t *|int_least8_t *|signed char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_size_type = {"_p_size_type", "size_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__allocatorT_signed_char_t = {"_p_std__allocatorT_signed_char_t", "std::vector< signed char >::allocator_type *|std::allocator< signed char > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__allocatorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t = {"_p_std__allocatorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t", "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::allocator_type *|std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__allocatorT_std__string_t = {"_p_std__allocatorT_std__string_t", "std::vector< std::string >::allocator_type *|std::allocator< std::string > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__allocatorT_unsigned_char_t = {"_p_std__allocatorT_unsigned_char_t", "std::vector< unsigned char >::allocator_type *|std::allocator< unsigned char > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__exception = {"_p_std__exception", "std::exception *", 0, 0, (void*)0, 0};
@@ -24240,9 +27199,11 @@ static swig_type_info _swigt__p_std__shared_ptrT_ppc__front__GetPeersInfoHandler
 static swig_type_info _swigt__p_std__shared_ptrT_ppc__front__IFrontClient_t = {"_p_std__shared_ptrT_ppc__front__IFrontClient_t", "std::shared_ptr< ppc::front::IFrontClient > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__shared_ptrT_ppc__front__IFront_t = {"_p_std__shared_ptrT_ppc__front__IFront_t", "std::shared_ptr< ppc::front::IFront > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__shared_ptrT_ppc__front__IMessageHandler_t = {"_p_std__shared_ptrT_ppc__front__IMessageHandler_t", "std::shared_ptr< ppc::front::IMessageHandler > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__shared_ptrT_ppc__front__INodeDiscovery_t = {"_p_std__shared_ptrT_ppc__front__INodeDiscovery_t", "std::shared_ptr< ppc::front::INodeDiscovery > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__shared_ptrT_ppc__front__MessageDispatcherHandler_t = {"_p_std__shared_ptrT_ppc__front__MessageDispatcherHandler_t", "std::shared_ptr< ppc::front::MessageDispatcherHandler > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__shared_ptrT_ppc__gateway__IGateway_t = {"_p_std__shared_ptrT_ppc__gateway__IGateway_t", "std::shared_ptr< ppc::gateway::IGateway > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__shared_ptrT_ppc__protocol__GrpcConfig_t = {"_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t", "std::shared_ptr< ppc::protocol::GrpcConfig > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__shared_ptrT_ppc__protocol__INodeInfo_t = {"_p_std__shared_ptrT_ppc__protocol__INodeInfo_t", "std::shared_ptr< ppc::protocol::INodeInfo > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__shared_ptrT_ppc__protocol__MessageBuilder_t = {"_p_std__shared_ptrT_ppc__protocol__MessageBuilder_t", "std::shared_ptr< ppc::protocol::MessageBuilder > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__shared_ptrT_ppc__protocol__MessageHeaderBuilder_t = {"_p_std__shared_ptrT_ppc__protocol__MessageHeaderBuilder_t", "std::shared_ptr< ppc::protocol::MessageHeaderBuilder > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__shared_ptrT_ppc__protocol__MessageHeader_t = {"_p_std__shared_ptrT_ppc__protocol__MessageHeader_t", "std::shared_ptr< ppc::protocol::MessageHeader > *", 0, 0, (void*)0, 0};
@@ -24255,6 +27216,7 @@ static swig_type_info _swigt__p_std__shared_ptrT_ppc__sdk__Transport_t = {"_p_st
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__string_view = {"_p_std__string_view", "std::string_view *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_int8_t_t = {"_p_std__vectorT_int8_t_t", "std::vector< int8_t > *|std::vector< signed char,std::allocator< signed char > > *|std::vector< signed char > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t = {"_p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t", "std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > *|std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_std__string_t = {"_p_std__vectorT_std__string_t", "std::vector< std::string,std::allocator< std::string > > *|std::vector< std::string > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_uint8_t_t = {"_p_std__vectorT_uint8_t_t", "bcos::bytes *|std::vector< uint8_t > *|std::vector< unsigned char,std::allocator< unsigned char > > *|std::vector< unsigned char > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_swig__SwigPyIterator = {"_p_swig__SwigPyIterator", "swig::SwigPyIterator *", 0, 0, (void*)0, 0};
@@ -24288,13 +27250,14 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ppc__front__IFrontBuilder,
   &_swigt__p_ppc__front__IFrontClient,
   &_swigt__p_ppc__front__IMessageHandler,
+  &_swigt__p_ppc__front__INodeDiscovery,
   &_swigt__p_ppc__front__MessageDispatcherHandler,
   &_swigt__p_ppc__front__SendResponseHandler,
   &_swigt__p_ppc__gateway__IGateway__Ptr,
   &_swigt__p_ppc__protocol__EndPoint,
   &_swigt__p_ppc__protocol__GrpcConfig,
   &_swigt__p_ppc__protocol__GrpcServerConfig,
-  &_swigt__p_ppc__protocol__INodeInfo__Ptr,
+  &_swigt__p_ppc__protocol__INodeInfo,
   &_swigt__p_ppc__protocol__Message,
   &_swigt__p_ppc__protocol__MessageBuilder,
   &_swigt__p_ppc__protocol__MessageHeader,
@@ -24310,6 +27273,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_signed_char,
   &_swigt__p_size_type,
   &_swigt__p_std__allocatorT_signed_char_t,
+  &_swigt__p_std__allocatorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t,
   &_swigt__p_std__allocatorT_std__string_t,
   &_swigt__p_std__allocatorT_unsigned_char_t,
   &_swigt__p_std__exception,
@@ -24328,9 +27292,11 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_std__shared_ptrT_ppc__front__IFrontClient_t,
   &_swigt__p_std__shared_ptrT_ppc__front__IFront_t,
   &_swigt__p_std__shared_ptrT_ppc__front__IMessageHandler_t,
+  &_swigt__p_std__shared_ptrT_ppc__front__INodeDiscovery_t,
   &_swigt__p_std__shared_ptrT_ppc__front__MessageDispatcherHandler_t,
   &_swigt__p_std__shared_ptrT_ppc__gateway__IGateway_t,
   &_swigt__p_std__shared_ptrT_ppc__protocol__GrpcConfig_t,
+  &_swigt__p_std__shared_ptrT_ppc__protocol__INodeInfo_t,
   &_swigt__p_std__shared_ptrT_ppc__protocol__MessageBuilder_t,
   &_swigt__p_std__shared_ptrT_ppc__protocol__MessageHeaderBuilder_t,
   &_swigt__p_std__shared_ptrT_ppc__protocol__MessageHeader_t,
@@ -24343,6 +27309,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_std__string,
   &_swigt__p_std__string_view,
   &_swigt__p_std__vectorT_int8_t_t,
+  &_swigt__p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t,
   &_swigt__p_std__vectorT_std__string_t,
   &_swigt__p_std__vectorT_uint8_t_t,
   &_swigt__p_swig__SwigPyIterator,
@@ -24376,13 +27343,14 @@ static swig_cast_info _swigc__p_ppc__front__IFront[] = {  {&_swigt__p_ppc__front
 static swig_cast_info _swigc__p_ppc__front__IFrontBuilder[] = {  {&_swigt__p_ppc__front__IFrontBuilder, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ppc__front__IFrontClient[] = {  {&_swigt__p_ppc__front__IFrontClient, 0, 0, 0},  {&_swigt__p_ppc__front__IFront, _p_ppc__front__IFrontTo_p_ppc__front__IFrontClient, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ppc__front__IMessageHandler[] = {  {&_swigt__p_ppc__front__IMessageHandler, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ppc__front__INodeDiscovery[] = {  {&_swigt__p_ppc__front__INodeDiscovery, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ppc__front__MessageDispatcherHandler[] = {  {&_swigt__p_ppc__front__MessageDispatcherHandler, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ppc__front__SendResponseHandler[] = {  {&_swigt__p_ppc__front__SendResponseHandler, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ppc__gateway__IGateway__Ptr[] = {  {&_swigt__p_ppc__gateway__IGateway__Ptr, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ppc__protocol__EndPoint[] = {  {&_swigt__p_ppc__protocol__EndPoint, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ppc__protocol__GrpcConfig[] = {  {&_swigt__p_ppc__protocol__GrpcConfig, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ppc__protocol__GrpcServerConfig[] = {  {&_swigt__p_ppc__protocol__GrpcServerConfig, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_ppc__protocol__INodeInfo__Ptr[] = {  {&_swigt__p_ppc__protocol__INodeInfo__Ptr, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ppc__protocol__INodeInfo[] = {  {&_swigt__p_ppc__protocol__INodeInfo, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ppc__protocol__Message[] = {  {&_swigt__p_ppc__protocol__Message, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ppc__protocol__MessageBuilder[] = {  {&_swigt__p_ppc__protocol__MessageBuilder, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ppc__protocol__MessageHeader[] = {  {&_swigt__p_ppc__protocol__MessageHeader, 0, 0, 0},{0, 0, 0, 0}};
@@ -24398,6 +27366,7 @@ static swig_cast_info _swigc__p_short[] = {  {&_swigt__p_short, 0, 0, 0},{0, 0, 
 static swig_cast_info _swigc__p_signed_char[] = {  {&_swigt__p_signed_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_size_type[] = {  {&_swigt__p_size_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__allocatorT_signed_char_t[] = {  {&_swigt__p_std__allocatorT_signed_char_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__allocatorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t[] = {  {&_swigt__p_std__allocatorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__allocatorT_std__string_t[] = {  {&_swigt__p_std__allocatorT_std__string_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__allocatorT_unsigned_char_t[] = {  {&_swigt__p_std__allocatorT_unsigned_char_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__exception[] = {  {&_swigt__p_std__exception, 0, 0, 0},{0, 0, 0, 0}};
@@ -24416,9 +27385,11 @@ static swig_cast_info _swigc__p_std__shared_ptrT_ppc__front__GetPeersInfoHandler
 static swig_cast_info _swigc__p_std__shared_ptrT_ppc__front__IFrontClient_t[] = {  {&_swigt__p_std__shared_ptrT_ppc__front__IFrontClient_t, 0, 0, 0},  {&_swigt__p_std__shared_ptrT_ppc__front__IFront_t, _p_std__shared_ptrT_ppc__front__IFront_tTo_p_std__shared_ptrT_ppc__front__IFrontClient_t, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__shared_ptrT_ppc__front__IFront_t[] = {  {&_swigt__p_std__shared_ptrT_ppc__front__IFront_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__shared_ptrT_ppc__front__IMessageHandler_t[] = {  {&_swigt__p_std__shared_ptrT_ppc__front__IMessageHandler_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__shared_ptrT_ppc__front__INodeDiscovery_t[] = {  {&_swigt__p_std__shared_ptrT_ppc__front__INodeDiscovery_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__shared_ptrT_ppc__front__MessageDispatcherHandler_t[] = {  {&_swigt__p_std__shared_ptrT_ppc__front__MessageDispatcherHandler_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__shared_ptrT_ppc__gateway__IGateway_t[] = {  {&_swigt__p_std__shared_ptrT_ppc__gateway__IGateway_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__shared_ptrT_ppc__protocol__GrpcConfig_t[] = {  {&_swigt__p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__shared_ptrT_ppc__protocol__INodeInfo_t[] = {  {&_swigt__p_std__shared_ptrT_ppc__protocol__INodeInfo_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__shared_ptrT_ppc__protocol__MessageBuilder_t[] = {  {&_swigt__p_std__shared_ptrT_ppc__protocol__MessageBuilder_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__shared_ptrT_ppc__protocol__MessageHeaderBuilder_t[] = {  {&_swigt__p_std__shared_ptrT_ppc__protocol__MessageHeaderBuilder_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__shared_ptrT_ppc__protocol__MessageHeader_t[] = {  {&_swigt__p_std__shared_ptrT_ppc__protocol__MessageHeader_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -24431,6 +27402,7 @@ static swig_cast_info _swigc__p_std__shared_ptrT_ppc__sdk__Transport_t[] = {  {&
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string_view[] = {  {&_swigt__p_std__string_view, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_int8_t_t[] = {  {&_swigt__p_std__vectorT_int8_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t[] = {  {&_swigt__p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_std__string_t[] = {  {&_swigt__p_std__vectorT_std__string_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_uint8_t_t[] = {  {&_swigt__p_std__vectorT_uint8_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_swig__SwigPyIterator[] = {  {&_swigt__p_swig__SwigPyIterator, 0, 0, 0},{0, 0, 0, 0}};
@@ -24464,13 +27436,14 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ppc__front__IFrontBuilder,
   _swigc__p_ppc__front__IFrontClient,
   _swigc__p_ppc__front__IMessageHandler,
+  _swigc__p_ppc__front__INodeDiscovery,
   _swigc__p_ppc__front__MessageDispatcherHandler,
   _swigc__p_ppc__front__SendResponseHandler,
   _swigc__p_ppc__gateway__IGateway__Ptr,
   _swigc__p_ppc__protocol__EndPoint,
   _swigc__p_ppc__protocol__GrpcConfig,
   _swigc__p_ppc__protocol__GrpcServerConfig,
-  _swigc__p_ppc__protocol__INodeInfo__Ptr,
+  _swigc__p_ppc__protocol__INodeInfo,
   _swigc__p_ppc__protocol__Message,
   _swigc__p_ppc__protocol__MessageBuilder,
   _swigc__p_ppc__protocol__MessageHeader,
@@ -24486,6 +27459,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_signed_char,
   _swigc__p_size_type,
   _swigc__p_std__allocatorT_signed_char_t,
+  _swigc__p_std__allocatorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t,
   _swigc__p_std__allocatorT_std__string_t,
   _swigc__p_std__allocatorT_unsigned_char_t,
   _swigc__p_std__exception,
@@ -24504,9 +27478,11 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_std__shared_ptrT_ppc__front__IFrontClient_t,
   _swigc__p_std__shared_ptrT_ppc__front__IFront_t,
   _swigc__p_std__shared_ptrT_ppc__front__IMessageHandler_t,
+  _swigc__p_std__shared_ptrT_ppc__front__INodeDiscovery_t,
   _swigc__p_std__shared_ptrT_ppc__front__MessageDispatcherHandler_t,
   _swigc__p_std__shared_ptrT_ppc__gateway__IGateway_t,
   _swigc__p_std__shared_ptrT_ppc__protocol__GrpcConfig_t,
+  _swigc__p_std__shared_ptrT_ppc__protocol__INodeInfo_t,
   _swigc__p_std__shared_ptrT_ppc__protocol__MessageBuilder_t,
   _swigc__p_std__shared_ptrT_ppc__protocol__MessageHeaderBuilder_t,
   _swigc__p_std__shared_ptrT_ppc__protocol__MessageHeader_t,
@@ -24519,6 +27495,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_std__string,
   _swigc__p_std__string_view,
   _swigc__p_std__vectorT_int8_t_t,
+  _swigc__p_std__vectorT_std__shared_ptrT_ppc__protocol__INodeInfo_t_t,
   _swigc__p_std__vectorT_std__string_t,
   _swigc__p_std__vectorT_uint8_t_t,
   _swigc__p_swig__SwigPyIterator,

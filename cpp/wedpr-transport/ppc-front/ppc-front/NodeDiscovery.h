@@ -13,27 +13,37 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file INodeDiscovery.h
+ * @file NodeDiscovery.h
  * @author: yujiechen
  * @date 2024-11-06
  */
 #pragma once
-#include "ppc-framework/protocol/INodeInfo.h"
+#include "ppc-framework/front/INodeDiscovery.h"
+#include "ppc-framework/gateway/IGateway.h"
+#include <bcos-utilities/Timer.h>
 #include <memory>
 
 namespace ppc::front
 {
-class INodeDiscovery
+class NodeDiscovery : public INodeDiscovery
 {
 public:
-    using Ptr = std::shared_ptr<INodeDiscovery>;
-    INodeDiscovery() = default;
-    virtual ~INodeDiscovery() = default;
+    using Ptr = std::shared_ptr<NodeDiscovery>;
+    NodeDiscovery(ppc::gateway::IGateway::Ptr gatewayClient);
+    ~NodeDiscovery() override = default;
 
-    virtual void start() = 0;
-    virtual void stop() = 0;
+    std::vector<std::shared_ptr<ppc::protocol::INodeInfo>> getAliveNodeList() const override;
+    void start() override;
+    void stop() override;
 
-    // Note: use std::shared_ptr here for swig wrapper
-    virtual std::vector<std::shared_ptr<ppc::protocol::INodeInfo>> getAliveNodeList() const = 0;
+protected:
+    virtual void fetchMetaInfoFromGateway();
+
+private:
+    std::shared_ptr<bcos::Timer> m_metaFetcher;
+    ppc::gateway::IGateway::Ptr m_gatewayClient;
+
+    std::vector<ppc::protocol::INodeInfo::Ptr> m_aliveNodeList;
+    mutable bcos::SharedMutex x_aliveNodeList;
 };
 }  // namespace ppc::front

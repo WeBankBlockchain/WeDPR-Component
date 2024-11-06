@@ -1,7 +1,29 @@
 # -*- coding: utf-8 -*-
 
 from abc import ABC, abstractmethod
+import json
 from wedpr_python_gateway_sdk.transport.api.message_api import MessageAPI
+from wedpr_python_gateway_sdk.utils.base_object import BaseObject
+
+
+class EntryPointInfo(BaseObject):
+    def __init__(self, service_name: str, entrypoint: str):
+        self.service_name = service_name
+        self.entrypoint = entrypoint
+
+
+class ServiceMeta(BaseObject):
+    def __init__(self, entrypoints_info: list[EntryPointInfo]):
+        self.entrypoints_info = entrypoints_info
+
+
+def str_to_service_meta(json_str: str) -> ServiceMeta:
+    if json_str is None or len(json_str) == 0:
+        return None
+    meta_dict = json.loads(json_str)
+    service_meta = ServiceMeta([])
+    service_meta.set_params(**meta_dict)
+    return service_meta
 
 
 class TransportAPI(ABC):
@@ -51,4 +73,8 @@ class TransportAPI(ABC):
 
     @abstractmethod
     def unregister_component(self, component):
+        pass
+
+    @abstractmethod
+    def get_alive_entrypoints(self, service_name: str) -> list[EntryPointInfo]:
         pass

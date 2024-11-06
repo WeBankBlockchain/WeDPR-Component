@@ -909,6 +909,8 @@ SWIGINTERN void SWIG_JavaException(JNIEnv *jenv, int code, const char *msg) {
 #include "wedpr-transport/sdk/src/Transport.h"
 #include "ppc-framework/libwrapper/Buffer.h"
 #include "ppc-framework/front/IFront.h"
+#include "ppc-framework/protocol/INodeInfo.h"
+#include "ppc-framework/front/INodeDiscovery.h"
 #include "ppc-framework/protocol/RouteType.h"
 #include "ppc-framework/front/FrontConfig.h"
 #include "ppc-framework/protocol/GrpcConfig.h"
@@ -1111,6 +1113,68 @@ SWIGINTERN std::vector< std::string >::value_type std_vector_Sl_std_string_Sg__d
           throw std::out_of_range("vector index out of range");
       }
 SWIGINTERN void std_vector_Sl_std_string_Sg__doRemoveRange(std::vector< std::string > *self,jint fromIndex,jint toIndex){
+        jint size = static_cast<jint>(self->size());
+        if (0 <= fromIndex && fromIndex <= toIndex && toIndex <= size) {
+          self->erase(self->begin() + fromIndex, self->begin() + toIndex);
+        } else {
+          throw std::out_of_range("vector index out of range");
+        }
+      }
+SWIGINTERN std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *new_std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg___SWIG_2(jint count,std::shared_ptr< ppc::protocol::INodeInfo > const &value){
+        if (count < 0)
+          throw std::out_of_range("vector count must be positive");
+        return new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >(static_cast<std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::size_type>(count), value);
+      }
+SWIGINTERN jint std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doCapacity(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self){
+        return SWIG_VectorSize(self->capacity());
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doReserve(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,jint n){
+        if (n < 0)
+          throw std::out_of_range("vector reserve size must be positive");
+        self->reserve(n);
+      }
+SWIGINTERN jint std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doSize(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *self){
+        return SWIG_VectorSize(self->size());
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doAdd__SWIG_0(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &x){
+        self->push_back(x);
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doAdd__SWIG_1(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,jint index,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &x){
+        jint size = static_cast<jint>(self->size());
+        if (0 <= index && index <= size) {
+          self->insert(self->begin() + index, x);
+        } else {
+          throw std::out_of_range("vector index out of range");
+        }
+      }
+SWIGINTERN std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doRemove(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,jint index){
+        jint size = static_cast<jint>(self->size());
+        if (0 <= index && index < size) {
+          std::shared_ptr< ppc::protocol::INodeInfo > const old_value = (*self)[index];
+          self->erase(self->begin() + index);
+          return old_value;
+        } else {
+          throw std::out_of_range("vector index out of range");
+        }
+      }
+SWIGINTERN std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doGet(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,jint index){
+        jint size = static_cast<jint>(self->size());
+        if (index >= 0 && index < size)
+          return (*self)[index];
+        else
+          throw std::out_of_range("vector index out of range");
+      }
+SWIGINTERN std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doSet(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,jint index,std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type const &val){
+        jint size = static_cast<jint>(self->size());
+        if (index >= 0 && index < size) {
+          std::shared_ptr< ppc::protocol::INodeInfo > const old_value = (*self)[index];
+          (*self)[index] = val;
+          return old_value;
+        }
+        else
+          throw std::out_of_range("vector index out of range");
+      }
+SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doRemoveRange(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *self,jint fromIndex,jint toIndex){
         jint size = static_cast<jint>(self->size());
         if (0 <= fromIndex && fromIndex <= toIndex && toIndex <= size) {
           self->erase(self->begin() + fromIndex, self->begin() + toIndex);
@@ -1479,6 +1543,30 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
 }
 
 
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1SharedNodeDiscovery(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::shared_ptr< ppc::front::INodeDiscovery > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::shared_ptr< ppc::front::INodeDiscovery > *)new std::shared_ptr< ppc::front::INodeDiscovery >();
+  *(std::shared_ptr< ppc::front::INodeDiscovery > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::front::INodeDiscovery >(*result) : 0;
+  if (1) delete result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1SharedNodeDiscovery(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::shared_ptr< ppc::front::INodeDiscovery > *arg1 = (std::shared_ptr< ppc::front::INodeDiscovery > *) 0 ;
+  std::shared_ptr< ppc::front::INodeDiscovery > tempnull1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = jarg1 ? *(std::shared_ptr< ppc::front::INodeDiscovery > **)&jarg1 : &tempnull1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1SharedFrontClient(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
   std::shared_ptr< ppc::front::IFrontClient > *result = 0 ;
@@ -1811,6 +1899,30 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder > **)&jarg1 : &tempnull1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1SharedNodeInfo(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::shared_ptr< ppc::protocol::INodeInfo > *)new std::shared_ptr< ppc::protocol::INodeInfo >();
+  *(std::shared_ptr< ppc::protocol::INodeInfo > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::protocol::INodeInfo >(*result) : 0;
+  if (1) delete result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1SharedNodeInfo(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::shared_ptr< ppc::protocol::INodeInfo > *arg1 = (std::shared_ptr< ppc::protocol::INodeInfo > *) 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > tempnull1 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = jarg1 ? *(std::shared_ptr< ppc::protocol::INodeInfo > **)&jarg1 : &tempnull1; 
   delete arg1;
 }
 
@@ -2673,6 +2785,284 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
 }
 
 
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1NodeInfoVec_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *)new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >();
+  *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1NodeInfoVec_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1;
+  if (!arg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const & is null");
+    return 0;
+  } 
+  result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *)new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const &)*arg1);
+  *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_NodeInfoVec_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
+  result = (bool)((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *)arg1)->empty();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_NodeInfoVec_1clear(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
+  (arg1)->clear();
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1NodeInfoVec_1_1SWIG_12(JNIEnv *jenv, jclass jcls, jint jarg1, jlong jarg2, jobject jarg2_) {
+  jlong jresult = 0 ;
+  jint arg1 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *arg2 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > tempnull2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg2_;
+  arg1 = jarg1; 
+  arg2 = jarg2 ? *(std::shared_ptr< ppc::protocol::INodeInfo > **)&jarg2 : &tempnull2; 
+  try {
+    result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *)new_std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg___SWIG_2(SWIG_STD_MOVE(arg1),(std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg2);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_NodeInfoVec_1doCapacity(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  jint result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
+  try {
+    result = std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doCapacity(arg1);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_NodeInfoVec_1doReserve(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  jint arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
+  arg2 = jarg2; 
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doReserve(arg1,SWIG_STD_MOVE(arg2));
+  } catch(std::length_error &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return ;
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return ;
+  }
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_NodeInfoVec_1doSize(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  jint result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
+  try {
+    result = std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doSize((std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > const *)arg1);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_NodeInfoVec_1doAdd_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *arg2 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type tempnull2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
+  arg2 = jarg2 ? *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type **)&jarg2 : &tempnull2; 
+  std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doAdd__SWIG_0(arg1,(std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_NodeInfoVec_1doAdd_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jobject jarg3_) {
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  jint arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *arg3 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type tempnull3 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg3_;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
+  arg2 = jarg2; 
+  arg3 = jarg3 ? *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type **)&jarg3 : &tempnull3; 
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doAdd__SWIG_1(arg1,SWIG_STD_MOVE(arg2),(std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg3);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return ;
+  }
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_NodeInfoVec_1doRemove(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jlong jresult = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  jint arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
+  arg2 = jarg2; 
+  try {
+    result = std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doRemove(arg1,SWIG_STD_MOVE(arg2));
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type **)&jresult = result ? new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_NodeInfoVec_1doGet(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jlong jresult = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  jint arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
+  arg2 = jarg2; 
+  try {
+    result = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *) &std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doGet(arg1,SWIG_STD_MOVE(arg2));
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type **)&jresult = *result ? new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type(*result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_NodeInfoVec_1doSet(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jobject jarg3_) {
+  jlong jresult = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  jint arg2 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type *arg3 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type tempnull3 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg3_;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
+  arg2 = jarg2; 
+  arg3 = jarg3 ? *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type **)&jarg3 : &tempnull3; 
+  try {
+    result = std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doSet(arg1,SWIG_STD_MOVE(arg2),(std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg3);
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return 0;
+  }
+  *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type **)&jresult = result ? new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >::value_type(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_NodeInfoVec_1doRemoveRange(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3) {
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  jint arg2 ;
+  jint arg3 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
+  arg2 = jarg2; 
+  arg3 = jarg3; 
+  try {
+    std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__doRemoveRange(arg1,SWIG_STD_MOVE(arg2),SWIG_STD_MOVE(arg3));
+  } catch(std::out_of_range &_e) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, (&_e)->what());
+    return ;
+  }
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1NodeInfoVec(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *arg1 = (std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Error_1buildError_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jbyteArray jarg1, jbyteArray jarg2, jint jarg3, jint jarg4, jstring jarg5) {
   jlong jresult = 0 ;
   char *arg1 = (char *) 0 ;
@@ -3419,7 +3809,7 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   smartarg1 = *(std::shared_ptr< const ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
   result = ((ppc::front::FrontConfig const *)arg1)->generateNodeInfo();
-  *(ppc::protocol::INodeInfo::Ptr **)&jresult = new ppc::protocol::INodeInfo::Ptr(result); 
+  *(ppc::protocol::INodeInfo::Ptr **)&jresult = result ? new ppc::protocol::INodeInfo::Ptr(result) : 0; 
   return jresult;
 }
 
@@ -3502,6 +3892,47 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   result = (std::vector< std::string > *) &(arg1)->mutableComponents();
   *(std::vector< std::string > **)&jresult = result; 
   return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_FrontConfig_1meta(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  ppc::front::FrontConfig *arg1 = (ppc::front::FrontConfig *) 0 ;
+  std::shared_ptr< ppc::front::FrontConfig const > *smartarg1 = 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::front::FrontConfig > **)&jarg1;
+  arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
+  result = ((ppc::front::FrontConfig const *)arg1)->meta();
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_FrontConfig_1setMeta(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  ppc::front::FrontConfig *arg1 = (ppc::front::FrontConfig *) 0 ;
+  std::string arg2 ;
+  std::shared_ptr< ppc::front::FrontConfig > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::front::FrontConfig > **)&jarg1;
+  arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  } 
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  (&arg2)->assign(arg2_pstr);
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  (arg1)->setMeta(arg2);
 }
 
 
@@ -5942,6 +6373,261 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
 }
 
 
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1INodeInfo(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::INodeInfo > **)&jarg1;
+  arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_INodeInfo_1endPoint(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > *smartarg1 = 0 ;
+  std::string *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::INodeInfo > **)&jarg1;
+  arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (std::string *) &((ppc::protocol::INodeInfo const *)arg1)->endPoint();
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_INodeInfo_1nodeID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > *smartarg1 = 0 ;
+  bcos::bytesConstRef result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::INodeInfo > **)&jarg1;
+  arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
+  result = ((ppc::protocol::INodeInfo const *)arg1)->nodeID();
+  *(bcos::bytesConstRef **)&jresult = new bcos::bytesConstRef(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_INodeInfo_1setNodeID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  bcos::bytesConstRef arg2 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *smartarg1 = 0 ;
+  bcos::bytesConstRef *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::INodeInfo > **)&jarg1;
+  arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
+  argp2 = *(bcos::bytesConstRef **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null bcos::bytesConstRef");
+    return ;
+  }
+  arg2 = *argp2; 
+  (arg1)->setNodeID(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_INodeInfo_1setEndPoint(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::string *arg2 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::INodeInfo > **)&jarg1;
+  arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  (arg1)->setEndPoint((std::string const &)*arg2);
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_INodeInfo_1addComponent(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jboolean jresult = 0 ;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::string *arg2 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *smartarg1 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::INodeInfo > **)&jarg1;
+  arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  result = (bool)(arg1)->addComponent((std::string const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_INodeInfo_1eraseComponent(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jboolean jresult = 0 ;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::string *arg2 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *smartarg1 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::INodeInfo > **)&jarg1;
+  arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  result = (bool)(arg1)->eraseComponent((std::string const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_INodeInfo_1componentExist(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  jboolean jresult = 0 ;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::string *arg2 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > *smartarg1 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::INodeInfo > **)&jarg1;
+  arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return 0;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  result = (bool)((ppc::protocol::INodeInfo const *)arg1)->componentExist((std::string const &)*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_INodeInfo_1copiedComponents(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > *smartarg1 = 0 ;
+  std::vector< std::string > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::INodeInfo > **)&jarg1;
+  arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
+  result = ((ppc::protocol::INodeInfo const *)arg1)->copiedComponents();
+  *(std::vector< std::string > **)&jresult = new std::vector< std::string >(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_INodeInfo_1meta(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo const > *smartarg1 = 0 ;
+  std::string *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::INodeInfo > **)&jarg1;
+  arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (std::string *) &((ppc::protocol::INodeInfo const *)arg1)->meta();
+  jresult = jenv->NewStringUTF(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_INodeInfo_1setMeta(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
+  std::string *arg2 = 0 ;
+  std::shared_ptr< ppc::protocol::INodeInfo > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::INodeInfo > **)&jarg1;
+  arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return ;
+  }
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
+  (arg1)->setMeta((std::string const &)*arg2);
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_printNodeInfo(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  ppc::protocol::INodeInfo::Ptr *arg1 = 0 ;
+  ppc::protocol::INodeInfo::Ptr tempnull1 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = jarg1 ? *(ppc::protocol::INodeInfo::Ptr **)&jarg1 : &tempnull1; 
+  result = ppc::protocol::printNodeInfo((std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg1);
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
 SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1IFrontClient(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   ppc::front::IFrontClient *arg1 = (ppc::front::IFrontClient *) 0 ;
   std::shared_ptr< ppc::front::IFrontClient > *smartarg1 = 0 ;
@@ -6748,7 +7434,7 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
   arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
   result = (ppc::protocol::INodeInfo::Ptr *) &(arg1)->nodeInfo();
-  *(ppc::protocol::INodeInfo::Ptr **)&jresult = result; 
+  *(ppc::protocol::INodeInfo::Ptr **)&jresult = *result ? new ppc::protocol::INodeInfo::Ptr(*result) : 0; 
   return jresult;
 }
 
@@ -6881,6 +7567,24 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
 }
 
 
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_IFront_1getNodeDiscovery(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
+  std::shared_ptr< ppc::front::IFront > *smartarg1 = 0 ;
+  ppc::front::INodeDiscovery::Ptr result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
+  arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (arg1)->getNodeDiscovery();
+  *(ppc::front::INodeDiscovery::Ptr **)&jresult = result ? new ppc::front::INodeDiscovery::Ptr(result) : 0; 
+  return jresult;
+}
+
+
 SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1IFrontBuilder(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   ppc::front::IFrontBuilder *arg1 = (ppc::front::IFrontBuilder *) 0 ;
   
@@ -6921,6 +7625,37 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   arg4 = jarg4 ? true : false; 
   result = ((ppc::front::IFrontBuilder const *)arg1)->buildClient(arg2,arg3,arg4);
   *(ppc::front::IFrontClient::Ptr **)&jresult = result ? new ppc::front::IFrontClient::Ptr(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1INodeDiscovery(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  ppc::front::INodeDiscovery *arg1 = (ppc::front::INodeDiscovery *) 0 ;
+  std::shared_ptr< ppc::front::INodeDiscovery > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::front::INodeDiscovery > **)&jarg1;
+  arg1 = (ppc::front::INodeDiscovery *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_INodeDiscovery_1getAliveNodeList(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  ppc::front::INodeDiscovery *arg1 = (ppc::front::INodeDiscovery *) 0 ;
+  std::shared_ptr< ppc::front::INodeDiscovery const > *smartarg1 = 0 ;
+  std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::front::INodeDiscovery > **)&jarg1;
+  arg1 = (ppc::front::INodeDiscovery *)(smartarg1 ? smartarg1->get() : 0); 
+  result = ((ppc::front::INodeDiscovery const *)arg1)->getAliveNodeList();
+  *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jresult = new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >(result); 
   return jresult;
 }
 

@@ -13,13 +13,28 @@
  *
  */
 
-package com.webank.wedpr.sdk.jni.common;
+package com.webank.wedpr.sdk.jni.transport.model;
 
-public class Constant {
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-    public static int SUCCESS = 0;
-    public static int FAILED = -1;
+@Data
+@NoArgsConstructor
+@ToString
+public class ServiceMeta {
+    List<EntryPointInfo> serviceInfos = new ArrayList<>();
 
-    public static String SUCCESS_MSG = "success";
-    public static final String URI_SPLITER = "/";
+    public void addServiceInfo(EntryPointInfo entryPointInfo) {
+        serviceInfos.add(entryPointInfo);
+    }
+
+    public void setServiceInfos(List<EntryPointInfo> serviceInfos) {
+        if (serviceInfos == null) {
+            return;
+        }
+        this.serviceInfos = serviceInfos;
+    }
 }

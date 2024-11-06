@@ -18,6 +18,8 @@ from wedpr_python_gateway_sdk.libs import _wedpr_python_transport
 // shared_ptr definition
 %shared_ptr(ppc::front::FrontConfig);
 %shared_ptr(ppc::front::IFront);
+%shared_ptr(ppc::front::INodeDiscovery);
+%shared_ptr(ppc::protocol::INodeInfo);
 %shared_ptr(ppc::front::IFrontClient);
 // the callbacks
 %shared_ptr(ppc::front::ErrorCallback);
@@ -50,6 +52,8 @@ from wedpr_python_gateway_sdk.libs import _wedpr_python_transport
 #include "wedpr-transport/sdk/src/Transport.h"
 #include "ppc-framework/libwrapper/Buffer.h"
 #include "ppc-framework/front/IFront.h"
+#include "ppc-framework/protocol/INodeInfo.h"
+#include "ppc-framework/front/INodeDiscovery.h"
 #include "ppc-framework/protocol/RouteType.h"
 #include "ppc-framework/front/FrontConfig.h"
 #include "ppc-framework/protocol/GrpcConfig.h"
@@ -79,11 +83,13 @@ namespace ppc::protocol{
     class EndPoint;
     class GrpcConfig;
     class RouteType;
+    class INodeInfo;
 }
 
 namespace ppc::front{
     class FrontConfig;
     class IFront;
+    class INodeDiscovery;
     class IFrontClient;
     class FrontImpl;
     class FrontBuilderImpl;
@@ -112,6 +118,8 @@ namespace bcos{
 %template(SharedGrpcConfig) std::shared_ptr<ppc::protocol::GrpcConfig>;
 
 %template(SharedFront) std::shared_ptr<ppc::front::IFront>;
+%template(SharedNodeDiscovery) std::shared_ptr<ppc::front::INodeDiscovery>;
+%template(SharedNodeInfo) std::shared_ptr<ppc::protocol::INodeInfo>;
 %template(SharedFrontClient) std::shared_ptr<ppc::front::IFrontClient>;
 
 %template(SharedErrorCallback) std::shared_ptr<ppc::front::ErrorCallback>;
@@ -134,6 +142,7 @@ namespace bcos{
 %template(ubytes) std::vector<uint8_t>;
 %template(ibytes) std::vector<int8_t>;
 %template(StringVec) std::vector<std::string>;
+%template(NodeInfoVec) std::vector<std::shared_ptr<ppc::protocol::INodeInfo>>;
 
 %include <pybuffer.i>
 %pybuffer_binary(char* data, uint64_t length)
@@ -171,6 +180,18 @@ namespace bcos{
 %ignore ppc::protocol::MessagePayload::setData;
 %ignore ppc::protocol::MessagePayload::setDataPtr;
 %ignore ppc::protocol::MessagePayload::dataPtr;
+%ignore ppc::front::INodeDiscovery::start;
+%ignore ppc::front::INodeDiscovery::stop;
+%ignore ppc::protocol::INodeInfo::INodeInfo;
+%ignore ppc::protocol::INodeInfo::setFront;
+%ignore ppc::protocol::INodeInfo::getFront;
+%ignore ppc::protocol::INodeInfo::components;
+%ignore ppc::protocol::INodeInfo::encode;
+%ignore ppc::protocol::INodeInfo::decode;
+%ignore ppc::protocol::INodeInfo::equal;
+%ignore ppc::protocol::INodeInfo::toJson;
+%ignore ppc::protocol::INodeInfo::setComponents;
+%ignore ppc::protocol::INodeInfoFactory;
 
 /*
 ///// tests  ///
@@ -189,6 +210,8 @@ namespace bcos{
 %include "ppc-framework/protocol/MessagePayload.h"
 
 %include "ppc-framework/front/IFront.h"
+%include "ppc-framework/front/INodeDiscovery.h"
 
 %include "wedpr-transport/sdk/src/TransportBuilder.h"
 %include "wedpr-transport/sdk/src/Transport.h"
+%include "ppc-framework/protocol/INodeInfo.h"

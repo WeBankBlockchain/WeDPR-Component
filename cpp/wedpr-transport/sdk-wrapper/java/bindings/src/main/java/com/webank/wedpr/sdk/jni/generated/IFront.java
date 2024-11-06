@@ -155,9 +155,9 @@ public class IFront extends IFrontClient {
                 swigCPtr, this, GetPeersInfoHandler.getCPtr(getPeersCallback), getPeersCallback);
     }
 
-    public SWIGTYPE_p_ppc__protocol__INodeInfo__Ptr nodeInfo() {
-        return new SWIGTYPE_p_ppc__protocol__INodeInfo__Ptr(
-                wedpr_java_transportJNI.IFront_nodeInfo(swigCPtr, this), false);
+    public INodeInfo nodeInfo() {
+        long cPtr = wedpr_java_transportJNI.IFront_nodeInfo(swigCPtr, this);
+        return (cPtr == 0) ? null : new INodeInfo(cPtr, true);
     }
 
     /**
@@ -199,5 +199,10 @@ public class IFront extends IFrontClient {
                         MessageOptionalHeader.getCPtr(routeInfo),
                         routeInfo),
                 true);
+    }
+
+    public INodeDiscovery getNodeDiscovery() {
+        long cPtr = wedpr_java_transportJNI.IFront_getNodeDiscovery(swigCPtr, this);
+        return (cPtr == 0) ? null : new INodeDiscovery(cPtr, true);
     }
 }

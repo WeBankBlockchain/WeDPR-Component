@@ -36,6 +36,8 @@ PRIMITIVE_TYPEMAP(unsigned long int, long long);
 
 // shared_ptr definition
 %shared_ptr(ppc::front::FrontConfig);
+%shared_ptr(ppc::front::INodeDiscovery);
+%shared_ptr(ppc::protocol::INodeInfo);
 %shared_ptr(ppc::front::IFront);
 %shared_ptr(ppc::front::IFrontClient);
 // the callbacks
@@ -68,6 +70,8 @@ PRIMITIVE_TYPEMAP(unsigned long int, long long);
 #include "wedpr-transport/sdk/src/Transport.h"
 #include "ppc-framework/libwrapper/Buffer.h"
 #include "ppc-framework/front/IFront.h"
+#include "ppc-framework/protocol/INodeInfo.h"
+#include "ppc-framework/front/INodeDiscovery.h"
 #include "ppc-framework/protocol/RouteType.h"
 #include "ppc-framework/front/FrontConfig.h"
 #include "ppc-framework/protocol/GrpcConfig.h"
@@ -98,11 +102,13 @@ namespace ppc::protocol{
     class EndPoint;
     class GrpcConfig;
     class RouteType;
+    class INodeInfo;
 }
 
 namespace ppc::front{
     class FrontConfig;
     class IFront;
+    class INodeDiscovery;
     class IFrontClient;
     class FrontImpl;
     class FrontBuilderImpl;
@@ -131,6 +137,8 @@ namespace bcos{
 %template(SharedGrpcConfig) std::shared_ptr<ppc::protocol::GrpcConfig>;
 
 %template(SharedFront) std::shared_ptr<ppc::front::IFront>;
+%template(SharedNodeDiscovery) std::shared_ptr<ppc::front::INodeDiscovery>;
+
 %template(SharedFrontClient) std::shared_ptr<ppc::front::IFrontClient>;
 
 %template(SharedErrorCallback) std::shared_ptr<ppc::front::ErrorCallback>;
@@ -149,10 +157,12 @@ namespace bcos{
 %template(SharedMessageHeaderBuilder) std::shared_ptr<ppc::protocol::MessageHeaderBuilder>;
 %template(SharedMessagePayloadBuilder) std::shared_ptr<ppc::protocol::MessagePayloadBuilder>;
 %template(SharedRouteInfoBuilder) std::shared_ptr<ppc::protocol::MessageOptionalHeaderBuilder>;
+%template(SharedNodeInfo) std::shared_ptr<ppc::protocol::INodeInfo>;
 
 %template(ubytes) std::vector<uint8_t>;
 %template(ibytes) std::vector<int8_t>;
 %template(StringVec) std::vector<std::string>;
+%template(NodeInfoVec) std::vector<std::shared_ptr<ppc::protocol::INodeInfo>>;
 
 /// callbacks
 %feature("director") ppc::front::ErrorCallback;
@@ -232,6 +242,19 @@ WRAP(ppc::sdk::Transport)
 %ignore ppc::protocol::MessagePayload::setData;
 %ignore ppc::protocol::MessagePayload::setDataPtr;
 %ignore ppc::protocol::MessagePayload::dataPtr;
+%ignore ppc::front::INodeDiscovery::start;
+%ignore ppc::front::INodeDiscovery::stop;
+%ignore ppc::protocol::INodeInfo::INodeInfo;
+%ignore ppc::protocol::INodeInfo::setFront;
+%ignore ppc::protocol::INodeInfo::getFront;
+%ignore ppc::protocol::INodeInfo::components;
+%ignore ppc::protocol::INodeInfo::encode;
+%ignore ppc::protocol::INodeInfo::decode;
+%ignore ppc::protocol::INodeInfo::equal;
+%ignore ppc::protocol::INodeInfo::toJson;
+%ignore ppc::protocol::INodeInfo::setComponents;
+%ignore ppc::protocol::INodeInfoFactory;
+
 
 /*
 ///// tests  ///
@@ -248,8 +271,10 @@ WRAP(ppc::sdk::Transport)
 %include "ppc-framework/protocol/GrpcConfig.h"
 %include "ppc-framework/protocol/Message.h"
 %include "ppc-framework/protocol/MessagePayload.h"
+%include "ppc-framework/protocol/INodeInfo.h"
 
 %include "ppc-framework/front/IFront.h"
+%include "ppc-framework/front/INodeDiscovery.h"
 
 %include "wedpr-transport/sdk/src/TransportBuilder.h"
 %include "wedpr-transport/sdk/src/Transport.h"

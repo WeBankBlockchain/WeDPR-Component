@@ -16,8 +16,10 @@
 package com.webank.wedpr.sdk.jni.transport;
 
 import com.webank.wedpr.sdk.jni.common.JniLibLoader;
+import com.webank.wedpr.sdk.jni.common.ObjectMapperFactory;
 import com.webank.wedpr.sdk.jni.generated.FrontConfig;
 import com.webank.wedpr.sdk.jni.generated.TransportBuilder;
+import com.webank.wedpr.sdk.jni.transport.model.ServiceMeta;
 import com.webank.wedpr.sdk.jni.transport.model.TransportEndPoint;
 import com.webank.wedpr.sdk.jni.transport.model.TransportGrpcConfig;
 import java.util.List;
@@ -52,6 +54,7 @@ public class TransportConfig {
     private final FrontConfig frontConfig;
     private List<String> components;
     private TransportEndPoint selfEndPoint;
+    private ServiceMeta serviceMeta;
 
     public TransportConfig(Integer threadPoolSize, String nodeID) {
         this.frontConfig = transportBuilder.buildConfig(threadPoolSize, nodeID);
@@ -84,6 +87,19 @@ public class TransportConfig {
         for (String component : components) {
             this.frontConfig.addComponent(component);
         }
+    }
+
+    public void registerService(ServiceMeta serviceMeta) throws Exception {
+        if (serviceMeta == null) {
+            return;
+        }
+        this.serviceMeta = serviceMeta;
+        this.frontConfig.setMeta(
+                ObjectMapperFactory.getObjectMapper().writeValueAsString(serviceMeta));
+    }
+
+    public ServiceMeta getServiceMeta() {
+        return this.serviceMeta;
     }
 
     public FrontConfig getFrontConfig() {

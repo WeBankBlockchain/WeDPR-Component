@@ -17,6 +17,7 @@ package com.webank.wedpr.sdk.jni.transport.impl;
 
 import com.webank.wedpr.sdk.jni.common.Common;
 import com.webank.wedpr.sdk.jni.common.Constant;
+import com.webank.wedpr.sdk.jni.common.ObjectMapperFactory;
 import com.webank.wedpr.sdk.jni.common.WeDPRSDKException;
 import com.webank.wedpr.sdk.jni.generated.*;
 import com.webank.wedpr.sdk.jni.generated.Error;
@@ -28,6 +29,8 @@ import com.webank.wedpr.sdk.jni.transport.handlers.GetPeersCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
+import com.webank.wedpr.sdk.jni.transport.model.EntryPointInfo;
+import com.webank.wedpr.sdk.jni.transport.model.ServiceMeta;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -449,5 +452,36 @@ public class TransportImpl implements WeDPRTransport {
             nodeList.add(result.get(i));
         }
         return nodeList;
+    }
+
+    private void parseServiceMeta(
+            List<EntryPointInfo> entryPointInfos, String serviceName, String meta) {
+        try {
+            if (StringUtils.isBlank(meta)) {
+                return;
+            }
+            ServiceMeta serviceMeta =
+                    ObjectMapperFactory.getObjectMapper().readValue(meta, ServiceMeta.class);
+            if (serviceMeta.getServiceInfos() == null || serviceMeta.getServiceInfos().isEmpty()) {
+                return;
+            }
+            for (EntryPointInfo entryPointInfo : serviceMeta.getServiceInfos()) {
+                if (entryPointInfo.getServiceName().equalsIgnoreCase(serviceName)) {
+                    entryPointInfos.add(entryPointInfo);
+                }
+            }
+        } catch (Exception e) {
+            logger.warn("parseServiceMeta exception, meta: {}", meta, e);
+        }
+    }
+
+    @Override
+    public List<EntryPointInfo> getAliveEntryPoints(String serviceName) {
+        NodeInfoVec nodeInfoList = this.transport.getFront().getNodeDiscovery().getAliveNodeList();
+        List<EntryPointInfo> result = new ArrayList<>();
+        for (int i = 0; i < nodeInfoList.size(); i++) {
+            parseServiceMeta(result, serviceName, nodeInfoList.get(i).meta());
+        }
+        return result;
     }
 }

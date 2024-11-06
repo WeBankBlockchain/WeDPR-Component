@@ -21,4 +21,8 @@ public class wedpr_java_transport {
     public static String printMessage(Message _msg) {
         return wedpr_java_transportJNI.printMessage(Message.getCPtr(_msg), _msg);
     }
+
+    public static String printNodeInfo(INodeInfo nodeInfo) {
+        return wedpr_java_transportJNI.printNodeInfo(INodeInfo.getCPtr(nodeInfo), nodeInfo);
+    }
 }

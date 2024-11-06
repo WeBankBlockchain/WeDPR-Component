@@ -186,6 +186,36 @@ class SharedFront(object):
 _wedpr_python_transport.SharedFront_swigregister(SharedFront)
 
 
+class SharedNodeDiscovery(object):
+    thisown = property(lambda x: x.this.own(), lambda x,
+                       v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self):
+        _wedpr_python_transport.SharedNodeDiscovery_swiginit(
+            self, _wedpr_python_transport.new_SharedNodeDiscovery())
+    __swig_destroy__ = _wedpr_python_transport.delete_SharedNodeDiscovery
+
+
+# Register SharedNodeDiscovery in _wedpr_python_transport:
+_wedpr_python_transport.SharedNodeDiscovery_swigregister(SharedNodeDiscovery)
+
+
+class SharedNodeInfo(object):
+    thisown = property(lambda x: x.this.own(), lambda x,
+                       v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self):
+        _wedpr_python_transport.SharedNodeInfo_swiginit(
+            self, _wedpr_python_transport.new_SharedNodeInfo())
+    __swig_destroy__ = _wedpr_python_transport.delete_SharedNodeInfo
+
+
+# Register SharedNodeInfo in _wedpr_python_transport:
+_wedpr_python_transport.SharedNodeInfo_swigregister(SharedNodeInfo)
+
+
 class SharedFrontClient(object):
     thisown = property(lambda x: x.this.own(), lambda x,
                        v: x.this.own(v), doc="The membership flag")
@@ -735,6 +765,117 @@ class StringVec(object):
 _wedpr_python_transport.StringVec_swigregister(StringVec)
 
 
+class NodeInfoVec(object):
+    thisown = property(lambda x: x.this.own(), lambda x,
+                       v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def iterator(self):
+        return _wedpr_python_transport.NodeInfoVec_iterator(self)
+
+    def __iter__(self):
+        return self.iterator()
+
+    def __nonzero__(self):
+        return _wedpr_python_transport.NodeInfoVec___nonzero__(self)
+
+    def __bool__(self):
+        return _wedpr_python_transport.NodeInfoVec___bool__(self)
+
+    def __len__(self):
+        return _wedpr_python_transport.NodeInfoVec___len__(self)
+
+    def __getslice__(self, i, j):
+        return _wedpr_python_transport.NodeInfoVec___getslice__(self, i, j)
+
+    def __setslice__(self, *args):
+        return _wedpr_python_transport.NodeInfoVec___setslice__(self, *args)
+
+    def __delslice__(self, i, j):
+        return _wedpr_python_transport.NodeInfoVec___delslice__(self, i, j)
+
+    def __delitem__(self, *args):
+        return _wedpr_python_transport.NodeInfoVec___delitem__(self, *args)
+
+    def __getitem__(self, *args):
+        return _wedpr_python_transport.NodeInfoVec___getitem__(self, *args)
+
+    def __setitem__(self, *args):
+        return _wedpr_python_transport.NodeInfoVec___setitem__(self, *args)
+
+    def pop(self):
+        return _wedpr_python_transport.NodeInfoVec_pop(self)
+
+    def append(self, x):
+        return _wedpr_python_transport.NodeInfoVec_append(self, x)
+
+    def empty(self):
+        return _wedpr_python_transport.NodeInfoVec_empty(self)
+
+    def size(self):
+        return _wedpr_python_transport.NodeInfoVec_size(self)
+
+    def swap(self, v):
+        return _wedpr_python_transport.NodeInfoVec_swap(self, v)
+
+    def begin(self):
+        return _wedpr_python_transport.NodeInfoVec_begin(self)
+
+    def end(self):
+        return _wedpr_python_transport.NodeInfoVec_end(self)
+
+    def rbegin(self):
+        return _wedpr_python_transport.NodeInfoVec_rbegin(self)
+
+    def rend(self):
+        return _wedpr_python_transport.NodeInfoVec_rend(self)
+
+    def clear(self):
+        return _wedpr_python_transport.NodeInfoVec_clear(self)
+
+    def get_allocator(self):
+        return _wedpr_python_transport.NodeInfoVec_get_allocator(self)
+
+    def pop_back(self):
+        return _wedpr_python_transport.NodeInfoVec_pop_back(self)
+
+    def erase(self, *args):
+        return _wedpr_python_transport.NodeInfoVec_erase(self, *args)
+
+    def __init__(self, *args):
+        _wedpr_python_transport.NodeInfoVec_swiginit(
+            self, _wedpr_python_transport.new_NodeInfoVec(*args))
+
+    def push_back(self, x):
+        return _wedpr_python_transport.NodeInfoVec_push_back(self, x)
+
+    def front(self):
+        return _wedpr_python_transport.NodeInfoVec_front(self)
+
+    def back(self):
+        return _wedpr_python_transport.NodeInfoVec_back(self)
+
+    def assign(self, n, x):
+        return _wedpr_python_transport.NodeInfoVec_assign(self, n, x)
+
+    def resize(self, *args):
+        return _wedpr_python_transport.NodeInfoVec_resize(self, *args)
+
+    def insert(self, *args):
+        return _wedpr_python_transport.NodeInfoVec_insert(self, *args)
+
+    def reserve(self, n):
+        return _wedpr_python_transport.NodeInfoVec_reserve(self, n)
+
+    def capacity(self):
+        return _wedpr_python_transport.NodeInfoVec_capacity(self)
+    __swig_destroy__ = _wedpr_python_transport.delete_NodeInfoVec
+
+
+# Register NodeInfoVec in _wedpr_python_transport:
+_wedpr_python_transport.NodeInfoVec_swigregister(NodeInfoVec)
+
+
 class Error(object):
     thisown = property(lambda x: x.this.own(), lambda x,
                        v: x.this.own(v), doc="The membership flag")
@@ -860,6 +1001,12 @@ class FrontConfig(object):
 
     def mutableComponents(self):
         return _wedpr_python_transport.FrontConfig_mutableComponents(self)
+
+    def meta(self):
+        return _wedpr_python_transport.FrontConfig_meta(self)
+
+    def setMeta(self, meta):
+        return _wedpr_python_transport.FrontConfig_setMeta(self, meta)
 
 
 # Register FrontConfig in _wedpr_python_transport:
@@ -1585,6 +1732,9 @@ class IFront(IFrontClient):
     def selectNodesByRoutePolicy(self, routeType, routeInfo):
         return _wedpr_python_transport.IFront_selectNodesByRoutePolicy(self, routeType, routeInfo)
 
+    def getNodeDiscovery(self):
+        return _wedpr_python_transport.IFront_getNodeDiscovery(self)
+
 
 # Register IFront in _wedpr_python_transport:
 _wedpr_python_transport.IFront_swigregister(IFront)
@@ -1605,6 +1755,23 @@ class IFrontBuilder(object):
 
 # Register IFrontBuilder in _wedpr_python_transport:
 _wedpr_python_transport.IFrontBuilder_swigregister(IFrontBuilder)
+
+
+class INodeDiscovery(object):
+    thisown = property(lambda x: x.this.own(), lambda x,
+                       v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _wedpr_python_transport.delete_INodeDiscovery
+
+    def getAliveNodeList(self):
+        return _wedpr_python_transport.INodeDiscovery_getAliveNodeList(self)
+
+
+# Register INodeDiscovery in _wedpr_python_transport:
+_wedpr_python_transport.INodeDiscovery_swigregister(INodeDiscovery)
 SDKMode_AIR = _wedpr_python_transport.SDKMode_AIR
 SDKMode_PRO = _wedpr_python_transport.SDKMode_PRO
 
@@ -1677,3 +1844,51 @@ class Transport(object):
 
 # Register Transport in _wedpr_python_transport:
 _wedpr_python_transport.Transport_swigregister(Transport)
+
+
+class INodeInfo(object):
+    thisown = property(lambda x: x.this.own(), lambda x,
+                       v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _wedpr_python_transport.delete_INodeInfo
+
+    def endPoint(self):
+        return _wedpr_python_transport.INodeInfo_endPoint(self)
+
+    def nodeID(self):
+        return _wedpr_python_transport.INodeInfo_nodeID(self)
+
+    def setNodeID(self, nodeID):
+        return _wedpr_python_transport.INodeInfo_setNodeID(self, nodeID)
+
+    def setEndPoint(self, endPoint):
+        return _wedpr_python_transport.INodeInfo_setEndPoint(self, endPoint)
+
+    def addComponent(self, component):
+        return _wedpr_python_transport.INodeInfo_addComponent(self, component)
+
+    def eraseComponent(self, component):
+        return _wedpr_python_transport.INodeInfo_eraseComponent(self, component)
+
+    def componentExist(self, component):
+        return _wedpr_python_transport.INodeInfo_componentExist(self, component)
+
+    def copiedComponents(self):
+        return _wedpr_python_transport.INodeInfo_copiedComponents(self)
+
+    def meta(self):
+        return _wedpr_python_transport.INodeInfo_meta(self)
+
+    def setMeta(self, meta):
+        return _wedpr_python_transport.INodeInfo_setMeta(self, meta)
+
+
+# Register INodeInfo in _wedpr_python_transport:
+_wedpr_python_transport.INodeInfo_swigregister(INodeInfo)
+
+
+def printNodeInfo(nodeInfo):
+    return _wedpr_python_transport.printNodeInfo(nodeInfo)

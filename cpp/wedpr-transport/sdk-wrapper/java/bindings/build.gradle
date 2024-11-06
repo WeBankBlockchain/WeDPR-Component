@@ -20,6 +20,7 @@ ext {
     if (!project.hasProperty("ossrhPassword")) {
         ossrhPassword="xxx"
     }
+    jacksonVersion = "2.17.1"
     lombokVersion = "1.18.32"
     junitVersion = "4.13.2"
     log4jVersion = "2.23.0"
@@ -83,6 +84,7 @@ dependencies {
 
     implementation("org.projectlombok:lombok:${lombokVersion}")
     implementation("org.apache.commons:commons-lang3:${apacheCommonLangVersion}")
+	implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
     jmhImplementation ("org.openjdk.jmh:jmh-core:${jmhVersion}")
     jmhAnnotationProcessor ("org.openjdk.jmh:jmh-generator-annprocess:${jmhVersion}")
 

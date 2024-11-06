@@ -89,9 +89,9 @@ public class FrontConfig {
         return (cPtr == 0) ? null : new GrpcConfig(cPtr, true);
     }
 
-    public SWIGTYPE_p_ppc__protocol__INodeInfo__Ptr generateNodeInfo() {
-        return new SWIGTYPE_p_ppc__protocol__INodeInfo__Ptr(
-                wedpr_java_transportJNI.FrontConfig_generateNodeInfo(swigCPtr, this), true);
+    public INodeInfo generateNodeInfo() {
+        long cPtr = wedpr_java_transportJNI.FrontConfig_generateNodeInfo(swigCPtr, this);
+        return (cPtr == 0) ? null : new INodeInfo(cPtr, true);
     }
 
     public StringVec getComponents() {
@@ -111,6 +111,14 @@ public class FrontConfig {
     public StringVec mutableComponents() {
         return new StringVec(
                 wedpr_java_transportJNI.FrontConfig_mutableComponents(swigCPtr, this), false);
+    }
+
+    public String meta() {
+        return wedpr_java_transportJNI.FrontConfig_meta(swigCPtr, this);
+    }
+
+    public void setMeta(String meta) {
+        wedpr_java_transportJNI.FrontConfig_setMeta(swigCPtr, this, meta);
     }
 
     public void disOwnMemory() {
