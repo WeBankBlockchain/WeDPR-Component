@@ -82,10 +82,11 @@ public:
     {
         auto aliveNodeList = m_localRouter->routerInfo()->nodeList();
         std::vector<ppc::protocol::INodeInfo::Ptr> result;
-        for (auto& it : aliveNodeList)
+        for (auto const& it : aliveNodeList)
         {
-            result.emplace_back(std::move(it.second));
+            result.emplace_back(it.second);
         }
+        return result;
     }
 
 protected:

@@ -12,7 +12,7 @@ from wedpr_python_gateway_sdk.transport.api.transport_api import TransportAPI
 from wedpr_python_gateway_sdk.transport.impl.transport_config import TransportConfig
 import random
 from wedpr_python_gateway_sdk.transport.api.transport_api import EntryPointInfo
-from wedpr_python_gateway_sdk.transport.api.transport_api import str_to_service_meta
+from wedpr_python_gateway_sdk.transport.api.transport_api import ServiceMeta
 from enum import Enum
 import signal
 
@@ -126,18 +126,18 @@ class Transport(TransportAPI):
         result = self.__transport.getFront().unRegisterComponent(component)
         Transport.check_result("unregister_component", result)
 
-    def get_alive_entrypoints(self, service_name: str) -> list[EntryPointInfo]:
+    def get_alive_entrypoints(self, service_name: str) -> [EntryPointInfo]:
         alive_entrypoints = []
         alive_node_list = self.__transport.getFront().getNodeDiscovery().getAliveNodeList()
         if alive_node_list is None or len(alive_node_list) == 0:
             return alive_entrypoints
         for i in range(0, len(alive_node_list)):
             alive_node_info = alive_node_list[i]
-            service_meta = str_to_service_meta(alive_node_info.meta())
-            if service_meta is None or service_meta.entrypoints_info is None or len(service_meta.entrypoints_info) == 0:
+            service_meta = ServiceMeta.decode(alive_node_info.meta())
+            if service_meta is None or service_meta.serviceInfos is None or len(service_meta.serviceInfos) == 0:
                 continue
-            for entrypoint_info in service_meta.entrypoints_info:
-                if entrypoint_info.service_name.lower() == service_name.lower():
+            for entrypoint_info in service_meta.serviceInfos:
+                if entrypoint_info.serviceName.lower() == service_name.lower():
                     alive_entrypoints.append(entrypoint_info)
         return alive_entrypoints
 

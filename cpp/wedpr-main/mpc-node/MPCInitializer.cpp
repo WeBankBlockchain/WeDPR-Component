@@ -26,6 +26,7 @@ using namespace bcos;
 using namespace ppc::mpc;
 using namespace ppc::tools;
 
+/// TODO: mpc support the gateway
 void MPCInitializer::init(std::string const& _configPath)
 {
     // init the log
@@ -40,7 +41,6 @@ void MPCInitializer::init(std::string const& _configPath)
     INIT_LOG(INFO) << LOG_DESC("init the rpc");
     // load the rpc config
     auto ppcConfig = std::make_shared<PPCConfig>();
-    // not specify the certPath in air-mode
     ppcConfig->loadRpcConfig(pt);
     ppcConfig->loadMPCConfig(pt);
     // bool useMysql = pt.get<bool>("mpc.use_mysql", false);

@@ -21,7 +21,7 @@ import com.webank.wedpr.sdk.jni.transport.handlers.MessageCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
 import com.webank.wedpr.sdk.jni.transport.impl.RouteType;
-import com.webank.wedpr.sdk.jni.transport.model.EntryPointInfo;
+import com.webank.wedpr.sdk.jni.transport.model.ServiceMeta;
 import java.util.List;
 
 public interface WeDPRTransport {
@@ -189,5 +189,5 @@ public interface WeDPRTransport {
     List<String> selectNodeListByPolicy(
             RouteType routeType, String dstInst, String dstComponent, String dstNode);
 
-    List<EntryPointInfo> getAliveEntryPoints(String serviceName);
+    List<ServiceMeta.EntryPointMeta> getAliveEntryPoints(String serviceName);
 }

@@ -192,7 +192,6 @@ namespace bcos{
 %ignore ppc::protocol::INodeInfo::toJson;
 %ignore ppc::protocol::INodeInfo::setComponents;
 %ignore ppc::protocol::INodeInfoFactory;
-
 /*
 ///// tests  ///
 %inline {

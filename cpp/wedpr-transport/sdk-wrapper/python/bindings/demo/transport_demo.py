@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-# Note: here can't be refactored by autopep
 import sys
 import os
+# Note: here can't be refactored by autopep
 root_path = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(root_path, "../"))
 # Note: here can't be refactored by autopep
 
-import time
-from wedpr_python_gateway_sdk.transport.impl.transport_loader import TransportLoader
-from wedpr_python_gateway_sdk.transport.impl.transport_config import TransportConfig
-from wedpr_python_gateway_sdk.transport.impl.transport import Transport
-from wedpr_python_gateway_sdk.transport.impl.transport import RouteType
-import traceback
 import argparse
+import traceback
+from wedpr_python_gateway_sdk.transport.impl.transport import RouteType
+from wedpr_python_gateway_sdk.transport.impl.transport import Transport
+from wedpr_python_gateway_sdk.transport.impl.transport_config import TransportConfig
+from wedpr_python_gateway_sdk.transport.impl.transport_loader import TransportLoader
+import time
+
 
 
 def parse_args():
@@ -40,6 +41,13 @@ def message_event_loop(args):
         int(args.threadpool_size), args.node_id, args.gateway_targets)
     transport_config.set_self_endpoint(
         args.host_ip, int(args.listen_port), "0.0.0.0")
+    # def register_service_info(self, service, entrypoint):
+    service_name = "python_service_demo"
+    entrypoint = f"{args.host_ip}:{args.listen_port}"
+    transport_config.register_service_info(service_name, entrypoint)
+    service_name2 = "python_service_demo2"
+    transport_config.register_service_info(service_name2, entrypoint)
+
     transport = TransportLoader.load(transport_config)
     print(f"Create transport success, config: {transport_config.desc()}")
     transport.start()
@@ -49,6 +57,11 @@ def message_event_loop(args):
     test_topic = "sync_message_event_loop_test"
     while Transport.should_exit is False:
         try:
+            # fetch the alive entrypoints
+            alive_endpoint = transport.get_alive_entrypoints(service_name)
+            print(f"##### alive_endpoint: {alive_endpoint}")
+            alive_endpoint2 = transport.get_alive_entrypoints(service_name2)
+            print(f"##### alive_endpoint2: {alive_endpoint2}")
             payload = b"test"
             transport.push_by_nodeid(topic=test_topic, dstNode=bytes(args.dst_node, encoding="utf-8"),
                                      seq=0, payload=payload, timeout=6000)

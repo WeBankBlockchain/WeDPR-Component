@@ -32,6 +32,7 @@
 //TODO: optimize here to implement EcdhConnPSI
 #include "ppc-psi/src/ecdh-conn-psi/EcdhConnPSIFactory.h"
 #endif
+#include "ppc-framework/protocol/ServiceType.h"
 #include "ppc-front/Front.h"
 #include "ppc-front/FrontConfigImpl.h"
 #include "ppc-psi/src/ecdh-multi-psi/EcdhMultiPSIFactory.h"
@@ -50,6 +51,7 @@ using namespace ppc::pir;
 using namespace ppc::tools;
 using namespace ppc::crypto;
 using namespace ppc::sdk;
+using namespace ppc::protocol;
 
 Initializer::Initializer(ppc::protocol::NodeArch _arch, std::string const& _configPath)
   : m_arch((uint16_t)_arch), m_configPath(_configPath)
@@ -82,6 +84,14 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
 
     // Note: must set the  m_holdingMessageMinutes before init the node
     TransportBuilder transportBuilder;
+    // register the serviceInfo
+    auto serviceConfig = m_serviceConfigBuilder.buildServiceConfig();
+    auto entryPoint =
+        m_serviceConfigBuilder.buildEntryPoint(PSI_SERVICE_TYPE, m_config->accessEntrypoint());
+    serviceConfig.addEntryPoint(entryPoint);
+    auto serviceMeta = serviceConfig.encode();
+    m_config->frontConfig()->setMeta(serviceMeta);
+    INIT_LOG(INFO) << LOG_DESC("register serviceMeta") << LOG_KV("serviceMeta", serviceMeta);
     if (m_arch == (uint16_t)ppc::protocol::NodeArch::AIR)
     {
         m_transport = transportBuilder.build(SDKMode::AIR, m_config->frontConfig(), gateway);

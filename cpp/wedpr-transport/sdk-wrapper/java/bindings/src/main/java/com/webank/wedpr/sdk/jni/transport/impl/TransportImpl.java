@@ -29,7 +29,6 @@ import com.webank.wedpr.sdk.jni.transport.handlers.GetPeersCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
-import com.webank.wedpr.sdk.jni.transport.model.EntryPointInfo;
 import com.webank.wedpr.sdk.jni.transport.model.ServiceMeta;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -455,7 +454,7 @@ public class TransportImpl implements WeDPRTransport {
     }
 
     private void parseServiceMeta(
-            List<EntryPointInfo> entryPointInfos, String serviceName, String meta) {
+            List<ServiceMeta.EntryPointMeta> entryPointInfos, String serviceName, String meta) {
         try {
             if (StringUtils.isBlank(meta)) {
                 return;
@@ -465,9 +464,9 @@ public class TransportImpl implements WeDPRTransport {
             if (serviceMeta.getServiceInfos() == null || serviceMeta.getServiceInfos().isEmpty()) {
                 return;
             }
-            for (EntryPointInfo entryPointInfo : serviceMeta.getServiceInfos()) {
-                if (entryPointInfo.getServiceName().equalsIgnoreCase(serviceName)) {
-                    entryPointInfos.add(entryPointInfo);
+            for (ServiceMeta.EntryPointMeta entryPointMeta : serviceMeta.getServiceInfos()) {
+                if (entryPointMeta.getServiceName().equalsIgnoreCase(serviceName)) {
+                    entryPointInfos.add(entryPointMeta);
                 }
             }
         } catch (Exception e) {
@@ -476,9 +475,9 @@ public class TransportImpl implements WeDPRTransport {
     }
 
     @Override
-    public List<EntryPointInfo> getAliveEntryPoints(String serviceName) {
+    public List<ServiceMeta.EntryPointMeta> getAliveEntryPoints(String serviceName) {
         NodeInfoVec nodeInfoList = this.transport.getFront().getNodeDiscovery().getAliveNodeList();
-        List<EntryPointInfo> result = new ArrayList<>();
+        List<ServiceMeta.EntryPointMeta> result = new ArrayList<>();
         for (int i = 0; i < nodeInfoList.size(); i++) {
             parseServiceMeta(result, serviceName, nodeInfoList.get(i).meta());
         }

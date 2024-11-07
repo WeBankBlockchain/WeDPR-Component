@@ -48,6 +48,8 @@ void AirNodeInitializer::init(std::string const& _configPath)
 
     // init the node
     m_nodeInitializer = std::make_shared<Initializer>(ppc::protocol::NodeArch::AIR, _configPath);
+    // load the rpc config
+    m_nodeInitializer->config()->loadRpcConfig(pt);
 
     // init the gateway
     initGateway(_configPath);
@@ -59,9 +61,6 @@ void AirNodeInitializer::init(std::string const& _configPath)
     m_gateway->registerNodeInfo(m_nodeInitializer->config()->frontConfig()->generateNodeInfo());
 
     INIT_LOG(INFO) << LOG_DESC("init the rpc");
-    // load the rpc config
-    // not specify the certPath in air-mode
-    m_nodeInitializer->config()->loadRpcConfig(pt);
     // init RpcStatusInterface
     RpcStatusInterface::Ptr rpcStatusInterface = std::make_shared<ppc::rpc::RpcMemory>();
 

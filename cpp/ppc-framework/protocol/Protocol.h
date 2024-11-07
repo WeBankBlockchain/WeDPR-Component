@@ -481,18 +481,4 @@ struct FileInfo
         return oss.str();
     }
 };
-
-const std::string FRONT_NAME = "Front";
-const std::string FRONT_SERVANT_NAME = "FrontServiceObj";
-const std::string FRONT_SERVICE_NAME = "FrontService";
-
-const std::string GATEWAY_NAME = "Gateway";
-const std::string GATEWAY_SERVANT_NAME = "GatewayServiceObj";
-const std::string GATEWAY_SERVICE_NAME = "GatewayService";
-
-inline std::string getPrxDesc(std::string const& _serviceName, std::string const& _objName)
-{
-    return _serviceName + "." + _objName;
-}
-
 }  // namespace ppc::protocol

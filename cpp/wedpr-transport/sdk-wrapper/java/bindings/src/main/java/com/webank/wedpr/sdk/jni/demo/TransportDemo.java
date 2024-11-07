@@ -25,7 +25,6 @@ import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
 import com.webank.wedpr.sdk.jni.transport.impl.RouteType;
 import com.webank.wedpr.sdk.jni.transport.impl.TransportImpl;
-import com.webank.wedpr.sdk.jni.transport.model.EntryPointInfo;
 import com.webank.wedpr.sdk.jni.transport.model.ServiceMeta;
 import com.webank.wedpr.sdk.jni.transport.model.TransportEndPoint;
 import java.util.List;
@@ -130,11 +129,9 @@ public class TransportDemo {
         String listenIp = "0.0.0.0";
         TransportEndPoint endPoint = new TransportEndPoint(hostIp, listenIp, listenPort);
         transportConfig.setSelfEndPoint(endPoint);
-        ServiceMeta serviceMeta = new ServiceMeta();
         String serviceName = "Service_Transport_DEMO";
         String entrypPoint = hostIp + ":" + listenPort;
-        serviceMeta.addServiceInfo(new EntryPointInfo(serviceName, entrypPoint));
-        transportConfig.registerService(serviceMeta);
+        transportConfig.registerService(serviceName, entrypPoint);
 
         String grpcTarget = "ipv4:127.0.0.1:40600,127.0.0.1:40601";
         if (args.length > 3) {
@@ -167,6 +164,10 @@ public class TransportDemo {
         String syncTopic = "sync_" + topic;
         while (true) {
             try {
+                // fetch the alive service information
+                List<ServiceMeta.EntryPointMeta> result =
+                        transport.getAliveEntryPoints(serviceName);
+                System.out.println("#### getAliveEntryPoints, result: " + StringUtils.join(result));
                 String payLoad = "testPayload" + i;
                 // send Message by nodeID
                 transport.asyncSendMessageByNodeID(
@@ -197,9 +198,6 @@ public class TransportDemo {
                                 RouteType.ROUTE_THROUGH_COMPONENT, null, component, null);
                 System.out.println(
                         "###### selectNodeListByPolicy result: " + StringUtils.join(nodeList, ","));
-                // fetch the alive service information
-                List<EntryPointInfo> result = transport.getAliveEntryPoints(serviceName);
-                System.out.println("#### getAliveEntryPoints, result: " + StringUtils.join(result));
                 i++;
             } catch (Exception e) {
                 System.out.println("#### exception: " + e.getMessage());

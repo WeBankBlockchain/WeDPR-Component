@@ -243,6 +243,11 @@ public:
 
     uint16_t seqSyncPeriod() const { return m_seqSyncPeriod; }
 
+    std::string accessEntrypoint() const
+    {
+        return m_frontConfig->selfEndPoint().host() + ":" + std::to_string(m_rpcConfig.listenPort);
+    }
+
 private:
     virtual void loadEndpointConfig(ppc::protocol::EndPoint& endPoint, bool requireHostIp,
         std::string const& sectionName, boost::property_tree::ptree const& pt);

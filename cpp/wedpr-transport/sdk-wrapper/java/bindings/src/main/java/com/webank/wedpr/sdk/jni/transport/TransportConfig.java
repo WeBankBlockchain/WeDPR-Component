@@ -54,7 +54,7 @@ public class TransportConfig {
     private final FrontConfig frontConfig;
     private List<String> components;
     private TransportEndPoint selfEndPoint;
-    private ServiceMeta serviceMeta;
+    private ServiceMeta serviceMeta = new ServiceMeta();
 
     public TransportConfig(Integer threadPoolSize, String nodeID) {
         this.frontConfig = transportBuilder.buildConfig(threadPoolSize, nodeID);
@@ -89,11 +89,15 @@ public class TransportConfig {
         }
     }
 
-    public void registerService(ServiceMeta serviceMeta) throws Exception {
-        if (serviceMeta == null) {
-            return;
+    public void registerService(ServiceMeta serviceMeta) {
+        if (serviceMeta != null) {
+            this.serviceMeta = serviceMeta;
         }
-        this.serviceMeta = serviceMeta;
+    }
+
+    public void registerService(String serviceName, String entryPoint) throws Exception {
+        serviceMeta.addEntryPoint(new ServiceMeta.EntryPointMeta(serviceName, entryPoint));
+        // update the meta
         this.frontConfig.setMeta(
                 ObjectMapperFactory.getObjectMapper().writeValueAsString(serviceMeta));
     }
