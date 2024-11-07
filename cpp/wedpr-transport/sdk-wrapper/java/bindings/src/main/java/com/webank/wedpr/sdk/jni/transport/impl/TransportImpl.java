@@ -483,4 +483,22 @@ public class TransportImpl implements WeDPRTransport {
         }
         return result;
     }
+
+    @Override
+    public void registerService(String serviceName, String entryPoint) throws Exception {
+        transportConfig
+                .getServiceMeta()
+                .addEntryPoint(new ServiceMeta.EntryPointMeta(serviceName, entryPoint));
+        // update the meta
+        this.transport
+                .getFront()
+                .updateMetaInfo(
+                        ObjectMapperFactory.getObjectMapper()
+                                .writeValueAsString(transportConfig.getServiceMeta()));
+    }
+
+    @Override
+    public TransportConfig getTransportConfig() {
+        return transportConfig;
+    }
 }

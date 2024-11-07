@@ -186,6 +186,7 @@ public:
     }
 
     INodeDiscovery::Ptr const getNodeDiscovery() override { return m_nodeDiscovery; }
+    void updateMetaInfo(std::string const& meta) override;
 
 private:
     void asyncSendMessageToGateway(bool responsePacket,

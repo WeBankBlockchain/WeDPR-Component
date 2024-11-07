@@ -36,7 +36,7 @@ public:
 
     virtual ~EntryPointInfo() = default;
 
-    virtual void encode(Json::Value json) const;
+    virtual void encode(Json::Value& json) const;
 
     virtual void decode(Json::Value const& jsonObject);
 

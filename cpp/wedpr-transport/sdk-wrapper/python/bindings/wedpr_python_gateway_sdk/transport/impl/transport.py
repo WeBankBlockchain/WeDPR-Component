@@ -32,6 +32,7 @@ class Transport(TransportAPI):
         self.__transport_config = transport_config
         self.__route_info_builder = RouteInfoBuilder(
             self.__transport.routeInfoBuilder())
+        self.service_meta = transport_config.service_meta
 
     def get_config(self) -> TransportConfig:
         return self.__transport_config
@@ -140,6 +141,11 @@ class Transport(TransportAPI):
                 if entrypoint_info.serviceName.lower() == service_name.lower():
                     alive_entrypoints.append(entrypoint_info)
         return alive_entrypoints
+
+    def register_service_info(self, service, entrypoint):
+        self.service_meta.serviceInfos.append(EntryPointInfo(
+            service_name=service, entrypoint=entrypoint))
+        self.__transport.getFront().updateMetaInfo(self.service_meta.encode())
 
 
 def signal_handler(sig, frame):

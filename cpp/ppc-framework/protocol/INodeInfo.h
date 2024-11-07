@@ -61,11 +61,10 @@ public:
 
     virtual bool equal(INodeInfo::Ptr const& info)
     {
-        return (nodeID().toBytes() == info->nodeID().toBytes()) &&
-               (copiedComponents() == info->copiedComponents());
+        return (nodeID().toBytes() == info->nodeID().toBytes()) && (endPoint() == info->endPoint());
     }
 
-    virtual std::string const& meta() const = 0;
+    virtual std::string meta() const = 0;
     // the node meta information
     virtual void setMeta(std::string const& meta) = 0;
     virtual void toJson(Json::Value& jsonObject) const = 0;
@@ -96,7 +95,7 @@ inline std::string printNodeInfo(INodeInfo::Ptr const& nodeInfo)
     {
         components = components + it + ",";
     }
-    stringstream << LOG_KV("components", components);
+    stringstream << LOG_KV("components", components) << LOG_KV("meta", nodeInfo->meta());
     return stringstream.str();
 }
 }  // namespace ppc::protocol

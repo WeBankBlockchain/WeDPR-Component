@@ -257,6 +257,8 @@ public:
     virtual void registerComponent(std::string const& component) = 0;
     virtual void unRegisterComponent(std::string const& component) = 0;
 
+    virtual void updateMetaInfo(std::string const& meta) = 0;
+
     // get the target nodeList according to the routeInfo
     virtual std::vector<std::string> selectNodesByRoutePolicy(
         int16_t routeType, ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) = 0;

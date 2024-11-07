@@ -109,3 +109,7 @@ class TransportAPI(ABC):
     @abstractmethod
     def get_alive_entrypoints(self, service_name: str) -> [EntryPointInfo]:
         pass
+
+    @abstractmethod
+    def register_service_info(self, service, entrypoint):
+        pass

@@ -308,6 +308,13 @@ void FrontImpl::registerComponent(std::string const& component)
                     << LOG_KV("insert", ret);
 }
 
+void FrontImpl::updateMetaInfo(std::string const& meta)
+{
+    // Note: the node will report the latest components
+    m_nodeInfo->setMeta(meta);
+    FRONT_LOG(INFO) << LOG_DESC("updateMetaInfo") << LOG_KV("meta", meta);
+}
+
 void FrontImpl::unRegisterComponent(std::string const& component)
 {
     // Note: the node will report the latest components

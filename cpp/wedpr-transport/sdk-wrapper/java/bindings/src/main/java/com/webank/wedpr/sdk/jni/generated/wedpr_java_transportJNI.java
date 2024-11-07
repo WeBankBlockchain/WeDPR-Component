@@ -822,6 +822,8 @@ public class wedpr_java_transportJNI {
     public static final native void IFront_unRegisterComponent(
             long jarg1, IFront jarg1_, String jarg2);
 
+    public static final native void IFront_updateMetaInfo(long jarg1, IFront jarg1_, String jarg2);
+
     public static final native long IFront_selectNodesByRoutePolicy(
             long jarg1, IFront jarg1_, short jarg2, long jarg3, MessageOptionalHeader jarg3_);
 

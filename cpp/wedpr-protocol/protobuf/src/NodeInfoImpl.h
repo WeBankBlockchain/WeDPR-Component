@@ -123,9 +123,17 @@ public:
 
     void toJson(Json::Value& jsonObject) const override;
 
-    std::string const& meta() const override { return m_rawNodeInfo->meta(); }
+    std::string meta() const override
+    {
+        bcos::ReadGuard l(x_rawNodeInfo);
+        return m_rawNodeInfo->meta();
+    }
     // the node meta information
-    void setMeta(std::string const& meta) override { m_rawNodeInfo->set_meta(meta); }
+    void setMeta(std::string const& meta) override
+    {
+        bcos::WriteGuard l(x_rawNodeInfo);
+        m_rawNodeInfo->set_meta(meta);
+    }
 
     virtual void encodeFields() const;
 
@@ -136,7 +144,9 @@ private:
     std::shared_ptr<ppc::front::IFrontClient> m_front;
     std::set<std::string> m_components;
     mutable bcos::SharedMutex x_components;
+
     std::shared_ptr<ppc::proto::NodeInfo> m_rawNodeInfo;
+    mutable bcos::SharedMutex x_rawNodeInfo;
 };
 
 class NodeInfoFactory : public INodeInfoFactory

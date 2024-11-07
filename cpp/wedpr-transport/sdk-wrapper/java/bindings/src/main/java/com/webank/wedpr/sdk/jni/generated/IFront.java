@@ -190,6 +190,10 @@ public class IFront extends IFrontClient {
         wedpr_java_transportJNI.IFront_unRegisterComponent(swigCPtr, this, component);
     }
 
+    public void updateMetaInfo(String meta) {
+        wedpr_java_transportJNI.IFront_updateMetaInfo(swigCPtr, this, meta);
+    }
+
     public StringVec selectNodesByRoutePolicy(short routeType, MessageOptionalHeader routeInfo) {
         return new StringVec(
                 wedpr_java_transportJNI.IFront_selectNodesByRoutePolicy(

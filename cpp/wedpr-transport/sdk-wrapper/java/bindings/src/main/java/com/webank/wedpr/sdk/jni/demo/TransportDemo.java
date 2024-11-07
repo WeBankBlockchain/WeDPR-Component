@@ -162,12 +162,22 @@ public class TransportDemo {
         // every 2s send a message
         Integer i = 0;
         String syncTopic = "sync_" + topic;
+        // update the service information
+        String serviceName2 = "Service_Transport_DEMO2";
+        transport.registerService(serviceName2, entrypPoint);
         while (true) {
             try {
                 // fetch the alive service information
                 List<ServiceMeta.EntryPointMeta> result =
                         transport.getAliveEntryPoints(serviceName);
-                System.out.println("#### getAliveEntryPoints, result: " + StringUtils.join(result));
+                System.out.println(
+                        "#### getAliveEntryPoints1, result: " + StringUtils.join(result));
+
+                List<ServiceMeta.EntryPointMeta> result2 =
+                        transport.getAliveEntryPoints(serviceName2);
+                System.out.println(
+                        "#### getAliveEntryPoints2, result2: " + StringUtils.join(result2));
+
                 String payLoad = "testPayload" + i;
                 // send Message by nodeID
                 transport.asyncSendMessageByNodeID(

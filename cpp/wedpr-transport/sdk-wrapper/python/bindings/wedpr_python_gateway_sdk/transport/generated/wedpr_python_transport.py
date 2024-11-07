@@ -1729,6 +1729,9 @@ class IFront(IFrontClient):
     def unRegisterComponent(self, component):
         return _wedpr_python_transport.IFront_unRegisterComponent(self, component)
 
+    def updateMetaInfo(self, meta):
+        return _wedpr_python_transport.IFront_updateMetaInfo(self, meta)
+
     def selectNodesByRoutePolicy(self, routeType, routeInfo):
         return _wedpr_python_transport.IFront_selectNodesByRoutePolicy(self, routeType, routeInfo)
 

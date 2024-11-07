@@ -190,4 +190,8 @@ public interface WeDPRTransport {
             RouteType routeType, String dstInst, String dstComponent, String dstNode);
 
     List<ServiceMeta.EntryPointMeta> getAliveEntryPoints(String serviceName);
+
+    void registerService(String serviceName, String entryPoint) throws Exception;
+
+    public TransportConfig getTransportConfig();
 }

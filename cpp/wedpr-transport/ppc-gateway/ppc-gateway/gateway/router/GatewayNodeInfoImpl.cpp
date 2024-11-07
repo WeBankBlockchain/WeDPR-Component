@@ -95,6 +95,23 @@ bool GatewayNodeInfoImpl::tryAddNodeInfo(INodeInfo::Ptr const& info)
     // the node info has not been updated
     if (existedNodeInfo != nullptr && existedNodeInfo->equal(info))
     {
+        auto meta = info->meta();
+        // update the meta
+        if (meta != existedNodeInfo->meta())
+        {
+            existedNodeInfo->setMeta(meta);
+            GATEWAY_LOG(INFO) << LOG_DESC("tryAddNodeInfo, update the meta, updated nodeInfo")
+                              << printNodeInfo(existedNodeInfo);
+        }
+        // update the components
+        auto components = info->copiedComponents();
+        if (components != existedNodeInfo->copiedComponents())
+        {
+            existedNodeInfo->setComponents(
+                std::set<std::string>(components.begin(), components.end()));
+            GATEWAY_LOG(INFO) << LOG_DESC("tryAddNodeInfo, update the components, updated nodeInfo")
+                              << printNodeInfo(existedNodeInfo);
+        }
         return false;
     }
     {

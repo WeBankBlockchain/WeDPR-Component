@@ -6,14 +6,13 @@ root_path = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(root_path, "../"))
 # Note: here can't be refactored by autopep
 
-import argparse
-import traceback
-from wedpr_python_gateway_sdk.transport.impl.transport import RouteType
-from wedpr_python_gateway_sdk.transport.impl.transport import Transport
-from wedpr_python_gateway_sdk.transport.impl.transport_config import TransportConfig
-from wedpr_python_gateway_sdk.transport.impl.transport_loader import TransportLoader
 import time
-
+from wedpr_python_gateway_sdk.transport.impl.transport_loader import TransportLoader
+from wedpr_python_gateway_sdk.transport.impl.transport_config import TransportConfig
+from wedpr_python_gateway_sdk.transport.impl.transport import Transport
+from wedpr_python_gateway_sdk.transport.impl.transport import RouteType
+import traceback
+import argparse
 
 
 def parse_args():
@@ -55,6 +54,9 @@ def message_event_loop(args):
     transport.register_component(component)
     print(f"Start transport success")
     test_topic = "sync_message_event_loop_test"
+    # register service after start
+    service_name3 = "python_service_demo3"
+    transport.register_service_info(service_name3, entrypoint)
     while Transport.should_exit is False:
         try:
             # fetch the alive entrypoints
@@ -62,6 +64,8 @@ def message_event_loop(args):
             print(f"##### alive_endpoint: {alive_endpoint}")
             alive_endpoint2 = transport.get_alive_entrypoints(service_name2)
             print(f"##### alive_endpoint2: {alive_endpoint2}")
+            alive_endpoint3 = transport.get_alive_entrypoints(service_name3)
+            print(f"##### alive_endpoint3: {alive_endpoint3}")
             payload = b"test"
             transport.push_by_nodeid(topic=test_topic, dstNode=bytes(args.dst_node, encoding="utf-8"),
                                      seq=0, payload=payload, timeout=6000)

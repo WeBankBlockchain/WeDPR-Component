@@ -23,7 +23,7 @@
 using namespace ppc::protocol;
 
 
-void EntryPointInfo::encode(Json::Value json) const
+void EntryPointInfo::encode(Json::Value& json) const
 {
     json["serviceName"] = m_serviceName;
     json["entryPoint"] = m_entryPoint;

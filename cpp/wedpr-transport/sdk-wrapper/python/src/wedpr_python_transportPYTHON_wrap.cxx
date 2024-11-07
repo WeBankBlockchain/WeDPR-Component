@@ -25197,6 +25197,55 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_IFront_updateMetaInfo(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::front::IFront > tempshared1 ;
+  std::shared_ptr< ppc::front::IFront > *smartarg1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "IFront_updateMetaInfo", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__front__IFront_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IFront_updateMetaInfo" "', argument " "1"" of type '" "ppc::front::IFront *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::front::IFront > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::front::IFront > * >(argp1);
+      arg1 = const_cast< ppc::front::IFront * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::front::IFront > * >(argp1);
+      arg1 = const_cast< ppc::front::IFront * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    std::string *ptr = (std::string *)0;
+    res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IFront_updateMetaInfo" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IFront_updateMetaInfo" "', argument " "2"" of type '" "std::string const &""'"); 
+    }
+    arg2 = ptr;
+  }
+  (arg1)->updateMetaInfo((std::string const &)*arg2);
+  resultobj = SWIG_Py_Void();
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res2)) delete arg2;
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_IFront_selectNodesByRoutePolicy(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   ppc::front::IFront *arg1 = (ppc::front::IFront *) 0 ;
@@ -27078,6 +27127,7 @@ static PyMethodDef SwigMethods[] = {
 		""},
 	 { "IFront_registerComponent", _wrap_IFront_registerComponent, METH_VARARGS, NULL},
 	 { "IFront_unRegisterComponent", _wrap_IFront_unRegisterComponent, METH_VARARGS, NULL},
+	 { "IFront_updateMetaInfo", _wrap_IFront_updateMetaInfo, METH_VARARGS, NULL},
 	 { "IFront_selectNodesByRoutePolicy", _wrap_IFront_selectNodesByRoutePolicy, METH_VARARGS, NULL},
 	 { "IFront_getNodeDiscovery", _wrap_IFront_getNodeDiscovery, METH_O, NULL},
 	 { "IFront_swigregister", IFront_swigregister, METH_O, NULL},
