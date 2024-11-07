@@ -19,6 +19,8 @@ from ppc_model.log.log_retriever import LogRetriever
 
 
 class Initializer:
+    MODEL_SERVICE_NAME = "MODEL"
+
     def __init__(self, log_config_path, config_path, plot_lock=None):
         self.log_config_path = log_config_path
         logging.config.fileConfig(self.log_config_path)
@@ -85,9 +87,17 @@ class Initializer:
                        send_msg_timeout_ms: int,
                        pop_msg_timeout_ms: int):
         # create the transport
-        transport = TransportLoader.build(**self.config_data)
+        transport_config = TransportLoader.build_config(**self.config_data)
+        listen_port = self.config_data["HTTP_PORT"]
+        access_entrypoint = f"{transport_config.get_self_endpoint().host()}:{listen_port}"
+        if not access_entrypoint.startswith("http://"):
+            access_entrypoint = f"http://{access_entrypoint}"
+        # register the access_entrypoint information
+        transport_config.register_service_info(
+            Initializer.MODEL_SERVICE_NAME, access_entrypoint)
+        transport = TransportLoader.load(transport_config)
         self.logger(
-            f"Create transport success, config: {transport.get_config().desc()}")
+            f"Create transport success, config: {transport.get_config().desc()}, access_entrypoint: {access_entrypoint}")
         # start the transport
         transport.start()
         self.logger().info(

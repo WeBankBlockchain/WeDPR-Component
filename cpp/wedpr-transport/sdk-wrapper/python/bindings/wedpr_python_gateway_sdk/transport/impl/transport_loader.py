@@ -55,12 +55,12 @@ class TransportLoader:
         return Transport(transport, transport_config)
 
     @staticmethod
-    def build(transport_threadpool_size: int = 4,
-              transport_node_id: str = None,
-              transport_gateway_targets: str = None,
-              transport_host_ip: str = None,
-              transport_listen_port: int = None,
-              **params):
+    def build_config(transport_threadpool_size: int = 4,
+                     transport_node_id: str = None,
+                     transport_gateway_targets: str = None,
+                     transport_host_ip: str = None,
+                     transport_listen_port: int = None,
+                     **params) -> TransportConfig:
         config = TransportConfigObject(transport_threadpool_size,
                                        transport_node_id,
                                        transport_gateway_targets,
@@ -74,5 +74,19 @@ class TransportLoader:
         transport_config.set_self_endpoint(config.transport_host_ip,
                                            config.transport_listen_port,
                                            config.transport_listen_ip)
+        return transport_config
 
+    @staticmethod
+    def build(transport_threadpool_size: int = 4,
+              transport_node_id: str = None,
+              transport_gateway_targets: str = None,
+              transport_host_ip: str = None,
+              transport_listen_port: int = None,
+              **params):
+        transport_config = TransportLoader.build_config(transport_threadpool_size,
+                                                        transport_node_id,
+                                                        transport_gateway_targets,
+                                                        transport_host_ip,
+                                                        transport_listen_port,
+                                                        **params)
         return TransportLoader.load(transport_config)

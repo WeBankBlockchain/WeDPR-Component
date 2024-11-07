@@ -64,4 +64,5 @@ class TransportConfig:
         return f"thread_pool_size: {self.get_thread_pool_size()}, \
                 nodeID: {self.get_node_id()}, \
                 gatewayTargets: {self.get_gateway_targets()}, \
-                endPoint: {self.get_self_endpoint().entryPoint()}"
+                endPoint: {self.get_self_endpoint().entryPoint()}," \
+               f"serviceMeta: {self.service_meta}"
