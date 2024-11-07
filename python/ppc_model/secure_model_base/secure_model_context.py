@@ -144,18 +144,18 @@ class SecureModelContext(Context):
             self.remote_psi_path = args['psi_result_path']
         if self.remote_psi_path is None:
             raise f"Must define the psi_result_path"
+        self.model_params = self.create_model_param()
+        self.reset_model_params(ModelSetting(args['model_dict']))
         # prepare the dataset and psi file
         BaseContext.load_file(storage_client=self.components.storage_client,
                               remote_path=self.remote_dataset_path,
                               local_path=self.dataset_file_path,
                               logger=self.components.logger())
-        BaseContext.load_file(storage_client=self.components.storage_client,
-                              remote_path=self.remote_psi_path,
-                              local_path=self.psi_result_path,
-                              logger=self.components.logger())
-
-        self.model_params = self.create_model_param()
-        self.reset_model_params(ModelSetting(args['model_dict']))
+        if self.model_params.use_psi:
+            BaseContext.load_file(storage_client=self.components.storage_client,
+                                  remote_path=self.remote_psi_path,
+                                  local_path=self.psi_result_path,
+                                  logger=self.components.logger())
         self.sync_file_list = {}
         if self.algorithm_type == AlgorithmType.Train.name:
             self.set_sync_file()

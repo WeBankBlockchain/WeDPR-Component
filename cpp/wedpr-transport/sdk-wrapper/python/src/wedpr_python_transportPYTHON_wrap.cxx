@@ -26522,7 +26522,7 @@ SWIGINTERN PyObject *_wrap_INodeInfo_meta(PyObject *self, PyObject *args) {
   std::shared_ptr< ppc::protocol::INodeInfo const > tempshared1 ;
   std::shared_ptr< ppc::protocol::INodeInfo const > *smartarg1 = 0 ;
   PyObject *swig_obj[1] ;
-  std::string *result = 0 ;
+  std::string result;
   
   (void)self;
   if (!args) SWIG_fail;
@@ -26542,8 +26542,8 @@ SWIGINTERN PyObject *_wrap_INodeInfo_meta(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((ppc::protocol::INodeInfo const *)arg1)->meta();
-  resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
+  result = ((ppc::protocol::INodeInfo const *)arg1)->meta();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
   return NULL;

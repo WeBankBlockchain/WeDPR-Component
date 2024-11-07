@@ -6574,7 +6574,7 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   jstring jresult = 0 ;
   ppc::protocol::INodeInfo *arg1 = (ppc::protocol::INodeInfo *) 0 ;
   std::shared_ptr< ppc::protocol::INodeInfo const > *smartarg1 = 0 ;
-  std::string *result = 0 ;
+  std::string result;
   
   (void)jenv;
   (void)jcls;
@@ -6582,8 +6582,8 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::INodeInfo > **)&jarg1;
   arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((ppc::protocol::INodeInfo const *)arg1)->meta();
-  jresult = jenv->NewStringUTF(result->c_str()); 
+  result = ((ppc::protocol::INodeInfo const *)arg1)->meta();
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
 
