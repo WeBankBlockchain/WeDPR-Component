@@ -24,6 +24,8 @@
 
 namespace ppc::protocol
 {
+#define GRPC_LOG(LEVEL) BCOS_LOG(LEVEL) << "[GRPC]"
+
 inline grpc::ChannelArguments toChannelConfig(ppc::protocol::GrpcConfig::Ptr const& grpcConfig)
 {
     grpc::ChannelArguments args;
@@ -47,6 +49,14 @@ inline grpc::ChannelArguments toChannelConfig(ppc::protocol::GrpcConfig::Ptr con
     {
         args.SetInt("grpc.enable_dns_srv_lookup", 1);
     }
+    args.SetMaxReceiveMessageSize(grpcConfig->maxReceivedMessageSize());
+    args.SetMaxSendMessageSize(grpcConfig->maxSendMessageSize());
+    // the compress algorithm
+    if (grpcConfig->compressAlgorithm().size() > 0)
+    {
+        args.SetCompressionAlgorithm(grpcConfig->compressAlgorithm());
+    }
+    GRPC_LOG(INFO) << LOG_DESC("toChannelConfig") << printGrpcConfig(grpcConfig);
     return args;
 }
 }  // namespace ppc::protocol

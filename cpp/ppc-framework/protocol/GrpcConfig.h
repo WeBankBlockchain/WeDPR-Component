@@ -64,9 +64,49 @@ public:
 
     bool enableDnslookup() const { return m_enableDnslookup; }
 
+    uint64_t maxSendMessageSize() const { return m_maxSendMessageSize; }
+    uint64_t maxReceivedMessageSize() const { return m_maxReceivedMessageSize; }
+
+    void setMaxSendMessageSize(uint64_t maxSendMessageSize)
+    {
+        m_maxSendMessageSize = maxSendMessageSize;
+    }
+    void setMaxReceivedMessageSize(uint64_t maxReceivedMessageSize)
+    {
+        m_maxReceivedMessageSize = maxReceivedMessageSize;
+    }
+
+    std::string const& compressAlgorithm() const { return m_compressAlgorithm; }
+    void setCompressAlgorithm(std::string const& compressAlgorithm)
+    {
+        m_compressAlgorithm = compressAlgorithm;
+    }
+
 protected:
     bool m_enableHealthCheck = true;
     std::string m_loadBalancePolicy = "round_robin";
     bool m_enableDnslookup = false;
+
+    // the max send message size in bytes
+    uint64_t m_maxSendMessageSize = 1024 * 1024 * 1024;
+    // the max received message size in bytes
+    uint16_t m_maxReceivedMessageSize = 1024 * 1024 * 1024;
+    std::string m_compressAlgorithm = "";
 };
+
+inline std::string printGrpcConfig(ppc::protocol::GrpcConfig::Ptr const& grpcConfig)
+{
+    if (!grpcConfig)
+    {
+        return "nullptr";
+    }
+    std::ostringstream stringstream;
+    stringstream << LOG_KV("loadBalancePolicy", grpcConfig->loadBalancePolicy())
+                 << LOG_KV("enableHealthCheck", grpcConfig->enableHealthCheck())
+                 << LOG_KV("enableDnslookup", grpcConfig->enableDnslookup())
+                 << LOG_KV("maxSendMessageSize", grpcConfig->maxSendMessageSize())
+                 << LOG_KV("maxReceivedMessageSize", grpcConfig->maxReceivedMessageSize())
+                 << LOG_KV("compressAlgorithm", grpcConfig->compressAlgorithm());
+    return stringstream.str();
+}
 }  // namespace ppc::protocol
