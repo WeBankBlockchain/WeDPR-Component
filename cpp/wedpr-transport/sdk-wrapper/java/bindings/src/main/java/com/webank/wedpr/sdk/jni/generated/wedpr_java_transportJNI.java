@@ -404,6 +404,25 @@ public class wedpr_java_transportJNI {
 
     public static final native boolean GrpcConfig_enableDnslookup(long jarg1, GrpcConfig jarg1_);
 
+    public static final native java.math.BigInteger GrpcConfig_maxSendMessageSize(
+            long jarg1, GrpcConfig jarg1_);
+
+    public static final native java.math.BigInteger GrpcConfig_maxReceivedMessageSize(
+            long jarg1, GrpcConfig jarg1_);
+
+    public static final native void GrpcConfig_setMaxSendMessageSize(
+            long jarg1, GrpcConfig jarg1_, java.math.BigInteger jarg2);
+
+    public static final native void GrpcConfig_setMaxReceivedMessageSize(
+            long jarg1, GrpcConfig jarg1_, java.math.BigInteger jarg2);
+
+    public static final native int GrpcConfig_compressAlgorithm(long jarg1, GrpcConfig jarg1_);
+
+    public static final native void GrpcConfig_setCompressAlgorithm(
+            long jarg1, GrpcConfig jarg1_, int jarg2);
+
+    public static final native String printGrpcConfig(long jarg1, GrpcConfig jarg1_);
+
     public static final native void delete_MessageOptionalHeader(long jarg1);
 
     public static final native void MessageOptionalHeader_encode(

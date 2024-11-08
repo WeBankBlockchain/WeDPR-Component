@@ -1136,9 +1136,31 @@ class GrpcConfig(object):
     def enableDnslookup(self):
         return _wedpr_python_transport.GrpcConfig_enableDnslookup(self)
 
+    def maxSendMessageSize(self):
+        return _wedpr_python_transport.GrpcConfig_maxSendMessageSize(self)
+
+    def maxReceivedMessageSize(self):
+        return _wedpr_python_transport.GrpcConfig_maxReceivedMessageSize(self)
+
+    def setMaxSendMessageSize(self, maxSendMessageSize):
+        return _wedpr_python_transport.GrpcConfig_setMaxSendMessageSize(self, maxSendMessageSize)
+
+    def setMaxReceivedMessageSize(self, maxReceivedMessageSize):
+        return _wedpr_python_transport.GrpcConfig_setMaxReceivedMessageSize(self, maxReceivedMessageSize)
+
+    def compressAlgorithm(self):
+        return _wedpr_python_transport.GrpcConfig_compressAlgorithm(self)
+
+    def setCompressAlgorithm(self, compressAlgorithm):
+        return _wedpr_python_transport.GrpcConfig_setCompressAlgorithm(self, compressAlgorithm)
+
 
 # Register GrpcConfig in _wedpr_python_transport:
 _wedpr_python_transport.GrpcConfig_swigregister(GrpcConfig)
+
+
+def printGrpcConfig(grpcConfig):
+    return _wedpr_python_transport.printGrpcConfig(grpcConfig)
 
 
 class MessageOptionalHeader(object):

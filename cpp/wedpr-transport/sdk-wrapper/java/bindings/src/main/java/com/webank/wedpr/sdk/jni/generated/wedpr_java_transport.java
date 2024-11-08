@@ -13,6 +13,10 @@ public class wedpr_java_transport {
         return wedpr_java_transportJNI.printFrontDesc(FrontConfig.getCPtr(config), config);
     }
 
+    public static String printGrpcConfig(GrpcConfig grpcConfig) {
+        return wedpr_java_transportJNI.printGrpcConfig(GrpcConfig.getCPtr(grpcConfig), grpcConfig);
+    }
+
     public static String printOptionalField(MessageOptionalHeader optionalHeader) {
         return wedpr_java_transportJNI.printOptionalField(
                 MessageOptionalHeader.getCPtr(optionalHeader), optionalHeader);

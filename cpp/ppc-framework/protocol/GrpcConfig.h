@@ -18,8 +18,10 @@
  * @date 2024-09-02
  */
 #pragma once
+#include "ppc-framework/Common.h"
 #include "ppc-framework/protocol/EndPoint.h"
 #include <memory>
+#include <sstream>
 #include <string>
 
 namespace ppc::protocol
@@ -76,9 +78,23 @@ public:
         m_maxReceivedMessageSize = maxReceivedMessageSize;
     }
 
-    std::string const& compressAlgorithm() const { return m_compressAlgorithm; }
-    void setCompressAlgorithm(std::string const& compressAlgorithm)
+    /*
+    typedef enum {
+    GRPC_COMPRESS_NONE = 0,
+    GRPC_COMPRESS_DEFLATE,
+    GRPC_COMPRESS_GZIP,
+    GRPC_COMPRESS_ALGORITHMS_COUNT
+    } grpc_compression_algorithm;
+    */
+    int compressAlgorithm() const { return m_compressAlgorithm; }
+
+    void setCompressAlgorithm(int compressAlgorithm)
     {
+        if (compressAlgorithm < 0 || compressAlgorithm > 2)
+        {
+            BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
+                                      "Invalid compress algorithm, must between 0-3"));
+        }
         m_compressAlgorithm = compressAlgorithm;
     }
 
@@ -91,7 +107,7 @@ protected:
     uint64_t m_maxSendMessageSize = 1024 * 1024 * 1024;
     // the max received message size in bytes
     uint16_t m_maxReceivedMessageSize = 1024 * 1024 * 1024;
-    std::string m_compressAlgorithm = "";
+    int m_compressAlgorithm = 0;
 };
 
 inline std::string printGrpcConfig(ppc::protocol::GrpcConfig::Ptr const& grpcConfig)

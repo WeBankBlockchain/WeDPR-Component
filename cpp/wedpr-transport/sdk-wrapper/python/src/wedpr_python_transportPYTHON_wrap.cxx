@@ -18950,6 +18950,240 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_GrpcConfig_maxSendMessageSize(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  uint64_t result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcConfig_maxSendMessageSize" "', argument " "1"" of type '" "ppc::protocol::GrpcConfig const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::GrpcConfig > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxSendMessageSize();
+  resultobj = SWIG_From_unsigned_SS_long_SS_long(static_cast< unsigned long long >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcConfig_maxReceivedMessageSize(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  uint64_t result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcConfig_maxReceivedMessageSize" "', argument " "1"" of type '" "ppc::protocol::GrpcConfig const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::GrpcConfig > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxReceivedMessageSize();
+  resultobj = SWIG_From_unsigned_SS_long_SS_long(static_cast< unsigned long long >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcConfig_setMaxSendMessageSize(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  uint64_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig > tempshared1 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig > *smartarg1 = 0 ;
+  unsigned long long val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "GrpcConfig_setMaxSendMessageSize", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcConfig_setMaxSendMessageSize" "', argument " "1"" of type '" "ppc::protocol::GrpcConfig *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  ecode2 = SWIG_AsVal_unsigned_SS_long_SS_long(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GrpcConfig_setMaxSendMessageSize" "', argument " "2"" of type '" "uint64_t""'");
+  } 
+  arg2 = static_cast< uint64_t >(val2);
+  (arg1)->setMaxSendMessageSize(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcConfig_setMaxReceivedMessageSize(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  uint64_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig > tempshared1 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig > *smartarg1 = 0 ;
+  unsigned long long val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "GrpcConfig_setMaxReceivedMessageSize", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcConfig_setMaxReceivedMessageSize" "', argument " "1"" of type '" "ppc::protocol::GrpcConfig *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  ecode2 = SWIG_AsVal_unsigned_SS_long_SS_long(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GrpcConfig_setMaxReceivedMessageSize" "', argument " "2"" of type '" "uint64_t""'");
+  } 
+  arg2 = static_cast< uint64_t >(val2);
+  (arg1)->setMaxReceivedMessageSize(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcConfig_compressAlgorithm(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcConfig_compressAlgorithm" "', argument " "1"" of type '" "ppc::protocol::GrpcConfig const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::GrpcConfig > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  result = (int)((ppc::protocol::GrpcConfig const *)arg1)->compressAlgorithm();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcConfig_setCompressAlgorithm(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig > tempshared1 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig > *smartarg1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "GrpcConfig_setCompressAlgorithm", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcConfig_setCompressAlgorithm" "', argument " "1"" of type '" "ppc::protocol::GrpcConfig *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GrpcConfig_setCompressAlgorithm" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  (arg1)->setCompressAlgorithm(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *GrpcConfig_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
@@ -18960,6 +19194,40 @@ SWIGINTERN PyObject *GrpcConfig_swigregister(PyObject *SWIGUNUSEDPARM(self), PyO
 SWIGINTERN PyObject *GrpcConfig_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   return SWIG_Python_InitShadowInstance(args);
 }
+
+SWIGINTERN PyObject *_wrap_printGrpcConfig(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcConfig::Ptr *arg1 = 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  ppc::protocol::GrpcConfig::Ptr tempshared1 ;
+  PyObject *swig_obj[1] ;
+  std::string result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t,  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "printGrpcConfig" "', argument " "1"" of type '" "ppc::protocol::GrpcConfig::Ptr const &""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      if (argp1) tempshared1 = *reinterpret_cast< ppc::protocol::GrpcConfig::Ptr * >(argp1);
+      delete reinterpret_cast< ppc::protocol::GrpcConfig::Ptr * >(argp1);
+      arg1 = &tempshared1;
+    } else {
+      arg1 = (argp1) ? reinterpret_cast< ppc::protocol::GrpcConfig::Ptr * >(argp1) : &tempshared1;
+    }
+  }
+  result = ppc::protocol::printGrpcConfig((std::shared_ptr< ppc::protocol::GrpcConfig > const &)*arg1);
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
 
 SWIGINTERN PyObject *_wrap_delete_MessageOptionalHeader(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
@@ -26958,8 +27226,15 @@ static PyMethodDef SwigMethods[] = {
 	 { "GrpcConfig_setEnableHealthCheck", _wrap_GrpcConfig_setEnableHealthCheck, METH_VARARGS, NULL},
 	 { "GrpcConfig_setEnableDnslookup", _wrap_GrpcConfig_setEnableDnslookup, METH_VARARGS, NULL},
 	 { "GrpcConfig_enableDnslookup", _wrap_GrpcConfig_enableDnslookup, METH_O, NULL},
+	 { "GrpcConfig_maxSendMessageSize", _wrap_GrpcConfig_maxSendMessageSize, METH_O, NULL},
+	 { "GrpcConfig_maxReceivedMessageSize", _wrap_GrpcConfig_maxReceivedMessageSize, METH_O, NULL},
+	 { "GrpcConfig_setMaxSendMessageSize", _wrap_GrpcConfig_setMaxSendMessageSize, METH_VARARGS, NULL},
+	 { "GrpcConfig_setMaxReceivedMessageSize", _wrap_GrpcConfig_setMaxReceivedMessageSize, METH_VARARGS, NULL},
+	 { "GrpcConfig_compressAlgorithm", _wrap_GrpcConfig_compressAlgorithm, METH_O, NULL},
+	 { "GrpcConfig_setCompressAlgorithm", _wrap_GrpcConfig_setCompressAlgorithm, METH_VARARGS, NULL},
 	 { "GrpcConfig_swigregister", GrpcConfig_swigregister, METH_O, NULL},
 	 { "GrpcConfig_swiginit", GrpcConfig_swiginit, METH_VARARGS, NULL},
+	 { "printGrpcConfig", _wrap_printGrpcConfig, METH_O, NULL},
 	 { "delete_MessageOptionalHeader", _wrap_delete_MessageOptionalHeader, METH_O, NULL},
 	 { "MessageOptionalHeader_encode", _wrap_MessageOptionalHeader_encode, METH_VARARGS, NULL},
 	 { "MessageOptionalHeader_decode", _wrap_MessageOptionalHeader_decode, METH_VARARGS, NULL},

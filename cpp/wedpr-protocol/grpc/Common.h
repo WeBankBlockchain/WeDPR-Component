@@ -20,6 +20,7 @@
 #pragma once
 #include "ppc-framework/Common.h"
 #include "ppc-framework/protocol/GrpcConfig.h"
+#include <grpc/compression.h>
 #include <grpcpp/grpcpp.h>
 
 namespace ppc::protocol
@@ -52,10 +53,7 @@ inline grpc::ChannelArguments toChannelConfig(ppc::protocol::GrpcConfig::Ptr con
     args.SetMaxReceiveMessageSize(grpcConfig->maxReceivedMessageSize());
     args.SetMaxSendMessageSize(grpcConfig->maxSendMessageSize());
     // the compress algorithm
-    if (grpcConfig->compressAlgorithm().size() > 0)
-    {
-        args.SetCompressionAlgorithm(grpcConfig->compressAlgorithm());
-    }
+    args.SetCompressionAlgorithm((grpc_compression_algorithm)(grpcConfig->compressAlgorithm()));
     GRPC_LOG(INFO) << LOG_DESC("toChannelConfig") << printGrpcConfig(grpcConfig);
     return args;
 }

@@ -4453,6 +4453,208 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
 }
 
 
+SWIGEXPORT jobject JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcConfig_1maxSendMessageSize(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jobject jresult = 0 ;
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig const > *smartarg1 = 0 ;
+  uint64_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::GrpcConfig > **)&jarg1;
+  arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxSendMessageSize();
+  {
+    jbyteArray ba = jenv->NewByteArray(9);
+    jbyte* bae = jenv->GetByteArrayElements(ba, 0);
+    jclass clazz = jenv->FindClass("java/math/BigInteger");
+    jmethodID mid = jenv->GetMethodID(clazz, "<init>", "([B)V");
+    jobject bigint;
+    int i;
+    
+    bae[0] = 0;
+    for(i=1; i<9; i++ ) {
+      bae[i] = (jbyte)(result>>8*(8-i));
+    }
+    
+    jenv->ReleaseByteArrayElements(ba, bae, 0);
+    bigint = jenv->NewObject(clazz, mid, ba);
+    jenv->DeleteLocalRef(ba);
+    jresult = bigint;
+  }
+  return jresult;
+}
+
+
+SWIGEXPORT jobject JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcConfig_1maxReceivedMessageSize(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jobject jresult = 0 ;
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig const > *smartarg1 = 0 ;
+  uint64_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::GrpcConfig > **)&jarg1;
+  arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxReceivedMessageSize();
+  {
+    jbyteArray ba = jenv->NewByteArray(9);
+    jbyte* bae = jenv->GetByteArrayElements(ba, 0);
+    jclass clazz = jenv->FindClass("java/math/BigInteger");
+    jmethodID mid = jenv->GetMethodID(clazz, "<init>", "([B)V");
+    jobject bigint;
+    int i;
+    
+    bae[0] = 0;
+    for(i=1; i<9; i++ ) {
+      bae[i] = (jbyte)(result>>8*(8-i));
+    }
+    
+    jenv->ReleaseByteArrayElements(ba, bae, 0);
+    bigint = jenv->NewObject(clazz, mid, ba);
+    jenv->DeleteLocalRef(ba);
+    jresult = bigint;
+  }
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcConfig_1setMaxSendMessageSize(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jobject jarg2) {
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  uint64_t arg2 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::GrpcConfig > **)&jarg1;
+  arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
+  {
+    jclass clazz;
+    jmethodID mid;
+    jbyteArray ba;
+    jbyte* bae;
+    jsize sz;
+    int i;
+    
+    if (!jarg2) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "BigInteger null");
+      return ;
+    }
+    clazz = jenv->GetObjectClass(jarg2);
+    mid = jenv->GetMethodID(clazz, "toByteArray", "()[B");
+    ba = (jbyteArray)jenv->CallObjectMethod(jarg2, mid);
+    bae = jenv->GetByteArrayElements(ba, 0);
+    sz = jenv->GetArrayLength(ba);
+    arg2 = 0;
+    if (sz > 0) {
+      arg2 = (uint64_t)(signed char)bae[0];
+      for(i=1; i<sz; i++) {
+        arg2 = (arg2 << 8) | (uint64_t)(unsigned char)bae[i];
+      }
+    }
+    jenv->ReleaseByteArrayElements(ba, bae, 0);
+  }
+  (arg1)->setMaxSendMessageSize(arg2);
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcConfig_1setMaxReceivedMessageSize(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jobject jarg2) {
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  uint64_t arg2 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::GrpcConfig > **)&jarg1;
+  arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
+  {
+    jclass clazz;
+    jmethodID mid;
+    jbyteArray ba;
+    jbyte* bae;
+    jsize sz;
+    int i;
+    
+    if (!jarg2) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "BigInteger null");
+      return ;
+    }
+    clazz = jenv->GetObjectClass(jarg2);
+    mid = jenv->GetMethodID(clazz, "toByteArray", "()[B");
+    ba = (jbyteArray)jenv->CallObjectMethod(jarg2, mid);
+    bae = jenv->GetByteArrayElements(ba, 0);
+    sz = jenv->GetArrayLength(ba);
+    arg2 = 0;
+    if (sz > 0) {
+      arg2 = (uint64_t)(signed char)bae[0];
+      for(i=1; i<sz; i++) {
+        arg2 = (arg2 << 8) | (uint64_t)(unsigned char)bae[i];
+      }
+    }
+    jenv->ReleaseByteArrayElements(ba, bae, 0);
+  }
+  (arg1)->setMaxReceivedMessageSize(arg2);
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcConfig_1compressAlgorithm(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig const > *smartarg1 = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::GrpcConfig > **)&jarg1;
+  arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (int)((ppc::protocol::GrpcConfig const *)arg1)->compressAlgorithm();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcConfig_1setCompressAlgorithm(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  int arg2 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::GrpcConfig > **)&jarg1;
+  arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  (arg1)->setCompressAlgorithm(arg2);
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_printGrpcConfig(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  ppc::protocol::GrpcConfig::Ptr *arg1 = 0 ;
+  ppc::protocol::GrpcConfig::Ptr tempnull1 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = jarg1 ? *(ppc::protocol::GrpcConfig::Ptr **)&jarg1 : &tempnull1; 
+  result = ppc::protocol::printGrpcConfig((std::shared_ptr< ppc::protocol::GrpcConfig > const &)*arg1);
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
 SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1MessageOptionalHeader(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   ppc::protocol::MessageOptionalHeader *arg1 = (ppc::protocol::MessageOptionalHeader *) 0 ;
   std::shared_ptr< ppc::protocol::MessageOptionalHeader > *smartarg1 = 0 ;
