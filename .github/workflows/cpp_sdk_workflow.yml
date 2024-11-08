@@ -4,6 +4,7 @@ on:
     paths-ignore:
       - "docs/**"
       - "python/**"
+      - "cpp/wedpr-transport/sdk-wrapper/python/bindings/**"
       - "Changelog.md"
       - "README.md"
   pull_request:
