@@ -35,7 +35,6 @@ setup_args = dict(
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
         'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: Apache License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
     ],
