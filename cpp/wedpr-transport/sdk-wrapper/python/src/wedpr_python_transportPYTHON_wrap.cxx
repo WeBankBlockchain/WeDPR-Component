@@ -25934,30 +25934,37 @@ fail:
 
 SWIGINTERN PyObject *_wrap_TransportBuilder_initLog(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
-  std::string *arg1 = 0 ;
-  int res1 = SWIG_OLDOBJ ;
-  PyObject *swig_obj[1] ;
+  ppc::sdk::TransportBuilder *arg1 = (ppc::sdk::TransportBuilder *) 0 ;
+  std::string *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 = SWIG_OLDOBJ ;
+  PyObject *swig_obj[2] ;
   
   (void)self;
-  if (!args) SWIG_fail;
-  swig_obj[0] = args;
+  if (!SWIG_Python_UnpackTuple(args, "TransportBuilder_initLog", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__sdk__TransportBuilder, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TransportBuilder_initLog" "', argument " "1"" of type '" "ppc::sdk::TransportBuilder *""'"); 
+  }
+  arg1 = reinterpret_cast< ppc::sdk::TransportBuilder * >(argp1);
   {
     std::string *ptr = (std::string *)0;
-    res1 = SWIG_AsPtr_std_string(swig_obj[0], &ptr);
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TransportBuilder_initLog" "', argument " "1"" of type '" "std::string const &""'"); 
+    res2 = SWIG_AsPtr_std_string(swig_obj[1], &ptr);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "TransportBuilder_initLog" "', argument " "2"" of type '" "std::string const &""'"); 
     }
     if (!ptr) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TransportBuilder_initLog" "', argument " "1"" of type '" "std::string const &""'"); 
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "TransportBuilder_initLog" "', argument " "2"" of type '" "std::string const &""'"); 
     }
-    arg1 = ptr;
+    arg2 = ptr;
   }
-  ppc::sdk::TransportBuilder::initLog((std::string const &)*arg1);
+  (arg1)->initLog((std::string const &)*arg2);
   resultobj = SWIG_Py_Void();
-  if (SWIG_IsNewObj(res1)) delete arg1;
+  if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
 fail:
-  if (SWIG_IsNewObj(res1)) delete arg1;
+  if (SWIG_IsNewObj(res2)) delete arg2;
   return NULL;
 }
 
@@ -27417,7 +27424,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "TransportBuilder_buildProTransport", _wrap_TransportBuilder_buildProTransport, METH_VARARGS, NULL},
 	 { "TransportBuilder_buildConfig", _wrap_TransportBuilder_buildConfig, METH_VARARGS, NULL},
 	 { "TransportBuilder_frontConfigBuilder", _wrap_TransportBuilder_frontConfigBuilder, METH_O, NULL},
-	 { "TransportBuilder_initLog", _wrap_TransportBuilder_initLog, METH_O, NULL},
+	 { "TransportBuilder_initLog", _wrap_TransportBuilder_initLog, METH_VARARGS, NULL},
 	 { "TransportBuilder_swigregister", TransportBuilder_swigregister, METH_O, NULL},
 	 { "TransportBuilder_swiginit", TransportBuilder_swiginit, METH_VARARGS, NULL},
 	 { "new_Transport", _wrap_new_Transport, METH_O, NULL},

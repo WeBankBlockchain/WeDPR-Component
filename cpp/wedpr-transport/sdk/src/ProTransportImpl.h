@@ -36,7 +36,7 @@ class ProTransportImpl : public Transport, public std::enable_shared_from_this<P
 public:
     using Ptr = std::shared_ptr<ProTransportImpl>;
     ProTransportImpl(ppc::front::FrontConfig::Ptr config, int keepAlivePeriodMs = 3000);
-
+    ~ProTransportImpl();
     void start() override;
     void stop() override;
 

@@ -29,9 +29,6 @@
 using namespace ppc::sdk;
 using namespace ppc::front;
 
-bcos::BoostLogInitializer::Ptr TransportBuilder::g_logInitializer;
-std::once_flag TransportBuilder::g_flag;
-
 TransportBuilder::TransportBuilder()
 {
     m_frontConfigBuilder = std::make_shared<FrontConfigBuilderImpl>(
@@ -59,4 +56,28 @@ Transport::Ptr TransportBuilder::build(
 ppc::front::FrontConfig::Ptr TransportBuilder::buildConfig(int threadPoolSize, std::string nodeID)
 {
     return m_frontConfigBuilder->build(threadPoolSize, nodeID);
+}
+
+
+void TransportBuilder::initLog(const std::string& configPath)
+{
+    bcos::Guard l(x_logInited);
+    if (m_logInited)
+    {
+        return;
+    }
+    m_logInited = true;
+    // init the log
+    boost::property_tree::ptree pt;
+    try
+    {
+        boost::property_tree::read_ini(configPath, pt);
+    }
+    catch (std::exception const& e)
+    {
+        // disable the log when the configPath not exists
+        pt.put("log.enable", false);
+    }
+    m_logInitializer = std::make_shared<bcos::BoostLogInitializer>();
+    m_logInitializer->initLog(pt, bcos::FileLogger, "gateway_sdk_log");
 }

@@ -8,11 +8,11 @@ from wedpr_python_gateway_sdk.libs import _wedpr_python_transport
 %module(moduleimport=MODULEIMPORT) wedpr_python_transport
 %module(directors="1") wedpr_python_transport
 
-%include <stdint.i>
-%include <cpointer.i>
-%include <std_vector.i>
-%include <std_string.i>
-%include <std_shared_ptr.i>
+%include "stdint.i"
+%include "cpointer.i"
+%include "std_vector.i"
+%include "std_string.i"
+%include "std_shared_ptr.i"
 %include "typemaps.i"
 
 // shared_ptr definition
@@ -198,6 +198,15 @@ namespace bcos{
 }
 ///// tests  ///
 */
+%include "exception.i"
+%exception {
+    try {
+        $action
+    }
+    catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+}
 
 // define the interface should been exposed
 %include "bcos-utilities/Error.h"

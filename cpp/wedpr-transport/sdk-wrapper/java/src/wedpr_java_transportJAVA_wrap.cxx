@@ -852,44 +852,6 @@ template <typename T> T SwigValueInit() {
 #include <stdint.h>		// Use the C99 official header
 
 
-SWIGINTERN void SWIG_JavaException(JNIEnv *jenv, int code, const char *msg) {
-  SWIG_JavaExceptionCodes exception_code = SWIG_JavaUnknownError;
-  switch(code) {
-  case SWIG_MemoryError:
-    exception_code = SWIG_JavaOutOfMemoryError;
-    break;
-  case SWIG_IOError:
-    exception_code = SWIG_JavaIOException;
-    break;
-  case SWIG_SystemError:
-  case SWIG_RuntimeError:
-    exception_code = SWIG_JavaRuntimeException;
-    break;
-  case SWIG_OverflowError:
-  case SWIG_IndexError:
-    exception_code = SWIG_JavaIndexOutOfBoundsException;
-    break;
-  case SWIG_DivisionByZero:
-    exception_code = SWIG_JavaArithmeticException;
-    break;
-  case SWIG_SyntaxError:
-  case SWIG_ValueError:
-  case SWIG_TypeError:
-    exception_code = SWIG_JavaIllegalArgumentException;
-    break;
-  case SWIG_UnknownError:
-  default:
-    exception_code = SWIG_JavaUnknownError;
-    break;
-  }
-  SWIG_JavaThrowException(jenv, exception_code, msg);
-}
-
-
-#include <typeinfo>
-#include <stdexcept>
-
-
 #include <typeinfo>
 #include <stdexcept>
 
@@ -1182,6 +1144,44 @@ SWIGINTERN void std_vector_Sl_std_shared_ptr_Sl_ppc_protocol_INodeInfo_Sg__Sg__d
           throw std::out_of_range("vector index out of range");
         }
       }
+
+SWIGINTERN void SWIG_JavaException(JNIEnv *jenv, int code, const char *msg) {
+  SWIG_JavaExceptionCodes exception_code = SWIG_JavaUnknownError;
+  switch(code) {
+  case SWIG_MemoryError:
+    exception_code = SWIG_JavaOutOfMemoryError;
+    break;
+  case SWIG_IOError:
+    exception_code = SWIG_JavaIOException;
+    break;
+  case SWIG_SystemError:
+  case SWIG_RuntimeError:
+    exception_code = SWIG_JavaRuntimeException;
+    break;
+  case SWIG_OverflowError:
+  case SWIG_IndexError:
+    exception_code = SWIG_JavaIndexOutOfBoundsException;
+    break;
+  case SWIG_DivisionByZero:
+    exception_code = SWIG_JavaArithmeticException;
+    break;
+  case SWIG_SyntaxError:
+  case SWIG_ValueError:
+  case SWIG_TypeError:
+    exception_code = SWIG_JavaIllegalArgumentException;
+    break;
+  case SWIG_UnknownError:
+  default:
+    exception_code = SWIG_JavaUnknownError;
+    break;
+  }
+  SWIG_JavaThrowException(jenv, exception_code, msg);
+}
+
+
+#include <typeinfo>
+#include <stdexcept>
+
 
 struct SWIG_null_deleter {
   void operator() (void const *) const {
@@ -10161,23 +10161,26 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
 }
 
 
-SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_TransportBuilder_1initLog(JNIEnv *jenv, jclass jcls, jstring jarg1) {
-  std::string *arg1 = 0 ;
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_TransportBuilder_1initLog(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
+  ppc::sdk::TransportBuilder *arg1 = (ppc::sdk::TransportBuilder *) 0 ;
+  std::string *arg2 = 0 ;
   
   (void)jenv;
   (void)jcls;
-  if(!jarg1) {
+  (void)jarg1_;
+  arg1 = *(ppc::sdk::TransportBuilder **)&jarg1; 
+  if(!jarg2) {
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
     return ;
   }
-  const char *arg1_pstr = (const char *)jenv->GetStringUTFChars(jarg1, 0); 
-  if (!arg1_pstr) return ;
-  std::string arg1_str(arg1_pstr);
-  arg1 = &arg1_str;
-  jenv->ReleaseStringUTFChars(jarg1, arg1_pstr); 
+  const char *arg2_pstr = (const char *)jenv->GetStringUTFChars(jarg2, 0); 
+  if (!arg2_pstr) return ;
+  std::string arg2_str(arg2_pstr);
+  arg2 = &arg2_str;
+  jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
   {
     try {
-      ppc::sdk::TransportBuilder::initLog((std::string const &)*arg1);
+      (arg1)->initLog((std::string const &)*arg2);
     }
     catch (const std::exception& e) {
       SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());

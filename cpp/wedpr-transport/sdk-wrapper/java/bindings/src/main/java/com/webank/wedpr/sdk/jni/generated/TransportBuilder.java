@@ -71,7 +71,7 @@ public class TransportBuilder {
                 wedpr_java_transportJNI.TransportBuilder_frontConfigBuilder(swigCPtr, this), false);
     }
 
-    public static void initLog(String configPath) {
-        wedpr_java_transportJNI.TransportBuilder_initLog(configPath);
+    public void initLog(String configPath) {
+        wedpr_java_transportJNI.TransportBuilder_initLog(swigCPtr, this, configPath);
     }
 }

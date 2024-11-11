@@ -74,6 +74,9 @@ public class TransportImpl implements WeDPRTransport {
             this.transport.start();
         } catch (Exception e) {
             logger.warn("start the transport failed, error: ", e);
+            if (this.transport != null) {
+                this.transport.stop();
+            }
             throw e;
         }
     }

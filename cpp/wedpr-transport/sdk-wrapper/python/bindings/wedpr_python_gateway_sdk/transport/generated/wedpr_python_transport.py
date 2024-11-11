@@ -1820,9 +1820,8 @@ class TransportBuilder(object):
     def frontConfigBuilder(self):
         return _wedpr_python_transport.TransportBuilder_frontConfigBuilder(self)
 
-    @staticmethod
-    def initLog(configPath):
-        return _wedpr_python_transport.TransportBuilder_initLog(configPath)
+    def initLog(self, configPath):
+        return _wedpr_python_transport.TransportBuilder_initLog(self, configPath)
 
 
 # Register TransportBuilder in _wedpr_python_transport:
