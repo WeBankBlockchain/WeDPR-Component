@@ -106,7 +106,7 @@ protected:
     // the max send message size in bytes
     uint64_t m_maxSendMessageSize = 1024 * 1024 * 1024;
     // the max received message size in bytes
-    uint16_t m_maxReceivedMessageSize = 1024 * 1024 * 1024;
+    uint64_t m_maxReceivedMessageSize = 1024 * 1024 * 1024;
     int m_compressAlgorithm = 0;
 };
 

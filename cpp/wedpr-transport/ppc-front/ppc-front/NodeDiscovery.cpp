@@ -27,7 +27,6 @@ NodeDiscovery::NodeDiscovery(ppc::gateway::IGateway::Ptr gatewayClient)
 {
     // fetch the meta information every 10s
     m_metaFetcher = std::make_shared<bcos::Timer>(10 * 1000, "metaFetcher");
-    m_metaFetcher->registerTimeoutHandler([this]() { fetchMetaInfoFromGateway(); });
 }
 
 std::vector<ppc::protocol::INodeInfo::Ptr> NodeDiscovery::getAliveNodeList() const
@@ -38,6 +37,15 @@ std::vector<ppc::protocol::INodeInfo::Ptr> NodeDiscovery::getAliveNodeList() con
 
 void NodeDiscovery::start()
 {
+    auto self = weak_from_this();
+    m_metaFetcher->registerTimeoutHandler([self]() {
+        auto fetcher = self.lock();
+        if (!fetcher)
+        {
+            return;
+        }
+        fetcher->fetchMetaInfoFromGateway();
+    });
     if (m_metaFetcher)
     {
         m_metaFetcher->start();

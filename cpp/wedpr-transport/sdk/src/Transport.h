@@ -31,7 +31,7 @@ class Transport
 public:
     using Ptr = std::shared_ptr<Transport>;
     Transport(ppc::front::FrontConfig::Ptr config);
-    virtual ~Transport() = default;
+    virtual ~Transport() { stop(); }
 
     virtual void start() { m_front->start(); }
     virtual void stop() { m_front->stop(); }

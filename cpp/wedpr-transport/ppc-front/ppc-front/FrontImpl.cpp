@@ -56,6 +56,10 @@ void FrontImpl::start()
         return;
     }
     m_running = true;
+    if (m_nodeDiscovery)
+    {
+        m_nodeDiscovery->start();
+    }
     m_thread = std::make_shared<std::thread>([&] {
         bcos::pthread_setThreadName("front_io_service");
         while (m_running)
@@ -77,10 +81,7 @@ void FrontImpl::start()
         }
         FRONT_LOG(INFO) << "Front exit";
     });
-    if (m_nodeDiscovery)
-    {
-        m_nodeDiscovery->start();
-    }
+    FRONT_LOG(INFO) << LOG_DESC("start front success");
 }
 
 
@@ -97,6 +98,10 @@ void FrontImpl::stop()
         return;
     }
     m_running = false;
+    if (m_nodeDiscovery)
+    {
+        m_nodeDiscovery->stop();
+    }
     if (m_ioService)
     {
         m_ioService->stop();
@@ -113,10 +118,7 @@ void FrontImpl::stop()
             m_thread->detach();
         }
     }
-    if (m_nodeDiscovery)
-    {
-        m_nodeDiscovery->stop();
-    }
+    FRONT_LOG(INFO) << LOG_DESC("stop front success");
 }
 
 void FrontImpl::asyncSendResponse(bcos::bytesConstRef dstNode, std::string const& traceID,

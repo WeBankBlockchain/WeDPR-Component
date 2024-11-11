@@ -25,7 +25,7 @@
 
 namespace ppc::front
 {
-class NodeDiscovery : public INodeDiscovery
+class NodeDiscovery : public INodeDiscovery, public std::enable_shared_from_this<NodeDiscovery>
 {
 public:
     using Ptr = std::shared_ptr<NodeDiscovery>;
