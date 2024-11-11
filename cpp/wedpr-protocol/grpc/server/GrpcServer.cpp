@@ -39,6 +39,8 @@ void GrpcServer::start()
     }
     grpc::reflection::InitProtoReflectionServerBuilderPlugin();
     grpc::ServerBuilder builder;
+    // disable port reuse
+    builder.AddChannelArgument(GRPC_ARG_ALLOW_REUSEPORT, 0);
     // without authentication
     builder.AddListeningPort(m_config->listenEndPoint(), grpc::InsecureServerCredentials());
     // register the service
