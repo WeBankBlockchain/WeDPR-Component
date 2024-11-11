@@ -7311,7 +7311,14 @@ SWIGINTERN PyObject *_wrap_new_SharedBcosError(PyObject *self, PyObject *args) {
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedBcosError", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< bcos::Error > *)new std::shared_ptr< bcos::Error >();
+  {
+    try {
+      result = (std::shared_ptr< bcos::Error > *)new std::shared_ptr< bcos::Error >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  bcos::Error > *smartresult = (result && *result) ? new std::shared_ptr<  bcos::Error >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_bcos__Error_t, SWIG_POINTER_OWN);
@@ -7348,7 +7355,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedBcosError(PyObject *self, PyObject *args
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< bcos::Error > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7373,7 +7387,14 @@ SWIGINTERN PyObject *_wrap_new_SharedFrontConfig(PyObject *self, PyObject *args)
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedFrontConfig", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::front::FrontConfig > *)new std::shared_ptr< ppc::front::FrontConfig >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::FrontConfig > *)new std::shared_ptr< ppc::front::FrontConfig >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::FrontConfig > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::front::FrontConfig >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfig_t, SWIG_POINTER_OWN);
@@ -7410,7 +7431,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedFrontConfig(PyObject *self, PyObject *ar
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::front::FrontConfig > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7435,7 +7463,14 @@ SWIGINTERN PyObject *_wrap_new_SharedGrpcConfig(PyObject *self, PyObject *args) 
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedGrpcConfig", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::protocol::GrpcConfig > *)new std::shared_ptr< ppc::protocol::GrpcConfig >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::GrpcConfig > *)new std::shared_ptr< ppc::protocol::GrpcConfig >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::GrpcConfig > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::protocol::GrpcConfig >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, SWIG_POINTER_OWN);
@@ -7472,7 +7507,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedGrpcConfig(PyObject *self, PyObject *arg
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::protocol::GrpcConfig > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7497,7 +7539,14 @@ SWIGINTERN PyObject *_wrap_new_SharedFront(PyObject *self, PyObject *args) {
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedFront", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::front::IFront > *)new std::shared_ptr< ppc::front::IFront >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::IFront > *)new std::shared_ptr< ppc::front::IFront >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::IFront > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::front::IFront >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__IFront_t, SWIG_POINTER_OWN);
@@ -7534,7 +7583,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedFront(PyObject *self, PyObject *args) {
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::front::IFront > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7559,7 +7615,14 @@ SWIGINTERN PyObject *_wrap_new_SharedNodeDiscovery(PyObject *self, PyObject *arg
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedNodeDiscovery", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::front::INodeDiscovery > *)new std::shared_ptr< ppc::front::INodeDiscovery >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::INodeDiscovery > *)new std::shared_ptr< ppc::front::INodeDiscovery >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::INodeDiscovery > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::front::INodeDiscovery >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__INodeDiscovery_t, SWIG_POINTER_OWN);
@@ -7596,7 +7659,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedNodeDiscovery(PyObject *self, PyObject *
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::front::INodeDiscovery > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7621,7 +7691,14 @@ SWIGINTERN PyObject *_wrap_new_SharedNodeInfo(PyObject *self, PyObject *args) {
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedNodeInfo", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::protocol::INodeInfo > *)new std::shared_ptr< ppc::protocol::INodeInfo >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::INodeInfo > *)new std::shared_ptr< ppc::protocol::INodeInfo >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::INodeInfo > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::protocol::INodeInfo >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, SWIG_POINTER_OWN);
@@ -7658,7 +7735,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedNodeInfo(PyObject *self, PyObject *args)
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::protocol::INodeInfo > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7683,7 +7767,14 @@ SWIGINTERN PyObject *_wrap_new_SharedFrontClient(PyObject *self, PyObject *args)
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedFrontClient", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::front::IFrontClient > *)new std::shared_ptr< ppc::front::IFrontClient >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::IFrontClient > *)new std::shared_ptr< ppc::front::IFrontClient >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::IFrontClient > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::front::IFrontClient >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__IFrontClient_t, SWIG_POINTER_OWN);
@@ -7720,7 +7811,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedFrontClient(PyObject *self, PyObject *ar
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::front::IFrontClient > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7745,7 +7843,14 @@ SWIGINTERN PyObject *_wrap_new_SharedErrorCallback(PyObject *self, PyObject *arg
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedErrorCallback", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::front::ErrorCallback > *)new std::shared_ptr< ppc::front::ErrorCallback >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::ErrorCallback > *)new std::shared_ptr< ppc::front::ErrorCallback >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::ErrorCallback > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::front::ErrorCallback >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__ErrorCallback_t, SWIG_POINTER_OWN);
@@ -7782,7 +7887,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedErrorCallback(PyObject *self, PyObject *
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::front::ErrorCallback > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7807,7 +7919,14 @@ SWIGINTERN PyObject *_wrap_new_SharedMessageDispatcherHandler(PyObject *self, Py
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedMessageDispatcherHandler", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::front::MessageDispatcherHandler > *)new std::shared_ptr< ppc::front::MessageDispatcherHandler >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::MessageDispatcherHandler > *)new std::shared_ptr< ppc::front::MessageDispatcherHandler >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::MessageDispatcherHandler > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::front::MessageDispatcherHandler >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__MessageDispatcherHandler_t, SWIG_POINTER_OWN);
@@ -7844,7 +7963,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedMessageDispatcherHandler(PyObject *self,
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::front::MessageDispatcherHandler > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7869,7 +7995,14 @@ SWIGINTERN PyObject *_wrap_new_SharedIMessageHandler(PyObject *self, PyObject *a
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedIMessageHandler", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::front::IMessageHandler > *)new std::shared_ptr< ppc::front::IMessageHandler >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::IMessageHandler > *)new std::shared_ptr< ppc::front::IMessageHandler >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::IMessageHandler > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::front::IMessageHandler >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__IMessageHandler_t, SWIG_POINTER_OWN);
@@ -7906,7 +8039,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedIMessageHandler(PyObject *self, PyObject
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::front::IMessageHandler > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7931,7 +8071,14 @@ SWIGINTERN PyObject *_wrap_new_SharedGetPeersInfoHandler(PyObject *self, PyObjec
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedGetPeersInfoHandler", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::front::GetPeersInfoHandler > *)new std::shared_ptr< ppc::front::GetPeersInfoHandler >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::GetPeersInfoHandler > *)new std::shared_ptr< ppc::front::GetPeersInfoHandler >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::GetPeersInfoHandler > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::front::GetPeersInfoHandler >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__GetPeersInfoHandler_t, SWIG_POINTER_OWN);
@@ -7968,7 +8115,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedGetPeersInfoHandler(PyObject *self, PyOb
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::front::GetPeersInfoHandler > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -7993,7 +8147,14 @@ SWIGINTERN PyObject *_wrap_new_SharedGateway(PyObject *self, PyObject *args) {
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedGateway", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::gateway::IGateway > *)new std::shared_ptr< ppc::gateway::IGateway >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::gateway::IGateway > *)new std::shared_ptr< ppc::gateway::IGateway >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::gateway::IGateway > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::gateway::IGateway >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__gateway__IGateway_t, SWIG_POINTER_OWN);
@@ -8030,7 +8191,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedGateway(PyObject *self, PyObject *args) 
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::gateway::IGateway > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -8055,7 +8223,14 @@ SWIGINTERN PyObject *_wrap_new_SharedMessage(PyObject *self, PyObject *args) {
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedMessage", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::protocol::Message > *)new std::shared_ptr< ppc::protocol::Message >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::Message > *)new std::shared_ptr< ppc::protocol::Message >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::Message > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::protocol::Message >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, SWIG_POINTER_OWN);
@@ -8092,7 +8267,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedMessage(PyObject *self, PyObject *args) 
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::protocol::Message > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -8117,7 +8299,14 @@ SWIGINTERN PyObject *_wrap_new_SharedMessageHeader(PyObject *self, PyObject *arg
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedMessageHeader", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::protocol::MessageHeader > *)new std::shared_ptr< ppc::protocol::MessageHeader >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessageHeader > *)new std::shared_ptr< ppc::protocol::MessageHeader >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageHeader > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::protocol::MessageHeader >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageHeader_t, SWIG_POINTER_OWN);
@@ -8154,7 +8343,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedMessageHeader(PyObject *self, PyObject *
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::protocol::MessageHeader > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -8179,7 +8375,14 @@ SWIGINTERN PyObject *_wrap_new_SharedMessagePayload(PyObject *self, PyObject *ar
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedMessagePayload", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::protocol::MessagePayload > *)new std::shared_ptr< ppc::protocol::MessagePayload >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessagePayload > *)new std::shared_ptr< ppc::protocol::MessagePayload >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessagePayload > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::protocol::MessagePayload >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessagePayload_t, SWIG_POINTER_OWN);
@@ -8216,7 +8419,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedMessagePayload(PyObject *self, PyObject 
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::protocol::MessagePayload > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -8241,7 +8451,14 @@ SWIGINTERN PyObject *_wrap_new_SharedRouteInfo(PyObject *self, PyObject *args) {
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedRouteInfo", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::protocol::MessageOptionalHeader > *)new std::shared_ptr< ppc::protocol::MessageOptionalHeader >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessageOptionalHeader > *)new std::shared_ptr< ppc::protocol::MessageOptionalHeader >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageOptionalHeader > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::protocol::MessageOptionalHeader >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageOptionalHeader_t, SWIG_POINTER_OWN);
@@ -8278,7 +8495,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedRouteInfo(PyObject *self, PyObject *args
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::protocol::MessageOptionalHeader > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -8303,7 +8527,14 @@ SWIGINTERN PyObject *_wrap_new_SharedMessageBuilder(PyObject *self, PyObject *ar
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedMessageBuilder", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::protocol::MessageBuilder > *)new std::shared_ptr< ppc::protocol::MessageBuilder >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessageBuilder > *)new std::shared_ptr< ppc::protocol::MessageBuilder >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageBuilder > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::protocol::MessageBuilder >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageBuilder_t, SWIG_POINTER_OWN);
@@ -8340,7 +8571,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedMessageBuilder(PyObject *self, PyObject 
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::protocol::MessageBuilder > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -8365,7 +8603,14 @@ SWIGINTERN PyObject *_wrap_new_SharedMessageHeaderBuilder(PyObject *self, PyObje
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedMessageHeaderBuilder", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::protocol::MessageHeaderBuilder > *)new std::shared_ptr< ppc::protocol::MessageHeaderBuilder >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessageHeaderBuilder > *)new std::shared_ptr< ppc::protocol::MessageHeaderBuilder >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageHeaderBuilder > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::protocol::MessageHeaderBuilder >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageHeaderBuilder_t, SWIG_POINTER_OWN);
@@ -8402,7 +8647,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedMessageHeaderBuilder(PyObject *self, PyO
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::protocol::MessageHeaderBuilder > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -8427,7 +8679,14 @@ SWIGINTERN PyObject *_wrap_new_SharedMessagePayloadBuilder(PyObject *self, PyObj
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedMessagePayloadBuilder", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::protocol::MessagePayloadBuilder > *)new std::shared_ptr< ppc::protocol::MessagePayloadBuilder >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessagePayloadBuilder > *)new std::shared_ptr< ppc::protocol::MessagePayloadBuilder >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessagePayloadBuilder > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::protocol::MessagePayloadBuilder >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessagePayloadBuilder_t, SWIG_POINTER_OWN);
@@ -8464,7 +8723,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedMessagePayloadBuilder(PyObject *self, Py
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::protocol::MessagePayloadBuilder > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -8489,7 +8755,14 @@ SWIGINTERN PyObject *_wrap_new_SharedRouteInfoBuilder(PyObject *self, PyObject *
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_SharedRouteInfoBuilder", 0, 0, 0)) SWIG_fail;
-  result = (std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder > *)new std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder > *)new std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder >();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageOptionalHeaderBuilder > *smartresult = (result && *result) ? new std::shared_ptr<  ppc::protocol::MessageOptionalHeaderBuilder >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageOptionalHeaderBuilder_t, SWIG_POINTER_OWN);
@@ -8526,7 +8799,14 @@ SWIGINTERN PyObject *_wrap_delete_SharedRouteInfoBuilder(PyObject *self, PyObjec
       arg1 = (argp1) ? reinterpret_cast< std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder > * >(argp1) : &tempshared1;
     }
   }
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -10394,7 +10674,14 @@ SWIGINTERN PyObject *_wrap_delete_ubytes(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_ubytes" "', argument " "1"" of type '" "std::vector< uint8_t > *""'"); 
   }
   arg1 = reinterpret_cast< std::vector< uint8_t > * >(argp1);
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -12262,7 +12549,14 @@ SWIGINTERN PyObject *_wrap_delete_ibytes(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_ibytes" "', argument " "1"" of type '" "std::vector< int8_t > *""'"); 
   }
   arg1 = reinterpret_cast< std::vector< int8_t > * >(argp1);
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -14160,7 +14454,14 @@ SWIGINTERN PyObject *_wrap_delete_StringVec(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_StringVec" "', argument " "1"" of type '" "std::vector< std::string > *""'"); 
   }
   arg1 = reinterpret_cast< std::vector< std::string > * >(argp1);
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -16094,7 +16395,14 @@ SWIGINTERN PyObject *_wrap_delete_NodeInfoVec(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_NodeInfoVec" "', argument " "1"" of type '" "std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > *""'"); 
   }
   arg1 = reinterpret_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > * >(argp1);
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -16166,7 +16474,14 @@ SWIGINTERN PyObject *_wrap_Error_buildError__SWIG_0(PyObject *self, Py_ssize_t n
     }
     arg5 = ptr;
   }
-  result = bcos::Error::buildError((char const *)arg1,(char const *)arg2,arg3,arg4,(std::string const &)*arg5);
+  {
+    try {
+      result = bcos::Error::buildError((char const *)arg1,(char const *)arg2,arg3,arg4,(std::string const &)*arg5);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  bcos::Error > *smartresult = new std::shared_ptr<  bcos::Error >(new bcos::Error(result));
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_bcos__Error_t, SWIG_POINTER_OWN);
@@ -16257,7 +16572,14 @@ SWIGINTERN PyObject *_wrap_Error_buildError__SWIG_1(PyObject *self, Py_ssize_t n
       arg6 = const_cast< bcos::Error * >(reinterpret_cast< std::shared_ptr< const bcos::Error > * >(argp6)->get());
     }
   }
-  result = bcos::Error::buildError((char const *)arg1,(char const *)arg2,arg3,arg4,(std::string const &)*arg5,(bcos::Error const &)*arg6);
+  {
+    try {
+      result = bcos::Error::buildError((char const *)arg1,(char const *)arg2,arg3,arg4,(std::string const &)*arg5,(bcos::Error const &)*arg6);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  bcos::Error > *smartresult = new std::shared_ptr<  bcos::Error >(new bcos::Error(result));
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_bcos__Error_t, SWIG_POINTER_OWN);
@@ -16338,7 +16660,14 @@ SWIGINTERN PyObject *_wrap_Error_buildError__SWIG_2(PyObject *self, Py_ssize_t n
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Error_buildError" "', argument " "6"" of type '" "std::exception const &""'"); 
   }
   arg6 = reinterpret_cast< std::exception * >(argp6);
-  result = bcos::Error::buildError((char const *)arg1,(char const *)arg2,arg3,arg4,(std::string const &)*arg5,(std::exception const &)*arg6);
+  {
+    try {
+      result = bcos::Error::buildError((char const *)arg1,(char const *)arg2,arg3,arg4,(std::string const &)*arg5,(std::exception const &)*arg6);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  bcos::Error > *smartresult = new std::shared_ptr<  bcos::Error >(new bcos::Error(result));
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_bcos__Error_t, SWIG_POINTER_OWN);
@@ -16472,7 +16801,14 @@ SWIGINTERN PyObject *_wrap_new_Error__SWIG_0(PyObject *self, Py_ssize_t nobjs, P
   
   (void)self;
   if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
-  result = (bcos::Error *)new bcos::Error();
+  {
+    try {
+      result = (bcos::Error *)new bcos::Error();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  bcos::Error > *smartresult = result ? new std::shared_ptr<  bcos::Error >(result SWIG_NO_NULL_DELETER_SWIG_POINTER_NEW) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_bcos__Error_t, SWIG_POINTER_NEW | SWIG_POINTER_OWN);
@@ -16507,7 +16843,14 @@ SWIGINTERN PyObject *_wrap_new_Error__SWIG_1(PyObject *self, Py_ssize_t nobjs, P
     arg2 = *ptr;
     if (SWIG_IsNewObj(res)) delete ptr;
   }
-  result = (bcos::Error *)new bcos::Error(arg1,arg2);
+  {
+    try {
+      result = (bcos::Error *)new bcos::Error(arg1,arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  bcos::Error > *smartresult = result ? new std::shared_ptr<  bcos::Error >(result SWIG_NO_NULL_DELETER_SWIG_POINTER_NEW) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_bcos__Error_t, SWIG_POINTER_NEW | SWIG_POINTER_OWN);
@@ -16580,7 +16923,14 @@ SWIGINTERN PyObject *_wrap_delete_Error(PyObject *self, PyObject *args) {
       arg1 = const_cast< bcos::Error * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -16616,7 +16966,14 @@ SWIGINTERN PyObject *_wrap_Error_errorCode(PyObject *self, PyObject *args) {
       arg1 = const_cast< bcos::Error * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (int64_t)((bcos::Error const *)arg1)->errorCode();
+  {
+    try {
+      result = (int64_t)((bcos::Error const *)arg1)->errorCode();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
   return resultobj;
 fail:
@@ -16652,7 +17009,14 @@ SWIGINTERN PyObject *_wrap_Error_errorMessage(PyObject *self, PyObject *args) {
       arg1 = const_cast< bcos::Error * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((bcos::Error const *)arg1)->errorMessage();
+  {
+    try {
+      result = (std::string *) &((bcos::Error const *)arg1)->errorMessage();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -16694,7 +17058,14 @@ SWIGINTERN PyObject *_wrap_Error_setErrorCode(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Error_setErrorCode" "', argument " "2"" of type '" "int64_t""'");
   } 
   arg2 = static_cast< int64_t >(val2);
-  (arg1)->setErrorCode(arg2);
+  {
+    try {
+      (arg1)->setErrorCode(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -16741,7 +17112,14 @@ SWIGINTERN PyObject *_wrap_Error_setErrorMessage(PyObject *self, PyObject *args)
     }
     arg2 = ptr;
   }
-  (arg1)->setErrorMessage((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setErrorMessage((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -16876,7 +17254,14 @@ SWIGINTERN PyObject *_wrap_new_InputBuffer(PyObject *self, PyObject *args) {
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_InputBuffer", 0, 0, 0)) SWIG_fail;
-  result = (InputBuffer *)new InputBuffer();
+  {
+    try {
+      result = (InputBuffer *)new InputBuffer();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_InputBuffer, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -16899,7 +17284,14 @@ SWIGINTERN PyObject *_wrap_delete_InputBuffer(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_InputBuffer" "', argument " "1"" of type '" "InputBuffer *""'"); 
   }
   arg1 = reinterpret_cast< InputBuffer * >(argp1);
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -17032,7 +17424,14 @@ SWIGINTERN PyObject *_wrap_new_OutputBuffer(PyObject *self, PyObject *args) {
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_OutputBuffer", 0, 0, 0)) SWIG_fail;
-  result = (OutputBuffer *)new OutputBuffer();
+  {
+    try {
+      result = (OutputBuffer *)new OutputBuffer();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_OutputBuffer, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -17055,7 +17454,14 @@ SWIGINTERN PyObject *_wrap_delete_OutputBuffer(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_OutputBuffer" "', argument " "1"" of type '" "OutputBuffer *""'"); 
   }
   arg1 = reinterpret_cast< OutputBuffer * >(argp1);
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -17101,7 +17507,14 @@ SWIGINTERN PyObject *_wrap_delete_FrontConfig(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -17137,7 +17550,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_threadPoolSize(PyObject *self, PyObject *
       arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (int)((ppc::front::FrontConfig const *)arg1)->threadPoolSize();
+  {
+    try {
+      result = (int)((ppc::front::FrontConfig const *)arg1)->threadPoolSize();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
@@ -17179,7 +17599,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_setThreadPoolSize(PyObject *self, PyObjec
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "FrontConfig_setThreadPoolSize" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = static_cast< int >(val2);
-  (arg1)->setThreadPoolSize(arg2);
+  {
+    try {
+      (arg1)->setThreadPoolSize(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -17215,7 +17642,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_nodeID(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((ppc::front::FrontConfig const *)arg1)->nodeID();
+  {
+    try {
+      result = (std::string *) &((ppc::front::FrontConfig const *)arg1)->nodeID();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -17262,7 +17696,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_setNodeID(PyObject *self, PyObject *args)
     }
     arg2 = ptr;
   }
-  (arg1)->setNodeID((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setNodeID((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -17300,7 +17741,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_selfEndPoint(PyObject *self, PyObject *ar
       arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (ppc::protocol::EndPoint *) &((ppc::front::FrontConfig const *)arg1)->selfEndPoint();
+  {
+    try {
+      result = (ppc::protocol::EndPoint *) &((ppc::front::FrontConfig const *)arg1)->selfEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__EndPoint, 0 |  0 );
   return resultobj;
 fail:
@@ -17336,7 +17784,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_mutableSelfEndPoint(PyObject *self, PyObj
       arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (ppc::protocol::EndPoint *) &(arg1)->mutableSelfEndPoint();
+  {
+    try {
+      result = (ppc::protocol::EndPoint *) &(arg1)->mutableSelfEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__EndPoint, 0 |  0 );
   return resultobj;
 fail:
@@ -17381,7 +17836,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_setSelfEndPoint(PyObject *self, PyObject 
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "FrontConfig_setSelfEndPoint" "', argument " "2"" of type '" "ppc::protocol::EndPoint const &""'"); 
   }
   arg2 = reinterpret_cast< ppc::protocol::EndPoint * >(argp2);
-  (arg1)->setSelfEndPoint((ppc::protocol::EndPoint const &)*arg2);
+  {
+    try {
+      (arg1)->setSelfEndPoint((ppc::protocol::EndPoint const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -17428,7 +17890,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_setGatewayGrpcTarget(PyObject *self, PyOb
     }
     arg2 = ptr;
   }
-  (arg1)->setGatewayGrpcTarget((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setGatewayGrpcTarget((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -17466,7 +17935,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_gatewayGrpcTarget(PyObject *self, PyObjec
       arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((ppc::front::FrontConfig const *)arg1)->gatewayGrpcTarget();
+  {
+    try {
+      result = (std::string *) &((ppc::front::FrontConfig const *)arg1)->gatewayGrpcTarget();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -17512,7 +17988,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_setGrpcConfig(PyObject *self, PyObject *a
     if (argp2) arg2 = *(reinterpret_cast< ppc::protocol::GrpcConfig::Ptr * >(argp2));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::protocol::GrpcConfig::Ptr * >(argp2);
   }
-  (arg1)->setGrpcConfig(arg2);
+  {
+    try {
+      (arg1)->setGrpcConfig(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -17548,7 +18031,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_grpcConfig(PyObject *self, PyObject *args
       arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (ppc::protocol::GrpcConfig::Ptr *) &((ppc::front::FrontConfig const *)arg1)->grpcConfig();
+  {
+    try {
+      result = (ppc::protocol::GrpcConfig::Ptr *) &((ppc::front::FrontConfig const *)arg1)->grpcConfig();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::GrpcConfig > *smartresult = *result ? new std::shared_ptr<  ppc::protocol::GrpcConfig >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, SWIG_POINTER_OWN);
@@ -17587,7 +18077,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_generateNodeInfo(PyObject *self, PyObject
       arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::front::FrontConfig const *)arg1)->generateNodeInfo();
+  {
+    try {
+      result = ((ppc::front::FrontConfig const *)arg1)->generateNodeInfo();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::INodeInfo > *smartresult = result ? new std::shared_ptr<  ppc::protocol::INodeInfo >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, SWIG_POINTER_OWN);
@@ -17626,7 +18123,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_getComponents(PyObject *self, PyObject *a
       arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::vector< std::string,std::allocator< std::string > > *) &((ppc::front::FrontConfig const *)arg1)->getComponents();
+  {
+    try {
+      result = (std::vector< std::string,std::allocator< std::string > > *) &((ppc::front::FrontConfig const *)arg1)->getComponents();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = swig::from(static_cast< std::vector< std::string,std::allocator< std::string > > >(*result));
   return resultobj;
 fail:
@@ -17673,7 +18177,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_setComponents(PyObject *self, PyObject *a
     }
     arg2 = ptr;
   }
-  (arg1)->setComponents((std::vector< std::string,std::allocator< std::string > > const &)*arg2);
+  {
+    try {
+      (arg1)->setComponents((std::vector< std::string,std::allocator< std::string > > const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -17722,7 +18233,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_addComponent(PyObject *self, PyObject *ar
     }
     arg2 = ptr;
   }
-  (arg1)->addComponent((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->addComponent((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -17760,7 +18278,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_mutableComponents(PyObject *self, PyObjec
       arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::vector< std::string,std::allocator< std::string > > *) &(arg1)->mutableComponents();
+  {
+    try {
+      result = (std::vector< std::string,std::allocator< std::string > > *) &(arg1)->mutableComponents();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__string_t, 0 |  0 );
   return resultobj;
 fail:
@@ -17796,7 +18321,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_meta(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::front::FrontConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::front::FrontConfig const *)arg1)->meta();
+  {
+    try {
+      result = ((ppc::front::FrontConfig const *)arg1)->meta();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
@@ -17840,7 +18372,14 @@ SWIGINTERN PyObject *_wrap_FrontConfig_setMeta(PyObject *self, PyObject *args) {
     arg2 = *ptr;
     if (SWIG_IsNewObj(res)) delete ptr;
   }
-  (arg1)->setMeta(arg2);
+  {
+    try {
+      (arg1)->setMeta(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -17870,7 +18409,14 @@ SWIGINTERN PyObject *_wrap_delete_FrontConfigBuilder(PyObject *self, PyObject *a
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_FrontConfigBuilder" "', argument " "1"" of type '" "ppc::front::FrontConfigBuilder *""'"); 
   }
   arg1 = reinterpret_cast< ppc::front::FrontConfigBuilder * >(argp1);
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -17892,7 +18438,14 @@ SWIGINTERN PyObject *_wrap_FrontConfigBuilder_build__SWIG_0(PyObject *self, Py_s
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "FrontConfigBuilder_build" "', argument " "1"" of type '" "ppc::front::FrontConfigBuilder const *""'"); 
   }
   arg1 = reinterpret_cast< ppc::front::FrontConfigBuilder * >(argp1);
-  result = ((ppc::front::FrontConfigBuilder const *)arg1)->build();
+  {
+    try {
+      result = ((ppc::front::FrontConfigBuilder const *)arg1)->build();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::FrontConfig > *smartresult = result ? new std::shared_ptr<  ppc::front::FrontConfig >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfig_t, SWIG_POINTER_OWN);
@@ -17935,7 +18488,14 @@ SWIGINTERN PyObject *_wrap_FrontConfigBuilder_build__SWIG_1(PyObject *self, Py_s
     arg3 = *ptr;
     if (SWIG_IsNewObj(res)) delete ptr;
   }
-  result = ((ppc::front::FrontConfigBuilder const *)arg1)->build(arg2,arg3);
+  {
+    try {
+      result = ((ppc::front::FrontConfigBuilder const *)arg1)->build(arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::FrontConfig > *smartresult = result ? new std::shared_ptr<  ppc::front::FrontConfig >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfig_t, SWIG_POINTER_OWN);
@@ -18025,7 +18585,14 @@ SWIGINTERN PyObject *_wrap_printFrontDesc(PyObject *self, PyObject *args) {
       arg1 = (argp1) ? reinterpret_cast< ppc::front::FrontConfig::Ptr * >(argp1) : &tempshared1;
     }
   }
-  result = ppc::front::printFrontDesc((std::shared_ptr< ppc::front::FrontConfig > const &)*arg1);
+  {
+    try {
+      result = ppc::front::printFrontDesc((std::shared_ptr< ppc::front::FrontConfig > const &)*arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
@@ -18039,7 +18606,14 @@ SWIGINTERN PyObject *_wrap_new_EndPoint__SWIG_0(PyObject *self, Py_ssize_t nobjs
   
   (void)self;
   if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
-  result = (ppc::protocol::EndPoint *)new ppc::protocol::EndPoint();
+  {
+    try {
+      result = (ppc::protocol::EndPoint *)new ppc::protocol::EndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__EndPoint, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -18074,7 +18648,14 @@ SWIGINTERN PyObject *_wrap_new_EndPoint__SWIG_1(PyObject *self, Py_ssize_t nobjs
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_EndPoint" "', argument " "2"" of type '" "uint16_t""'");
   } 
   arg2 = static_cast< uint16_t >(val2);
-  result = (ppc::protocol::EndPoint *)new ppc::protocol::EndPoint((std::string const &)*arg1,arg2);
+  {
+    try {
+      result = (ppc::protocol::EndPoint *)new ppc::protocol::EndPoint((std::string const &)*arg1,arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__EndPoint, SWIG_POINTER_NEW |  0 );
   if (SWIG_IsNewObj(res1)) delete arg1;
   return resultobj;
@@ -18134,7 +18715,14 @@ SWIGINTERN PyObject *_wrap_delete_EndPoint(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_EndPoint" "', argument " "1"" of type '" "ppc::protocol::EndPoint *""'"); 
   }
   arg1 = reinterpret_cast< ppc::protocol::EndPoint * >(argp1);
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -18158,7 +18746,14 @@ SWIGINTERN PyObject *_wrap_EndPoint_host(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EndPoint_host" "', argument " "1"" of type '" "ppc::protocol::EndPoint const *""'"); 
   }
   arg1 = reinterpret_cast< ppc::protocol::EndPoint * >(argp1);
-  result = (std::string *) &((ppc::protocol::EndPoint const *)arg1)->host();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::EndPoint const *)arg1)->host();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -18182,7 +18777,14 @@ SWIGINTERN PyObject *_wrap_EndPoint_port(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EndPoint_port" "', argument " "1"" of type '" "ppc::protocol::EndPoint const *""'"); 
   }
   arg1 = reinterpret_cast< ppc::protocol::EndPoint * >(argp1);
-  result = (uint16_t)((ppc::protocol::EndPoint const *)arg1)->port();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::EndPoint const *)arg1)->port();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
   return resultobj;
 fail:
@@ -18214,7 +18816,14 @@ SWIGINTERN PyObject *_wrap_EndPoint_setHost(PyObject *self, PyObject *args) {
     arg2 = *ptr;
     if (SWIG_IsNewObj(res)) delete ptr;
   }
-  (arg1)->setHost(arg2);
+  {
+    try {
+      (arg1)->setHost(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -18244,7 +18853,14 @@ SWIGINTERN PyObject *_wrap_EndPoint_setPort(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "EndPoint_setPort" "', argument " "2"" of type '" "uint16_t""'");
   } 
   arg2 = static_cast< uint16_t >(val2);
-  (arg1)->setPort(arg2);
+  {
+    try {
+      (arg1)->setPort(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -18279,7 +18895,14 @@ SWIGINTERN PyObject *_wrap_EndPoint_setListenIp(PyObject *self, PyObject *args) 
     }
     arg2 = ptr;
   }
-  (arg1)->setListenIp((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setListenIp((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -18305,7 +18928,14 @@ SWIGINTERN PyObject *_wrap_EndPoint_entryPoint(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EndPoint_entryPoint" "', argument " "1"" of type '" "ppc::protocol::EndPoint const *""'"); 
   }
   arg1 = reinterpret_cast< ppc::protocol::EndPoint * >(argp1);
-  result = ((ppc::protocol::EndPoint const *)arg1)->entryPoint();
+  {
+    try {
+      result = ((ppc::protocol::EndPoint const *)arg1)->entryPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
@@ -18329,7 +18959,14 @@ SWIGINTERN PyObject *_wrap_EndPoint_listenEndPoint(PyObject *self, PyObject *arg
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EndPoint_listenEndPoint" "', argument " "1"" of type '" "ppc::protocol::EndPoint const *""'"); 
   }
   arg1 = reinterpret_cast< ppc::protocol::EndPoint * >(argp1);
-  result = ((ppc::protocol::EndPoint const *)arg1)->listenEndPoint();
+  {
+    try {
+      result = ((ppc::protocol::EndPoint const *)arg1)->listenEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
@@ -18353,7 +18990,14 @@ SWIGINTERN PyObject *_wrap_EndPoint_listenIp(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "EndPoint_listenIp" "', argument " "1"" of type '" "ppc::protocol::EndPoint const *""'"); 
   }
   arg1 = reinterpret_cast< ppc::protocol::EndPoint * >(argp1);
-  result = (std::string *) &((ppc::protocol::EndPoint const *)arg1)->listenIp();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::EndPoint const *)arg1)->listenIp();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -18378,7 +19022,14 @@ SWIGINTERN PyObject *_wrap_new_GrpcServerConfig__SWIG_0(PyObject *self, Py_ssize
   
   (void)self;
   if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
-  result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig();
+  {
+    try {
+      result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__GrpcServerConfig, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -18416,7 +19067,14 @@ SWIGINTERN PyObject *_wrap_new_GrpcServerConfig__SWIG_1(PyObject *self, Py_ssize
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_GrpcServerConfig" "', argument " "2"" of type '" "bool""'");
   } 
   arg2 = static_cast< bool >(val2);
-  result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig(arg1,arg2);
+  {
+    try {
+      result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig(arg1,arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__GrpcServerConfig, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -18475,7 +19133,14 @@ SWIGINTERN PyObject *_wrap_GrpcServerConfig_listenEndPoint(PyObject *self, PyObj
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_listenEndPoint" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig const *""'"); 
   }
   arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
-  result = ((ppc::protocol::GrpcServerConfig const *)arg1)->listenEndPoint();
+  {
+    try {
+      result = ((ppc::protocol::GrpcServerConfig const *)arg1)->listenEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
@@ -18513,7 +19178,14 @@ SWIGINTERN PyObject *_wrap_GrpcServerConfig_setEndPoint(PyObject *self, PyObject
       if (SWIG_IsNewObj(res2)) delete temp;
     }
   }
-  (arg1)->setEndPoint(arg2);
+  {
+    try {
+      (arg1)->setEndPoint(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -18543,7 +19215,14 @@ SWIGINTERN PyObject *_wrap_GrpcServerConfig_setEnableHealthCheck(PyObject *self,
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GrpcServerConfig_setEnableHealthCheck" "', argument " "2"" of type '" "bool""'");
   } 
   arg2 = static_cast< bool >(val2);
-  (arg1)->setEnableHealthCheck(arg2);
+  {
+    try {
+      (arg1)->setEnableHealthCheck(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -18567,7 +19246,14 @@ SWIGINTERN PyObject *_wrap_GrpcServerConfig_endPoint(PyObject *self, PyObject *a
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_endPoint" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig const *""'"); 
   }
   arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
-  result = (ppc::protocol::EndPoint *) &((ppc::protocol::GrpcServerConfig const *)arg1)->endPoint();
+  {
+    try {
+      result = (ppc::protocol::EndPoint *) &((ppc::protocol::GrpcServerConfig const *)arg1)->endPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__EndPoint, 0 |  0 );
   return resultobj;
 fail:
@@ -18591,7 +19277,14 @@ SWIGINTERN PyObject *_wrap_GrpcServerConfig_mutableEndPoint(PyObject *self, PyOb
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_mutableEndPoint" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig *""'"); 
   }
   arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
-  result = (ppc::protocol::EndPoint *) &(arg1)->mutableEndPoint();
+  {
+    try {
+      result = (ppc::protocol::EndPoint *) &(arg1)->mutableEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__EndPoint, 0 |  0 );
   return resultobj;
 fail:
@@ -18615,7 +19308,14 @@ SWIGINTERN PyObject *_wrap_GrpcServerConfig_enableHealthCheck(PyObject *self, Py
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_enableHealthCheck" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig const *""'"); 
   }
   arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
-  result = (bool)((ppc::protocol::GrpcServerConfig const *)arg1)->enableHealthCheck();
+  {
+    try {
+      result = (bool)((ppc::protocol::GrpcServerConfig const *)arg1)->enableHealthCheck();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -18638,7 +19338,14 @@ SWIGINTERN PyObject *_wrap_delete_GrpcServerConfig(PyObject *self, PyObject *arg
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_GrpcServerConfig" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig *""'"); 
   }
   arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -18663,7 +19370,14 @@ SWIGINTERN PyObject *_wrap_new_GrpcConfig(PyObject *self, PyObject *args) {
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_GrpcConfig", 0, 0, 0)) SWIG_fail;
-  result = (ppc::protocol::GrpcConfig *)new ppc::protocol::GrpcConfig();
+  {
+    try {
+      result = (ppc::protocol::GrpcConfig *)new ppc::protocol::GrpcConfig();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::GrpcConfig > *smartresult = result ? new std::shared_ptr<  ppc::protocol::GrpcConfig >(result SWIG_NO_NULL_DELETER_SWIG_POINTER_NEW) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, SWIG_POINTER_NEW | SWIG_POINTER_OWN);
@@ -18701,7 +19415,14 @@ SWIGINTERN PyObject *_wrap_delete_GrpcConfig(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -18737,7 +19458,14 @@ SWIGINTERN PyObject *_wrap_GrpcConfig_loadBalancePolicy(PyObject *self, PyObject
       arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((ppc::protocol::GrpcConfig const *)arg1)->loadBalancePolicy();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::GrpcConfig const *)arg1)->loadBalancePolicy();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -18784,7 +19512,14 @@ SWIGINTERN PyObject *_wrap_GrpcConfig_setLoadBalancePolicy(PyObject *self, PyObj
     }
     arg2 = ptr;
   }
-  (arg1)->setLoadBalancePolicy((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setLoadBalancePolicy((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -18822,7 +19557,14 @@ SWIGINTERN PyObject *_wrap_GrpcConfig_enableHealthCheck(PyObject *self, PyObject
       arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (bool)((ppc::protocol::GrpcConfig const *)arg1)->enableHealthCheck();
+  {
+    try {
+      result = (bool)((ppc::protocol::GrpcConfig const *)arg1)->enableHealthCheck();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -18864,7 +19606,14 @@ SWIGINTERN PyObject *_wrap_GrpcConfig_setEnableHealthCheck(PyObject *self, PyObj
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GrpcConfig_setEnableHealthCheck" "', argument " "2"" of type '" "bool""'");
   } 
   arg2 = static_cast< bool >(val2);
-  (arg1)->setEnableHealthCheck(arg2);
+  {
+    try {
+      (arg1)->setEnableHealthCheck(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -18906,7 +19655,14 @@ SWIGINTERN PyObject *_wrap_GrpcConfig_setEnableDnslookup(PyObject *self, PyObjec
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GrpcConfig_setEnableDnslookup" "', argument " "2"" of type '" "bool""'");
   } 
   arg2 = static_cast< bool >(val2);
-  (arg1)->setEnableDnslookup(arg2);
+  {
+    try {
+      (arg1)->setEnableDnslookup(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -18942,7 +19698,14 @@ SWIGINTERN PyObject *_wrap_GrpcConfig_enableDnslookup(PyObject *self, PyObject *
       arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (bool)((ppc::protocol::GrpcConfig const *)arg1)->enableDnslookup();
+  {
+    try {
+      result = (bool)((ppc::protocol::GrpcConfig const *)arg1)->enableDnslookup();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -18978,7 +19741,14 @@ SWIGINTERN PyObject *_wrap_GrpcConfig_maxSendMessageSize(PyObject *self, PyObjec
       arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxSendMessageSize();
+  {
+    try {
+      result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxSendMessageSize();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_long_SS_long(static_cast< unsigned long long >(result));
   return resultobj;
 fail:
@@ -19014,7 +19784,14 @@ SWIGINTERN PyObject *_wrap_GrpcConfig_maxReceivedMessageSize(PyObject *self, PyO
       arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxReceivedMessageSize();
+  {
+    try {
+      result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxReceivedMessageSize();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_long_SS_long(static_cast< unsigned long long >(result));
   return resultobj;
 fail:
@@ -19056,7 +19833,14 @@ SWIGINTERN PyObject *_wrap_GrpcConfig_setMaxSendMessageSize(PyObject *self, PyOb
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GrpcConfig_setMaxSendMessageSize" "', argument " "2"" of type '" "uint64_t""'");
   } 
   arg2 = static_cast< uint64_t >(val2);
-  (arg1)->setMaxSendMessageSize(arg2);
+  {
+    try {
+      (arg1)->setMaxSendMessageSize(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -19098,7 +19882,14 @@ SWIGINTERN PyObject *_wrap_GrpcConfig_setMaxReceivedMessageSize(PyObject *self, 
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GrpcConfig_setMaxReceivedMessageSize" "', argument " "2"" of type '" "uint64_t""'");
   } 
   arg2 = static_cast< uint64_t >(val2);
-  (arg1)->setMaxReceivedMessageSize(arg2);
+  {
+    try {
+      (arg1)->setMaxReceivedMessageSize(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -19134,7 +19925,14 @@ SWIGINTERN PyObject *_wrap_GrpcConfig_compressAlgorithm(PyObject *self, PyObject
       arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (int)((ppc::protocol::GrpcConfig const *)arg1)->compressAlgorithm();
+  {
+    try {
+      result = (int)((ppc::protocol::GrpcConfig const *)arg1)->compressAlgorithm();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
@@ -19176,7 +19974,14 @@ SWIGINTERN PyObject *_wrap_GrpcConfig_setCompressAlgorithm(PyObject *self, PyObj
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GrpcConfig_setCompressAlgorithm" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = static_cast< int >(val2);
-  (arg1)->setCompressAlgorithm(arg2);
+  {
+    try {
+      (arg1)->setCompressAlgorithm(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -19221,7 +20026,14 @@ SWIGINTERN PyObject *_wrap_printGrpcConfig(PyObject *self, PyObject *args) {
       arg1 = (argp1) ? reinterpret_cast< ppc::protocol::GrpcConfig::Ptr * >(argp1) : &tempshared1;
     }
   }
-  result = ppc::protocol::printGrpcConfig((std::shared_ptr< ppc::protocol::GrpcConfig > const &)*arg1);
+  {
+    try {
+      result = ppc::protocol::printGrpcConfig((std::shared_ptr< ppc::protocol::GrpcConfig > const &)*arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
@@ -19256,7 +20068,14 @@ SWIGINTERN PyObject *_wrap_delete_MessageOptionalHeader(PyObject *self, PyObject
       arg1 = const_cast< ppc::protocol::MessageOptionalHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -19311,7 +20130,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_encode(PyObject *self, PyObject
       arg2 = const_cast< bcos::bytes * >(reinterpret_cast< std::shared_ptr<  bcos::bytes > * >(argp2)->get());
     }
   }
-  ((ppc::protocol::MessageOptionalHeader const *)arg1)->encode(*arg2);
+  {
+    try {
+      ((ppc::protocol::MessageOptionalHeader const *)arg1)->encode(*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -19370,7 +20196,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_decode(PyObject *self, PyObject
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "MessageOptionalHeader_decode" "', argument " "3"" of type '" "uint64_t""'");
   } 
   arg3 = static_cast< uint64_t >(val3);
-  result = (int64_t)(arg1)->decode(arg2,arg3);
+  {
+    try {
+      result = (int64_t)(arg1)->decode(arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
   return resultobj;
 fail:
@@ -19406,7 +20239,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_componentType(PyObject *self, P
       arg1 = const_cast< ppc::protocol::MessageOptionalHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->componentType();
+  {
+    try {
+      result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->componentType();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
@@ -19450,7 +20290,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_setComponentType(PyObject *self
     arg2 = *ptr;
     if (SWIG_IsNewObj(res)) delete ptr;
   }
-  (arg1)->setComponentType(arg2);
+  {
+    try {
+      (arg1)->setComponentType(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -19486,7 +20333,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_srcNodeBuffer(PyObject *self, P
       arg1 = const_cast< ppc::protocol::MessageOptionalHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->srcNodeBuffer();
+  {
+    try {
+      result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->srcNodeBuffer();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     resultobj = PyBytes_FromStringAndSize((const char *)(&result)->data, (&result)->len);
   }
@@ -19557,7 +20411,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_setSrcNodeBuffer(PyObject *self
     arg2 = (char *) buf;
     arg3 = (uint64_t) (size / sizeof(char));
   }
-  (arg1)->setSrcNodeBuffer(arg2,arg3);
+  {
+    try {
+      (arg1)->setSrcNodeBuffer(arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -19593,7 +20454,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_dstNodeBuffer(PyObject *self, P
       arg1 = const_cast< ppc::protocol::MessageOptionalHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->dstNodeBuffer();
+  {
+    try {
+      result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->dstNodeBuffer();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     resultobj = PyBytes_FromStringAndSize((const char *)(&result)->data, (&result)->len);
   }
@@ -19664,7 +20532,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_setDstNodeBuffer(PyObject *self
     arg2 = (char *) buf;
     arg3 = (uint64_t) (size / sizeof(char));
   }
-  (arg1)->setDstNodeBuffer(arg2,arg3);
+  {
+    try {
+      (arg1)->setDstNodeBuffer(arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -19700,7 +20575,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_dstInst(PyObject *self, PyObjec
       arg1 = const_cast< ppc::protocol::MessageOptionalHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((ppc::protocol::MessageOptionalHeader const *)arg1)->dstInst();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::MessageOptionalHeader const *)arg1)->dstInst();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -19747,7 +20629,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_setDstInst(PyObject *self, PyOb
     }
     arg2 = ptr;
   }
-  (arg1)->setDstInst((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setDstInst((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -19785,7 +20674,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_topic(PyObject *self, PyObject 
       arg1 = const_cast< ppc::protocol::MessageOptionalHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((ppc::protocol::MessageOptionalHeader const *)arg1)->topic();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::MessageOptionalHeader const *)arg1)->topic();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -19835,7 +20731,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_setTopic__SWIG_0(PyObject *self
   }
   arg2 = reinterpret_cast< std::string * >(argp2);
   rvrdeleter2.reset(arg2);
-  (arg1)->setTopic((std::string &&)*arg2);
+  {
+    try {
+      (arg1)->setTopic((std::string &&)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -19881,7 +20784,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_setTopic__SWIG_1(PyObject *self
     }
     arg2 = ptr;
   }
-  (arg1)->setTopic((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setTopic((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -19962,7 +20872,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_srcInst(PyObject *self, PyObjec
       arg1 = const_cast< ppc::protocol::MessageOptionalHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->srcInst();
+  {
+    try {
+      result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->srcInst();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
@@ -20009,7 +20926,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeader_setSrcInst(PyObject *self, PyOb
     }
     arg2 = ptr;
   }
-  (arg1)->setSrcInst((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setSrcInst((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -20053,7 +20977,14 @@ SWIGINTERN PyObject *_wrap_delete_MessageHeader(PyObject *self, PyObject *args) 
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -20108,7 +21039,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_encode(PyObject *self, PyObject *args) 
       arg2 = const_cast< bcos::bytes * >(reinterpret_cast< std::shared_ptr<  bcos::bytes > * >(argp2)->get());
     }
   }
-  ((ppc::protocol::MessageHeader const *)arg1)->encode(*arg2);
+  {
+    try {
+      ((ppc::protocol::MessageHeader const *)arg1)->encode(*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -20159,7 +21097,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_decode(PyObject *self, PyObject *args) 
       if (SWIG_IsNewObj(res2)) delete temp;
     }
   }
-  result = (int64_t)(arg1)->decode(arg2);
+  {
+    try {
+      result = (int64_t)(arg1)->decode(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
   return resultobj;
 fail:
@@ -20195,7 +21140,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_version(PyObject *self, PyObject *args)
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint8_t)((ppc::protocol::MessageHeader const *)arg1)->version();
+  {
+    try {
+      result = (uint8_t)((ppc::protocol::MessageHeader const *)arg1)->version();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_char(static_cast< unsigned char >(result));
   return resultobj;
 fail:
@@ -20237,7 +21189,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_setVersion(PyObject *self, PyObject *ar
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "MessageHeader_setVersion" "', argument " "2"" of type '" "uint16_t""'");
   } 
   arg2 = static_cast< uint16_t >(val2);
-  (arg1)->setVersion(arg2);
+  {
+    try {
+      (arg1)->setVersion(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -20273,7 +21232,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_traceID(PyObject *self, PyObject *args)
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((ppc::protocol::MessageHeader const *)arg1)->traceID();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::MessageHeader const *)arg1)->traceID();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -20317,7 +21283,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_setTraceID(PyObject *self, PyObject *ar
     arg2 = *ptr;
     if (SWIG_IsNewObj(res)) delete ptr;
   }
-  (arg1)->setTraceID(arg2);
+  {
+    try {
+      (arg1)->setTraceID(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -20353,7 +21326,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_srcGwNode(PyObject *self, PyObject *arg
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((ppc::protocol::MessageHeader const *)arg1)->srcGwNode();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::MessageHeader const *)arg1)->srcGwNode();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -20400,7 +21380,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_setSrcGwNode(PyObject *self, PyObject *
     }
     arg2 = ptr;
   }
-  (arg1)->setSrcGwNode((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setSrcGwNode((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -20438,7 +21425,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_dstGwNode(PyObject *self, PyObject *arg
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((ppc::protocol::MessageHeader const *)arg1)->dstGwNode();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::MessageHeader const *)arg1)->dstGwNode();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -20485,7 +21479,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_setDstGwNode(PyObject *self, PyObject *
     }
     arg2 = ptr;
   }
-  (arg1)->setDstGwNode((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setDstGwNode((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -20523,7 +21524,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_packetType(PyObject *self, PyObject *ar
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->packetType();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->packetType();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
   return resultobj;
 fail:
@@ -20565,7 +21573,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_setPacketType(PyObject *self, PyObject 
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "MessageHeader_setPacketType" "', argument " "2"" of type '" "uint16_t""'");
   } 
   arg2 = static_cast< uint16_t >(val2);
-  (arg1)->setPacketType(arg2);
+  {
+    try {
+      (arg1)->setPacketType(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -20601,7 +21616,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_ttl(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (int16_t)((ppc::protocol::MessageHeader const *)arg1)->ttl();
+  {
+    try {
+      result = (int16_t)((ppc::protocol::MessageHeader const *)arg1)->ttl();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_short(static_cast< short >(result));
   return resultobj;
 fail:
@@ -20643,7 +21665,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_setTTL(PyObject *self, PyObject *args) 
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "MessageHeader_setTTL" "', argument " "2"" of type '" "uint16_t""'");
   } 
   arg2 = static_cast< uint16_t >(val2);
-  (arg1)->setTTL(arg2);
+  {
+    try {
+      (arg1)->setTTL(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -20679,7 +21708,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_ext(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->ext();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->ext();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
   return resultobj;
 fail:
@@ -20721,7 +21757,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_setExt(PyObject *self, PyObject *args) 
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "MessageHeader_setExt" "', argument " "2"" of type '" "uint16_t""'");
   } 
   arg2 = static_cast< uint16_t >(val2);
-  (arg1)->setExt(arg2);
+  {
+    try {
+      (arg1)->setExt(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -20757,7 +21800,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_optionalField(PyObject *self, PyObject 
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::MessageHeader const *)arg1)->optionalField();
+  {
+    try {
+      result = ((ppc::protocol::MessageHeader const *)arg1)->optionalField();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageOptionalHeader > *smartresult = result ? new std::shared_ptr<  ppc::protocol::MessageOptionalHeader >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageOptionalHeader_t, SWIG_POINTER_OWN);
@@ -20806,7 +21856,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_setOptionalField(PyObject *self, PyObje
     if (argp2) arg2 = *(reinterpret_cast< ppc::protocol::MessageOptionalHeader::Ptr * >(argp2));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::protocol::MessageOptionalHeader::Ptr * >(argp2);
   }
-  (arg1)->setOptionalField(arg2);
+  {
+    try {
+      (arg1)->setOptionalField(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -20842,7 +21899,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_length(PyObject *self, PyObject *args) 
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->length();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->length();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
   return resultobj;
 fail:
@@ -20878,7 +21942,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_isRespPacket(PyObject *self, PyObject *
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (bool)((ppc::protocol::MessageHeader const *)arg1)->isRespPacket();
+  {
+    try {
+      result = (bool)((ppc::protocol::MessageHeader const *)arg1)->isRespPacket();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -20913,7 +21984,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_setRespPacket(PyObject *self, PyObject 
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (arg1)->setRespPacket();
+  {
+    try {
+      (arg1)->setRespPacket();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -20949,7 +22027,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_srcP2PNodeIDView(PyObject *self, PyObje
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::MessageHeader const *)arg1)->srcP2PNodeIDView();
+  {
+    try {
+      result = ((ppc::protocol::MessageHeader const *)arg1)->srcP2PNodeIDView();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj((new std::string_view(result)), SWIGTYPE_p_std__string_view, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
@@ -20985,7 +22070,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_dstP2PNodeIDView(PyObject *self, PyObje
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::MessageHeader const *)arg1)->dstP2PNodeIDView();
+  {
+    try {
+      result = ((ppc::protocol::MessageHeader const *)arg1)->dstP2PNodeIDView();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj((new std::string_view(result)), SWIGTYPE_p_std__string_view, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
@@ -21021,7 +22113,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_routeType(PyObject *self, PyObject *arg
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->routeType();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->routeType();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
   return resultobj;
 fail:
@@ -21071,7 +22170,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_setRouteType(PyObject *self, PyObject *
       if (SWIG_IsNewObj(res2)) delete temp;
     }
   }
-  (arg1)->setRouteType(arg2);
+  {
+    try {
+      (arg1)->setRouteType(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -21107,7 +22213,14 @@ SWIGINTERN PyObject *_wrap_MessageHeader_hasOptionalField(PyObject *self, PyObje
       arg1 = const_cast< ppc::protocol::MessageHeader * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (bool)((ppc::protocol::MessageHeader const *)arg1)->hasOptionalField();
+  {
+    try {
+      result = (bool)((ppc::protocol::MessageHeader const *)arg1)->hasOptionalField();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -21149,7 +22262,14 @@ SWIGINTERN PyObject *_wrap_delete_Message(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -21185,7 +22305,14 @@ SWIGINTERN PyObject *_wrap_Message_header(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::Message const *)arg1)->header();
+  {
+    try {
+      result = ((ppc::protocol::Message const *)arg1)->header();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageHeader > *smartresult = result ? new std::shared_ptr<  ppc::protocol::MessageHeader >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageHeader_t, SWIG_POINTER_OWN);
@@ -21234,7 +22361,14 @@ SWIGINTERN PyObject *_wrap_Message_setHeader(PyObject *self, PyObject *args) {
     if (argp2) arg2 = *(reinterpret_cast< ppc::protocol::MessageHeader::Ptr * >(argp2));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::protocol::MessageHeader::Ptr * >(argp2);
   }
-  (arg1)->setHeader(arg2);
+  {
+    try {
+      (arg1)->setHeader(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -21270,7 +22404,14 @@ SWIGINTERN PyObject *_wrap_Message_version(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint16_t)((ppc::protocol::Message const *)arg1)->version();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::Message const *)arg1)->version();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
   return resultobj;
 fail:
@@ -21312,7 +22453,14 @@ SWIGINTERN PyObject *_wrap_Message_setVersion(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Message_setVersion" "', argument " "2"" of type '" "uint16_t""'");
   } 
   arg2 = static_cast< uint16_t >(val2);
-  (arg1)->setVersion(arg2);
+  {
+    try {
+      (arg1)->setVersion(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -21348,7 +22496,14 @@ SWIGINTERN PyObject *_wrap_Message_packetType(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint16_t)((ppc::protocol::Message const *)arg1)->packetType();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::Message const *)arg1)->packetType();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
   return resultobj;
 fail:
@@ -21390,7 +22545,14 @@ SWIGINTERN PyObject *_wrap_Message_setPacketType(PyObject *self, PyObject *args)
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Message_setPacketType" "', argument " "2"" of type '" "uint16_t""'");
   } 
   arg2 = static_cast< uint16_t >(val2);
-  (arg1)->setPacketType(arg2);
+  {
+    try {
+      (arg1)->setPacketType(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -21426,7 +22588,14 @@ SWIGINTERN PyObject *_wrap_Message_seq(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((ppc::protocol::Message const *)arg1)->seq();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::Message const *)arg1)->seq();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -21470,7 +22639,14 @@ SWIGINTERN PyObject *_wrap_Message_setSeq(PyObject *self, PyObject *args) {
     arg2 = *ptr;
     if (SWIG_IsNewObj(res)) delete ptr;
   }
-  (arg1)->setSeq(arg2);
+  {
+    try {
+      (arg1)->setSeq(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -21506,7 +22682,14 @@ SWIGINTERN PyObject *_wrap_Message_ext(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint16_t)((ppc::protocol::Message const *)arg1)->ext();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::Message const *)arg1)->ext();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
   return resultobj;
 fail:
@@ -21548,7 +22731,14 @@ SWIGINTERN PyObject *_wrap_Message_setExt(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Message_setExt" "', argument " "2"" of type '" "uint16_t""'");
   } 
   arg2 = static_cast< uint16_t >(val2);
-  (arg1)->setExt(arg2);
+  {
+    try {
+      (arg1)->setExt(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -21584,7 +22774,14 @@ SWIGINTERN PyObject *_wrap_Message_isRespPacket(PyObject *self, PyObject *args) 
       arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (bool)((ppc::protocol::Message const *)arg1)->isRespPacket();
+  {
+    try {
+      result = (bool)((ppc::protocol::Message const *)arg1)->isRespPacket();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -21619,7 +22816,14 @@ SWIGINTERN PyObject *_wrap_Message_setRespPacket(PyObject *self, PyObject *args)
       arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (arg1)->setRespPacket();
+  {
+    try {
+      (arg1)->setRespPacket();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -21665,7 +22869,14 @@ SWIGINTERN PyObject *_wrap_Message_setPayload(PyObject *self, PyObject *args) {
     if (argp2) arg2 = *(reinterpret_cast< std::shared_ptr< bcos::bytes > * >(argp2));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< std::shared_ptr< bcos::bytes > * >(argp2);
   }
-  (arg1)->setPayload(arg2);
+  {
+    try {
+      (arg1)->setPayload(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -21701,7 +22912,14 @@ SWIGINTERN PyObject *_wrap_Message_payloadBuffer(PyObject *self, PyObject *args)
       arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::Message const *)arg1)->payloadBuffer();
+  {
+    try {
+      result = ((ppc::protocol::Message const *)arg1)->payloadBuffer();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     resultobj = PyBytes_FromStringAndSize((const char *)(&result)->data, (&result)->len);
   }
@@ -21749,7 +22967,14 @@ SWIGINTERN PyObject *_wrap_Message_setFrontMessage(PyObject *self, PyObject *arg
     if (argp2) arg2 = *(reinterpret_cast< ppc::protocol::MessagePayload::Ptr * >(argp2));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::protocol::MessagePayload::Ptr * >(argp2);
   }
-  (arg1)->setFrontMessage(arg2);
+  {
+    try {
+      (arg1)->setFrontMessage(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -21785,7 +23010,14 @@ SWIGINTERN PyObject *_wrap_Message_frontMessage(PyObject *self, PyObject *args) 
       arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (ppc::protocol::MessagePayload::Ptr *) &((ppc::protocol::Message const *)arg1)->frontMessage();
+  {
+    try {
+      result = (ppc::protocol::MessagePayload::Ptr *) &((ppc::protocol::Message const *)arg1)->frontMessage();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessagePayload > *smartresult = *result ? new std::shared_ptr<  ppc::protocol::MessagePayload >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessagePayload_t, SWIG_POINTER_OWN);
@@ -21844,7 +23076,14 @@ SWIGINTERN PyObject *_wrap_Message_encode(PyObject *self, PyObject *args) {
       arg2 = const_cast< bcos::bytes * >(reinterpret_cast< std::shared_ptr<  bcos::bytes > * >(argp2)->get());
     }
   }
-  result = (bool)(arg1)->encode(*arg2);
+  {
+    try {
+      result = (bool)(arg1)->encode(*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -21895,7 +23134,14 @@ SWIGINTERN PyObject *_wrap_Message_decode(PyObject *self, PyObject *args) {
       if (SWIG_IsNewObj(res2)) delete temp;
     }
   }
-  result = (int64_t)(arg1)->decode(arg2);
+  {
+    try {
+      result = (int64_t)(arg1)->decode(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
   return resultobj;
 fail:
@@ -21931,7 +23177,14 @@ SWIGINTERN PyObject *_wrap_Message_length(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint32_t)((ppc::protocol::Message const *)arg1)->length();
+  {
+    try {
+      result = (uint32_t)((ppc::protocol::Message const *)arg1)->length();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_int(static_cast< unsigned int >(result));
   return resultobj;
 fail:
@@ -21967,7 +23220,14 @@ SWIGINTERN PyObject *_wrap_Message_payload(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::Message const *)arg1)->payload();
+  {
+    try {
+      result = ((ppc::protocol::Message const *)arg1)->payload();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  bcos::bytes > *smartresult = result ? new std::shared_ptr<  bcos::bytes >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_bcos__bytes_t, SWIG_POINTER_OWN);
@@ -22012,7 +23272,14 @@ SWIGINTERN PyObject *_wrap_delete_MessageHeaderBuilder(PyObject *self, PyObject 
       arg1 = const_cast< ppc::protocol::MessageHeaderBuilder * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -22062,7 +23329,14 @@ SWIGINTERN PyObject *_wrap_MessageHeaderBuilder_build__SWIG_0(PyObject *self, Py
       if (SWIG_IsNewObj(res2)) delete temp;
     }
   }
-  result = (arg1)->build(arg2);
+  {
+    try {
+      result = (arg1)->build(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageHeader > *smartresult = result ? new std::shared_ptr<  ppc::protocol::MessageHeader >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageHeader_t, SWIG_POINTER_OWN);
@@ -22099,7 +23373,14 @@ SWIGINTERN PyObject *_wrap_MessageHeaderBuilder_build__SWIG_1(PyObject *self, Py
       arg1 = const_cast< ppc::protocol::MessageHeaderBuilder * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (arg1)->build();
+  {
+    try {
+      result = (arg1)->build();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageHeader > *smartresult = result ? new std::shared_ptr<  ppc::protocol::MessageHeader >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageHeader_t, SWIG_POINTER_OWN);
@@ -22154,7 +23435,14 @@ SWIGINTERN PyObject *_wrap_MessageHeaderBuilder_build__SWIG_2(PyObject *self, Py
       arg2 = (argp2) ? reinterpret_cast< ppc::protocol::MessageOptionalHeader::Ptr * >(argp2) : &tempshared2;
     }
   }
-  result = (arg1)->build((ppc::protocol::MessageOptionalHeader::Ptr const &)*arg2);
+  {
+    try {
+      result = (arg1)->build((ppc::protocol::MessageOptionalHeader::Ptr const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageOptionalHeader > *smartresult = result ? new std::shared_ptr<  ppc::protocol::MessageOptionalHeader >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageOptionalHeader_t, SWIG_POINTER_OWN);
@@ -22250,7 +23538,14 @@ SWIGINTERN PyObject *_wrap_delete_MessageBuilder(PyObject *self, PyObject *args)
       arg1 = const_cast< ppc::protocol::MessageBuilder * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -22284,7 +23579,14 @@ SWIGINTERN PyObject *_wrap_MessageBuilder_build__SWIG_0(PyObject *self, Py_ssize
       arg1 = const_cast< ppc::protocol::MessageBuilder * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (arg1)->build();
+  {
+    try {
+      result = (arg1)->build();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::Message > *smartresult = result ? new std::shared_ptr<  ppc::protocol::Message >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, SWIG_POINTER_OWN);
@@ -22337,7 +23639,14 @@ SWIGINTERN PyObject *_wrap_MessageBuilder_build__SWIG_1(PyObject *self, Py_ssize
       if (SWIG_IsNewObj(res2)) delete temp;
     }
   }
-  result = (arg1)->build(arg2);
+  {
+    try {
+      result = (arg1)->build(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::Message > *smartresult = result ? new std::shared_ptr<  ppc::protocol::Message >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, SWIG_POINTER_OWN);
@@ -22425,7 +23734,14 @@ SWIGINTERN PyObject *_wrap_MessageBuilder_build__SWIG_2(PyObject *self, Py_ssize
   }
   arg4 = reinterpret_cast< bcos::bytes * >(argp4);
   rvrdeleter4.reset(arg4);
-  result = (arg1)->build(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,(bcos::bytes &&)*arg4);
+  {
+    try {
+      result = (arg1)->build(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,(bcos::bytes &&)*arg4);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::Message > *smartresult = result ? new std::shared_ptr<  ppc::protocol::Message >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, SWIG_POINTER_OWN);
@@ -22530,7 +23846,14 @@ SWIGINTERN PyObject *_wrap_delete_MessageOptionalHeaderBuilder(PyObject *self, P
       arg1 = const_cast< ppc::protocol::MessageOptionalHeaderBuilder * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -22582,7 +23905,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeaderBuilder_build__SWIG_0(PyObject *
       arg2 = (argp2) ? reinterpret_cast< ppc::protocol::MessageOptionalHeader::Ptr * >(argp2) : &tempshared2;
     }
   }
-  result = (arg1)->build((ppc::protocol::MessageOptionalHeader::Ptr const &)*arg2);
+  {
+    try {
+      result = (arg1)->build((ppc::protocol::MessageOptionalHeader::Ptr const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageOptionalHeader > *smartresult = result ? new std::shared_ptr<  ppc::protocol::MessageOptionalHeader >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageOptionalHeader_t, SWIG_POINTER_OWN);
@@ -22619,7 +23949,14 @@ SWIGINTERN PyObject *_wrap_MessageOptionalHeaderBuilder_build__SWIG_1(PyObject *
       arg1 = const_cast< ppc::protocol::MessageOptionalHeaderBuilder * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (arg1)->build();
+  {
+    try {
+      result = (arg1)->build();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageOptionalHeader > *smartresult = result ? new std::shared_ptr<  ppc::protocol::MessageOptionalHeader >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageOptionalHeader_t, SWIG_POINTER_OWN);
@@ -22695,7 +24032,14 @@ SWIGINTERN PyObject *_wrap_printOptionalField(PyObject *self, PyObject *args) {
     if (argp1) arg1 = *(reinterpret_cast< ppc::protocol::MessageOptionalHeader::Ptr * >(argp1));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::protocol::MessageOptionalHeader::Ptr * >(argp1);
   }
-  result = ppc::protocol::printOptionalField(SWIG_STD_MOVE(arg1));
+  {
+    try {
+      result = ppc::protocol::printOptionalField(SWIG_STD_MOVE(arg1));
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
@@ -22729,7 +24073,14 @@ SWIGINTERN PyObject *_wrap_printMessage(PyObject *self, PyObject *args) {
       arg1 = (argp1) ? reinterpret_cast< ppc::protocol::Message::Ptr * >(argp1) : &tempshared1;
     }
   }
-  result = ppc::protocol::printMessage((std::shared_ptr< ppc::protocol::Message > const &)*arg1);
+  {
+    try {
+      result = ppc::protocol::printMessage((std::shared_ptr< ppc::protocol::Message > const &)*arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
@@ -22764,7 +24115,14 @@ SWIGINTERN PyObject *_wrap_delete_MessagePayload(PyObject *self, PyObject *args)
       arg1 = const_cast< ppc::protocol::MessagePayload * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -22820,7 +24178,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_encode(PyObject *self, PyObject *args)
       arg2 = const_cast< bcos::bytes * >(reinterpret_cast< std::shared_ptr<  bcos::bytes > * >(argp2)->get());
     }
   }
-  result = (int64_t)((ppc::protocol::MessagePayload const *)arg1)->encode(*arg2);
+  {
+    try {
+      result = (int64_t)((ppc::protocol::MessagePayload const *)arg1)->encode(*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
   return resultobj;
 fail:
@@ -22871,7 +24236,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_decode(PyObject *self, PyObject *args)
       if (SWIG_IsNewObj(res2)) delete temp;
     }
   }
-  result = (int64_t)(arg1)->decode(arg2);
+  {
+    try {
+      result = (int64_t)(arg1)->decode(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
   return resultobj;
 fail:
@@ -22907,7 +24279,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_version(PyObject *self, PyObject *args
       arg1 = const_cast< ppc::protocol::MessagePayload * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint8_t)((ppc::protocol::MessagePayload const *)arg1)->version();
+  {
+    try {
+      result = (uint8_t)((ppc::protocol::MessagePayload const *)arg1)->version();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_char(static_cast< unsigned char >(result));
   return resultobj;
 fail:
@@ -22949,7 +24328,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_setVersion(PyObject *self, PyObject *a
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "MessagePayload_setVersion" "', argument " "2"" of type '" "uint8_t""'");
   } 
   arg2 = static_cast< uint8_t >(val2);
-  (arg1)->setVersion(arg2);
+  {
+    try {
+      (arg1)->setVersion(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -22985,7 +24371,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_dataBuffer(PyObject *self, PyObject *a
       arg1 = const_cast< ppc::protocol::MessagePayload * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::MessagePayload const *)arg1)->dataBuffer();
+  {
+    try {
+      result = ((ppc::protocol::MessagePayload const *)arg1)->dataBuffer();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     resultobj = PyBytes_FromStringAndSize((const char *)(&result)->data, (&result)->len);
   }
@@ -23023,7 +24416,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_seq(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::MessagePayload * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint16_t)((ppc::protocol::MessagePayload const *)arg1)->seq();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::MessagePayload const *)arg1)->seq();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
   return resultobj;
 fail:
@@ -23065,7 +24465,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_setSeq(PyObject *self, PyObject *args)
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "MessagePayload_setSeq" "', argument " "2"" of type '" "uint16_t""'");
   } 
   arg2 = static_cast< uint16_t >(val2);
-  (arg1)->setSeq(arg2);
+  {
+    try {
+      (arg1)->setSeq(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -23101,7 +24508,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_length(PyObject *self, PyObject *args)
       arg1 = const_cast< ppc::protocol::MessagePayload * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (int64_t)((ppc::protocol::MessagePayload const *)arg1)->length();
+  {
+    try {
+      result = (int64_t)((ppc::protocol::MessagePayload const *)arg1)->length();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
   return resultobj;
 fail:
@@ -23137,7 +24551,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_traceID(PyObject *self, PyObject *args
       arg1 = const_cast< ppc::protocol::MessagePayload * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((ppc::protocol::MessagePayload const *)arg1)->traceID();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::MessagePayload const *)arg1)->traceID();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -23184,7 +24605,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_setTraceID(PyObject *self, PyObject *a
     }
     arg2 = ptr;
   }
-  (arg1)->setTraceID((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setTraceID((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -23222,7 +24650,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_ext(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::MessagePayload * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (uint16_t)((ppc::protocol::MessagePayload const *)arg1)->ext();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::MessagePayload const *)arg1)->ext();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_unsigned_SS_short(static_cast< unsigned short >(result));
   return resultobj;
 fail:
@@ -23264,7 +24699,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_setExt(PyObject *self, PyObject *args)
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "MessagePayload_setExt" "', argument " "2"" of type '" "uint16_t""'");
   } 
   arg2 = static_cast< uint16_t >(val2);
-  (arg1)->setExt(arg2);
+  {
+    try {
+      (arg1)->setExt(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -23299,7 +24741,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_setRespPacket(PyObject *self, PyObject
       arg1 = const_cast< ppc::protocol::MessagePayload * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (arg1)->setRespPacket();
+  {
+    try {
+      (arg1)->setRespPacket();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -23335,7 +24784,14 @@ SWIGINTERN PyObject *_wrap_MessagePayload_isRespPacket(PyObject *self, PyObject 
       arg1 = const_cast< ppc::protocol::MessagePayload * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (bool)(arg1)->isRespPacket();
+  {
+    try {
+      result = (bool)(arg1)->isRespPacket();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -23377,7 +24833,14 @@ SWIGINTERN PyObject *_wrap_delete_MessagePayloadBuilder(PyObject *self, PyObject
       arg1 = const_cast< ppc::protocol::MessagePayloadBuilder * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -23411,7 +24874,14 @@ SWIGINTERN PyObject *_wrap_MessagePayloadBuilder_build__SWIG_0(PyObject *self, P
       arg1 = const_cast< ppc::protocol::MessagePayloadBuilder * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (arg1)->build();
+  {
+    try {
+      result = (arg1)->build();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessagePayload > *smartresult = result ? new std::shared_ptr<  ppc::protocol::MessagePayload >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessagePayload_t, SWIG_POINTER_OWN);
@@ -23464,7 +24934,14 @@ SWIGINTERN PyObject *_wrap_MessagePayloadBuilder_build__SWIG_1(PyObject *self, P
       if (SWIG_IsNewObj(res2)) delete temp;
     }
   }
-  result = (arg1)->build(arg2);
+  {
+    try {
+      result = (arg1)->build(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessagePayload > *smartresult = result ? new std::shared_ptr<  ppc::protocol::MessagePayload >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessagePayload_t, SWIG_POINTER_OWN);
@@ -23547,7 +25024,14 @@ SWIGINTERN PyObject *_wrap_delete_IFrontClient(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::front::IFrontClient * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -23615,7 +25099,14 @@ SWIGINTERN PyObject *_wrap_IFrontClient_onReceiveMessage(PyObject *self, PyObjec
       if (SWIG_IsNewObj(res3)) delete temp;
     }
   }
-  (arg1)->onReceiveMessage((ppc::protocol::Message::Ptr const &)*arg2,arg3);
+  {
+    try {
+      (arg1)->onReceiveMessage((ppc::protocol::Message::Ptr const &)*arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -23640,14 +25131,21 @@ SWIGINTERN PyObject *_wrap_new_ErrorCallback(PyObject *self, PyObject *args) {
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   arg1 = swig_obj[0];
-  if ( arg1 != Py_None ) {
-    /* subclassed */
-    result = (ppc::front::ErrorCallback *)new SwigDirector_ErrorCallback(arg1); 
-  } else {
-    SWIG_SetErrorMsg(PyExc_RuntimeError,"accessing abstract class or protected constructor"); 
-    SWIG_fail;
+  {
+    try {
+      if ( arg1 != Py_None ) {
+        /* subclassed */
+        result = (ppc::front::ErrorCallback *)new SwigDirector_ErrorCallback(arg1); 
+      } else {
+        SWIG_SetErrorMsg(PyExc_RuntimeError,"accessing abstract class or protected constructor"); 
+        SWIG_fail;
+      }
+      
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
   }
-  
   {
     std::shared_ptr<  ppc::front::ErrorCallback > *smartresult = result ? new std::shared_ptr<  ppc::front::ErrorCallback >(result SWIG_NO_NULL_DELETER_SWIG_POINTER_NEW) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__ErrorCallback_t, SWIG_POINTER_NEW | SWIG_POINTER_OWN);
@@ -23685,7 +25183,14 @@ SWIGINTERN PyObject *_wrap_delete_ErrorCallback(PyObject *self, PyObject *args) 
       arg1 = const_cast< ppc::front::ErrorCallback * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -23736,10 +25241,17 @@ SWIGINTERN PyObject *_wrap_ErrorCallback_onError(PyObject *self, PyObject *args)
   director = SWIG_DIRECTOR_CAST(arg1);
   upcall = (director && (director->swig_get_self()==swig_obj[0]));
   try {
-    if (upcall) {
-      Swig::DirectorPureVirtualException::raise("ppc::front::ErrorCallback::onError");
-    } else {
-      (arg1)->onError(arg2);
+    {
+      try {
+        if (upcall) {
+          Swig::DirectorPureVirtualException::raise("ppc::front::ErrorCallback::onError");
+        } else {
+          (arg1)->onError(arg2);
+        }
+      }
+      catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+      }
     }
   } catch (Swig::DirectorException&) {
     SWIG_fail;
@@ -23811,14 +25323,21 @@ SWIGINTERN PyObject *_wrap_new_MessageDispatcherHandler(PyObject *self, PyObject
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   arg1 = swig_obj[0];
-  if ( arg1 != Py_None ) {
-    /* subclassed */
-    result = (ppc::front::MessageDispatcherHandler *)new SwigDirector_MessageDispatcherHandler(arg1); 
-  } else {
-    SWIG_SetErrorMsg(PyExc_RuntimeError,"accessing abstract class or protected constructor"); 
-    SWIG_fail;
+  {
+    try {
+      if ( arg1 != Py_None ) {
+        /* subclassed */
+        result = (ppc::front::MessageDispatcherHandler *)new SwigDirector_MessageDispatcherHandler(arg1); 
+      } else {
+        SWIG_SetErrorMsg(PyExc_RuntimeError,"accessing abstract class or protected constructor"); 
+        SWIG_fail;
+      }
+      
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
   }
-  
   {
     std::shared_ptr<  ppc::front::MessageDispatcherHandler > *smartresult = result ? new std::shared_ptr<  ppc::front::MessageDispatcherHandler >(result SWIG_NO_NULL_DELETER_SWIG_POINTER_NEW) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__MessageDispatcherHandler_t, SWIG_POINTER_NEW | SWIG_POINTER_OWN);
@@ -23856,7 +25375,14 @@ SWIGINTERN PyObject *_wrap_delete_MessageDispatcherHandler(PyObject *self, PyObj
       arg1 = const_cast< ppc::front::MessageDispatcherHandler * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -23907,10 +25433,17 @@ SWIGINTERN PyObject *_wrap_MessageDispatcherHandler_onMessage(PyObject *self, Py
   director = SWIG_DIRECTOR_CAST(arg1);
   upcall = (director && (director->swig_get_self()==swig_obj[0]));
   try {
-    if (upcall) {
-      Swig::DirectorPureVirtualException::raise("ppc::front::MessageDispatcherHandler::onMessage");
-    } else {
-      (arg1)->onMessage(arg2);
+    {
+      try {
+        if (upcall) {
+          Swig::DirectorPureVirtualException::raise("ppc::front::MessageDispatcherHandler::onMessage");
+        } else {
+          (arg1)->onMessage(arg2);
+        }
+      }
+      catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+      }
     }
   } catch (Swig::DirectorException&) {
     SWIG_fail;
@@ -23996,7 +25529,14 @@ SWIGINTERN PyObject *_wrap_new_SendResponseHandler(PyObject *self, PyObject *arg
       if (SWIG_IsNewObj(res1)) delete temp;
     }
   }
-  result = (ppc::front::SendResponseHandler *)new ppc::front::SendResponseHandler(arg1);
+  {
+    try {
+      result = (ppc::front::SendResponseHandler *)new ppc::front::SendResponseHandler(arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__front__SendResponseHandler, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -24019,7 +25559,14 @@ SWIGINTERN PyObject *_wrap_delete_SendResponseHandler(PyObject *self, PyObject *
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_SendResponseHandler" "', argument " "1"" of type '" "ppc::front::SendResponseHandler *""'"); 
   }
   arg1 = reinterpret_cast< ppc::front::SendResponseHandler * >(argp1);
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -24058,7 +25605,14 @@ SWIGINTERN PyObject *_wrap_SendResponseHandler_sendResponse(PyObject *self, PyOb
   }
   arg2 = reinterpret_cast< std::shared_ptr< bcos::bytes > * >(argp2);
   rvrdeleter2.reset(arg2);
-  (arg1)->sendResponse((std::shared_ptr< bcos::bytes > &&)*arg2);
+  {
+    try {
+      (arg1)->sendResponse((std::shared_ptr< bcos::bytes > &&)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -24087,14 +25641,21 @@ SWIGINTERN PyObject *_wrap_new_IMessageHandler(PyObject *self, PyObject *args) {
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   arg1 = swig_obj[0];
-  if ( arg1 != Py_None ) {
-    /* subclassed */
-    result = (ppc::front::IMessageHandler *)new SwigDirector_IMessageHandler(arg1); 
-  } else {
-    SWIG_SetErrorMsg(PyExc_RuntimeError,"accessing abstract class or protected constructor"); 
-    SWIG_fail;
+  {
+    try {
+      if ( arg1 != Py_None ) {
+        /* subclassed */
+        result = (ppc::front::IMessageHandler *)new SwigDirector_IMessageHandler(arg1); 
+      } else {
+        SWIG_SetErrorMsg(PyExc_RuntimeError,"accessing abstract class or protected constructor"); 
+        SWIG_fail;
+      }
+      
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
   }
-  
   {
     std::shared_ptr<  ppc::front::IMessageHandler > *smartresult = result ? new std::shared_ptr<  ppc::front::IMessageHandler >(result SWIG_NO_NULL_DELETER_SWIG_POINTER_NEW) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__IMessageHandler_t, SWIG_POINTER_NEW | SWIG_POINTER_OWN);
@@ -24132,7 +25693,14 @@ SWIGINTERN PyObject *_wrap_delete_IMessageHandler(PyObject *self, PyObject *args
       arg1 = const_cast< ppc::front::IMessageHandler * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -24211,10 +25779,17 @@ SWIGINTERN PyObject *_wrap_IMessageHandler_onMessage(PyObject *self, PyObject *a
   director = SWIG_DIRECTOR_CAST(arg1);
   upcall = (director && (director->swig_get_self()==swig_obj[0]));
   try {
-    if (upcall) {
-      Swig::DirectorPureVirtualException::raise("ppc::front::IMessageHandler::onMessage");
-    } else {
-      (arg1)->onMessage(arg2,arg3,arg4);
+    {
+      try {
+        if (upcall) {
+          Swig::DirectorPureVirtualException::raise("ppc::front::IMessageHandler::onMessage");
+        } else {
+          (arg1)->onMessage(arg2,arg3,arg4);
+        }
+      }
+      catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+      }
     }
   } catch (Swig::DirectorException&) {
     SWIG_fail;
@@ -24286,14 +25861,21 @@ SWIGINTERN PyObject *_wrap_new_GetPeersInfoHandler(PyObject *self, PyObject *arg
   if (!args) SWIG_fail;
   swig_obj[0] = args;
   arg1 = swig_obj[0];
-  if ( arg1 != Py_None ) {
-    /* subclassed */
-    result = (ppc::front::GetPeersInfoHandler *)new SwigDirector_GetPeersInfoHandler(arg1); 
-  } else {
-    SWIG_SetErrorMsg(PyExc_RuntimeError,"accessing abstract class or protected constructor"); 
-    SWIG_fail;
+  {
+    try {
+      if ( arg1 != Py_None ) {
+        /* subclassed */
+        result = (ppc::front::GetPeersInfoHandler *)new SwigDirector_GetPeersInfoHandler(arg1); 
+      } else {
+        SWIG_SetErrorMsg(PyExc_RuntimeError,"accessing abstract class or protected constructor"); 
+        SWIG_fail;
+      }
+      
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
   }
-  
   {
     std::shared_ptr<  ppc::front::GetPeersInfoHandler > *smartresult = result ? new std::shared_ptr<  ppc::front::GetPeersInfoHandler >(result SWIG_NO_NULL_DELETER_SWIG_POINTER_NEW) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__GetPeersInfoHandler_t, SWIG_POINTER_NEW | SWIG_POINTER_OWN);
@@ -24331,7 +25913,14 @@ SWIGINTERN PyObject *_wrap_delete_GetPeersInfoHandler(PyObject *self, PyObject *
       arg1 = const_cast< ppc::front::GetPeersInfoHandler * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -24395,10 +25984,17 @@ SWIGINTERN PyObject *_wrap_GetPeersInfoHandler_onPeersInfo(PyObject *self, PyObj
   director = SWIG_DIRECTOR_CAST(arg1);
   upcall = (director && (director->swig_get_self()==swig_obj[0]));
   try {
-    if (upcall) {
-      Swig::DirectorPureVirtualException::raise("ppc::front::GetPeersInfoHandler::onPeersInfo");
-    } else {
-      (arg1)->onPeersInfo(arg2,(std::string const &)*arg3);
+    {
+      try {
+        if (upcall) {
+          Swig::DirectorPureVirtualException::raise("ppc::front::GetPeersInfoHandler::onPeersInfo");
+        } else {
+          (arg1)->onPeersInfo(arg2,(std::string const &)*arg3);
+        }
+      }
+      catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+      }
     }
   } catch (Swig::DirectorException&) {
     SWIG_fail;
@@ -24489,7 +26085,14 @@ SWIGINTERN PyObject *_wrap_delete_IFront(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::front::IFront * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -24524,7 +26127,14 @@ SWIGINTERN PyObject *_wrap_IFront_start(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::front::IFront * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (arg1)->start();
+  {
+    try {
+      (arg1)->start();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -24559,7 +26169,14 @@ SWIGINTERN PyObject *_wrap_IFront_stop(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::front::IFront * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (arg1)->stop();
+  {
+    try {
+      (arg1)->stop();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -24618,7 +26235,14 @@ SWIGINTERN PyObject *_wrap_IFront_register_topic_handler(PyObject *self, PyObjec
     if (argp3) arg3 = *(reinterpret_cast< ppc::front::MessageDispatcherHandler::Ptr * >(argp3));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::front::MessageDispatcherHandler::Ptr * >(argp3);
   }
-  (arg1)->register_topic_handler((std::string const &)*arg2,arg3);
+  {
+    try {
+      (arg1)->register_topic_handler((std::string const &)*arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -24679,7 +26303,14 @@ SWIGINTERN PyObject *_wrap_IFront_register_msg_handler(PyObject *self, PyObject 
     if (argp3) arg3 = *(reinterpret_cast< ppc::front::MessageDispatcherHandler::Ptr * >(argp3));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::front::MessageDispatcherHandler::Ptr * >(argp3);
   }
-  (arg1)->register_msg_handler((std::string const &)*arg2,arg3);
+  {
+    try {
+      (arg1)->register_msg_handler((std::string const &)*arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -24816,7 +26447,14 @@ SWIGINTERN PyObject *_wrap_IFront_async_send_message(PyObject *self, PyObject *a
     if (argp9) arg9 = *(reinterpret_cast< ppc::front::IMessageHandler::Ptr * >(argp9));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::front::IMessageHandler::Ptr * >(argp9);
   }
-  (arg1)->async_send_message(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  {
+    try {
+      (arg1)->async_send_message(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -24935,7 +26573,14 @@ SWIGINTERN PyObject *_wrap_IFront_async_send_response(PyObject *self, PyObject *
     if (argp8) arg8 = *(reinterpret_cast< ppc::front::ErrorCallback::Ptr * >(argp8));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::front::ErrorCallback::Ptr * >(argp8);
   }
-  (arg1)->async_send_response(arg2,arg3,(std::string const &)*arg4,arg5,arg6,arg7,arg8);
+  {
+    try {
+      (arg1)->async_send_response(arg2,arg3,(std::string const &)*arg4,arg5,arg6,arg7,arg8);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   if (SWIG_IsNewObj(res4)) delete arg4;
@@ -25051,7 +26696,14 @@ SWIGINTERN PyObject *_wrap_IFront_push_msg(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "IFront_push_msg" "', argument " "7"" of type '" "long""'");
   } 
   arg7 = static_cast< long >(val7);
-  result = (arg1)->push_msg(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,arg4,arg5,arg6,arg7);
+  {
+    try {
+      result = (arg1)->push_msg(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,arg4,arg5,arg6,arg7);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  bcos::Error > *smartresult = result ? new std::shared_ptr<  bcos::Error >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_bcos__Error_t, SWIG_POINTER_OWN);
@@ -25110,7 +26762,14 @@ SWIGINTERN PyObject *_wrap_IFront_pop(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "IFront_pop" "', argument " "3"" of type '" "long""'");
   } 
   arg3 = static_cast< long >(val3);
-  result = (arg1)->pop((std::string const &)*arg2,arg3);
+  {
+    try {
+      result = (arg1)->pop((std::string const &)*arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::Message > *smartresult = result ? new std::shared_ptr<  ppc::protocol::Message >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, SWIG_POINTER_OWN);
@@ -25163,7 +26822,14 @@ SWIGINTERN PyObject *_wrap_IFront_peek(PyObject *self, PyObject *args) {
     }
     arg2 = ptr;
   }
-  result = (arg1)->peek((std::string const &)*arg2);
+  {
+    try {
+      result = (arg1)->peek((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::Message > *smartresult = result ? new std::shared_ptr<  ppc::protocol::Message >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, SWIG_POINTER_OWN);
@@ -25214,7 +26880,14 @@ SWIGINTERN PyObject *_wrap_IFront_asyncGetPeers(PyObject *self, PyObject *args) 
     if (argp2) arg2 = *(reinterpret_cast< ppc::front::GetPeersInfoHandler::Ptr * >(argp2));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::front::GetPeersInfoHandler::Ptr * >(argp2);
   }
-  (arg1)->asyncGetPeers(arg2);
+  {
+    try {
+      (arg1)->asyncGetPeers(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -25250,7 +26923,14 @@ SWIGINTERN PyObject *_wrap_IFront_nodeInfo(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::front::IFront * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (ppc::protocol::INodeInfo::Ptr *) &(arg1)->nodeInfo();
+  {
+    try {
+      result = (ppc::protocol::INodeInfo::Ptr *) &(arg1)->nodeInfo();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::INodeInfo > *smartresult = *result ? new std::shared_ptr<  ppc::protocol::INodeInfo >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__INodeInfo_t, SWIG_POINTER_OWN);
@@ -25301,7 +26981,14 @@ SWIGINTERN PyObject *_wrap_IFront_registerTopic(PyObject *self, PyObject *args) 
     }
     arg2 = ptr;
   }
-  result = (arg1)->registerTopic((std::string const &)*arg2);
+  {
+    try {
+      result = (arg1)->registerTopic((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  bcos::Error > *smartresult = result ? new std::shared_ptr<  bcos::Error >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_bcos__Error_t, SWIG_POINTER_OWN);
@@ -25354,7 +27041,14 @@ SWIGINTERN PyObject *_wrap_IFront_unRegisterTopic(PyObject *self, PyObject *args
     }
     arg2 = ptr;
   }
-  result = (arg1)->unRegisterTopic((std::string const &)*arg2);
+  {
+    try {
+      result = (arg1)->unRegisterTopic((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  bcos::Error > *smartresult = result ? new std::shared_ptr<  bcos::Error >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_bcos__Error_t, SWIG_POINTER_OWN);
@@ -25406,7 +27100,14 @@ SWIGINTERN PyObject *_wrap_IFront_registerComponent(PyObject *self, PyObject *ar
     }
     arg2 = ptr;
   }
-  (arg1)->registerComponent((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->registerComponent((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -25455,7 +27156,14 @@ SWIGINTERN PyObject *_wrap_IFront_unRegisterComponent(PyObject *self, PyObject *
     }
     arg2 = ptr;
   }
-  (arg1)->unRegisterComponent((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->unRegisterComponent((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -25504,7 +27212,14 @@ SWIGINTERN PyObject *_wrap_IFront_updateMetaInfo(PyObject *self, PyObject *args)
     }
     arg2 = ptr;
   }
-  (arg1)->updateMetaInfo((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->updateMetaInfo((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -25567,7 +27282,14 @@ SWIGINTERN PyObject *_wrap_IFront_selectNodesByRoutePolicy(PyObject *self, PyObj
       arg3 = (argp3) ? reinterpret_cast< ppc::protocol::MessageOptionalHeader::Ptr * >(argp3) : &tempshared3;
     }
   }
-  result = (arg1)->selectNodesByRoutePolicy(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3);
+  {
+    try {
+      result = (arg1)->selectNodesByRoutePolicy(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = swig::from(static_cast< std::vector< std::string,std::allocator< std::string > > >(result));
   return resultobj;
 fail:
@@ -25603,7 +27325,14 @@ SWIGINTERN PyObject *_wrap_IFront_getNodeDiscovery(PyObject *self, PyObject *arg
       arg1 = const_cast< ppc::front::IFront * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (arg1)->getNodeDiscovery();
+  {
+    try {
+      result = (arg1)->getNodeDiscovery();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::INodeDiscovery > *smartresult = result ? new std::shared_ptr<  ppc::front::INodeDiscovery >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__INodeDiscovery_t, SWIG_POINTER_OWN);
@@ -25636,7 +27365,14 @@ SWIGINTERN PyObject *_wrap_delete_IFrontBuilder(PyObject *self, PyObject *args) 
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_IFrontBuilder" "', argument " "1"" of type '" "ppc::front::IFrontBuilder *""'"); 
   }
   arg1 = reinterpret_cast< ppc::front::IFrontBuilder * >(argp1);
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -25693,7 +27429,14 @@ SWIGINTERN PyObject *_wrap_IFrontBuilder_buildClient(PyObject *self, PyObject *a
     SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "IFrontBuilder_buildClient" "', argument " "4"" of type '" "bool""'");
   } 
   arg4 = static_cast< bool >(val4);
-  result = ((ppc::front::IFrontBuilder const *)arg1)->buildClient(arg2,arg3,arg4);
+  {
+    try {
+      result = ((ppc::front::IFrontBuilder const *)arg1)->buildClient(arg2,arg3,arg4);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::IFrontClient > *smartresult = result ? new std::shared_ptr<  ppc::front::IFrontClient >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__IFrontClient_t, SWIG_POINTER_OWN);
@@ -25738,7 +27481,14 @@ SWIGINTERN PyObject *_wrap_delete_INodeDiscovery(PyObject *self, PyObject *args)
       arg1 = const_cast< ppc::front::INodeDiscovery * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -25774,7 +27524,14 @@ SWIGINTERN PyObject *_wrap_INodeDiscovery_getAliveNodeList(PyObject *self, PyObj
       arg1 = const_cast< ppc::front::INodeDiscovery * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::front::INodeDiscovery const *)arg1)->getAliveNodeList();
+  {
+    try {
+      result = ((ppc::front::INodeDiscovery const *)arg1)->getAliveNodeList();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = swig::from(static_cast< std::vector< std::shared_ptr< ppc::protocol::INodeInfo >,std::allocator< std::shared_ptr< ppc::protocol::INodeInfo > > > >(result));
   return resultobj;
 fail:
@@ -25795,7 +27552,14 @@ SWIGINTERN PyObject *_wrap_new_TransportBuilder(PyObject *self, PyObject *args) 
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "new_TransportBuilder", 0, 0, 0)) SWIG_fail;
-  result = (ppc::sdk::TransportBuilder *)new ppc::sdk::TransportBuilder();
+  {
+    try {
+      result = (ppc::sdk::TransportBuilder *)new ppc::sdk::TransportBuilder();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__sdk__TransportBuilder, SWIG_POINTER_NEW |  0 );
   return resultobj;
 fail:
@@ -25818,7 +27582,14 @@ SWIGINTERN PyObject *_wrap_delete_TransportBuilder(PyObject *self, PyObject *arg
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_TransportBuilder" "', argument " "1"" of type '" "ppc::sdk::TransportBuilder *""'"); 
   }
   arg1 = reinterpret_cast< ppc::sdk::TransportBuilder * >(argp1);
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -25853,7 +27624,14 @@ SWIGINTERN PyObject *_wrap_TransportBuilder_buildProTransport(PyObject *self, Py
     if (argp2) arg2 = *(reinterpret_cast< ppc::front::FrontConfig::Ptr * >(argp2));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::front::FrontConfig::Ptr * >(argp2);
   }
-  result = (arg1)->buildProTransport(arg2);
+  {
+    try {
+      result = (arg1)->buildProTransport(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::sdk::Transport > *smartresult = result ? new std::shared_ptr<  ppc::sdk::Transport >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__sdk__Transport_t, SWIG_POINTER_OWN);
@@ -25897,7 +27675,14 @@ SWIGINTERN PyObject *_wrap_TransportBuilder_buildConfig(PyObject *self, PyObject
     arg3 = *ptr;
     if (SWIG_IsNewObj(res)) delete ptr;
   }
-  result = (arg1)->buildConfig(arg2,arg3);
+  {
+    try {
+      result = (arg1)->buildConfig(arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::FrontConfig > *smartresult = result ? new std::shared_ptr<  ppc::front::FrontConfig >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfig_t, SWIG_POINTER_OWN);
@@ -25924,7 +27709,14 @@ SWIGINTERN PyObject *_wrap_TransportBuilder_frontConfigBuilder(PyObject *self, P
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "TransportBuilder_frontConfigBuilder" "', argument " "1"" of type '" "ppc::sdk::TransportBuilder *""'"); 
   }
   arg1 = reinterpret_cast< ppc::sdk::TransportBuilder * >(argp1);
-  result = (ppc::front::FrontConfigBuilder::Ptr *) &(arg1)->frontConfigBuilder();
+  {
+    try {
+      result = (ppc::front::FrontConfigBuilder::Ptr *) &(arg1)->frontConfigBuilder();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfigBuilder_t, 0 |  0 );
   return resultobj;
 fail:
@@ -25959,7 +27751,14 @@ SWIGINTERN PyObject *_wrap_TransportBuilder_initLog(PyObject *self, PyObject *ar
     }
     arg2 = ptr;
   }
-  (arg1)->initLog((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->initLog((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -26000,7 +27799,14 @@ SWIGINTERN PyObject *_wrap_new_Transport(PyObject *self, PyObject *args) {
     if (argp1) arg1 = *(reinterpret_cast< ppc::front::FrontConfig::Ptr * >(argp1));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::front::FrontConfig::Ptr * >(argp1);
   }
-  result = (ppc::sdk::Transport *)new ppc::sdk::Transport(arg1);
+  {
+    try {
+      result = (ppc::sdk::Transport *)new ppc::sdk::Transport(arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::sdk::Transport > *smartresult = result ? new std::shared_ptr<  ppc::sdk::Transport >(result SWIG_NO_NULL_DELETER_SWIG_POINTER_NEW) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__sdk__Transport_t, SWIG_POINTER_NEW | SWIG_POINTER_OWN);
@@ -26038,7 +27844,14 @@ SWIGINTERN PyObject *_wrap_delete_Transport(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::sdk::Transport * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -26073,7 +27886,14 @@ SWIGINTERN PyObject *_wrap_Transport_start(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::sdk::Transport * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (arg1)->start();
+  {
+    try {
+      (arg1)->start();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -26108,7 +27928,14 @@ SWIGINTERN PyObject *_wrap_Transport_stop(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::sdk::Transport * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (arg1)->stop();
+  {
+    try {
+      (arg1)->stop();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -26144,7 +27971,14 @@ SWIGINTERN PyObject *_wrap_Transport_getFront(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::sdk::Transport * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (ppc::front::IFront::Ptr *) &((ppc::sdk::Transport const *)arg1)->getFront();
+  {
+    try {
+      result = (ppc::front::IFront::Ptr *) &((ppc::sdk::Transport const *)arg1)->getFront();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::IFront > *smartresult = *result ? new std::shared_ptr<  ppc::front::IFront >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__IFront_t, SWIG_POINTER_OWN);
@@ -26183,7 +28017,14 @@ SWIGINTERN PyObject *_wrap_Transport_gateway(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::sdk::Transport * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (ppc::gateway::IGateway::Ptr *) &((ppc::sdk::Transport const *)arg1)->gateway();
+  {
+    try {
+      result = (ppc::gateway::IGateway::Ptr *) &((ppc::sdk::Transport const *)arg1)->gateway();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__gateway__IGateway__Ptr, 0 |  0 );
   return resultobj;
 fail:
@@ -26219,7 +28060,14 @@ SWIGINTERN PyObject *_wrap_Transport_msgPayloadBuilder(PyObject *self, PyObject 
       arg1 = const_cast< ppc::sdk::Transport * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (ppc::protocol::MessagePayloadBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->msgPayloadBuilder();
+  {
+    try {
+      result = (ppc::protocol::MessagePayloadBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->msgPayloadBuilder();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessagePayloadBuilder > *smartresult = *result ? new std::shared_ptr<  ppc::protocol::MessagePayloadBuilder >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessagePayloadBuilder_t, SWIG_POINTER_OWN);
@@ -26258,7 +28106,14 @@ SWIGINTERN PyObject *_wrap_Transport_msgBuilder(PyObject *self, PyObject *args) 
       arg1 = const_cast< ppc::sdk::Transport * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (ppc::protocol::MessageBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->msgBuilder();
+  {
+    try {
+      result = (ppc::protocol::MessageBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->msgBuilder();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageBuilder > *smartresult = *result ? new std::shared_ptr<  ppc::protocol::MessageBuilder >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageBuilder_t, SWIG_POINTER_OWN);
@@ -26297,7 +28152,14 @@ SWIGINTERN PyObject *_wrap_Transport_msgHeaderBuilder(PyObject *self, PyObject *
       arg1 = const_cast< ppc::sdk::Transport * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (ppc::protocol::MessageHeaderBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->msgHeaderBuilder();
+  {
+    try {
+      result = (ppc::protocol::MessageHeaderBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->msgHeaderBuilder();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageHeaderBuilder > *smartresult = *result ? new std::shared_ptr<  ppc::protocol::MessageHeaderBuilder >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageHeaderBuilder_t, SWIG_POINTER_OWN);
@@ -26336,7 +28198,14 @@ SWIGINTERN PyObject *_wrap_Transport_routeInfoBuilder(PyObject *self, PyObject *
       arg1 = const_cast< ppc::sdk::Transport * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (ppc::protocol::MessageOptionalHeaderBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->routeInfoBuilder();
+  {
+    try {
+      result = (ppc::protocol::MessageOptionalHeaderBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->routeInfoBuilder();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::protocol::MessageOptionalHeaderBuilder > *smartresult = *result ? new std::shared_ptr<  ppc::protocol::MessageOptionalHeaderBuilder >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessageOptionalHeaderBuilder_t, SWIG_POINTER_OWN);
@@ -26375,7 +28244,14 @@ SWIGINTERN PyObject *_wrap_Transport_getConfig(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::sdk::Transport * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (ppc::front::FrontConfig::Ptr *) &((ppc::sdk::Transport const *)arg1)->getConfig();
+  {
+    try {
+      result = (ppc::front::FrontConfig::Ptr *) &((ppc::sdk::Transport const *)arg1)->getConfig();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   {
     std::shared_ptr<  ppc::front::FrontConfig > *smartresult = *result ? new std::shared_ptr<  ppc::front::FrontConfig >(*result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfig_t, SWIG_POINTER_OWN);
@@ -26424,7 +28300,14 @@ SWIGINTERN PyObject *_wrap_delete_INodeInfo(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -26460,7 +28343,14 @@ SWIGINTERN PyObject *_wrap_INodeInfo_endPoint(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = (std::string *) &((ppc::protocol::INodeInfo const *)arg1)->endPoint();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::INodeInfo const *)arg1)->endPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(*result));
   return resultobj;
 fail:
@@ -26496,7 +28386,14 @@ SWIGINTERN PyObject *_wrap_INodeInfo_nodeID(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::INodeInfo const *)arg1)->nodeID();
+  {
+    try {
+      result = ((ppc::protocol::INodeInfo const *)arg1)->nodeID();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_NewPointerObj((new bcos::bytesConstRef(result)), SWIGTYPE_p_bcos__bytesConstRef, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
@@ -26546,7 +28443,14 @@ SWIGINTERN PyObject *_wrap_INodeInfo_setNodeID(PyObject *self, PyObject *args) {
       if (SWIG_IsNewObj(res2)) delete temp;
     }
   }
-  (arg1)->setNodeID(arg2);
+  {
+    try {
+      (arg1)->setNodeID(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -26593,7 +28497,14 @@ SWIGINTERN PyObject *_wrap_INodeInfo_setEndPoint(PyObject *self, PyObject *args)
     }
     arg2 = ptr;
   }
-  (arg1)->setEndPoint((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setEndPoint((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -26643,7 +28554,14 @@ SWIGINTERN PyObject *_wrap_INodeInfo_addComponent(PyObject *self, PyObject *args
     }
     arg2 = ptr;
   }
-  result = (bool)(arg1)->addComponent((std::string const &)*arg2);
+  {
+    try {
+      result = (bool)(arg1)->addComponent((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -26693,7 +28611,14 @@ SWIGINTERN PyObject *_wrap_INodeInfo_eraseComponent(PyObject *self, PyObject *ar
     }
     arg2 = ptr;
   }
-  result = (bool)(arg1)->eraseComponent((std::string const &)*arg2);
+  {
+    try {
+      result = (bool)(arg1)->eraseComponent((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -26743,7 +28668,14 @@ SWIGINTERN PyObject *_wrap_INodeInfo_componentExist(PyObject *self, PyObject *ar
     }
     arg2 = ptr;
   }
-  result = (bool)((ppc::protocol::INodeInfo const *)arg1)->componentExist((std::string const &)*arg2);
+  {
+    try {
+      result = (bool)((ppc::protocol::INodeInfo const *)arg1)->componentExist((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -26781,7 +28713,14 @@ SWIGINTERN PyObject *_wrap_INodeInfo_copiedComponents(PyObject *self, PyObject *
       arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::INodeInfo const *)arg1)->copiedComponents();
+  {
+    try {
+      result = ((ppc::protocol::INodeInfo const *)arg1)->copiedComponents();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = swig::from(static_cast< std::vector< std::string,std::allocator< std::string > > >(result));
   return resultobj;
 fail:
@@ -26817,7 +28756,14 @@ SWIGINTERN PyObject *_wrap_INodeInfo_meta(PyObject *self, PyObject *args) {
       arg1 = const_cast< ppc::protocol::INodeInfo * >((smartarg1 ? smartarg1->get() : 0));
     }
   }
-  result = ((ppc::protocol::INodeInfo const *)arg1)->meta();
+  {
+    try {
+      result = ((ppc::protocol::INodeInfo const *)arg1)->meta();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
@@ -26864,7 +28810,14 @@ SWIGINTERN PyObject *_wrap_INodeInfo_setMeta(PyObject *self, PyObject *args) {
     }
     arg2 = ptr;
   }
-  (arg1)->setMeta((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setMeta((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_Py_Void();
   if (SWIG_IsNewObj(res2)) delete arg2;
   return resultobj;
@@ -26907,7 +28860,14 @@ SWIGINTERN PyObject *_wrap_printNodeInfo(PyObject *self, PyObject *args) {
       arg1 = (argp1) ? reinterpret_cast< ppc::protocol::INodeInfo::Ptr * >(argp1) : &tempshared1;
     }
   }
-  result = ppc::protocol::printNodeInfo((std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg1);
+  {
+    try {
+      result = ppc::protocol::printNodeInfo((std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
   resultobj = SWIG_From_std_string(static_cast< std::string >(result));
   return resultobj;
 fail:
