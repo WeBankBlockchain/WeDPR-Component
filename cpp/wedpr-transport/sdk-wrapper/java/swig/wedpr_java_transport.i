@@ -255,6 +255,15 @@ WRAP(ppc::sdk::Transport)
 %ignore ppc::protocol::INodeInfo::setComponents;
 %ignore ppc::protocol::INodeInfoFactory;
 
+%exception {
+    try {
+        $action
+    }
+    catch (const std::exception& e) {
+        SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+        return $null;
+    }
+}
 
 /*
 ///// tests  ///

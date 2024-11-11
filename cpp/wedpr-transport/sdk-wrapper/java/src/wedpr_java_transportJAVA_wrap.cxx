@@ -1453,7 +1453,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< bcos::Error > *)new std::shared_ptr< bcos::Error >();
+  {
+    try {
+      result = (std::shared_ptr< bcos::Error > *)new std::shared_ptr< bcos::Error >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< bcos::Error > **)&jresult = (result && *result) ? new std::shared_ptr< bcos::Error >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1467,7 +1475,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< bcos::Error > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1477,7 +1493,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::front::FrontConfig > *)new std::shared_ptr< ppc::front::FrontConfig >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::FrontConfig > *)new std::shared_ptr< ppc::front::FrontConfig >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::front::FrontConfig > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::front::FrontConfig >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1491,7 +1515,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::front::FrontConfig > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1501,7 +1533,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::protocol::GrpcConfig > *)new std::shared_ptr< ppc::protocol::GrpcConfig >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::GrpcConfig > *)new std::shared_ptr< ppc::protocol::GrpcConfig >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::protocol::GrpcConfig > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::protocol::GrpcConfig >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1515,7 +1555,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::protocol::GrpcConfig > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1525,7 +1573,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::front::IFront > *)new std::shared_ptr< ppc::front::IFront >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::IFront > *)new std::shared_ptr< ppc::front::IFront >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::front::IFront > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::front::IFront >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1539,7 +1595,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::front::IFront > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1549,7 +1613,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::front::INodeDiscovery > *)new std::shared_ptr< ppc::front::INodeDiscovery >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::INodeDiscovery > *)new std::shared_ptr< ppc::front::INodeDiscovery >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::front::INodeDiscovery > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::front::INodeDiscovery >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1563,7 +1635,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::front::INodeDiscovery > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1573,7 +1653,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::front::IFrontClient > *)new std::shared_ptr< ppc::front::IFrontClient >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::IFrontClient > *)new std::shared_ptr< ppc::front::IFrontClient >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::front::IFrontClient > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::front::IFrontClient >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1587,7 +1675,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::front::IFrontClient > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1597,7 +1693,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::front::ErrorCallback > *)new std::shared_ptr< ppc::front::ErrorCallback >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::ErrorCallback > *)new std::shared_ptr< ppc::front::ErrorCallback >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::front::ErrorCallback > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::front::ErrorCallback >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1611,7 +1715,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::front::ErrorCallback > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1621,7 +1733,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::front::MessageDispatcherHandler > *)new std::shared_ptr< ppc::front::MessageDispatcherHandler >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::MessageDispatcherHandler > *)new std::shared_ptr< ppc::front::MessageDispatcherHandler >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::front::MessageDispatcherHandler > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::front::MessageDispatcherHandler >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1635,7 +1755,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::front::MessageDispatcherHandler > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1645,7 +1773,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::front::IMessageHandler > *)new std::shared_ptr< ppc::front::IMessageHandler >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::IMessageHandler > *)new std::shared_ptr< ppc::front::IMessageHandler >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::front::IMessageHandler > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::front::IMessageHandler >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1659,7 +1795,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::front::IMessageHandler > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1669,7 +1813,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::front::GetPeersInfoHandler > *)new std::shared_ptr< ppc::front::GetPeersInfoHandler >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::front::GetPeersInfoHandler > *)new std::shared_ptr< ppc::front::GetPeersInfoHandler >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::front::GetPeersInfoHandler > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::front::GetPeersInfoHandler >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1683,7 +1835,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::front::GetPeersInfoHandler > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1693,7 +1853,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::gateway::IGateway > *)new std::shared_ptr< ppc::gateway::IGateway >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::gateway::IGateway > *)new std::shared_ptr< ppc::gateway::IGateway >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::gateway::IGateway > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::gateway::IGateway >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1707,7 +1875,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::gateway::IGateway > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1717,7 +1893,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::protocol::Message > *)new std::shared_ptr< ppc::protocol::Message >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::Message > *)new std::shared_ptr< ppc::protocol::Message >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::protocol::Message > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::protocol::Message >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1731,7 +1915,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::protocol::Message > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1741,7 +1933,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::protocol::MessageHeader > *)new std::shared_ptr< ppc::protocol::MessageHeader >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessageHeader > *)new std::shared_ptr< ppc::protocol::MessageHeader >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::protocol::MessageHeader > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::protocol::MessageHeader >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1755,7 +1955,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::protocol::MessageHeader > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1765,7 +1973,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::protocol::MessagePayload > *)new std::shared_ptr< ppc::protocol::MessagePayload >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessagePayload > *)new std::shared_ptr< ppc::protocol::MessagePayload >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::protocol::MessagePayload > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::protocol::MessagePayload >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1779,7 +1995,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::protocol::MessagePayload > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1789,7 +2013,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::protocol::MessageOptionalHeader > *)new std::shared_ptr< ppc::protocol::MessageOptionalHeader >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessageOptionalHeader > *)new std::shared_ptr< ppc::protocol::MessageOptionalHeader >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::protocol::MessageOptionalHeader > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::protocol::MessageOptionalHeader >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1803,7 +2035,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::protocol::MessageOptionalHeader > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1813,7 +2053,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::protocol::MessageBuilder > *)new std::shared_ptr< ppc::protocol::MessageBuilder >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessageBuilder > *)new std::shared_ptr< ppc::protocol::MessageBuilder >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::protocol::MessageBuilder > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::protocol::MessageBuilder >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1827,7 +2075,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::protocol::MessageBuilder > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1837,7 +2093,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::protocol::MessageHeaderBuilder > *)new std::shared_ptr< ppc::protocol::MessageHeaderBuilder >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessageHeaderBuilder > *)new std::shared_ptr< ppc::protocol::MessageHeaderBuilder >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::protocol::MessageHeaderBuilder > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::protocol::MessageHeaderBuilder >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1851,7 +2115,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::protocol::MessageHeaderBuilder > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1861,7 +2133,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::protocol::MessagePayloadBuilder > *)new std::shared_ptr< ppc::protocol::MessagePayloadBuilder >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessagePayloadBuilder > *)new std::shared_ptr< ppc::protocol::MessagePayloadBuilder >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::protocol::MessagePayloadBuilder > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::protocol::MessagePayloadBuilder >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1875,7 +2155,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::protocol::MessagePayloadBuilder > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1885,7 +2173,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder > *)new std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder > *)new std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1899,7 +2195,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::protocol::MessageOptionalHeaderBuilder > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -1909,7 +2213,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (std::shared_ptr< ppc::protocol::INodeInfo > *)new std::shared_ptr< ppc::protocol::INodeInfo >();
+  {
+    try {
+      result = (std::shared_ptr< ppc::protocol::INodeInfo > *)new std::shared_ptr< ppc::protocol::INodeInfo >();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< ppc::protocol::INodeInfo > **)&jresult = (result && *result) ? new std::shared_ptr< ppc::protocol::INodeInfo >(*result) : 0;
   if (1) delete result; 
   return jresult;
@@ -1923,7 +2235,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = jarg1 ? *(std::shared_ptr< ppc::protocol::INodeInfo > **)&jarg1 : &tempnull1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -2201,7 +2521,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = *(std::vector< uint8_t > **)&jarg1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -2479,7 +2807,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = *(std::vector< int8_t > **)&jarg1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -2781,7 +3117,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = *(std::vector< std::string > **)&jarg1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3059,7 +3403,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jarg1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3091,7 +3443,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   std::string arg5_str(arg5_pstr);
   arg5 = &arg5_str;
   jenv->ReleaseStringUTFChars(jarg5, arg5_pstr); 
-  result = bcos::Error::buildError((char const *)arg1,(char const *)arg2,arg3,arg4,(std::string const &)*arg5);
+  {
+    try {
+      result = bcos::Error::buildError((char const *)arg1,(char const *)arg2,arg3,arg4,(std::string const &)*arg5);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr<  bcos::Error > **)&jresult = new std::shared_ptr<  bcos::Error >(new bcos::Error(result)); 
   {
     jenv->ReleaseByteArrayElements(jarg1, (jbyte *) arg1, 0); 
@@ -3141,7 +3501,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "bcos::Error const & reference is null");
     return 0;
   } 
-  result = bcos::Error::buildError((char const *)arg1,(char const *)arg2,arg3,arg4,(std::string const &)*arg5,(bcos::Error const &)*arg6);
+  {
+    try {
+      result = bcos::Error::buildError((char const *)arg1,(char const *)arg2,arg3,arg4,(std::string const &)*arg5,(bcos::Error const &)*arg6);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr<  bcos::Error > **)&jresult = new std::shared_ptr<  bcos::Error >(new bcos::Error(result)); 
   {
     jenv->ReleaseByteArrayElements(jarg1, (jbyte *) arg1, 0); 
@@ -3189,7 +3557,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::exception const & is null");
     return 0;
   } 
-  result = bcos::Error::buildError((char const *)arg1,(char const *)arg2,arg3,arg4,(std::string const &)*arg5,(std::exception const &)*arg6);
+  {
+    try {
+      result = bcos::Error::buildError((char const *)arg1,(char const *)arg2,arg3,arg4,(std::string const &)*arg5,(std::exception const &)*arg6);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr<  bcos::Error > **)&jresult = new std::shared_ptr<  bcos::Error >(new bcos::Error(result)); 
   {
     jenv->ReleaseByteArrayElements(jarg1, (jbyte *) arg1, 0); 
@@ -3209,7 +3585,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (bcos::Error *)new bcos::Error();
+  {
+    try {
+      result = (bcos::Error *)new bcos::Error();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   
   *(std::shared_ptr<  bcos::Error > **)&jresult = result ? new std::shared_ptr<  bcos::Error >(result SWIG_NO_NULL_DELETER_1) : 0;
   
@@ -3234,7 +3618,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   if (!arg2_pstr) return 0;
   (&arg2)->assign(arg2_pstr);
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  result = (bcos::Error *)new bcos::Error(arg1,arg2);
+  {
+    try {
+      result = (bcos::Error *)new bcos::Error(arg1,arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   
   *(std::shared_ptr<  bcos::Error > **)&jresult = result ? new std::shared_ptr<  bcos::Error >(result SWIG_NO_NULL_DELETER_1) : 0;
   
@@ -3251,7 +3643,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  bcos::Error > **)&jarg1;
   arg1 = (bcos::Error *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3267,7 +3667,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const bcos::Error > **)&jarg1;
   arg1 = (bcos::Error *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (int64_t)((bcos::Error const *)arg1)->errorCode();
+  {
+    try {
+      result = (int64_t)((bcos::Error const *)arg1)->errorCode();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jlong)result; 
   return jresult;
 }
@@ -3285,7 +3693,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const bcos::Error > **)&jarg1;
   arg1 = (bcos::Error *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((bcos::Error const *)arg1)->errorMessage();
+  {
+    try {
+      result = (std::string *) &((bcos::Error const *)arg1)->errorMessage();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -3303,7 +3719,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  bcos::Error > **)&jarg1;
   arg1 = (bcos::Error *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (int64_t)jarg2; 
-  (arg1)->setErrorCode(arg2);
+  {
+    try {
+      (arg1)->setErrorCode(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3327,7 +3751,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setErrorMessage((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setErrorMessage((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3435,7 +3867,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (InputBuffer *)new InputBuffer();
+  {
+    try {
+      result = (InputBuffer *)new InputBuffer();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(InputBuffer **)&jresult = result; 
   return jresult;
 }
@@ -3447,7 +3887,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = *(InputBuffer **)&jarg1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3555,7 +4003,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (OutputBuffer *)new OutputBuffer();
+  {
+    try {
+      result = (OutputBuffer *)new OutputBuffer();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(OutputBuffer **)&jresult = result; 
   return jresult;
 }
@@ -3567,7 +4023,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = *(OutputBuffer **)&jarg1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3580,7 +4044,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3596,7 +4068,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr< const ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (int)((ppc::front::FrontConfig const *)arg1)->threadPoolSize();
+  {
+    try {
+      result = (int)((ppc::front::FrontConfig const *)arg1)->threadPoolSize();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -3614,7 +4094,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (int)jarg2; 
-  (arg1)->setThreadPoolSize(arg2);
+  {
+    try {
+      (arg1)->setThreadPoolSize(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3630,7 +4118,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((ppc::front::FrontConfig const *)arg1)->nodeID();
+  {
+    try {
+      result = (std::string *) &((ppc::front::FrontConfig const *)arg1)->nodeID();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -3656,7 +4152,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setNodeID((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setNodeID((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3672,7 +4176,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (ppc::protocol::EndPoint *) &((ppc::front::FrontConfig const *)arg1)->selfEndPoint();
+  {
+    try {
+      result = (ppc::protocol::EndPoint *) &((ppc::front::FrontConfig const *)arg1)->selfEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::EndPoint **)&jresult = result; 
   return jresult;
 }
@@ -3690,7 +4202,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr<  ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (ppc::protocol::EndPoint *) &(arg1)->mutableSelfEndPoint();
+  {
+    try {
+      result = (ppc::protocol::EndPoint *) &(arg1)->mutableSelfEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::EndPoint **)&jresult = result; 
   return jresult;
 }
@@ -3713,7 +4233,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "ppc::protocol::EndPoint const & is null");
     return ;
   } 
-  (arg1)->setSelfEndPoint((ppc::protocol::EndPoint const &)*arg2);
+  {
+    try {
+      (arg1)->setSelfEndPoint((ppc::protocol::EndPoint const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3737,7 +4265,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setGatewayGrpcTarget((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setGatewayGrpcTarget((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3753,7 +4289,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((ppc::front::FrontConfig const *)arg1)->gatewayGrpcTarget();
+  {
+    try {
+      result = (std::string *) &((ppc::front::FrontConfig const *)arg1)->gatewayGrpcTarget();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -3774,7 +4318,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
   argp2 = *(ppc::protocol::GrpcConfig::Ptr **)&jarg2;
   if (argp2) arg2 = *argp2; 
-  (arg1)->setGrpcConfig(arg2);
+  {
+    try {
+      (arg1)->setGrpcConfig(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3790,7 +4342,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (ppc::protocol::GrpcConfig::Ptr *) &((ppc::front::FrontConfig const *)arg1)->grpcConfig();
+  {
+    try {
+      result = (ppc::protocol::GrpcConfig::Ptr *) &((ppc::front::FrontConfig const *)arg1)->grpcConfig();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::GrpcConfig::Ptr **)&jresult = *result ? new ppc::protocol::GrpcConfig::Ptr(*result) : 0; 
   return jresult;
 }
@@ -3808,7 +4368,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::front::FrontConfig const *)arg1)->generateNodeInfo();
+  {
+    try {
+      result = ((ppc::front::FrontConfig const *)arg1)->generateNodeInfo();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::INodeInfo::Ptr **)&jresult = result ? new ppc::protocol::INodeInfo::Ptr(result) : 0; 
   return jresult;
 }
@@ -3826,7 +4394,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::vector< std::string > *) &((ppc::front::FrontConfig const *)arg1)->getComponents();
+  {
+    try {
+      result = (std::vector< std::string > *) &((ppc::front::FrontConfig const *)arg1)->getComponents();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::vector< std::string > **)&jresult = result; 
   return jresult;
 }
@@ -3849,7 +4425,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::vector< std::string > const & is null");
     return ;
   } 
-  (arg1)->setComponents((std::vector< std::string > const &)*arg2);
+  {
+    try {
+      (arg1)->setComponents((std::vector< std::string > const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3873,7 +4457,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->addComponent((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->addComponent((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3889,7 +4481,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr<  ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::vector< std::string > *) &(arg1)->mutableComponents();
+  {
+    try {
+      result = (std::vector< std::string > *) &(arg1)->mutableComponents();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::vector< std::string > **)&jresult = result; 
   return jresult;
 }
@@ -3907,7 +4507,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::front::FrontConfig > **)&jarg1;
   arg1 = (ppc::front::FrontConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::front::FrontConfig const *)arg1)->meta();
+  {
+    try {
+      result = ((ppc::front::FrontConfig const *)arg1)->meta();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
@@ -3932,7 +4540,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   if (!arg2_pstr) return ;
   (&arg2)->assign(arg2_pstr);
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setMeta(arg2);
+  {
+    try {
+      (arg1)->setMeta(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3942,7 +4558,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = *(ppc::front::FrontConfigBuilder **)&jarg1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -3955,7 +4579,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ppc::front::FrontConfigBuilder **)&jarg1; 
-  result = ((ppc::front::FrontConfigBuilder const *)arg1)->build();
+  {
+    try {
+      result = ((ppc::front::FrontConfigBuilder const *)arg1)->build();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::front::FrontConfig::Ptr **)&jresult = result ? new ppc::front::FrontConfig::Ptr(result) : 0; 
   return jresult;
 }
@@ -3981,7 +4613,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   if (!arg3_pstr) return 0;
   (&arg3)->assign(arg3_pstr);
   jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
-  result = ((ppc::front::FrontConfigBuilder const *)arg1)->build(arg2,arg3);
+  {
+    try {
+      result = ((ppc::front::FrontConfigBuilder const *)arg1)->build(arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::front::FrontConfig::Ptr **)&jresult = result ? new ppc::front::FrontConfig::Ptr(result) : 0; 
   return jresult;
 }
@@ -3997,7 +4637,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   (void)jcls;
   (void)jarg1_;
   arg1 = jarg1 ? *(ppc::front::FrontConfig::Ptr **)&jarg1 : &tempnull1; 
-  result = ppc::front::printFrontDesc((std::shared_ptr< ppc::front::FrontConfig > const &)*arg1);
+  {
+    try {
+      result = ppc::front::printFrontDesc((std::shared_ptr< ppc::front::FrontConfig > const &)*arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
@@ -4009,7 +4657,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (ppc::protocol::EndPoint *)new ppc::protocol::EndPoint();
+  {
+    try {
+      result = (ppc::protocol::EndPoint *)new ppc::protocol::EndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::EndPoint **)&jresult = result; 
   return jresult;
 }
@@ -4033,7 +4689,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   arg1 = &arg1_str;
   jenv->ReleaseStringUTFChars(jarg1, arg1_pstr); 
   arg2 = (uint16_t)jarg2; 
-  result = (ppc::protocol::EndPoint *)new ppc::protocol::EndPoint((std::string const &)*arg1,arg2);
+  {
+    try {
+      result = (ppc::protocol::EndPoint *)new ppc::protocol::EndPoint((std::string const &)*arg1,arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::EndPoint **)&jresult = result; 
   return jresult;
 }
@@ -4045,7 +4709,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = *(ppc::protocol::EndPoint **)&jarg1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4058,7 +4730,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ppc::protocol::EndPoint **)&jarg1; 
-  result = (std::string *) &((ppc::protocol::EndPoint const *)arg1)->host();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::EndPoint const *)arg1)->host();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -4073,7 +4753,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ppc::protocol::EndPoint **)&jarg1; 
-  result = (uint16_t)((ppc::protocol::EndPoint const *)arg1)->port();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::EndPoint const *)arg1)->port();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -4095,7 +4783,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   if (!arg2_pstr) return ;
   (&arg2)->assign(arg2_pstr);
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setHost(arg2);
+  {
+    try {
+      (arg1)->setHost(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4108,7 +4804,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jarg1_;
   arg1 = *(ppc::protocol::EndPoint **)&jarg1; 
   arg2 = (uint16_t)jarg2; 
-  (arg1)->setPort(arg2);
+  {
+    try {
+      (arg1)->setPort(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4129,7 +4833,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setListenIp((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setListenIp((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4142,7 +4854,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ppc::protocol::EndPoint **)&jarg1; 
-  result = ((ppc::protocol::EndPoint const *)arg1)->entryPoint();
+  {
+    try {
+      result = ((ppc::protocol::EndPoint const *)arg1)->entryPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
@@ -4157,7 +4877,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ppc::protocol::EndPoint **)&jarg1; 
-  result = ((ppc::protocol::EndPoint const *)arg1)->listenEndPoint();
+  {
+    try {
+      result = ((ppc::protocol::EndPoint const *)arg1)->listenEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
@@ -4172,7 +4900,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ppc::protocol::EndPoint **)&jarg1; 
-  result = (std::string *) &((ppc::protocol::EndPoint const *)arg1)->listenIp();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::EndPoint const *)arg1)->listenIp();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -4184,7 +4920,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig();
+  {
+    try {
+      result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::GrpcServerConfig **)&jresult = result; 
   return jresult;
 }
@@ -4207,7 +4951,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   }
   arg1 = *argp1; 
   arg2 = jarg2 ? true : false; 
-  result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig(arg1,arg2);
+  {
+    try {
+      result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig(arg1,arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::GrpcServerConfig **)&jresult = result; 
   return jresult;
 }
@@ -4222,7 +4974,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
-  result = ((ppc::protocol::GrpcServerConfig const *)arg1)->listenEndPoint();
+  {
+    try {
+      result = ((ppc::protocol::GrpcServerConfig const *)arg1)->listenEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
@@ -4244,7 +5004,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     return ;
   }
   arg2 = *argp2; 
-  (arg1)->setEndPoint(arg2);
+  {
+    try {
+      (arg1)->setEndPoint(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4257,7 +5025,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jarg1_;
   arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
   arg2 = jarg2 ? true : false; 
-  (arg1)->setEnableHealthCheck(arg2);
+  {
+    try {
+      (arg1)->setEnableHealthCheck(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4270,7 +5046,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
-  result = (ppc::protocol::EndPoint *) &((ppc::protocol::GrpcServerConfig const *)arg1)->endPoint();
+  {
+    try {
+      result = (ppc::protocol::EndPoint *) &((ppc::protocol::GrpcServerConfig const *)arg1)->endPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::EndPoint **)&jresult = result; 
   return jresult;
 }
@@ -4285,7 +5069,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
-  result = (ppc::protocol::EndPoint *) &(arg1)->mutableEndPoint();
+  {
+    try {
+      result = (ppc::protocol::EndPoint *) &(arg1)->mutableEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::EndPoint **)&jresult = result; 
   return jresult;
 }
@@ -4300,7 +5092,15 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
-  result = (bool)((ppc::protocol::GrpcServerConfig const *)arg1)->enableHealthCheck();
+  {
+    try {
+      result = (bool)((ppc::protocol::GrpcServerConfig const *)arg1)->enableHealthCheck();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -4312,7 +5112,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4322,7 +5130,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (ppc::protocol::GrpcConfig *)new ppc::protocol::GrpcConfig();
+  {
+    try {
+      result = (ppc::protocol::GrpcConfig *)new ppc::protocol::GrpcConfig();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   
   *(std::shared_ptr<  ppc::protocol::GrpcConfig > **)&jresult = result ? new std::shared_ptr<  ppc::protocol::GrpcConfig >(result SWIG_NO_NULL_DELETER_1) : 0;
   
@@ -4339,7 +5155,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::GrpcConfig > **)&jarg1;
   arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4355,7 +5179,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::GrpcConfig > **)&jarg1;
   arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((ppc::protocol::GrpcConfig const *)arg1)->loadBalancePolicy();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::GrpcConfig const *)arg1)->loadBalancePolicy();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -4381,7 +5213,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setLoadBalancePolicy((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setLoadBalancePolicy((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4397,7 +5237,15 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::GrpcConfig > **)&jarg1;
   arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (bool)((ppc::protocol::GrpcConfig const *)arg1)->enableHealthCheck();
+  {
+    try {
+      result = (bool)((ppc::protocol::GrpcConfig const *)arg1)->enableHealthCheck();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -4415,7 +5263,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::GrpcConfig > **)&jarg1;
   arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = jarg2 ? true : false; 
-  (arg1)->setEnableHealthCheck(arg2);
+  {
+    try {
+      (arg1)->setEnableHealthCheck(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4431,7 +5287,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::GrpcConfig > **)&jarg1;
   arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = jarg2 ? true : false; 
-  (arg1)->setEnableDnslookup(arg2);
+  {
+    try {
+      (arg1)->setEnableDnslookup(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4447,7 +5311,15 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::GrpcConfig > **)&jarg1;
   arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (bool)((ppc::protocol::GrpcConfig const *)arg1)->enableDnslookup();
+  {
+    try {
+      result = (bool)((ppc::protocol::GrpcConfig const *)arg1)->enableDnslookup();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -4465,7 +5337,15 @@ SWIGEXPORT jobject JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::GrpcConfig > **)&jarg1;
   arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxSendMessageSize();
+  {
+    try {
+      result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxSendMessageSize();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   {
     jbyteArray ba = jenv->NewByteArray(9);
     jbyte* bae = jenv->GetByteArrayElements(ba, 0);
@@ -4500,7 +5380,15 @@ SWIGEXPORT jobject JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::GrpcConfig > **)&jarg1;
   arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxReceivedMessageSize();
+  {
+    try {
+      result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxReceivedMessageSize();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   {
     jbyteArray ba = jenv->NewByteArray(9);
     jbyte* bae = jenv->GetByteArrayElements(ba, 0);
@@ -4560,7 +5448,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     }
     jenv->ReleaseByteArrayElements(ba, bae, 0);
   }
-  (arg1)->setMaxSendMessageSize(arg2);
+  {
+    try {
+      (arg1)->setMaxSendMessageSize(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4601,7 +5497,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     }
     jenv->ReleaseByteArrayElements(ba, bae, 0);
   }
-  (arg1)->setMaxReceivedMessageSize(arg2);
+  {
+    try {
+      (arg1)->setMaxReceivedMessageSize(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4617,7 +5521,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::GrpcConfig > **)&jarg1;
   arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (int)((ppc::protocol::GrpcConfig const *)arg1)->compressAlgorithm();
+  {
+    try {
+      result = (int)((ppc::protocol::GrpcConfig const *)arg1)->compressAlgorithm();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -4635,7 +5547,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::GrpcConfig > **)&jarg1;
   arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (int)jarg2; 
-  (arg1)->setCompressAlgorithm(arg2);
+  {
+    try {
+      (arg1)->setCompressAlgorithm(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4649,7 +5569,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   (void)jcls;
   (void)jarg1_;
   arg1 = jarg1 ? *(ppc::protocol::GrpcConfig::Ptr **)&jarg1 : &tempnull1; 
-  result = ppc::protocol::printGrpcConfig((std::shared_ptr< ppc::protocol::GrpcConfig > const &)*arg1);
+  {
+    try {
+      result = ppc::protocol::printGrpcConfig((std::shared_ptr< ppc::protocol::GrpcConfig > const &)*arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
@@ -4664,7 +5592,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageOptionalHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageOptionalHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4686,7 +5622,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "bcos::bytes & reference is null");
     return ;
   } 
-  ((ppc::protocol::MessageOptionalHeader const *)arg1)->encode(*arg2);
+  {
+    try {
+      ((ppc::protocol::MessageOptionalHeader const *)arg1)->encode(*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4737,7 +5681,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
     }
     jenv->ReleaseByteArrayElements(ba, bae, 0);
   }
-  result = (int64_t)(arg1)->decode(arg2,arg3);
+  {
+    try {
+      result = (int64_t)(arg1)->decode(arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jlong)result; 
   return jresult;
 }
@@ -4755,7 +5707,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageOptionalHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageOptionalHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->componentType();
+  {
+    try {
+      result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->componentType();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
@@ -4780,7 +5740,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   if (!arg2_pstr) return ;
   (&arg2)->assign(arg2_pstr);
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setComponentType(arg2);
+  {
+    try {
+      (arg1)->setComponentType(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4796,7 +5764,15 @@ SWIGEXPORT jbyteArray JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1jav
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageOptionalHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageOptionalHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->srcNodeBuffer();
+  {
+    try {
+      result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->srcNodeBuffer();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   {
     jresult = jenv->NewByteArray((&result)->len);
     jenv->SetByteArrayRegion(jresult, 0, (&result)->len, (jbyte *) (&result)->data);
@@ -4846,7 +5822,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     }
     jenv->ReleaseByteArrayElements(ba, bae, 0);
   }
-  (arg1)->setSrcNodeBuffer(arg2,arg3);
+  {
+    try {
+      (arg1)->setSrcNodeBuffer(arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
   {
     jenv->ReleaseByteArrayElements(jarg2, (jbyte *) arg2, 0); 
   }
@@ -4866,7 +5850,15 @@ SWIGEXPORT jbyteArray JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1jav
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageOptionalHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageOptionalHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->dstNodeBuffer();
+  {
+    try {
+      result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->dstNodeBuffer();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   {
     jresult = jenv->NewByteArray((&result)->len);
     jenv->SetByteArrayRegion(jresult, 0, (&result)->len, (jbyte *) (&result)->data);
@@ -4916,7 +5908,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     }
     jenv->ReleaseByteArrayElements(ba, bae, 0);
   }
-  (arg1)->setDstNodeBuffer(arg2,arg3);
+  {
+    try {
+      (arg1)->setDstNodeBuffer(arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
   {
     jenv->ReleaseByteArrayElements(jarg2, (jbyte *) arg2, 0); 
   }
@@ -4936,7 +5936,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageOptionalHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageOptionalHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((ppc::protocol::MessageOptionalHeader const *)arg1)->dstInst();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::MessageOptionalHeader const *)arg1)->dstInst();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -4962,7 +5970,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setDstInst((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setDstInst((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -4978,7 +5994,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageOptionalHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageOptionalHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((ppc::protocol::MessageOptionalHeader const *)arg1)->topic();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::MessageOptionalHeader const *)arg1)->topic();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -5002,7 +6026,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     return ;
   }
   rvrdeleter2.reset(arg2); 
-  (arg1)->setTopic((std::string &&)*arg2);
+  {
+    try {
+      (arg1)->setTopic((std::string &&)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5026,7 +6058,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setTopic((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setTopic((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5042,7 +6082,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageOptionalHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageOptionalHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->srcInst();
+  {
+    try {
+      result = ((ppc::protocol::MessageOptionalHeader const *)arg1)->srcInst();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
@@ -5068,7 +6116,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setSrcInst((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setSrcInst((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5081,7 +6137,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5103,7 +6167,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "bcos::bytes & reference is null");
     return ;
   } 
-  ((ppc::protocol::MessageHeader const *)arg1)->encode(*arg2);
+  {
+    try {
+      ((ppc::protocol::MessageHeader const *)arg1)->encode(*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5127,7 +6199,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
     return 0;
   }
   arg2 = *argp2; 
-  result = (int64_t)(arg1)->decode(arg2);
+  {
+    try {
+      result = (int64_t)(arg1)->decode(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jlong)result; 
   return jresult;
 }
@@ -5145,7 +6225,15 @@ SWIGEXPORT jshort JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1t
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint8_t)((ppc::protocol::MessageHeader const *)arg1)->version();
+  {
+    try {
+      result = (uint8_t)((ppc::protocol::MessageHeader const *)arg1)->version();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jshort)result; 
   return jresult;
 }
@@ -5163,7 +6251,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (uint16_t)jarg2; 
-  (arg1)->setVersion(arg2);
+  {
+    try {
+      (arg1)->setVersion(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5179,7 +6275,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((ppc::protocol::MessageHeader const *)arg1)->traceID();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::MessageHeader const *)arg1)->traceID();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -5204,7 +6308,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   if (!arg2_pstr) return ;
   (&arg2)->assign(arg2_pstr);
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setTraceID(arg2);
+  {
+    try {
+      (arg1)->setTraceID(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5220,7 +6332,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((ppc::protocol::MessageHeader const *)arg1)->srcGwNode();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::MessageHeader const *)arg1)->srcGwNode();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -5246,7 +6366,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setSrcGwNode((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setSrcGwNode((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5262,7 +6390,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((ppc::protocol::MessageHeader const *)arg1)->dstGwNode();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::MessageHeader const *)arg1)->dstGwNode();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -5288,7 +6424,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setDstGwNode((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setDstGwNode((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5304,7 +6448,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->packetType();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->packetType();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -5322,7 +6474,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (uint16_t)jarg2; 
-  (arg1)->setPacketType(arg2);
+  {
+    try {
+      (arg1)->setPacketType(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5338,7 +6498,15 @@ SWIGEXPORT jshort JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1t
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (int16_t)((ppc::protocol::MessageHeader const *)arg1)->ttl();
+  {
+    try {
+      result = (int16_t)((ppc::protocol::MessageHeader const *)arg1)->ttl();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jshort)result; 
   return jresult;
 }
@@ -5356,7 +6524,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (uint16_t)jarg2; 
-  (arg1)->setTTL(arg2);
+  {
+    try {
+      (arg1)->setTTL(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5372,7 +6548,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->ext();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->ext();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -5390,7 +6574,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (uint16_t)jarg2; 
-  (arg1)->setExt(arg2);
+  {
+    try {
+      (arg1)->setExt(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5406,7 +6598,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::MessageHeader const *)arg1)->optionalField();
+  {
+    try {
+      result = ((ppc::protocol::MessageHeader const *)arg1)->optionalField();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessageOptionalHeader::Ptr **)&jresult = result ? new ppc::protocol::MessageOptionalHeader::Ptr(result) : 0; 
   return jresult;
 }
@@ -5427,7 +6627,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
   argp2 = *(ppc::protocol::MessageOptionalHeader::Ptr **)&jarg2;
   if (argp2) arg2 = *argp2; 
-  (arg1)->setOptionalField(arg2);
+  {
+    try {
+      (arg1)->setOptionalField(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5443,7 +6651,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->length();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->length();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -5461,7 +6677,15 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (bool)((ppc::protocol::MessageHeader const *)arg1)->isRespPacket();
+  {
+    try {
+      result = (bool)((ppc::protocol::MessageHeader const *)arg1)->isRespPacket();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -5477,7 +6701,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  (arg1)->setRespPacket();
+  {
+    try {
+      (arg1)->setRespPacket();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5493,7 +6725,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::MessageHeader const *)arg1)->srcP2PNodeIDView();
+  {
+    try {
+      result = ((ppc::protocol::MessageHeader const *)arg1)->srcP2PNodeIDView();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::string_view **)&jresult = new std::string_view(result); 
   return jresult;
 }
@@ -5511,7 +6751,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::MessageHeader const *)arg1)->dstP2PNodeIDView();
+  {
+    try {
+      result = ((ppc::protocol::MessageHeader const *)arg1)->dstP2PNodeIDView();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::string_view **)&jresult = new std::string_view(result); 
   return jresult;
 }
@@ -5529,7 +6777,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->routeType();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::MessageHeader const *)arg1)->routeType();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -5553,7 +6809,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     return ;
   }
   arg2 = *argp2; 
-  (arg1)->setRouteType(arg2);
+  {
+    try {
+      (arg1)->setRouteType(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5569,7 +6833,15 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessageHeader > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeader *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (bool)((ppc::protocol::MessageHeader const *)arg1)->hasOptionalField();
+  {
+    try {
+      result = (bool)((ppc::protocol::MessageHeader const *)arg1)->hasOptionalField();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -5584,7 +6856,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5600,7 +6880,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::Message const *)arg1)->header();
+  {
+    try {
+      result = ((ppc::protocol::Message const *)arg1)->header();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessageHeader::Ptr **)&jresult = result ? new ppc::protocol::MessageHeader::Ptr(result) : 0; 
   return jresult;
 }
@@ -5621,7 +6909,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
   argp2 = *(ppc::protocol::MessageHeader::Ptr **)&jarg2;
   if (argp2) arg2 = *argp2; 
-  (arg1)->setHeader(arg2);
+  {
+    try {
+      (arg1)->setHeader(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5637,7 +6933,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint16_t)((ppc::protocol::Message const *)arg1)->version();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::Message const *)arg1)->version();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -5655,7 +6959,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (uint16_t)jarg2; 
-  (arg1)->setVersion(arg2);
+  {
+    try {
+      (arg1)->setVersion(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5671,7 +6983,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint16_t)((ppc::protocol::Message const *)arg1)->packetType();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::Message const *)arg1)->packetType();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -5689,7 +7009,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (uint16_t)jarg2; 
-  (arg1)->setPacketType(arg2);
+  {
+    try {
+      (arg1)->setPacketType(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5705,7 +7033,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((ppc::protocol::Message const *)arg1)->seq();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::Message const *)arg1)->seq();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -5730,7 +7066,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   if (!arg2_pstr) return ;
   (&arg2)->assign(arg2_pstr);
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setSeq(arg2);
+  {
+    try {
+      (arg1)->setSeq(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5746,7 +7090,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint16_t)((ppc::protocol::Message const *)arg1)->ext();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::Message const *)arg1)->ext();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -5764,7 +7116,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (uint16_t)jarg2; 
-  (arg1)->setExt(arg2);
+  {
+    try {
+      (arg1)->setExt(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5780,7 +7140,15 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (bool)((ppc::protocol::Message const *)arg1)->isRespPacket();
+  {
+    try {
+      result = (bool)((ppc::protocol::Message const *)arg1)->isRespPacket();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -5796,7 +7164,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  (arg1)->setRespPacket();
+  {
+    try {
+      (arg1)->setRespPacket();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5815,7 +7191,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
   argp2 = *(std::shared_ptr< bcos::bytes > **)&jarg2;
   if (argp2) arg2 = *argp2; 
-  (arg1)->setPayload(arg2);
+  {
+    try {
+      (arg1)->setPayload(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5831,7 +7215,15 @@ SWIGEXPORT jbyteArray JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1jav
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::Message const *)arg1)->payloadBuffer();
+  {
+    try {
+      result = ((ppc::protocol::Message const *)arg1)->payloadBuffer();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   {
     jresult = jenv->NewByteArray((&result)->len);
     jenv->SetByteArrayRegion(jresult, 0, (&result)->len, (jbyte *) (&result)->data);
@@ -5855,7 +7247,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
   argp2 = *(ppc::protocol::MessagePayload::Ptr **)&jarg2;
   if (argp2) arg2 = *argp2; 
-  (arg1)->setFrontMessage(arg2);
+  {
+    try {
+      (arg1)->setFrontMessage(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5871,7 +7271,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (ppc::protocol::MessagePayload::Ptr *) &((ppc::protocol::Message const *)arg1)->frontMessage();
+  {
+    try {
+      result = (ppc::protocol::MessagePayload::Ptr *) &((ppc::protocol::Message const *)arg1)->frontMessage();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessagePayload::Ptr **)&jresult = *result ? new ppc::protocol::MessagePayload::Ptr(*result) : 0; 
   return jresult;
 }
@@ -5897,7 +7305,15 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "bcos::bytes & reference is null");
     return 0;
   } 
-  result = (bool)(arg1)->encode(*arg2);
+  {
+    try {
+      result = (bool)(arg1)->encode(*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -5923,7 +7339,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
     return 0;
   }
   arg2 = *argp2; 
-  result = (int64_t)(arg1)->decode(arg2);
+  {
+    try {
+      result = (int64_t)(arg1)->decode(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jlong)result; 
   return jresult;
 }
@@ -5941,7 +7365,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint32_t)((ppc::protocol::Message const *)arg1)->length();
+  {
+    try {
+      result = (uint32_t)((ppc::protocol::Message const *)arg1)->length();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jlong)result; 
   return jresult;
 }
@@ -5959,7 +7391,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::Message > **)&jarg1;
   arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::Message const *)arg1)->payload();
+  {
+    try {
+      result = ((ppc::protocol::Message const *)arg1)->payload();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::shared_ptr< bcos::bytes > **)&jresult = result ? new std::shared_ptr< bcos::bytes >(result) : 0; 
   return jresult;
 }
@@ -5974,7 +7414,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageHeaderBuilder > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeaderBuilder *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -5998,7 +7446,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
     return 0;
   }
   arg2 = *argp2; 
-  result = (arg1)->build(arg2);
+  {
+    try {
+      result = (arg1)->build(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessageHeader::Ptr **)&jresult = result ? new ppc::protocol::MessageHeader::Ptr(result) : 0; 
   return jresult;
 }
@@ -6016,7 +7472,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageHeaderBuilder > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeaderBuilder *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (arg1)->build();
+  {
+    try {
+      result = (arg1)->build();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessageHeader::Ptr **)&jresult = result ? new ppc::protocol::MessageHeader::Ptr(result) : 0; 
   return jresult;
 }
@@ -6038,7 +7502,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageHeaderBuilder > **)&jarg1;
   arg1 = (ppc::protocol::MessageHeaderBuilder *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = jarg2 ? *(ppc::protocol::MessageOptionalHeader::Ptr **)&jarg2 : &tempnull2; 
-  result = (arg1)->build((ppc::protocol::MessageOptionalHeader::Ptr const &)*arg2);
+  {
+    try {
+      result = (arg1)->build((ppc::protocol::MessageOptionalHeader::Ptr const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessageOptionalHeader::Ptr **)&jresult = result ? new ppc::protocol::MessageOptionalHeader::Ptr(result) : 0; 
   return jresult;
 }
@@ -6053,7 +7525,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageBuilder > **)&jarg1;
   arg1 = (ppc::protocol::MessageBuilder *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6069,7 +7549,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageBuilder > **)&jarg1;
   arg1 = (ppc::protocol::MessageBuilder *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (arg1)->build();
+  {
+    try {
+      result = (arg1)->build();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::Message::Ptr **)&jresult = result ? new ppc::protocol::Message::Ptr(result) : 0; 
   return jresult;
 }
@@ -6095,7 +7583,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
     return 0;
   }
   arg2 = *argp2; 
-  result = (arg1)->build(arg2);
+  {
+    try {
+      result = (arg1)->build(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::Message::Ptr **)&jresult = result ? new ppc::protocol::Message::Ptr(result) : 0; 
   return jresult;
 }
@@ -6134,7 +7630,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
     return 0;
   }
   rvrdeleter4.reset(arg4); 
-  result = (arg1)->build(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,(bcos::bytes &&)*arg4);
+  {
+    try {
+      result = (arg1)->build(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,(bcos::bytes &&)*arg4);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::Message::Ptr **)&jresult = result ? new ppc::protocol::Message::Ptr(result) : 0; 
   return jresult;
 }
@@ -6149,7 +7653,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageOptionalHeaderBuilder > **)&jarg1;
   arg1 = (ppc::protocol::MessageOptionalHeaderBuilder *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6169,7 +7681,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageOptionalHeaderBuilder > **)&jarg1;
   arg1 = (ppc::protocol::MessageOptionalHeaderBuilder *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = jarg2 ? *(ppc::protocol::MessageOptionalHeader::Ptr **)&jarg2 : &tempnull2; 
-  result = (arg1)->build((ppc::protocol::MessageOptionalHeader::Ptr const &)*arg2);
+  {
+    try {
+      result = (arg1)->build((ppc::protocol::MessageOptionalHeader::Ptr const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessageOptionalHeader::Ptr **)&jresult = result ? new ppc::protocol::MessageOptionalHeader::Ptr(result) : 0; 
   return jresult;
 }
@@ -6187,7 +7707,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessageOptionalHeaderBuilder > **)&jarg1;
   arg1 = (ppc::protocol::MessageOptionalHeaderBuilder *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (arg1)->build();
+  {
+    try {
+      result = (arg1)->build();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessageOptionalHeader::Ptr **)&jresult = result ? new ppc::protocol::MessageOptionalHeader::Ptr(result) : 0; 
   return jresult;
 }
@@ -6204,7 +7732,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   (void)jarg1_;
   argp1 = *(ppc::protocol::MessageOptionalHeader::Ptr **)&jarg1;
   if (argp1) arg1 = *argp1; 
-  result = ppc::protocol::printOptionalField(SWIG_STD_MOVE(arg1));
+  {
+    try {
+      result = ppc::protocol::printOptionalField(SWIG_STD_MOVE(arg1));
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
@@ -6220,7 +7756,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   (void)jcls;
   (void)jarg1_;
   arg1 = jarg1 ? *(ppc::protocol::Message::Ptr **)&jarg1 : &tempnull1; 
-  result = ppc::protocol::printMessage((std::shared_ptr< ppc::protocol::Message > const &)*arg1);
+  {
+    try {
+      result = ppc::protocol::printMessage((std::shared_ptr< ppc::protocol::Message > const &)*arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
@@ -6232,7 +7776,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   (void)jenv;
   (void)jcls;
-  result = (ppc::protocol::FrontMsgExtFlag)ppc::protocol::FrontMsgExtFlag::Response;
+  {
+    try {
+      result = (ppc::protocol::FrontMsgExtFlag)ppc::protocol::FrontMsgExtFlag::Response;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -6247,7 +7799,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessagePayload > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6271,7 +7831,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
     SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "bcos::bytes & reference is null");
     return 0;
   } 
-  result = (int64_t)((ppc::protocol::MessagePayload const *)arg1)->encode(*arg2);
+  {
+    try {
+      result = (int64_t)((ppc::protocol::MessagePayload const *)arg1)->encode(*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jlong)result; 
   return jresult;
 }
@@ -6297,7 +7865,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
     return 0;
   }
   arg2 = *argp2; 
-  result = (int64_t)(arg1)->decode(arg2);
+  {
+    try {
+      result = (int64_t)(arg1)->decode(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jlong)result; 
   return jresult;
 }
@@ -6315,7 +7891,15 @@ SWIGEXPORT jshort JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1t
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessagePayload > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint8_t)((ppc::protocol::MessagePayload const *)arg1)->version();
+  {
+    try {
+      result = (uint8_t)((ppc::protocol::MessagePayload const *)arg1)->version();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jshort)result; 
   return jresult;
 }
@@ -6333,7 +7917,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessagePayload > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (uint8_t)jarg2; 
-  (arg1)->setVersion(arg2);
+  {
+    try {
+      (arg1)->setVersion(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6349,7 +7941,15 @@ SWIGEXPORT jbyteArray JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1jav
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessagePayload > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::MessagePayload const *)arg1)->dataBuffer();
+  {
+    try {
+      result = ((ppc::protocol::MessagePayload const *)arg1)->dataBuffer();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   {
     jresult = jenv->NewByteArray((&result)->len);
     jenv->SetByteArrayRegion(jresult, 0, (&result)->len, (jbyte *) (&result)->data);
@@ -6370,7 +7970,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessagePayload > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint16_t)((ppc::protocol::MessagePayload const *)arg1)->seq();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::MessagePayload const *)arg1)->seq();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -6388,7 +7996,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessagePayload > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (uint16_t)jarg2; 
-  (arg1)->setSeq(arg2);
+  {
+    try {
+      (arg1)->setSeq(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6404,7 +8020,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessagePayload > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (int64_t)((ppc::protocol::MessagePayload const *)arg1)->length();
+  {
+    try {
+      result = (int64_t)((ppc::protocol::MessagePayload const *)arg1)->length();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jlong)result; 
   return jresult;
 }
@@ -6422,7 +8046,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessagePayload > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((ppc::protocol::MessagePayload const *)arg1)->traceID();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::MessagePayload const *)arg1)->traceID();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -6448,7 +8080,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setTraceID((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setTraceID((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6464,7 +8104,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::MessagePayload > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (uint16_t)((ppc::protocol::MessagePayload const *)arg1)->ext();
+  {
+    try {
+      result = (uint16_t)((ppc::protocol::MessagePayload const *)arg1)->ext();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -6482,7 +8130,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessagePayload > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (uint16_t)jarg2; 
-  (arg1)->setExt(arg2);
+  {
+    try {
+      (arg1)->setExt(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6496,7 +8152,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessagePayload > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
-  (arg1)->setRespPacket();
+  {
+    try {
+      (arg1)->setRespPacket();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6512,7 +8176,15 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessagePayload > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (bool)(arg1)->isRespPacket();
+  {
+    try {
+      result = (bool)(arg1)->isRespPacket();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -6527,7 +8199,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessagePayloadBuilder > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayloadBuilder *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6543,7 +8223,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::MessagePayloadBuilder > **)&jarg1;
   arg1 = (ppc::protocol::MessagePayloadBuilder *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (arg1)->build();
+  {
+    try {
+      result = (arg1)->build();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessagePayload::Ptr **)&jresult = result ? new ppc::protocol::MessagePayload::Ptr(result) : 0; 
   return jresult;
 }
@@ -6569,7 +8257,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
     return 0;
   }
   arg2 = *argp2; 
-  result = (arg1)->build(arg2);
+  {
+    try {
+      result = (arg1)->build(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessagePayload::Ptr **)&jresult = result ? new ppc::protocol::MessagePayload::Ptr(result) : 0; 
   return jresult;
 }
@@ -6584,7 +8280,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::protocol::INodeInfo > **)&jarg1;
   arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6600,7 +8304,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::INodeInfo > **)&jarg1;
   arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (std::string *) &((ppc::protocol::INodeInfo const *)arg1)->endPoint();
+  {
+    try {
+      result = (std::string *) &((ppc::protocol::INodeInfo const *)arg1)->endPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF(result->c_str()); 
   return jresult;
 }
@@ -6618,7 +8330,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::INodeInfo > **)&jarg1;
   arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::INodeInfo const *)arg1)->nodeID();
+  {
+    try {
+      result = ((ppc::protocol::INodeInfo const *)arg1)->nodeID();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(bcos::bytesConstRef **)&jresult = new bcos::bytesConstRef(result); 
   return jresult;
 }
@@ -6642,7 +8362,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     return ;
   }
   arg2 = *argp2; 
-  (arg1)->setNodeID(arg2);
+  {
+    try {
+      (arg1)->setNodeID(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6666,7 +8394,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setEndPoint((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setEndPoint((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6692,7 +8428,15 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  result = (bool)(arg1)->addComponent((std::string const &)*arg2);
+  {
+    try {
+      result = (bool)(arg1)->addComponent((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -6720,7 +8464,15 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  result = (bool)(arg1)->eraseComponent((std::string const &)*arg2);
+  {
+    try {
+      result = (bool)(arg1)->eraseComponent((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -6748,7 +8500,15 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  result = (bool)((ppc::protocol::INodeInfo const *)arg1)->componentExist((std::string const &)*arg2);
+  {
+    try {
+      result = (bool)((ppc::protocol::INodeInfo const *)arg1)->componentExist((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jboolean)result; 
   return jresult;
 }
@@ -6766,7 +8526,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::INodeInfo > **)&jarg1;
   arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::INodeInfo const *)arg1)->copiedComponents();
+  {
+    try {
+      result = ((ppc::protocol::INodeInfo const *)arg1)->copiedComponents();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::vector< std::string > **)&jresult = new std::vector< std::string >(result); 
   return jresult;
 }
@@ -6784,7 +8552,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   
   smartarg1 = *(std::shared_ptr< const ppc::protocol::INodeInfo > **)&jarg1;
   arg1 = (ppc::protocol::INodeInfo *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::protocol::INodeInfo const *)arg1)->meta();
+  {
+    try {
+      result = ((ppc::protocol::INodeInfo const *)arg1)->meta();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
@@ -6810,7 +8586,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->setMeta((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->setMeta((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6824,7 +8608,15 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
   (void)jcls;
   (void)jarg1_;
   arg1 = jarg1 ? *(ppc::protocol::INodeInfo::Ptr **)&jarg1 : &tempnull1; 
-  result = ppc::protocol::printNodeInfo((std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg1);
+  {
+    try {
+      result = ppc::protocol::printNodeInfo((std::shared_ptr< ppc::protocol::INodeInfo > const &)*arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
 }
@@ -6839,7 +8631,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::front::IFrontClient > **)&jarg1;
   arg1 = (ppc::front::IFrontClient *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6865,7 +8665,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     return ;
   }
   arg3 = *argp3; 
-  (arg1)->onReceiveMessage((ppc::protocol::Message::Ptr const &)*arg2,arg3);
+  {
+    try {
+      (arg1)->onReceiveMessage((ppc::protocol::Message::Ptr const &)*arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6875,7 +8683,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (ppc::front::ErrorCallback *)new SwigDirector_ErrorCallback(jenv);
+  {
+    try {
+      result = (ppc::front::ErrorCallback *)new SwigDirector_ErrorCallback(jenv);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   
   *(std::shared_ptr<  ppc::front::ErrorCallback > **)&jresult = result ? new std::shared_ptr<  ppc::front::ErrorCallback >(result SWIG_NO_NULL_DELETER_1) : 0;
   
@@ -6892,7 +8708,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::front::ErrorCallback > **)&jarg1;
   arg1 = (ppc::front::ErrorCallback *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6911,7 +8735,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   arg1 = (ppc::front::ErrorCallback *)(smartarg1 ? smartarg1->get() : 0); 
   argp2 = *(bcos::Error::Ptr **)&jarg2;
   if (argp2) arg2 = *argp2; 
-  (arg1)->onError(arg2);
+  {
+    try {
+      (arg1)->onError(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6943,7 +8775,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (ppc::front::MessageDispatcherHandler *)new SwigDirector_MessageDispatcherHandler(jenv);
+  {
+    try {
+      result = (ppc::front::MessageDispatcherHandler *)new SwigDirector_MessageDispatcherHandler(jenv);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   
   *(std::shared_ptr<  ppc::front::MessageDispatcherHandler > **)&jresult = result ? new std::shared_ptr<  ppc::front::MessageDispatcherHandler >(result SWIG_NO_NULL_DELETER_1) : 0;
   
@@ -6960,7 +8800,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::front::MessageDispatcherHandler > **)&jarg1;
   arg1 = (ppc::front::MessageDispatcherHandler *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -6979,7 +8827,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   arg1 = (ppc::front::MessageDispatcherHandler *)(smartarg1 ? smartarg1->get() : 0); 
   argp2 = *(ppc::protocol::Message::Ptr **)&jarg2;
   if (argp2) arg2 = *argp2; 
-  (arg1)->onMessage(arg2);
+  {
+    try {
+      (arg1)->onMessage(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7019,7 +8875,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
     return 0;
   }
   arg1 = *argp1; 
-  result = (ppc::front::SendResponseHandler *)new ppc::front::SendResponseHandler(arg1);
+  {
+    try {
+      result = (ppc::front::SendResponseHandler *)new ppc::front::SendResponseHandler(arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::front::SendResponseHandler **)&jresult = result; 
   return jresult;
 }
@@ -7031,7 +8895,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = *(ppc::front::SendResponseHandler **)&jarg1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7050,7 +8922,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     return ;
   }
   rvrdeleter2.reset(arg2); 
-  (arg1)->sendResponse((std::shared_ptr< bcos::bytes > &&)*arg2);
+  {
+    try {
+      (arg1)->sendResponse((std::shared_ptr< bcos::bytes > &&)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7060,7 +8940,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (ppc::front::IMessageHandler *)new SwigDirector_IMessageHandler(jenv);
+  {
+    try {
+      result = (ppc::front::IMessageHandler *)new SwigDirector_IMessageHandler(jenv);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   
   *(std::shared_ptr<  ppc::front::IMessageHandler > **)&jresult = result ? new std::shared_ptr<  ppc::front::IMessageHandler >(result SWIG_NO_NULL_DELETER_1) : 0;
   
@@ -7077,7 +8965,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::front::IMessageHandler > **)&jarg1;
   arg1 = (ppc::front::IMessageHandler *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7110,7 +9006,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
     return ;
   }
   arg4 = *argp4; 
-  (arg1)->onMessage(arg2,arg3,arg4);
+  {
+    try {
+      (arg1)->onMessage(arg2,arg3,arg4);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7142,7 +9046,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (ppc::front::GetPeersInfoHandler *)new SwigDirector_GetPeersInfoHandler(jenv);
+  {
+    try {
+      result = (ppc::front::GetPeersInfoHandler *)new SwigDirector_GetPeersInfoHandler(jenv);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   
   *(std::shared_ptr<  ppc::front::GetPeersInfoHandler > **)&jresult = result ? new std::shared_ptr<  ppc::front::GetPeersInfoHandler >(result SWIG_NO_NULL_DELETER_1) : 0;
   
@@ -7159,7 +9071,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::front::GetPeersInfoHandler > **)&jarg1;
   arg1 = (ppc::front::GetPeersInfoHandler *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7188,7 +9108,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg3_str(arg3_pstr);
   arg3 = &arg3_str;
   jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
-  (arg1)->onPeersInfo(arg2,(std::string const &)*arg3);
+  {
+    try {
+      (arg1)->onPeersInfo(arg2,(std::string const &)*arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7223,7 +9151,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
   arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7237,7 +9173,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
   arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
-  (arg1)->start();
+  {
+    try {
+      (arg1)->start();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7251,7 +9195,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
   arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
-  (arg1)->stop();
+  {
+    try {
+      (arg1)->stop();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7280,7 +9232,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
   argp3 = *(ppc::front::MessageDispatcherHandler::Ptr **)&jarg3;
   if (argp3) arg3 = *argp3; 
-  (arg1)->register_topic_handler((std::string const &)*arg2,arg3);
+  {
+    try {
+      (arg1)->register_topic_handler((std::string const &)*arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7309,7 +9269,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
   argp3 = *(ppc::front::MessageDispatcherHandler::Ptr **)&jarg3;
   if (argp3) arg3 = *argp3; 
-  (arg1)->register_msg_handler((std::string const &)*arg2,arg3);
+  {
+    try {
+      (arg1)->register_msg_handler((std::string const &)*arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7374,7 +9342,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   if (argp8) arg8 = *argp8; 
   argp9 = *(ppc::front::IMessageHandler::Ptr **)&jarg9;
   if (argp9) arg9 = *argp9; 
-  (arg1)->async_send_message(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  {
+    try {
+      (arg1)->async_send_message(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
   {
     jenv->ReleaseByteArrayElements(jarg4, (jbyte *) arg4, 0); 
   }
@@ -7471,7 +9447,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   arg7 = (int)jarg7; 
   argp8 = *(ppc::front::ErrorCallback::Ptr **)&jarg8;
   if (argp8) arg8 = *argp8; 
-  (arg1)->async_send_response(arg2,arg3,(std::string const &)*arg4,arg5,arg6,arg7,arg8);
+  {
+    try {
+      (arg1)->async_send_response(arg2,arg3,(std::string const &)*arg4,arg5,arg6,arg7,arg8);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
   {
     jenv->ReleaseByteArrayElements(jarg2, (jbyte *) arg2, 0); 
   }
@@ -7536,7 +9520,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   }
   arg6 = (int)jarg6; 
   arg7 = (long)jarg7; 
-  result = (arg1)->push_msg(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,arg4,arg5,arg6,arg7);
+  {
+    try {
+      result = (arg1)->push_msg(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3,arg4,arg5,arg6,arg7);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(bcos::Error::Ptr **)&jresult = result ? new bcos::Error::Ptr(result) : 0; 
   {
     jenv->ReleaseByteArrayElements(jarg4, (jbyte *) arg4, 0); 
@@ -7570,7 +9562,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
   arg3 = (long)jarg3; 
-  result = (arg1)->pop((std::string const &)*arg2,arg3);
+  {
+    try {
+      result = (arg1)->pop((std::string const &)*arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::Message::Ptr **)&jresult = result ? new ppc::protocol::Message::Ptr(result) : 0; 
   return jresult;
 }
@@ -7598,7 +9598,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  result = (arg1)->peek((std::string const &)*arg2);
+  {
+    try {
+      result = (arg1)->peek((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::Message::Ptr **)&jresult = result ? new ppc::protocol::Message::Ptr(result) : 0; 
   return jresult;
 }
@@ -7619,7 +9627,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
   argp2 = *(ppc::front::GetPeersInfoHandler::Ptr **)&jarg2;
   if (argp2) arg2 = *argp2; 
-  (arg1)->asyncGetPeers(arg2);
+  {
+    try {
+      (arg1)->asyncGetPeers(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7635,7 +9651,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
   arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (ppc::protocol::INodeInfo::Ptr *) &(arg1)->nodeInfo();
+  {
+    try {
+      result = (ppc::protocol::INodeInfo::Ptr *) &(arg1)->nodeInfo();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::INodeInfo::Ptr **)&jresult = *result ? new ppc::protocol::INodeInfo::Ptr(*result) : 0; 
   return jresult;
 }
@@ -7663,7 +9687,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  result = (arg1)->registerTopic((std::string const &)*arg2);
+  {
+    try {
+      result = (arg1)->registerTopic((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(bcos::Error::Ptr **)&jresult = result ? new bcos::Error::Ptr(result) : 0; 
   return jresult;
 }
@@ -7691,7 +9723,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  result = (arg1)->unRegisterTopic((std::string const &)*arg2);
+  {
+    try {
+      result = (arg1)->unRegisterTopic((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(bcos::Error::Ptr **)&jresult = result ? new bcos::Error::Ptr(result) : 0; 
   return jresult;
 }
@@ -7717,7 +9757,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->registerComponent((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->registerComponent((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7741,7 +9789,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->unRegisterComponent((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->unRegisterComponent((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7765,7 +9821,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg2_str(arg2_pstr);
   arg2 = &arg2_str;
   jenv->ReleaseStringUTFChars(jarg2, arg2_pstr); 
-  (arg1)->updateMetaInfo((std::string const &)*arg2);
+  {
+    try {
+      (arg1)->updateMetaInfo((std::string const &)*arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7787,7 +9851,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (int16_t)jarg2; 
   arg3 = jarg3 ? *(ppc::protocol::MessageOptionalHeader::Ptr **)&jarg3 : &tempnull3; 
-  result = (arg1)->selectNodesByRoutePolicy(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3);
+  {
+    try {
+      result = (arg1)->selectNodesByRoutePolicy(arg2,(ppc::protocol::MessageOptionalHeader::Ptr const &)*arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::vector< std::string > **)&jresult = new std::vector< std::string >(result); 
   return jresult;
 }
@@ -7805,7 +9877,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr<  ppc::front::IFront > **)&jarg1;
   arg1 = (ppc::front::IFront *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (arg1)->getNodeDiscovery();
+  {
+    try {
+      result = (arg1)->getNodeDiscovery();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::front::INodeDiscovery::Ptr **)&jresult = result ? new ppc::front::INodeDiscovery::Ptr(result) : 0; 
   return jresult;
 }
@@ -7817,7 +9897,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = *(ppc::front::IFrontBuilder **)&jarg1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7849,7 +9937,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   }
   arg3 = *argp3; 
   arg4 = jarg4 ? true : false; 
-  result = ((ppc::front::IFrontBuilder const *)arg1)->buildClient(arg2,arg3,arg4);
+  {
+    try {
+      result = ((ppc::front::IFrontBuilder const *)arg1)->buildClient(arg2,arg3,arg4);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::front::IFrontClient::Ptr **)&jresult = result ? new ppc::front::IFrontClient::Ptr(result) : 0; 
   return jresult;
 }
@@ -7864,7 +9960,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::front::INodeDiscovery > **)&jarg1;
   arg1 = (ppc::front::INodeDiscovery *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7880,7 +9984,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::front::INodeDiscovery > **)&jarg1;
   arg1 = (ppc::front::INodeDiscovery *)(smartarg1 ? smartarg1->get() : 0); 
-  result = ((ppc::front::INodeDiscovery const *)arg1)->getAliveNodeList();
+  {
+    try {
+      result = ((ppc::front::INodeDiscovery const *)arg1)->getAliveNodeList();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(std::vector< std::shared_ptr< ppc::protocol::INodeInfo > > **)&jresult = new std::vector< std::shared_ptr< ppc::protocol::INodeInfo > >(result); 
   return jresult;
 }
@@ -7892,7 +10004,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   (void)jenv;
   (void)jcls;
-  result = (ppc::sdk::SDKMode)ppc::sdk::SDKMode::AIR;
+  {
+    try {
+      result = (ppc::sdk::SDKMode)ppc::sdk::SDKMode::AIR;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -7904,7 +10024,15 @@ SWIGEXPORT jint JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   (void)jenv;
   (void)jcls;
-  result = (ppc::sdk::SDKMode)ppc::sdk::SDKMode::PRO;
+  {
+    try {
+      result = (ppc::sdk::SDKMode)ppc::sdk::SDKMode::PRO;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   jresult = (jint)result; 
   return jresult;
 }
@@ -7916,7 +10044,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   (void)jenv;
   (void)jcls;
-  result = (ppc::sdk::TransportBuilder *)new ppc::sdk::TransportBuilder();
+  {
+    try {
+      result = (ppc::sdk::TransportBuilder *)new ppc::sdk::TransportBuilder();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::sdk::TransportBuilder **)&jresult = result; 
   return jresult;
 }
@@ -7928,7 +10064,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   (void)jenv;
   (void)jcls;
   arg1 = *(ppc::sdk::TransportBuilder **)&jarg1; 
-  delete arg1;
+  {
+    try {
+      delete arg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -7946,7 +10090,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   arg1 = *(ppc::sdk::TransportBuilder **)&jarg1; 
   argp2 = *(ppc::front::FrontConfig::Ptr **)&jarg2;
   if (argp2) arg2 = *argp2; 
-  result = (arg1)->buildProTransport(arg2);
+  {
+    try {
+      result = (arg1)->buildProTransport(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::sdk::Transport::Ptr **)&jresult = result ? new ppc::sdk::Transport::Ptr(result) : 0; 
   return jresult;
 }
@@ -7972,7 +10124,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   if (!arg3_pstr) return 0;
   (&arg3)->assign(arg3_pstr);
   jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
-  result = (arg1)->buildConfig(arg2,arg3);
+  {
+    try {
+      result = (arg1)->buildConfig(arg2,arg3);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::front::FrontConfig::Ptr **)&jresult = result ? new ppc::front::FrontConfig::Ptr(result) : 0; 
   return jresult;
 }
@@ -7987,7 +10147,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ppc::sdk::TransportBuilder **)&jarg1; 
-  result = (ppc::front::FrontConfigBuilder::Ptr *) &(arg1)->frontConfigBuilder();
+  {
+    try {
+      result = (ppc::front::FrontConfigBuilder::Ptr *) &(arg1)->frontConfigBuilder();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::front::FrontConfigBuilder::Ptr **)&jresult = result; 
   return jresult;
 }
@@ -8007,7 +10175,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   std::string arg1_str(arg1_pstr);
   arg1 = &arg1_str;
   jenv->ReleaseStringUTFChars(jarg1, arg1_pstr); 
-  ppc::sdk::TransportBuilder::initLog((std::string const &)*arg1);
+  {
+    try {
+      ppc::sdk::TransportBuilder::initLog((std::string const &)*arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -8022,7 +10198,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   (void)jarg1_;
   argp1 = *(ppc::front::FrontConfig::Ptr **)&jarg1;
   if (argp1) arg1 = *argp1; 
-  result = (ppc::sdk::Transport *)new ppc::sdk::Transport(arg1);
+  {
+    try {
+      result = (ppc::sdk::Transport *)new ppc::sdk::Transport(arg1);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   
   *(std::shared_ptr<  ppc::sdk::Transport > **)&jresult = result ? new std::shared_ptr<  ppc::sdk::Transport >(result SWIG_NO_NULL_DELETER_1) : 0;
   
@@ -8039,7 +10223,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::sdk::Transport > **)&jarg1;
   arg1 = (ppc::sdk::Transport *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
+  {
+    try {
+      (void)arg1; delete smartarg1;
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -8053,7 +10245,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::sdk::Transport > **)&jarg1;
   arg1 = (ppc::sdk::Transport *)(smartarg1 ? smartarg1->get() : 0); 
-  (arg1)->start();
+  {
+    try {
+      (arg1)->start();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -8067,7 +10267,15 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
   
   smartarg1 = *(std::shared_ptr<  ppc::sdk::Transport > **)&jarg1;
   arg1 = (ppc::sdk::Transport *)(smartarg1 ? smartarg1->get() : 0); 
-  (arg1)->stop();
+  {
+    try {
+      (arg1)->stop();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -8083,7 +10291,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::sdk::Transport > **)&jarg1;
   arg1 = (ppc::sdk::Transport *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (ppc::front::IFront::Ptr *) &((ppc::sdk::Transport const *)arg1)->getFront();
+  {
+    try {
+      result = (ppc::front::IFront::Ptr *) &((ppc::sdk::Transport const *)arg1)->getFront();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::front::IFront::Ptr **)&jresult = *result ? new ppc::front::IFront::Ptr(*result) : 0; 
   return jresult;
 }
@@ -8101,7 +10317,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::sdk::Transport > **)&jarg1;
   arg1 = (ppc::sdk::Transport *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (ppc::gateway::IGateway::Ptr *) &((ppc::sdk::Transport const *)arg1)->gateway();
+  {
+    try {
+      result = (ppc::gateway::IGateway::Ptr *) &((ppc::sdk::Transport const *)arg1)->gateway();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::gateway::IGateway::Ptr **)&jresult = result; 
   return jresult;
 }
@@ -8119,7 +10343,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::sdk::Transport > **)&jarg1;
   arg1 = (ppc::sdk::Transport *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (ppc::protocol::MessagePayloadBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->msgPayloadBuilder();
+  {
+    try {
+      result = (ppc::protocol::MessagePayloadBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->msgPayloadBuilder();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessagePayloadBuilder::Ptr **)&jresult = *result ? new ppc::protocol::MessagePayloadBuilder::Ptr(*result) : 0; 
   return jresult;
 }
@@ -8137,7 +10369,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::sdk::Transport > **)&jarg1;
   arg1 = (ppc::sdk::Transport *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (ppc::protocol::MessageBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->msgBuilder();
+  {
+    try {
+      result = (ppc::protocol::MessageBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->msgBuilder();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessageBuilder::Ptr **)&jresult = *result ? new ppc::protocol::MessageBuilder::Ptr(*result) : 0; 
   return jresult;
 }
@@ -8155,7 +10395,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::sdk::Transport > **)&jarg1;
   arg1 = (ppc::sdk::Transport *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (ppc::protocol::MessageHeaderBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->msgHeaderBuilder();
+  {
+    try {
+      result = (ppc::protocol::MessageHeaderBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->msgHeaderBuilder();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessageHeaderBuilder::Ptr **)&jresult = *result ? new ppc::protocol::MessageHeaderBuilder::Ptr(*result) : 0; 
   return jresult;
 }
@@ -8173,7 +10421,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::sdk::Transport > **)&jarg1;
   arg1 = (ppc::sdk::Transport *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (ppc::protocol::MessageOptionalHeaderBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->routeInfoBuilder();
+  {
+    try {
+      result = (ppc::protocol::MessageOptionalHeaderBuilder::Ptr *) &((ppc::sdk::Transport const *)arg1)->routeInfoBuilder();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::protocol::MessageOptionalHeaderBuilder::Ptr **)&jresult = *result ? new ppc::protocol::MessageOptionalHeaderBuilder::Ptr(*result) : 0; 
   return jresult;
 }
@@ -8191,7 +10447,15 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   
   smartarg1 = *(std::shared_ptr< const ppc::sdk::Transport > **)&jarg1;
   arg1 = (ppc::sdk::Transport *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (ppc::front::FrontConfig::Ptr *) &((ppc::sdk::Transport const *)arg1)->getConfig();
+  {
+    try {
+      result = (ppc::front::FrontConfig::Ptr *) &((ppc::sdk::Transport const *)arg1)->getConfig();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
   *(ppc::front::FrontConfig::Ptr **)&jresult = *result ? new ppc::front::FrontConfig::Ptr(*result) : 0; 
   return jresult;
 }

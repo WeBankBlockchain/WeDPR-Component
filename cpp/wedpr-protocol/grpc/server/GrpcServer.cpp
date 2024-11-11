@@ -43,26 +43,25 @@ void GrpcServer::start()
     // disable port reuse
     builder.AddChannelArgument(GRPC_ARG_ALLOW_REUSEPORT, 0);
     // without authentication
-    int selectedPort = 0;
-    builder.AddListeningPort(
-        m_config->listenEndPoint(), grpc::InsecureServerCredentials(), &selectedPort);
-    if (selectedPort == 0)
-    {
-        GRPC_SERVER_LOG(INFO)
-            << LOG_DESC("GrpcServer start failed, please check the port has been occupied or not")
-            << LOG_KV("listenEndPoint", m_config->listenEndPoint());
-        BOOST_THROW_EXCEPTION(
-            WeDPRException() << bcos::errinfo_comment(
-                "Start grpcServer failed for bind error, please check the listenPort, current "
-                "listenEndPoint: " +
-                m_config->listenEndPoint()));
-    }
+    builder.AddListeningPort(m_config->listenEndPoint(), grpc::InsecureServerCredentials());
     // register the service
     for (auto const& service : m_bindingServices)
     {
         builder.RegisterService(service.get());
     }
     m_server = std::unique_ptr<Server>(builder.BuildAndStart());
+    if (!m_server)
+    {
+        GRPC_SERVER_LOG(INFO) << LOG_DESC(
+                                     "GrpcServer BuildAndStart failed, please check the port has "
+                                     "been occupied or not")
+                              << LOG_KV("listenEndPoint", m_config->listenEndPoint());
+        BOOST_THROW_EXCEPTION(
+            WeDPRException() << bcos::errinfo_comment("BuildAndStart grpcServer failed for bind "
+                                                      "error, please check the listenPort, current "
+                                                      "listenEndPoint: " +
+                                                      m_config->listenEndPoint()));
+    }
     GRPC_SERVER_LOG(INFO) << LOG_DESC("GrpcServer start success!")
                           << LOG_KV("listenEndPoint", m_config->listenEndPoint());
 }

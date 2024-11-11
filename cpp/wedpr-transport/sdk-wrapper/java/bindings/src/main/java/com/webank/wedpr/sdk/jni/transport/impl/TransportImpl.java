@@ -44,14 +44,23 @@ public class TransportImpl implements WeDPRTransport {
     private final Transport transport;
     private final TransportConfig transportConfig;
 
-    public static WeDPRTransport build(TransportConfig transportConfig) {
-        return new TransportImpl(
-                TransportConfig.getTransportBuilder()
-                        .buildProTransport(transportConfig.getFrontConfig()),
-                transportConfig);
+    public static WeDPRTransport build(TransportConfig transportConfig) throws WeDPRSDKException {
+        try {
+            return new TransportImpl(
+                    TransportConfig.getTransportBuilder()
+                            .buildProTransport(transportConfig.getFrontConfig()),
+                    transportConfig);
+        } catch (Exception e) {
+            logger.warn(
+                    "build transport failed, transport config: {}, error: ",
+                    transportConfig.toString(),
+                    e);
+            throw e;
+        }
     }
 
-    protected TransportImpl(Transport transport, TransportConfig transportConfig) {
+    protected TransportImpl(Transport transport, TransportConfig transportConfig)
+            throws WeDPRSDKException {
         logger.info("Build Transport, config: {}", transportConfig.toString());
         this.transport = transport;
         this.transport.disOwnMemory();
@@ -60,8 +69,13 @@ public class TransportImpl implements WeDPRTransport {
 
     @Override
     public void start() {
-        logger.info("start the transport");
-        this.transport.start();
+        try {
+            logger.info("start the transport");
+            this.transport.start();
+        } catch (Exception e) {
+            logger.warn("start the transport failed, error: ", e);
+            throw e;
+        }
     }
 
     @Override
