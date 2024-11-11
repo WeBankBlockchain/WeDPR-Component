@@ -21,6 +21,7 @@
 #include "Common.h"
 #include "grpcpp/ext/proto_server_reflection_plugin.h"
 
+using namespace ppc;
 using namespace ppc::protocol;
 using namespace grpc;
 
@@ -42,7 +43,20 @@ void GrpcServer::start()
     // disable port reuse
     builder.AddChannelArgument(GRPC_ARG_ALLOW_REUSEPORT, 0);
     // without authentication
-    builder.AddListeningPort(m_config->listenEndPoint(), grpc::InsecureServerCredentials());
+    int selectedPort = 0;
+    builder.AddListeningPort(
+        m_config->listenEndPoint(), grpc::InsecureServerCredentials(), &selectedPort);
+    if (selectedPort == 0)
+    {
+        GRPC_SERVER_LOG(INFO)
+            << LOG_DESC("GrpcServer start failed, please check the port has been occupied or not")
+            << LOG_KV("listenEndPoint", m_config->listenEndPoint());
+        BOOST_THROW_EXCEPTION(
+            WeDPRException() << bcos::errinfo_comment(
+                "Start grpcServer failed for bind error, please check the listenPort, current "
+                "listenEndPoint: " +
+                m_config->listenEndPoint()));
+    }
     // register the service
     for (auto const& service : m_bindingServices)
     {

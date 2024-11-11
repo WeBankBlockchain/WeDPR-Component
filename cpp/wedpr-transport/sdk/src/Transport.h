@@ -33,8 +33,22 @@ public:
     Transport(ppc::front::FrontConfig::Ptr config);
     virtual ~Transport() { stop(); }
 
-    virtual void start() { m_front->start(); }
-    virtual void stop() { m_front->stop(); }
+    virtual void start()
+    {
+        if (!m_front)
+        {
+            return;
+        }
+        m_front->start();
+    }
+    virtual void stop()
+    {
+        if (!m_front)
+        {
+            return;
+        }
+        m_front->stop();
+    }
 
     virtual ppc::front::IFront::Ptr const& getFront() const { return m_front; }
 
