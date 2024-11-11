@@ -326,6 +326,9 @@ generate_config_ini() {
     local rpc_listen_port="${3}"
     local agency_info="${4}"
     local agency_id="${5}"
+    local grpc_listen_ip="${6}"
+    local grpc_listen_port="${7}"
+    local nodeid="${8}"
 
     cat <<EOF >"${output}"
 [agency]
@@ -363,6 +366,19 @@ generate_config_ini() {
     replace-datanode-on-failure = false
     ; the connection-timeout, in ms, default is 1000ms
     connection-timeout = 2000
+
+[transport]
+   ; the endpoint information
+   listen_ip = ${grpc_listen_ip}
+   listen_port = ${grpc_listen_port}
+   host_ip = 
+   ; the threadPoolSize
+   thread_count = 4
+   ; the gatewayService endpoint information
+   gateway_target =  
+   ; the components
+   components =
+   nodeid=${nodeid}
 
 [cert]
     ; directory the certificates located in
@@ -584,6 +600,22 @@ gen_rsa_node_cert() {
     LOG_INFO "Generate ${ndpath} cert successful!"
 }
 
+# we use sm_param to generate the private key
+generate_private_key() {
+    local output_path="${1}"
+    if [ ! -d "${output_path}" ]; then
+        mkdir -p ${output_path}
+    fi
+    if [ ! -f ${sm2_params} ]; then
+        generate_sm_sm2_param ${sm2_params}
+    fi
+    ${OPENSSL_CMD} genpkey -paramfile ${sm2_params} -out ${output_path}/node.pem 2>/dev/null
+    $OPENSSL_CMD ec -in "$output_path/node.pem" -text -noout 2> /dev/null | sed -n '3,5p' | sed 's/://g' | tr "\n" " " | sed 's/ //g'  | cat > "$output_path/node.privateKey"
+    ${OPENSSL_CMD} ec -text -noout -in "${output_path}/node.pem" 2>/dev/null | sed -n '7,11p' | tr -d ": \n" | awk '{print substr($0,3);}' | cat >"$output_path"/node.nodeid
+    private_key=$(cat $output_path/node.privateKey)
+    echo ${private_key}
+}
+
 gen_sm_node_cert_with_ext() {
     local capath="$1"
     local certpath="$2"
@@ -686,7 +718,11 @@ deploy_nodes()
     # generate the config.ini
     local rpc_port=5894
     local agency_id="agency${count}"
-    generate_config_ini "${output_dir}/config.ini"  "${listen_ip}" "${rpc_port}" "${agency_info}" ${agency_id}
+    local grpc_port=18100
+    # the nodeid
+    private_key=$(generate_private_key "${output_dir}/conf")
+    node_id=$(cat "${output_dir}/conf/node.nodeid")
+    generate_config_ini "${output_dir}/config.ini"  "${listen_ip}" "${rpc_port}" "${agency_info}" ${agency_id} "${listen_ip}" "${grpc_port}" "${node_id}"
     print_result
 }
 

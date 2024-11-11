@@ -248,13 +248,14 @@ public:
         return m_frontConfig->selfEndPoint().host() + ":" + std::to_string(m_rpcConfig.listenPort);
     }
 
-private:
-    virtual void loadEndpointConfig(ppc::protocol::EndPoint& endPoint, bool requireHostIp,
-        std::string const& sectionName, boost::property_tree::ptree const& pt);
     // load the front config
     virtual void loadFrontConfig(bool requireTransport,
         ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
         boost::property_tree::ptree const& pt);
+
+private:
+    virtual void loadEndpointConfig(ppc::protocol::EndPoint& endPoint, bool requireHostIp,
+        std::string const& sectionName, boost::property_tree::ptree const& pt);
     // load the grpc config
     ppc::protocol::GrpcConfig::Ptr loadGrpcConfig(
         std::string const& sectionName, boost::property_tree::ptree const& pt);
