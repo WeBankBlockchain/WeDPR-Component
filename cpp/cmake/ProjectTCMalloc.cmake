@@ -28,13 +28,13 @@ ExternalProject_Add(gperftools
 )
 
 ExternalProject_Get_Property(gperftools SOURCE_DIR)
-add_library(TCMalloc INTERFACE IMPORTED)
+add_library(TCMalloc STATIC IMPORTED GLOBAL)
 
 set(TCMALLOC_INCLUDE_DIR ${SOURCE_DIR}/include/)
 set(TCMALLOC_LIBRARY ${SOURCE_DIR}/.libs/${TCMALLOC_LIB_NAME})
 file(MAKE_DIRECTORY ${TCMALLOC_INCLUDE_DIR})  # Must exist.
 
-set_property(TARGET TCMalloc PROPERTY INTERFACE_LINK_LIBRARIES ${TCMALLOC_LIBRARY})
+set_property(TARGET TCMalloc PROPERTY IMPORTED_LOCATION ${TCMALLOC_LIBRARY})
 set_property(TARGET TCMalloc PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${TCMALLOC_INCLUDE_DIR})
 
 add_dependencies(TCMalloc gperftools)

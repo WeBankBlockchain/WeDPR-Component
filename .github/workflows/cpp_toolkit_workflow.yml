@@ -40,6 +40,11 @@ jobs:
         with:
           toolchain: nightly-2022-07-28
           override: true
+      - name: Prepare python
+        if: runner.os == 'Windows'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
       - name: Prepare vcpkg
         if: runner.os != 'Windows'
         uses: friendlyanon/setup-vcpkg@v1
@@ -65,7 +70,7 @@ jobs:
       - name: Build for windows
         if: runner.os == 'Windows'
         run: |
-          mkdir -p cpp/build && cd cpp/build && cmake -G "Visual Studio 16 2019" -A x64 -DBUILD_PYTHON=OFF -DCMAKE_BUILD_TYPE=Release -DTESTS=OFF -DBUILD_WEDPR_TOOLKIT=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static  -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake .. && MSBuild /version && MSBuild WeDPR-Component.sln /p:Configuration=Release /p:Platform=x64
+          mkdir -p cpp/build && cd cpp/build && cmake -G "Visual Studio 16 2019" -A x64 -DBUILD_PYTHON=ON -DCMAKE_BUILD_TYPE=Release -DTESTS=OFF -DBUILD_WEDPR_TOOLKIT=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static  -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake .. && MSBuild /version && MSBuild WeDPR-Component.sln /p:Configuration=Release /p:Platform=x64
       - name: Build for linux
         if: runner.os == 'Linux'
         run: |
