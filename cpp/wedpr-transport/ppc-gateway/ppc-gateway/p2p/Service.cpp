@@ -48,6 +48,17 @@ Service::Service(std::string const& _nodeID, RouterTableFactory::Ptr const& _rou
         boost::bind(&Service::onP2PDisconnect, this, boost::placeholders::_1));
 }
 
+void Service::stop()
+{
+    SERVICE_LOG(INFO) << LOG_DESC("stop service");
+    // stop the timerFactory
+    if (m_timerFactory)
+    {
+        m_timerFactory.reset();
+    }
+    WsService::stop();
+}
+
 void Service::onP2PConnect(WsSession::Ptr _session)
 {
     SERVICE_LOG(INFO) << LOG_DESC("Receive new p2p connection")

@@ -64,7 +64,10 @@ void GatewayRouterManager::start()
         return;
     }
     m_running = true;
-    m_timer->start();
+    if (m_timer)
+    {
+        m_timer->start();
+    }
     ROUTER_MGR_LOG(INFO) << LOG_DESC("start GatewayRouterManager success");
 }
 
@@ -76,7 +79,10 @@ void GatewayRouterManager::stop()
         return;
     }
     m_running = false;
-    m_timer->stop();
+    if (m_timer)
+    {
+        m_timer->stop();
+    }
     ROUTER_MGR_LOG(INFO) << LOG_DESC("stop GatewayRouterManager success");
 }
 

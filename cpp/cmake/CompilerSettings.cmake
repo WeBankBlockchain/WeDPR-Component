@@ -17,7 +17,6 @@ if (("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU") OR ("${CMAKE_CXX_COMPILER_ID}" MA
     # set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "/usr/bin/time")
     # set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK "/usr/bin/time")
     # Use ISO C++17 standard language.
-    set(CMAKE_CXX_FLAGS "-pthread -fPIC -fexceptions")
     # set(CMAKE_CXX_VISIBILITY_PRESET hidden)
     # Enables all the warnings about constructions that some users consider questionable,
     # and that are easy to avoid.  Also enable some extra warning flags that are not
@@ -75,11 +74,16 @@ if (("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU") OR ("${CMAKE_CXX_COMPILER_ID}" MA
 
     option(USE_LD_GOLD "Use GNU gold linker" ON)
     if (USE_LD_GOLD)
-        execute_process(COMMAND ${CMAKE_C_COMPILER} -fuse-ld=gold -Wl,--version ERROR_QUIET OUTPUT_VARIABLE LD_VERSION)
-        if ("${LD_VERSION}" MATCHES "GNU gold")
-            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
-            set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fuse-ld=gold")
-        endif ()
+        if("${LINKER}" MATCHES "gold")
+            execute_process(COMMAND ${CMAKE_C_COMPILER} -fuse-ld=gold -Wl,--version ERROR_QUIET OUTPUT_VARIABLE LD_VERSION)
+            if("${LD_VERSION}" MATCHES "GNU gold")
+                set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
+                set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fuse-ld=gold")
+            endif()
+        elseif("${LINKER}" MATCHES "mold")
+            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=mold")
+            set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fuse-ld=mold")
+        endif()
     endif ()
 
     # Additional GCC-specific compiler settings.
@@ -92,14 +96,26 @@ if (("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU") OR ("${CMAKE_CXX_COMPILER_ID}" MA
             message(FATAL_ERROR "${PROJECT_NAME} requires g++ ${GCC_MIN_VERSION} or greater. Current is ${GCC_VERSION}")
         endif ()
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MARCH_TYPE}")
-        set(CMAKE_C_FLAGS "-std=c99 ${CMAKE_C_FLAGS} ${MARCH_TYPE}")
+        set(CMAKE_C_FLAGS "-std=c99 -fexceptions ${CMAKE_C_FLAGS} ${MARCH_TYPE}")
 
 		# Strong stack protection was only added in GCC 4.9.
 		# Use it if we have the option to do so.
 		# See https://lwn.net/Articles/584225/
-        if (GCC_VERSION VERSION_GREATER 4.9 OR GCC_VERSION VERSION_EQUAL 4.9)
-            add_compile_options(-fstack-protector-strong)
-            add_compile_options(-fstack-protector)
+        add_compile_options(-fstack-protector-strong)
+        add_compile_options(-fstack-protector)
+
+        add_compile_options(-fPIC)
+        add_compile_options(-Wno-error=nonnull)
+        add_compile_options(-foptimize-sibling-calls)
+        add_compile_options(-Wno-stringop-overflow)
+        add_compile_options(-Wno-restrict)
+        add_compile_options(-Wno-error=format-truncation)
+
+        if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 11.0)
+            add_compile_options(-Wno-stringop-overread)
+            add_compile_options(-Wno-maybe-uninitialized)
+            add_compile_options(-Wno-array-bounds)
+            add_compile_options(-Wno-aggressive-loop-optimizations)
         endif()
     # Additional Clang-specific compiler settings.
     elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")

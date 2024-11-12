@@ -29,5 +29,4 @@ struct CommandLineParam
 };
 void printVersion();
 CommandLineParam initCommandLine(int argc, const char* argv[]);
-void initAppCommandLine(int argc, char* argv[]);
 }  // namespace ppc

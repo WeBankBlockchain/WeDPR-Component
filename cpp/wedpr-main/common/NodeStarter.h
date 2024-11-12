@@ -29,7 +29,7 @@ namespace ppc::node
 {
 template <typename T>
 int startProgram(
-    int argc, const char* argv[], std::string const& binaryName, std::shared_ptr<T>& starter)
+    int argc, const char* argv[], std::string const& binaryName, std::shared_ptr<T> starter)
 {
     /// set LC_ALL
     setDefaultOrCLocale();

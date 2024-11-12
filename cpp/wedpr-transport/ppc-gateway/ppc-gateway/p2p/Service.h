@@ -81,6 +81,8 @@ public:
         m_deleteSessionHandlers.emplace_back(_handler);
     }
 
+    void stop() override;
+
 protected:
     void onRecvMessage(bcos::boostssl::MessageFace::Ptr _msg,
         bcos::boostssl::ws::WsSession::Ptr _session) override;
