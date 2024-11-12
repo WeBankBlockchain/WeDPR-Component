@@ -28,9 +28,9 @@ class DataContext:
         dataset_psi = []
         for dataset in self.datasets:
             if dataset.agency in result_receiver_id_list:
-                result_receiver = "true"
+                result_receiver = True
             else:
-                result_receiver = "false"
+                result_receiver = False
             dataset_psi_info = {"idFields": [merge_filed],
                                 "dataset": {"owner": dataset.dataset_owner,
                                             "ownerAgency": dataset.agency,
@@ -45,13 +45,13 @@ class DataContext:
         dataset_model = []
         for dataset in self.datasets:
             if dataset.agency in result_receiver_id_list:
-                result_receiver = "true"
+                result_receiver = True
             else:
-                result_receiver = "false"
+                result_receiver = False
             if dataset.is_label_holder:
-                label_provider = "true"
+                label_provider = True
             else:
-                label_provider = "false"
+                label_provider = False
             dataset_psi_info = {"idFields": [merge_filed],
                                 "dataset": {"owner": dataset.dataset_owner,
                                             "ownerAgency": dataset.agency,
