@@ -22,13 +22,13 @@
 #include "ppc-crypto-core/src/hash/Sha256Hash.h"
 #include "ppc-crypto/src/ecc/Ed25519EccCrypto.h"
 #include "ppc-crypto/src/oprf/EcdhOprf.h"
+#include "ppc-io/src/FileLineReader.h"
 #include "ppc-psi/src/labeled-psi/core/LabeledPSIParams.h"
 #include "ppc-psi/src/labeled-psi/core/SenderDB.h"
 #include "protocol/src/JsonTaskImpl.h"
 #include "test-utils/TaskMock.h"
 #include <bcos-utilities/testutils/TestPromptFixture.h>
 #include <boost/test/unit_test.hpp>
-
 using namespace ppc::psi;
 using namespace bcos;
 using namespace bcos::test;

@@ -19,6 +19,7 @@
  */
 
 #include "ppc-io/src/DataResourceLoaderImpl.h"
+#include "ppc-io/src/FileLineReader.h"
 #include "ppc-psi/src/bs-ecdh-psi/BsEcdhPSIFactory.h"
 #include "ppc-psi/src/bs-ecdh-psi/core/BsEcdhCache.h"
 #include "test-utils/FakeFront.h"

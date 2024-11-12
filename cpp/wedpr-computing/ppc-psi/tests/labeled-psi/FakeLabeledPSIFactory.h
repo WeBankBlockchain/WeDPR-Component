@@ -23,10 +23,10 @@
 #include "ppc-crypto/src/ecc/Ed25519EccCrypto.h"
 #include "ppc-framework/crypto/CryptoBox.h"
 #include "ppc-io/src/DataResourceLoaderImpl.h"
+#include "ppc-io/src/FileLineReader.h"
 #include "ppc-tools/src/config/PPCConfig.h"
 #include "test-utils/FakeFront.h"
 #include <ppc-psi/src/labeled-psi/LabeledPSIFactory.h>
-
 using namespace bcos;
 using namespace ppc::protocol;
 using namespace ppc::psi;

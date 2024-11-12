@@ -19,6 +19,7 @@
  */
 #include "mock/RA2018MessageFixture.h"
 #include "ppc-crypto-core/src/hash/Sha256Hash.h"
+#include "ppc-io/src/FileLineReader.h"
 #include "ppc-psi/src/ra2018-psi/Common.h"
 #include <bcos-utilities/testutils/TestPromptFixture.h>
 #include <boost/test/unit_test.hpp>

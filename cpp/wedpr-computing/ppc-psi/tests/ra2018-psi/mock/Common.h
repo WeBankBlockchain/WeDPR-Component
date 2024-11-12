@@ -18,12 +18,14 @@
  * @date 2022-12-29
  */
 #pragma once
+#include "ppc-io/src/FileLineReader.h"
 #include "protocol/src/JsonTaskImpl.h"
 #include "test-utils/TaskMock.h"
 #include <thread>
 
 using namespace bcos;
 using namespace ppc::protocol;
+using namespace ppc::io;
 
 namespace ppc::test
 {

@@ -19,6 +19,7 @@
  */
 
 #include "TransportBuilder.h"
+#include "Common.h"
 #include "ProTransportImpl.h"
 #include "Transport.h"
 #include "TransportImpl.h"
@@ -80,4 +81,5 @@ void TransportBuilder::initLog(const std::string& configPath)
     }
     m_logInitializer = std::make_shared<bcos::BoostLogInitializer>();
     m_logInitializer->initLog(pt, bcos::FileLogger, "gateway_sdk_log");
+    TRANSPORT_LOG(INFO) << LOG_DESC("init log success") << LOG_KV("configPath", configPath);
 }

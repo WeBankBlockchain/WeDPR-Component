@@ -19,6 +19,7 @@
  */
 
 #include "FakeCM2020PSIFactory.h"
+#include "ppc-io/src/FileLineReader.h"
 #include "ppc-psi/src/cm2020-psi/CM2020PSIImpl.h"
 #include "protocol/src/JsonTaskImpl.h"
 #include "test-utils/FakeFront.h"
@@ -29,6 +30,7 @@
 #include <boost/test/unit_test.hpp>
 
 using namespace ppc::psi;
+using namespace ppc::io;
 using namespace bcos;
 using namespace bcos::test;
 using namespace ppc::crypto;

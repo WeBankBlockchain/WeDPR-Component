@@ -74,6 +74,12 @@ jobs:
           bash -x cpp/tools/install_depends.sh -o macos
           mkdir -p cpp/build && cd cpp/build && cmake -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
+      - name: Publish Error
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gperftools-build-err.log
+          path: /home/runner/work/WeDPR-Component/WeDPR-Component/cpp/deps/src/gperftools-stamp/gperftools-build-err.log
       - uses: actions/upload-artifact@v4
         if: runner.os == 'macOS'      
         with:
@@ -171,6 +177,9 @@ jobs:
           du -sch /usr/local/share/vcpkg/buildtrees/grpc/src/*
           rm -rf /usr/local/share/vcpkg/buildtrees/grpc/src
           rm -rf /usr/local/share/vcpkg/buildtrees/grpc/*-dbg
+          rm -rf /usr/local/share/vcpkg/buildtrees/openssl/src
+          rm -rf /usr/local/share/vcpkg/buildtrees/openssl/*-dbg
+          rm -rf /usr/local/share/vcpkg/buildtrees/*/*-dbg
           df -lh
       - name: Compile
         run: |   

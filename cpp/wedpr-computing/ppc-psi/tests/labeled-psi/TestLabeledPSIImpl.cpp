@@ -19,6 +19,7 @@
  */
 
 #include "FakeLabeledPSIFactory.h"
+#include "ppc-io/src/FileLineReader.h"
 #include "ppc-psi/src/labeled-psi/LabeledPSIImpl.h"
 #include "ppc-psi/src/labeled-psi/protocol/LabeledPSIResult.h"
 #include "protocol/src/JsonTaskImpl.h"
@@ -27,7 +28,6 @@
 #include <bcos-utilities/testutils/TestPromptFixture.h>
 #include <boost/filesystem.hpp>
 #include <boost/test/unit_test.hpp>
-
 using namespace ppc::psi;
 using namespace bcos;
 using namespace bcos::test;

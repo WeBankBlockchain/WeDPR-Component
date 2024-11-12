@@ -118,7 +118,8 @@
         },
         "tarscpp",
         "tbb",
-        "libxml2"
+        "libxml2",
+        "libiconv"
       ]
     },
     "sdk": {

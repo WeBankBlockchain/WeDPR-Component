@@ -111,11 +111,24 @@ install_ubuntu_depends()
     LOG_INFO "install depends for ubuntu success ..."
 }
 
+install_iconv_depend()
+{
+    LOG_INFO "download and install libiconv..."
+    wget --no-check-certificate https://mirrors.tuna.tsinghua.edu.cn/gnu/libiconv/libiconv-1.16.tar.gz && tar -xvf libiconv-1.16.tar.gz
+    
+    cd libiconv-1.16 && ./configure --with-pic && make -j4 && make install
+    cd .. && rm -rf libiconv-1.16*
+    df -lh
+    LOG_INFO "download and install libiconv success..."
+}
+
 install_macos_depends()
 {
     LOG_INFO "install depends for macos ..."
     brew install autoconf nasm lcov
+    brew link libiconv
     install_gsasl_depend "macos"
+    install_iconv_depend
     LOG_INFO "install depends for macos success ..."
 }
 
