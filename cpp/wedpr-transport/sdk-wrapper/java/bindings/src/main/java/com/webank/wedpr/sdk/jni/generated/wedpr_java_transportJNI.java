@@ -25,6 +25,10 @@ public class wedpr_java_transportJNI {
 
     public static final native void delete_SharedFront(long jarg1);
 
+    public static final native long new_SharedNodeDiscovery();
+
+    public static final native void delete_SharedNodeDiscovery(long jarg1);
+
     public static final native long new_SharedFrontClient();
 
     public static final native void delete_SharedFrontClient(long jarg1);
@@ -80,6 +84,10 @@ public class wedpr_java_transportJNI {
     public static final native long new_SharedRouteInfoBuilder();
 
     public static final native void delete_SharedRouteInfoBuilder(long jarg1);
+
+    public static final native long new_SharedNodeInfo();
+
+    public static final native void delete_SharedNodeInfo(long jarg1);
 
     public static final native long new_ubytes__SWIG_0();
 
@@ -145,6 +153,76 @@ public class wedpr_java_transportJNI {
             long jarg1, ibytes jarg1_, int jarg2, int jarg3);
 
     public static final native void delete_ibytes(long jarg1);
+
+    public static final native long new_StringVec__SWIG_0();
+
+    public static final native long new_StringVec__SWIG_1(long jarg1, StringVec jarg1_);
+
+    public static final native boolean StringVec_isEmpty(long jarg1, StringVec jarg1_);
+
+    public static final native void StringVec_clear(long jarg1, StringVec jarg1_);
+
+    public static final native long new_StringVec__SWIG_2(int jarg1, String jarg2);
+
+    public static final native int StringVec_doCapacity(long jarg1, StringVec jarg1_);
+
+    public static final native void StringVec_doReserve(long jarg1, StringVec jarg1_, int jarg2);
+
+    public static final native int StringVec_doSize(long jarg1, StringVec jarg1_);
+
+    public static final native void StringVec_doAdd__SWIG_0(
+            long jarg1, StringVec jarg1_, String jarg2);
+
+    public static final native void StringVec_doAdd__SWIG_1(
+            long jarg1, StringVec jarg1_, int jarg2, String jarg3);
+
+    public static final native String StringVec_doRemove(long jarg1, StringVec jarg1_, int jarg2);
+
+    public static final native String StringVec_doGet(long jarg1, StringVec jarg1_, int jarg2);
+
+    public static final native String StringVec_doSet(
+            long jarg1, StringVec jarg1_, int jarg2, String jarg3);
+
+    public static final native void StringVec_doRemoveRange(
+            long jarg1, StringVec jarg1_, int jarg2, int jarg3);
+
+    public static final native void delete_StringVec(long jarg1);
+
+    public static final native long new_NodeInfoVec__SWIG_0();
+
+    public static final native long new_NodeInfoVec__SWIG_1(long jarg1, NodeInfoVec jarg1_);
+
+    public static final native boolean NodeInfoVec_isEmpty(long jarg1, NodeInfoVec jarg1_);
+
+    public static final native void NodeInfoVec_clear(long jarg1, NodeInfoVec jarg1_);
+
+    public static final native long new_NodeInfoVec__SWIG_2(
+            int jarg1, long jarg2, INodeInfo jarg2_);
+
+    public static final native int NodeInfoVec_doCapacity(long jarg1, NodeInfoVec jarg1_);
+
+    public static final native void NodeInfoVec_doReserve(
+            long jarg1, NodeInfoVec jarg1_, int jarg2);
+
+    public static final native int NodeInfoVec_doSize(long jarg1, NodeInfoVec jarg1_);
+
+    public static final native void NodeInfoVec_doAdd__SWIG_0(
+            long jarg1, NodeInfoVec jarg1_, long jarg2, INodeInfo jarg2_);
+
+    public static final native void NodeInfoVec_doAdd__SWIG_1(
+            long jarg1, NodeInfoVec jarg1_, int jarg2, long jarg3, INodeInfo jarg3_);
+
+    public static final native long NodeInfoVec_doRemove(long jarg1, NodeInfoVec jarg1_, int jarg2);
+
+    public static final native long NodeInfoVec_doGet(long jarg1, NodeInfoVec jarg1_, int jarg2);
+
+    public static final native long NodeInfoVec_doSet(
+            long jarg1, NodeInfoVec jarg1_, int jarg2, long jarg3, INodeInfo jarg3_);
+
+    public static final native void NodeInfoVec_doRemoveRange(
+            long jarg1, NodeInfoVec jarg1_, int jarg2, int jarg3);
+
+    public static final native void delete_NodeInfoVec(long jarg1);
 
     public static final native long Error_buildError__SWIG_0(
             byte[] jarg1, byte[] jarg2, int jarg3, int jarg4, String jarg5);
@@ -239,12 +317,17 @@ public class wedpr_java_transportJNI {
     public static final native long FrontConfig_getComponents(long jarg1, FrontConfig jarg1_);
 
     public static final native void FrontConfig_setComponents(
-            long jarg1, FrontConfig jarg1_, long jarg2);
+            long jarg1, FrontConfig jarg1_, long jarg2, StringVec jarg2_);
 
     public static final native void FrontConfig_addComponent(
             long jarg1, FrontConfig jarg1_, String jarg2);
 
     public static final native long FrontConfig_mutableComponents(long jarg1, FrontConfig jarg1_);
+
+    public static final native String FrontConfig_meta(long jarg1, FrontConfig jarg1_);
+
+    public static final native void FrontConfig_setMeta(
+            long jarg1, FrontConfig jarg1_, String jarg2);
 
     public static final native void delete_FrontConfigBuilder(long jarg1);
 
@@ -321,6 +404,25 @@ public class wedpr_java_transportJNI {
 
     public static final native boolean GrpcConfig_enableDnslookup(long jarg1, GrpcConfig jarg1_);
 
+    public static final native java.math.BigInteger GrpcConfig_maxSendMessageSize(
+            long jarg1, GrpcConfig jarg1_);
+
+    public static final native java.math.BigInteger GrpcConfig_maxReceivedMessageSize(
+            long jarg1, GrpcConfig jarg1_);
+
+    public static final native void GrpcConfig_setMaxSendMessageSize(
+            long jarg1, GrpcConfig jarg1_, java.math.BigInteger jarg2);
+
+    public static final native void GrpcConfig_setMaxReceivedMessageSize(
+            long jarg1, GrpcConfig jarg1_, java.math.BigInteger jarg2);
+
+    public static final native int GrpcConfig_compressAlgorithm(long jarg1, GrpcConfig jarg1_);
+
+    public static final native void GrpcConfig_setCompressAlgorithm(
+            long jarg1, GrpcConfig jarg1_, int jarg2);
+
+    public static final native String printGrpcConfig(long jarg1, GrpcConfig jarg1_);
+
     public static final native void delete_MessageOptionalHeader(long jarg1);
 
     public static final native void MessageOptionalHeader_encode(
@@ -335,26 +437,14 @@ public class wedpr_java_transportJNI {
     public static final native void MessageOptionalHeader_setComponentType(
             long jarg1, MessageOptionalHeader jarg1_, String jarg2);
 
-    public static final native long MessageOptionalHeader_srcNode(
-            long jarg1, MessageOptionalHeader jarg1_);
-
     public static final native byte[] MessageOptionalHeader_srcNodeBuffer(
             long jarg1, MessageOptionalHeader jarg1_);
 
-    public static final native void MessageOptionalHeader_setSrcNode__SWIG_0(
-            long jarg1, MessageOptionalHeader jarg1_, long jarg2, ubytes jarg2_);
-
-    public static final native void MessageOptionalHeader_setSrcNode__SWIG_1(
+    public static final native void MessageOptionalHeader_setSrcNodeBuffer(
             long jarg1, MessageOptionalHeader jarg1_, byte[] jarg2, java.math.BigInteger jarg3);
-
-    public static final native long MessageOptionalHeader_dstNode(
-            long jarg1, MessageOptionalHeader jarg1_);
 
     public static final native byte[] MessageOptionalHeader_dstNodeBuffer(
             long jarg1, MessageOptionalHeader jarg1_);
-
-    public static final native void MessageOptionalHeader_setDstNode(
-            long jarg1, MessageOptionalHeader jarg1_, long jarg2, ubytes jarg2_);
 
     public static final native void MessageOptionalHeader_setDstNodeBuffer(
             long jarg1, MessageOptionalHeader jarg1_, byte[] jarg2, java.math.BigInteger jarg3);
@@ -475,27 +565,24 @@ public class wedpr_java_transportJNI {
 
     public static final native void Message_setRespPacket(long jarg1, Message jarg1_);
 
-    public static final native long Message_length(long jarg1, Message jarg1_);
-
-    public static final native long Message_payload(long jarg1, Message jarg1_);
-
-    public static final native byte[] Message_payloadBuffer(long jarg1, Message jarg1_);
-
     public static final native void Message_setPayload(
             long jarg1, Message jarg1_, long jarg2, ubytes jarg2_);
+
+    public static final native byte[] Message_payloadBuffer(long jarg1, Message jarg1_);
 
     public static final native void Message_setFrontMessage(
             long jarg1, Message jarg1_, long jarg2, MessagePayload jarg2_);
 
     public static final native long Message_frontMessage(long jarg1, Message jarg1_);
 
-    public static final native boolean Message_encode__SWIG_0(
+    public static final native boolean Message_encode(
             long jarg1, Message jarg1_, long jarg2, ubytes jarg2_);
 
-    public static final native boolean Message_encode__SWIG_1(
-            long jarg1, Message jarg1_, long jarg2);
-
     public static final native long Message_decode(long jarg1, Message jarg1_, long jarg2);
+
+    public static final native long Message_length(long jarg1, Message jarg1_);
+
+    public static final native long Message_payload(long jarg1, Message jarg1_);
 
     public static final native void delete_MessageHeaderBuilder(long jarg1);
 
@@ -539,8 +626,6 @@ public class wedpr_java_transportJNI {
 
     public static final native String printMessage(long jarg1, Message jarg1_);
 
-    public static final native String printWsMessage(long jarg1);
-
     public static final native int FrontMsgExtFlag_Response_get();
 
     public static final native void delete_MessagePayload(long jarg1);
@@ -556,12 +641,7 @@ public class wedpr_java_transportJNI {
     public static final native void MessagePayload_setVersion(
             long jarg1, MessagePayload jarg1_, short jarg2);
 
-    public static final native long MessagePayload_data(long jarg1, MessagePayload jarg1_);
-
     public static final native byte[] MessagePayload_dataBuffer(long jarg1, MessagePayload jarg1_);
-
-    public static final native void MessagePayload_setData__SWIG_0(
-            long jarg1, MessagePayload jarg1_, long jarg2, ubytes jarg2_);
 
     public static final native int MessagePayload_seq(long jarg1, MessagePayload jarg1_);
 
@@ -592,6 +672,34 @@ public class wedpr_java_transportJNI {
 
     public static final native long MessagePayloadBuilder_build__SWIG_1(
             long jarg1, MessagePayloadBuilder jarg1_, long jarg2);
+
+    public static final native void delete_INodeInfo(long jarg1);
+
+    public static final native String INodeInfo_endPoint(long jarg1, INodeInfo jarg1_);
+
+    public static final native long INodeInfo_nodeID(long jarg1, INodeInfo jarg1_);
+
+    public static final native void INodeInfo_setNodeID(long jarg1, INodeInfo jarg1_, long jarg2);
+
+    public static final native void INodeInfo_setEndPoint(
+            long jarg1, INodeInfo jarg1_, String jarg2);
+
+    public static final native boolean INodeInfo_addComponent(
+            long jarg1, INodeInfo jarg1_, String jarg2);
+
+    public static final native boolean INodeInfo_eraseComponent(
+            long jarg1, INodeInfo jarg1_, String jarg2);
+
+    public static final native boolean INodeInfo_componentExist(
+            long jarg1, INodeInfo jarg1_, String jarg2);
+
+    public static final native long INodeInfo_copiedComponents(long jarg1, INodeInfo jarg1_);
+
+    public static final native String INodeInfo_meta(long jarg1, INodeInfo jarg1_);
+
+    public static final native void INodeInfo_setMeta(long jarg1, INodeInfo jarg1_, String jarg2);
+
+    public static final native String printNodeInfo(long jarg1, INodeInfo jarg1_);
 
     public static final native void delete_IFrontClient(long jarg1);
 
@@ -703,17 +811,6 @@ public class wedpr_java_transportJNI {
             long jarg8,
             ErrorCallback jarg8_);
 
-    public static final native long IFront_push(
-            long jarg1,
-            IFront jarg1_,
-            int jarg2,
-            long jarg3,
-            MessageOptionalHeader jarg3_,
-            long jarg4,
-            ubytes jarg4_,
-            int jarg5,
-            int jarg6);
-
     public static final native long IFront_push_msg(
             long jarg1,
             IFront jarg1_,
@@ -732,10 +829,6 @@ public class wedpr_java_transportJNI {
     public static final native void IFront_asyncGetPeers(
             long jarg1, IFront jarg1_, long jarg2, GetPeersInfoHandler jarg2_);
 
-    public static final native long IFront_registerNodeInfo(long jarg1, IFront jarg1_, long jarg2);
-
-    public static final native long IFront_unRegisterNodeInfo(long jarg1, IFront jarg1_);
-
     public static final native long IFront_nodeInfo(long jarg1, IFront jarg1_);
 
     public static final native long IFront_registerTopic(long jarg1, IFront jarg1_, String jarg2);
@@ -748,10 +841,22 @@ public class wedpr_java_transportJNI {
     public static final native void IFront_unRegisterComponent(
             long jarg1, IFront jarg1_, String jarg2);
 
+    public static final native void IFront_updateMetaInfo(long jarg1, IFront jarg1_, String jarg2);
+
+    public static final native long IFront_selectNodesByRoutePolicy(
+            long jarg1, IFront jarg1_, short jarg2, long jarg3, MessageOptionalHeader jarg3_);
+
+    public static final native long IFront_getNodeDiscovery(long jarg1, IFront jarg1_);
+
     public static final native void delete_IFrontBuilder(long jarg1);
 
     public static final native long IFrontBuilder_buildClient(
             long jarg1, IFrontBuilder jarg1_, String jarg2, long jarg3, boolean jarg4);
+
+    public static final native void delete_INodeDiscovery(long jarg1);
+
+    public static final native long INodeDiscovery_getAliveNodeList(
+            long jarg1, INodeDiscovery jarg1_);
 
     public static final native int SDKMode_AIR_get();
 
@@ -769,6 +874,8 @@ public class wedpr_java_transportJNI {
 
     public static final native long TransportBuilder_frontConfigBuilder(
             long jarg1, TransportBuilder jarg1_);
+
+    public static final native void TransportBuilder_initLog(String jarg1);
 
     public static final native long new_Transport(long jarg1, FrontConfig jarg1_);
 

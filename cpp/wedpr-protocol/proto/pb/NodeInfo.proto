@@ -9,6 +9,8 @@ message NodeInfo{
     // the components
     repeated string components = 3;
     string topic = 4;
+    // the meta information
+    string meta = 5;
 };
 
 message GatewayNodeInfo{

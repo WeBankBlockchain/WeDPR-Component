@@ -49,6 +49,7 @@ public:
     virtual void setComponents(std::set<std::string> const& components) = 0;
     virtual bool addComponent(std::string const& component) = 0;
     virtual bool eraseComponent(std::string const& component) = 0;
+    virtual bool componentExist(std::string const& component) const = 0;
     virtual std::set<std::string> const& components() const = 0;
     virtual std::vector<std::string> copiedComponents() const = 0;
 
@@ -60,10 +61,12 @@ public:
 
     virtual bool equal(INodeInfo::Ptr const& info)
     {
-        return (nodeID().toBytes() == info->nodeID().toBytes()) &&
-               (copiedComponents() == info->copiedComponents());
+        return (nodeID().toBytes() == info->nodeID().toBytes()) && (endPoint() == info->endPoint());
     }
 
+    virtual std::string meta() const = 0;
+    // the node meta information
+    virtual void setMeta(std::string const& meta) = 0;
     virtual void toJson(Json::Value& jsonObject) const = 0;
 };
 class INodeInfoFactory
@@ -88,11 +91,11 @@ inline std::string printNodeInfo(INodeInfo::Ptr const& nodeInfo)
     stringstream << LOG_KV("endPoint", nodeInfo->endPoint())
                  << LOG_KV("nodeID", printNodeID(nodeInfo->nodeID()));
     std::string components = "";
-    for (auto const& it : nodeInfo->components())
+    for (auto const& it : nodeInfo->copiedComponents())
     {
         components = components + it + ",";
     }
-    stringstream << LOG_KV("components", components);
+    stringstream << LOG_KV("components", components) << LOG_KV("meta", nodeInfo->meta());
     return stringstream.str();
 }
 }  // namespace ppc::protocol

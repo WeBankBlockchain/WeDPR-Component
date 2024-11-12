@@ -5,9 +5,7 @@
 #endif()
 
 ######## common dependencies ######## 
-find_package(OpenSSL REQUIRED)
 include(InstallBcosUtilities)
-
 if (TESTS)
     find_package(Boost COMPONENTS unit_test_framework)
 endif()
@@ -16,19 +14,23 @@ endif()
 if(ENABLE_CPU_FEATURES)
     find_package(CpuFeatures REQUIRED)
 endif()
-find_package(unofficial-sodium CONFIG REQUIRED)
 ######## common dependencies end ########
 
-
-##### the full-dependencies #####
+##### the wedpr_toolkit #####
 if(BUILD_ALL OR BUILD_WEDPR_TOOLKIT)
-    find_package(jsoncpp REQUIRED)
     find_package(TBB REQUIRED)
     find_package(gRPC REQUIRED)
-    find_package(${BCOS_BOOSTSSL_TARGET} REQUIRED)
+    find_package(jsoncpp REQUIRED)
+endif()
+##### the sdk dependencies #####
+if(BUILD_ALL OR BUILD_SDK OR BUILD_UDF)
+    find_package(OpenSSL REQUIRED)
+    find_package(unofficial-sodium CONFIG REQUIRED)
 endif()
 
+##### the full-dependencies #####
 if(BUILD_ALL)
+    find_package(${BCOS_BOOSTSSL_TARGET} REQUIRED)
     # tcmalloc
     include(ProjectTCMalloc)
 

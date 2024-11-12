@@ -10,20 +10,18 @@ from ppc_model.model_crypto.crypto_aes import encrypt_data, decrypt_data, cipher
 from ppc_model.interface.model_base import VerticalModel
 from ppc_model.datasets.dataset import SecureDataset
 from ppc_model.common.protocol import PheMessage
-from ppc_model.network.stub import PushRequest, PullRequest
 from ppc_model.common.model_result import ResultFileHandling
 from ppc_model.datasets.feature_binning.feature_binning import FeatureBinning
 from ppc_model.secure_model_base.secure_model_booster import SecureModelBooster
 from ppc_model.secure_lgbm.secure_lgbm_context import SecureLGBMContext, LGBMMessage
 
-
 # 抽离sgb的公共部分
+
+
 class VerticalBooster(SecureModelBooster):
     def __init__(self, ctx: SecureLGBMContext, dataset: SecureDataset) -> None:
         super().__init__(ctx)
         self.dataset = dataset
-        self._stub = ctx.components.stub
-
         self._tree_id = None
         self._leaf_id = None
         self._X_bin = None
@@ -134,21 +132,13 @@ class VerticalBooster(SecureModelBooster):
         partner_id = ctx.participant_id_list[partner_index]
 
         if matrix_data:
-            self._stub.push(PushRequest(
-                receiver=partner_id,
-                task_id=ctx.task_id,
-                key=key_type,
-                data=PheMessage.packing_2dim_data(
-                    ctx.codec, ctx.phe.public_key, enc_data)
-            ))
+            payload = PheMessage.packing_2dim_data(
+                ctx.codec, ctx.phe.public_key, enc_data)
         else:
-            self._stub.push(PushRequest(
-                receiver=partner_id,
-                task_id=ctx.task_id,
-                key=key_type,
-                data=PheMessage.packing_data(
-                    ctx.codec, ctx.phe.public_key, enc_data)
-            ))
+            payload = PheMessage.packing_data(
+                ctx.codec, ctx.phe.public_key, enc_data)
+        self.ctx.model_router.push(
+            task_id=ctx.task_id, task_type=key_type, dst_agency=partner_id, payload=payload)
 
         self.logger.info(
             f"task {ctx.task_id}: Sending {key_type} to {partner_id} finished, "
@@ -157,13 +147,9 @@ class VerticalBooster(SecureModelBooster):
     def _receive_enc_data(self, ctx, key_type, partner_index, matrix_data=False):
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
-
-        byte_data = self._stub.pull(PullRequest(
-            sender=partner_id,
-            task_id=ctx.task_id,
-            key=key_type
-        ))
-
+        # send without payload
+        byte_data = self.ctx.model_router.pop(
+            task_id=ctx.task_id, task_type=key_type, from_inst=partner_id)
         if matrix_data:
             public_key, enc_data = PheMessage.unpacking_2dim_data(
                 ctx.codec, byte_data)
@@ -180,13 +166,8 @@ class VerticalBooster(SecureModelBooster):
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
 
-        self._stub.push(PushRequest(
-            receiver=partner_id,
-            task_id=ctx.task_id,
-            key=key_type,
-            data=byte_data
-        ))
-
+        self.ctx.model_router.push(
+            task_id=ctx.task_id, task_type=key_type, dst_agency=partner_id, payload=byte_data)
         self.logger.info(
             f"task {ctx.task_id}: Sending {key_type} to {partner_id} finished, "
             f"data_size: {len(byte_data) / 1024}KB, time_costs: {time.time() - start_time}s")
@@ -195,12 +176,8 @@ class VerticalBooster(SecureModelBooster):
         start_time = time.time()
         partner_id = ctx.participant_id_list[partner_index]
 
-        byte_data = self._stub.pull(PullRequest(
-            sender=partner_id,
-            task_id=ctx.task_id,
-            key=key_type
-        ))
-
+        byte_data = self.ctx.model_router.pop(
+            task_id=ctx.task_id, task_type=key_type, from_inst=partner_id)
         self.logger.info(
             f"task {ctx.task_id}: Received {key_type} from {partner_id} finished, "
             f"data_size: {len(byte_data) / 1024}KB, time_costs: {time.time() - start_time}s")

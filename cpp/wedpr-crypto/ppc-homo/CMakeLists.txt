@@ -1,5 +1,3 @@
-project(ppc-homo VERSION ${VERSION})
-
 add_subdirectory(codec)
 add_subdirectory(paillier)
 add_subdirectory(fahe)

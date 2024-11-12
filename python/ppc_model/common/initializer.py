@@ -6,46 +6,62 @@ import threading
 import yaml
 
 from ppc_common.deps_services import storage_loader
-from ppc_common.ppc_async_executor.thread_event_manager import ThreadEventManager
 from ppc_common.ppc_utils import common_func
-from ppc_model.network.grpc.grpc_client import GrpcClient
-from ppc_model.network.stub import ModelStub
+from ppc_common.ppc_async_executor.thread_event_manager import ThreadEventManager
+from wedpr_python_gateway_sdk.transport.impl.transport_loader import TransportLoader
+from ppc_model.network.wedpr_model_transport import ModelRouter
+from ppc_common.deps_services.mysql_storage import MySQLStorage
+from ppc_common.ppc_config.sql_storage_config_loader import SQLStorageConfigLoader
+from ppc_model.network.wedpr_model_transport import ModelTransport
 from ppc_model.task.task_manager import TaskManager
+from ppc_model.task.task_manager import TaskPersistent
+from ppc_model.log.log_retriever import LogRetriever
 
 
 class Initializer:
+    MODEL_SERVICE_NAME = "MODEL"
+
     def __init__(self, log_config_path, config_path, plot_lock=None):
         self.log_config_path = log_config_path
+        logging.config.fileConfig(self.log_config_path)
         self.config_path = config_path
         self.config_data = None
-        self.grpc_options = None
-        self.stub = None
-        self.task_manager = None
-        self.thread_event_manager = None
-        self.storage_client = None
         # 只用于测试
         self.mock_logger = None
         self.public_key_length = 2048
         self.homo_algorithm = 0
+        self.init_config()
+        self.job_cache_dir = common_func.get_config_value(
+            "JOB_TEMP_DIR", "/tmp", self.config_data, False)
+        self.thread_event_manager = ThreadEventManager()
+
+        task_persistent = TaskPersistent(self.logger(), MySQLStorage(
+            storage_config=SQLStorageConfigLoader.load(self.config_data)))
+
+        self.storage_client = storage_loader.load(
+            self.config_data, self.logger())
+        log_path = common_func.get_config_value(
+            "LOG_PATH", "logs/wedpr-model.log", self.config_data, False)
+        self.log_retriever = LogRetriever(
+            self.logger(), self.job_cache_dir, self.storage_client, log_path)
+        self.task_manager = TaskManager(
+            logger=self.logger(),
+            task_persistent=task_persistent,
+            log_retriever=self.log_retriever,
+            thread_event_manager=self.thread_event_manager,
+            task_timeout_h=self.config_data['TASK_TIMEOUT_H']
+        )
+        # default send msg timeout
+        self.MODEL_COMPONENT = "WEDPR_MODEL"
+        self.send_msg_timeout_ms = 5000
+        self.pop_msg_timeout_ms = 60000
+        # for UT
+        self.transport = None
+        self.model_router = None
         # matplotlib 线程不安全，并行任务绘图增加全局锁
         self.plot_lock = plot_lock
         if plot_lock is None:
             self.plot_lock = threading.Lock()
-
-    def init_all(self):
-        self.init_log()
-        self.init_config()
-        self.init_stub()
-        self.init_task_manager()
-        self.init_storage_client()
-        self.init_cache()
-
-    def init_log(self):
-        logging.config.fileConfig(self.log_config_path)
-
-    def init_cache(self):
-        self.job_cache_dir = common_func.get_config_value(
-            "JOB_TEMP_DIR", "/tmp", self.config_data, False)
 
     def init_config(self):
         with open(self.config_path, 'rb') as f:
@@ -56,54 +72,44 @@ class Initializer:
             if 'HOMO_ALGORITHM' in self.config_data:
                 self.homo_algorithm = self.config_data['HOMO_ALGORITHM']
 
-    def init_stub(self):
-        self.thread_event_manager = ThreadEventManager()
-        self.grpc_options = [
-            ('grpc.ssl_target_name_override', 'PPCS MODEL GATEWAY'),
-            ('grpc.max_send_message_length',
-             self.config_data['MAX_MESSAGE_LENGTH_MB'] * 1024 * 1024),
-            ('grpc.max_receive_message_length',
-             self.config_data['MAX_MESSAGE_LENGTH_MB'] * 1024 * 1024),
-            ('grpc.keepalive_time_ms', 15000),  # 每 15 秒发送一次心跳
-            ('grpc.keepalive_timeout_ms', 5000),  # 等待心跳回应的超时时间为 5 秒
-            ('grpc.keepalive_permit_without_calls', True),  # 即使没有调用也允许发送心跳
-            ('grpc.http2.min_time_between_pings_ms', 15000),  # 心跳之间最小时间间隔为 15 秒
-            ('grpc.http2.max_pings_without_data', 0),  # 在发送数据前不限制心跳次数
-            # 在没有数据传输的情况下，确保心跳包之间至少有 20 秒的间隔
-            ('grpc.http2.min_ping_interval_without_data_ms', 20000),
-            ("grpc.so_reuseport", 1),
-            ("grpc.use_local_subchannel_pool", 1),
-            ('grpc.enable_retries', 1),
-            ('grpc.service_config',
-             '{ "retryPolicy":{ "maxAttempts": 4, "initialBackoff": "0.1s", "maxBackoff": "1s", "backoffMutiplier": '
-             '2, "retryableStatusCodes": [ "UNAVAILABLE" ] } }')
-        ]
-        rpc_client = GrpcClient(
-            logger=self.logger(),
-            endpoint=self.config_data['GATEWAY_ENDPOINT'],
-            grpc_options=self.grpc_options,
-            ssl_switch=self.config_data['SSL_SWITCH'],
-            ca_path=self.config_data['CA_CRT'],
-            ssl_key_path=self.config_data['SSL_KEY'],
-            ssl_crt_path=self.config_data['SSL_CRT']
-        )
-        self.stub = ModelStub(
-            agency_id=self.config_data['AGENCY_ID'],
-            thread_event_manager=self.thread_event_manager,
-            rpc_client=rpc_client
-        )
+    def init_all(self):
+        agency_id = common_func.get_config_value(
+            "AGENCY_ID", None, self.config_data, True)
+        self.init_transport(task_manager=self.task_manager,
+                            self_agency_id=agency_id,
+                            component_type=self.MODEL_COMPONENT,
+                            send_msg_timeout_ms=self.send_msg_timeout_ms,
+                            pop_msg_timeout_ms=self.pop_msg_timeout_ms)
 
-    def init_task_manager(self):
-        self.task_manager = TaskManager(
-            logger=self.logger(),
-            thread_event_manager=self.thread_event_manager,
-            stub=self.stub,
-            task_timeout_h=self.config_data['TASK_TIMEOUT_H']
-        )
-
-    def init_storage_client(self):
-        self.storage_client = storage_loader.load(
-            self.config_data, self.logger())
+    def init_transport(self, task_manager: TaskManager,
+                       self_agency_id: str,
+                       component_type: str,
+                       send_msg_timeout_ms: int,
+                       pop_msg_timeout_ms: int):
+        # create the transport
+        transport_config = TransportLoader.build_config(**self.config_data)
+        listen_port = self.config_data["HTTP_PORT"]
+        access_entrypoint = f"{transport_config.get_self_endpoint().host()}:{listen_port}"
+        if not access_entrypoint.startswith("http://"):
+            access_entrypoint = f"http://{access_entrypoint}"
+        # register the access_entrypoint information
+        transport_config.register_service_info(
+            Initializer.MODEL_SERVICE_NAME, access_entrypoint)
+        transport = TransportLoader.load(transport_config)
+        self.logger(
+            f"Create transport success, config: {transport.get_config().desc()}, access_entrypoint: {access_entrypoint}")
+        # start the transport
+        transport.start()
+        self.logger().info(
+            f"Start transport success, config: {transport.get_config().desc()}")
+        self.transport = ModelTransport(transport=transport,
+                                        self_agency_id=self_agency_id,
+                                        task_manager=task_manager,
+                                        component_type=component_type,
+                                        send_msg_timeout_ms=send_msg_timeout_ms,
+                                        pop_msg_timeout_ms=pop_msg_timeout_ms)
+        self.model_router = ModelRouter(logger=self.logger(),
+                                        transport=self.transport)
 
     def logger(self, name=None):
         if self.mock_logger is None:

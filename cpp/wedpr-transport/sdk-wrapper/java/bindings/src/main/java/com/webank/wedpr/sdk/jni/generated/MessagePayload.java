@@ -58,17 +58,8 @@ public class MessagePayload {
         wedpr_java_transportJNI.MessagePayload_setVersion(swigCPtr, this, version);
     }
 
-    public ubytes data() {
-        return new ubytes(wedpr_java_transportJNI.MessagePayload_data(swigCPtr, this), true);
-    }
-
     public byte[] dataBuffer() {
         return wedpr_java_transportJNI.MessagePayload_dataBuffer(swigCPtr, this);
-    }
-
-    public void setData(ubytes data) {
-        wedpr_java_transportJNI.MessagePayload_setData__SWIG_0(
-                swigCPtr, this, ubytes.swigRelease(data), data);
     }
 
     public int seq() {

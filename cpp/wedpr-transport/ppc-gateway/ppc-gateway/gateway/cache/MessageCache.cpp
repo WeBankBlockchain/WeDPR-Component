@@ -27,10 +27,10 @@ using namespace ppc::protocol;
 using namespace ppc::gateway;
 
 void MessageCache::insertCache(
-    std::string const& topic, ppc::protocol::Message::Ptr const& msg, ReceiveMsgFunc callback)
+    std::string const& topic, ppc::protocol::P2PMessage::Ptr const& msg, ReceiveMsgFunc callback)
 {
     // hold the message
-    GATEWAY_LOG(DEBUG) << LOG_BADGE("MessageCache: insertCache") << printMessage(msg);
+    GATEWAY_LOG(DEBUG) << LOG_BADGE("MessageCache: insertCache") << printP2PMessage(msg);
     bcos::ReadGuard l(x_msgCache);
     auto it = m_msgCache.find(topic);
     if (it != m_msgCache.end())

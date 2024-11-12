@@ -70,7 +70,7 @@ class HdfsStorage(StorageApi):
                           hdfs_path), data, overwrite=True)
         return
 
-    def get_data(self, hdfs_path) -> AnyStr:
+    def get_data(self, hdfs_path):
         with self.client.read(os.path.join(self._hdfs_storage_path, hdfs_path)) as reader:
             content = reader.read()
         return content

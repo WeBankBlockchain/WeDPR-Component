@@ -61,7 +61,7 @@ void runSetup(LabeledPSIImpl::Ptr _sender)
     senderPSITask->setId("0x00000000");
     senderPSITask->setParam(R"(["setup_sender_db","32"])");
     senderPSITask->setSelf(senderParty);
-    senderPSITask->setAlgorithm((uint8_t)PSIAlgorithmType::LABELED_PSI_2PC);
+    senderPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::LABELED_PSI_2PC);
 
     std::atomic<int> flag = 0;
     _sender->asyncRunTask(senderPSITask, [&flag](ppc::protocol::TaskResult::Ptr&& _response) {
@@ -97,7 +97,7 @@ void saveCache(LabeledPSIImpl::Ptr _sender)
     senderPSITask->setId("0x00000012");
     senderPSITask->setParam(R"(["save_sender_cache"])");
     senderPSITask->setSelf(senderParty);
-    senderPSITask->setAlgorithm((uint8_t)PSIAlgorithmType::LABELED_PSI_2PC);
+    senderPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::LABELED_PSI_2PC);
 
     std::atomic<int> flag = 0;
     _sender->asyncRunTask(senderPSITask, [&flag](ppc::protocol::TaskResult::Ptr&& _response) {
@@ -128,7 +128,7 @@ void loadCache(LabeledPSIImpl::Ptr _sender)
     senderPSITask->setId("0x00000034");
     senderPSITask->setParam(R"(["load_sender_cache"])");
     senderPSITask->setSelf(senderParty);
-    senderPSITask->setAlgorithm((uint8_t)PSIAlgorithmType::LABELED_PSI_2PC);
+    senderPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::LABELED_PSI_2PC);
 
     std::atomic<int> flag = 0;
     _sender->asyncRunTask(senderPSITask, [&flag](ppc::protocol::TaskResult::Ptr&& _response) {
@@ -236,13 +236,13 @@ void testLabeledPSIImplFunc(const std::string& _taskID, const std::string& _para
     senderPSITask->setId(_taskID);
     senderPSITask->setParam(_params);
     senderPSITask->setSelf(_senderParty);
-    senderPSITask->setAlgorithm((uint8_t)PSIAlgorithmType::LABELED_PSI_2PC);
+    senderPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::LABELED_PSI_2PC);
     senderPSITask->addParty(_receiverParty);
 
     auto receiverPSITask = std::make_shared<JsonTaskImpl>(receiverAgencyName);
     receiverPSITask->setId(_taskID);
     receiverPSITask->setSelf(_receiverParty);
-    receiverPSITask->setAlgorithm((uint8_t)PSIAlgorithmType::LABELED_PSI_2PC);
+    receiverPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::LABELED_PSI_2PC);
     receiverPSITask->addParty(_senderParty);
 
     testLabeledPSI(senderPSI, receiverPSI, senderPSITask, receiverPSITask, _expectedSuccess,

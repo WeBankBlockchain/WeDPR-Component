@@ -75,6 +75,12 @@ public:
         bcos::bytesConstRef nodeID, std::string const& topic) = 0;
     virtual bcos::Error::Ptr unRegisterTopic(
         bcos::bytesConstRef nodeID, std::string const& topic) = 0;
+
+    // get the target nodeList according to the routeInfo
+    virtual std::vector<std::string> selectNodesByRoutePolicy(ppc::protocol::RouteType routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) = 0;
+
+    virtual std::vector<ppc::protocol::INodeInfo::Ptr> getAliveNodeList() const = 0;
 };
 
 }  // namespace ppc::gateway

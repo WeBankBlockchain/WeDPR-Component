@@ -53,8 +53,8 @@ bcos::bytes PSIConnMessageFactory::createHandshakeRequest(
     auto _hash = handShakeRequestVo->GetHash().cbegin();
 
 #ifdef ENABLE_CONN
-    eccSuit->set_curve(2); // SM2
-    eccSuit->set_hash(11); // SHA256
+    eccSuit->set_curve(2);  // SM2
+    eccSuit->set_hash(11);  // SHA256
 #else
     eccSuit->set_curve(*_curve);
     eccSuit->set_hash(*_hash);

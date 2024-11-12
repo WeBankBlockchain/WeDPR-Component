@@ -31,7 +31,7 @@ class ModelCollection(Resource):
         args = request.get_json()
         task_id = model_id
         components.logger().info(
-            f"run task request, task_id: {task_id}, args: {args}")
+            f"run task request, task_id: {task_id}")
         task_type = args['task_type']
         components.task_manager.run_task(
             task_id, ModelTask(task_type), (args,))
@@ -44,12 +44,12 @@ class ModelCollection(Resource):
         """
         response = utils.BASE_RESPONSE
         task_id = model_id
-        status, traffic_volume, time_costs = components.task_manager.status(
+        status, traffic_volume, exec_result = components.task_manager.status(
             task_id)
         response['data'] = {
             'status': status,
             'traffic_volume': traffic_volume,
-            'time_costs': time_costs
+            'exec_result': exec_result,
         }
         return response
 
@@ -64,15 +64,6 @@ class ModelCollection(Resource):
         return utils.BASE_RESPONSE
 
 
-@ns2.route('/<string:job_id>')
-class ModelLogCollection(Resource):
-    @api.response(200, 'Task status retrieved successfully.', response_task_status)
-    def get(self, job_id):
-        log_content = components.task_manager.record_model_job_log(job_id)
-        return utils.make_response(utils.PpcErrorCode.SUCCESS.get_code(),
-                                   utils.PpcErrorCode.SUCCESS.get_msg(), log_content)
-
-
 @ns_get_job_result.route('/<string:task_id>')
 class ModelResultCollection(Resource):
     @api.response(201, 'Get task result successfully.', response_base)
@@ -83,12 +74,15 @@ class ModelResultCollection(Resource):
         start_t = time.time()
         args = request.get_json()
         components.logger().info(
-            f"run task request, task_id: {task_id}, args: {args}")
+            f"get task result, task_id: {task_id}, args: {args}")
         user_name = args['user']
         task_type = args['jobType']
+        only_fetch_log = {'True': True, 'False': False}.get(
+            args['onlyFetchLog'])
         components.logger().info(
             f"get_job_direct_result_response, job: {task_id}")
-        task_result_request = TaskResultRequest(task_id, task_type)
+        task_result_request = TaskResultRequest(
+            task_id, task_type, only_fetch_log)
         job_result_handler = TaskResultHandler(
             task_result_request=task_result_request, components=components)
         response = job_result_handler.get_response()

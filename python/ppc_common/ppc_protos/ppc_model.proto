@@ -1,36 +1,9 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-//option java_package = "unknown";
-//option java_outer_classname = "unknown";
 option objc_class_prefix = "PPC";
 
 package ppc.model;
-
-service ModelService {
-  rpc MessageInteraction (ModelRequest) returns (ModelResponse) {}
-}
-
-message ModelRequest {
-  string sender = 1;
-  string receiver = 2;
-  string task_id = 3;
-  string key = 4;
-  int64 seq = 5;
-  int64 slice_num = 6;
-  bytes data = 7;
-}
-
-message BaseResponse {
-  int64 error_code = 1;
-  string message = 2;
-}
-
-message ModelResponse {
-  BaseResponse base_response = 1;
-  bytes data = 2;
-}
-
 message PlainBoolList{
   repeated bool plain_list = 1;
 }

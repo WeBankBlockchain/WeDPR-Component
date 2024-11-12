@@ -26,20 +26,36 @@ namespace ppc::rpc
 {
 class Rpc;
 }
+namespace ppc::tools
+{
+class PPCConfig;
+}
+namespace ppc::sdk
+{
+class TransportBuilder;
+class Transport;
+};  // namespace ppc::sdk
 namespace ppc::mpc
 {
 class MPCInitializer
 {
 public:
     using Ptr = std::shared_ptr<MPCInitializer>;
-    MPCInitializer() {}
+    MPCInitializer();
     virtual ~MPCInitializer() { stop(); }
 
     virtual void init(std::string const& _configPath);
     virtual void start();
     virtual void stop();
 
+protected:
+    virtual void initTransport(boost::property_tree::ptree const& property);
+
 private:
+    std::shared_ptr<ppc::tools::PPCConfig> m_config;
+    std::shared_ptr<ppc::sdk::TransportBuilder> m_transportBuilder;
+    std::shared_ptr<ppc::sdk::Transport> m_transport;
+
     bcos::BoostLogInitializer::Ptr m_logInitializer;
     std::shared_ptr<ppc::rpc::Rpc> m_rpc;
 };

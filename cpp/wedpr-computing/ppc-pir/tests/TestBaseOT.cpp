@@ -197,7 +197,7 @@ void testOTPIRImplFunc(const std::string& _taskID, const std::string& _params, b
     senderPIRTask->setSelf(_senderParty);
     senderPIRTask->addParty(_receiverParty);
     senderPIRTask->setSyncResultToPeer(_syncResults);
-    senderPIRTask->setAlgorithm((uint8_t)PSIAlgorithmType::OT_PIR_2PC);
+    senderPIRTask->setAlgorithm((uint8_t)TaskAlgorithmType::OT_PIR_2PC);
     senderPIRTask->setType((uint8_t)ppc::protocol::TaskType::PIR);
 
     auto receiverPIRTask = std::make_shared<JsonTaskImpl>(receiverAgencyName);
@@ -206,7 +206,7 @@ void testOTPIRImplFunc(const std::string& _taskID, const std::string& _params, b
     receiverPIRTask->setSelf(_receiverParty);
     receiverPIRTask->addParty(_senderParty);
     receiverPIRTask->setSyncResultToPeer(_syncResults);
-    receiverPIRTask->setAlgorithm((uint8_t)PSIAlgorithmType::OT_PIR_2PC);
+    receiverPIRTask->setAlgorithm((uint8_t)TaskAlgorithmType::OT_PIR_2PC);
     receiverPIRTask->setType((uint8_t)ppc::protocol::TaskType::PIR);
 
     testOTPIR(factory, senderPIR, receiverPIR, senderPIRTask, receiverPIRTask, _expectedPIRResult,

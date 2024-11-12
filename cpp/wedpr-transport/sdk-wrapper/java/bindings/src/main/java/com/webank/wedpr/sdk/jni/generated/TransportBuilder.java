@@ -70,4 +70,8 @@ public class TransportBuilder {
         return new SWIGTYPE_p_std__shared_ptrT_ppc__front__FrontConfigBuilder_t(
                 wedpr_java_transportJNI.TransportBuilder_frontConfigBuilder(swigCPtr, this), false);
     }
+
+    public static void initLog(String configPath) {
+        wedpr_java_transportJNI.TransportBuilder_initLog(configPath);
+    }
 }

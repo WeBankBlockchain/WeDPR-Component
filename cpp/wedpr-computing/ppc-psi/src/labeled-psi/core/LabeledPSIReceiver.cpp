@@ -158,7 +158,7 @@ void LabeledPSIReceiver::runReceiver()
                           << LOG_KV("taskID", m_taskID) << LOG_KV("itemsSize", m_items.size());
 
     auto message = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(protocol::TaskType::PSI),
-        uint8_t(protocol::PSIAlgorithmType::LABELED_PSI_2PC), m_taskID,
+        uint8_t(protocol::TaskAlgorithmType::LABELED_PSI_2PC), m_taskID,
         std::make_shared<bcos::bytes>());
     message->setMessageType(uint8_t(LabeledPSIMessageType::PARAMS_REQUEST));
 
@@ -250,7 +250,7 @@ void LabeledPSIReceiver::runOprfAsClient()
     oprfData.data = m_oprfClient->blind(m_items);
 
     auto blindedMessage = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(TaskType::PSI),
-        uint8_t(PSIAlgorithmType::LABELED_PSI_2PC), m_taskID, std::make_shared<bcos::bytes>());
+        uint8_t(TaskAlgorithmType::LABELED_PSI_2PC), m_taskID, std::make_shared<bcos::bytes>());
     blindedMessage->setMessageType(uint8_t(LabeledPSIMessageType::OPRF_BLINDED_ITEMS));
     ppctars::serialize::encode(oprfData, *blindedMessage->data());
 
@@ -448,7 +448,7 @@ void LabeledPSIReceiver::requestQuery()
     }
 
     auto queryMessage = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(TaskType::PSI),
-        uint8_t(PSIAlgorithmType::LABELED_PSI_2PC), m_taskID, std::make_shared<bcos::bytes>());
+        uint8_t(TaskAlgorithmType::LABELED_PSI_2PC), m_taskID, std::make_shared<bcos::bytes>());
     queryMessage->setMessageType(uint8_t(LabeledPSIMessageType::QUERY));
     ppctars::serialize::encode(queryRequest, *queryMessage->data());
 

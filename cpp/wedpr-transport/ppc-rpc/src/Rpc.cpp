@@ -191,7 +191,7 @@ void Rpc::runTask(Json::Value const& _req, RespFunc _respFunc)
         oss << "The specified task algorithm not been implemented or disabled, type: "
             << (ppc::protocol::TaskType)(task->type()) << "(" << std::to_string(task->type())
             << ")";
-        oss << ", algorithm: " << (ppc::protocol::PSIAlgorithmType)(task->algorithm()) << "("
+        oss << ", algorithm: " << (ppc::protocol::TaskAlgorithmType)(task->algorithm()) << "("
             << std::to_string(task->algorithm()) << ")";
         auto errorMsg = oss.str();
         RPC_LOG(WARNING) << errorMsg;
@@ -226,7 +226,6 @@ void Rpc::runTask(Json::Value const& _req, RespFunc _respFunc)
             _respFunc(result->error(), result->serializeToJson());
             return;
         }
-
         _respFunc(_result->error(), _result->serializeToJson());
     });
 }
@@ -249,7 +248,7 @@ void Rpc::asyncRunTask(Json::Value const& _req, RespFunc _respFunc)
         oss << "The specified task algorithm not been implemented or disabled, type: "
             << (ppc::protocol::TaskType)(task->type()) << "(" << std::to_string(task->type())
             << ")";
-        oss << ", algorithm: " << (ppc::protocol::PSIAlgorithmType)(task->algorithm()) << "("
+        oss << ", algorithm: " << (ppc::protocol::TaskAlgorithmType)(task->algorithm()) << "("
             << std::to_string(task->algorithm()) << ")";
         auto errorMsg = oss.str();
         RPC_LOG(WARNING) << errorMsg;

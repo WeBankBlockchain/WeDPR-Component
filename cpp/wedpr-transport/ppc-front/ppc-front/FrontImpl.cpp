@@ -18,6 +18,7 @@
  * @date 2024-08-30
  */
 #include "FrontImpl.h"
+#include "NodeDiscovery.h"
 #include "ppc-utilities/Utilities.h"
 
 using namespace bcos;
@@ -34,11 +35,13 @@ FrontImpl::FrontImpl(std::shared_ptr<bcos::ThreadPool> threadPool,
     m_messageFactory(std::move(messageFactory)),
     m_routerInfoBuilder(std::move(routerInfoBuilder)),
     m_ioService(std::move(ioService)),
-    m_gatewayClient(gateway)
+    m_gatewayClient(gateway),
+    m_nodeDiscovery(std::make_shared<NodeDiscovery>(gateway))
 {
     m_nodeID = m_nodeInfo->nodeID().toBytes();
     m_callbackManager = std::make_shared<CallbackManager>(m_threadPool, m_ioService);
 }
+
 
 /**
  * @brief start the IFront
@@ -53,6 +56,10 @@ void FrontImpl::start()
         return;
     }
     m_running = true;
+    if (m_nodeDiscovery)
+    {
+        m_nodeDiscovery->start();
+    }
     m_thread = std::make_shared<std::thread>([&] {
         bcos::pthread_setThreadName("front_io_service");
         while (m_running)
@@ -74,7 +81,10 @@ void FrontImpl::start()
         }
         FRONT_LOG(INFO) << "Front exit";
     });
+    FRONT_LOG(INFO) << LOG_DESC("start front success");
 }
+
+
 /**
  * @brief stop the IFront
  *
@@ -88,6 +98,10 @@ void FrontImpl::stop()
         return;
     }
     m_running = false;
+    if (m_nodeDiscovery)
+    {
+        m_nodeDiscovery->stop();
+    }
     if (m_ioService)
     {
         m_ioService->stop();
@@ -104,20 +118,21 @@ void FrontImpl::stop()
             m_thread->detach();
         }
     }
+    FRONT_LOG(INFO) << LOG_DESC("stop front success");
 }
 
-void FrontImpl::asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
-    bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback)
+void FrontImpl::asyncSendResponse(bcos::bytesConstRef dstNode, std::string const& traceID,
+    bcos::bytesConstRef payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback)
 {
     // generate the frontMessage
     auto frontMessage = m_messageFactory->build();
     frontMessage->setTraceID(traceID);
     frontMessage->setSeq(seq);
-    frontMessage->setData(std::move(payload));
+    frontMessage->setDataPtr(payload);
 
     auto routeInfo = m_routerInfoBuilder->build();
     routeInfo->setSrcNode(m_nodeID);
-    routeInfo->setDstNode(dstNode);
+    routeInfo->setDstNode(dstNode.toBytes());
 
     asyncSendMessageToGateway(true, std::move(frontMessage), RouteType::ROUTE_THROUGH_NODEID,
         traceID, routeInfo, -1, errorCallback);
@@ -139,7 +154,7 @@ void FrontImpl::asyncSendResponse(bcos::bytes const& dstNode, std::string const&
  * @param callback callback
  */
 void FrontImpl::asyncSendMessage(uint16_t routeType, MessageOptionalHeader::Ptr const& routeInfo,
-    bcos::bytes&& payload, int seq, long timeout, ReceiveMsgFunc errorCallback,
+    bcos::bytesConstRef payload, int seq, long timeout, ReceiveMsgFunc errorCallback,
     MessageCallback callback)
 {
     // generate the frontMessage
@@ -147,7 +162,7 @@ void FrontImpl::asyncSendMessage(uint16_t routeType, MessageOptionalHeader::Ptr 
     auto traceID = ppc::generateUUID();
     frontMessage->setTraceID(traceID);
     frontMessage->setSeq(seq);
-    frontMessage->setData(std::move(payload));
+    frontMessage->setDataPtr(payload);
     m_callbackManager->addCallback(traceID, timeout, callback);
     auto self = weak_from_this();
     // send the message to the gateway
@@ -163,10 +178,11 @@ void FrontImpl::asyncSendMessage(uint16_t routeType, MessageOptionalHeader::Ptr 
             if (error && error->errorCode() != 0)
             {
                 // send failed
-                FRONT_LOG(ERROR) << LOG_DESC("asyncSendMessage failed")
-                                 << LOG_KV("routeInfo", printOptionalField(routeInfo))
-                                 << LOG_KV("traceID", traceID) << LOG_KV("code", error->errorCode())
-                                 << LOG_KV("msg", error->errorMessage());
+                FRONT_LOG(WARNING)
+                    << LOG_DESC("asyncSendMessage failed")
+                    << LOG_KV("routeInfo", printOptionalField(routeInfo))
+                    << LOG_KV("traceID", traceID) << LOG_KV("code", error->errorCode())
+                    << LOG_KV("msg", error->errorMessage());
                 // try to trigger the callback
                 front->handleCallback(error, traceID, nullptr);
             }
@@ -225,7 +241,8 @@ void FrontImpl::asyncSendMessageToGateway(bool responsePacket, MessagePayload::P
     auto payload = std::make_shared<bcos::bytes>();
     frontMessage->encode(*payload);
     FRONT_LOG(TRACE) << LOG_DESC("asyncSendMessageToGateway") << LOG_KV("routeType", routeType)
-                     << LOG_KV("traceID", traceID) << printOptionalField(routeInfo)
+                     << LOG_KV("response", responsePacket) << LOG_KV("traceID", traceID)
+                     << printOptionalField(routeInfo)
                      << LOG_KV("payloadSize", frontMessage->length());
     m_gatewayClient->asyncSendMessage(
         routeType, routeInfo, traceID, std::move(*payload), timeout, callback);
@@ -268,11 +285,11 @@ void FrontImpl::onReceiveMessage(Message::Ptr const& msg, ReceiveMsgFunc callbac
 
 // the sync interface for asyncSendMessage
 bcos::Error::Ptr FrontImpl::push(uint16_t routeType, MessageOptionalHeader::Ptr const& routeInfo,
-    bcos::bytes&& payload, int seq, long timeout)
+    bcos::bytesConstRef payload, int seq, long timeout)
 {
     auto promise = std::make_shared<std::promise<bcos::Error::Ptr>>();
     asyncSendMessage(
-        routeType, routeInfo, std::move(payload), seq, timeout,
+        routeType, routeInfo, payload, seq, timeout,
         [promise](bcos::Error::Ptr error) { promise->set_value(error); }, nullptr);
     return promise->get_future().get();
 }
@@ -291,6 +308,13 @@ void FrontImpl::registerComponent(std::string const& component)
     auto ret = m_nodeInfo->addComponent(component);
     FRONT_LOG(INFO) << LOG_DESC("registerComponent") << LOG_KV("component", component)
                     << LOG_KV("insert", ret);
+}
+
+void FrontImpl::updateMetaInfo(std::string const& meta)
+{
+    // Note: the node will report the latest components
+    m_nodeInfo->setMeta(meta);
+    FRONT_LOG(INFO) << LOG_DESC("updateMetaInfo") << LOG_KV("meta", meta);
 }
 
 void FrontImpl::unRegisterComponent(std::string const& component)

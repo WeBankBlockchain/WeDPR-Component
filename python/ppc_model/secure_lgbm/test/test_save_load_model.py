@@ -48,7 +48,7 @@ class TestSaveLoadModel(unittest.TestCase):
             trees.append(tree)
         # print(trees)
 
-        task_info = SecureLGBMContext(self.args, self.components)
+        task_info = SecureLGBMContext(self.args['task_id'], self.args, self.components)
         booster = VerticalBooster(task_info, dataset=None)
         booster._X_split = x_split
         booster._trees = trees

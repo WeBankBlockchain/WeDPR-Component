@@ -19,6 +19,7 @@
  */
 #include "GrpcClient.h"
 #include "Common.h"
+#include <memory>
 
 using namespace ppc::protocol;
 using namespace ppc::proto;

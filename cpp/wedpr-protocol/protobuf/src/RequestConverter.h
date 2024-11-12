@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file Common.h
+ * @file RequestConverter.h
  * @author: yujiechen
  * @date 2021-04-12
  */
@@ -24,6 +24,7 @@
 #include "ppc-framework/protocol/Protocol.h"
 #include <bcos-utilities/Common.h>
 #include <bcos-utilities/Error.h>
+#include <grpcpp/grpcpp.h>
 #include <memory>
 
 namespace ppc::protocol
@@ -43,6 +44,19 @@ inline MessageOptionalHeader::Ptr generateRouteInfo(
     return routeInfo;
 }
 
+inline void setRouteInfo(
+    ppc::proto::RouteInfo* route_info, MessageOptionalHeader::Ptr const& routeInfo)
+{
+    // set the route information
+    route_info->set_topic(routeInfo->topic());
+    route_info->set_componenttype(routeInfo->componentType());
+    *(route_info->mutable_srcnode()) =
+        std::string((const char*)routeInfo->srcNode().data(), routeInfo->srcNode().size());
+    *(route_info->mutable_dstnode()) =
+        std::string((const char*)routeInfo->dstNode().data(), routeInfo->dstNode().size());
+    *(route_info->mutable_dstinst()) = routeInfo->dstInst();
+}
+
 inline ppc::proto::SendedMessageRequest* generateRequest(std::string const& traceID,
     RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload,
     long timeout)
@@ -51,17 +65,20 @@ inline ppc::proto::SendedMessageRequest* generateRequest(std::string const& trac
     request->set_traceid(traceID);
     request->set_routetype(uint16_t(routeType));
     // set the route information
-    request->mutable_routeinfo()->set_topic(routeInfo->topic());
-    request->mutable_routeinfo()->set_componenttype(routeInfo->componentType());
-    request->mutable_routeinfo()->set_srcnode(
-        routeInfo->srcNode().data(), routeInfo->srcNode().size());
-    request->mutable_routeinfo()->set_dstnode(
-        routeInfo->dstNode().data(), routeInfo->dstNode().size());
-    request->mutable_routeinfo()->set_dstinst(
-        routeInfo->dstInst().data(), routeInfo->dstInst().size());
-    // set the payload(TODO: optimize here)
-    request->set_payload(payload.data(), payload.size());
+    setRouteInfo(request->mutable_routeinfo(), routeInfo);
+    *request->mutable_payload() =
+        std::move(std::string_view((const char*)payload.data(), payload.size()));
     request->set_timeout(timeout);
+    return request;
+}
+
+inline ppc::proto::SelectRouteRequest* generateSelectRouteRequest(
+    RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo)
+{
+    auto request = new ppc::proto::SelectRouteRequest();
+    request->set_routetype(uint16_t(routeType));
+    // set the route information
+    setRouteInfo(request->mutable_routeinfo(), routeInfo);
     return request;
 }
 
@@ -69,26 +86,36 @@ inline ppc::proto::NodeInfo* toNodeInfoRequest(
     bcos::bytesConstRef const& nodeID, std::string const& topic)
 {
     auto request = new ppc::proto::NodeInfo();
-    request->set_nodeid(nodeID.data(), nodeID.size());
+    *(request->mutable_nodeid()) = std::string_view((const char*)nodeID.data(), nodeID.size());
     request->set_topic(topic);
     return request;
 }
 
-inline ppc::proto::NodeInfo* toNodeInfoRequest(INodeInfo::Ptr const& nodeInfo)
+inline void toNodeInfoRequest(ppc::proto::NodeInfo* request, INodeInfo::Ptr const& nodeInfo)
 {
-    auto request = new ppc::proto::NodeInfo();
     if (!nodeInfo)
     {
-        return request;
+        return;
     };
-    request->set_nodeid(nodeInfo->nodeID().data(), nodeInfo->nodeID().size());
+    *(request->mutable_nodeid()) =
+        std::string_view((const char*)nodeInfo->nodeID().data(), nodeInfo->nodeID().size());
     request->set_endpoint(nodeInfo->endPoint());
     auto const& components = nodeInfo->components();
     for (auto const& component : components)
     {
         request->add_components(component);
     }
-    return request;
+    request->set_meta(nodeInfo->meta());
+}
+
+inline void toRawNodeInfoList(
+    ppc::proto::NodeInfoList* rawNodeInfoList, std::vector<INodeInfo::Ptr> const& nodeInfoList)
+{
+    for (auto const& it : nodeInfoList)
+    {
+        auto rawNodeInfo = rawNodeInfoList->add_nodelist();
+        toNodeInfoRequest(rawNodeInfo, it);
+    }
 }
 
 inline INodeInfo::Ptr toNodeInfo(
@@ -104,7 +131,19 @@ inline INodeInfo::Ptr toNodeInfo(
         componentTypeList.insert(serializedNodeInfo.components(i));
     }
     nodeInfo->setComponents(componentTypeList);
+    nodeInfo->setMeta(serializedNodeInfo.meta());
     return nodeInfo;
+}
+
+inline std::vector<INodeInfo::Ptr> toNodeInfoList(INodeInfoFactory::Ptr const& nodeInfoFactory,
+    ppc::proto::NodeInfoList const& serializedNodeListInfo)
+{
+    std::vector<INodeInfo::Ptr> result;
+    for (int i = 0; i < serializedNodeListInfo.nodelist_size(); i++)
+    {
+        result.emplace_back(toNodeInfo(nodeInfoFactory, serializedNodeListInfo.nodelist(i)));
+    }
+    return result;
 }
 
 inline bcos::Error::Ptr toError(grpc::Status const& status, ppc::proto::Error const& error)

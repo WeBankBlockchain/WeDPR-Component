@@ -29,7 +29,8 @@ ServerUnaryReactor* GatewayServer::asyncSendMessage(CallbackServerContext* conte
     ServerUnaryReactor* reactor(context->DefaultReactor());
     try
     {
-        // TODO: optimize here
+        // TODO: optimize here (since bytes of protobuf is represented with string, no zero-copy
+        // method has been found yet, unless the payload is stored in string)
         bcos::bytes payloadData(sendedMsg->payload().begin(), sendedMsg->payload().end());
         auto routeInfo = generateRouteInfo(m_routeInfoBuilder, sendedMsg->routeinfo());
         m_gateway->asyncSendMessage((ppc::protocol::RouteType)sendedMsg->routetype(), routeInfo,
@@ -45,7 +46,35 @@ ServerUnaryReactor* GatewayServer::asyncSendMessage(CallbackServerContext* conte
                                     << LOG_KV("error", boost::diagnostic_information(e));
         toSerializedError(reply,
             std::make_shared<bcos::Error>(-1,
-                "handle message failed for : " + std::string(boost::diagnostic_information(e))));
+                "asyncSendMessage failed for : " + std::string(boost::diagnostic_information(e))));
+        reactor->Finish(Status::OK);
+    }
+    return reactor;
+}
+
+grpc::ServerUnaryReactor* GatewayServer::selectNodesByRoutePolicy(
+    grpc::CallbackServerContext* context, const ppc::proto::SelectRouteRequest* selectRouteRequest,
+    ppc::proto::NodeList* reply)
+{
+    ServerUnaryReactor* reactor(context->DefaultReactor());
+    try
+    {
+        auto routeInfo = generateRouteInfo(m_routeInfoBuilder, selectRouteRequest->routeinfo());
+        auto selectedNodes = m_gateway->selectNodesByRoutePolicy(
+            (ppc::protocol::RouteType)selectRouteRequest->routetype(), routeInfo);
+        for (auto const& it : selectedNodes)
+        {
+            reply->add_nodelist(it);
+        }
+        reactor->Finish(Status::OK);
+    }
+    catch (std::exception const& e)
+    {
+        GATEWAY_SERVER_LOG(WARNING) << LOG_DESC("selectNodesByRoutePolicy exception")
+                                    << LOG_KV("error", boost::diagnostic_information(e));
+        toSerializedError(reply->mutable_error(),
+            std::make_shared<bcos::Error>(-1, "selectNodesByRoutePolicy failed for : " +
+                                                  std::string(boost::diagnostic_information(e))));
         reactor->Finish(Status::OK);
     }
     return reactor;
@@ -127,6 +156,28 @@ ServerUnaryReactor* GatewayServer::registerNodeInfo(CallbackServerContext* conte
         toSerializedError(reply,
             std::make_shared<bcos::Error>(-1,
                 "registerNodeInfo failed for : " + std::string(boost::diagnostic_information(e))));
+        reactor->Finish(Status::OK);
+    }
+    return reactor;
+}
+
+grpc::ServerUnaryReactor* GatewayServer::getAliveNodeList(grpc::CallbackServerContext* context,
+    const ppc::proto::Empty* request, ppc::proto::NodeInfoList* reply)
+{
+    ServerUnaryReactor* reactor(context->DefaultReactor());
+    try
+    {
+        auto result = m_gateway->getAliveNodeList();
+        toRawNodeInfoList(reply, result);
+        reactor->Finish(Status::OK);
+    }
+    catch (std::exception const& e)
+    {
+        GATEWAY_SERVER_LOG(WARNING) << LOG_DESC("getAliveNodeList exception")
+                                    << LOG_KV("error", boost::diagnostic_information(e));
+        toSerializedError(reply->mutable_error(),
+            std::make_shared<bcos::Error>(-1,
+                "getAliveNodeList failed for : " + std::string(boost::diagnostic_information(e))));
         reactor->Finish(Status::OK);
     }
     return reactor;

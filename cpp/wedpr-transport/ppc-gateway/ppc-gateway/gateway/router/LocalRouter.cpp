@@ -64,6 +64,8 @@ void LocalRouter::registerTopic(bcos::bytesConstRef _nodeID, std::string const& 
     }
     for (auto const& msgInfo : msgQueue->messages)
     {
+        LOCAL_ROUTER_LOG(INFO) << LOG_DESC("registerTopic, dispatcher the holding msg queue")
+                               << LOG_KV("topic", topic) << LOG_KV("nodeID", printNodeID(_nodeID));
         dispatcherMessage(msgInfo.msg, msgInfo.callback, false);
     }
 }
@@ -76,9 +78,19 @@ void LocalRouter::unRegisterTopic(bcos::bytesConstRef _nodeID, std::string const
     m_routerInfo->unRegisterTopic(_nodeID.toBytes(), topic);
 }
 
-bool LocalRouter::dispatcherMessage(Message::Ptr const& msg, ReceiveMsgFunc callback, bool holding)
+bool LocalRouter::dispatcherMessage(
+    P2PMessage::Ptr const& msg, ReceiveMsgFunc callback, bool holding)
 {
     auto frontList = chooseReceiver(msg);
+    auto commonCallback = [](bcos::Error::Ptr error) {
+        if (!error || error->errorCode() == 0)
+        {
+            return;
+        }
+        LOCAL_ROUTER_LOG(WARNING) << LOG_DESC("dispatcherMessage to front failed")
+                                  << LOG_KV("code", error->errorCode())
+                                  << LOG_KV("msg", error->errorMessage());
+    };
     // find the front
     if (!frontList.empty())
     {
@@ -88,19 +100,11 @@ bool LocalRouter::dispatcherMessage(Message::Ptr const& msg, ReceiveMsgFunc call
         {
             if (i == 0)
             {
-                front->onReceiveMessage(msg, callback);
+                front->onReceiveMessage(msg->msg(), callback);
             }
             else
             {
-                front->onReceiveMessage(msg, [](bcos::Error::Ptr error) {
-                    if (!error || error->errorCode() == 0)
-                    {
-                        return;
-                    }
-                    LOCAL_ROUTER_LOG(WARNING) << LOG_DESC("dispatcherMessage to front failed")
-                                              << LOG_KV("code", error->errorCode())
-                                              << LOG_KV("msg", error->errorMessage());
-                });
+                front->onReceiveMessage(msg->msg(), commonCallback);
             }
             i++;
         }
@@ -110,6 +114,8 @@ bool LocalRouter::dispatcherMessage(Message::Ptr const& msg, ReceiveMsgFunc call
     if (msg->header() && msg->header()->optionalField() &&
         msg->header()->optionalField()->topic().empty())
     {
+        LOCAL_ROUTER_LOG(WARNING) << LOG_DESC("dispatcherMessage failed for no target found!")
+                                  << printP2PMessage(msg);
         return false;
     }
     if (!holding)
@@ -119,14 +125,19 @@ bool LocalRouter::dispatcherMessage(Message::Ptr const& msg, ReceiveMsgFunc call
     // no connection found, cache the topic message and dispatcher later
     if (msg->header()->routeType() == (uint16_t)RouteType::ROUTE_THROUGH_TOPIC && m_cache)
     {
-        m_cache->insertCache(msg->header()->optionalField()->topic(), msg, callback);
+        // send response when hodling the message
+        if (callback)
+        {
+            callback(nullptr);
+        }
+        m_cache->insertCache(msg->header()->optionalField()->topic(), msg, commonCallback);
         return true;
     }
     return false;
 }
 
 std::vector<ppc::front::IFrontClient::Ptr> LocalRouter::chooseReceiver(
-    ppc::protocol::Message::Ptr const& msg)
+    ppc::protocol::P2PMessage::Ptr const& msg)
 {
     std::vector<ppc::front::IFrontClient::Ptr> receivers;
     auto const& dstInst = msg->header()->optionalField()->dstInst();
@@ -168,6 +179,6 @@ std::vector<ppc::front::IFrontClient::Ptr> LocalRouter::chooseReceiver(
     default:
         BOOST_THROW_EXCEPTION(WeDPRException() << errinfo_comment(
                                   "chooseReceiver failed for unknown routeType, message detail: " +
-                                  printMessage(msg)));
+                                  printP2PMessage(msg)));
     }
 }

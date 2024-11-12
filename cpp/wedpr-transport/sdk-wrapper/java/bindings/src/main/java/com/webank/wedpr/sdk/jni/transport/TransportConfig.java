@@ -16,8 +16,10 @@
 package com.webank.wedpr.sdk.jni.transport;
 
 import com.webank.wedpr.sdk.jni.common.JniLibLoader;
+import com.webank.wedpr.sdk.jni.common.ObjectMapperFactory;
 import com.webank.wedpr.sdk.jni.generated.FrontConfig;
 import com.webank.wedpr.sdk.jni.generated.TransportBuilder;
+import com.webank.wedpr.sdk.jni.transport.model.ServiceMeta;
 import com.webank.wedpr.sdk.jni.transport.model.TransportEndPoint;
 import com.webank.wedpr.sdk.jni.transport.model.TransportGrpcConfig;
 import java.util.List;
@@ -38,6 +40,8 @@ public class TransportConfig {
     }
 
     private static synchronized void createTransportBuilder() {
+        // TODO: make log path configuration here
+        TransportBuilder.initLog("conf/wedpr_sdk_log_config.ini");
         logger.info("init transportBuilder");
         transportBuilder = new TransportBuilder();
         logger.info("init transportBuilder success");
@@ -50,6 +54,7 @@ public class TransportConfig {
     private final FrontConfig frontConfig;
     private List<String> components;
     private TransportEndPoint selfEndPoint;
+    private ServiceMeta serviceMeta = new ServiceMeta();
 
     public TransportConfig(Integer threadPoolSize, String nodeID) {
         this.frontConfig = transportBuilder.buildConfig(threadPoolSize, nodeID);
@@ -82,6 +87,23 @@ public class TransportConfig {
         for (String component : components) {
             this.frontConfig.addComponent(component);
         }
+    }
+
+    public void registerService(ServiceMeta serviceMeta) {
+        if (serviceMeta != null) {
+            this.serviceMeta = serviceMeta;
+        }
+    }
+
+    public void registerService(String serviceName, String entryPoint) throws Exception {
+        serviceMeta.addEntryPoint(new ServiceMeta.EntryPointMeta(serviceName, entryPoint));
+        // update the meta
+        this.frontConfig.setMeta(
+                ObjectMapperFactory.getObjectMapper().writeValueAsString(serviceMeta));
+    }
+
+    public ServiceMeta getServiceMeta() {
+        return this.serviceMeta;
     }
 
     public FrontConfig getFrontConfig() {

@@ -91,22 +91,13 @@ public class Message {
         wedpr_java_transportJNI.Message_setRespPacket(swigCPtr, this);
     }
 
-    public long length() {
-        return wedpr_java_transportJNI.Message_length(swigCPtr, this);
-    }
-
-    public ubytes payload() {
-        long cPtr = wedpr_java_transportJNI.Message_payload(swigCPtr, this);
-        return (cPtr == 0) ? null : new ubytes(cPtr, true);
+    public void setPayload(ubytes _payload) {
+        wedpr_java_transportJNI.Message_setPayload(
+                swigCPtr, this, ubytes.getCPtr(_payload), _payload);
     }
 
     public byte[] payloadBuffer() {
         return wedpr_java_transportJNI.Message_payloadBuffer(swigCPtr, this);
-    }
-
-    public void setPayload(ubytes _payload) {
-        wedpr_java_transportJNI.Message_setPayload(
-                swigCPtr, this, ubytes.getCPtr(_payload), _payload);
     }
 
     public void setFrontMessage(MessagePayload frontMessage) {
@@ -120,18 +111,22 @@ public class Message {
     }
 
     public boolean encode(ubytes _buffer) {
-        return wedpr_java_transportJNI.Message_encode__SWIG_0(
+        return wedpr_java_transportJNI.Message_encode(
                 swigCPtr, this, ubytes.getCPtr(_buffer), _buffer);
-    }
-
-    public boolean encode(SWIGTYPE_p_bcos__boostssl__EncodedMsg _encodedMsg) {
-        return wedpr_java_transportJNI.Message_encode__SWIG_1(
-                swigCPtr, this, SWIGTYPE_p_bcos__boostssl__EncodedMsg.getCPtr(_encodedMsg));
     }
 
     public long decode(SWIGTYPE_p_bcos__bytesConstRef _buffer) {
         return wedpr_java_transportJNI.Message_decode(
                 swigCPtr, this, SWIGTYPE_p_bcos__bytesConstRef.getCPtr(_buffer));
+    }
+
+    public long length() {
+        return wedpr_java_transportJNI.Message_length(swigCPtr, this);
+    }
+
+    public ubytes payload() {
+        long cPtr = wedpr_java_transportJNI.Message_payload(swigCPtr, this);
+        return (cPtr == 0) ? null : new ubytes(cPtr, true);
     }
 
     public void disOwnMemory() {

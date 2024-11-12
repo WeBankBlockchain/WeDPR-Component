@@ -420,6 +420,7 @@ void MPCService::execCommand(const std::string cmd, int& outExitStatus, std::str
     }
     catch (const std::exception& e)
     {
+        MPC_LOG(WARNING) << LOG_DESC("[MPCService] execCommand failed") << LOG_KV("cmd", cmd);
         BOOST_THROW_EXCEPTION(
             RunMpcFailException() << errinfo_comment(
                 "invalid params:" + std::string(boost::diagnostic_information(e))));

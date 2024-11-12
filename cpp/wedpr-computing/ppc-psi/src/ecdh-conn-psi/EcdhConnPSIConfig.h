@@ -41,7 +41,7 @@ public:
         EcdhConnPSIMessageFactory::Ptr _psiMsgFactory,
         ppc::io::DataResourceLoader::Ptr const& _dataResourceLoader,
         bcos::ThreadPool::Ptr _threadPool)
-      : PSIConfig(ppc::protocol::PSIAlgorithmType::ECDH_PSI_CONN, _ppcConfig->agencyID(), _front,
+      : PSIConfig(ppc::protocol::TaskAlgorithmType::ECDH_PSI_CONN, _ppcConfig->agencyID(), _front,
             _ppcMsgFactory, _dataResourceLoader, _ppcConfig->holdingMessageMinutes()),
         m_msgFactory(_psiMsgFactory),
         m_threadPool(_threadPool),

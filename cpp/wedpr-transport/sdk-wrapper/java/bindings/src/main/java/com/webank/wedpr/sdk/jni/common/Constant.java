@@ -21,4 +21,5 @@ public class Constant {
     public static int FAILED = -1;
 
     public static String SUCCESS_MSG = "success";
+    public static final String URI_SPLITER = "/";
 }

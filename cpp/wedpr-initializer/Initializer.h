@@ -24,6 +24,7 @@
 #include "ppc-framework/rpc/RpcInterface.h"
 #include "ppc-framework/rpc/RpcTypeDef.h"
 #include "ppc-psi/src/bs-ecdh-psi/BsEcdhPSIImpl.h"
+#include "wedpr-protocol/protocol/src/ServiceConfig.h"
 #include "wedpr-transport/sdk/src/Transport.h"
 #include <bcos-boostssl/httpserver/Common.h>
 #include <bcos-utilities/Timer.h>
@@ -86,6 +87,7 @@ private:
     std::string m_configPath;
     std::shared_ptr<ppc::tools::PPCConfig> m_config;
     ProtocolInitializer::Ptr m_protocolInitializer;
+    ppc::protocol::ServiceConfigBuilder m_serviceConfigBuilder;
 
     std::shared_ptr<ppc::sdk::TransportBuilder> m_transportBuilder;
     ppc::sdk::Transport::Ptr m_transport;

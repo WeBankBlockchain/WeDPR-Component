@@ -44,15 +44,14 @@ void ProNodeInitializer::init(std::string const& _configPath)
 
     // init the node
     m_nodeInitializer = std::make_shared<Initializer>(ppc::protocol::NodeArch::PRO, _configPath);
+    // load the rpc config
+    m_nodeInitializer->config()->loadRpcConfig(pt);
 
     // init the node(no need to set the gateway)
     m_nodeInitializer->init(nullptr);
 
 
     INIT_LOG(INFO) << LOG_DESC("init the rpc");
-    // load the rpc config
-    // not specify the certPath in air-mode
-    m_nodeInitializer->config()->loadRpcConfig(pt);
     // init RpcStatusInterface
     RpcStatusInterface::Ptr rpcStatusInterface = std::make_shared<ppc::rpc::RpcMemory>();
 

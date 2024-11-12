@@ -153,7 +153,7 @@ void testCM2020PSIImplFunc(const std::string& _taskID, const std::string& _param
     senderPSITask->setSelf(_senderParty);
     senderPSITask->addParty(_receiverParty);
     senderPSITask->setSyncResultToPeer(_syncResults);
-    senderPSITask->setAlgorithm((uint8_t)PSIAlgorithmType::CM_PSI_2PC);
+    senderPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::CM_PSI_2PC);
 
     auto receiverPSITask = std::make_shared<JsonTaskImpl>(receiverAgencyName);
     receiverPSITask->setId(_taskID);
@@ -161,7 +161,7 @@ void testCM2020PSIImplFunc(const std::string& _taskID, const std::string& _param
     receiverPSITask->setSelf(_receiverParty);
     receiverPSITask->addParty(_senderParty);
     receiverPSITask->setSyncResultToPeer(_syncResults);
-    receiverPSITask->setAlgorithm((uint8_t)PSIAlgorithmType::CM_PSI_2PC);
+    receiverPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::CM_PSI_2PC);
 
     testCM2020PSI(factory, senderPSI, receiverPSI, senderPSITask, receiverPSITask,
         _expectedPSIResult, _expectedSuccess, _expectedErrorCode);

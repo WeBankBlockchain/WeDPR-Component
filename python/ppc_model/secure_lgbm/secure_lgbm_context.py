@@ -120,10 +120,11 @@ class SecureLGBMParams(ModelTaskParams):
 class SecureLGBMContext(SecureModelContext):
 
     def __init__(self,
+                 task_id,
                  args,
                  components: Initializer
                  ):
-        super().__init__(args, components)
+        super().__init__(task_id, args, components)
 
         self.phe = PheCipherFactory.build_phe(
             components.homo_algorithm, components.public_key_length)

@@ -59,38 +59,18 @@ public class MessageOptionalHeader {
                 swigCPtr, this, componentType);
     }
 
-    public ubytes srcNode() {
-        return new ubytes(
-                wedpr_java_transportJNI.MessageOptionalHeader_srcNode(swigCPtr, this), true);
-    }
-
     /** for swig-wrapper(pass the binary data) */
     public byte[] srcNodeBuffer() {
         return wedpr_java_transportJNI.MessageOptionalHeader_srcNodeBuffer(swigCPtr, this);
     }
 
-    public void setSrcNode(ubytes srcNode) {
-        wedpr_java_transportJNI.MessageOptionalHeader_setSrcNode__SWIG_0(
-                swigCPtr, this, ubytes.getCPtr(srcNode), srcNode);
-    }
-
-    public void setSrcNode(byte[] data, java.math.BigInteger length) {
-        wedpr_java_transportJNI.MessageOptionalHeader_setSrcNode__SWIG_1(
+    public void setSrcNodeBuffer(byte[] data, java.math.BigInteger length) {
+        wedpr_java_transportJNI.MessageOptionalHeader_setSrcNodeBuffer(
                 swigCPtr, this, data, length);
-    }
-
-    public ubytes dstNode() {
-        return new ubytes(
-                wedpr_java_transportJNI.MessageOptionalHeader_dstNode(swigCPtr, this), true);
     }
 
     public byte[] dstNodeBuffer() {
         return wedpr_java_transportJNI.MessageOptionalHeader_dstNodeBuffer(swigCPtr, this);
-    }
-
-    public void setDstNode(ubytes dstNode) {
-        wedpr_java_transportJNI.MessageOptionalHeader_setDstNode(
-                swigCPtr, this, ubytes.getCPtr(dstNode), dstNode);
     }
 
     public void setDstNodeBuffer(byte[] data, java.math.BigInteger length) {

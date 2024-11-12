@@ -13,6 +13,10 @@ public class wedpr_java_transport {
         return wedpr_java_transportJNI.printFrontDesc(FrontConfig.getCPtr(config), config);
     }
 
+    public static String printGrpcConfig(GrpcConfig grpcConfig) {
+        return wedpr_java_transportJNI.printGrpcConfig(GrpcConfig.getCPtr(grpcConfig), grpcConfig);
+    }
+
     public static String printOptionalField(MessageOptionalHeader optionalHeader) {
         return wedpr_java_transportJNI.printOptionalField(
                 MessageOptionalHeader.getCPtr(optionalHeader), optionalHeader);
@@ -22,8 +26,7 @@ public class wedpr_java_transport {
         return wedpr_java_transportJNI.printMessage(Message.getCPtr(_msg), _msg);
     }
 
-    public static String printWsMessage(SWIGTYPE_p_bcos__boostssl__MessageFace__Ptr _msg) {
-        return wedpr_java_transportJNI.printWsMessage(
-                SWIGTYPE_p_bcos__boostssl__MessageFace__Ptr.getCPtr(_msg));
+    public static String printNodeInfo(INodeInfo nodeInfo) {
+        return wedpr_java_transportJNI.printNodeInfo(INodeInfo.getCPtr(nodeInfo), nodeInfo);
     }
 }

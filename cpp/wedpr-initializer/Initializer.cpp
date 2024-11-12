@@ -29,9 +29,10 @@
 #include "protocol/src/PPCMessage.h"
 #include "wedpr-transport/sdk/src/TransportBuilder.h"
 #if 0
-//TODO: optimize here
+//TODO: optimize here to implement EcdhConnPSI
 #include "ppc-psi/src/ecdh-conn-psi/EcdhConnPSIFactory.h"
 #endif
+#include "ppc-framework/protocol/ServiceType.h"
 #include "ppc-front/Front.h"
 #include "ppc-front/FrontConfigImpl.h"
 #include "ppc-psi/src/ecdh-multi-psi/EcdhMultiPSIFactory.h"
@@ -50,6 +51,7 @@ using namespace ppc::pir;
 using namespace ppc::tools;
 using namespace ppc::crypto;
 using namespace ppc::sdk;
+using namespace ppc::protocol;
 
 Initializer::Initializer(ppc::protocol::NodeArch _arch, std::string const& _configPath)
   : m_arch((uint16_t)_arch), m_configPath(_configPath)
@@ -82,6 +84,14 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
 
     // Note: must set the  m_holdingMessageMinutes before init the node
     TransportBuilder transportBuilder;
+    // register the serviceInfo
+    auto serviceConfig = m_serviceConfigBuilder.buildServiceConfig();
+    auto entryPoint =
+        m_serviceConfigBuilder.buildEntryPoint(PSI_SERVICE_TYPE, m_config->accessEntrypoint());
+    serviceConfig.addEntryPoint(entryPoint);
+    auto serviceMeta = serviceConfig.encode();
+    m_config->frontConfig()->setMeta(serviceMeta);
+    INIT_LOG(INFO) << LOG_DESC("register serviceMeta") << LOG_KV("serviceMeta", serviceMeta);
     if (m_arch == (uint16_t)ppc::protocol::NodeArch::AIR)
     {
         m_transport = transportBuilder.build(SDKMode::AIR, m_config->frontConfig(), gateway);
@@ -210,7 +220,7 @@ void Initializer::initMsgHandlers()
     // register msg-handlers for ra2018-psi
     auto weakRA2018PSI = std::weak_ptr<RA2018PSIImpl>(m_ra2018PSI);
     m_ppcFront->registerMessageHandler((uint8_t)ppc::protocol::TaskType::PSI,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::RA_PSI_2PC,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::RA_PSI_2PC,
         [weakRA2018PSI](ppc::front::PPCMessageFace::Ptr _msg) {
             auto psi = weakRA2018PSI.lock();
             if (!psi)
@@ -224,7 +234,7 @@ void Initializer::initMsgHandlers()
     INIT_LOG(INFO) << LOG_DESC("initMsgHandlers for labeledPSI");
     auto weakLabeledPSI = std::weak_ptr<LabeledPSIImpl>(m_labeledPSI);
     m_ppcFront->registerMessageHandler((uint8_t)ppc::protocol::TaskType::PSI,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::LABELED_PSI_2PC,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::LABELED_PSI_2PC,
         [weakLabeledPSI](ppc::front::PPCMessageFace::Ptr _msg) {
             auto psi = weakLabeledPSI.lock();
             if (!psi)
@@ -238,7 +248,7 @@ void Initializer::initMsgHandlers()
     INIT_LOG(INFO) << LOG_DESC("initMsgHandlers for CM2020PSI");
     auto weakCM2020PSI = std::weak_ptr<CM2020PSIImpl>(m_cm2020PSI);
     m_ppcFront->registerMessageHandler((uint8_t)ppc::protocol::TaskType::PSI,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::CM_PSI_2PC,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::CM_PSI_2PC,
         [weakCM2020PSI](ppc::front::PPCMessageFace::Ptr _msg) {
             auto psi = weakCM2020PSI.lock();
             if (!psi)
@@ -252,7 +262,7 @@ void Initializer::initMsgHandlers()
     // register msg-handlers for ecdh-psi
     auto weakEcdhPSI = std::weak_ptr<EcdhPSIImpl>(m_ecdhPSI);
     m_ppcFront->registerMessageHandler((uint8_t)ppc::protocol::TaskType::PSI,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::ECDH_PSI_2PC,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::ECDH_PSI_2PC,
         [weakEcdhPSI](ppc::front::PPCMessageFace::Ptr _msg) {
             auto psi = weakEcdhPSI.lock();
             if (!psi)
@@ -266,7 +276,7 @@ void Initializer::initMsgHandlers()
     /*INIT_LOG(INFO) << LOG_DESC("initMsgHandlers for ecdh-conn-psi");
     auto weakEcdhConnPSI = std::weak_ptr<EcdhConnPSIImpl>(m_ecdhConnPSI);
     m_ppcFront->registerMessageHandler((uint8_t)ppc::protocol::TaskType::PSI,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::ECDH_PSI_CONN,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::ECDH_PSI_CONN,
         [weakEcdhConnPSI](ppc::front::PPCMessageFace::Ptr _msg) {
             auto psi = weakEcdhConnPSI.lock();
             if (!psi)
@@ -280,7 +290,7 @@ void Initializer::initMsgHandlers()
     INIT_LOG(INFO) << LOG_DESC("initMsgHandlers for ecdh-multi-psi");
     auto weakEcdhMultiPSI = std::weak_ptr<EcdhMultiPSIImpl>(m_ecdhMultiPSI);
     m_ppcFront->registerMessageHandler((uint8_t)ppc::protocol::TaskType::PSI,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::ECDH_PSI_MULTI,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::ECDH_PSI_MULTI,
         [weakEcdhMultiPSI](ppc::front::PPCMessageFace::Ptr _msg) {
             auto psi = weakEcdhMultiPSI.lock();
             if (!psi)
@@ -294,7 +304,7 @@ void Initializer::initMsgHandlers()
     // register msg-handlers for ecdh-psi
     auto weakOtPIR = std::weak_ptr<OtPIRImpl>(m_otPIR);
     m_ppcFront->registerMessageHandler((uint8_t)ppc::protocol::TaskType::PIR,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::OT_PIR_2PC,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::OT_PIR_2PC,
         [weakOtPIR](ppc::front::PPCMessageFace::Ptr _msg) {
             auto pir = weakOtPIR.lock();
             if (!pir)
@@ -313,7 +323,7 @@ void Initializer::registerRpcHandler(ppc::rpc::RpcInterface::Ptr const& _rpc)
     // register task handler for ra2018-psi
     auto weakRA2018PSI = std::weak_ptr<RA2018PSIImpl>(m_ra2018PSI);
     _rpc->registerTaskHandler(ppc::protocol::TaskType::PSI,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::RA_PSI_2PC,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::RA_PSI_2PC,
         [weakRA2018PSI](ppc::protocol::Task::ConstPtr _task,
             std::function<void(ppc::protocol::TaskResult::Ptr &&)> _handler) {
             auto ra2018Impl = weakRA2018PSI.lock();
@@ -328,7 +338,7 @@ void Initializer::registerRpcHandler(ppc::rpc::RpcInterface::Ptr const& _rpc)
     INIT_LOG(INFO) << LOG_DESC("registerRpcHandler for labeledPSI");
     auto weakLabeledPSI = std::weak_ptr<LabeledPSIImpl>(m_labeledPSI);
     _rpc->registerTaskHandler(ppc::protocol::TaskType::PSI,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::LABELED_PSI_2PC,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::LABELED_PSI_2PC,
         [weakLabeledPSI](ppc::protocol::Task::ConstPtr _task,
             std::function<void(ppc::protocol::TaskResult::Ptr &&)> _handler) {
             auto labeledPSI = weakLabeledPSI.lock();
@@ -343,7 +353,7 @@ void Initializer::registerRpcHandler(ppc::rpc::RpcInterface::Ptr const& _rpc)
     INIT_LOG(INFO) << LOG_DESC("registerRpcHandler for cm2020PSI");
     auto weakCM2020PSI = std::weak_ptr<CM2020PSIImpl>(m_cm2020PSI);
     _rpc->registerTaskHandler(ppc::protocol::TaskType::PSI,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::CM_PSI_2PC,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::CM_PSI_2PC,
         [weakCM2020PSI](ppc::protocol::Task::ConstPtr _task,
             std::function<void(ppc::protocol::TaskResult::Ptr &&)> _handler) {
             auto cm2020PSI = weakCM2020PSI.lock();
@@ -358,7 +368,7 @@ void Initializer::registerRpcHandler(ppc::rpc::RpcInterface::Ptr const& _rpc)
     INIT_LOG(INFO) << LOG_DESC("registerRpcHandler for ecdhPSI");
     auto weakEcdhPSI = std::weak_ptr<EcdhPSIImpl>(m_ecdhPSI);
     _rpc->registerTaskHandler(ppc::protocol::TaskType::PSI,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::ECDH_PSI_2PC,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::ECDH_PSI_2PC,
         [weakEcdhPSI](ppc::protocol::Task::ConstPtr _task,
             std::function<void(ppc::protocol::TaskResult::Ptr &&)> _handler) {
             auto psi = weakEcdhPSI.lock();
@@ -372,7 +382,7 @@ void Initializer::registerRpcHandler(ppc::rpc::RpcInterface::Ptr const& _rpc)
     INIT_LOG(INFO) << LOG_DESC("registerRpcHandler for ecdhMultiPSI");
     auto weakEcdhMultiPSI = std::weak_ptr<EcdhMultiPSIImpl>(m_ecdhMultiPSI);
     _rpc->registerTaskHandler(ppc::protocol::TaskType::PSI,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::ECDH_PSI_MULTI,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::ECDH_PSI_MULTI,
         [weakEcdhMultiPSI](ppc::protocol::Task::ConstPtr _task,
             std::function<void(ppc::protocol::TaskResult::Ptr &&)> _handler) {
             auto psi = weakEcdhMultiPSI.lock();
@@ -386,7 +396,7 @@ void Initializer::registerRpcHandler(ppc::rpc::RpcInterface::Ptr const& _rpc)
     /*INIT_LOG(INFO) << LOG_DESC("registerRpcHandler for ecdhConnPSI");
     auto weakEcdhConnPSI = std::weak_ptr<EcdhConnPSIImpl>(m_ecdhConnPSI);
     _rpc->registerTaskHandler(ppc::protocol::TaskType::PSI,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::ECDH_PSI_CONN,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::ECDH_PSI_CONN,
         [weakEcdhConnPSI](ppc::protocol::Task::ConstPtr _task,
             std::function<void(ppc::protocol::TaskResult::Ptr&&)> _handler) {
             auto psi = weakEcdhConnPSI.lock();
@@ -401,7 +411,7 @@ void Initializer::registerRpcHandler(ppc::rpc::RpcInterface::Ptr const& _rpc)
     INIT_LOG(INFO) << LOG_DESC("registerRpcHandler for otPIR");
     auto weakOtPIR = std::weak_ptr<OtPIRImpl>(m_otPIR);
     _rpc->registerTaskHandler(ppc::protocol::TaskType::PIR,
-        (uint8_t)ppc::protocol::PSIAlgorithmType::OT_PIR_2PC,
+        (uint8_t)ppc::protocol::TaskAlgorithmType::OT_PIR_2PC,
         [weakOtPIR](ppc::protocol::Task::ConstPtr _task,
             std::function<void(ppc::protocol::TaskResult::Ptr &&)> _handler) {
             auto pir = weakOtPIR.lock();

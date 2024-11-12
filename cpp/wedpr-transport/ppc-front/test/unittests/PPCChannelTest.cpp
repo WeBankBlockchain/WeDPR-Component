@@ -47,14 +47,14 @@ BOOST_AUTO_TEST_CASE(test_ppcChannel)
 
     // register message handler
     channelManager->registerMsgHandlerForChannel(
-        uint8_t(protocol::TaskType::PSI), uint8_t(protocol::PSIAlgorithmType::CM_PSI_2PC));
+        uint8_t(protocol::TaskType::PSI), uint8_t(protocol::TaskAlgorithmType::CM_PSI_2PC));
 
     // receive message
     auto messageFactory = std::make_shared<PPCMessageFactory>();
     auto message = messageFactory->buildPPCMessage();
     message->setVersion(1);
     message->setTaskType(uint8_t(protocol::TaskType::PSI));
-    message->setAlgorithmType(uint8_t(protocol::PSIAlgorithmType::CM_PSI_2PC));
+    message->setAlgorithmType(uint8_t(protocol::TaskAlgorithmType::CM_PSI_2PC));
     message->setMessageType(4);
     message->setSeq(5);
     message->setTaskID("T_123456");

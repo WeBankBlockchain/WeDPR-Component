@@ -28,9 +28,11 @@ using namespace grpc;
 using namespace ppc::gateway;
 using namespace ppc::protocol;
 
-GatewayClient::GatewayClient(
-    ppc::protocol::GrpcConfig::Ptr const& grpcConfig, std::string const& endPoints)
-  : GrpcClient(grpcConfig, endPoints), m_stub(ppc::proto::Gateway::NewStub(m_channel))
+GatewayClient::GatewayClient(ppc::protocol::GrpcConfig::Ptr const& grpcConfig,
+    std::string const& endPoints, INodeInfoFactory::Ptr nodeInfoFactory)
+  : GrpcClient(grpcConfig, endPoints),
+    m_stub(ppc::proto::Gateway::NewStub(m_channel)),
+    m_nodeInfoFactory(std::move(nodeInfoFactory))
 {
     for (auto const& channel : m_broadcastChannels)
     {
@@ -51,6 +53,52 @@ void GatewayClient::asyncSendMessage(RouteType routeType,
     m_stub->async()->asyncSendMessage(context.get(), request.get(), response.get(),
         [context, traceID, callback, response](
             Status status) { callback(toError(status, *response)); });
+}
+
+std::vector<std::string> GatewayClient::selectNodesByRoutePolicy(
+    RouteType routeType, MessageOptionalHeader::Ptr const& routeInfo)
+{
+    std::unique_ptr<ppc::proto::SelectRouteRequest> request(
+        generateSelectRouteRequest(routeType, routeInfo));
+    auto context = std::make_shared<ClientContext>();
+    auto response = std::make_shared<NodeList>();
+    // lambda keeps the lifecycle for clientContext
+    auto status = m_stub->selectNodesByRoutePolicy(context.get(), *request, response.get());
+    if (!status.ok())
+    {
+        throw std::runtime_error(
+            "selectNodesByRoutePolicy failed, code: " + std::to_string(status.error_code()) +
+            ", msg: " + status.error_message());
+    }
+    if (response->error().errorcode() != 0)
+    {
+        throw std::runtime_error("selectNodesByRoutePolicy failed, code: " +
+                                 std::to_string(response->error().errorcode()) +
+                                 ", msg: " + response->error().errormessage());
+    }
+    return std::vector<std::string>(response->nodelist().begin(), response->nodelist().end());
+}
+
+std::vector<ppc::protocol::INodeInfo::Ptr> GatewayClient::getAliveNodeList() const
+{
+    auto request = std::make_shared<Empty>();
+    auto response = std::make_shared<NodeInfoList>();
+    auto context = std::make_shared<ClientContext>();
+    // lambda keeps the lifecycle for clientContext
+    auto status = m_stub->getAliveNodeList(context.get(), *request, response.get());
+    if (!status.ok())
+    {
+        throw std::runtime_error(
+            "getAliveNodeList failed, code: " + std::to_string(status.error_code()) +
+            ", msg: " + status.error_message());
+    }
+    if (response->error().errorcode() != 0)
+    {
+        throw std::runtime_error(
+            "getAliveNodeList failed, code: " + std::to_string(response->error().errorcode()) +
+            ", msg: " + response->error().errormessage());
+    }
+    return toNodeInfoList(m_nodeInfoFactory, *response);
 }
 
 void GatewayClient::asyncGetPeers(std::function<void(bcos::Error::Ptr, std::string)> callback)
@@ -89,7 +137,8 @@ void GatewayClient::asyncGetAgencies(std::vector<std::string> const& components,
 
 bcos::Error::Ptr GatewayClient::registerNodeInfo(INodeInfo::Ptr const& nodeInfo)
 {
-    std::unique_ptr<ppc::proto::NodeInfo> request(toNodeInfoRequest(nodeInfo));
+    std::unique_ptr<ppc::proto::NodeInfo> request(new ppc::proto::NodeInfo());
+    toNodeInfoRequest(request.get(), nodeInfo);
     return broadCast([&](ChannelInfo const& channel) {
         if (!m_broadcastStubs.count(channel.endPoint))
         {

@@ -34,6 +34,7 @@ void PeerRouterTable::updateGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo)
     auto nodeList = gatewayInfo->nodeList();
 
     removeP2PNodeIDFromNodeIDInfos(gatewayInfo);
+    removeP2PNodeIDFromAgencyInfos(gatewayInfo->p2pNodeID());
     insertGatewayInfo(gatewayInfo);
 }
 
@@ -145,17 +146,17 @@ std::set<std::string> PeerRouterTable::agencies(std::vector<std::string> const& 
 }
 
 GatewayNodeInfos PeerRouterTable::selectRouter(
-    RouteType const& routeType, Message::Ptr const& msg) const
+    RouteType const& routeType, MessageOptionalHeader::Ptr const& routeInfo) const
 {
     switch (routeType)
     {
     case RouteType::ROUTE_THROUGH_NODEID:
-        return selectRouterByNodeID(msg);
+        return selectRouterByNodeID(routeInfo);
     case RouteType::ROUTE_THROUGH_COMPONENT:
-        return selectRouterByComponent(msg);
+        return selectRouterByComponent(routeInfo);
     case RouteType::ROUTE_THROUGH_AGENCY:
     case RouteType::ROUTE_THROUGH_TOPIC:
-        return selectRouterByAgency(msg);
+        return selectRouterByAgency(routeInfo);
     default:
         BOOST_THROW_EXCEPTION(WeDPRException() << errinfo_comment(
                                   "selectRouter failed for encounter unsupported routeType: " +
@@ -163,11 +164,46 @@ GatewayNodeInfos PeerRouterTable::selectRouter(
     }
 }
 
-GatewayNodeInfos PeerRouterTable::selectRouterByNodeID(Message::Ptr const& msg) const
+std::vector<std::string> PeerRouterTable::selectTargetNodes(
+    RouteType const& routeType, MessageOptionalHeader::Ptr const& routeInfo) const
+{
+    std::set<std::string> targetNodeList;
+    auto selectedP2PNodes = selectRouter(routeType, routeInfo);
+    if (selectedP2PNodes.empty())
+    {
+        PEER_ROUTER_LOG(INFO) << LOG_DESC("selectTargetNodes with empty result")
+                              << LOG_KV("routeType", routeType)
+                              << LOG_KV("routeInfo", printOptionalField(routeInfo));
+        return std::vector<std::string>();
+    }
+    for (auto const& it : selectedP2PNodes)
+    {
+        auto nodeList = it->nodeList();
+        for (auto const& it : nodeList)
+        {
+            if (routeType == RouteType::ROUTE_THROUGH_COMPONENT)
+            {
+                if (it.second->componentExist(routeInfo->componentType()))
+                {
+                    targetNodeList.insert(std::string(it.first.begin(), it.first.end()));
+                }
+                continue;
+            }
+            targetNodeList.insert(std::string(it.first.begin(), it.first.end()));
+        }
+    }
+    PEER_ROUTER_LOG(INFO) << LOG_DESC("selectTargetNodes, result: ")
+                          << printCollection(targetNodeList) << LOG_KV("routeType", routeType)
+                          << LOG_KV("routeInfo", printOptionalField(routeInfo));
+    return std::vector<std::string>(targetNodeList.begin(), targetNodeList.end());
+}
+
+GatewayNodeInfos PeerRouterTable::selectRouterByNodeID(
+    MessageOptionalHeader::Ptr const& routeInfo) const
 {
     GatewayNodeInfos result;
     bcos::ReadGuard l(x_mutex);
-    auto it = m_nodeID2GatewayInfos.find(msg->header()->optionalField()->dstNode());
+    auto it = m_nodeID2GatewayInfos.find(routeInfo->dstNode());
     // no router found
     if (it == m_nodeID2GatewayInfos.end())
     {
@@ -177,11 +213,12 @@ GatewayNodeInfos PeerRouterTable::selectRouterByNodeID(Message::Ptr const& msg) 
 }
 
 
-GatewayNodeInfos PeerRouterTable::selectRouterByAgency(Message::Ptr const& msg) const
+GatewayNodeInfos PeerRouterTable::selectRouterByAgency(
+    MessageOptionalHeader::Ptr const& routeInfo) const
 {
     GatewayNodeInfos result;
     bcos::ReadGuard l(x_mutex);
-    auto it = m_agency2GatewayInfos.find(msg->header()->optionalField()->dstInst());
+    auto it = m_agency2GatewayInfos.find(routeInfo->dstInst());
     // no router found
     if (it == m_agency2GatewayInfos.end())
     {
@@ -191,10 +228,11 @@ GatewayNodeInfos PeerRouterTable::selectRouterByAgency(Message::Ptr const& msg) 
 }
 
 // Note: selectRouterByComponent support not specified the dstInst
-GatewayNodeInfos PeerRouterTable::selectRouterByComponent(Message::Ptr const& msg) const
+GatewayNodeInfos PeerRouterTable::selectRouterByComponent(
+    MessageOptionalHeader::Ptr const& routeInfo) const
 {
     GatewayNodeInfos result;
-    auto dstInst = msg->header()->optionalField()->dstInst();
+    auto dstInst = routeInfo->dstInst();
     std::vector<GatewayNodeInfos> selectedRouterInfos;
     {
         bcos::ReadGuard l(x_mutex);
@@ -220,14 +258,15 @@ GatewayNodeInfos PeerRouterTable::selectRouterByComponent(Message::Ptr const& ms
     }
     for (auto const& it : selectedRouterInfos)
     {
-        selectRouterByComponent(result, msg, it);
+        selectRouterByComponent(result, routeInfo, it);
     }
     return result;
 }
 
 
 void PeerRouterTable::selectRouterByComponent(GatewayNodeInfos& choosedGateway,
-    Message::Ptr const& msg, GatewayNodeInfos const& singleAgencyGatewayInfos) const
+    MessageOptionalHeader::Ptr const& routeInfo,
+    GatewayNodeInfos const& singleAgencyGatewayInfos) const
 {
     // foreach all gateways to find the component
     for (auto const& it : singleAgencyGatewayInfos)
@@ -235,8 +274,7 @@ void PeerRouterTable::selectRouterByComponent(GatewayNodeInfos& choosedGateway,
         auto const& nodeListInfo = it->nodeList();
         for (auto const& nodeInfo : nodeListInfo)
         {
-            if (nodeInfo.second->components().count(
-                    msg->header()->optionalField()->componentType()))
+            if (nodeInfo.second->componentExist(routeInfo->componentType()))
             {
                 choosedGateway.insert(it);
                 break;
@@ -245,7 +283,8 @@ void PeerRouterTable::selectRouterByComponent(GatewayNodeInfos& choosedGateway,
     }
 }
 
-void PeerRouterTable::asyncBroadcastMessage(ppc::protocol::Message::Ptr const& msg) const
+
+void PeerRouterTable::asyncBroadcastMessage(ppc::protocol::P2PMessage::Ptr const& msg) const
 {
     bcos::ReadGuard l(x_mutex);
     for (auto const& it : m_agency2GatewayInfos)
@@ -264,7 +303,7 @@ void PeerRouterTable::asyncBroadcastMessage(ppc::protocol::Message::Ptr const& m
         }
         PEER_ROUTER_LOG(TRACE) << LOG_DESC("asyncBroadcastMessage")
                                << LOG_KV("nodeID", printP2PIDElegantly(selectedNode->p2pNodeID()))
-                               << LOG_KV("msg", printMessage(msg));
+                               << LOG_KV("msg", printP2PMessage(msg));
         m_service->asyncSendMessageByNodeID(selectedNode->p2pNodeID(), msg);
     }
 }

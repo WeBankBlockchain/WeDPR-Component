@@ -41,7 +41,7 @@ inline static PPCMessageFace::Ptr buildMessage(std::string _taskID, uint32_t _se
     auto message = messageFactory->buildPPCMessage();
     message->setVersion(1);
     message->setTaskType(uint8_t(protocol::TaskType::PSI));
-    message->setAlgorithmType(uint8_t(protocol::PSIAlgorithmType::CM_PSI_2PC));
+    message->setAlgorithmType(uint8_t(protocol::TaskAlgorithmType::CM_PSI_2PC));
     message->setMessageType(4);
     message->setSeq(_seq);
     message->setTaskID(_taskID);
@@ -84,7 +84,7 @@ int main(int argc, char* argv[])
     front->start();
 
     std::atomic<int> flag = 0;
-    front->registerMessageHandler(uint8_t(TaskType::PSI), uint8_t(PSIAlgorithmType::CM_PSI_2PC),
+    front->registerMessageHandler(uint8_t(TaskType::PSI), uint8_t(TaskAlgorithmType::CM_PSI_2PC),
         [&flag](const PPCMessageFace::Ptr& _message) {
             std::cout << "message received\n"
                       << "type: " << unsigned(_message->messageType()) << std::endl;

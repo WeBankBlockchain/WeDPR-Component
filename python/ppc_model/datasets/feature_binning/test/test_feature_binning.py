@@ -39,7 +39,7 @@ class TestFeatureBinning(unittest.TestCase):
             }
         }
 
-        task_info = SecureLGBMContext(args, self.components)
+        task_info = SecureLGBMContext(args['task_id'], args, self.components)
         model_data = SecureDataset.simulate_dataset(
             data_size, feature_dim, has_label)
         secure_dataset = SecureDataset(task_info, model_data)
@@ -79,7 +79,7 @@ class TestFeatureBinning(unittest.TestCase):
             }
         }
 
-        task_info = SecureLGBMContext(args, self.components)
+        task_info = SecureLGBMContext(args['task_id'], args, self.components)
         model_data = SecureDataset.simulate_dataset(
             data_size, feature_dim, has_label)
         secure_dataset = SecureDataset(task_info, model_data)

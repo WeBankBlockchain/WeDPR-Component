@@ -32,7 +32,7 @@ IFrontClient::Ptr RemoteFrontBuilder::buildClient(std::string endPoint,
     auto frontClient = std::make_shared<FrontClient>(m_grpcConfig, endPoint);
     if (m_healthChecker)
     {
-        auto healthCheckHandler = std::make_shared<HealthCheckHandler>("front" + endPoint);
+        auto healthCheckHandler = std::make_shared<HealthCheckHandler>("front_" + endPoint);
         healthCheckHandler->checkHealthHandler = [frontClient]() {
             return frontClient->checkHealth();
         };

@@ -21,11 +21,12 @@
 #pragma once
 #include "../Service.h"
 #include "RouterTableInterface.h"
+#include <bcos-utilities/ThreadPool.h>
 #include <bcos-utilities/Timer.h>
 
 namespace ppc::gateway
 {
-class RouterManager
+class RouterManager : public std::enable_shared_from_this<RouterManager>
 {
 public:
     using Ptr = std::shared_ptr<RouterManager>;
@@ -63,6 +64,7 @@ private:
 private:
     // for message forward
     Service::Ptr m_service;
+
     std::shared_ptr<bcos::Timer> m_routerTimer;
 
     // called when the given node unreachable

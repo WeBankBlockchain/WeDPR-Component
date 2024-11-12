@@ -18,8 +18,10 @@
  * @date 2024-09-02
  */
 #pragma once
+#include "ppc-framework/Common.h"
 #include "ppc-framework/protocol/EndPoint.h"
 #include <memory>
+#include <sstream>
 #include <string>
 
 namespace ppc::protocol
@@ -64,9 +66,63 @@ public:
 
     bool enableDnslookup() const { return m_enableDnslookup; }
 
+    uint64_t maxSendMessageSize() const { return m_maxSendMessageSize; }
+    uint64_t maxReceivedMessageSize() const { return m_maxReceivedMessageSize; }
+
+    void setMaxSendMessageSize(uint64_t maxSendMessageSize)
+    {
+        m_maxSendMessageSize = maxSendMessageSize;
+    }
+    void setMaxReceivedMessageSize(uint64_t maxReceivedMessageSize)
+    {
+        m_maxReceivedMessageSize = maxReceivedMessageSize;
+    }
+
+    /*
+    typedef enum {
+    GRPC_COMPRESS_NONE = 0,
+    GRPC_COMPRESS_DEFLATE,
+    GRPC_COMPRESS_GZIP,
+    GRPC_COMPRESS_ALGORITHMS_COUNT
+    } grpc_compression_algorithm;
+    */
+    int compressAlgorithm() const { return m_compressAlgorithm; }
+
+    void setCompressAlgorithm(int compressAlgorithm)
+    {
+        if (compressAlgorithm < 0 || compressAlgorithm > 2)
+        {
+            BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
+                                      "Invalid compress algorithm, must between 0-3"));
+        }
+        m_compressAlgorithm = compressAlgorithm;
+    }
+
 protected:
     bool m_enableHealthCheck = true;
     std::string m_loadBalancePolicy = "round_robin";
     bool m_enableDnslookup = false;
+
+    // the max send message size in bytes
+    uint64_t m_maxSendMessageSize = 1024 * 1024 * 1024;
+    // the max received message size in bytes
+    uint64_t m_maxReceivedMessageSize = 1024 * 1024 * 1024;
+    int m_compressAlgorithm = 0;
 };
+
+inline std::string printGrpcConfig(ppc::protocol::GrpcConfig::Ptr const& grpcConfig)
+{
+    if (!grpcConfig)
+    {
+        return "nullptr";
+    }
+    std::ostringstream stringstream;
+    stringstream << LOG_KV("loadBalancePolicy", grpcConfig->loadBalancePolicy())
+                 << LOG_KV("enableHealthCheck", grpcConfig->enableHealthCheck())
+                 << LOG_KV("enableDnslookup", grpcConfig->enableDnslookup())
+                 << LOG_KV("maxSendMessageSize", grpcConfig->maxSendMessageSize())
+                 << LOG_KV("maxReceivedMessageSize", grpcConfig->maxReceivedMessageSize())
+                 << LOG_KV("compressAlgorithm", grpcConfig->compressAlgorithm());
+    return stringstream.str();
+}
 }  // namespace ppc::protocol

@@ -19,7 +19,7 @@
  */
 #pragma once
 #include "GatewayNodeInfo.h"
-#include "ppc-framework/protocol/Message.h"
+#include "ppc-framework/protocol/P2PMessage.h"
 #include "ppc-framework/protocol/RouteType.h"
 #include "ppc-gateway/p2p/Service.h"
 #include <bcos-utilities/Common.h>
@@ -38,10 +38,13 @@ public:
 
     virtual void updateGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo);
     virtual void removeP2PID(std::string const& p2pNode);
-    virtual GatewayNodeInfos selectRouter(
-        ppc::protocol::RouteType const& routeType, ppc::protocol::Message::Ptr const& msg) const;
+    virtual GatewayNodeInfos selectRouter(ppc::protocol::RouteType const& routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) const;
 
-    virtual void asyncBroadcastMessage(ppc::protocol::Message::Ptr const& msg) const;
+    virtual std::vector<std::string> selectTargetNodes(ppc::protocol::RouteType const& routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) const;
+
+    virtual void asyncBroadcastMessage(ppc::protocol::P2PMessage::Ptr const& msg) const;
 
     std::set<std::string> agencies(std::vector<std::string> const& components) const;
 
@@ -51,13 +54,17 @@ public:
         return m_agency2GatewayInfos;
     }
 
+
 private:
-    virtual GatewayNodeInfos selectRouterByNodeID(ppc::protocol::Message::Ptr const& msg) const;
-    virtual GatewayNodeInfos selectRouterByComponent(ppc::protocol::Message::Ptr const& msg) const;
+    virtual GatewayNodeInfos selectRouterByNodeID(
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) const;
+    virtual GatewayNodeInfos selectRouterByComponent(
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) const;
     void selectRouterByComponent(GatewayNodeInfos& choosedGateway,
-        ppc::protocol::Message::Ptr const& msg,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo,
         GatewayNodeInfos const& singleAgencyGatewayInfos) const;
-    virtual GatewayNodeInfos selectRouterByAgency(ppc::protocol::Message::Ptr const& msg) const;
+    virtual GatewayNodeInfos selectRouterByAgency(
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) const;
     void removeP2PNodeIDFromNodeIDInfos(GatewayNodeInfo::Ptr const& gatewayInfo);
     void insertGatewayInfo(GatewayNodeInfo::Ptr const& gatewayInfo);
     void removeP2PNodeIDFromAgencyInfos(std::string const& p2pNode);

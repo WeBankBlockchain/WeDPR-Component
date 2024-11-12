@@ -41,9 +41,10 @@ class VerticalLRActiveParty(VerticalBooster):
         self.log.info(
             f'task {self.ctx.task_id}: Starting the lr on the active party.')
         self._init_active_data()
-        
-        max_iter = self._init_iter(self.dataset.train_X.shape[0], 
+
+        max_iter = self._init_iter(self.dataset.train_X.shape[0],
                                    self.params.epochs, self.params.batch_size)
+        self.log.info(f"task: {self.ctx.task_id}, max_iter: {max_iter}")
         for _ in range(max_iter):
             self._iter_id += 1
             start_time = time.time()
@@ -59,7 +60,8 @@ class VerticalLRActiveParty(VerticalBooster):
             self._build_iter(feature_select, idx)
 
         # 预测
-        self._train_praba = self._predict_tree(self.dataset.train_X, LRMessage.PREDICT_LEAF_MASK.value)
+        self._train_praba = self._predict_tree(
+            self.dataset.train_X, LRMessage.PREDICT_LEAF_MASK.value)
         # print('train_praba', set(self._train_praba))
 
         # 评估
@@ -69,10 +71,11 @@ class VerticalLRActiveParty(VerticalBooster):
             self.log.info(
                 f'task {self.ctx.task_id}: iter-{self._iter_id}, auc: {auc}.')
         self.log.info(f'task {self.ctx.task_id}: Ending iter-{self._iter_id}, '
-                        f'time_costs: {time.time() - start_time}s.')
+                      f'time_costs: {time.time() - start_time}s.')
 
         # 预测验证集
-        self._test_praba = self._predict_tree(self.dataset.test_X, LRMessage.TEST_LEAF_MASK.value)
+        self._test_praba = self._predict_tree(
+            self.dataset.test_X, LRMessage.TEST_LEAF_MASK.value)
         if not self.params.silent and self.dataset.test_y is not None:
             auc = Evaluation.fevaluation(
                 self.dataset.test_y, self._test_praba)['auc']
@@ -89,7 +92,8 @@ class VerticalLRActiveParty(VerticalBooster):
         if dataset is None:
             dataset = self.dataset
 
-        test_praba = self._predict_tree(dataset.test_X, LRMessage.VALID_LEAF_MASK.value)
+        test_praba = self._predict_tree(
+            dataset.test_X, LRMessage.VALID_LEAF_MASK.value)
         self._test_praba = test_praba
 
         if dataset.test_y is not None:
@@ -139,8 +143,10 @@ class VerticalLRActiveParty(VerticalBooster):
         public_key_list, d_other_list, partner_index_list = self._receive_d_instance_list()
         deriv = self._calculate_deriv(x_, d, partner_index_list, d_other_list)
 
-        self._train_weights -= self.params.learning_rate * deriv.astype('float')
-        self._train_weights[~np.isin(np.arange(len(self._train_weights)), feature_select)] = 0
+        self._train_weights -= self.params.learning_rate * \
+            deriv.astype('float')
+        self._train_weights[~np.isin(
+            np.arange(len(self._train_weights)), feature_select)] = 0
 
     def _predict_tree(self, X, key_type):
         train_g = self._loss_func.dot_product(X, self._train_weights)

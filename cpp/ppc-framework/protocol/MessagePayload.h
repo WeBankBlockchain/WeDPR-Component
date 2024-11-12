@@ -46,10 +46,20 @@ public:
     // for swig wrapper here
     virtual OutputBuffer dataBuffer() const
     {
-        return OutputBuffer{(unsigned char*)m_data.data(), m_data.size()};
+        return OutputBuffer{(unsigned char*)m_dataPtr.data(), m_dataPtr.size()};
     }
-    virtual void setData(bcos::bytes&& data) { m_data = std::move(data); }
-    virtual void setData(bcos::bytes const& data) { m_data = data; }
+    virtual void setData(bcos::bytes&& data)
+    {
+        m_data = std::move(data);
+        m_dataPtr = bcos::bytesConstRef((bcos::byte*)m_data.data(), m_data.size());
+    }
+    virtual void setData(bcos::bytes const& data)
+    {
+        m_data = data;
+        m_dataPtr = bcos::bytesConstRef((bcos::byte*)m_data.data(), m_data.size());
+    }
+    virtual void setDataPtr(bcos::bytesConstRef dataPtr) { m_dataPtr = dataPtr; }
+    virtual bcos::bytesConstRef const& dataPtr() const { return m_dataPtr; }
     // the seq
     virtual uint16_t seq() const { return m_seq; }
     virtual void setSeq(uint16_t seq) { m_seq = seq; }
@@ -76,6 +86,8 @@ protected:
     // the traceID
     std::string m_traceID;
     bcos::bytes m_data;
+    // used to decrease the copy-overhead
+    bcos::bytesConstRef m_dataPtr;
     uint16_t m_ext = 0;
     int64_t mutable m_length;
 };

@@ -4,11 +4,7 @@ set(PROTO_INPUT_PATH ${CMAKE_SOURCE_DIR}/wedpr-protocol/proto/pb)
 file(GLOB_RECURSE MESSAGES_PROTOS "${PROTO_INPUT_PATH}/Service*.proto")
 
 # create PROTO_OUTPUT_PATH
-file(MAKE_DIRECTORY ${PROTO_OUTPUT_PATH})
-
-find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin REQUIRED)
-find_program(PROTOC_BINARY protoc REQUIRED)
-
+include(grpc)
 foreach(proto_file ${MESSAGES_PROTOS})
     get_filename_component(basename ${proto_file} NAME_WE)
     set(generated_file ${PROTO_OUTPUT_PATH}/${basename}.grpc.pb.cc)

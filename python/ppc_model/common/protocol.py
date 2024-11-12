@@ -20,9 +20,12 @@ class ModelTask(Enum):
 
 
 class TaskStatus(Enum):
+    NotFound = "NotFound"
+    PENDING = "PENDING"
     RUNNING = "RUNNING"
-    COMPLETED = "COMPLETED"
-    FAILED = "FAILED"
+    FAILURE = "FAILURE"
+    KILLED = "KILLED"
+    SUCCESS = "SUCCESS"
 
 
 class RpcType(Enum):

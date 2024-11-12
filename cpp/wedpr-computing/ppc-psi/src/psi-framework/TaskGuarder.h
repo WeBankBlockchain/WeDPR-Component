@@ -35,7 +35,7 @@ public:
     using Ptr = std::shared_ptr<TaskGuarder>;
     explicit TaskGuarder(PSIConfig::Ptr _config) : m_config(std::move(_config)) {}
     TaskGuarder(
-        PSIConfig::Ptr _config, protocol::PSIAlgorithmType _type, const std::string& _timerName)
+        PSIConfig::Ptr _config, protocol::TaskAlgorithmType _type, const std::string& _timerName)
       : m_config(std::move(_config)),
         m_type(_type),
         m_taskStateFactory(std::make_shared<TaskStateFactory>())
@@ -322,7 +322,7 @@ public:
 
 protected:
     PSIConfig::Ptr m_config;
-    protocol::PSIAlgorithmType m_type;
+    protocol::TaskAlgorithmType m_type;
     TaskStateFactory::Ptr m_taskStateFactory;
     // the timer used to check the activity of peer node
     std::shared_ptr<bcos::Timer> m_pingTimer;

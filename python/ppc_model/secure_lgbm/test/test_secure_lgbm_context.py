@@ -25,7 +25,7 @@ class TestSecureLGBMContext(unittest.TestCase):
             'model_dict': {}
         }
 
-        task_info = SecureLGBMContext(args, self.components)
+        task_info = SecureLGBMContext(args['task_id'], args, self.components)
         model_params = task_info.get_model_params()
         # 打印LGBMModel默认参数
         print(model_params._get_params())
@@ -54,7 +54,7 @@ class TestSecureLGBMContext(unittest.TestCase):
             }
         }
 
-        task_info = SecureLGBMContext(args, self.components)
+        task_info = SecureLGBMContext(args['task_id'], args, self.components)
         model_params = task_info.get_model_params()
         # 打印SecureLGBMParams自定义参数
         print(model_params.get_params())

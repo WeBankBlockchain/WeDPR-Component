@@ -41,8 +41,8 @@ public:
         ppc::crypto::CryptoBox::Ptr _cryptoBox, bcos::ThreadPool::Ptr _threadPool,
         ppc::io::DataResourceLoader::Ptr _dataResourceLoader, int _holdingMessageMinutes,
         front::PPCMessageFactory::Ptr _msgFactory = std::make_shared<front::PPCMessageFactory>())
-      : PSIConfig(ppc::protocol::PSIAlgorithmType::LABELED_PSI_2PC, _selfPartyID, std::move(_front),
-            _msgFactory, _dataResourceLoader, _holdingMessageMinutes),
+      : PSIConfig(ppc::protocol::TaskAlgorithmType::LABELED_PSI_2PC, _selfPartyID,
+            std::move(_front), _msgFactory, _dataResourceLoader, _holdingMessageMinutes),
         m_cryptoBox(std::move(_cryptoBox)),
         m_threadPool(std::move(_threadPool)),
         m_messageFactory(_msgFactory)

@@ -47,7 +47,7 @@ public:
     const std::vector<std::vector<std::string>>& getOutputs() { return m_outputs; }
 
     // serialize the taskResult to json
-    Json::Value serializeToJson() const override
+    Json::Value serializeToJson() override
     {
         Json::Value response;
         response["taskID"] = taskID();

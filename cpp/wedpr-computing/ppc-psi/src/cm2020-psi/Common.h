@@ -72,8 +72,14 @@ inline uint32_t dedupDataBatch(ppc::io::DataBatch::Ptr dataBatch)
         return 0;
     }
     auto& data = dataBatch->mutableData();
-    tbb::parallel_sort(data->begin(), data->end());
-    auto unique_end = std::unique(data->begin(), data->end());
+    // Note: the header field should not been sorted
+    auto it = data->begin() + 1;
+    if (it >= data->end())
+    {
+        return data->size();
+    }
+    tbb::parallel_sort(it, data->end());
+    auto unique_end = std::unique(it, data->end());
     data->erase(unique_end, data->end());
     return data->size();
 }

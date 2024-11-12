@@ -1,4 +1,3 @@
-project(ppc-psi VERSION ${VERSION})
 add_subdirectory(src/psi-framework)
 add_subdirectory(src/labeled-psi)
 add_subdirectory(src/ra2018-psi)

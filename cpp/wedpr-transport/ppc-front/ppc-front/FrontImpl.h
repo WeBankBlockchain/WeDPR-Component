@@ -21,6 +21,7 @@
 #include "CallbackManager.h"
 #include "Common.h"
 #include "ppc-framework/front/IFront.h"
+#include "ppc-framework/front/INodeDiscovery.h"
 #include "ppc-framework/gateway/IGateway.h"
 #include <bcos-utilities/Common.h>
 #include <bcos-utilities/ThreadPool.h>
@@ -53,8 +54,8 @@ public:
     void stop() override;
 
     bcos::Error::Ptr push(uint16_t routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
-        long timeout) override;
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytesConstRef payload,
+        int seq, long timeout) override;
     /**
      * @brief async send message
      *
@@ -71,8 +72,8 @@ public:
      * @param callback callback
      */
     void asyncSendMessage(uint16_t routeType,
-        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytes&& payload, int seq,
-        long timeout, ppc::protocol::ReceiveMsgFunc errorCallback,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo, bcos::bytesConstRef payload,
+        int seq, long timeout, ppc::protocol::ReceiveMsgFunc errorCallback,
         ppc::protocol::MessageCallback callback) override;
 
     /**
@@ -169,13 +170,23 @@ public:
         return m_messageFactory;
     }
 
-    void asyncSendResponse(bcos::bytes const& dstNode, std::string const& traceID,
-        bcos::bytes&& payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback) override;
+    void asyncSendResponse(bcos::bytesConstRef dstNode, std::string const& traceID,
+        bcos::bytesConstRef payload, int seq, ppc::protocol::ReceiveMsgFunc errorCallback) override;
 
     ppc::protocol::INodeInfo::Ptr const& nodeInfo() override { return m_nodeInfo; }
 
     void registerComponent(std::string const& component) override;
     void unRegisterComponent(std::string const& component) override;
+
+    std::vector<std::string> selectNodesByRoutePolicy(
+        int16_t routeType, ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) override
+    {
+        return m_gatewayClient->selectNodesByRoutePolicy(
+            (ppc::protocol::RouteType)routeType, routeInfo);
+    }
+
+    INodeDiscovery::Ptr const getNodeDiscovery() override { return m_nodeDiscovery; }
+    void updateMetaInfo(std::string const& meta) override;
 
 private:
     void asyncSendMessageToGateway(bool responsePacket,
@@ -190,6 +201,7 @@ private:
     bcos::bytes m_nodeID;
     std::shared_ptr<bcos::ThreadPool> m_threadPool;
     ppc::protocol::INodeInfo::Ptr m_nodeInfo;
+    INodeDiscovery::Ptr m_nodeDiscovery;
     ppc::protocol::MessagePayloadBuilder::Ptr m_messageFactory;
     ppc::protocol::MessageOptionalHeaderBuilder::Ptr m_routerInfoBuilder;
 

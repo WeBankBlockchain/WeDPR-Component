@@ -45,7 +45,6 @@ public class KeyConfig {
 
     public KeyConfig(ConfigProperty configProperty) throws ConfigException {
         Map<String, Object> keyConfig = configProperty.getKeys();
-        // TODO: use dpm key files
         /// load the aes private key
         aesPrivateKey = ConfigProperty.getValue(keyConfig, AES_PRIVATE_KEY_PROPERTY, null);
         if (aesPrivateKey == null) {

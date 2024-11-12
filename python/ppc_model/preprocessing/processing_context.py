@@ -8,10 +8,11 @@ from ppc_model.common.model_setting import ModelSetting
 
 class ProcessingContext(Context):
     def __init__(self,
+                 task_id,
                  args,
                  components: Initializer):
         super().__init__(args['job_id'],
-                         args['task_id'],
+                         task_id,
                          components,
                          role=None)
         self.dataset_path = args['dataset_path']

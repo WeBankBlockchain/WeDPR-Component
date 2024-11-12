@@ -33,7 +33,8 @@ class GatewayImpl : public IGateway, public std::enable_shared_from_this<Gateway
 public:
     using Ptr = std::shared_ptr<GatewayImpl>;
     GatewayImpl(Service::Ptr const& service, ppc::front::IFrontBuilder::Ptr const& frontBuilder,
-        std::shared_ptr<boost::asio::io_service> ioService, std::string const& agency);
+        std::shared_ptr<boost::asio::io_service> ioService, std::string const& agency,
+        uint16_t seqSyncPeriod = 5000);
     ~GatewayImpl() override = default;
 
     void start() override;
@@ -71,6 +72,23 @@ public:
     void asyncGetAgencies(std::vector<std::string> const& components,
         std::function<void(bcos::Error::Ptr, std::set<std::string>)> callback) override;
 
+    std::vector<std::string> selectNodesByRoutePolicy(ppc::protocol::RouteType routeType,
+        ppc::protocol::MessageOptionalHeader::Ptr const& routeInfo) override
+    {
+        return m_peerRouter->selectTargetNodes(routeType, routeInfo);
+    }
+
+    std::vector<ppc::protocol::INodeInfo::Ptr> getAliveNodeList() const override
+    {
+        auto aliveNodeList = m_localRouter->routerInfo()->nodeList();
+        std::vector<ppc::protocol::INodeInfo::Ptr> result;
+        for (auto const& it : aliveNodeList)
+        {
+            result.emplace_back(it.second);
+        }
+        return result;
+    }
+
 protected:
     virtual void onReceiveP2PMessage(
         bcos::boostssl::MessageFace::Ptr msg, bcos::boostssl::ws::WsSession::Ptr session);
@@ -80,7 +98,7 @@ protected:
 private:
     bool m_running = false;
     Service::Ptr m_service;
-    ppc::protocol::MessageBuilder::Ptr m_msgBuilder;
+    ppc::protocol::P2PMessageBuilder::Ptr m_msgBuilder;
 
     ppc::front::IFrontBuilder::Ptr m_frontBuilder;
     std::string m_agency;

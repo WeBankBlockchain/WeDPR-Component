@@ -139,7 +139,7 @@ set(WEDPR_TRANSPORT_SDK_TARGET wedpr-transport-sdk)
 # ==== the swig wrapper ===== 
 set(WEDPR_PYTHON_TRANSPORT "wedpr_python_transport")
 set(WEDPR_PYTHON_TRANSPORT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/python/generated/${WEDPR_PYTHON_TRANSPORT})
-set(WEDPR_PYTHON_TRANSPORT_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/wedpr-transport/sdk-wrapper/python/bindings/libs)
+set(WEDPR_PYTHON_TRANSPORT_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/wedpr-transport/sdk-wrapper/python/bindings/wedpr_python_gateway_sdk/libs)
 
 set(WEDPR_JAVA_TRANSPORT "wedpr_java_transport_jni")
 set(WEDPR_JAVA_TRANSPORT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/java/generated/${WEDPR_JAVA_TRANSPORT})

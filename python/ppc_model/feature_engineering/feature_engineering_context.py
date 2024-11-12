@@ -19,6 +19,7 @@ class FeMessage(Enum):
 class FeatureEngineeringContext(Context):
 
     def __init__(self,
+                 task_id,
                  args,
                  components: Initializer,
                  role: TaskRole,
@@ -26,7 +27,7 @@ class FeatureEngineeringContext(Context):
                  feature_name_list: list,
                  label: np.ndarray = None):
         super().__init__(args['job_id'],
-                         args['task_id'],
+                         task_id,
                          components,
                          role)
         self.feature_name_list = feature_name_list

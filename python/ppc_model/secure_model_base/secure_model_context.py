@@ -9,6 +9,7 @@ from ppc_model.common.protocol import TaskRole
 from ppc_common.ppc_utils import common_func
 from ppc_common.ppc_utils.utils import AlgorithmType
 from ppc_model.common.model_setting import ModelSetting
+from ppc_model.common.base_context import BaseContext
 
 from sklearn.base import BaseEstimator
 
@@ -98,6 +99,7 @@ class SecureModel(BaseEstimator):
 
 class SecureModelContext(Context):
     def __init__(self,
+                 task_id,
                  args,
                  components: Initializer):
 
@@ -107,7 +109,7 @@ class SecureModelContext(Context):
             role = TaskRole.PASSIVE_PARTY
 
         super().__init__(args['job_id'],
-                         args['task_id'],
+                         task_id,
                          components,
                          role)
         self.is_label_holder = args['is_label_holder']
@@ -132,8 +134,28 @@ class SecureModelContext(Context):
                 self.workspace, args['dataset_id'])
         else:
             self.dataset_file_path = None
+        # the remote dataset_file_path
+        if 'dataset_path' in args:
+            self.remote_dataset_path = args['dataset_path']
+        if self.remote_dataset_path is None:
+            raise f"Must define the dataset_path!"
+        # the remote psi_path
+        if 'psi_result_path' in args:
+            self.remote_psi_path = args['psi_result_path']
+        if self.remote_psi_path is None:
+            raise f"Must define the psi_result_path"
         self.model_params = self.create_model_param()
         self.reset_model_params(ModelSetting(args['model_dict']))
+        # prepare the dataset and psi file
+        BaseContext.load_file(storage_client=self.components.storage_client,
+                              remote_path=self.remote_dataset_path,
+                              local_path=self.dataset_file_path,
+                              logger=self.components.logger())
+        if self.model_params.use_psi:
+            BaseContext.load_file(storage_client=self.components.storage_client,
+                                  remote_path=self.remote_psi_path,
+                                  local_path=self.psi_result_path,
+                                  logger=self.components.logger())
         self.sync_file_list = {}
         if self.algorithm_type == AlgorithmType.Train.name:
             self.set_sync_file()

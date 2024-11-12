@@ -50,9 +50,9 @@ void EcdhConnPSIServer::onHandShakeRequestHandler(const bcos::bytes& _msg)
     auto clientCurves = handRequestVo->GetCurve();
     auto clientHashList = handRequestVo->GetHash();
     auto supportedCurves = g_PPCConfig.supportedCurves(
-        (uint8_t)TaskType::PSI, (uint8_t)PSIAlgorithmType::ECDH_PSI_2PC);
+        (uint8_t)TaskType::PSI, (uint8_t)TaskAlgorithmType::ECDH_PSI_2PC);
     auto supportedHashList = g_PPCConfig.supportedHashList(
-        (uint8_t)TaskType::PSI, (uint8_t)PSIAlgorithmType::ECDH_PSI_2PC);
+        (uint8_t)TaskType::PSI, (uint8_t)TaskAlgorithmType::ECDH_PSI_2PC);
     std::set<int> localCurves(supportedCurves.begin(), supportedCurves.end());
     std::set<int> localHashTypes(supportedHashList.begin(), supportedHashList.end());
     bool curveSelected = false;

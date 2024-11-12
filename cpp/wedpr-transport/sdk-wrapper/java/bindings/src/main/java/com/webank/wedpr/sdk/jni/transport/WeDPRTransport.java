@@ -20,6 +20,9 @@ import com.webank.wedpr.sdk.jni.transport.handlers.GetPeersCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageDispatcherCallback;
 import com.webank.wedpr.sdk.jni.transport.handlers.MessageErrorCallback;
+import com.webank.wedpr.sdk.jni.transport.impl.RouteType;
+import com.webank.wedpr.sdk.jni.transport.model.ServiceMeta;
+import java.util.List;
 
 public interface WeDPRTransport {
     // start the transport
@@ -182,4 +185,13 @@ public interface WeDPRTransport {
     IMessage pop(String topic, int timeout) throws WeDPRSDKException;
 
     IMessage peek(String topic);
+
+    List<String> selectNodeListByPolicy(
+            RouteType routeType, String dstInst, String dstComponent, String dstNode);
+
+    List<ServiceMeta.EntryPointMeta> getAliveEntryPoints(String serviceName);
+
+    void registerService(String serviceName, String entryPoint) throws Exception;
+
+    public TransportConfig getTransportConfig();
 }

@@ -21,6 +21,7 @@
 #include "Transport.h"
 #include "ppc-framework/front/FrontConfig.h"
 #include "ppc-framework/gateway/IGateway.h"
+#include <bcos-utilities/BoostLogInitializer.h>
 #include <memory>
 namespace ppc::sdk
 {
@@ -49,7 +50,31 @@ public:
 
     ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder() { return m_frontConfigBuilder; }
 
+
+    static void initLog(const std::string& configPath)
+    {
+        std::call_once(g_flag, [configPath]() {
+            // init the log
+            boost::property_tree::ptree pt;
+            try
+            {
+                boost::property_tree::read_ini(configPath, pt);
+            }
+            catch (std::exception const& e)
+            {
+                // disable the log when the configPath not exists
+                pt.put("log.enable", false);
+            }
+
+            g_logInitializer = std::make_shared<bcos::BoostLogInitializer>();
+            g_logInitializer->initLog(pt, bcos::FileLogger, "gateway_sdk_log");
+        });
+    }
+
 private:
     ppc::front::FrontConfigBuilder::Ptr m_frontConfigBuilder;
+
+    static std::once_flag g_flag;
+    static bcos::BoostLogInitializer::Ptr g_logInitializer;
 };
 }  // namespace ppc::sdk

@@ -135,8 +135,9 @@ void Front::asyncSendMessage(const std::string& _agencyID, front::PPCMessageFace
         };
     }
     // ROUTE_THROUGH_TOPIC will hold the topic
-    m_front->asyncSendMessage((uint16_t)RouteType::ROUTE_THROUGH_TOPIC, routeInfo, std::move(data),
-        _message->seq(), _timeout, _callback, msgCallback);
+    m_front->asyncSendMessage((uint16_t)RouteType::ROUTE_THROUGH_TOPIC, routeInfo,
+        bcos::bytesConstRef((bcos::byte*)data.data(), data.size()), _message->seq(), _timeout,
+        _callback, msgCallback);
 }
 
 // send response when receiving message from given agencyID
@@ -145,7 +146,8 @@ void Front::asyncSendResponse(bcos::bytes const& dstNode, std::string const& tra
 {
     bcos::bytes data;
     message->encode(data);
-    m_front->asyncSendResponse(dstNode, traceID, std::move(data), 0, _callback);
+    m_front->asyncSendResponse(bcos::bytesConstRef((bcos::byte*)dstNode.data(), dstNode.size()),
+        traceID, bcos::bytesConstRef((bcos::byte*)data.data(), data.size()), 0, _callback);
 }
 
 /**

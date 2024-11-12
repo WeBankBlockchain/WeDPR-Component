@@ -92,10 +92,10 @@ void CallbackManager::onMessageTimeout(
             [callback, error]() { callback->msgCallback(error, nullptr, nullptr); });
         FRONT_LOG(WARNING) << LOG_BADGE("onMessageTimeout") << LOG_KV("traceID", traceID);
     }
-    catch (std::exception& e)
+    catch (std::exception const& e)
     {
-        FRONT_LOG(ERROR) << "onMessageTimeout" << LOG_KV("traceID", traceID)
-                         << LOG_KV("error", boost::diagnostic_information(e));
+        FRONT_LOG(WARNING) << LOG_BADGE("onMessageTimeout") << LOG_KV("traceID", traceID)
+                           << LOG_KV("error", boost::diagnostic_information(e));
     }
 }
 
@@ -176,6 +176,10 @@ void CallbackManager::onReceiveMessage(std::string const& topic, Message::Ptr ms
     }
     if (!callback)
     {
+        if (topic.empty())
+        {
+            return;
+        }
         FRONT_LOG(TRACE) << LOG_DESC("onReceiveMessage: not find the handler, put into the buffer")
                          << LOG_KV("topic", topic);
         addMsgCache(topic, msg);

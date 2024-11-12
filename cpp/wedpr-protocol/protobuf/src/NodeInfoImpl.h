@@ -39,7 +39,8 @@ public:
 
     NodeInfoImpl(bcos::bytesConstRef const& nodeID, std::string const& endPoint) : NodeInfoImpl()
     {
-        m_rawNodeInfo->set_nodeid(nodeID.data(), nodeID.size());
+        *(m_rawNodeInfo->mutable_nodeid()) =
+            std::string_view((const char*)nodeID.data(), nodeID.size());
         m_rawNodeInfo->set_endpoint(endPoint);
     }
 
@@ -47,7 +48,8 @@ public:
 
     void setNodeID(bcos::bytesConstRef nodeID) override
     {
-        m_rawNodeInfo->set_nodeid(nodeID.data(), nodeID.size());
+        *(m_rawNodeInfo->mutable_nodeid()) =
+            std::string_view((const char*)nodeID.data(), nodeID.size());
     }
     void setEndPoint(std::string const& endPoint) override
     {
@@ -64,6 +66,11 @@ public:
     {
         bcos::ReadGuard l(x_components);
         return m_components;
+    }
+    bool componentExist(std::string const& component) const override
+    {
+        bcos::ReadGuard l(x_components);
+        return m_components.count(component);
     }
 
     std::vector<std::string> copiedComponents() const override
@@ -116,6 +123,18 @@ public:
 
     void toJson(Json::Value& jsonObject) const override;
 
+    std::string meta() const override
+    {
+        bcos::ReadGuard l(x_rawNodeInfo);
+        return m_rawNodeInfo->meta();
+    }
+    // the node meta information
+    void setMeta(std::string const& meta) override
+    {
+        bcos::WriteGuard l(x_rawNodeInfo);
+        m_rawNodeInfo->set_meta(meta);
+    }
+
     virtual void encodeFields() const;
 
 protected:
@@ -125,7 +144,9 @@ private:
     std::shared_ptr<ppc::front::IFrontClient> m_front;
     std::set<std::string> m_components;
     mutable bcos::SharedMutex x_components;
+
     std::shared_ptr<ppc::proto::NodeInfo> m_rawNodeInfo;
+    mutable bcos::SharedMutex x_rawNodeInfo;
 };
 
 class NodeInfoFactory : public INodeInfoFactory

@@ -241,13 +241,21 @@ public:
     // for ut
     void setAgencyID(std::string const& agencyID) { m_agencyID = agencyID; }
 
-private:
-    virtual void loadEndpointConfig(ppc::protocol::EndPoint& endPoint, bool requireHostIp,
-        std::string const& sectionName, boost::property_tree::ptree const& pt);
+    uint16_t seqSyncPeriod() const { return m_seqSyncPeriod; }
+
+    std::string accessEntrypoint() const
+    {
+        return m_frontConfig->selfEndPoint().host() + ":" + std::to_string(m_rpcConfig.listenPort);
+    }
+
     // load the front config
     virtual void loadFrontConfig(bool requireTransport,
         ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
         boost::property_tree::ptree const& pt);
+
+private:
+    virtual void loadEndpointConfig(ppc::protocol::EndPoint& endPoint, bool requireHostIp,
+        std::string const& sectionName, boost::property_tree::ptree const& pt);
     // load the grpc config
     ppc::protocol::GrpcConfig::Ptr loadGrpcConfig(
         std::string const& sectionName, boost::property_tree::ptree const& pt);
@@ -295,6 +303,8 @@ private:
     GatewayConfig m_gatewayConfig;
     // the gateway holding message time, in minutes, default 30min
     int m_holdingMessageMinutes = 30;
+
+    uint16_t m_seqSyncPeriod = 5000;
 
     // the front config
     // TODO: parse the frontConfig

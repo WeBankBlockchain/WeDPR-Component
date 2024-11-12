@@ -45,7 +45,6 @@ void MessageOptionalHeaderImpl::encode(bcos::bytes& buffer) const
     uint16_t dstNodeLen = boost::asio::detail::socket_ops::host_to_network_short(m_dstNode.size());
     buffer.insert(buffer.end(), (byte*)&dstNodeLen, (byte*)&dstNodeLen + 2);
     buffer.insert(buffer.end(), m_dstNode.begin(), m_dstNode.end());
-    bcos::bytes m_dstNode;
     // the target agency that need receive the message
     uint16_t dstInstLen = boost::asio::detail::socket_ops::host_to_network_short(m_dstInst.size());
     buffer.insert(buffer.end(), (byte*)&dstInstLen, (byte*)&dstInstLen + 2);

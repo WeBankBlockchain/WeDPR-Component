@@ -40,7 +40,7 @@ class TestEncMatmul(unittest.TestCase):
         active_components = Initializer(log_config_path='', config_path='')
         active_components.config_data = {
             'JOB_TEMP_DIR': '/tmp/active', 'AGENCY_ID': ACTIVE_PARTY}
-        task_info = SecureLRContext(args, active_components)
+        task_info = SecureLRContext(args['task_id'], args, active_components)
         
         # 15个特征，batch_size: 8
         arr = np.array([2, 4, -5, 0, 9, -7, 12, 3])

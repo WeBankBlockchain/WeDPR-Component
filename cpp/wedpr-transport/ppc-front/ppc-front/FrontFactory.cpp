@@ -31,8 +31,16 @@ IFront::Ptr FrontFactory::build(INodeInfoFactory::Ptr nodeInfoFactory,
     auto nodeInfo = nodeInfoFactory->build(
         bcos::bytesConstRef((bcos::byte*)config->nodeID().data(), config->nodeID().size()),
         config->selfEndPoint().entryPoint());
+    // set the component information
+    auto configuredComponents = config->getComponents();
+    nodeInfo->setComponents(
+        std::set<std::string>(configuredComponents.begin(), configuredComponents.end()));
+    // set the meta
+    nodeInfo->setMeta(config->meta());
+
     FRONT_LOG(INFO) << LOG_DESC("build front") << LOG_KV("nodeID", config->nodeID())
-                    << LOG_KV("endPoint", config->selfEndPoint().entryPoint());
+                    << LOG_KV("endPoint", config->selfEndPoint().entryPoint())
+                    << LOG_KV("meta", config->meta());
     return std::make_shared<FrontImpl>(threadPool, nodeInfo, messageFactory, routerInfoBuilder,
         gateway, std::make_shared<boost::asio::io_service>());
 }

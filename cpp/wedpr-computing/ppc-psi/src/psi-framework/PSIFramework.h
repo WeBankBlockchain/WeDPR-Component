@@ -32,7 +32,7 @@
 
 #define PSI_FRAMEWORK_LOG(LEVEL)        \
     BCOS_LOG(LEVEL) << LOG_BADGE("PSI") \
-                    << LOG_BADGE((ppc::protocol::PSIAlgorithmType)m_psiConfig->algorithmType())
+                    << LOG_BADGE((ppc::protocol::TaskAlgorithmType)m_psiConfig->algorithmType())
 namespace ppc::psi
 {
 using PSIMsgQueue = bcos::ConcurrentQueue<PSIMessageInterface::Ptr>;

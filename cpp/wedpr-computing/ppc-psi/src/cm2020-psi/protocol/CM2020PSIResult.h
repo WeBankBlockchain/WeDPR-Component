@@ -44,7 +44,7 @@ public:
     }
 
     // serialize the taskResult to json
-    [[nodiscard]] Json::Value serializeToJson() const override
+    [[nodiscard]] Json::Value serializeToJson() override
     {
         Json::Value response;
         response["taskID"] = taskID();
@@ -76,8 +76,8 @@ public:
             jsonData["communication"] = m_communication;
             jsonData["syncResult"] = m_enableSyncResults;
             jsonData["intersections"] = m_intersections;
-//            jsonData["party0Size"] = m_party0Size;
-//            jsonData["party1Size"] = m_party1Size;
+            //            jsonData["party0Size"] = m_party0Size;
+            //            jsonData["party1Size"] = m_party1Size;
 
             if (!m_outputs.empty())
             {

@@ -211,7 +211,7 @@ void JsonTaskImpl::decodeDataResourceDesc(DataResourceDesc::Ptr _desc, Json::Val
                 BOOST_THROW_EXCEPTION(
                     InvalidParameter() << errinfo_comment("The \"..\" cannot be in the path"));
             }
-            if (path.starts_with("/"))
+            if (path.rfind("/", 0) == 0)
             {
                 _desc->setPath(path);
             }

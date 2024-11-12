@@ -33,4 +33,11 @@ public class Common {
                 error.errorCode(),
                 "call " + interfaceName + " failed for: " + error.errorMessage());
     }
+
+    public static String getUrl(String url) {
+        if (url.startsWith("http://")) {
+            return url;
+        }
+        return String.format("http://%s", url);
+    }
 }

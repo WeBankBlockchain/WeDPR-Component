@@ -67,4 +67,30 @@ public class GrpcConfig {
     public boolean enableDnslookup() {
         return wedpr_java_transportJNI.GrpcConfig_enableDnslookup(swigCPtr, this);
     }
+
+    public java.math.BigInteger maxSendMessageSize() {
+        return wedpr_java_transportJNI.GrpcConfig_maxSendMessageSize(swigCPtr, this);
+    }
+
+    public java.math.BigInteger maxReceivedMessageSize() {
+        return wedpr_java_transportJNI.GrpcConfig_maxReceivedMessageSize(swigCPtr, this);
+    }
+
+    public void setMaxSendMessageSize(java.math.BigInteger maxSendMessageSize) {
+        wedpr_java_transportJNI.GrpcConfig_setMaxSendMessageSize(
+                swigCPtr, this, maxSendMessageSize);
+    }
+
+    public void setMaxReceivedMessageSize(java.math.BigInteger maxReceivedMessageSize) {
+        wedpr_java_transportJNI.GrpcConfig_setMaxReceivedMessageSize(
+                swigCPtr, this, maxReceivedMessageSize);
+    }
+
+    public int compressAlgorithm() {
+        return wedpr_java_transportJNI.GrpcConfig_compressAlgorithm(swigCPtr, this);
+    }
+
+    public void setCompressAlgorithm(int compressAlgorithm) {
+        wedpr_java_transportJNI.GrpcConfig_setCompressAlgorithm(swigCPtr, this, compressAlgorithm);
+    }
 }

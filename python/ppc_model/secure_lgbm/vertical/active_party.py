@@ -46,6 +46,7 @@ class VerticalLGBMActiveParty(VerticalBooster):
     ) -> None:
         self.log.info(
             f'task {self.ctx.task_id}: Starting the lgbm on the active party.')
+
         self._init_active_data()
         self._init_valid_data()
         self._init_early_stop()

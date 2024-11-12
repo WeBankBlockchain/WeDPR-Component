@@ -90,6 +90,11 @@ inline std::string printNodeStatus(GatewayNodeInfo::Ptr const& status)
     stringstream << LOG_KV("p2pNodeID", printP2PIDElegantly(status->p2pNodeID()))
                  << LOG_KV("agency", status->agency()) << LOG_KV("statusSeq", status->statusSeq())
                  << LOG_KV("nodeSize", status->nodeSize());
+    auto nodeInfoList = status->nodeList();
+    for (auto const& it : nodeInfoList)
+    {
+        stringstream << printNodeInfo(it.second);
+    }
     return stringstream.str();
 }
 }  // namespace ppc::gateway

@@ -33,7 +33,7 @@ public:
     GlobalConfig()
     {
         // set the supported-curves for ecdh-psi
-        auto key = calculateKey((uint8_t)TaskType::PSI, (uint8_t)PSIAlgorithmType::ECDH_PSI_2PC);
+        auto key = calculateKey((uint8_t)TaskType::PSI, (uint8_t)TaskAlgorithmType::ECDH_PSI_2PC);
 #ifdef ENABLE_CRYPTO_MB
 #ifdef ENABLE_CPU_FEATURES
         if (ppc::CPU_FEATURES.avx512ifma)

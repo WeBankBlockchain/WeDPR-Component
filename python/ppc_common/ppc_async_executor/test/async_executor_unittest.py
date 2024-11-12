@@ -88,9 +88,9 @@ class TestThreadExecutor(unittest.TestCase):
         task_id_1 = '0xaa'
         task_id_2 = '0xbb'
 
-        executor.execute(task_id_1, thread_task1, on_target_finish,
+        executor.execute("job1", task_id_1, thread_task1, on_target_finish,
                          (shared_status1, task_id_1, key, 1))
-        executor.execute(task_id_2, thread_task2,
+        executor.execute("job2", task_id_2, thread_task2,
                          on_target_finish, (shared_status2, key, 1))
 
         time.sleep(2)

@@ -77,6 +77,9 @@ public:
 
     std::vector<std::string>& mutableComponents() { return m_components; }
 
+    std::string const meta() const { return m_meta; }
+    void setMeta(std::string meta) { m_meta = std::move(meta); }
+
 protected:
     ppc::protocol::GrpcConfig::Ptr m_grpcConfig;
     ppc::protocol::EndPoint m_selfEndPoint;
@@ -84,6 +87,7 @@ protected:
     std::string m_nodeID;
     std::string m_gatewayGrpcTarget;
     std::vector<std::string> m_components;
+    std::string m_meta;
 };
 
 class FrontConfigBuilder

@@ -19,7 +19,7 @@
  */
 #include "GrpcServer.h"
 #include "Common.h"
-#include <grpcpp/ext/proto_server_reflection_plugin.h>
+#include "grpcpp/ext/proto_server_reflection_plugin.h"
 
 using namespace ppc::protocol;
 using namespace grpc;
@@ -39,6 +39,8 @@ void GrpcServer::start()
     }
     grpc::reflection::InitProtoReflectionServerBuilderPlugin();
     grpc::ServerBuilder builder;
+    // disable port reuse
+    builder.AddChannelArgument(GRPC_ARG_ALLOW_REUSEPORT, 0);
     // without authentication
     builder.AddListeningPort(m_config->listenEndPoint(), grpc::InsecureServerCredentials());
     // register the service

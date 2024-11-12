@@ -37,10 +37,11 @@ ProTransportImpl::ProTransportImpl(ppc::front::FrontConfig::Ptr config, int keep
     m_server = std::make_shared<GrpcServer>(grpcServerConfig);
 
     FrontFactory frontFactory;
-    m_gateway =
-        std::make_shared<GatewayClient>(m_config->grpcConfig(), m_config->gatewayGrpcTarget());
-    m_front = frontFactory.build(std::make_shared<NodeInfoFactory>(), m_msgPayloadBuilder,
-        m_routeInfoBuilder, m_gateway, m_config);
+    auto nodeInfoFactory = std::make_shared<NodeInfoFactory>();
+    m_gateway = std::make_shared<GatewayClient>(
+        m_config->grpcConfig(), m_config->gatewayGrpcTarget(), nodeInfoFactory);
+    m_front = frontFactory.build(
+        nodeInfoFactory, m_msgPayloadBuilder, m_routeInfoBuilder, m_gateway, m_config);
 
     m_frontService = std::make_shared<FrontServer>(m_msgBuilder, m_front);
     // register the frontService
