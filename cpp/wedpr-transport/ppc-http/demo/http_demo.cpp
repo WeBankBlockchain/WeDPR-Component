@@ -48,7 +48,7 @@ int main(int argc, char const* argv[])
 
     try
     {
-        auto param = initCommandLine(argc, argv);
+        auto param = initCommandLine("http_demo", argc, argv);
         auto ppcConfig = std::make_shared<PPCConfig>();
         // not specify the certPath in air-mode
         ppcConfig->loadGatewayConfig(param.configFilePath);
@@ -67,7 +67,7 @@ int main(int argc, char const* argv[])
     }
     catch (std::exception const& e)
     {
-        ppc::printVersion();
+        ppc::printVersion("http-demo");
         std::cout << "[" << bcos::getCurrentDateTime() << "] ";
         std::cout << "start http-demo failed, error:" << boost::diagnostic_information(e)
                   << std::endl;

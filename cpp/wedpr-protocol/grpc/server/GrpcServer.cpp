@@ -44,6 +44,9 @@ void GrpcServer::start()
     builder.AddChannelArgument(GRPC_ARG_ALLOW_REUSEPORT, 0);
     // without authentication
     builder.AddListeningPort(m_config->listenEndPoint(), grpc::InsecureServerCredentials());
+    builder.SetMaxMessageSize(m_config->maxMsgSize());
+    builder.SetMaxSendMessageSize(m_config->maxSendMessageSize());
+    builder.SetMaxReceiveMessageSize(m_config->maxReceivedMessageSize());
     // register the service
     for (auto const& service : m_bindingServices)
     {
@@ -63,7 +66,10 @@ void GrpcServer::start()
                                                       m_config->listenEndPoint()));
     }
     GRPC_SERVER_LOG(INFO) << LOG_DESC("GrpcServer start success!")
-                          << LOG_KV("listenEndPoint", m_config->listenEndPoint());
+                          << LOG_KV("listenEndPoint", m_config->listenEndPoint())
+                          << LOG_KV("maxMsgSize", m_config->maxMsgSize())
+                          << LOG_KV("maxSendMessageSize", m_config->maxSendMessageSize())
+                          << LOG_KV("maxReceivedMessageSize", m_config->maxReceivedMessageSize());
 }
 
 void GrpcServer::stop()

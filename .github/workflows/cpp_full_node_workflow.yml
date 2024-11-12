@@ -66,13 +66,13 @@ jobs:
           export GCC='gcc-10'
           export CXX='g++-10'
           sudo bash -x cpp/tools/install_depends.sh -o ubuntu
-          mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          mkdir -p cpp/build && cd cpp/build && cmake -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
       - name: Build for macOS
         if: runner.os == 'macOS'
         run: |
           bash -x cpp/tools/install_depends.sh -o macos
-          mkdir -p cpp/build && cd cpp/build && cmake -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          mkdir -p cpp/build && cd cpp/build && cmake -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
       - uses: actions/upload-artifact@v4
         if: runner.os == 'macOS'      
@@ -163,7 +163,7 @@ jobs:
           rm -rf python 
           mkdir -p cpp/build
           cd cpp/build
-          cmake3 -DCMAKE_BUILD_TYPE=Release -DTESTS=ON -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake ../
+          cmake3 -DBUILD_STATIC=ON -DCMAKE_BUILD_TYPE=Release -DTESTS=ON -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake ../
       - name: FreeDiskSpace
         run: |
           df -lh

@@ -45,7 +45,7 @@ int main(int argc, const char* argv[])
     signal(SIGINT, &ExitHandler::exitHandler);
     try
     {
-        auto param = initCommandLine(argc, argv);
+        auto param = initCommandLine("rpc_demo", argc, argv);
         auto ppcConfig = std::make_shared<PPCConfig>();
         // not specify the certPath in air-mode
         ppcConfig->loadRpcConfig(param.configFilePath);
@@ -63,7 +63,7 @@ int main(int argc, const char* argv[])
     }
     catch (std::exception const& e)
     {
-        ppc::printVersion();
+        ppc::printVersion("rpc_demo");
         std::cout << "[" << bcos::getCurrentDateTime() << "] ";
         std::cout << "start rpc-demo failed, error:" << boost::diagnostic_information(e)
                   << std::endl;

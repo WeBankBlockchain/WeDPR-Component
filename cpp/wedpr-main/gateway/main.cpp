@@ -23,6 +23,11 @@
 using namespace ppc::node;
 int main(int argc, const char* argv[])
 {
+    std::string binaryName = "ppc-gateway-service";
     auto initializer = std::make_shared<ppc::gateway::GatewayInitializer>();
-    startProgram(argc, argv, "ppc-gateway-service", initializer);
+    auto ret = startProgram(argc, argv, binaryName, initializer);
+    initializer.reset();
+    std::cout << "[" << bcos::getCurrentDateTime() << "] ";
+    std::cout << "The " << binaryName << " program exit normally." << std::endl;
+    return ret;
 }

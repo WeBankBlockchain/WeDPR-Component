@@ -23,6 +23,11 @@
 using namespace ppc::node;
 int main(int argc, const char* argv[])
 {
+    std::string binaryName = "ppc-pro-node";
     auto initializer = std::make_shared<ppc::node::ProNodeInitializer>();
-    startProgram(argc, argv, "ppc-pro-node", initializer);
+    auto ret = startProgram(argc, argv, binaryName, initializer);
+    initializer.reset();
+    std::cout << "[" << bcos::getCurrentDateTime() << "] ";
+    std::cout << "The " << binaryName << " program exit normally." << std::endl;
+    return ret;
 }

@@ -22,6 +22,11 @@
 
 int main(int argc, const char* argv[])
 {
-   auto initializer = std::make_shared<ppc::node::AirNodeInitializer>();
-    startProgram(argc, argv, "ppc-psi", initializer);
+    std::string binaryName = "ppc-psi";
+    auto initializer = std::make_shared<ppc::node::AirNodeInitializer>();
+    auto ret = startProgram(argc, argv, binaryName, initializer);
+    initializer.reset();
+    std::cout << "[" << bcos::getCurrentDateTime() << "] ";
+    std::cout << "The " << binaryName << " program exit normally." << std::endl;
+    return ret;
 }

@@ -34,7 +34,7 @@ int startProgram(
     /// set LC_ALL
     setDefaultOrCLocale();
     std::set_terminate([]() {
-        std::cerr << "terminate handler called, print stacks" << std::endl;
+        std::cout << "terminate handler called, print stacks" << std::endl;
         void* trace_elems[20];
         int trace_elem_count(backtrace(trace_elems, 20));
         char** stack_syms(backtrace_symbols(trace_elems, trace_elem_count));
@@ -43,7 +43,7 @@ int startProgram(
             std::cout << stack_syms[i] << "\n";
         }
         free(stack_syms);
-        std::cerr << "terminate handler called, print stack end" << std::endl;
+        std::cout << "terminate handler called, print stack end" << std::endl;
         abort();
     });
     // get datetime and output welcome info
@@ -55,27 +55,25 @@ int startProgram(
     // Note: the initializer must exist in the life time of the whole program
     try
     {
-        auto param = ppc::initCommandLine(argc, argv);
+        auto param = ppc::initCommandLine(binaryName, argc, argv);
         starter->init(param.configFilePath);
         starter->start();
     }
     catch (std::exception const& e)
     {
-        printVersion();
+        printVersion(binaryName);
         std::cout << "[" << bcos::getCurrentDateTime() << "] ";
         std::cout << "start " + binaryName + " failed, error:" << boost::diagnostic_information(e)
                   << std::endl;
         return -1;
     }
-    printVersion();
+    printVersion(binaryName);
     std::cout << "[" << bcos::getCurrentDateTime() << "] ";
     std::cout << "The " + binaryName + " is running..." << std::endl;
     while (!exitHandler.shouldExit())
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
-    starter.reset();
-    std::cout << "[" << bcos::getCurrentDateTime() << "] ";
-    std::cout << "The " + binaryName + " program exit normally." << std::endl;
+    return 0;
 }
 }  // namespace ppc::node

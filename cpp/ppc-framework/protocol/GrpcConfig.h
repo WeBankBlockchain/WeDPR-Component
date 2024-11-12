@@ -26,27 +26,6 @@
 
 namespace ppc::protocol
 {
-class GrpcServerConfig
-{
-public:
-    using Ptr = std::shared_ptr<GrpcServerConfig>;
-    GrpcServerConfig() = default;
-    GrpcServerConfig(EndPoint endPoint, bool enableHealthCheck)
-      : m_endPoint(std::move(endPoint)), m_enableHealthCheck(enableHealthCheck)
-    {}
-    std::string listenEndPoint() const { return m_endPoint.listenEndPoint(); }
-
-    void setEndPoint(EndPoint endPoint) { m_endPoint = endPoint; }
-    void setEnableHealthCheck(bool enableHealthCheck) { m_enableHealthCheck = enableHealthCheck; }
-
-    EndPoint const& endPoint() const { return m_endPoint; }
-    EndPoint& mutableEndPoint() { return m_endPoint; }
-    bool enableHealthCheck() const { return m_enableHealthCheck; }
-
-protected:
-    ppc::protocol::EndPoint m_endPoint;
-    bool m_enableHealthCheck = true;
-};
 class GrpcConfig
 {
 public:
@@ -71,10 +50,22 @@ public:
 
     void setMaxSendMessageSize(uint64_t maxSendMessageSize)
     {
+        if (maxSendMessageSize > c_maxMsgSize)
+        {
+            BOOST_THROW_EXCEPTION(
+                WeDPRException() << bcos::errinfo_comment(
+                    "The MaxSendMessageSize limit is " + std::to_string(c_maxMsgSize)));
+        }
         m_maxSendMessageSize = maxSendMessageSize;
     }
     void setMaxReceivedMessageSize(uint64_t maxReceivedMessageSize)
     {
+        if (maxReceivedMessageSize > c_maxMsgSize)
+        {
+            BOOST_THROW_EXCEPTION(
+                WeDPRException() << bcos::errinfo_comment(
+                    "The MaxReceivedMessageSize limit is " + std::to_string(c_maxMsgSize)));
+        }
         m_maxReceivedMessageSize = maxReceivedMessageSize;
     }
 
@@ -102,13 +93,52 @@ protected:
     bool m_enableHealthCheck = true;
     std::string m_loadBalancePolicy = "round_robin";
     bool m_enableDnslookup = false;
+    // Note: grpc use int to set the maxMsgSize
+    uint64_t const c_maxMsgSize = INT_MAX;
 
     // the max send message size in bytes
-    uint64_t m_maxSendMessageSize = 1024 * 1024 * 1024;
+    uint64_t m_maxSendMessageSize = c_maxMsgSize;
     // the max received message size in bytes
-    uint64_t m_maxReceivedMessageSize = 1024 * 1024 * 1024;
+    uint64_t m_maxReceivedMessageSize = c_maxMsgSize;
     int m_compressAlgorithm = 0;
 };
+
+class GrpcServerConfig : public GrpcConfig
+{
+public:
+    using Ptr = std::shared_ptr<GrpcServerConfig>;
+    GrpcServerConfig() = default;
+    GrpcServerConfig(EndPoint endPoint, bool enableHealthCheck)
+      : m_endPoint(std::move(endPoint)), m_enableHealthCheck(enableHealthCheck)
+    {}
+    ~GrpcServerConfig() override = default;
+
+    std::string listenEndPoint() const { return m_endPoint.listenEndPoint(); }
+
+    void setEndPoint(EndPoint endPoint) { m_endPoint = endPoint; }
+    void setEnableHealthCheck(bool enableHealthCheck) { m_enableHealthCheck = enableHealthCheck; }
+
+    EndPoint const& endPoint() const { return m_endPoint; }
+    EndPoint& mutableEndPoint() { return m_endPoint; }
+    bool enableHealthCheck() const { return m_enableHealthCheck; }
+
+    uint64_t maxMsgSize() const { return m_maxMsgSize; }
+    void setMaxMsgSize(uint64_t maxMsgSize)
+    {
+        if (maxMsgSize > c_maxMsgSize)
+        {
+            BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
+                                      "The maxMsgSize limit is " + std::to_string(c_maxMsgSize)));
+        }
+        m_maxMsgSize = maxMsgSize;
+    }
+
+protected:
+    ppc::protocol::EndPoint m_endPoint;
+    bool m_enableHealthCheck = true;
+    uint64_t m_maxMsgSize = c_maxMsgSize;
+};
+
 
 inline std::string printGrpcConfig(ppc::protocol::GrpcConfig::Ptr const& grpcConfig)
 {

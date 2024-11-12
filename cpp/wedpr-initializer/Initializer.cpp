@@ -207,10 +207,6 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
     INIT_LOG(INFO) << LOG_DESC("create bs mode ecdh psi success");
 
     initMsgHandlers();
-
-    // add parallelism control for tbb
-    tbb::global_control gc(
-        tbb::global_control::max_allowed_parallelism, m_config->threadPoolSize());
 }
 
 // init the msg-handlers

@@ -26,9 +26,9 @@
 
 using namespace ppc;
 
-void ppc::printVersion()
+void ppc::printVersion(std::string const& binaryName)
 {
-    std::cout << "PPCS-Core Version : " << PPC_PROJECT_VERSION << std::endl;
+    std::cout << binaryName << " Version : " << PPC_PROJECT_VERSION << std::endl;
     std::cout << "Build Time         : " << PPC_BUILD_TIME << std::endl;
     std::cout << "Build Type         : " << PPC_BUILD_PLATFORM << "/" << PPC_BUILD_TYPE
               << std::endl;
@@ -36,7 +36,7 @@ void ppc::printVersion()
     std::cout << "Git Commit         : " << PPC_COMMIT_HASH << std::endl;
 }
 
-CommandLineParam ppc::initCommandLine(int argc, const char* argv[])
+CommandLineParam ppc::initCommandLine(std::string const& binaryName, int argc, const char* argv[])
 {
     boost::program_options::options_description main_options("Usage of PPC");
     main_options.add_options()("help,h", "print help information")("version,v", "version of PPC")(
@@ -49,7 +49,7 @@ CommandLineParam ppc::initCommandLine(int argc, const char* argv[])
     }
     catch (...)
     {
-        printVersion();
+        printVersion(binaryName);
     }
     /// help information
     if (vm.count("help") || vm.count("h"))
@@ -60,7 +60,7 @@ CommandLineParam ppc::initCommandLine(int argc, const char* argv[])
     /// version information
     if (vm.count("version") || vm.count("v"))
     {
-        printVersion();
+        printVersion(binaryName);
         exit(0);
     }
     std::string configPath("./config.ini");

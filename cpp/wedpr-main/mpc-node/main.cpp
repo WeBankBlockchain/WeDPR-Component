@@ -53,19 +53,19 @@ int main(int argc, const char* argv[])
     auto initializer = std::make_shared<ppc::mpc::MPCInitializer>();
     try
     {
-        auto param = initCommandLine(argc, argv);
+        auto param = initCommandLine("wedpr-mpc", argc, argv);
         initializer->init(param.configFilePath);
         initializer->start();
     }
     catch (std::exception const& e)
     {
-        printVersion();
+        printVersion("wedpr-mpc");
         std::cout << "[" << bcos::getCurrentDateTime() << "] ";
         std::cout << "start ppc-mpc failed, error:" << boost::diagnostic_information(e)
                   << std::endl;
         return -1;
     }
-    printVersion();
+    printVersion("wedpr-mpc");
     std::cout << "[" << bcos::getCurrentDateTime() << "] ";
     std::cout << "The ppc-mpc is running..." << std::endl;
     while (!exitHandler.shouldExit())

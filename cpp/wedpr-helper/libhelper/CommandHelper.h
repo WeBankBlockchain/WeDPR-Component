@@ -27,6 +27,6 @@ struct CommandLineParam
 {
     std::string configFilePath;
 };
-void printVersion();
-CommandLineParam initCommandLine(int argc, const char* argv[]);
+void printVersion(std::string const& binaryName);
+CommandLineParam initCommandLine(std::string const& binaryName, int argc, const char* argv[]);
 }  // namespace ppc

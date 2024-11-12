@@ -53,19 +53,19 @@ int main(int argc, const char* argv[])
     auto initializer = std::make_shared<ppc::cem::CEMInitializer>();
     try
     {
-        auto param = initCommandLine(argc, argv);
+        auto param = initCommandLine("wedpr-cem", argc, argv);
         initializer->init(param.configFilePath);
         initializer->start();
     }
     catch (std::exception const& e)
     {
-        printVersion();
+        printVersion("wedpr-cem");
         std::cout << "[" << bcos::getCurrentDateTime() << "] ";
         std::cout << "start ppc-cem failed, error:" << boost::diagnostic_information(e)
                   << std::endl;
         return -1;
     }
-    printVersion();
+    printVersion("wedpr-cem");
     std::cout << "[" << bcos::getCurrentDateTime() << "] ";
     std::cout << "The ppc-cem is running..." << std::endl;
     while (!exitHandler.shouldExit())
