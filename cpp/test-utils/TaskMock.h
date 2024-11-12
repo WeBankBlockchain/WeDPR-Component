@@ -19,10 +19,8 @@
  */
 #pragma once
 #include "ppc-framework/protocol/Task.h"
-#include "ppc-io/src/FileLineReader.h"
 #include <boost/test/unit_test.hpp>
 
-using namespace ppc::io;
 using namespace ppc::protocol;
 namespace ppc::test
 {

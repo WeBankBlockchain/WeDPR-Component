@@ -27,3 +27,8 @@ target_link_libraries(${SERVICE_PB_TARGET} PUBLIC ${PB_PROTOCOL_TARGET} gRPC::gr
 
 add_subdirectory(client)
 add_subdirectory(server)
+if (TESTS)
+    enable_testing()
+    set(CTEST_OUTPUT_ON_FAILURE TRUE)
+    add_subdirectory(tests)
+endif ()
