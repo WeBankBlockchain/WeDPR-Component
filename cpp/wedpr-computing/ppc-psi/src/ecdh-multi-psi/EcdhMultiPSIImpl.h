@@ -51,12 +51,10 @@ protected:
     virtual void onComputeAndEncryptSet(PSIMessageInterface::Ptr _msg);
     virtual void onHandlerIntersectEncryptSetFromCalculator(PSIMessageInterface::Ptr _msg);
     virtual void handlerPSIReceiveMessage(PSIMessageInterface::Ptr _msg);
-    virtual void onHandlerIntersectEncryptSetToCalculator(PSIMessageInterface::Ptr _msg);
-    virtual void onHandlerEncryptSetToCalculator(PSIMessageInterface::Ptr _msg);
-    virtual void onHandlerEncryptIntersectionSetFromCalculatorToMaster(
-        PSIMessageInterface::Ptr _msg);
+    virtual void onReceiveIntersecCipher(PSIMessageInterface::Ptr _msg);
+    virtual void onReceiveMasterCipher(PSIMessageInterface::Ptr _msg);
     virtual void onHandlerIntersectEncryptSetFromPartner(PSIMessageInterface::Ptr _msg);
-    virtual void onHandlerSyncFinalResultToAllPeer(PSIMessageInterface::Ptr _msg);
+    virtual void onReceivePSIResult(PSIMessageInterface::Ptr _msg);
 
     EcdhMultiPSICalculator::Ptr findCalculator(const std::string& _taskID)
     {

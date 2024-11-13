@@ -47,7 +47,7 @@ public:
 
 protected:
     virtual bool allocateCurrentBlock() = 0;
-    virtual bool readFinished() const = 0;
+
 
     template <typename T>
     int64_t readLineFromBlock(DataBatch::Ptr _dataBatch, int64_t _size)

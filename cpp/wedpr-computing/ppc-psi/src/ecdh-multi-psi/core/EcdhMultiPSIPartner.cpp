@@ -20,7 +20,7 @@ EcdhMultiPSIPartner::EcdhMultiPSIPartner(EcdhMultiPSIConfig::Ptr _config, TaskSt
                                                     m_config->selfParty()) != receivers.end());
 }
 
-void EcdhMultiPSIPartner::InitAsyncTask(ppc::protocol::Task::ConstPtr _task)
+void EcdhMultiPSIPartner::initTask(ppc::protocol::Task::ConstPtr _task)
 {
     // Init all Roles from all Peers
     auto peerParties = _task->getAllPeerParties();
@@ -44,11 +44,11 @@ void EcdhMultiPSIPartner::InitAsyncTask(ppc::protocol::Task::ConstPtr _task)
 }
 
 // PART1: Partner -> Master H(Y)*A
-void EcdhMultiPSIPartner::oncomputeAndEncryptSet(bcos::bytesPointer _randA)
+void EcdhMultiPSIPartner::onComputeAndEncryptSet(bcos::bytesPointer _randA)
 {
     try
     {
-        ECDH_MULTI_LOG(INFO) << LOG_KV("Part1:Partner Receive RandomA: ", _randA->data());
+        ECDH_PARTNER_LOG(INFO) << LOG_KV("Part1:Partner Receive RandomA: ", _randA->data());
         auto originInputs = m_taskState->loadAllData();
         if (!originInputs || originInputs->size() == 0)
         {
@@ -68,7 +68,7 @@ void EcdhMultiPSIPartner::oncomputeAndEncryptSet(bcos::bytesPointer _randA)
         {
             needSendTimes = inputSize / batchSize + 1;
         }
-        ECDH_MULTI_LOG(INFO) << LOG_KV(
+        ECDH_PARTNER_LOG(INFO) << LOG_KV(
             "Part1: Partner load the resource success size: ", inputSize);
         auto hash = m_config->hash();
         std::vector<bcos::bytes> encryptedHashSet;
@@ -104,7 +104,7 @@ void EcdhMultiPSIPartner::oncomputeAndEncryptSet(bcos::bytesPointer _randA)
             std::vector<bcos::bytes> encryptedHashSetSplit;
             splitVector(encryptedHashSet, readStart, readCount, encryptedHashSetSplit);
 
-            ECDH_MULTI_LOG(INFO)
+            ECDH_PARTNER_LOG(INFO)
                 << LOG_KV("Part1: Partner compute the EncryptSet success encryptedHashSet size: ",
                        encryptedHashSet.size())
                 << LOG_KV(
@@ -119,15 +119,14 @@ void EcdhMultiPSIPartner::oncomputeAndEncryptSet(bcos::bytesPointer _randA)
                        "Part1: Partner compute the EncryptSet success encryptedHashSetSplit "
                        "size: ",
                        encryptedHashSetSplit.size());
-
-            // generate and send encryptedHashSet
-            for (auto& master : m_masterParties)
-            {
-                auto message = m_config->psiMsgFactory()->createPSIMessage(
+            auto message = m_config->psiMsgFactory()->createPSIMessage(
                     uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_SET_TO_MASTER_FROM_PARTNER));
                 message->setData(encryptedHashSetSplit);
                 message->setFrom(m_taskState->task()->selfParty()->id());
                 message->setDataBatchCount(needSendTimes);
+            // generate and send encryptedHashSet
+            for (auto& master : m_masterParties)
+            {
                 m_config->generateAndSendPPCMessage(
                     master.first, m_taskState->task()->id(), message,
                     [self = weak_from_this()](bcos::Error::Ptr&& _error) {
@@ -148,45 +147,27 @@ void EcdhMultiPSIPartner::oncomputeAndEncryptSet(bcos::bytesPointer _randA)
     }
     catch (std::exception& e)
     {
-        ECDH_MULTI_LOG(INFO) << LOG_DESC("Exception in oncomputeAndEncryptSet:")
-                             << boost::diagnostic_information(e);
+        ECDH_PARTNER_LOG(WARNING) << LOG_DESC("Exception in onComputeAndEncryptSet:")
+                                  << boost::diagnostic_information(e);
         onTaskError(boost::diagnostic_information(e));
     }
 }
 
-void EcdhMultiPSIPartner::onHandlerSyncFinalResultToAllPeer(PSIMessageInterface::Ptr _msg)
+void EcdhMultiPSIPartner::onReceivePSIResult(PSIMessageInterface::Ptr _msg)
 {
+     ECDH_PARTNER_LOG(INFO) << LOG_DESC("onReceivePSIResult")
+                        << printPPCMsg(_msg);
     if (m_syncResult)
     {
-        ECDH_MULTI_LOG(INFO)
-            << LOG_KV("Final: Partner Get SyncFinalResultToAllPeer From Calculator : ",
-                   _msg->takeData().size())
-            << LOG_KV("Final: Partner Get SyncFinalResultToAllPeer From Calculator count: ",
-                   m_final_counts[m_taskID])
-            << LOG_KV("Final: Parter isSyncedResult:", m_syncResult);
-        auto needTimes = _msg->dataBatchCount();
-        auto res = _msg->takeData();
-        trimVector(res);
-        bcos::WriteGuard l(x_final_count);
-        m_final_vectors.insert(m_final_vectors.end(), res.begin(), res.end());
-        m_final_counts[m_taskID]++;
-        if (m_final_counts[m_taskID] < needTimes)
-        {
-            return;
-        }
-
-        m_taskState->storePSIResult(m_config->dataResourceLoader(), m_final_vectors);
-        ECDH_MULTI_LOG(INFO) << LOG_KV(
-            "Final: Partner onHandlerSyncFinalResultToAllPeer Store Intersection_XY^b ∩ H(Z)^b^a "
-            "Success"
-            "Dataset size: ",
-            m_final_vectors.size());
+        m_taskState->storePSIResult(m_config->dataResourceLoader(), _msg->takeData());
+        ECDH_PARTNER_LOG(INFO) << LOG_DESC("onReceivePSIResult: store psi result success")
+        << printPPCMsg(_msg);
     }
     else
     {
-        ECDH_MULTI_LOG(INFO) << LOG_DESC("Partner:No Need To ReceiveResultFromCalculator");
+        ECDH_PARTNER_LOG(INFO) << LOG_DESC("Master:No Need To store the psi result")
+        << printPPCMsg(_msg);
     }
-
     m_taskState->setFinished(true);
     m_taskState->onTaskFinished();
 }
@@ -194,9 +175,9 @@ void EcdhMultiPSIPartner::onHandlerSyncFinalResultToAllPeer(PSIMessageInterface:
 
 void EcdhMultiPSIPartner::asyncStartRunTask(ppc::protocol::Task::ConstPtr _task)
 {
-    InitAsyncTask(_task);
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("Partner asyncStartRunTask as partner")
-                         << printTaskInfo(_task);
+    initTask(_task);
+    ECDH_PARTNER_LOG(INFO) << LOG_DESC("Partner asyncStartRunTask as partner")
+                           << printTaskInfo(_task);
 }
 
 

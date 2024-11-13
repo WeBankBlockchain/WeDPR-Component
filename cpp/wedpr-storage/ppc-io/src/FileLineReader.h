@@ -38,10 +38,10 @@ public:
     {
         return ppc::protocol::DataResourceType::FILE;
     }
+    bool readFinished() const override { return (m_offset == m_length); }
 
 protected:
     bool allocateCurrentBlock() override;
-    bool readFinished() const override { return (m_offset == m_length); }
 
 protected:
     std::string m_filePath;

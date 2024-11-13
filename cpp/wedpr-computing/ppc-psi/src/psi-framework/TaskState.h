@@ -128,6 +128,7 @@ public:
 
     int32_t allocateSeq()
     {
+        bcos::RecursiveGuard l(m_mutex);
         m_currentSeq.store(m_currentSeq.load() + 1);
         {
             bcos::WriteGuard l(x_seqList);
@@ -410,6 +411,8 @@ public:
     }
 
     uint64_t taskPendingTime() { return (bcos::utcSteadyTime() - m_taskStartTime); }
+
+    uint32_t sendedDataBatchSize() const { return m_seqList.size(); }
 
 protected:
     ppc::protocol::Task::ConstPtr m_task;

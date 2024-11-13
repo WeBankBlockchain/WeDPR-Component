@@ -19,6 +19,7 @@
  */
 #pragma once
 #include "Common.h"
+#include "ppc-psi/src/Common.h"
 #include "ppc-psi/src/psi-framework/TaskState.h"
 #include <gperftools/malloc_extension.h>
 #include <memory>
@@ -26,222 +27,184 @@
 namespace ppc::psi
 {
 /// the master data-cache
-class MasterCipherDataCache
+class MasterCache
 {
 public:
-    using Ptr = std::shared_ptr<MasterCipherDataCache>;
-    MasterCipherDataCache() {}
-    virtual ~MasterCipherDataCache()
+    using Ptr = std::shared_ptr<MasterCache>;
+    MasterCache(TaskState::Ptr const& taskState) : m_taskState(taskState) {}
+    virtual ~MasterCache()
     {
-        m_masterFinalIntersectionCipherData.clear();
-        m_masterTaskPeersFinishedList.clear();
-        m_masterCipherDataFromCalculator.clear();
-        m_masterCipherDataFromPartner.clear();
-        m_CipherDataFromCalculatorSubSeq.clear();
-        m_CipherDataFromPartnerSubSeq.clear();
-        std::map<uint32_t, bcos::bytes>().swap(m_masterFinalIntersectionCipherData);
-        std::set<std::string>().swap(m_masterTaskPeersFinishedList);
-        std::map<uint32_t, bcos::bytes>().swap(m_masterCipherDataFromCalculator);
-        std::map<std::string, std::vector<bcos::bytes>>().swap(m_masterCipherDataFromPartner);
-        std::set<uint32_t>().swap(m_CipherDataFromCalculatorSubSeq);
-        std::map<std::string, std::set<uint32_t>>().swap(m_CipherDataFromPartnerSubSeq);
+        m_intersecCipher.clear();
+        m_finishedPartners.clear();
+        m_calculatorCipher.clear();
+        m_partnerToCipher.clear();
+        m_calculatorCipherSeqs.clear();
+        m_partnerCipherSeqs.clear();
+        std::map<uint32_t, bcos::bytes>().swap(m_intersecCipher);
+        std::set<std::string>().swap(m_finishedPartners);
+        std::map<uint32_t, bcos::bytes>().swap(m_calculatorCipher);
+        std::map<std::string, std::vector<bcos::bytes>>().swap(m_partnerToCipher);
+        std::set<uint32_t>().swap(m_calculatorCipherSeqs);
+        std::map<std::string, std::set<uint32_t>>().swap(m_partnerCipherSeqs);
         MallocExtension::instance()->ReleaseFreeMemory();
         ECDH_MULTI_LOG(INFO) << LOG_DESC("the master cipher datacache destroyed ")
                              << LOG_KV("taskID", m_taskID);
     }
 
-    void appendMasterCipherDataFromCalculator(std::string _peerId,
-        std::map<uint32_t, bcos::bytes>&& _cipherData, uint32_t seq, uint32_t needSendTimes)
+    void addCalculatorCipher(std::string _peerId, std::map<uint32_t, bcos::bytes>&& _cipherData,
+        uint32_t seq, uint32_t dataBatchCount);
+
+    void addPartnerCipher(std::string _peerId, std::vector<bcos::bytes>&& _cipherData, uint32_t seq,
+        uint32_t needSendTimes);
+
+    // Note: the m_intersecCipher will not been changed once generated
+    std::map<uint32_t, bcos::bytes> const& intersecCipher() { return m_intersecCipher; }
+
+    bool tryToIntersection();
+
+    std::string printCacheState()
     {
-        try
+        std::ostringstream stringstream;
+        stringstream << LOG_KV("taskID", m_taskState->task()->taskID())
+                     << LOG_KV("CacheState", CacheState)
+                     << LOG_KV("intersectionSize", m_intersecCipher.size());
+        if (_msg->header()->hasOptionalField())
         {
-            bcos::WriteGuard lock(x_peerTasks);
-            m_masterCipherDataFromCalculator.insert(_cipherData.begin(), _cipherData.end());
-            m_CipherDataFromCalculatorSubSeq.insert(seq);
-            ECDH_MULTI_LOG(INFO) << LOG_KV(
-                "Part1-C:Master Receive H(X)*A Size: ", m_CipherDataFromCalculatorSubSeq.size());
-            if (m_CipherDataFromCalculatorSubSeq.size() == needSendTimes)
+            stringstream << printOptionalField(_msg->header()->optionalField());
+        }
+        return stringstream.str();
+    }
+
+    std::vector<bcos::bytes> encryptIntersection(bcos::bytes const& randomKey);
+
+private:
+    bool shouldIntersection()
+    {
+        // only evaluating state should intersection
+        if (m_cacheState != CacheState::Evaluating)
+        {
+            return false;
+        }
+        auto allPeerParties = m_taskState->task()->getAllPeerParties();
+        if (allPeerParties.size() == m_finishedPartners.size())
+        {
+            for (auto const& it : allPeerParties)
             {
-                m_masterTaskPeersFinishedList.insert(_peerId);
-            }
-        }
-        catch (std::exception& e)
-        {
-            ECDH_MULTI_LOG(ERROR) << LOG_DESC("appendMasterCipherDataFromCalculator Exception:")
-                                  << boost::diagnostic_information(e);
-        }
-    }
-
-    void appendMasterCipherDataFromPartner(std::string _peerId,
-        std::vector<bcos::bytes>&& _cipherData, uint32_t seq, uint32_t needSendTimes)
-    {
-        try
-        {
-            bcos::WriteGuard lock(x_peerTasks);
-            m_masterCipherDataFromPartner[_peerId].insert(
-                m_masterCipherDataFromPartner[_peerId].end(), _cipherData.begin(),
-                _cipherData.end());
-
-            m_CipherDataFromPartnerSubSeq[_peerId].insert(seq);
-            ECDH_MULTI_LOG(INFO) << LOG_KV(
-                "Part1-P:Master Receive H(Y)*A Size: ", m_CipherDataFromPartnerSubSeq.size());
-            if (m_CipherDataFromPartnerSubSeq[_peerId].size() == needSendTimes)
-            {
-                m_masterTaskPeersFinishedList.insert(_peerId);
-            }
-        }
-        catch (std::exception& e)
-        {
-            ECDH_MULTI_LOG(ERROR) << LOG_DESC("appendMasterCipherDataFromPartner Exception:")
-                                  << boost::diagnostic_information(e);
-        }
-    }
-
-    std::set<std::string> const& masterTaskPeersFinishedList()
-    {
-        return m_masterTaskPeersFinishedList;
-    }
-
-    std::map<uint32_t, bcos::bytes> const& masterFinalIntersectionCipherData()
-    {
-        return m_masterFinalIntersectionCipherData;
-    }
-
-    void tryToGetCipherDataIntersection()
-    {
-        // partner intersection _masterCipherDataIntersectionFromPartner
-        std::vector<bcos::bytes> _masterCipherDataIntersectionFromPartnerVector;
-        std::map<bcos::bytes, uint32_t> cnt;
-        uint32_t n = m_masterCipherDataFromPartner.size();
-        for (auto& data : m_masterCipherDataFromPartner)
-        {
-            std::set _temp(data.second.begin(), data.second.end());
-            for (auto& v : _temp)
-            {
-                cnt[v]++;
-                if (cnt[v] == n)
+                if (!m_finishedPartners.contains(it.first))
                 {
-                    _masterCipherDataIntersectionFromPartnerVector.push_back(v);
+                    return false;
                 }
             }
+            return true;
         }
-
-        // calculator intersection partners m_masterFinalIntersectionCipherData
-        m_masterFinalIntersectionCipherData.clear();
-        std::map<bcos::bytes, uint32_t> temp_out;
-        for (auto& data : m_masterCipherDataFromCalculator)
-        {
-            // temp_out.insert(std::make_pair(data.second, data.first));
-            temp_out.emplace(std::make_pair(data.second, data.first));
-        }
-
-        for (const auto& data : _masterCipherDataIntersectionFromPartnerVector)
-        {
-            auto it = temp_out.find(data);
-            if (it != temp_out.end())
-            {
-                // m_masterFinalIntersectionCipherData.insert(std::make_pair(it->second,
-                // it->first));
-                m_masterFinalIntersectionCipherData.emplace(std::make_pair(it->second, it->first));
-            }
-        }
+        return false;
     }
 
 private:
-    std::string m_taskID;
+    TaskState::Ptr m_taskState;
+    CacheState m_cacheState = CacheState::Evaluating;
 
-    // store the cipher-data of the master
-    std::map<uint32_t, bcos::bytes> m_masterFinalIntersectionCipherData;
-    std::set<std::string> m_masterTaskPeersFinishedList;
-    std::map<uint32_t, bcos::bytes> m_masterCipherDataFromCalculator;
-    std::map<std::string, std::vector<bcos::bytes>> m_masterCipherDataFromPartner;
-    // std::vector<bcos::bytes> m_masterCipherDataIntersectionFromPartner;
-    std::set<uint32_t> m_CipherDataFromCalculatorSubSeq;
-    std::map<std::string, std::set<uint32_t>> m_CipherDataFromPartnerSubSeq;
-    bcos::SharedMutex x_peerTasks;
+    // the intersection cipher data of the master
+    // calculator data index ==> cipher
+    std::map<uint32_t, bcos::bytes> m_intersecCipher;
+    std::set<std::string> m_finishedPartners;
+    // the cipher data from calculator to master
+    std::map<uint32_t, bcos::bytes> m_calculatorCipher;
+    uint32_t m_calculatorDataBatchCount = 0;
+    std::set<uint32_t> m_calculatorCipherSeqs;
+    bcos::SharedMutex x_calculatorCipher;
+
+    // TODO: replace with unordered_set
+    std::map<std::string, std::set<bcos::bytes>> m_partnerToCipher;
+    bcos::SharedMutex x_partnerToCipher;
+    // partnerId=>received partner seqs
+    std::map<std::string, std::set<uint32_t>> m_partnerCipherSeqs;
+
+    bcos::Mutex m_mutex;
 };
 
-class CalculatorCipherDataCache
+class CalculatorCache
 {
 public:
-    using Ptr = std::shared_ptr<CalculatorCipherDataCache>;
-    CalculatorCipherDataCache() {}
-    virtual ~CalculatorCipherDataCache()
+    using Ptr = std::shared_ptr<CalculatorCache>;
+    CalculatorCache(TaskState::Ptr const& taskState, bool syncResult)
+      : m_taskState(taskState), m_syncResult(syncResult)
+    {}
+    virtual ~CalculatorCache()
     {
         m_CipherDataFromCalculatorSubSeq.clear();
         m_calculatorIntersectionSubSeq.clear();
-        m_calculatorCipherDataSubSeq.clear();
-        m_calculatorCipherData.clear();
-        m_calculatorIntersectionCipherDataMap.clear();
+        m_receivedMasterCipher.clear();
+        m_masterCipher.clear();
+        m_intersectionCipher.clear();
         m_calculatorIntersectionCipherDataFinalMap.clear();
         std::set<uint32_t>().swap(m_CipherDataFromCalculatorSubSeq);
         std::set<uint32_t>().swap(m_calculatorIntersectionSubSeq);
-        std::set<uint32_t>().swap(m_calculatorCipherDataSubSeq);
-        std::vector<bcos::bytes>().swap(m_calculatorCipherData);
-        std::map<uint32_t, bcos::bytes>().swap(m_calculatorIntersectionCipherDataMap);
+        std::set<uint32_t>().swap(m_receivedMasterCipher);
+        std::vector<bcos::bytes>().swap(m_masterCipher);
+        std::map<uint32_t, bcos::bytes>().swap(m_intersectionCipher);
         std::map<uint32_t, bcos::bytes>().swap(m_calculatorIntersectionCipherDataFinalMap);
         MallocExtension::instance()->ReleaseFreeMemory();
         ECDH_MULTI_LOG(INFO) << LOG_DESC("the calculator cipher datacache destroyed")
                              << LOG_KV("taskID", m_taskID);
     }
 
-    void tryToGetCipherDataIntersection()
-    {
-        m_calculatorIntersectionCipherDataFinalMap.clear();
-        std::map<bcos::bytes, uint32_t> temp_out;
-        for (auto& data : m_calculatorIntersectionCipherDataMap)
-        {
-            // temp_out.insert(std::make_pair(data.second, data.first));
-            temp_out.emplace(std::make_pair(data.second, data.first));
-        }
+    void tryToFinalize();
 
-        for (const auto& data : m_calculatorCipherData)
-        {
-            auto it = temp_out.find(data);
-            if (it != temp_out.end())
-            {
-                m_calculatorIntersectionCipherDataFinalMap.emplace(
-                    std::make_pair(it->second, it->first));
-            }
-        }
-    }
+    bool appendMasterCipher(
+        std::vector<bcos::bytes>&& _cipherData, uint32_t seq, uint32_t dataBatchSize);
 
-    bool setCalculatorCipherData(
-        std::vector<bcos::bytes>&& _cipherData, uint32_t seq, uint32_t needSendTimes)
-    {
-        bcos::WriteGuard lock(x_setCalculatorCipherData);
-        m_calculatorCipherData.insert(
-            m_calculatorCipherData.end(), _cipherData.begin(), _cipherData.end());
-        m_calculatorCipherDataSubSeq.insert(seq);
-        return m_calculatorCipherDataSubSeq.size() == needSendTimes;
-    }
-
-    bool setCalculatorIntersectionCipherDataMap(
-        std::map<uint32_t, bcos::bytes>&& _cipherData, uint32_t seq, uint32_t needSendTimes)
-    {
-        bcos::WriteGuard lock(x_setCalculatorIntersectionCipherData);
-        m_calculatorIntersectionCipherDataMap.insert(_cipherData.begin(), _cipherData.end());
-        m_calculatorIntersectionSubSeq.insert(seq);
-        return m_calculatorIntersectionSubSeq.size() == needSendTimes;
-    }
+    void setIntersectionCipher(std::map<uint32_t, bcos::bytes>&& _cipherData);
 
     std::map<uint32_t, bcos::bytes> const& calculatorIntersectionCipherDataFinalMap()
     {
         return m_calculatorIntersectionCipherDataFinalMap;
     }
 
+
+    void appendPlainData(ppc::io::DataBatch::Ptr const& data)
+    {
+        bcos::WriteGuard l(x_plainData);
+        m_plainData->emplace_back(data);
+    }
+
 private:
-    std::string m_taskID;
+    bool shouldFinalize()
+    {
+        // only can finalize in Evaluating state
+        if (m_state != CacheState::Evaluating)
+        {
+            return false;
+        }
+        return m_receivedMasterCipher.size() == m_masterDataBatchSize;
+    }
+
+    void syncIntersections();
+
+private:
+    TaskState::Ptr m_taskState;
+    CacheState m_cacheState = CacheState::Evaluating;
+    bool m_syncResult;
+
+    std::vector<ppc::io::DataBatch::Ptr> m_plainData;
+    bcos::SharedMutex x_plainData;
+
 
     // store the cipher-data of the calculator
     std::set<uint32_t> m_CipherDataFromCalculatorSubSeq;
     std::set<uint32_t> m_calculatorIntersectionSubSeq;
-    std::set<uint32_t> m_calculatorCipherDataSubSeq;
-    std::vector<bcos::bytes> m_calculatorCipherData;
-    std::map<uint32_t, bcos::bytes> m_calculatorIntersectionCipherDataMap;
-    std::map<uint32_t, bcos::bytes> m_calculatorIntersectionCipherDataFinalMap;
 
-    mutable boost::shared_mutex x_setCalculatorCipherData;
-    mutable boost::shared_mutex x_setCalculatorIntersectionCipherData;
+
+    // the cipher from the master
+    std::set<bcos::bytes> m_masterCipher;
+    // the seqs of the data received from master
+    std::set<uint32_t> m_receivedMasterCipher;
+    uint32_t m_masterDataBatchSize = 0;
+    mutable bcos::SharedMutex x_masterCipher;
+
+    // the intersection cipher received from master
+    std::map<uint32_t, bcos::bytes> m_intersectionCipher;
+    mutable bcos::SharedMutex x_intersectionCipher;
+    std::vector<bcos::bytes> m_intersectionResult;
 };
 }  // namespace ppc::psi

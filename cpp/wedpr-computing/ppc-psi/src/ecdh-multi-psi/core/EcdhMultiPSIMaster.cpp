@@ -17,7 +17,7 @@ EcdhMultiPSIMaster::EcdhMultiPSIMaster(EcdhMultiPSIConfig::Ptr _config, TaskStat
     auto task = m_taskState->task();
     auto receivers = task->getReceiverLists();
     m_taskID = task->id();
-    m_masterCipherDataCache = std::make_shared<MasterCipherDataCache>();
+    m_masterCache = std::make_shared<MasterCache>(m_taskState);
     m_final_counts[m_taskID] = 0;
     m_syncResult = (task->syncResultToPeer() && std::find(receivers.begin(), receivers.end(),
                                                     m_config->selfParty()) != receivers.end());
@@ -25,13 +25,23 @@ EcdhMultiPSIMaster::EcdhMultiPSIMaster(EcdhMultiPSIConfig::Ptr _config, TaskStat
 
 void EcdhMultiPSIMaster::asyncStartRunTask(ppc::protocol::Task::ConstPtr _task)
 {
-    InitAsyncTask(_task);
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("Master asyncStartRunTask") << printTaskInfo(_task);
+    initTask(_task);
+    ECDH_MASTER_LOG(INFO) << LOG_DESC("Master asyncStartRunTask") << printTaskInfo(_task);
     auto B = m_config->eccCrypto()->generateRandomScalar();
     m_randomB = std::make_shared<bcos::bytes>(B);
+    auto self = weak_from_this();
+    m_config->threadPool()->enqueue([self]() {
+        auto master = self.lock();
+        if (!master)
+        {
+            return;
+        }
+        ECDH_MASTER_LOG(INFO) << LOG_DESC("Master blindData") << LOG_KV("task", master->m_taskID);
+        master->blindData();
+    });
 }
 
-void EcdhMultiPSIMaster::InitAsyncTask(ppc::protocol::Task::ConstPtr _task)
+void EcdhMultiPSIMaster::initTask(ppc::protocol::Task::ConstPtr _task)
 {
     // Init all Roles from all Peers
     auto peerParties = _task->getAllPeerParties();
@@ -59,99 +69,54 @@ void EcdhMultiPSIMaster::onHandlerIntersectEncryptSetFromCalculator(PSIMessageIn
 {
     try
     {
-        ECDH_MULTI_LOG(INFO) << LOG_DESC("Part1-C: Master Receive H(X)*A ")
-                             << LOG_KV(" PSIMessageFace Size: ", _msg->takeDataMap().size())
-                             << LOG_KV(" PSIMessageFace SEQ: ", _msg->seq())
-                             << LOG_KV(" PSIMessageFace dataBatchCount: ", _msg->dataBatchCount());
-        WriteGuard lock(x_appendMasterCipherDataFromCalculator);
-        m_masterCipherDataCache->appendMasterCipherDataFromCalculator(
+        ECDH_MASTER_LOG(INFO) << LOG_DESC("Part1-C: Master Receive CipherData")
+                              << LOG_KV(" PSIMessageFace Size: ", _msg->takeDataMap().size())
+                              << LOG_KV(" PSIMessageFace SEQ: ", _msg->seq())
+                              << LOG_KV(" PSIMessageFace dataBatchCount: ", _msg->dataBatchCount());
+        WriteGuard lock(x_addCalculatorCipher);
+        m_masterCache->addCalculatorCipher(
             _msg->from(), _msg->takeDataMap(), _msg->seq(), _msg->dataBatchCount());
-        if (loadCipherDataFinished())
+        auto ret = m_masterCache->tryToIntersection();
+        if (!ret)
         {
-            m_masterCipherDataCache->tryToGetCipherDataIntersection();
-            auto cipherMaps = m_masterCipherDataCache->masterFinalIntersectionCipherData();
-            ECDH_MULTI_LOG(INFO) << LOG_DESC("Part2-C:Master [H(X)*A ∩ H(Y)*A]")
-                                 << LOG_KV(
-                                        " Received Cipher Set Success Size: ", cipherMaps.size());
-            tbb::concurrent_map<uint32_t, bcos::bytes> encryptedInterHashMap;
-            tbb::parallel_for_each(cipherMaps.begin(), cipherMaps.end(), [&](auto const& _pair) {
-                auto index = _pair.first;
-                auto value = _pair.second;
-                if (value.data())
-                {
-                    auto hashSet = m_config->eccCrypto()->ecMultiply(value, *m_randomB);
-                    // encryptedInterHashMap.insert(std::make_pair(index, hashSet));
-                    encryptedInterHashMap.emplace(std::make_pair(index, hashSet));
-                }
-            });
-
-            auto inputSize = encryptedInterHashMap.size();
-            auto batchSize = m_config->dataBatchSize();
-            auto needSendTimes = 0;
-            // send counts
-            if (inputSize % batchSize == 0)
-            {
-                needSendTimes = inputSize / batchSize;
-            }
-            else
-            {
-                needSendTimes = inputSize / batchSize + 1;
-            }
-            uint32_t readStart = 0, readCount = 0;
-            while (readStart < inputSize)
-            {
-                if (inputSize < batchSize)
-                {
-                    readCount = batchSize;
-                }
-                else if (readCount + batchSize < inputSize)
-                {
-                    readCount += batchSize;
-                }
-                else
-                {
-                    readCount = inputSize;
-                }
-                std::map<uint32_t, bcos::bytes> cHashMap;
-                ConcurrentSTLToCommon(encryptedInterHashMap, readStart, readCount, cHashMap);
-
-                for (auto& calcultor : m_calculatorParties)
-                {
-                    ECDH_MULTI_LOG(INFO)
-                        << LOG_KV(
-                               "Part2-C:Master Send the [H(X)*A ∩ H(Y)*A]*B success to "
-                               "Calculator: ",
-                               calcultor.first)
-                        << LOG_KV("EncryptSet [H(X)*A ∩ H(Y)*A]*B Size: ", cHashMap.size());
-                    auto message = m_config->psiMsgFactory()->createPSIMessage(uint32_t(
-                        EcdhMultiPSIMessageType::SEND_ENCRYPTED_INTERSECTION_SET_TO_CALCULATOR));
-                    message->setDataMap(std::move(cHashMap));
-                    message->setFrom(m_taskState->task()->selfParty()->id());
-                    message->setDataBatchCount(needSendTimes);
-                    m_config->generateAndSendPPCMessage(
-                        calcultor.first, m_taskID, message,
-                        [self = weak_from_this()](bcos::Error::Ptr&& _error) {
-                            if (!_error)
-                            {
-                                return;
-                            }
-                            auto psi = self.lock();
-                            if (!psi)
-                            {
-                                return;
-                            }
-                        },
-                        readCount);
-                }
-                readStart += batchSize;
-            }
+            return;
         }
+        encAndSendIntersectionData();
     }
     catch (std::exception& e)
     {
-        ECDH_MULTI_LOG(INFO) << LOG_DESC("Exception in onHandlerIntersectEncryptSetFromCalculator:")
-                             << boost::diagnostic_information(e);
+        ECDH_MASTER_LOG(WARNING) << LOG_DESC(
+                                        "Exception in onHandlerIntersectEncryptSetFromCalculator:")
+                                 << boost::diagnostic_information(e);
         onTaskError(boost::diagnostic_information(e));
+    }
+}
+
+
+void EcdhMultiPSIMaster::encAndSendIntersectionData()
+{
+    ECDH_MASTER_LOG(INFO) << LOG_DESC("encAndSendIntersectionData") << LOG_KV("taskID", m_taskID);
+    auto encryptedData = m_masterCache->encryptIntersection(*m_randomB);
+            auto message = m_config->psiMsgFactory()->createPSIMessage(
+            uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_INTERSECTION_SET_TO_CALCULATOR));
+        message->constructDataMap(encryptedData);
+        message->setFrom(m_taskState->task()->selfParty()->id());
+    for (auto& calcultor : m_calculatorParties)
+    {
+        ECDH_MASTER_LOG(INFO) << LOG_DESC("send intersection cipher to calculator")
+                              << LOG_KV("target", calcultor);
+        m_config->generateAndSendPPCMessage(calcultor.first, m_taskID, message,
+            [self = weak_from_this()](bcos::Error::Ptr&& _error) {
+                if (!_error)
+                {
+                    return;
+                }
+                auto psi = self.lock();
+                if (!psi)
+                {
+                    return;
+                }
+            });
     }
 }
 
@@ -160,214 +125,103 @@ void EcdhMultiPSIMaster::onHandlerIntersectEncryptSetFromPartner(PSIMessageInter
 {
     try
     {
-        WriteGuard lock(x_appendMasterCipherDataFromPartner);
-        m_masterCipherDataCache->appendMasterCipherDataFromPartner(
+        m_masterCache->addPartnerCipher(
             _msg->from(), _msg->takeData(), _msg->seq(), _msg->dataBatchCount());
-        ECDH_MULTI_LOG(INFO) << LOG_DESC("Part1-P: Master Receive H(Y)*A")
-                             << LOG_KV(" PSIMessageFace Size: ", _msg->takeData().size())
-                             << LOG_KV(" PSIMessageFace SEQ: ", _msg->seq())
-                             << LOG_KV(" PSIMessageFace dataBatchCount: ", _msg->dataBatchCount());
-
-        if (loadCipherDataFinished())
+        ECDH_MASTER_LOG(INFO) << LOG_DESC("Part1-P: Master Receive H(Y)*A")
+                              << LOG_KV(" PSIMessageFace Size: ", _msg->takeData().size())
+                              << LOG_KV(" PSIMessageFace SEQ: ", _msg->seq())
+                              << LOG_KV(" PSIMessageFace dataBatchCount: ", _msg->dataBatchCount());
+        auto ret = m_masterCache->tryToIntersection();
+        if (!ret)
         {
-            m_masterCipherDataCache->tryToGetCipherDataIntersection();
-            auto cipherMaps = m_masterCipherDataCache->masterFinalIntersectionCipherData();
-            ECDH_MULTI_LOG(INFO) << LOG_DESC("Part2-P:Master Receive [H(X)*A ∩ H(Y)*A]")
-                                 << LOG_KV(" Receive [H(X)*A ∩ H(Y)*A] Success Size: ",
-                                        cipherMaps.size());
-            tbb::concurrent_map<uint32_t, bcos::bytes> encryptedInterHashMap;
-
-            tbb::parallel_for_each(cipherMaps.begin(), cipherMaps.end(), [&](auto const& _pair) {
-                auto index = _pair.first;
-                auto value = _pair.second;
-                if (value.data())
-                {
-                    auto hashSet = m_config->eccCrypto()->ecMultiply(value, *m_randomB);
-                    // encryptedInterHashMap.insert(std::make_pair(index, hashSet));
-                    encryptedInterHashMap.emplace(std::make_pair(index, hashSet));
-                }
-            });
-
-            auto inputSize = encryptedInterHashMap.size();
-            auto batchSize = m_config->dataBatchSize();
-            auto needSendTimes = 0;
-            // send counts
-            if (inputSize == 0)
-            {
-                needSendTimes = 1;
-                for (auto& calcultor : m_calculatorParties)
-                {
-                    std::map<uint32_t, bcos::bytes> cHashMap;
-                    ECDH_MULTI_LOG(INFO)
-                        << LOG_KV(
-                               "Part2-P: Master Send the [H(X)*A ∩ H(Y)*A]*B success to "
-                               "Calculator: ",
-                               calcultor.first)
-                        << LOG_KV("EncryptSet [H(X)*A ∩ H(Y)*A]*B Size: ", 0);
-                    auto message = m_config->psiMsgFactory()->createPSIMessage(uint32_t(
-                        EcdhMultiPSIMessageType::SEND_ENCRYPTED_INTERSECTION_SET_TO_CALCULATOR));
-                    message->setDataMap(std::move(cHashMap));
-                    message->setFrom(m_taskState->task()->selfParty()->id());
-                    message->setDataBatchCount(needSendTimes);
-                    m_config->generateAndSendPPCMessage(
-                        calcultor.first, m_taskID, message,
-                        [self = weak_from_this()](bcos::Error::Ptr&& _error) {
-                            if (!_error)
-                            {
-                                return;
-                            }
-                            auto psi = self.lock();
-                            if (!psi)
-                            {
-                                return;
-                            }
-                        },
-                        0);
-                }
-                return;
-            }
-            else if (inputSize % batchSize == 0)
-            {
-                needSendTimes = inputSize / batchSize;
-            }
-            else
-            {
-                needSendTimes = inputSize / batchSize + 1;
-            }
-            uint32_t readStart = 0, readCount = 0;
-            while (readCount < inputSize)
-            {
-                if (inputSize < batchSize)
-                {
-                    readCount = batchSize;
-                }
-                else if (readCount + batchSize < inputSize)
-                {
-                    readCount += batchSize;
-                }
-                else
-                {
-                    readCount = inputSize;
-                }
-                std::map<uint32_t, bcos::bytes> cHashMap;
-                ConcurrentSTLToCommon(encryptedInterHashMap, readStart, readCount, cHashMap);
-
-                for (auto& calcultor : m_calculatorParties)
-                {
-                    ECDH_MULTI_LOG(INFO)
-                        << LOG_KV(
-                               "Part2-P: Master Send the [H(X)*A ∩ H(Y)*A]*B success to "
-                               "Calculator: ",
-                               calcultor.first)
-                        << LOG_KV("EncryptSet [H(X)*A ∩ H(Y)*A]*B Size: ", cHashMap.size());
-                    auto message = m_config->psiMsgFactory()->createPSIMessage(uint32_t(
-                        EcdhMultiPSIMessageType::SEND_ENCRYPTED_INTERSECTION_SET_TO_CALCULATOR));
-                    message->setDataMap(std::move(cHashMap));
-                    message->setFrom(m_taskState->task()->selfParty()->id());
-                    message->setDataBatchCount(needSendTimes);
-                    m_config->generateAndSendPPCMessage(
-                        calcultor.first, m_taskID, message,
-                        [self = weak_from_this()](bcos::Error::Ptr&& _error) {
-                            if (!_error)
-                            {
-                                return;
-                            }
-                            auto psi = self.lock();
-                            if (!psi)
-                            {
-                                return;
-                            }
-                        },
-                        readCount);
-                }
-                readStart += batchSize;
-            }
+            return;
         }
+        encAndSendIntersectionData();
     }
     catch (std::exception& e)
     {
-        ECDH_MULTI_LOG(INFO) << LOG_DESC("Exception in onHandlerIntersectEncryptSetFromPartner:")
-                             << boost::diagnostic_information(e);
+        ECDH_MASTER_LOG(WARNING) << LOG_DESC(
+                                        "Exception in onHandlerIntersectEncryptSetFromPartner:")
+                                 << boost::diagnostic_information(e);
         onTaskError(boost::diagnostic_information(e));
     }
 }
 
 // Part3: Master -> Calculator H(Z)*B
-void EcdhMultiPSIMaster::onHandlerEncryptIntersectionSetFromCalculatorToMaster(
-    PSIMessageInterface::Ptr _msg)
+void EcdhMultiPSIMaster::blindData()
 {
     try
     {
-        m_originInputs = m_taskState->loadAllData();
-        if (!m_originInputs || m_originInputs->size() == 0)
+        ECDH_MULTI_LOG(INFO) << LOG_DESC("blindData") << LOG_KV("taskID", m_taskID);
+        auto startT = utcSteadyTime();
+        auto reader = m_taskState->reader();
+        uint64_t dataOffset = 0;
+        do
         {
-            BOOST_THROW_EXCEPTION(ECDHMULTIException() << bcos::errinfo_comment("data is empty"));
-        }
-        auto inputSize = m_originInputs->size();
-        auto batchSize = m_config->dataBatchSize();
-        auto needSendTimes = 0;
-        // send counts
-        if (inputSize % batchSize == 0)
-        {
-            needSendTimes = inputSize / batchSize;
-        }
-        else
-        {
-            needSendTimes = inputSize / batchSize + 1;
-        }
-        ECDH_MULTI_LOG(INFO) << LOG_KV("Part3: Master computeAndEncryptSet RandomB: ",
-                                    m_randomB->data())
-                             << LOG_KV(" Load All Data Size: ", inputSize);
-        auto hash = m_config->hash();
-        uint32_t readStart = 0, readCount = 0;
-        std::vector<bcos::bytes> encryptedHashSet;
-        encryptedHashSet.reserve(inputSize);
-        encryptedHashSet.resize(inputSize);
-        tbb::parallel_for(tbb::blocked_range<size_t>(0U, inputSize), [&](auto const& range) {
-            for (auto i = range.begin(); i < range.end(); i++)
+            if (m_taskState->loadFinished())
             {
-                auto data = m_originInputs->getBytes(i);
-                auto hashData = hash->hash(bcos::bytesConstRef(data.data(), data.size()));
-                auto point = m_config->eccCrypto()->hashToCurve(hashData);
-                auto hashSet = m_config->eccCrypto()->ecMultiply(point, *m_randomB);
-                encryptedHashSet[i] = hashSet;
+                break;
             }
-        });
-        while (readCount < inputSize)
-        {
-            if (inputSize < batchSize)
+            DataBatch::Ptr dataBatch = nullptr;
+            uint32_t seq = 0;
             {
-                readCount = batchSize;
+                bcos::Guard l(m_mutex);
+                // Note: next is not thread-safe
+                dataBatch =
+                    m_taskState->reader()->next(m_taskState->readerParam(), DataSchema::Bytes);
+                if (!dataBatch)
+                {
+                    ECDH_CAL_LOG(INFO)
+                        << LOG_DESC("computeAndEncryptSet return for all data loaded")
+                        << LOG_KV("task", _taskID);
+                    m_taskState->setFinished(true);
+                    break;
+                }
+                // allocate seq
+                seq = m_taskState->allocateSeq();
+                if (m_taskState->sqlReader())
+                {
+                    m_taskState->setFinished(true);
+                }
             }
-            else if (readCount + batchSize < inputSize)
-            {
-                readCount += batchSize;
-            }
-            else
-            {
-                readCount = inputSize;
-            }
+            auto startT = utcSteadyTime();
+            ECDH_MASTER_LOG(INFO) << LOG_DESC("encrypt data")
+                                  << LOG_KV("dataSize", dataBatch->size());
+            std::vector<bcos::bytes> cipher(dataBatch->size());
+            tbb::parallel_for(tbb::blocked_range<size_t>(0U, inputSize), [&](auto const& range) {
+                for (auto i = range.begin(); i < range.end(); i++)
+                {
+                    auto const& data = dataBatch->get<bcos::bytes>(i);
+                    auto hashData =
+                        m_config->hash()->hash(bcos::bytesConstRef(data.data(), data.size()));
+                    auto point = m_config->eccCrypto()->hashToCurve(hashData);
+                    cipher[i] = m_config->eccCrypto()->ecMultiply(point, *m_randomB);
+                    ;
+                }
+            });
+            ECDH_MASTER_LOG(INFO) << LOG_DESC("encrypt data success")
+                                  << LOG_KV("dataSize", dataBatch->size())
+                                  << LOG_KV("task", m_taskID)
+                                  << LOG_KV("timecost", (utcSteadyTime() - startT));
 
-            std::vector<bcos::bytes> encryptedHashSetSplit;
-            splitVector(encryptedHashSet, readStart, readCount, encryptedHashSetSplit);
-
-            ECDH_MULTI_LOG(INFO)
-                << LOG_KV("Part3: Master compute the H(Z)*B encryptedHashSet success size: ",
-                       encryptedHashSet.size())
-                << LOG_KV("Part3: Master compute the H(Z)*B encryptedHashSetSplit success size: ",
-                       encryptedHashSetSplit.size());
-
+            ECDH_MASTER_LOG(INFO) << LOG_DESC("send encrypted data to all calculator")
+                                  << LOG_KV("task", m_taskID)
+                                  << LOG_KV("calculators", m_calculatorParties.size());
+                                  auto message = m_config->psiMsgFactory()->createPSIMessage(
+                    uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_SET_TO_CALCULATOR));
+                message->constructDataMap(cipher, dataOffset);
+                if (reader->readFinished())
+                {
+                    message->setDataBatchCount(m_taskState->sendedDataBatchSize());
+                }
+                else
+                {
+                    // 0 means not finished
+                    message->setDataBatchCount(0);
+                }
+                message->setFrom(m_taskState->task()->selfParty()->id());
             for (auto& calcultor : m_calculatorParties)
             {
-                ECDH_MULTI_LOG(INFO)
-                    << LOG_KV(
-                           " Send the EncryptSet H(Z)*B success to Calculator: ", calcultor.first)
-                    << LOG_KV("EncryptSet Sample: ", encryptedHashSet[0].data());
-                auto message = m_config->psiMsgFactory()->createPSIMessage(
-                    uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_SET_TO_CALCULATOR));
-                message->setData(encryptedHashSetSplit);
-                message->setDataBatchCount(needSendTimes);
-                message->setFrom(m_taskState->task()->selfParty()->id());
                 m_config->generateAndSendPPCMessage(
                     calcultor.first, m_taskID, message,
                     [self = weak_from_this()](bcos::Error::Ptr&& _error) {
@@ -383,77 +237,38 @@ void EcdhMultiPSIMaster::onHandlerEncryptIntersectionSetFromCalculatorToMaster(
                     },
                     readCount);
             }
-            readStart += batchSize;
-        }
+            dataOffset += dataBatch->size();
+        } while (!m_taskState->sqlReader());
     }
     catch (std::exception& e)
     {
-        ECDH_MULTI_LOG(INFO)
+        ECDH_MASTER_LOG(WARNING)
             << LOG_DESC("Exception in onHandlerEncryptIntersectionSetFromCalculatorToMaster:")
             << boost::diagnostic_information(e);
         onTaskError(boost::diagnostic_information(e));
     }
 }
 
-void EcdhMultiPSIMaster::onHandlerSyncFinalResultToAllPeer(PSIMessageInterface::Ptr _msg)
+void EcdhMultiPSIMaster::onReceivePSIResult(PSIMessageInterface::Ptr _msg)
 {
-    ECDH_MULTI_LOG(INFO)
-        << LOG_KV("Final: Master Get SyncFinalResultToAllPeer From Calculator : ",
-               _msg->takeData().size())
-        << LOG_KV("Final: Master Get SyncFinalResultToAllPeer From Calculator count: ",
-               m_final_counts[m_taskID])
-        << LOG_KV("Final: Master isSyncedResult:", m_syncResult);
-
+    ECDH_MASTER_LOG(INFO) << LOG_DESC("onReceivePSIResult")
+                        << printPPCMsg(_msg);
     if (m_syncResult)
     {
-        auto needTimes = _msg->dataBatchCount();
-        auto res = _msg->takeData();
-
-        trimVector(res);
-        bcos::WriteGuard l(x_final_count);
-        m_final_vectors.insert(m_final_vectors.end(), res.begin(), res.end());
-        m_final_counts[m_taskID]++;
-        if (m_final_counts[m_taskID] < needTimes)
-        {
-            return;
-        }
-
-        m_taskState->storePSIResult(m_config->dataResourceLoader(), m_final_vectors);
-        ECDH_MULTI_LOG(INFO) << LOG_KV(
-            "Final: Master onHandlerSyncFinalResultToAllPeer Store Intersection_XY^b ∩ H(Z)^b^a "
-            "Success"
-            "Dataset size: ",
-            m_final_vectors.size());
+        m_taskState->storePSIResult(m_config->dataResourceLoader(), _msg->takeData());
+        ECDH_MASTER_LOG(INFO) << LOG_DESC("onReceivePSIResult: store psi result success")
+        << printPPCMsg(_msg);
     }
     else
     {
-        ECDH_MULTI_LOG(INFO) << LOG_DESC("Master:No Need To ReceiveResultFromCalculator");
+        ECDH_MASTER_LOG(INFO) << LOG_DESC("Master:No Need To store the psi result")
+        << printPPCMsg(_msg);
     }
 
     m_taskState->setFinished(true);
     m_taskState->onTaskFinished();
 }
 
-bool EcdhMultiPSIMaster::loadCipherDataFinished()
-{
-    auto allPeerParties = m_taskState->task()->getAllPeerParties();
-    auto finishedPeers = m_masterCipherDataCache->masterTaskPeersFinishedList();
-    if (allPeerParties.size() == finishedPeers.size())
-    {
-        for (auto& _peer : allPeerParties)
-        {
-            if (!finishedPeers.contains(_peer.first))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
 
 void EcdhMultiPSIMaster::onTaskError(std::string&& _error)
 {

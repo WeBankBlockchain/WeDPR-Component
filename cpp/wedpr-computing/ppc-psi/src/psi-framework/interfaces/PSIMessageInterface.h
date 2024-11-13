@@ -45,6 +45,8 @@ public:
     // get all the data
     virtual std::vector<bcos::bytes> takeData() = 0;
     virtual void setDataMap(std::map<uint32_t, bcos::bytes>&& _map) = 0;
+    virtual void constructDataMap(std::vector<bcos::bytes> const& data, uint64_t startIndex) = 0;
+    virtual void constructDataMap(std::vector<std::pair<uint64_t, bcos::bytes>> const& data) = 0;
     virtual std::map<uint32_t, bcos::bytes> takeDataMap() = 0;
     // Note: can't call this after takeData
     virtual uint64_t dataSize() const = 0;

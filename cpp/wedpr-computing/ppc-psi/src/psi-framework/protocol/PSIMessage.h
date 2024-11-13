@@ -127,6 +127,26 @@ public:
         }
     }
 
+    void constructDataMap(std::vector<bcos::bytes> const& data, uint64_t startIndex) override
+    {
+        m_inner()->dataMap.clear();
+        int i = startIndex;
+        for (auto const& it : data)
+        {
+            m_inner()->dataMap[i].assign(it.begin(), it.end());
+            i++;
+        }
+    }
+
+    void constructDataMap(std::vector<std::pair<uint64_t, bcos::bytes>> const& data) override
+    {
+        m_inner()->dataMap.clear();
+        for (auto const& it : data)
+        {
+            m_inner()->dataMap[it.first].assign(it.second.begin(), it.second.end());
+        }
+    }
+
     void appendData(bcos::bytes const& _dataItem) override
     {
         m_inner()->data.emplace_back(_dataItem.begin(), _dataItem.end());

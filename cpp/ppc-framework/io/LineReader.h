@@ -38,6 +38,7 @@ public:
     virtual uint64_t columnSize() const = 0;
     virtual ppc::protocol::DataResourceType type() const = 0;
     virtual void clean() {}
+    virtual bool readFinished() const = 0;
 };
 
 class LineReaderFactory
