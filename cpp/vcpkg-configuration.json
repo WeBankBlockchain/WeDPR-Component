@@ -9,7 +9,8 @@
         "bcos-utilities",
         "bcos-boostssl",
         "tarscpp",
-        "libhdfs3"
+        "libhdfs3",
+        "tbb"
       ]
     }
   ]
