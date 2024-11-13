@@ -46,24 +46,24 @@ void EcdhMultiPSIImpl::handlerPSIReceiveMessage(PSIMessageInterface::Ptr _msg)
             case (uint32_t)EcdhMultiPSIMessageType::GENERATE_RANDOM_TO_PARTNER:
             {
                 // calculator -> partner (A)
-                psi->onComputeAndEncryptSet(_msg);
+                psi->onReceiveRandomA(_msg);
                 break;
             }
             case (uint32_t)EcdhMultiPSIMessageType::SEND_ENCRYPTED_SET_TO_MASTER_FROM_CALCULATOR:
             {
                 // calculator -> master H(X)*A
-                psi->onHandlerIntersectEncryptSetFromCalculator(_msg);
+                psi->onReceiveCalCipher(_msg);
                 break;
             }
             case (uint32_t)EcdhMultiPSIMessageType::SEND_ENCRYPTED_SET_TO_MASTER_FROM_PARTNER:
             {
                 // patner -> master H(Y)*A
-                psi->onHandlerIntersectEncryptSetFromPartner(_msg);
+                psi->onReceiveCipherFromPartner(_msg);
                 break;
             }
             case (uint32_t)EcdhMultiPSIMessageType::SEND_ENCRYPTED_INTERSECTION_SET_TO_CALCULATOR:
             {
-                psi->onObtainIntersecCipher(_msg);
+                psi->onReceiveIntersecCipher(_msg);
                 break;
             }
             case (uint32_t)EcdhMultiPSIMessageType::SEND_ENCRYPTED_SET_TO_CALCULATOR:
@@ -102,9 +102,11 @@ void EcdhMultiPSIImpl::handlerPSIReceiveMessage(PSIMessageInterface::Ptr _msg)
 void EcdhMultiPSIImpl::asyncRunTask(
     ppc::protocol::Task::ConstPtr _task, ppc::task::TaskResponseCallback&& _onTaskFinished)
 {
+    auto taskID = _task->id();
     auto taskState =
         m_taskStateFactory->createTaskState(_task, std::move(_onTaskFinished), false, m_config);
-    taskState->registerNotifyPeerFinishHandler([self = weak_from_this(), _task]() {
+    auto self = weak_from_this();
+    taskState->registerNotifyPeerFinishHandler([self, _task]() {
         auto psi = self.lock();
         if (!psi)
         {
@@ -112,14 +114,28 @@ void EcdhMultiPSIImpl::asyncRunTask(
         }
         psi->noticePeerToFinish(_task);
     });
+    taskState->registerFinalizeHandler([self, taskID]() {
+        auto psi = self.lock();
+        if (!psi)
+        {
+            return;
+        }
+        // erase the taskInfo from the gateway
+        psi->m_config->front()->eraseTaskInfo(taskID);
+        psi->removeCalculator(taskID);
+        psi->removeMaster(taskID);
+        psi->removePartner(taskID);
+        psi->removePendingTask(taskID);
+    });
     addPendingTask(taskState);
 
     try
     {
         auto dataResource = _task->selfParty()->dataResource();
         auto reader = loadReader(_task->id(), dataResource, DataSchema::Bytes);
+        auto sqlReader = (reader->type() == ppc::protocol::DataResourceType::MySQL);
         auto nextParam = sqlReader ? 0 : m_config->dataBatchSize();
-        taskState->setReader(reader, -1);
+        taskState->setReader(reader, nextParam);
         auto role = _task->selfParty()->partyIndex();
         auto receivers = _task->getReceiverLists();
         ECDH_MULTI_LOG(INFO) << LOG_DESC("Start a asyncRunTask ") << LOG_KV("taskID", _task->id())
@@ -221,7 +237,7 @@ void EcdhMultiPSIImpl::checkFinishedTask()
         for (auto it = m_pendingTasks.begin(); it != m_pendingTasks.end();)
         {
             auto task = it->second;
-            if (task->finished())
+            if (task->taskDone())
             {
                 finishedTask.insert(it->first);
             }
@@ -239,7 +255,7 @@ void EcdhMultiPSIImpl::checkFinishedTask()
 
 void EcdhMultiPSIImpl::onReceivedErrorNotification(const std::string& _taskID)
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceivedErrorNotification") << LOG_KV("taskID", taskID);
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceivedErrorNotification") << LOG_KV("taskID", _taskID);
     // finish the task while the peer is failed
     auto taskState = findPendingTask(_taskID);
     if (taskState)
@@ -303,9 +319,9 @@ void EcdhMultiPSIImpl::executeWorker()
     waitSignal();
 }
 
-void EcdhMultiPSIImpl::onComputeAndEncryptSet(PSIMessageInterface::Ptr _msg)
+void EcdhMultiPSIImpl::onReceiveRandomA(PSIMessageInterface::Ptr _msg)
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onComputeAndEncryptSet") << printPSIMessage(_msg);
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveRandomA") << printPSIMessage(_msg);
     auto startT = utcSteadyTime();
     auto partner = findPartner(_msg->taskID());
     if (partner)
@@ -313,40 +329,38 @@ void EcdhMultiPSIImpl::onComputeAndEncryptSet(PSIMessageInterface::Ptr _msg)
         if (_msg->takeData().size() == 1)
         {
             auto msgData = _msg->getData(0);
-            partner->onComputeAndEncryptSet(
+            partner->onReceiveRandomA(
                 std::make_shared<bcos::bytes>(bcos::bytes(msgData.begin(), msgData.end())));
         }
     }
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onComputeAndEncryptSet success") << printPSIMessage(_msg)
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveRandomA finished") << printPSIMessage(_msg)
                          << LOG_KV("timecost", (utcSteadyTime() - startT));
 }
 
-void EcdhMultiPSIImpl::onHandlerIntersectEncryptSetFromCalculator(PSIMessageInterface::Ptr _msg)
+void EcdhMultiPSIImpl::onReceiveCalCipher(PSIMessageInterface::Ptr _msg)
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onHandlerIntersectEncryptSetFromCalculator")
-                         << printPSIMessage(_msg);
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveCalCipher") << printPSIMessage(_msg);
     auto startT = utcSteadyTime();
     auto master = findMaster(_msg->taskID());
     if (master)
     {
-        master->onHandlerIntersectEncryptSetFromCalculator(_msg);
+        master->onReceiveCalCipher(_msg);
     }
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onHandlerIntersectEncryptSetFromCalculator success")
-                         << printPSIMessage(_msg) << LOG_KV("timecost", (utcSteadyTime() - startT));
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveCalCipher success") << printPSIMessage(_msg)
+                         << LOG_KV("timecost", (utcSteadyTime() - startT));
 }
 
-void EcdhMultiPSIImpl::onHandlerIntersectEncryptSetFromPartner(PSIMessageInterface::Ptr _msg)
+void EcdhMultiPSIImpl::onReceiveCipherFromPartner(PSIMessageInterface::Ptr _msg)
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onHandlerIntersectEncryptSetFromPartner")
-                         << printPSIMessage(_msg);
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveCipherFromPartner") << printPSIMessage(_msg);
     auto startT = utcSteadyTime();
     auto master = findMaster(_msg->taskID());
     if (master)
     {
-        master->onHandlerIntersectEncryptSetFromPartner(_msg);
+        master->onReceiveCipherFromPartner(_msg);
     }
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onHandlerIntersectEncryptSetFromPartner success")
-                         << printPSIMessage(_msg) << LOG_KV("timecost", (utcSteadyTime() - startT));
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveCipherFromPartner finished") << printPSIMessage(_msg)
+                         << LOG_KV("timecost", (utcSteadyTime() - startT));
 }
 
 void EcdhMultiPSIImpl::onReceiveIntersecCipher(PSIMessageInterface::Ptr _msg)
@@ -358,7 +372,7 @@ void EcdhMultiPSIImpl::onReceiveIntersecCipher(PSIMessageInterface::Ptr _msg)
     {
         calculator->onReceiveIntersecCipher(_msg);
     }
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveIntersecCipher success") << printPSIMessage(_msg)
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveIntersecCipher finished") << printPSIMessage(_msg)
                          << LOG_KV("timecost", (utcSteadyTime() - startT));
 }
 
@@ -371,7 +385,7 @@ void EcdhMultiPSIImpl::onReceiveMasterCipher(PSIMessageInterface::Ptr _msg)
     {
         calculator->onReceiveMasterCipher(_msg);
     }
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveMasterCipher success") << printPSIMessage(_msg)
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveMasterCipher finished") << printPSIMessage(_msg)
                          << LOG_KV("timecost", (utcSteadyTime() - startT));
 }
 
@@ -384,7 +398,7 @@ void EcdhMultiPSIImpl::onReceivePSIResult(PSIMessageInterface::Ptr _msg)
     if (master)
     {
         master->onReceivePSIResult(_msg);
-        ECDH_MULTI_LOG(INFO) << LOG_DESC("Master onReceivePSIResult success")
+        ECDH_MULTI_LOG(INFO) << LOG_DESC("Master onReceivePSIResult finished")
                              << printPSIMessage(_msg)
                              << LOG_KV("timecost", (utcSteadyTime() - startT));
         return;
@@ -394,7 +408,7 @@ void EcdhMultiPSIImpl::onReceivePSIResult(PSIMessageInterface::Ptr _msg)
     if (partner)
     {
         partner->onReceivePSIResult(_msg);
-        ECDH_MULTI_LOG(INFO) << LOG_DESC("Partner onReceivePSIResult success")
+        ECDH_MULTI_LOG(INFO) << LOG_DESC("Partner onReceivePSIResult finished")
                              << printPSIMessage(_msg)
                              << LOG_KV("timecost", (utcSteadyTime() - startT));
         return;

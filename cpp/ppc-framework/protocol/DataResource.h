@@ -125,10 +125,7 @@ inline std::string printDataResourceInfo(DataResource::ConstPtr _dataResource)
     {
         stringstream << LOG_KV("dataType", _dataResource->desc()->type())
                      << LOG_KV("command", _dataResource->desc()->accessCommand())
-                     << LOG_KV("path", _dataResource->desc()->path())
-                     << LOG_KV("bizSeqNo", _dataResource->desc()->bizSeqNo())
-                     << LOG_KV("fileID", _dataResource->desc()->fileID())
-                     << LOG_KV("fileMd5", _dataResource->desc()->fileMd5());
+                     << LOG_KV("path", _dataResource->desc()->path());
     }
     if (_dataResource->outputDesc())
     {

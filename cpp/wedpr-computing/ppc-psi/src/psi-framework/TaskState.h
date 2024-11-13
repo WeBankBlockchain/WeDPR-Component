@@ -48,7 +48,10 @@ public:
         m_taskStartTime = bcos::utcSteadyTime();
     }
 
-    virtual ~TaskState() {}
+    virtual ~TaskState()
+    {
+        PSI_LOG(INFO) << LOG_DESC("TaskState Destructor") << LOG_KV("task", m_task->id());
+    }
 
     ppc::task::TaskResponseCallback const& callback() { return m_callback; }
     ppc::task::TaskResponseCallback takeCallback() { return std::move(m_callback); }
@@ -203,10 +206,11 @@ public:
         {
             return;
         }
-        PSI_LOG(INFO) << LOG_DESC("onTaskFinished") << LOG_KV("task", m_task->id())
+        PSI_LOG(INFO) << LOG_DESC("* onTaskFinished") << LOG_KV("task", m_task->id())
                       << LOG_KV("success", m_successCount) << LOG_KV("failed", m_failedCount)
                       << LOG_KV("loadFinished", m_finished.load())
-                      << LOG_KV("callback", m_callback ? "withCallback" : "emptyCallback");
+                      << LOG_KV("callback", m_callback ? "withCallback" : "emptyCallback")
+                      << LOG_KV("taskTimecost", taskPendingTime());
         auto result = std::make_shared<ppc::protocol::TaskResult>(m_task->id());
         try
         {
@@ -241,7 +245,8 @@ public:
         }
         catch (std::exception const& e)
         {
-            PSI_LOG(WARNING) << LOG_DESC("onTaskFinished exception")
+            PSI_LOG(WARNING) << LOG_DESC("* onTaskFinished exception")
+                             << LOG_KV("taskTimeCost", taskPendingTime())
                              << LOG_KV("msg", boost::diagnostic_information(e));
             auto error = std::make_shared<bcos::Error>(-1, boost::diagnostic_information(e));
             result->setError(std::move(error));
@@ -362,6 +367,9 @@ public:
         dataBatch->setData(_data);
         m_writer->writeLine(dataBatch, ppc::io::DataSchema::Bytes);
         m_writer->flush();
+        PSI_LOG(INFO) << LOG_DESC("* storePSIResult success")
+                      << LOG_KV("intersectionCount", _data.size())
+                      << LOG_KV("taskTimecost", taskPendingTime());
     }
 
     std::function<void()> takeFinalizeHandler() { return std::move(m_finalizeHandler); }
@@ -377,6 +385,20 @@ public:
         if (!m_callback)
         {
             return;
+        }
+        // should been called even when exception
+        if (m_finalizeHandler)
+        {
+            try
+            {
+                m_finalizeHandler();
+            }
+            catch (std::exception const& e)
+            {
+                PSI_LOG(WARNING) << LOG_DESC("finalize task exception")
+                                 << LOG_KV("taskID", m_task->id())
+                                 << LOG_KV("msg", boost::diagnostic_information(e));
+            }
         }
         auto taskResult = std::make_shared<ppc::protocol::TaskResult>(m_task->id());
         auto msg = "Task " + m_task->id() + " exception, error : " + _errorMsg;

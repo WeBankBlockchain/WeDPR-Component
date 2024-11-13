@@ -48,12 +48,12 @@ public:
 
 protected:
     bool m_enableOutputExists = false;
-    virtual void onComputeAndEncryptSet(PSIMessageInterface::Ptr _msg);
-    virtual void onHandlerIntersectEncryptSetFromCalculator(PSIMessageInterface::Ptr _msg);
+    virtual void onReceiveRandomA(PSIMessageInterface::Ptr _msg);
+    virtual void onReceiveCalCipher(PSIMessageInterface::Ptr _msg);
     virtual void handlerPSIReceiveMessage(PSIMessageInterface::Ptr _msg);
     virtual void onReceiveIntersecCipher(PSIMessageInterface::Ptr _msg);
     virtual void onReceiveMasterCipher(PSIMessageInterface::Ptr _msg);
-    virtual void onHandlerIntersectEncryptSetFromPartner(PSIMessageInterface::Ptr _msg);
+    virtual void onReceiveCipherFromPartner(PSIMessageInterface::Ptr _msg);
     virtual void onReceivePSIResult(PSIMessageInterface::Ptr _msg);
 
     EcdhMultiPSICalculator::Ptr findCalculator(const std::string& _taskID)

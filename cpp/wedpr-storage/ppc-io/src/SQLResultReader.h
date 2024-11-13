@@ -64,6 +64,7 @@ public:
     {
         throw std::runtime_error("SQLResultReader: unimplemented readBytes!");
     }
+    bool readFinished() const override { return true; }
 
 private:
     ppc::storage::QueryResult::Ptr m_result;

@@ -27,7 +27,7 @@ using namespace bcos;
 void MasterCache::addCalculatorCipher(std::string _peerId,
     std::map<uint32_t, bcos::bytes>&& _cipherData, uint32_t seq, uint32_t dataBatchCount)
 {
-    bcos::WriteGuard lock(x_calculatorCipher);
+    bcos::WriteGuard l(x_calculatorCipher);
     m_calculatorCipher.insert(_cipherData.begin(), _cipherData.end());
     m_calculatorCipherSeqs.insert(seq);
     if (dataBatchCount)
@@ -36,35 +36,42 @@ void MasterCache::addCalculatorCipher(std::string _peerId,
     }
     ECDH_MULTI_LOG(INFO) << LOG_DESC(
                                 "addCalculatorCipher: master receive cipher data from calculator")
-                         << LOG_KV("calculator", _peerId)
-                         << LOG_KV("task", printCacheState(m_taskState))
+                         << LOG_KV("calculator", _peerId) << printCacheState()
                          << LOG_KV("receivedSize", m_calculatorCipherSeqs.size())
+                         << LOG_KV("calculatorCipherSize", m_calculatorCipher.size())
                          << LOG_KV("dataBatchCount", m_calculatorDataBatchCount);
     if (m_calculatorDataBatchCount > 0 &&
         m_calculatorCipherSeqs.size() == m_calculatorDataBatchCount)
     {
         ECDH_MULTI_LOG(INFO) << LOG_DESC("The master receive all cipher data from the calculator")
-                             << LOG_KV("calculatorId", _peerId)
-                             << LOG_KV("task", printCacheState(m_taskState));
+                             << LOG_KV("calculatorId", _peerId) << printCacheState();
         m_finishedPartners.insert(_peerId);
     }
 }
 
 void MasterCache::addPartnerCipher(std::string _peerId, std::vector<bcos::bytes>&& _cipherData,
-    uint32_t seq, uint32_t needSendTimes)
+    uint32_t seq, uint32_t parternerDataCount)
 {
     bcos::WriteGuard lock(x_partnerToCipher);
     if (!m_partnerToCipher.count(_peerId))
     {
-        m_partnerToCipher.insert(std::make_pair(_peerId, std::set()));
+        m_partnerToCipher.insert(std::make_pair(_peerId, std::set<bcos::bytes>()));
     }
     m_partnerToCipher[_peerId].insert(_cipherData.begin(), _cipherData.end());
     m_partnerCipherSeqs[_peerId].insert(seq);
     ECDH_MULTI_LOG(INFO) << LOG_DESC("addPartnerCipher") << LOG_KV("partner", _peerId)
                          << LOG_KV("seqSize", m_partnerCipherSeqs.at(_peerId).size())
-                         << LOG_KV("task", printCacheState(m_taskState));
-
-    if (m_partnerCipherSeqs[_peerId].size() == needSendTimes)
+                         << LOG_KV("cipherDataSize", _cipherData.size()) << printCacheState();
+    if (parternerDataCount > 0)
+    {
+        m_parternerDataCount.insert(std::make_pair(_peerId, parternerDataCount));
+    }
+    if (!m_parternerDataCount.count(_peerId))
+    {
+        return;
+    }
+    auto expectedCount = m_parternerDataCount.at(_peerId);
+    if (m_partnerCipherSeqs[_peerId].size() == expectedCount)
     {
         m_finishedPartners.insert(_peerId);
     }
@@ -77,10 +84,10 @@ bool MasterCache::tryToIntersection()
     {
         return false;
     }
-    m_state = CacheState::IntersectionProgressing;
+    m_cacheState = CacheState::IntersectionProgressing;
 
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("tryToIntersection ")
-                         << LOG_KV("task", printCacheState(m_taskState));
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("tryToIntersection ") << printCacheState()
+                         << LOG_KV("calculatorCipher", m_calculatorCipher.size());
     auto startT = utcSteadyTime();
     // iterator the calculator cipher to obtain intersection
     for (auto&& it : m_calculatorCipher)
@@ -95,74 +102,95 @@ bool MasterCache::tryToIntersection()
                 break;
             }
         }
-        if (intersection)
+        if (insersected)
         {
-            m_intersecCipher.insert(std::make_pair(it.first, std::move(it.second)));
+            m_intersecCipher.emplace_back(std::move(it.second));
+            m_intersecCipherIndex.emplace_back(it.first);
         }
     }
-    m_state = CacheState::Intersectioned;
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("tryToIntersection success")
-                         << LOG_KV("task", printCacheState(m_taskState))
+    m_cacheState = CacheState::Intersectioned;
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("tryToIntersection success") << printCacheState()
                          << LOG_KV("timecost", (utcSteadyTime() - startT));
     return true;
 }
 
-std::vector<bcos::bytes> CalculatorCache::encryptIntersection(bcos::bytes const& randomKey)
+std::vector<std::pair<uint64_t, bcos::bytes>> MasterCache::encryptIntersection(
+    bcos::bytes const& randomKey)
 {
     std::vector<std::pair<uint64_t, bcos::bytes>> cipherData(m_intersecCipher.size());
-    tbb::parallel_for_each(
-        m_intersecCipher.begin(), m_intersecCipher.end(), [&](auto const& _pair) {
-            auto value = _pair.second;
-            auto cipherValue = m_config->eccCrypto()->ecMultiply(value, randomKey);
-            cipherData[i] = std::make_pair(_pair.first, cipherValue);
+    tbb::parallel_for(
+        tbb::blocked_range<size_t>(0U, m_intersecCipher.size()), [&](auto const& range) {
+            for (auto i = range.begin(); i < range.end(); i++)
+            {
+                auto cipherValue =
+                    m_config->eccCrypto()->ecMultiply(m_intersecCipher[i], randomKey);
+                cipherData[i] = std::make_pair(m_intersecCipherIndex[i], cipherValue);
+            }
         });
     return cipherData;
 }
 
-bcos::bytes CalculatorCache::getPlainDataByIndex(uint64_t index) {}
+bcos::bytes CalculatorCache::getPlainDataByIndex(uint64_t index)
+{
+    uint64_t startIndex = 0;
+    uint64_t endIndex = 0;
+    for (auto const& it : m_plainData)
+    {
+        endIndex += it->size();
+        if (index >= startIndex && index < endIndex)
+        {
+            return it->getBytes((index - startIndex));
+        }
+        startIndex += it->size();
+    }
+    return bcos::bytes();
+}
 
-void CalculatorCache::tryToFinalize()
+bool CalculatorCache::tryToFinalize()
 {
     if (!shouldFinalize())
     {
-        return;
+        return false;
     }
     auto startT = utcSteadyTime();
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("tryToFinalize: compute intersection")
-                         << printTaskInfo(m_taskState->task());
-    m_state = CacheState::Finalizing;
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("tryToFinalize: compute intersection") << printCacheState();
+    m_cacheState = CacheState::Finalizing;
     // find the intersection
     for (auto const& it : m_intersectionCipher)
     {
         if (m_masterCipher.count(it.second))
         {
-            m_intersectionResult.emplace_back(getPlainDataByIndex(it.first));
+            auto ret = getPlainDataByIndex(it.first);
+            if (ret.size() > 0)
+            {
+                m_intersectionResult.emplace_back(ret);
+            }
         }
     }
-    m_state = CacheState::Finalized;
+    m_cacheState = CacheState::Finalized;
     ECDH_MULTI_LOG(INFO) << LOG_DESC("tryToFinalize:  compute intersection success")
-                         << printTaskInfo(m_taskState->task())
-                         << LOG_KV("intersectionSize", m_intersectionResult.size());
-    << LOG_KV("timecost", (utcSteadyTime() - startT));
+                         << printCacheState()
+                         << LOG_KV("intersectionSize", m_intersectionResult.size())
+                         << LOG_KV("timecost", (utcSteadyTime() - startT));
 
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("tryToFinalize: syncIntersections")
-                         << printTaskInfo(m_taskState->task());
-    m_state = CacheState::Syncing;
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("tryToFinalize: syncIntersections") << printCacheState();
+    m_cacheState = CacheState::Syncing;
     syncIntersections();
-    m_state = CacheState::Synced;
+    m_cacheState = CacheState::Synced;
 
-    m_state = CacheState::StoreProgressing;
+    m_cacheState = CacheState::StoreProgressing;
     m_taskState->storePSIResult(m_config->dataResourceLoader(), m_intersectionResult);
-    m_state = CacheState::Stored;
+    m_cacheState = CacheState::Stored;
     ECDH_MULTI_LOG(INFO) << LOG_DESC("tryToFinalize: syncIntersections and store success")
-                         << printTaskInfo(m_taskState->task());
+                         << printCacheState();
+    return true;
 }
 
 void CalculatorCache::syncIntersections()
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("syncIntersections") << printTaskInfo(m_taskState->task());
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("syncIntersections") << printCacheState();
     auto peers = m_taskState->task()->getAllPeerParties();
-    auto taskID = m_taskState->task()->taskID();
+    auto taskID = m_taskState->task()->id();
     // notify task result
     if (!m_syncResult)
     {
@@ -178,8 +206,9 @@ void CalculatorCache::syncIntersections()
                     if (_error && _error->errorCode() != 0)
                     {
                         ECDH_MULTI_LOG(WARNING)
-                            << LOG_DESC("sync task result to peer failed") << LOG_KV("peer", peer)
-                            << LOG_KV("taskID", taskID) << LOG_KV("code", _error->errorCode())
+                            << LOG_DESC("sync task result to peer failed")
+                            << LOG_KV("peer", peer.first) << LOG_KV("taskID", taskID)
+                            << LOG_KV("code", _error->errorCode())
                             << LOG_KV("msg", _error->errorMessage());
                         return;
                     }
@@ -197,12 +226,12 @@ void CalculatorCache::syncIntersections()
     for (auto& peer : peers)
     {
         m_config->generateAndSendPPCMessage(
-            _peer.first, taskID, message,
+            peer.first, taskID, message,
             [taskID, peer](bcos::Error::Ptr&& _error) {
                 if (_error && _error->errorCode() != 0)
                 {
                     ECDH_MULTI_LOG(WARNING)
-                        << LOG_DESC("sync psi result to peer failed") << LOG_KV("peer", peer)
+                        << LOG_DESC("sync psi result to peer failed") << LOG_KV("peer", peer.first)
                         << LOG_KV("taskID", taskID) << LOG_KV("code", _error->errorCode())
                         << LOG_KV("msg", _error->errorMessage());
                     return;
@@ -223,6 +252,8 @@ bool CalculatorCache::appendMasterCipher(
     {
         m_masterDataBatchSize = dataBatchSize;
     }
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("appendMasterCipher") << LOG_KV("dataSize", _cipherData.size())
+                         << printCacheState();
     return m_receivedMasterCipher.size() == m_masterDataBatchSize;
 }
 
@@ -230,4 +261,7 @@ void CalculatorCache::setIntersectionCipher(std::map<uint32_t, bcos::bytes>&& _c
 {
     bcos::WriteGuard lock(x_intersectionCipher);
     m_intersectionCipher = std::move(_cipherData);
+    m_receiveIntersection = true;
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("setIntersectionCipher")
+                         << LOG_KV("dataSize", _cipherData.size()) << printCacheState();
 }

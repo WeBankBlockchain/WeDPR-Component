@@ -98,7 +98,7 @@ public:
     {
         m_inner()->data.clear();
         uint64_t endPos = std::min(_offset + _len, (uint64_t)_data.size());
-        m_inner()->data.resize((endPos - _offset + 1));
+        m_inner()->data.resize((endPos - _offset));
         uint64_t j = 0;
         for (uint64_t i = _offset; i < endPos; i++)
         {

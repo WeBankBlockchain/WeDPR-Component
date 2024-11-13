@@ -28,7 +28,7 @@ public:
 protected:
     virtual bcos::bytes generateRandomA(std::string _taskID);
     virtual void initTask(ppc::protocol::Task::ConstPtr _task);
-    virtual void computeAndEncryptSet(std::string _taskID, bcos::bytes _randA);
+    virtual void loadAndEncrypt(std::string _taskID, bcos::bytes _randA);
     virtual void onTaskError(std::string&& _error);
     void ConcurrentSTLToCommon(
         tbb::concurrent_map<uint32_t, bcos::bytes> _cMap, std::map<uint32_t, bcos::bytes>& result)
@@ -56,26 +56,6 @@ protected:
             }
             result.emplace(std::make_pair(iter->first, iter->second));
             // result.insert(std::make_pair(iter->first, iter->second));
-            index++;
-        }
-    };
-
-    virtual void splitVector(std::vector<bcos::bytes>& _vectors, uint32_t _start, uint32_t _end,
-        std::vector<bcos::bytes>& _outVecs)
-    {
-        uint32_t index = 0;
-        for (auto vec : _vectors)
-        {
-            if (index < _start)
-            {
-                index++;
-                continue;
-            }
-            else if (index >= _end)
-            {
-                break;
-            }
-            _outVecs.push_back(vec);
             index++;
         }
     };

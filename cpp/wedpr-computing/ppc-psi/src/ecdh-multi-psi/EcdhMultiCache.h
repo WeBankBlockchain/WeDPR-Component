@@ -19,10 +19,12 @@
  */
 #pragma once
 #include "Common.h"
+#include "EcdhMultiPSIConfig.h"
 #include "ppc-psi/src/Common.h"
 #include "ppc-psi/src/psi-framework/TaskState.h"
 #include <gperftools/malloc_extension.h>
 #include <memory>
+#include <sstream>
 
 namespace ppc::psi
 {
@@ -31,7 +33,9 @@ class MasterCache
 {
 public:
     using Ptr = std::shared_ptr<MasterCache>;
-    MasterCache(TaskState::Ptr const& taskState) : m_taskState(taskState) {}
+    MasterCache(TaskState::Ptr const& taskState, EcdhMultiPSIConfig::Ptr const& config)
+      : m_taskState(taskState), m_config(config)
+    {}
     virtual ~MasterCache()
     {
         m_intersecCipher.clear();
@@ -40,42 +44,35 @@ public:
         m_partnerToCipher.clear();
         m_calculatorCipherSeqs.clear();
         m_partnerCipherSeqs.clear();
-        std::map<uint32_t, bcos::bytes>().swap(m_intersecCipher);
+        std::vector<bcos::bytes>().swap(m_intersecCipher);
         std::set<std::string>().swap(m_finishedPartners);
         std::map<uint32_t, bcos::bytes>().swap(m_calculatorCipher);
-        std::map<std::string, std::vector<bcos::bytes>>().swap(m_partnerToCipher);
+        std::map<std::string, std::set<bcos::bytes>>().swap(m_partnerToCipher);
         std::set<uint32_t>().swap(m_calculatorCipherSeqs);
         std::map<std::string, std::set<uint32_t>>().swap(m_partnerCipherSeqs);
         MallocExtension::instance()->ReleaseFreeMemory();
         ECDH_MULTI_LOG(INFO) << LOG_DESC("the master cipher datacache destroyed ")
-                             << LOG_KV("taskID", m_taskID);
+                             << LOG_KV("taskID", m_taskState->task()->id());
     }
 
     void addCalculatorCipher(std::string _peerId, std::map<uint32_t, bcos::bytes>&& _cipherData,
         uint32_t seq, uint32_t dataBatchCount);
 
     void addPartnerCipher(std::string _peerId, std::vector<bcos::bytes>&& _cipherData, uint32_t seq,
-        uint32_t needSendTimes);
-
-    // Note: the m_intersecCipher will not been changed once generated
-    std::map<uint32_t, bcos::bytes> const& intersecCipher() { return m_intersecCipher; }
+        uint32_t parternerDataCount);
 
     bool tryToIntersection();
 
     std::string printCacheState()
     {
         std::ostringstream stringstream;
-        stringstream << LOG_KV("taskID", m_taskState->task()->taskID())
-                     << LOG_KV("CacheState", CacheState)
+        stringstream << LOG_KV("taskID", m_taskState->task()->id())
+                     << LOG_KV("CacheState", m_cacheState)
                      << LOG_KV("intersectionSize", m_intersecCipher.size());
-        if (_msg->header()->hasOptionalField())
-        {
-            stringstream << printOptionalField(_msg->header()->optionalField());
-        }
         return stringstream.str();
     }
 
-    std::vector<bcos::bytes> encryptIntersection(bcos::bytes const& randomKey);
+    std::vector<std::pair<uint64_t, bcos::bytes>> encryptIntersection(bcos::bytes const& randomKey);
 
 private:
     bool shouldIntersection()
@@ -102,11 +99,14 @@ private:
 
 private:
     TaskState::Ptr m_taskState;
+    EcdhMultiPSIConfig::Ptr m_config;
     CacheState m_cacheState = CacheState::Evaluating;
 
     // the intersection cipher data of the master
     // calculator data index ==> cipher
-    std::map<uint32_t, bcos::bytes> m_intersecCipher;
+    std::vector<bcos::bytes> m_intersecCipher;
+    std::vector<uint32_t> m_intersecCipherIndex;
+
     std::set<std::string> m_finishedPartners;
     // the cipher data from calculator to master
     std::map<uint32_t, bcos::bytes> m_calculatorCipher;
@@ -119,6 +119,7 @@ private:
     bcos::SharedMutex x_partnerToCipher;
     // partnerId=>received partner seqs
     std::map<std::string, std::set<uint32_t>> m_partnerCipherSeqs;
+    std::map<std::string, uint32_t> m_parternerDataCount;
 
     bcos::Mutex m_mutex;
 };
@@ -127,8 +128,9 @@ class CalculatorCache
 {
 public:
     using Ptr = std::shared_ptr<CalculatorCache>;
-    CalculatorCache(TaskState::Ptr const& taskState, bool syncResult)
-      : m_taskState(taskState), m_syncResult(syncResult)
+    CalculatorCache(
+        TaskState::Ptr const& taskState, bool syncResult, EcdhMultiPSIConfig::Ptr const& config)
+      : m_taskState(taskState), m_syncResult(syncResult), m_config(config)
     {}
     virtual ~CalculatorCache()
     {
@@ -137,42 +139,52 @@ public:
         m_receivedMasterCipher.clear();
         m_masterCipher.clear();
         m_intersectionCipher.clear();
-        m_calculatorIntersectionCipherDataFinalMap.clear();
         std::set<uint32_t>().swap(m_CipherDataFromCalculatorSubSeq);
         std::set<uint32_t>().swap(m_calculatorIntersectionSubSeq);
         std::set<uint32_t>().swap(m_receivedMasterCipher);
-        std::vector<bcos::bytes>().swap(m_masterCipher);
+        std::set<bcos::bytes>().swap(m_masterCipher);
         std::map<uint32_t, bcos::bytes>().swap(m_intersectionCipher);
-        std::map<uint32_t, bcos::bytes>().swap(m_calculatorIntersectionCipherDataFinalMap);
         MallocExtension::instance()->ReleaseFreeMemory();
         ECDH_MULTI_LOG(INFO) << LOG_DESC("the calculator cipher datacache destroyed")
-                             << LOG_KV("taskID", m_taskID);
+                             << LOG_KV("taskID", m_taskState->task()->id());
     }
 
-    void tryToFinalize();
+    bool tryToFinalize();
 
     bool appendMasterCipher(
         std::vector<bcos::bytes>&& _cipherData, uint32_t seq, uint32_t dataBatchSize);
 
     void setIntersectionCipher(std::map<uint32_t, bcos::bytes>&& _cipherData);
 
-    std::map<uint32_t, bcos::bytes> const& calculatorIntersectionCipherDataFinalMap()
-    {
-        return m_calculatorIntersectionCipherDataFinalMap;
-    }
-
-
     void appendPlainData(ppc::io::DataBatch::Ptr const& data)
     {
         bcos::WriteGuard l(x_plainData);
-        m_plainData->emplace_back(data);
+        m_plainData.emplace_back(data);
+    }
+
+    std::string printCacheState()
+    {
+        std::ostringstream stringstream;
+        stringstream << LOG_KV("taskID", m_taskState->task()->id())
+                     << LOG_KV("CacheState", m_cacheState)
+                     << LOG_KV("intersectionSize", m_intersectionResult.size());
+        return stringstream.str();
     }
 
 private:
+    bcos::bytes getPlainDataByIndex(uint64_t index);
     bool shouldFinalize()
     {
         // only can finalize in Evaluating state
-        if (m_state != CacheState::Evaluating)
+        if (m_cacheState != CacheState::Evaluating)
+        {
+            return false;
+        }
+        if (!m_receiveIntersection)
+        {
+            return false;
+        }
+        if (m_receivedMasterCipher.size() == 0)
         {
             return false;
         }
@@ -183,8 +195,9 @@ private:
 
 private:
     TaskState::Ptr m_taskState;
-    CacheState m_cacheState = CacheState::Evaluating;
     bool m_syncResult;
+    EcdhMultiPSIConfig::Ptr m_config;
+    CacheState m_cacheState = CacheState::Evaluating;
 
     std::vector<ppc::io::DataBatch::Ptr> m_plainData;
     bcos::SharedMutex x_plainData;
@@ -205,6 +218,7 @@ private:
     // the intersection cipher received from master
     std::map<uint32_t, bcos::bytes> m_intersectionCipher;
     mutable bcos::SharedMutex x_intersectionCipher;
+    bool m_receiveIntersection = false;
     std::vector<bcos::bytes> m_intersectionResult;
 };
 }  // namespace ppc::psi
