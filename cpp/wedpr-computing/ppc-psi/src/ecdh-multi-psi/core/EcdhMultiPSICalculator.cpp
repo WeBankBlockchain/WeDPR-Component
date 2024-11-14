@@ -135,7 +135,7 @@ void EcdhMultiPSICalculator::loadAndEncrypt(std::string _taskID, bcos::bytes _ra
                 uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_SET_TO_MASTER_FROM_CALCULATOR));
             message->constructDataMap(encryptedData, dataOffset);
             // release the encryptedData
-            std::vector<bcos::bytes>.swap(encryptedData);
+            std::vector<bcos::bytes>().swap(encryptedData);
             message->setFrom(m_taskState->task()->selfParty()->id());
             if (reader->readFinished())
             {
@@ -267,7 +267,7 @@ void EcdhMultiPSICalculator::onReceiveMasterCipher(PSIMessageInterface::Ptr _msg
             }
         });
         // release the cipher
-        std::vector<bcos::bytes>.swap(cipher);
+        std::vector<bcos::bytes>().swap(cipher);
 
         auto seq = _msg->seq();
         bool finished = m_calculatorCache->appendMasterCipher(

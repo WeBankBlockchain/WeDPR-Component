@@ -32,6 +32,34 @@ using namespace ppc::storage;
 using namespace ppc::protocol;
 using namespace bcos;
 
+
+DataResourceLoaderImpl::DataResourceLoaderImpl(
+    ppc::protocol::SQLConnectionOption::Ptr const& _sqlConnectionOpt,
+    ppc::protocol::FileStorageConnectionOption::Ptr const& _fileStorageConnectionOpt,
+    ppc::protocol::RemoteStorageConnectionOption::Ptr const& _remoteStorageConnectionOpt,
+    ppc::storage::SQLStorageFactory::Ptr const& _sqlStorageFactory,
+    ppc::storage::FileStorageFactory::Ptr const& _fileStorageFactory,
+    ppc::storage::RemoteStorageFactory::Ptr const& _remoteStorageFactory)
+  : m_sqlConnectionOpt(_sqlConnectionOpt),
+    m_fileStorageConnectionOpt(_fileStorageConnectionOpt),
+    m_remoteStorageConnectionOpt(_remoteStorageConnectionOpt),
+    m_sqlStorageFactory(_sqlStorageFactory),
+    m_fileStorageFactory(_fileStorageFactory),
+    m_remoteStorageFactory(_remoteStorageFactory)
+{
+    if (m_fileStorageConnectionOpt)
+    {
+        m_hdfsStorage = m_fileStorageFactory->createFileStorage(
+            DataResourceType::HDFS, m_fileStorageConnectionOpt);
+    }
+    if (m_sqlConnectionOpt)
+    {
+        m_sqlStorage =
+            m_sqlStorageFactory->createSQLStorage(DataResourceType::MySQL, m_sqlConnectionOpt);
+    }
+}
+
+
 LineReader::Ptr DataResourceLoaderImpl::loadReader(DataResourceDesc::ConstPtr _desc,
     DataSchema _schema, bool _parseByColumn, FileStorage::Ptr const& _fileStorage)
 {
@@ -76,8 +104,7 @@ LineReader::Ptr DataResourceLoaderImpl::loadSQLResource(
     }
     else if (m_sqlConnectionOpt)
     {
-        storage = m_sqlStorageFactory->createSQLStorage(
-            (ppc::protocol::DataResourceType)_desc->type(), m_sqlConnectionOpt);
+        storage = m_sqlStorage;
     }
     else
     {
@@ -106,8 +133,7 @@ LineReader::Ptr DataResourceLoaderImpl::loadHDFSResource(
         }
         else if (m_fileStorageConnectionOpt)
         {
-            storage = m_fileStorageFactory->createFileStorage(
-                (ppc::protocol::DataResourceType)_desc->type(), m_fileStorageConnectionOpt);
+            storage = m_hdfsStorage;
         }
         else
         {
@@ -144,8 +170,7 @@ void DataResourceLoaderImpl::deleteResource(
             }
             else if (m_fileStorageConnectionOpt)
             {
-                storage = m_fileStorageFactory->createFileStorage(
-                    (ppc::protocol::DataResourceType)_desc->type(), m_fileStorageConnectionOpt);
+                storage = m_hdfsStorage;
             }
             else
             {
@@ -194,8 +219,7 @@ void DataResourceLoaderImpl::renameResource(ppc::protocol::DataResourceDesc::Con
             }
             else if (m_fileStorageConnectionOpt)
             {
-                storage = m_fileStorageFactory->createFileStorage(
-                    (ppc::protocol::DataResourceType)_desc->type(), m_fileStorageConnectionOpt);
+                storage = m_hdfsStorage;
             }
             else
             {
@@ -253,8 +277,7 @@ void DataResourceLoaderImpl::checkResourceExists(
             }
             else if (m_fileStorageConnectionOpt)
             {
-                storage = m_fileStorageFactory->createFileStorage(
-                    (ppc::protocol::DataResourceType)_desc->type(), m_fileStorageConnectionOpt);
+                storage = m_hdfsStorage;
             }
             else
             {
@@ -307,9 +330,7 @@ LineWriter::Ptr DataResourceLoaderImpl::loadWriter(
             }
             else if (m_fileStorageConnectionOpt)
             {
-                // create the hdfsStorage
-                storage = m_fileStorageFactory->createFileStorage(
-                    (ppc::protocol::DataResourceType)_desc->type(), m_fileStorageConnectionOpt);
+                storage = m_hdfsStorage;
             }
             else
             {

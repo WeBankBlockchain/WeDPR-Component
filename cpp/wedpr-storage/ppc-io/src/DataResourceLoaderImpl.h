@@ -35,14 +35,7 @@ public:
         ppc::protocol::RemoteStorageConnectionOption::Ptr const& _remoteStorageConnectionOpt,
         ppc::storage::SQLStorageFactory::Ptr const& _sqlStorageFactory,
         ppc::storage::FileStorageFactory::Ptr const& _fileStorageFactory,
-        ppc::storage::RemoteStorageFactory::Ptr const& _remoteStorageFactory)
-      : m_sqlConnectionOpt(_sqlConnectionOpt),
-        m_fileStorageConnectionOpt(_fileStorageConnectionOpt),
-        m_remoteStorageConnectionOpt(_remoteStorageConnectionOpt),
-        m_sqlStorageFactory(_sqlStorageFactory),
-        m_fileStorageFactory(_fileStorageFactory),
-        m_remoteStorageFactory(_remoteStorageFactory)
-    {}
+        ppc::storage::RemoteStorageFactory::Ptr const& _remoteStorageFactory);
 
     DataResourceLoaderImpl() = default;
     ~DataResourceLoaderImpl() override = default;
@@ -71,8 +64,13 @@ protected:
         ppc::storage::FileStorage::Ptr const& _fileStorage);
 
 private:
+    // the sql storage
     ppc::protocol::SQLConnectionOption::Ptr m_sqlConnectionOpt;
+    ppc::storage::SQLStorage::Ptr m_sqlStorage;
+    // the hdfs storage
     ppc::protocol::FileStorageConnectionOption::Ptr m_fileStorageConnectionOpt;
+    ppc::storage::FileStorage::Ptr m_hdfsStorage;
+
     ppc::protocol::RemoteStorageConnectionOption::Ptr m_remoteStorageConnectionOpt;
 
     ppc::storage::SQLStorageFactory::Ptr m_sqlStorageFactory;
