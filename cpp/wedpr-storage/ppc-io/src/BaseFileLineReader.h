@@ -96,7 +96,7 @@ protected:
         while (expectedSize > 0 && (allocateCurrentBlock()))
         {
             auto readLineNum = readLineFromBlock<T>(dataBatch, expectedSize);
-            expectedSize = _size - readLineNum;
+            expectedSize = expectedSize - readLineNum;
         }
         IO_LOG(INFO) << LOG_DESC("readLineData") << LOG_KV("size", _size)
                      << LOG_KV("readedSize", dataBatch->size());

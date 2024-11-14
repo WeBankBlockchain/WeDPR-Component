@@ -67,8 +67,7 @@ public:
     {
         std::ostringstream stringstream;
         stringstream << LOG_KV("taskID", m_taskState->task()->id())
-                     << LOG_KV("CacheState", m_cacheState)
-                     << LOG_KV("intersectionSize", m_intersecCipher.size());
+                     << LOG_KV("CacheState", m_cacheState);
         return stringstream.str();
     }
 
@@ -95,6 +94,12 @@ private:
             return true;
         }
         return false;
+    }
+
+    void releaseIntersecCipher()
+    {
+        std::vector<bcos::bytes>.swap(m_intersecCipher);
+        std::vector<uint32_t>.swap(m_intersecCipherIndex);
     }
 
 private:

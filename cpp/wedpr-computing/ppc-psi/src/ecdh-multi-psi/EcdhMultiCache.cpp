@@ -127,6 +127,8 @@ std::vector<std::pair<uint64_t, bcos::bytes>> MasterCache::encryptIntersection(
                 cipherData[i] = std::make_pair(m_intersecCipherIndex[i], cipherValue);
             }
         });
+    // Note: release the m_intersecCipher, make share it not been used after released
+    releaseIntersecCipher();
     return cipherData;
 }
 
