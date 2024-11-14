@@ -124,13 +124,13 @@ void EcdhMultiPSICalculator::loadAndEncrypt(std::string _taskID, bcos::bytes _ra
                     }
                 });
             ECDH_CAL_LOG(INFO) << LOG_DESC("loadAndEncrypt encrypt success")
-                               << LOG_KV("task", printTaskInfo(m_taskState->task()))
-                               << LOG_KV("seq", seq)
+                               << LOG_KV("dataSize", encryptedData.size())
+                               << LOG_KV("task", m_taskState->task()->id()) << LOG_KV("seq", seq)
                                << LOG_KV("timecost", (utcSteadyTime() - startT));
             ECDH_CAL_LOG(INFO) << LOG_DESC("loadAndEncrypt: send cipher to the master")
                                << LOG_KV("masterSize", m_masterParties.size())
                                << LOG_KV("dataSize", encryptedData.size())
-                               << LOG_KV("task", printTaskInfo(m_taskState->task()));
+                               << LOG_KV("task", m_taskState->task()->id());
             auto message = m_config->psiMsgFactory()->createPSIMessage(
                 uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_SET_TO_MASTER_FROM_CALCULATOR));
             message->constructDataMap(encryptedData, dataOffset);

@@ -28,18 +28,34 @@
 
 namespace ppc::psi
 {
+struct MasterCipherRef
+{
+    std::set<std::string> refInfo;
+    int32_t dataIndex = -1;
+
+    void updateDataIndex(int32_t index)
+    {
+        if (index == -1)
+        {
+            return;
+        }
+        dataIndex = index;
+    }
+};
 /// the master data-cache
 class MasterCache
 {
 public:
     using Ptr = std::shared_ptr<MasterCache>;
     MasterCache(TaskState::Ptr const& taskState, EcdhMultiPSIConfig::Ptr const& config)
-      : m_taskState(taskState), m_config(config)
+      : m_taskState(taskState),
+        m_config(config),
+        m_peerCount(m_taskState->task()->getAllPeerParties().size())
     {}
     virtual ~MasterCache()
     {
-        releaseAll();
-        MallocExtension::instance()->ReleaseFreeMemory();
+        releaseItersection();
+        releaseItersection();
         ECDH_MULTI_LOG(INFO) << LOG_DESC("the master cipher datacache destroyed ")
                              << LOG_KV("taskID", m_taskState->task()->id());
     }
@@ -85,51 +101,76 @@ private:
         return false;
     }
 
-    void releaseAll()
+    void releaseItersection()
     {
         m_intersecCipher.clear();
         m_intersecCipherIndex.clear();
-        m_calculatorCipher.clear();
-        m_partnerToCipher.clear();
+
         // release the intersection information
         std::vector<bcos::bytes>().swap(m_intersecCipher);
         std::vector<uint32_t>().swap(m_intersecCipherIndex);
 
-        // release the calculator information
-        std::map<uint32_t, bcos::bytes>().swap(m_calculatorCipher);
-        // release the parterner cipher
-        std::map<std::string, std::set<bcos::bytes>>().swap(m_partnerToCipher);
-
         MallocExtension::instance()->ReleaseFreeMemory();
-        ECDH_MULTI_LOG(INFO) << LOG_DESC("releaseAll")
+        ECDH_MULTI_LOG(INFO) << LOG_DESC("releaseItersection")
                              << LOG_KV("taskID", m_taskState->task()->id());
     }
+
+    void releaseCache()
+    {
+        m_masterDataRef.clear();
+
+        // release the parterner cipher
+        std::map<bcos::bytes, MasterCipherRef>().swap(m_masterDataRef);
+        MallocExtension::instance()->ReleaseFreeMemory();
+        ECDH_MULTI_LOG(INFO) << LOG_DESC("releaseCache")
+                             << LOG_KV("taskID", m_taskState->task()->id());
+    }
+
+    void mergeMasterCipher(std::string const& peer);
+    void updateMasterDataRef(std::string const& _peerId, bcos::bytes&& data, int32_t dataIndex);
 
 private:
     TaskState::Ptr m_taskState;
     EcdhMultiPSIConfig::Ptr m_config;
+    unsigned short m_peerCount;
     CacheState m_cacheState = CacheState::Evaluating;
 
     // the intersection cipher data of the master
-    // calculator data index ==> cipher
     std::vector<bcos::bytes> m_intersecCipher;
     std::vector<uint32_t> m_intersecCipherIndex;
 
-    std::set<std::string> m_finishedPartners;
-    // the cipher data from calculator to master
-    std::map<uint32_t, bcos::bytes> m_calculatorCipher;
-    uint32_t m_calculatorDataBatchCount = 0;
     std::set<uint32_t> m_calculatorCipherSeqs;
-    bcos::SharedMutex x_calculatorCipher;
+    uint32_t m_calculatorDataBatchCount = 0;
 
-    // TODO: replace with unordered_set
-    std::map<std::string, std::set<bcos::bytes>> m_partnerToCipher;
-    bcos::SharedMutex x_partnerToCipher;
+    //  data => refered peers
+    std::map<bcos::bytes, MasterCipherRef> m_masterDataRef;
+
     // partnerId=>received partner seqs
     std::map<std::string, std::set<uint32_t>> m_partnerCipherSeqs;
+    // peerId==>dataCount
     std::map<std::string, uint32_t> m_parternerDataCount;
+    std::set<std::string> m_finishedPartners;
+
+    bool m_peerMerged = false;
 
     bcos::Mutex m_mutex;
+};
+
+// the cipher ref count
+// data ==> {ref count, plainData}
+struct CipherRefDetail
+{
+    unsigned short refCount = 0;
+    int32_t plainDataIndex = -1;
+
+    void updatePlainIndex(int32_t index)
+    {
+        if (index == -1)
+        {
+            return;
+        }
+        plainDataIndex = index;
+    }
 };
 
 class CalculatorCache
@@ -201,15 +242,14 @@ private:
         {
             it->release();
         }
-        m_masterCipher.clear();
-        std::set<bcos::bytes>().swap(m_masterCipher);
-
-        m_intersectionCipher.clear();
-        std::map<uint32_t, bcos::bytes>().swap(m_intersectionCipher);
+        m_cipherRef.clear();
+        std::map<bcos::bytes, CipherRefDetail>().swap(m_cipherRef);
         MallocExtension::instance()->ReleaseFreeMemory();
         ECDH_MULTI_LOG(INFO) << LOG_DESC("releaseDataAfterFinalize")
                              << LOG_KV("taskID", m_taskState->task()->id());
     }
+
+    void updateCipherRef(bcos::bytes&& data, int32_t index);
 
 private:
     TaskState::Ptr m_taskState;
@@ -220,18 +260,18 @@ private:
     std::vector<ppc::io::DataBatch::Ptr> m_plainData;
     bcos::SharedMutex x_plainData;
 
+    std::map<bcos::bytes, CipherRefDetail> m_cipherRef;
 
-    // the cipher from the master
-    std::set<bcos::bytes> m_masterCipher;
     // the seqs of the data received from master
     std::set<uint32_t> m_receivedMasterCipher;
     uint32_t m_masterDataBatchSize = 0;
-    mutable bcos::SharedMutex x_masterCipher;
+    bool m_receiveAllMasterCipher = false;
+    mutable bcos::Mutex m_mutex;
 
     // the intersection cipher received from master
-    std::map<uint32_t, bcos::bytes> m_intersectionCipher;
-    mutable bcos::SharedMutex x_intersectionCipher;
     bool m_receiveIntersection = false;
+
+    // the final result
     std::vector<bcos::bytes> m_intersectionResult;
 };
 }  // namespace ppc::psi

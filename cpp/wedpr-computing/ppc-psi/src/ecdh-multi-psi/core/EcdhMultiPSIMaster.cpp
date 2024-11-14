@@ -24,8 +24,8 @@ EcdhMultiPSIMaster::EcdhMultiPSIMaster(EcdhMultiPSIConfig::Ptr _config, TaskStat
 
 void EcdhMultiPSIMaster::asyncStartRunTask(ppc::protocol::Task::ConstPtr _task)
 {
-    initTask(_task);
     ECDH_MASTER_LOG(INFO) << LOG_DESC("Master asyncStartRunTask") << printTaskInfo(_task);
+    initTask(_task);
     auto B = m_config->eccCrypto()->generateRandomScalar();
     m_randomB = std::make_shared<bcos::bytes>(B);
     auto self = weak_from_this();

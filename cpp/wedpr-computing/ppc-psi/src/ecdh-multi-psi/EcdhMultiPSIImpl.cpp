@@ -333,8 +333,6 @@ void EcdhMultiPSIImpl::onReceiveRandomA(PSIMessageInterface::Ptr _msg)
                 std::make_shared<bcos::bytes>(bcos::bytes(msgData.begin(), msgData.end())));
         }
     }
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveRandomA finished") << printPSIMessage(_msg)
-                         << LOG_KV("timecost", (utcSteadyTime() - startT));
 }
 
 void EcdhMultiPSIImpl::onReceiveCalCipher(PSIMessageInterface::Ptr _msg)
@@ -346,8 +344,6 @@ void EcdhMultiPSIImpl::onReceiveCalCipher(PSIMessageInterface::Ptr _msg)
     {
         master->onReceiveCalCipher(_msg);
     }
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveCalCipher success") << printPSIMessage(_msg)
-                         << LOG_KV("timecost", (utcSteadyTime() - startT));
 }
 
 void EcdhMultiPSIImpl::onReceiveCipherFromPartner(PSIMessageInterface::Ptr _msg)
@@ -359,8 +355,6 @@ void EcdhMultiPSIImpl::onReceiveCipherFromPartner(PSIMessageInterface::Ptr _msg)
     {
         master->onReceiveCipherFromPartner(_msg);
     }
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveCipherFromPartner finished") << printPSIMessage(_msg)
-                         << LOG_KV("timecost", (utcSteadyTime() - startT));
 }
 
 void EcdhMultiPSIImpl::onReceiveIntersecCipher(PSIMessageInterface::Ptr _msg)
@@ -372,8 +366,6 @@ void EcdhMultiPSIImpl::onReceiveIntersecCipher(PSIMessageInterface::Ptr _msg)
     {
         calculator->onReceiveIntersecCipher(_msg);
     }
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveIntersecCipher finished") << printPSIMessage(_msg)
-                         << LOG_KV("timecost", (utcSteadyTime() - startT));
 }
 
 void EcdhMultiPSIImpl::onReceiveMasterCipher(PSIMessageInterface::Ptr _msg)
@@ -385,8 +377,6 @@ void EcdhMultiPSIImpl::onReceiveMasterCipher(PSIMessageInterface::Ptr _msg)
     {
         calculator->onReceiveMasterCipher(_msg);
     }
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveMasterCipher finished") << printPSIMessage(_msg)
-                         << LOG_KV("timecost", (utcSteadyTime() - startT));
 }
 
 
