@@ -138,7 +138,7 @@ void EcdhMultiPSIPartner::onReceiveRandomA(bcos::bytesPointer _randA)
                 << LOG_DESC("onReceiveRandomA: send cipher data to master success")
                 << LOG_KV("size", dataBatch->size()) << printTaskInfo(m_taskState->task())
                 << LOG_KV("seq", seq);
-            dataBatch->release<bcos::bytes>();
+            dataBatch->release();
         } while (!m_taskState->sqlReader());
     }
     catch (std::exception& e)

@@ -201,14 +201,13 @@ public:
 
     std::shared_ptr<std::vector<DataType>>& mutableData() { return m_data; }
 
-    template <typename T>
     void release()
     {
         if (!m_data)
         {
             return;
         }
-        std::vector<T>().swap(*m_data);
+        m_data.reset();
     }
 
 private:

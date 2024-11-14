@@ -38,18 +38,7 @@ public:
     {}
     virtual ~MasterCache()
     {
-        m_intersecCipher.clear();
-        m_finishedPartners.clear();
-        m_calculatorCipher.clear();
-        m_partnerToCipher.clear();
-        m_calculatorCipherSeqs.clear();
-        m_partnerCipherSeqs.clear();
-        std::vector<bcos::bytes>().swap(m_intersecCipher);
-        std::set<std::string>().swap(m_finishedPartners);
-        std::map<uint32_t, bcos::bytes>().swap(m_calculatorCipher);
-        std::map<std::string, std::set<bcos::bytes>>().swap(m_partnerToCipher);
-        std::set<uint32_t>().swap(m_calculatorCipherSeqs);
-        std::map<std::string, std::set<uint32_t>>().swap(m_partnerCipherSeqs);
+        releaseAll();
         MallocExtension::instance()->ReleaseFreeMemory();
         ECDH_MULTI_LOG(INFO) << LOG_DESC("the master cipher datacache destroyed ")
                              << LOG_KV("taskID", m_taskState->task()->id());
@@ -96,10 +85,24 @@ private:
         return false;
     }
 
-    void releaseIntersecCipher()
+    void releaseAll()
     {
-        std::vector<bcos::bytes>.swap(m_intersecCipher);
-        std::vector<uint32_t>.swap(m_intersecCipherIndex);
+        m_intersecCipher.clear();
+        m_intersecCipherIndex.clear();
+        m_calculatorCipher.clear();
+        m_partnerToCipher.clear();
+        // release the intersection information
+        std::vector<bcos::bytes>().swap(m_intersecCipher);
+        std::vector<uint32_t>().swap(m_intersecCipherIndex);
+
+        // release the calculator information
+        std::map<uint32_t, bcos::bytes>().swap(m_calculatorCipher);
+        // release the parterner cipher
+        std::map<std::string, std::set<bcos::bytes>>().swap(m_partnerToCipher);
+
+        MallocExtension::instance()->ReleaseFreeMemory();
+        ECDH_MULTI_LOG(INFO) << LOG_DESC("releaseAll")
+                             << LOG_KV("taskID", m_taskState->task()->id());
     }
 
 private:
@@ -139,16 +142,10 @@ public:
     {}
     virtual ~CalculatorCache()
     {
-        m_CipherDataFromCalculatorSubSeq.clear();
-        m_calculatorIntersectionSubSeq.clear();
-        m_receivedMasterCipher.clear();
-        m_masterCipher.clear();
-        m_intersectionCipher.clear();
-        std::set<uint32_t>().swap(m_CipherDataFromCalculatorSubSeq);
-        std::set<uint32_t>().swap(m_calculatorIntersectionSubSeq);
-        std::set<uint32_t>().swap(m_receivedMasterCipher);
-        std::set<bcos::bytes>().swap(m_masterCipher);
-        std::map<uint32_t, bcos::bytes>().swap(m_intersectionCipher);
+        releaseDataAfterFinalize();
+
+        m_intersectionResult.clear();
+        std::vector<bcos::bytes>().swap(m_intersectionResult);
         MallocExtension::instance()->ReleaseFreeMemory();
         ECDH_MULTI_LOG(INFO) << LOG_DESC("the calculator cipher datacache destroyed")
                              << LOG_KV("taskID", m_taskState->task()->id());
@@ -198,6 +195,22 @@ private:
 
     void syncIntersections();
 
+    void releaseDataAfterFinalize()
+    {
+        for (auto const& it : m_plainData)
+        {
+            it->release();
+        }
+        m_masterCipher.clear();
+        std::set<bcos::bytes>().swap(m_masterCipher);
+
+        m_intersectionCipher.clear();
+        std::map<uint32_t, bcos::bytes>().swap(m_intersectionCipher);
+        MallocExtension::instance()->ReleaseFreeMemory();
+        ECDH_MULTI_LOG(INFO) << LOG_DESC("releaseDataAfterFinalize")
+                             << LOG_KV("taskID", m_taskState->task()->id());
+    }
+
 private:
     TaskState::Ptr m_taskState;
     bool m_syncResult;
@@ -206,11 +219,6 @@ private:
 
     std::vector<ppc::io::DataBatch::Ptr> m_plainData;
     bcos::SharedMutex x_plainData;
-
-
-    // store the cipher-data of the calculator
-    std::set<uint32_t> m_CipherDataFromCalculatorSubSeq;
-    std::set<uint32_t> m_calculatorIntersectionSubSeq;
 
 
     // the cipher from the master

@@ -128,7 +128,7 @@ std::vector<std::pair<uint64_t, bcos::bytes>> MasterCache::encryptIntersection(
             }
         });
     // Note: release the m_intersecCipher, make share it not been used after released
-    releaseIntersecCipher();
+    releaseAll();
     return cipherData;
 }
 
@@ -170,6 +170,7 @@ bool CalculatorCache::tryToFinalize()
         }
     }
     m_cacheState = CacheState::Finalized;
+    releaseDataAfterFinalize();
     ECDH_MULTI_LOG(INFO) << LOG_DESC("tryToFinalize:  compute intersection success")
                          << printCacheState()
                          << LOG_KV("intersectionSize", m_intersectionResult.size())

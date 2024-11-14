@@ -188,7 +188,7 @@ void EcdhMultiPSIMaster::blindData()
                     }
                 });
             // can release databatch after encrypted
-            dataBatch->release<bcos::bytes>();
+            dataBatch->release();
             ECDH_MASTER_LOG(INFO) << LOG_DESC("encrypt data success")
                                   << LOG_KV("dataSize", cipher.size()) << LOG_KV("task", m_taskID)
                                   << LOG_KV("timecost", (utcSteadyTime() - startT));
