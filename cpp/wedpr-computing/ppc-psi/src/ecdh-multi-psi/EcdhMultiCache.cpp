@@ -266,5 +266,5 @@ void CalculatorCache::setIntersectionCipher(std::map<uint32_t, bcos::bytes>&& _c
     m_intersectionCipher = std::move(_cipherData);
     m_receiveIntersection = true;
     ECDH_MULTI_LOG(INFO) << LOG_DESC("setIntersectionCipher")
-                         << LOG_KV("dataSize", _cipherData.size()) << printCacheState();
+                         << LOG_KV("dataSize", m_intersectionCipher.size()) << printCacheState();
 }

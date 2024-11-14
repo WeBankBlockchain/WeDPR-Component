@@ -36,6 +36,7 @@ public:
         {
         case ppc::protocol::DataResourceType::HDFS:
         {
+            _option->check();
             return std::make_shared<HDFSStorage>(_option);
         }
         default:

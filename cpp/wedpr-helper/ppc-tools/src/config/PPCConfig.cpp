@@ -559,7 +559,7 @@ void PPCConfig::loadHDFSConfig(boost::property_tree::ptree const& _pt)
     // the name node port
     option->nameNodePort = _pt.get<int>("hdfs_storage.name_node_port", 8020);
     // the user
-    option->userName = _pt.get<std::string>("hdfs_storage.user", "root");
+    option->userName = _pt.get<std::string>("hdfs_storage.user", "");
     // checkNonEmptyField("hdfs_storage.user", option->userName);
     // the token
     option->token = _pt.get<std::string>("hdfs_storage.token", "");

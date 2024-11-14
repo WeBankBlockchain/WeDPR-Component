@@ -39,6 +39,7 @@ public:
         {
         case ppc::protocol::DataResourceType::MySQL:
         {
+            _option->check();
             return std::make_shared<MySQLStorage>(_option);
         }
         default:

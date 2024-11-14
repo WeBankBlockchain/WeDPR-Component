@@ -46,19 +46,40 @@ DataResourceLoaderImpl::DataResourceLoaderImpl(
     m_sqlStorageFactory(_sqlStorageFactory),
     m_fileStorageFactory(_fileStorageFactory),
     m_remoteStorageFactory(_remoteStorageFactory)
+{}
+
+void DataResourceLoaderImpl::lazyLoadHdfsStorage()
 {
-    if (m_fileStorageConnectionOpt)
+    if (!m_fileStorageConnectionOpt)
     {
-        m_hdfsStorage = m_fileStorageFactory->createFileStorage(
-            DataResourceType::HDFS, m_fileStorageConnectionOpt);
+        return;
     }
-    if (m_sqlConnectionOpt)
+    bcos::Guard l(x_hdfsStorage);
+    if (m_hdfsStorage)
     {
-        m_sqlStorage =
-            m_sqlStorageFactory->createSQLStorage(DataResourceType::MySQL, m_sqlConnectionOpt);
+        return;
     }
+    m_hdfsStorage =
+        m_fileStorageFactory->createFileStorage(DataResourceType::HDFS, m_fileStorageConnectionOpt);
+    IO_LOG(INFO) << LOG_DESC("lazyLoadHdfsStorage") << m_fileStorageConnectionOpt->desc();
+    return;
 }
 
+void DataResourceLoaderImpl::lazyLoadSqlStorage()
+{
+    if (!m_sqlConnectionOpt)
+    {
+        return;
+    }
+    bcos::Guard l(x_sqlStorage);
+    if (m_sqlStorage)
+    {
+        return;
+    }
+    m_sqlStorage =
+        m_sqlStorageFactory->createSQLStorage(DataResourceType::MySQL, m_sqlConnectionOpt);
+    IO_LOG(INFO) << LOG_DESC("lazyLoadSqlStorage") << m_sqlConnectionOpt->desc();
+}
 
 LineReader::Ptr DataResourceLoaderImpl::loadReader(DataResourceDesc::ConstPtr _desc,
     DataSchema _schema, bool _parseByColumn, FileStorage::Ptr const& _fileStorage)
@@ -104,6 +125,7 @@ LineReader::Ptr DataResourceLoaderImpl::loadSQLResource(
     }
     else if (m_sqlConnectionOpt)
     {
+        lazyLoadSqlStorage();
         storage = m_sqlStorage;
     }
     else
@@ -133,6 +155,7 @@ LineReader::Ptr DataResourceLoaderImpl::loadHDFSResource(
         }
         else if (m_fileStorageConnectionOpt)
         {
+            lazyLoadHdfsStorage();
             storage = m_hdfsStorage;
         }
         else
@@ -170,6 +193,7 @@ void DataResourceLoaderImpl::deleteResource(
             }
             else if (m_fileStorageConnectionOpt)
             {
+                lazyLoadHdfsStorage();
                 storage = m_hdfsStorage;
             }
             else
@@ -219,6 +243,7 @@ void DataResourceLoaderImpl::renameResource(ppc::protocol::DataResourceDesc::Con
             }
             else if (m_fileStorageConnectionOpt)
             {
+                lazyLoadHdfsStorage();
                 storage = m_hdfsStorage;
             }
             else
@@ -277,6 +302,7 @@ void DataResourceLoaderImpl::checkResourceExists(
             }
             else if (m_fileStorageConnectionOpt)
             {
+                lazyLoadHdfsStorage();
                 storage = m_hdfsStorage;
             }
             else
@@ -330,6 +356,7 @@ LineWriter::Ptr DataResourceLoaderImpl::loadWriter(
             }
             else if (m_fileStorageConnectionOpt)
             {
+                lazyLoadHdfsStorage();
                 storage = m_hdfsStorage;
             }
             else

@@ -167,7 +167,6 @@ void EcdhMultiPSICalculator::loadAndEncrypt(std::string _taskID, bcos::bytes _ra
                     seq);
                 dataOffset += dataBatch->size();
             }
-            dataBatch->release();
         } while (!m_taskState->sqlReader());
     }
     catch (std::exception& e)

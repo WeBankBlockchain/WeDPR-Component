@@ -23,7 +23,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
-
+#include "ppc-framework/Common.h"
 #include <bcos-utilities/Log.h>
 #include <map>
 #include <memory>
@@ -402,6 +402,35 @@ struct SQLConnectionOption
     std::string user;
     std::string password;
     std::string database;
+    void check() const
+    {
+        if (host.size() == 0)
+        {
+            BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
+                                      "Invalid SQL option: Must set the host!"));
+        }
+        if (user.size() == 0)
+        {
+            BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
+                                      "Invalid SQL option: Must set the user!"));
+        }
+        if (password.size() == 0)
+        {
+            BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
+                                      "Invalid SQL option: Must set the password!"));
+        }
+        if (database.size() == 0)
+        {
+            BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
+                                      "Invalid SQL option: Must set the database!"));
+        }
+        if (port == 0 || port > 65535)
+        {
+            BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
+                                      "Invalid SQL Option, Must set valid port!"));
+        }
+    }
+
     inline std::string desc() const
     {
         std::stringstream oss;
@@ -423,6 +452,25 @@ struct FileStorageConnectionOption
     bool replaceDataNodeOnFailure = false;
     // the default connection-timeout for the hdfs is 1000ms
     uint16_t connectionTimeout = 1000;
+
+    void check() const
+    {
+        if (nameNode.size() == 0)
+        {
+            BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
+                                      "Invalid HDFS Option, Must set the nameNode!"));
+        }
+        if (userName.size() == 0)
+        {
+            BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
+                                      "Invalid HDFS Option, Must set the userName!"));
+        }
+        if (nameNodePort == 0 || nameNodePort > 65535)
+        {
+            BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
+                                      "Invalid HDFS Option, Must set valid namenodeport!"));
+        }
+    }
     inline std::string desc() const
     {
         std::stringstream oss;

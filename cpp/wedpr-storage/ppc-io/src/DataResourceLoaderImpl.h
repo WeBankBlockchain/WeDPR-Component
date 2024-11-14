@@ -63,13 +63,19 @@ protected:
     virtual LineReader::Ptr loadHDFSResource(ppc::protocol::DataResourceDesc::ConstPtr _desc,
         ppc::storage::FileStorage::Ptr const& _fileStorage);
 
+    void lazyLoadHdfsStorage();
+    void lazyLoadSqlStorage();
+
 private:
     // the sql storage
     ppc::protocol::SQLConnectionOption::Ptr m_sqlConnectionOpt;
     ppc::storage::SQLStorage::Ptr m_sqlStorage;
+    bcos::Mutex x_sqlStorage;
+
     // the hdfs storage
     ppc::protocol::FileStorageConnectionOption::Ptr m_fileStorageConnectionOpt;
     ppc::storage::FileStorage::Ptr m_hdfsStorage;
+    bcos::Mutex x_hdfsStorage;
 
     ppc::protocol::RemoteStorageConnectionOption::Ptr m_remoteStorageConnectionOpt;
 
