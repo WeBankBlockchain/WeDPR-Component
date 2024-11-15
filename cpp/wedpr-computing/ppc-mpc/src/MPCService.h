@@ -50,11 +50,13 @@ public:
     void execCommand(const std::string cmd, int& outExitStatus, std::string& outResult);
 
     void writeStringToFile(const std::string& content, const std::string& filePath);
-    void readAndSaveFile(ppc::io::LineReader::Ptr lineReader, ppc::io::LineWriter::Ptr lineWriter);
+    void readAndSaveFile(const std::string &readerFilePath, const std::string &writerFilePath,ppc::io::LineReader::Ptr lineReader, ppc::io::LineWriter::Ptr lineWriter);
     ppc::io::LineReader::Ptr initialize_lineReader(const JobInfo& jobInfo,
         const std::string& readerFilePath, ppc::protocol::DataResourceType type);
     ppc::io::LineWriter::Ptr initialize_lineWriter(const JobInfo& jobInfo,
         const std::string& writerFilePath, ppc::protocol::DataResourceType type);
+
+    void removeAllFiles(const std::vector<std::string> &files);
 
 private:
     ppc::tools::MPCConfig m_mpcConfig;

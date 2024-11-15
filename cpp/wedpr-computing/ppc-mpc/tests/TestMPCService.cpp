@@ -84,8 +84,8 @@ BOOST_AUTO_TEST_CASE(testMPCService)
     jobInfo.selfIndex = 0;
     jobInfo.isMalicious = false;
     jobInfo.bitLength = 128;
-    jobInfo.inputFileName = "mpc_prepare.csv";
-    jobInfo.outputFileName = "mpc_output.txt";
+    jobInfo.inputFilePath = "mpc_prepare.csv";
+    jobInfo.outputFilePath = "mpc_output.txt";
     jobInfo.gatewayEngineEndpoint = "127.0.0.1:6789";
 
     mpcService->makeCommand(cmd, jobInfo);

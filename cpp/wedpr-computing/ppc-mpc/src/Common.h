@@ -39,8 +39,9 @@ struct JobInfo
     int selfIndex;
     bool isMalicious;
     int bitLength;
-    std::string inputFileName;
-    std::string outputFileName;
+    std::string mpcFilePath;
+    std::string inputFilePath;
+    std::string outputFilePath;
     std::string gatewayEngineEndpoint;
 };
 
@@ -51,6 +52,7 @@ const std::string MPC_RELATIVE_PATH = "/Programs/Source/";
 const std::string MPC_ALGORITHM_FILE_SUFFIX = ".mpc";
 const std::string MPC_ALGORITHM_COMPILER = "compile.py";
 const std::string MPC_PREPARE_FILE = "mpc_prepare.csv";
+const std::string MPC_RESULT_FILE = "mpc_result.csv";
 
 enum MpcBinaryType
 {
