@@ -89,39 +89,6 @@ public:
         m_compressAlgorithm = compressAlgorithm;
     }
 
-protected:
-    bool m_enableHealthCheck = true;
-    std::string m_loadBalancePolicy = "round_robin";
-    bool m_enableDnslookup = false;
-    // Note: grpc use int to set the maxMsgSize
-    uint64_t const c_maxMsgSize = INT_MAX;
-
-    // the max send message size in bytes
-    uint64_t m_maxSendMessageSize = c_maxMsgSize;
-    // the max received message size in bytes
-    uint64_t m_maxReceivedMessageSize = c_maxMsgSize;
-    int m_compressAlgorithm = 0;
-};
-
-class GrpcServerConfig : public GrpcConfig
-{
-public:
-    using Ptr = std::shared_ptr<GrpcServerConfig>;
-    GrpcServerConfig() = default;
-    GrpcServerConfig(EndPoint endPoint, bool enableHealthCheck)
-      : m_endPoint(std::move(endPoint)), m_enableHealthCheck(enableHealthCheck)
-    {}
-    ~GrpcServerConfig() override = default;
-
-    std::string listenEndPoint() const { return m_endPoint.listenEndPoint(); }
-
-    void setEndPoint(EndPoint endPoint) { m_endPoint = endPoint; }
-    void setEnableHealthCheck(bool enableHealthCheck) { m_enableHealthCheck = enableHealthCheck; }
-
-    EndPoint const& endPoint() const { return m_endPoint; }
-    EndPoint& mutableEndPoint() { return m_endPoint; }
-    bool enableHealthCheck() const { return m_enableHealthCheck; }
-
     uint64_t maxMsgSize() const { return m_maxMsgSize; }
     void setMaxMsgSize(uint64_t maxMsgSize)
     {
@@ -134,9 +101,50 @@ public:
     }
 
 protected:
+    bool m_enableHealthCheck = true;
+    std::string m_loadBalancePolicy = "round_robin";
+    bool m_enableDnslookup = false;
+
+    // Note: grpc use int to set the maxMsgSize
+    uint64_t const c_maxMsgSize = INT_MAX;
+
+    // the max send message size in bytes
+    uint64_t m_maxSendMessageSize = c_maxMsgSize;
+    // the max received message size in bytes
+    uint64_t m_maxReceivedMessageSize = c_maxMsgSize;
+    // the max msg size
+    uint64_t m_maxMsgSize = c_maxMsgSize;
+    int m_compressAlgorithm = 0;
+};
+
+class GrpcServerConfig
+{
+public:
+    using Ptr = std::shared_ptr<GrpcServerConfig>;
+    GrpcServerConfig() { m_grpcConfig = std::make_shared<GrpcConfig>(); }
+    GrpcServerConfig(EndPoint endPoint, bool enableHealthCheck) : GrpcServerConfig()
+    {
+        m_endPoint = std::move(endPoint);
+        m_enableHealthCheck = enableHealthCheck;
+    }
+    virtual ~GrpcServerConfig() = default;
+
+    std::string listenEndPoint() const { return m_endPoint.listenEndPoint(); }
+
+    void setEndPoint(EndPoint endPoint) { m_endPoint = endPoint; }
+    void setEnableHealthCheck(bool enableHealthCheck) { m_enableHealthCheck = enableHealthCheck; }
+
+    EndPoint const& endPoint() const { return m_endPoint; }
+    EndPoint& mutableEndPoint() { return m_endPoint; }
+    bool enableHealthCheck() const { return m_enableHealthCheck; }
+
+    GrpcConfig::Ptr const& grpcConfig() const { return m_grpcConfig; }
+
+protected:
     ppc::protocol::EndPoint m_endPoint;
     bool m_enableHealthCheck = true;
-    uint64_t m_maxMsgSize = c_maxMsgSize;
+    // the grpc config
+    GrpcConfig::Ptr m_grpcConfig;
 };
 
 

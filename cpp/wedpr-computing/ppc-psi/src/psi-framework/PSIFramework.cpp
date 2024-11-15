@@ -19,6 +19,7 @@
  */
 #include "PSIFramework.h"
 #include "../Common.h"
+#include "ppc-framework/protocol/Constant.h"
 #include "ppc-framework/protocol/GlobalConfig.h"
 
 using namespace ppc::task;
@@ -154,6 +155,14 @@ void PSIFramework::onReceiveMessage(PPCMessageFace::Ptr _msg)
         m_msgQueue->push(psiMsg);
         PSI_FRAMEWORK_LOG(TRACE) << LOG_DESC("onReceiveMessage") << printPSIMessage(psiMsg)
                                  << LOG_KV("uuid", _msg->uuid());
+        // release the large payload immediately
+        if (payLoad && payLoad->size() >= ppc::protocol::LARGE_MSG_THRESHOLD)
+        {
+            PSI_FRAMEWORK_LOG(INFO)
+                << LOG_DESC("Release large message payload") << LOG_KV("size", payLoad->size());
+            _msg->releasePayload();
+            MallocExtension::instance()->ReleaseFreeMemory();
+        }
         // notify to handle the message
         m_signalled.notify_all();
     }

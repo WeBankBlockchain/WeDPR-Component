@@ -19016,354 +19016,6 @@ SWIGINTERN PyObject *EndPoint_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject 
   return SWIG_Python_InitShadowInstance(args);
 }
 
-SWIGINTERN PyObject *_wrap_new_GrpcServerConfig__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
-  PyObject *resultobj = 0;
-  ppc::protocol::GrpcServerConfig *result = 0 ;
-  
-  (void)self;
-  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
-  {
-    try {
-      result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig();
-    }
-    catch (const std::exception& e) {
-      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
-    }
-  }
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__GrpcServerConfig, SWIG_POINTER_NEW |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_new_GrpcServerConfig__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  ppc::protocol::EndPoint arg1 ;
-  bool arg2 ;
-  void *argp1 ;
-  int res1 = 0 ;
-  bool val2 ;
-  int ecode2 = 0 ;
-  ppc::protocol::GrpcServerConfig *result = 0 ;
-  
-  (void)self;
-  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
-  {
-    res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_ppc__protocol__EndPoint,  0  | 0);
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GrpcServerConfig" "', argument " "1"" of type '" "ppc::protocol::EndPoint""'"); 
-    }  
-    if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GrpcServerConfig" "', argument " "1"" of type '" "ppc::protocol::EndPoint""'");
-    } else {
-      ppc::protocol::EndPoint * temp = reinterpret_cast< ppc::protocol::EndPoint * >(argp1);
-      arg1 = *temp;
-      if (SWIG_IsNewObj(res1)) delete temp;
-    }
-  }
-  ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_GrpcServerConfig" "', argument " "2"" of type '" "bool""'");
-  } 
-  arg2 = static_cast< bool >(val2);
-  {
-    try {
-      result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig(arg1,arg2);
-    }
-    catch (const std::exception& e) {
-      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
-    }
-  }
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__GrpcServerConfig, SWIG_POINTER_NEW |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_new_GrpcServerConfig(PyObject *self, PyObject *args) {
-  Py_ssize_t argc;
-  PyObject *argv[3] = {
-    0
-  };
-  
-  if (!(argc = SWIG_Python_UnpackTuple(args, "new_GrpcServerConfig", 0, 2, argv))) SWIG_fail;
-  --argc;
-  if (argc == 0) {
-    return _wrap_new_GrpcServerConfig__SWIG_0(self, argc, argv);
-  }
-  if (argc == 2) {
-    int _v = 0;
-    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_ppc__protocol__EndPoint, SWIG_POINTER_NO_NULL | 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      {
-        int res = SWIG_AsVal_bool(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
-      if (_v) {
-        return _wrap_new_GrpcServerConfig__SWIG_1(self, argc, argv);
-      }
-    }
-  }
-  
-fail:
-  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_GrpcServerConfig'.\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    ppc::protocol::GrpcServerConfig::GrpcServerConfig()\n"
-    "    ppc::protocol::GrpcServerConfig::GrpcServerConfig(ppc::protocol::EndPoint,bool)\n");
-  return 0;
-}
-
-
-SWIGINTERN PyObject *_wrap_GrpcServerConfig_listenEndPoint(PyObject *self, PyObject *args) {
-  PyObject *resultobj = 0;
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject *swig_obj[1] ;
-  std::string result;
-  
-  (void)self;
-  if (!args) SWIG_fail;
-  swig_obj[0] = args;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_listenEndPoint" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig const *""'"); 
-  }
-  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
-  {
-    try {
-      result = ((ppc::protocol::GrpcServerConfig const *)arg1)->listenEndPoint();
-    }
-    catch (const std::exception& e) {
-      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
-    }
-  }
-  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_GrpcServerConfig_setEndPoint(PyObject *self, PyObject *args) {
-  PyObject *resultobj = 0;
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  ppc::protocol::EndPoint arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  PyObject *swig_obj[2] ;
-  
-  (void)self;
-  if (!SWIG_Python_UnpackTuple(args, "GrpcServerConfig_setEndPoint", 2, 2, swig_obj)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_setEndPoint" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig *""'"); 
-  }
-  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_ppc__protocol__EndPoint,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GrpcServerConfig_setEndPoint" "', argument " "2"" of type '" "ppc::protocol::EndPoint""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GrpcServerConfig_setEndPoint" "', argument " "2"" of type '" "ppc::protocol::EndPoint""'");
-    } else {
-      ppc::protocol::EndPoint * temp = reinterpret_cast< ppc::protocol::EndPoint * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
-  }
-  {
-    try {
-      (arg1)->setEndPoint(arg2);
-    }
-    catch (const std::exception& e) {
-      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
-    }
-  }
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_GrpcServerConfig_setEnableHealthCheck(PyObject *self, PyObject *args) {
-  PyObject *resultobj = 0;
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  bool arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  bool val2 ;
-  int ecode2 = 0 ;
-  PyObject *swig_obj[2] ;
-  
-  (void)self;
-  if (!SWIG_Python_UnpackTuple(args, "GrpcServerConfig_setEnableHealthCheck", 2, 2, swig_obj)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_setEnableHealthCheck" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig *""'"); 
-  }
-  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
-  ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GrpcServerConfig_setEnableHealthCheck" "', argument " "2"" of type '" "bool""'");
-  } 
-  arg2 = static_cast< bool >(val2);
-  {
-    try {
-      (arg1)->setEnableHealthCheck(arg2);
-    }
-    catch (const std::exception& e) {
-      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
-    }
-  }
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_GrpcServerConfig_endPoint(PyObject *self, PyObject *args) {
-  PyObject *resultobj = 0;
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject *swig_obj[1] ;
-  ppc::protocol::EndPoint *result = 0 ;
-  
-  (void)self;
-  if (!args) SWIG_fail;
-  swig_obj[0] = args;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_endPoint" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig const *""'"); 
-  }
-  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
-  {
-    try {
-      result = (ppc::protocol::EndPoint *) &((ppc::protocol::GrpcServerConfig const *)arg1)->endPoint();
-    }
-    catch (const std::exception& e) {
-      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
-    }
-  }
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__EndPoint, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_GrpcServerConfig_mutableEndPoint(PyObject *self, PyObject *args) {
-  PyObject *resultobj = 0;
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject *swig_obj[1] ;
-  ppc::protocol::EndPoint *result = 0 ;
-  
-  (void)self;
-  if (!args) SWIG_fail;
-  swig_obj[0] = args;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_mutableEndPoint" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig *""'"); 
-  }
-  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
-  {
-    try {
-      result = (ppc::protocol::EndPoint *) &(arg1)->mutableEndPoint();
-    }
-    catch (const std::exception& e) {
-      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
-    }
-  }
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__EndPoint, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_GrpcServerConfig_enableHealthCheck(PyObject *self, PyObject *args) {
-  PyObject *resultobj = 0;
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject *swig_obj[1] ;
-  bool result;
-  
-  (void)self;
-  if (!args) SWIG_fail;
-  swig_obj[0] = args;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_enableHealthCheck" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig const *""'"); 
-  }
-  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
-  {
-    try {
-      result = (bool)((ppc::protocol::GrpcServerConfig const *)arg1)->enableHealthCheck();
-    }
-    catch (const std::exception& e) {
-      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
-    }
-  }
-  resultobj = SWIG_From_bool(static_cast< bool >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_delete_GrpcServerConfig(PyObject *self, PyObject *args) {
-  PyObject *resultobj = 0;
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject *swig_obj[1] ;
-  
-  (void)self;
-  if (!args) SWIG_fail;
-  swig_obj[0] = args;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, SWIG_POINTER_DISOWN |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_GrpcServerConfig" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig *""'"); 
-  }
-  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
-  {
-    try {
-      delete arg1;
-    }
-    catch (const std::exception& e) {
-      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
-    }
-  }
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *GrpcServerConfig_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *obj;
-  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
-  SWIG_TypeNewClientData(SWIGTYPE_p_ppc__protocol__GrpcServerConfig, SWIG_NewClientData(obj));
-  return SWIG_Py_Void();
-}
-
-SWIGINTERN PyObject *GrpcServerConfig_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  return SWIG_Python_InitShadowInstance(args);
-}
-
 SWIGINTERN PyObject *_wrap_new_GrpcConfig(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   ppc::protocol::GrpcConfig *result = 0 ;
@@ -19382,48 +19034,6 @@ SWIGINTERN PyObject *_wrap_new_GrpcConfig(PyObject *self, PyObject *args) {
     std::shared_ptr<  ppc::protocol::GrpcConfig > *smartresult = result ? new std::shared_ptr<  ppc::protocol::GrpcConfig >(result SWIG_NO_NULL_DELETER_SWIG_POINTER_NEW) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, SWIG_POINTER_NEW | SWIG_POINTER_OWN);
   }
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_delete_GrpcConfig(PyObject *self, PyObject *args) {
-  PyObject *resultobj = 0;
-  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  std::shared_ptr< ppc::protocol::GrpcConfig > tempshared1 ;
-  std::shared_ptr< ppc::protocol::GrpcConfig > *smartarg1 = 0 ;
-  PyObject *swig_obj[1] ;
-  
-  (void)self;
-  if (!args) SWIG_fail;
-  swig_obj[0] = args;
-  {
-    int newmem = 0;
-    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, 0 |  0 , &newmem);
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_GrpcConfig" "', argument " "1"" of type '" "ppc::protocol::GrpcConfig *""'");
-    }
-    if (newmem & SWIG_CAST_NEW_MEMORY) {
-      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
-      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
-      arg1 = const_cast< ppc::protocol::GrpcConfig * >(tempshared1.get());
-    } else {
-      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
-      arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
-    }
-  }
-  {
-    try {
-      (void)arg1; delete smartarg1;
-    }
-    catch (const std::exception& e) {
-      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
-    }
-  }
-  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -19989,6 +19599,98 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_GrpcConfig_maxMsgSize(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig const > tempshared1 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig const > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  uint64_t result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcConfig_maxMsgSize" "', argument " "1"" of type '" "ppc::protocol::GrpcConfig const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const ppc::protocol::GrpcConfig > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxMsgSize();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  resultobj = SWIG_From_unsigned_SS_long_SS_long(static_cast< unsigned long long >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcConfig_setMaxMsgSize(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  uint64_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig > tempshared1 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig > *smartarg1 = 0 ;
+  unsigned long long val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "GrpcConfig_setMaxMsgSize", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcConfig_setMaxMsgSize" "', argument " "1"" of type '" "ppc::protocol::GrpcConfig *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::GrpcConfig > * >(argp1);
+      arg1 = const_cast< ppc::protocol::GrpcConfig * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  ecode2 = SWIG_AsVal_unsigned_SS_long_SS_long(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GrpcConfig_setMaxMsgSize" "', argument " "2"" of type '" "uint64_t""'");
+  } 
+  arg2 = static_cast< uint64_t >(val2);
+  {
+    try {
+      (arg1)->setMaxMsgSize(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *GrpcConfig_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
@@ -19997,6 +19699,358 @@ SWIGINTERN PyObject *GrpcConfig_swigregister(PyObject *SWIGUNUSEDPARM(self), PyO
 }
 
 SWIGINTERN PyObject *GrpcConfig_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_GrpcServerConfig__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcServerConfig *result = 0 ;
+  
+  (void)self;
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  {
+    try {
+      result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__GrpcServerConfig, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_GrpcServerConfig__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  ppc::protocol::EndPoint arg1 ;
+  bool arg2 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  ppc::protocol::GrpcServerConfig *result = 0 ;
+  
+  (void)self;
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_ppc__protocol__EndPoint,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_GrpcServerConfig" "', argument " "1"" of type '" "ppc::protocol::EndPoint""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_GrpcServerConfig" "', argument " "1"" of type '" "ppc::protocol::EndPoint""'");
+    } else {
+      ppc::protocol::EndPoint * temp = reinterpret_cast< ppc::protocol::EndPoint * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_GrpcServerConfig" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  {
+    try {
+      result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig(arg1,arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__GrpcServerConfig, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_GrpcServerConfig(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[3] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_GrpcServerConfig", 0, 2, argv))) SWIG_fail;
+  --argc;
+  if (argc == 0) {
+    return _wrap_new_GrpcServerConfig__SWIG_0(self, argc, argv);
+  }
+  if (argc == 2) {
+    int _v = 0;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_ppc__protocol__EndPoint, SWIG_POINTER_NO_NULL | 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_bool(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_new_GrpcServerConfig__SWIG_1(self, argc, argv);
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_GrpcServerConfig'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    ppc::protocol::GrpcServerConfig::GrpcServerConfig()\n"
+    "    ppc::protocol::GrpcServerConfig::GrpcServerConfig(ppc::protocol::EndPoint,bool)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcServerConfig_listenEndPoint(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::string result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_listenEndPoint" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig const *""'"); 
+  }
+  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
+  {
+    try {
+      result = ((ppc::protocol::GrpcServerConfig const *)arg1)->listenEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcServerConfig_setEndPoint(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  ppc::protocol::EndPoint arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "GrpcServerConfig_setEndPoint", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_setEndPoint" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig *""'"); 
+  }
+  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_ppc__protocol__EndPoint,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "GrpcServerConfig_setEndPoint" "', argument " "2"" of type '" "ppc::protocol::EndPoint""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "GrpcServerConfig_setEndPoint" "', argument " "2"" of type '" "ppc::protocol::EndPoint""'");
+    } else {
+      ppc::protocol::EndPoint * temp = reinterpret_cast< ppc::protocol::EndPoint * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  {
+    try {
+      (arg1)->setEndPoint(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcServerConfig_setEnableHealthCheck(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "GrpcServerConfig_setEnableHealthCheck", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_setEnableHealthCheck" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig *""'"); 
+  }
+  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
+  ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "GrpcServerConfig_setEnableHealthCheck" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  {
+    try {
+      (arg1)->setEnableHealthCheck(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcServerConfig_endPoint(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  ppc::protocol::EndPoint *result = 0 ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_endPoint" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig const *""'"); 
+  }
+  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
+  {
+    try {
+      result = (ppc::protocol::EndPoint *) &((ppc::protocol::GrpcServerConfig const *)arg1)->endPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__EndPoint, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcServerConfig_mutableEndPoint(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  ppc::protocol::EndPoint *result = 0 ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_mutableEndPoint" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig *""'"); 
+  }
+  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
+  {
+    try {
+      result = (ppc::protocol::EndPoint *) &(arg1)->mutableEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_ppc__protocol__EndPoint, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcServerConfig_enableHealthCheck(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_enableHealthCheck" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig const *""'"); 
+  }
+  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
+  {
+    try {
+      result = (bool)((ppc::protocol::GrpcServerConfig const *)arg1)->enableHealthCheck();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GrpcServerConfig_grpcConfig(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  ppc::protocol::GrpcConfig::Ptr *result = 0 ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_ppc__protocol__GrpcServerConfig, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GrpcServerConfig_grpcConfig" "', argument " "1"" of type '" "ppc::protocol::GrpcServerConfig const *""'"); 
+  }
+  arg1 = reinterpret_cast< ppc::protocol::GrpcServerConfig * >(argp1);
+  {
+    try {
+      result = (ppc::protocol::GrpcConfig::Ptr *) &((ppc::protocol::GrpcServerConfig const *)arg1)->grpcConfig();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  {
+    std::shared_ptr<  ppc::protocol::GrpcConfig > *smartresult = *result ? new std::shared_ptr<  ppc::protocol::GrpcConfig >(*result) : 0;
+    resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_ppc__protocol__GrpcConfig_t, SWIG_POINTER_OWN);
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *GrpcServerConfig_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_ppc__protocol__GrpcServerConfig, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *GrpcServerConfig_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   return SWIG_Python_InitShadowInstance(args);
 }
 
@@ -22929,59 +22983,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Message_setFrontMessage(PyObject *self, PyObject *args) {
-  PyObject *resultobj = 0;
-  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
-  ppc::protocol::MessagePayload::Ptr arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  std::shared_ptr< ppc::protocol::Message > tempshared1 ;
-  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  PyObject *swig_obj[2] ;
-  
-  (void)self;
-  if (!SWIG_Python_UnpackTuple(args, "Message_setFrontMessage", 2, 2, swig_obj)) SWIG_fail;
-  {
-    int newmem = 0;
-    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_setFrontMessage" "', argument " "1"" of type '" "ppc::protocol::Message *""'");
-    }
-    if (newmem & SWIG_CAST_NEW_MEMORY) {
-      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
-      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
-      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
-    } else {
-      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
-      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
-    }
-  }
-  {
-    int newmem = 0;
-    res2 = SWIG_ConvertPtrAndOwn(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessagePayload_t,  0 , &newmem);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Message_setFrontMessage" "', argument " "2"" of type '" "ppc::protocol::MessagePayload::Ptr""'");
-    }
-    if (argp2) arg2 = *(reinterpret_cast< ppc::protocol::MessagePayload::Ptr * >(argp2));
-    if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< ppc::protocol::MessagePayload::Ptr * >(argp2);
-  }
-  {
-    try {
-      (arg1)->setFrontMessage(arg2);
-    }
-    catch (const std::exception& e) {
-      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
-    }
-  }
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
 SWIGINTERN PyObject *_wrap_Message_frontMessage(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
@@ -23232,6 +23233,48 @@ SWIGINTERN PyObject *_wrap_Message_payload(PyObject *self, PyObject *args) {
     std::shared_ptr<  bcos::bytes > *smartresult = result ? new std::shared_ptr<  bcos::bytes >(result) : 0;
     resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(smartresult), SWIGTYPE_p_std__shared_ptrT_bcos__bytes_t, SWIG_POINTER_OWN);
   }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Message_releasePayload(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::Message > tempshared1 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__Message_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Message_releasePayload" "', argument " "1"" of type '" "ppc::protocol::Message *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::Message > * >(argp1);
+      arg1 = const_cast< ppc::protocol::Message * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      (arg1)->releasePayload();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -24793,6 +24836,48 @@ SWIGINTERN PyObject *_wrap_MessagePayload_isRespPacket(PyObject *self, PyObject 
     }
   }
   resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_MessagePayload_releasePayload(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  ppc::protocol::MessagePayload *arg1 = (ppc::protocol::MessagePayload *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< ppc::protocol::MessagePayload > tempshared1 ;
+  std::shared_ptr< ppc::protocol::MessagePayload > *smartarg1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  (void)self;
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_ppc__protocol__MessagePayload_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "MessagePayload_releasePayload" "', argument " "1"" of type '" "ppc::protocol::MessagePayload *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr<  ppc::protocol::MessagePayload > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr<  ppc::protocol::MessagePayload > * >(argp1);
+      arg1 = const_cast< ppc::protocol::MessagePayload * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr<  ppc::protocol::MessagePayload > * >(argp1);
+      arg1 = const_cast< ppc::protocol::MessagePayload * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    try {
+      (arg1)->releasePayload();
+    }
+    catch (const std::exception& e) {
+      SWIG_exception(SWIG_RuntimeError, std::string(boost::diagnostic_information(e)).c_str());
+    }
+  }
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -29175,18 +29260,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "EndPoint_listenIp", _wrap_EndPoint_listenIp, METH_O, NULL},
 	 { "EndPoint_swigregister", EndPoint_swigregister, METH_O, NULL},
 	 { "EndPoint_swiginit", EndPoint_swiginit, METH_VARARGS, NULL},
-	 { "new_GrpcServerConfig", _wrap_new_GrpcServerConfig, METH_VARARGS, NULL},
-	 { "GrpcServerConfig_listenEndPoint", _wrap_GrpcServerConfig_listenEndPoint, METH_O, NULL},
-	 { "GrpcServerConfig_setEndPoint", _wrap_GrpcServerConfig_setEndPoint, METH_VARARGS, NULL},
-	 { "GrpcServerConfig_setEnableHealthCheck", _wrap_GrpcServerConfig_setEnableHealthCheck, METH_VARARGS, NULL},
-	 { "GrpcServerConfig_endPoint", _wrap_GrpcServerConfig_endPoint, METH_O, NULL},
-	 { "GrpcServerConfig_mutableEndPoint", _wrap_GrpcServerConfig_mutableEndPoint, METH_O, NULL},
-	 { "GrpcServerConfig_enableHealthCheck", _wrap_GrpcServerConfig_enableHealthCheck, METH_O, NULL},
-	 { "delete_GrpcServerConfig", _wrap_delete_GrpcServerConfig, METH_O, NULL},
-	 { "GrpcServerConfig_swigregister", GrpcServerConfig_swigregister, METH_O, NULL},
-	 { "GrpcServerConfig_swiginit", GrpcServerConfig_swiginit, METH_VARARGS, NULL},
 	 { "new_GrpcConfig", _wrap_new_GrpcConfig, METH_NOARGS, NULL},
-	 { "delete_GrpcConfig", _wrap_delete_GrpcConfig, METH_O, NULL},
 	 { "GrpcConfig_loadBalancePolicy", _wrap_GrpcConfig_loadBalancePolicy, METH_O, NULL},
 	 { "GrpcConfig_setLoadBalancePolicy", _wrap_GrpcConfig_setLoadBalancePolicy, METH_VARARGS, NULL},
 	 { "GrpcConfig_enableHealthCheck", _wrap_GrpcConfig_enableHealthCheck, METH_O, NULL},
@@ -29199,8 +29273,20 @@ static PyMethodDef SwigMethods[] = {
 	 { "GrpcConfig_setMaxReceivedMessageSize", _wrap_GrpcConfig_setMaxReceivedMessageSize, METH_VARARGS, NULL},
 	 { "GrpcConfig_compressAlgorithm", _wrap_GrpcConfig_compressAlgorithm, METH_O, NULL},
 	 { "GrpcConfig_setCompressAlgorithm", _wrap_GrpcConfig_setCompressAlgorithm, METH_VARARGS, NULL},
+	 { "GrpcConfig_maxMsgSize", _wrap_GrpcConfig_maxMsgSize, METH_O, NULL},
+	 { "GrpcConfig_setMaxMsgSize", _wrap_GrpcConfig_setMaxMsgSize, METH_VARARGS, NULL},
 	 { "GrpcConfig_swigregister", GrpcConfig_swigregister, METH_O, NULL},
 	 { "GrpcConfig_swiginit", GrpcConfig_swiginit, METH_VARARGS, NULL},
+	 { "new_GrpcServerConfig", _wrap_new_GrpcServerConfig, METH_VARARGS, NULL},
+	 { "GrpcServerConfig_listenEndPoint", _wrap_GrpcServerConfig_listenEndPoint, METH_O, NULL},
+	 { "GrpcServerConfig_setEndPoint", _wrap_GrpcServerConfig_setEndPoint, METH_VARARGS, NULL},
+	 { "GrpcServerConfig_setEnableHealthCheck", _wrap_GrpcServerConfig_setEnableHealthCheck, METH_VARARGS, NULL},
+	 { "GrpcServerConfig_endPoint", _wrap_GrpcServerConfig_endPoint, METH_O, NULL},
+	 { "GrpcServerConfig_mutableEndPoint", _wrap_GrpcServerConfig_mutableEndPoint, METH_O, NULL},
+	 { "GrpcServerConfig_enableHealthCheck", _wrap_GrpcServerConfig_enableHealthCheck, METH_O, NULL},
+	 { "GrpcServerConfig_grpcConfig", _wrap_GrpcServerConfig_grpcConfig, METH_O, NULL},
+	 { "GrpcServerConfig_swigregister", GrpcServerConfig_swigregister, METH_O, NULL},
+	 { "GrpcServerConfig_swiginit", GrpcServerConfig_swiginit, METH_VARARGS, NULL},
 	 { "printGrpcConfig", _wrap_printGrpcConfig, METH_O, NULL},
 	 { "delete_MessageOptionalHeader", _wrap_delete_MessageOptionalHeader, METH_O, NULL},
 	 { "MessageOptionalHeader_encode", _wrap_MessageOptionalHeader_encode, METH_VARARGS, NULL},
@@ -29261,12 +29347,12 @@ static PyMethodDef SwigMethods[] = {
 	 { "Message_setRespPacket", _wrap_Message_setRespPacket, METH_O, NULL},
 	 { "Message_setPayload", _wrap_Message_setPayload, METH_VARARGS, NULL},
 	 { "Message_payloadBuffer", _wrap_Message_payloadBuffer, METH_O, NULL},
-	 { "Message_setFrontMessage", _wrap_Message_setFrontMessage, METH_VARARGS, NULL},
 	 { "Message_frontMessage", _wrap_Message_frontMessage, METH_O, NULL},
 	 { "Message_encode", _wrap_Message_encode, METH_VARARGS, NULL},
 	 { "Message_decode", _wrap_Message_decode, METH_VARARGS, NULL},
 	 { "Message_length", _wrap_Message_length, METH_O, NULL},
 	 { "Message_payload", _wrap_Message_payload, METH_O, NULL},
+	 { "Message_releasePayload", _wrap_Message_releasePayload, METH_O, NULL},
 	 { "Message_swigregister", Message_swigregister, METH_O, NULL},
 	 { "delete_MessageHeaderBuilder", _wrap_delete_MessageHeaderBuilder, METH_O, NULL},
 	 { "MessageHeaderBuilder_build", _wrap_MessageHeaderBuilder_build, METH_VARARGS, NULL},
@@ -29294,6 +29380,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "MessagePayload_setExt", _wrap_MessagePayload_setExt, METH_VARARGS, NULL},
 	 { "MessagePayload_setRespPacket", _wrap_MessagePayload_setRespPacket, METH_O, NULL},
 	 { "MessagePayload_isRespPacket", _wrap_MessagePayload_isRespPacket, METH_O, NULL},
+	 { "MessagePayload_releasePayload", _wrap_MessagePayload_releasePayload, METH_O, NULL},
 	 { "MessagePayload_swigregister", MessagePayload_swigregister, METH_O, NULL},
 	 { "delete_MessagePayloadBuilder", _wrap_delete_MessagePayloadBuilder, METH_O, NULL},
 	 { "MessagePayloadBuilder_build", _wrap_MessagePayloadBuilder_build, METH_VARARGS, NULL},

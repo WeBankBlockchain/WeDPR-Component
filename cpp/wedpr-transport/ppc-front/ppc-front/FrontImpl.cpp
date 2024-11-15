@@ -265,7 +265,9 @@ void FrontImpl::onReceiveMessage(Message::Ptr const& msg, ReceiveMsgFunc callbac
         }
         FRONT_LOG(TRACE) << LOG_BADGE("onReceiveMessage") << LOG_KV("msg", printMessage(msg));
         auto frontMessage = m_messageFactory->build(bcos::ref(*(msg->payload())));
-        msg->setFrontMessage(frontMessage);
+        // release the payload buffer since it useless now
+        msg->setFrontMessage(frontMessage, true);
+
         // the response packet, dispatcher by callback
         if (frontMessage->isRespPacket())
         {

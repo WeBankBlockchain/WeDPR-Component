@@ -69,8 +69,10 @@ void EcdhMultiPSIMaster::onReceiveCalCipher(PSIMessageInterface::Ptr _msg)
     try
     {
         ECDH_MASTER_LOG(INFO) << LOG_DESC("onReceiveCalCipher") << printPSIMessage(_msg);
+        auto&& data = _msg->takeData();
+        auto const& dataIndex = _msg->dataIndex();
         m_masterCache->addCalculatorCipher(
-            _msg->from(), _msg->takeDataMap(), _msg->seq(), _msg->dataBatchCount());
+            _msg->from(), std::move(data), dataIndex, _msg->seq(), _msg->dataBatchCount());
         auto ret = m_masterCache->tryToIntersection();
         if (!ret)
         {
@@ -90,17 +92,12 @@ void EcdhMultiPSIMaster::onReceiveCalCipher(PSIMessageInterface::Ptr _msg)
 void EcdhMultiPSIMaster::encAndSendIntersectionData()
 {
     ECDH_MASTER_LOG(INFO) << LOG_DESC("encAndSendIntersectionData") << LOG_KV("taskID", m_taskID);
-    auto encryptedData = m_masterCache->encryptIntersection(*m_randomB);
-    auto message = m_config->psiMsgFactory()->createPSIMessage(
-        uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_INTERSECTION_SET_TO_CALCULATOR));
-    message->constructDataMap(encryptedData);
-    message->setFrom(m_taskState->task()->selfParty()->id());
+    auto message = m_masterCache->encryptIntersection(*m_randomB);
+    ECDH_MASTER_LOG(INFO) << LOG_DESC("send intersection cipher to calculator")
+                          << LOG_KV("taskID", m_taskState->task()->id())
+                          << LOG_KV("intersectionSize", message->getDataCount());
     for (auto& calcultor : m_calculatorParties)
     {
-        ECDH_MASTER_LOG(INFO) << LOG_DESC("send intersection cipher to calculator")
-                              << LOG_KV("taskID", m_taskState->task()->id())
-                              << LOG_KV("intersectionSize", encryptedData.size())
-                              << LOG_KV("target", calcultor.first);
         m_config->generateAndSendPPCMessage(calcultor.first, m_taskID, message,
             [self = weak_from_this()](bcos::Error::Ptr&& _error) {
                 if (!_error)
@@ -193,6 +190,7 @@ void EcdhMultiPSIMaster::blindData()
             dataBatch->release();
             ECDH_MASTER_LOG(INFO) << LOG_DESC("blindData: encrypt data success")
                                   << LOG_KV("dataSize", cipher.size()) << LOG_KV("task", m_taskID)
+                                  << LOG_KV("seq", seq)
                                   << LOG_KV("timecost", (utcSteadyTime() - startT));
 
             ECDH_MASTER_LOG(INFO) << LOG_DESC("blindData: send encrypted data to all calculator")

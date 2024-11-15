@@ -23,8 +23,10 @@
 #include "ppc-framework/Helper.h"
 #include "ppc-framework/front/FrontInterface.h"
 #include "ppc-framework/io/DataResourceLoader.h"
+#include "ppc-framework/protocol/Constant.h"
 #include "ppc-framework/protocol/Protocol.h"
 #include "psi-framework/interfaces/PSIMessageInterface.h"
+#include <gperftools/malloc_extension.h>
 #include <future>
 #include <utility>
 
@@ -95,6 +97,14 @@ public:
                 }
             },
             _responseCallback);
+        // release the large buffer if no-need to use
+        if (ppcMsg->data() && ppcMsg->data()->size() > ppc::protocol::LARGE_MSG_THRESHOLD)
+        {
+            PSI_LOG(INFO) << LOG_DESC("sendMsg: Release large buffer since the message")
+                          << LOG_KV("size", ppcMsg->data()->size());
+            ppcMsg->releasePayload();
+            MallocExtension::instance()->ReleaseFreeMemory();
+        }
     }
 
     void asyncSendResponse(bcos::bytes const& fromNode, std::string const& _taskID,

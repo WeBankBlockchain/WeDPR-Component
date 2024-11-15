@@ -67,8 +67,8 @@ public:
                              << LOG_KV("taskID", m_taskState->task()->id());
     }
 
-    void addCalculatorCipher(std::string _peerId, std::map<uint32_t, bcos::bytes>&& _cipherData,
-        uint32_t seq, uint32_t dataBatchCount);
+    void addCalculatorCipher(std::string _peerId, std::vector<bcos::bytes>&& _cipherData,
+        std::vector<long> const& dataIndex, uint32_t seq, uint32_t dataBatchCount);
 
     void addPartnerCipher(std::string _peerId, std::vector<bcos::bytes>&& _cipherData, uint32_t seq,
         uint32_t parternerDataCount);
@@ -83,7 +83,7 @@ public:
         return stringstream.str();
     }
 
-    std::vector<std::pair<uint64_t, bcos::bytes>> encryptIntersection(bcos::bytes const& randomKey);
+    PSIMessageInterface::Ptr encryptIntersection(bcos::bytes const& randomKey);
 
 private:
     bool shouldIntersection()
@@ -218,7 +218,8 @@ public:
     bool appendMasterCipher(
         std::vector<bcos::bytes>&& _cipherData, uint32_t seq, uint32_t dataBatchSize);
 
-    void setIntersectionCipher(std::map<uint32_t, bcos::bytes>&& _cipherData);
+    void setIntersectionCipher(
+        std::vector<bcos::bytes>&& _cipherData, std::vector<long> const& dataIndex);
 
     void appendPlainData(ppc::io::DataBatch::Ptr const& data)
     {

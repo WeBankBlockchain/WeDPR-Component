@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- * @file ServiceType.h
+ * @file Constant.h
  * @author: yujiechen
  * @date 2024-11-07
  */
@@ -26,4 +26,5 @@ namespace ppc::protocol
 {
 const static std::string PSI_SERVICE_TYPE = "PSI";
 const static std::string MPC_SERVICE_TYPE = "MPC";
+const static size_t LARGE_MSG_THRESHOLD = 30 * 1024 * 1024;
 }  // namespace ppc::protocol

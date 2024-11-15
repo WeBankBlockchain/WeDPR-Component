@@ -361,33 +361,7 @@ public class wedpr_java_transportJNI {
 
     public static final native String EndPoint_listenIp(long jarg1, EndPoint jarg1_);
 
-    public static final native long new_GrpcServerConfig__SWIG_0();
-
-    public static final native long new_GrpcServerConfig__SWIG_1(
-            long jarg1, EndPoint jarg1_, boolean jarg2);
-
-    public static final native String GrpcServerConfig_listenEndPoint(
-            long jarg1, GrpcServerConfig jarg1_);
-
-    public static final native void GrpcServerConfig_setEndPoint(
-            long jarg1, GrpcServerConfig jarg1_, long jarg2, EndPoint jarg2_);
-
-    public static final native void GrpcServerConfig_setEnableHealthCheck(
-            long jarg1, GrpcServerConfig jarg1_, boolean jarg2);
-
-    public static final native long GrpcServerConfig_endPoint(long jarg1, GrpcServerConfig jarg1_);
-
-    public static final native long GrpcServerConfig_mutableEndPoint(
-            long jarg1, GrpcServerConfig jarg1_);
-
-    public static final native boolean GrpcServerConfig_enableHealthCheck(
-            long jarg1, GrpcServerConfig jarg1_);
-
-    public static final native void delete_GrpcServerConfig(long jarg1);
-
     public static final native long new_GrpcConfig();
-
-    public static final native void delete_GrpcConfig(long jarg1);
 
     public static final native String GrpcConfig_loadBalancePolicy(long jarg1, GrpcConfig jarg1_);
 
@@ -420,6 +394,37 @@ public class wedpr_java_transportJNI {
 
     public static final native void GrpcConfig_setCompressAlgorithm(
             long jarg1, GrpcConfig jarg1_, int jarg2);
+
+    public static final native java.math.BigInteger GrpcConfig_maxMsgSize(
+            long jarg1, GrpcConfig jarg1_);
+
+    public static final native void GrpcConfig_setMaxMsgSize(
+            long jarg1, GrpcConfig jarg1_, java.math.BigInteger jarg2);
+
+    public static final native long new_GrpcServerConfig__SWIG_0();
+
+    public static final native long new_GrpcServerConfig__SWIG_1(
+            long jarg1, EndPoint jarg1_, boolean jarg2);
+
+    public static final native String GrpcServerConfig_listenEndPoint(
+            long jarg1, GrpcServerConfig jarg1_);
+
+    public static final native void GrpcServerConfig_setEndPoint(
+            long jarg1, GrpcServerConfig jarg1_, long jarg2, EndPoint jarg2_);
+
+    public static final native void GrpcServerConfig_setEnableHealthCheck(
+            long jarg1, GrpcServerConfig jarg1_, boolean jarg2);
+
+    public static final native long GrpcServerConfig_endPoint(long jarg1, GrpcServerConfig jarg1_);
+
+    public static final native long GrpcServerConfig_mutableEndPoint(
+            long jarg1, GrpcServerConfig jarg1_);
+
+    public static final native boolean GrpcServerConfig_enableHealthCheck(
+            long jarg1, GrpcServerConfig jarg1_);
+
+    public static final native long GrpcServerConfig_grpcConfig(
+            long jarg1, GrpcServerConfig jarg1_);
 
     public static final native String printGrpcConfig(long jarg1, GrpcConfig jarg1_);
 
@@ -570,9 +575,6 @@ public class wedpr_java_transportJNI {
 
     public static final native byte[] Message_payloadBuffer(long jarg1, Message jarg1_);
 
-    public static final native void Message_setFrontMessage(
-            long jarg1, Message jarg1_, long jarg2, MessagePayload jarg2_);
-
     public static final native long Message_frontMessage(long jarg1, Message jarg1_);
 
     public static final native boolean Message_encode(
@@ -583,6 +585,8 @@ public class wedpr_java_transportJNI {
     public static final native long Message_length(long jarg1, Message jarg1_);
 
     public static final native long Message_payload(long jarg1, Message jarg1_);
+
+    public static final native void Message_releasePayload(long jarg1, Message jarg1_);
 
     public static final native void delete_MessageHeaderBuilder(long jarg1);
 
@@ -663,6 +667,9 @@ public class wedpr_java_transportJNI {
     public static final native void MessagePayload_setRespPacket(long jarg1, MessagePayload jarg1_);
 
     public static final native boolean MessagePayload_isRespPacket(
+            long jarg1, MessagePayload jarg1_);
+
+    public static final native void MessagePayload_releasePayload(
             long jarg1, MessagePayload jarg1_);
 
     public static final native void delete_MessagePayloadBuilder(long jarg1);

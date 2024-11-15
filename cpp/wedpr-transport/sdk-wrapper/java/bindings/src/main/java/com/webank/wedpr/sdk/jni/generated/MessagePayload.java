@@ -98,6 +98,10 @@ public class MessagePayload {
         return wedpr_java_transportJNI.MessagePayload_isRespPacket(swigCPtr, this);
     }
 
+    public void releasePayload() {
+        wedpr_java_transportJNI.MessagePayload_releasePayload(swigCPtr, this);
+    }
+
     public void disOwnMemory() {
         swigSetCMemOwn(false);
     }

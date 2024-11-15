@@ -187,8 +187,6 @@ protected:
 class Message
 {
 public:
-    const static size_t LARGER_MSG_THRESHOLD = 30 * 1024 * 1024;
-
     using Ptr = std::shared_ptr<Message>;
     Message() = default;
     virtual ~Message() {}
@@ -207,7 +205,14 @@ public:
 
     bool isRespPacket() const { return m_header->isRespPacket(); }
     void setRespPacket() { m_header->setRespPacket(); }
-    void setPayload(std::shared_ptr<bcos::bytes> _payload) { m_payload = std::move(_payload); }
+    void setPayload(std::shared_ptr<bcos::bytes> _payload)
+    {
+        m_payload = std::move(_payload);
+        if (m_payload)
+        {
+            m_payloadLen = m_payload->size();
+        }
+    }
     // for swig wrapper
     OutputBuffer payloadBuffer() const
     {
@@ -218,9 +223,18 @@ public:
         return OutputBuffer{(unsigned char*)m_payload->data(), m_payload->size()};
     }
 
-    void setFrontMessage(MessagePayload::Ptr frontMessage)
+    void setFrontMessage(MessagePayload::Ptr frontMessage, bool releasePayload = false)
     {
         m_frontMessage = std::move(frontMessage);
+        if (!releasePayload)
+        {
+            return;
+        }
+        if (m_payload)
+        {
+            m_payload->clear();
+            bcos::bytes().swap(*m_payload);
+        }
     }
 
     MessagePayload::Ptr const& frontMessage() const { return m_frontMessage; }
@@ -229,10 +243,7 @@ public:
     virtual bool encode(bcos::bytes& _buffer) = 0;
     virtual int64_t decode(bcos::bytesConstRef _buffer) = 0;
 
-    virtual uint32_t length() const
-    {
-        return m_header->length() + (m_payload ? m_payload->size() : 0);
-    }
+    virtual uint32_t length() const { return m_header->length() + m_payloadLen; }
 
     virtual std::shared_ptr<bcos::bytes> payload() const { return m_payload; }
 
@@ -253,6 +264,9 @@ protected:
     MessageHeader::Ptr m_header;
     // Note: allocate here in case of wsService nullptr access caused coredump
     std::shared_ptr<bcos::bytes> m_payload = std::make_shared<bcos::bytes>();
+    uint64_t m_payloadLen = 0;
+    ;
+
     MessagePayload::Ptr m_frontMessage = nullptr;
 };
 

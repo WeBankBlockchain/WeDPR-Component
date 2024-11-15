@@ -79,9 +79,9 @@ void EcdhMultiPSIPartner::onReceiveRandomA(bcos::bytesPointer _randA)
                     m_taskState->setFinished(true);
                 }
             }
-            ECDH_PARTNER_LOG(INFO)
-                << LOG_DESC("blindData: encode parterner cipher")
-                << LOG_KV("size", dataBatch->size()) << printTaskInfo(m_taskState->task());
+            ECDH_PARTNER_LOG(INFO) << LOG_DESC("blindData: encode parterner cipher")
+                                   << LOG_KV("size", dataBatch->size()) << LOG_KV("seq", seq)
+                                   << LOG_KV("task", m_taskState->task()->id());
             auto startT = utcSteadyTime();
             std::vector<bcos::bytes> cipherData(dataBatch->size());
             tbb::parallel_for(

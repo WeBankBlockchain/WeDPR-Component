@@ -13,7 +13,7 @@ module ppctars{
         3 optional string partyID;
         4 optional string resourceID;
         5 optional vector<vector<byte>> data;
-        6 optional map<int, vector<byte>> dataMap;
+        6 optional vector<long> dataIndex;
         7 optional int errorCode;
         8 optional string errorMessage;
         9 optional vector<string> taskList;

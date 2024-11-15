@@ -36,7 +36,7 @@ public:
     explicit PSIMessage(bcos::bytesConstRef _data) : PSIMessage() { decode(_data); }
     explicit PSIMessage(std::function<ppctars::PSIMessage*()> _inner) : m_inner(std::move(_inner))
     {}
-    ~PSIMessage() {}
+    ~PSIMessage();
 
     // the packet-type
     uint32_t packetType() const override { return m_inner()->packetType; }
@@ -62,18 +62,18 @@ public:
         return result;
     }
 
-    std::map<uint32_t, bcos::bytes> takeDataMap() override
+    std::vector<long> const& dataIndex() const override { return m_inner()->dataIndex; }
+
+    void resizeData(uint64_t size) override
     {
-        std::map<uint32_t, bcos::bytes> result;
-        for (auto& val : m_inner()->dataMap)
-        {
-            if (val.second.data())
-            {
-                result[val.first].assign(
-                    m_inner()->dataMap[val.first].begin(), m_inner()->dataMap[val.first].end());
-            }
-        }
-        return result;
+        m_inner()->data.resize(size);
+        m_inner()->dataIndex.resize(size);
+    }
+
+    void setDataPair(uint64_t pos, uint64_t dataIndex, bcos::bytes const& data) override
+    {
+        m_inner()->dataIndex[pos] = dataIndex;
+        m_inner()->data[pos].assign(data.begin(), data.end());
     }
 
     // Note: must ensure the object will not released before access the function
@@ -82,6 +82,8 @@ public:
         auto const& dataItem = m_inner()->data.at(_index);
         return bcos::bytesConstRef((const bcos::byte*)(dataItem.data()), dataItem.size());
     }
+
+    uint64_t getDataCount() const override { return m_inner()->data.size(); }
     void setPartyID(std::string const& _partyID) override { m_inner()->partyID = _partyID; }
     void setResourceID(std::string const& _resourceID) override
     {
@@ -118,33 +120,16 @@ public:
         }
     }
 
-    void setDataMap(std::map<uint32_t, bcos::bytes>&& _map) override
+    void constructData(std::vector<bcos::bytes> const& data, uint64_t startIndex) override
     {
-        m_inner()->dataMap.clear();
-        for (auto& val : _map)
-        {
-            m_inner()->dataMap[val.first].assign(val.second.begin(), val.second.end());
-        }
-    }
-
-    void constructDataMap(std::vector<bcos::bytes> const& data, uint64_t startIndex) override
-    {
-        m_inner()->dataMap.clear();
-        int i = startIndex;
+        m_inner()->dataIndex.clear();
+        int64_t i = startIndex;
         for (auto const& it : data)
         {
-            m_inner()->dataMap[i].assign(it.begin(), it.end());
+            m_inner()->dataIndex.emplace_back(i);
             i++;
         }
-    }
-
-    void constructDataMap(std::vector<std::pair<uint64_t, bcos::bytes>> const& data) override
-    {
-        m_inner()->dataMap.clear();
-        for (auto const& it : data)
-        {
-            m_inner()->dataMap[it.first].assign(it.second.begin(), it.second.end());
-        }
+        setData(data);
     }
 
     void appendData(bcos::bytes const& _dataItem) override

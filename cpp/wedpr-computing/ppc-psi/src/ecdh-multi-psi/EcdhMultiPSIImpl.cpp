@@ -1,5 +1,6 @@
 #include "EcdhMultiPSIImpl.h"
 #include "Common.h"
+#include "ppc-framework/protocol/Constant.h"
 #include <gperftools/malloc_extension.h>
 
 using namespace ppc::psi;
@@ -314,10 +315,10 @@ void EcdhMultiPSIImpl::executeWorker()
         psiMsg->setUUID(pop_msg->uuid());
         ECDH_MULTI_LOG(TRACE) << LOG_DESC("onReceiveMessage") << printPSIMessage(psiMsg)
                               << LOG_KV("uuid", psiMsg->uuid());
-        // release the larger payload immediately
-        if (payLoad->size() >= ppc::protocol::Message::LARGER_MSG_THRESHOLD)
+        // release the large payload immediately
+        if (payLoad && payLoad->size() >= ppc::protocol::LARGE_MSG_THRESHOLD)
         {
-            ECDH_MULTI_LOG(INFO) << LOG_DESC("Release larger message payload")
+            ECDH_MULTI_LOG(INFO) << LOG_DESC("Release large message payload")
                                  << LOG_KV("size", payLoad->size());
             pop_msg->releasePayload();
             MallocExtension::instance()->ReleaseFreeMemory();

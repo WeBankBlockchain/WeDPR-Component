@@ -44,21 +44,22 @@ public:
     virtual int32_t version() const = 0;
     // get all the data
     virtual std::vector<bcos::bytes> takeData() = 0;
-    virtual void setDataMap(std::map<uint32_t, bcos::bytes>&& _map) = 0;
-    virtual void constructDataMap(std::vector<bcos::bytes> const& data, uint64_t startIndex) = 0;
-    virtual void constructDataMap(std::vector<std::pair<uint64_t, bcos::bytes>> const& data) = 0;
-    virtual std::map<uint32_t, bcos::bytes> takeDataMap() = 0;
+    virtual void constructData(std::vector<bcos::bytes> const& data, uint64_t startIndex) = 0;
+    virtual std::vector<long> const& dataIndex() const = 0;
     // Note: can't call this after takeData
     virtual uint64_t dataSize() const = 0;
     // get the data item
     // Note: must ensure the object will not released before access the function
     virtual bcos::bytesConstRef getData(uint64_t _index) = 0;
+    virtual uint64_t getDataCount() const = 0;
 
     virtual void setPartyID(std::string const& _partyID) = 0;
     virtual void setResourceID(std::string const& _resourceID) = 0;
     virtual void setVersion(int32_t _version) = 0;
     virtual void setData(std::vector<bcos::bytes> const& _data) = 0;
     virtual void setData(std::vector<bcos::bytes>&& _data) = 0;
+    virtual void setDataPair(uint64_t pos, uint64_t dataIndex, bcos::bytes const& data) = 0;
+    virtual void resizeData(uint64_t size) = 0;
     // copy [_offset, _offset + _len) into the data-field
     virtual void setData(
         std::vector<bcos::bytes> const& _data, uint64_t _offset, uint64_t _len) = 0;

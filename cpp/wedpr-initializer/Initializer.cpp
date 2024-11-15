@@ -32,7 +32,7 @@
 //TODO: optimize here to implement EcdhConnPSI
 #include "ppc-psi/src/ecdh-conn-psi/EcdhConnPSIFactory.h"
 #endif
-#include "ppc-framework/protocol/ServiceType.h"
+#include "ppc-framework/protocol/Constant.h"
 #include "ppc-front/Front.h"
 #include "ppc-front/FrontConfigImpl.h"
 #include "ppc-psi/src/ecdh-multi-psi/EcdhMultiPSIFactory.h"

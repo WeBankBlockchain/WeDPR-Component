@@ -19,10 +19,20 @@
  */
 #include "PSIMessage.h"
 #include "wedpr-protocol/tars/Common.h"
+#include <gperftools/malloc_extension.h>
 
 using namespace ppc::psi;
 using namespace bcos;
 
+// destructor the psi message
+PSIMessage::~PSIMessage()
+{
+    m_inner()->data.clear();
+    m_inner()->dataIndex.clear();
+    std::vector<std::vector<tars::Char>>().swap(m_inner()->data);
+    std::vector<long>().swap(m_inner()->dataIndex);
+    MallocExtension::instance()->ReleaseFreeMemory();
+}
 // encode the PSIMessage
 bytesPointer PSIMessage::encode() const
 {

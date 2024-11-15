@@ -25,16 +25,12 @@ public class GrpcConfig {
         swigCMemOwn = own;
     }
 
-    @SuppressWarnings({"deprecation", "removal"})
-    protected void finalize() {
-        delete();
-    }
-
     public synchronized void delete() {
         if (swigCPtr != 0) {
             if (swigCMemOwn) {
                 swigCMemOwn = false;
-                wedpr_java_transportJNI.delete_GrpcConfig(swigCPtr);
+                throw new UnsupportedOperationException(
+                        "C++ destructor does not have public access");
             }
             swigCPtr = 0;
         }
@@ -92,5 +88,13 @@ public class GrpcConfig {
 
     public void setCompressAlgorithm(int compressAlgorithm) {
         wedpr_java_transportJNI.GrpcConfig_setCompressAlgorithm(swigCPtr, this, compressAlgorithm);
+    }
+
+    public java.math.BigInteger maxMsgSize() {
+        return wedpr_java_transportJNI.GrpcConfig_maxMsgSize(swigCPtr, this);
+    }
+
+    public void setMaxMsgSize(java.math.BigInteger maxMsgSize) {
+        wedpr_java_transportJNI.GrpcConfig_setMaxMsgSize(swigCPtr, this, maxMsgSize);
     }
 }

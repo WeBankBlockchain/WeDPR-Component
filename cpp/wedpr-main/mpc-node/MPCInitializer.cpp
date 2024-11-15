@@ -19,7 +19,7 @@
  */
 #include "MPCInitializer.h"
 #include "ppc-framework/front/FrontConfig.h"
-#include "ppc-framework/protocol/ServiceType.h"
+#include "ppc-framework/protocol/Constant.h"
 #include "ppc-mpc/src/MPCService.h"
 #include "ppc-tools/src/config/PPCConfig.h"
 #include "wedpr-protocol/protocol/src/ServiceConfig.h"

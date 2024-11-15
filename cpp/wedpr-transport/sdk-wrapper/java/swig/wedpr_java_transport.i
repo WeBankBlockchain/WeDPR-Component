@@ -253,6 +253,9 @@ WRAP(ppc::sdk::Transport)
 %ignore ppc::protocol::INodeInfo::toJson;
 %ignore ppc::protocol::INodeInfo::setComponents;
 %ignore ppc::protocol::INodeInfoFactory;
+%ignore ppc::protocol::Message::setFrontMessage;
+%ignore ppc::protocol::GrpcConfig::~GrpcConfig;
+%ignore ppc::protocol::GrpcServerConfig::~GrpcServerConfig;
 
 %include "exception.i"
 %exception {

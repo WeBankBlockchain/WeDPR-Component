@@ -41,6 +41,7 @@ from wedpr_python_gateway_sdk.libs import _wedpr_python_transport
 %shared_ptr(ppc::protocol::GrpcConfig);
 %shared_ptr(ppc::sdk::Transport);
 
+
 %{
 #define SWIG_FILE_WITH_INIT
 #include <stdlib.h>
@@ -192,6 +193,10 @@ namespace bcos{
 %ignore ppc::protocol::INodeInfo::toJson;
 %ignore ppc::protocol::INodeInfo::setComponents;
 %ignore ppc::protocol::INodeInfoFactory;
+%ignore ppc::protocol::Message::setFrontMessage;
+
+%ignore ppc::protocol::GrpcConfig::~GrpcConfig;
+%ignore ppc::protocol::GrpcServerConfig::~GrpcServerConfig;
 /*
 ///// tests  ///
 %inline {

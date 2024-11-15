@@ -100,11 +100,6 @@ public class Message {
         return wedpr_java_transportJNI.Message_payloadBuffer(swigCPtr, this);
     }
 
-    public void setFrontMessage(MessagePayload frontMessage) {
-        wedpr_java_transportJNI.Message_setFrontMessage(
-                swigCPtr, this, MessagePayload.getCPtr(frontMessage), frontMessage);
-    }
-
     public MessagePayload frontMessage() {
         long cPtr = wedpr_java_transportJNI.Message_frontMessage(swigCPtr, this);
         return (cPtr == 0) ? null : new MessagePayload(cPtr, true);
@@ -127,6 +122,10 @@ public class Message {
     public ubytes payload() {
         long cPtr = wedpr_java_transportJNI.Message_payload(swigCPtr, this);
         return (cPtr == 0) ? null : new ubytes(cPtr, true);
+    }
+
+    public void releasePayload() {
+        wedpr_java_transportJNI.Message_releasePayload(swigCPtr, this);
     }
 
     public void disOwnMemory() {

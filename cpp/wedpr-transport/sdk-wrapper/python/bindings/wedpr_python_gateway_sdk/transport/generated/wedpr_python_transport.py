@@ -1075,39 +1075,6 @@ class EndPoint(object):
 _wedpr_python_transport.EndPoint_swigregister(EndPoint)
 
 
-class GrpcServerConfig(object):
-    thisown = property(lambda x: x.this.own(), lambda x,
-                       v: x.this.own(v), doc="The membership flag")
-    __repr__ = _swig_repr
-
-    def __init__(self, *args):
-        _wedpr_python_transport.GrpcServerConfig_swiginit(
-            self, _wedpr_python_transport.new_GrpcServerConfig(*args))
-
-    def listenEndPoint(self):
-        return _wedpr_python_transport.GrpcServerConfig_listenEndPoint(self)
-
-    def setEndPoint(self, endPoint):
-        return _wedpr_python_transport.GrpcServerConfig_setEndPoint(self, endPoint)
-
-    def setEnableHealthCheck(self, enableHealthCheck):
-        return _wedpr_python_transport.GrpcServerConfig_setEnableHealthCheck(self, enableHealthCheck)
-
-    def endPoint(self):
-        return _wedpr_python_transport.GrpcServerConfig_endPoint(self)
-
-    def mutableEndPoint(self):
-        return _wedpr_python_transport.GrpcServerConfig_mutableEndPoint(self)
-
-    def enableHealthCheck(self):
-        return _wedpr_python_transport.GrpcServerConfig_enableHealthCheck(self)
-    __swig_destroy__ = _wedpr_python_transport.delete_GrpcServerConfig
-
-
-# Register GrpcServerConfig in _wedpr_python_transport:
-_wedpr_python_transport.GrpcServerConfig_swigregister(GrpcServerConfig)
-
-
 class GrpcConfig(object):
     thisown = property(lambda x: x.this.own(), lambda x,
                        v: x.this.own(v), doc="The membership flag")
@@ -1116,7 +1083,6 @@ class GrpcConfig(object):
     def __init__(self):
         _wedpr_python_transport.GrpcConfig_swiginit(
             self, _wedpr_python_transport.new_GrpcConfig())
-    __swig_destroy__ = _wedpr_python_transport.delete_GrpcConfig
 
     def loadBalancePolicy(self):
         return _wedpr_python_transport.GrpcConfig_loadBalancePolicy(self)
@@ -1154,9 +1120,50 @@ class GrpcConfig(object):
     def setCompressAlgorithm(self, compressAlgorithm):
         return _wedpr_python_transport.GrpcConfig_setCompressAlgorithm(self, compressAlgorithm)
 
+    def maxMsgSize(self):
+        return _wedpr_python_transport.GrpcConfig_maxMsgSize(self)
+
+    def setMaxMsgSize(self, maxMsgSize):
+        return _wedpr_python_transport.GrpcConfig_setMaxMsgSize(self, maxMsgSize)
+
 
 # Register GrpcConfig in _wedpr_python_transport:
 _wedpr_python_transport.GrpcConfig_swigregister(GrpcConfig)
+
+
+class GrpcServerConfig(object):
+    thisown = property(lambda x: x.this.own(), lambda x,
+                       v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, *args):
+        _wedpr_python_transport.GrpcServerConfig_swiginit(
+            self, _wedpr_python_transport.new_GrpcServerConfig(*args))
+
+    def listenEndPoint(self):
+        return _wedpr_python_transport.GrpcServerConfig_listenEndPoint(self)
+
+    def setEndPoint(self, endPoint):
+        return _wedpr_python_transport.GrpcServerConfig_setEndPoint(self, endPoint)
+
+    def setEnableHealthCheck(self, enableHealthCheck):
+        return _wedpr_python_transport.GrpcServerConfig_setEnableHealthCheck(self, enableHealthCheck)
+
+    def endPoint(self):
+        return _wedpr_python_transport.GrpcServerConfig_endPoint(self)
+
+    def mutableEndPoint(self):
+        return _wedpr_python_transport.GrpcServerConfig_mutableEndPoint(self)
+
+    def enableHealthCheck(self):
+        return _wedpr_python_transport.GrpcServerConfig_enableHealthCheck(self)
+
+    def grpcConfig(self):
+        return _wedpr_python_transport.GrpcServerConfig_grpcConfig(self)
+
+
+# Register GrpcServerConfig in _wedpr_python_transport:
+_wedpr_python_transport.GrpcServerConfig_swigregister(GrpcServerConfig)
 
 
 def printGrpcConfig(grpcConfig):
@@ -1365,9 +1372,6 @@ class Message(object):
     def payloadBuffer(self):
         return _wedpr_python_transport.Message_payloadBuffer(self)
 
-    def setFrontMessage(self, frontMessage):
-        return _wedpr_python_transport.Message_setFrontMessage(self, frontMessage)
-
     def frontMessage(self):
         return _wedpr_python_transport.Message_frontMessage(self)
 
@@ -1382,6 +1386,9 @@ class Message(object):
 
     def payload(self):
         return _wedpr_python_transport.Message_payload(self)
+
+    def releasePayload(self):
+        return _wedpr_python_transport.Message_releasePayload(self)
 
 
 # Register Message in _wedpr_python_transport:
@@ -1501,6 +1508,9 @@ class MessagePayload(object):
 
     def isRespPacket(self):
         return _wedpr_python_transport.MessagePayload_isRespPacket(self)
+
+    def releasePayload(self):
+        return _wedpr_python_transport.MessagePayload_releasePayload(self)
 
 
 # Register MessagePayload in _wedpr_python_transport:

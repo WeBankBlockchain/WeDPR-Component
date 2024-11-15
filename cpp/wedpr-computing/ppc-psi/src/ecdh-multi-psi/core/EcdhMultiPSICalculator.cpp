@@ -133,7 +133,7 @@ void EcdhMultiPSICalculator::blindData(std::string _taskID, bcos::bytes _randA)
                                << LOG_KV("task", m_taskState->task()->id());
             auto message = m_config->psiMsgFactory()->createPSIMessage(
                 uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_SET_TO_MASTER_FROM_CALCULATOR));
-            message->constructDataMap(encryptedData, dataOffset);
+            message->constructData(encryptedData, dataOffset);
             // release the encryptedData
             std::vector<bcos::bytes>().swap(encryptedData);
             message->setFrom(m_taskState->task()->selfParty()->id());
@@ -204,12 +204,13 @@ void EcdhMultiPSICalculator::initTask(ppc::protocol::Task::ConstPtr _task)
 // Part3: Calculator store Intersection_XY^b <- Master (response)
 void EcdhMultiPSICalculator::onReceiveIntersecCipher(PSIMessageInterface::Ptr _msg)
 {
-    auto cipherData = _msg->takeDataMap();
+    auto cipherData = _msg->takeData();
+    auto const& dataIndex = _msg->dataIndex();
     ECDH_CAL_LOG(INFO) << LOG_DESC("onReceiveIntersecCipher") << printPSIMessage(_msg)
                        << LOG_KV("dataSize", cipherData.size());
     try
     {
-        m_calculatorCache->setIntersectionCipher(std::move(cipherData));
+        m_calculatorCache->setIntersectionCipher(std::move(cipherData), dataIndex);
         auto message = m_config->psiMsgFactory()->createPSIMessage(uint32_t(
             EcdhMultiPSIMessageType::RETURN_ENCRYPTED_INTERSECTION_SET_FROM_CALCULATOR_TO_MASTER));
         message->setFrom(m_taskState->task()->selfParty()->id());

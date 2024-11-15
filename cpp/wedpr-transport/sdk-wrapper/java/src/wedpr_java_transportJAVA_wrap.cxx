@@ -4914,216 +4914,6 @@ SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1
 }
 
 
-SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1GrpcServerConfig_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
-  jlong jresult = 0 ;
-  ppc::protocol::GrpcServerConfig *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  {
-    try {
-      result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig();
-    }
-    catch (const std::exception& e) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
-      return 0;
-    }
-  }
-  *(ppc::protocol::GrpcServerConfig **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1GrpcServerConfig_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
-  jlong jresult = 0 ;
-  ppc::protocol::EndPoint arg1 ;
-  bool arg2 ;
-  ppc::protocol::EndPoint *argp1 ;
-  ppc::protocol::GrpcServerConfig *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  argp1 = *(ppc::protocol::EndPoint **)&jarg1; 
-  if (!argp1) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null ppc::protocol::EndPoint");
-    return 0;
-  }
-  arg1 = *argp1; 
-  arg2 = jarg2 ? true : false; 
-  {
-    try {
-      result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig(arg1,arg2);
-    }
-    catch (const std::exception& e) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
-      return 0;
-    }
-  }
-  *(ppc::protocol::GrpcServerConfig **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1listenEndPoint(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jstring jresult = 0 ;
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  std::string result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
-  {
-    try {
-      result = ((ppc::protocol::GrpcServerConfig const *)arg1)->listenEndPoint();
-    }
-    catch (const std::exception& e) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
-      return 0;
-    }
-  }
-  jresult = jenv->NewStringUTF((&result)->c_str()); 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1setEndPoint(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  ppc::protocol::EndPoint arg2 ;
-  ppc::protocol::EndPoint *argp2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
-  argp2 = *(ppc::protocol::EndPoint **)&jarg2; 
-  if (!argp2) {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null ppc::protocol::EndPoint");
-    return ;
-  }
-  arg2 = *argp2; 
-  {
-    try {
-      (arg1)->setEndPoint(arg2);
-    }
-    catch (const std::exception& e) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
-      return ;
-    }
-  }
-}
-
-
-SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1setEnableHealthCheck(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  bool arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
-  arg2 = jarg2 ? true : false; 
-  {
-    try {
-      (arg1)->setEnableHealthCheck(arg2);
-    }
-    catch (const std::exception& e) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
-      return ;
-    }
-  }
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1endPoint(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  ppc::protocol::EndPoint *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
-  {
-    try {
-      result = (ppc::protocol::EndPoint *) &((ppc::protocol::GrpcServerConfig const *)arg1)->endPoint();
-    }
-    catch (const std::exception& e) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
-      return 0;
-    }
-  }
-  *(ppc::protocol::EndPoint **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1mutableEndPoint(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jlong jresult = 0 ;
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  ppc::protocol::EndPoint *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
-  {
-    try {
-      result = (ppc::protocol::EndPoint *) &(arg1)->mutableEndPoint();
-    }
-    catch (const std::exception& e) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
-      return 0;
-    }
-  }
-  *(ppc::protocol::EndPoint **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1enableHealthCheck(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jboolean jresult = 0 ;
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  bool result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
-  {
-    try {
-      result = (bool)((ppc::protocol::GrpcServerConfig const *)arg1)->enableHealthCheck();
-    }
-    catch (const std::exception& e) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
-      return 0;
-    }
-  }
-  jresult = (jboolean)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1GrpcServerConfig(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
-  {
-    try {
-      delete arg1;
-    }
-    catch (const std::exception& e) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
-      return ;
-    }
-  }
-}
-
-
 SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1GrpcConfig(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
   ppc::protocol::GrpcConfig *result = 0 ;
@@ -5143,27 +4933,6 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   *(std::shared_ptr<  ppc::protocol::GrpcConfig > **)&jresult = result ? new std::shared_ptr<  ppc::protocol::GrpcConfig >(result SWIG_NO_NULL_DELETER_1) : 0;
   
   return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_delete_1GrpcConfig(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
-  std::shared_ptr< ppc::protocol::GrpcConfig > *smartarg1 = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  
-  smartarg1 = *(std::shared_ptr<  ppc::protocol::GrpcConfig > **)&jarg1;
-  arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
-  {
-    try {
-      (void)arg1; delete smartarg1;
-    }
-    catch (const std::exception& e) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
-      return ;
-    }
-  }
 }
 
 
@@ -5556,6 +5325,313 @@ SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tra
       return ;
     }
   }
+}
+
+
+SWIGEXPORT jobject JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcConfig_1maxMsgSize(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jobject jresult = 0 ;
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig const > *smartarg1 = 0 ;
+  uint64_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr< const ppc::protocol::GrpcConfig > **)&jarg1;
+  arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
+  {
+    try {
+      result = (uint64_t)((ppc::protocol::GrpcConfig const *)arg1)->maxMsgSize();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
+  {
+    jbyteArray ba = jenv->NewByteArray(9);
+    jbyte* bae = jenv->GetByteArrayElements(ba, 0);
+    jclass clazz = jenv->FindClass("java/math/BigInteger");
+    jmethodID mid = jenv->GetMethodID(clazz, "<init>", "([B)V");
+    jobject bigint;
+    int i;
+    
+    bae[0] = 0;
+    for(i=1; i<9; i++ ) {
+      bae[i] = (jbyte)(result>>8*(8-i));
+    }
+    
+    jenv->ReleaseByteArrayElements(ba, bae, 0);
+    bigint = jenv->NewObject(clazz, mid, ba);
+    jenv->DeleteLocalRef(ba);
+    jresult = bigint;
+  }
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcConfig_1setMaxMsgSize(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jobject jarg2) {
+  ppc::protocol::GrpcConfig *arg1 = (ppc::protocol::GrpcConfig *) 0 ;
+  uint64_t arg2 ;
+  std::shared_ptr< ppc::protocol::GrpcConfig > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::GrpcConfig > **)&jarg1;
+  arg1 = (ppc::protocol::GrpcConfig *)(smartarg1 ? smartarg1->get() : 0); 
+  {
+    jclass clazz;
+    jmethodID mid;
+    jbyteArray ba;
+    jbyte* bae;
+    jsize sz;
+    int i;
+    
+    if (!jarg2) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "BigInteger null");
+      return ;
+    }
+    clazz = jenv->GetObjectClass(jarg2);
+    mid = jenv->GetMethodID(clazz, "toByteArray", "()[B");
+    ba = (jbyteArray)jenv->CallObjectMethod(jarg2, mid);
+    bae = jenv->GetByteArrayElements(ba, 0);
+    sz = jenv->GetArrayLength(ba);
+    arg2 = 0;
+    if (sz > 0) {
+      arg2 = (uint64_t)(signed char)bae[0];
+      for(i=1; i<sz; i++) {
+        arg2 = (arg2 << 8) | (uint64_t)(unsigned char)bae[i];
+      }
+    }
+    jenv->ReleaseByteArrayElements(ba, bae, 0);
+  }
+  {
+    try {
+      (arg1)->setMaxMsgSize(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1GrpcServerConfig_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  ppc::protocol::GrpcServerConfig *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  {
+    try {
+      result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
+  *(ppc::protocol::GrpcServerConfig **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_new_1GrpcServerConfig_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  jlong jresult = 0 ;
+  ppc::protocol::EndPoint arg1 ;
+  bool arg2 ;
+  ppc::protocol::EndPoint *argp1 ;
+  ppc::protocol::GrpcServerConfig *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  argp1 = *(ppc::protocol::EndPoint **)&jarg1; 
+  if (!argp1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null ppc::protocol::EndPoint");
+    return 0;
+  }
+  arg1 = *argp1; 
+  arg2 = jarg2 ? true : false; 
+  {
+    try {
+      result = (ppc::protocol::GrpcServerConfig *)new ppc::protocol::GrpcServerConfig(arg1,arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
+  *(ppc::protocol::GrpcServerConfig **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1listenEndPoint(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
+  {
+    try {
+      result = ((ppc::protocol::GrpcServerConfig const *)arg1)->listenEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1setEndPoint(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  ppc::protocol::EndPoint arg2 ;
+  ppc::protocol::EndPoint *argp2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
+  argp2 = *(ppc::protocol::EndPoint **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null ppc::protocol::EndPoint");
+    return ;
+  }
+  arg2 = *argp2; 
+  {
+    try {
+      (arg1)->setEndPoint(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1setEnableHealthCheck(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  bool arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  {
+    try {
+      (arg1)->setEnableHealthCheck(arg2);
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1endPoint(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  ppc::protocol::EndPoint *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
+  {
+    try {
+      result = (ppc::protocol::EndPoint *) &((ppc::protocol::GrpcServerConfig const *)arg1)->endPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
+  *(ppc::protocol::EndPoint **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1mutableEndPoint(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  ppc::protocol::EndPoint *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
+  {
+    try {
+      result = (ppc::protocol::EndPoint *) &(arg1)->mutableEndPoint();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
+  *(ppc::protocol::EndPoint **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1enableHealthCheck(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
+  {
+    try {
+      result = (bool)((ppc::protocol::GrpcServerConfig const *)arg1)->enableHealthCheck();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_GrpcServerConfig_1grpcConfig(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  ppc::protocol::GrpcServerConfig *arg1 = (ppc::protocol::GrpcServerConfig *) 0 ;
+  ppc::protocol::GrpcConfig::Ptr *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ppc::protocol::GrpcServerConfig **)&jarg1; 
+  {
+    try {
+      result = (ppc::protocol::GrpcConfig::Ptr *) &((ppc::protocol::GrpcServerConfig const *)arg1)->grpcConfig();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return 0;
+    }
+  }
+  *(ppc::protocol::GrpcConfig::Ptr **)&jresult = *result ? new ppc::protocol::GrpcConfig::Ptr(*result) : 0; 
+  return jresult;
 }
 
 
@@ -7232,33 +7308,6 @@ SWIGEXPORT jbyteArray JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1jav
 }
 
 
-SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1setFrontMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
-  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
-  ppc::protocol::MessagePayload::Ptr arg2 ;
-  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
-  ppc::protocol::MessagePayload::Ptr *argp2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  (void)jarg2_;
-  
-  smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
-  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
-  argp2 = *(ppc::protocol::MessagePayload::Ptr **)&jarg2;
-  if (argp2) arg2 = *argp2; 
-  {
-    try {
-      (arg1)->setFrontMessage(arg2);
-    }
-    catch (const std::exception& e) {
-      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
-      return ;
-    }
-  }
-}
-
-
 SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1frontMessage(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
@@ -7402,6 +7451,28 @@ SWIGEXPORT jlong JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1tr
   }
   *(std::shared_ptr< bcos::bytes > **)&jresult = result ? new std::shared_ptr< bcos::bytes >(result) : 0; 
   return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_Message_1releasePayload(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  ppc::protocol::Message *arg1 = (ppc::protocol::Message *) 0 ;
+  std::shared_ptr< ppc::protocol::Message > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::Message > **)&jarg1;
+  arg1 = (ppc::protocol::Message *)(smartarg1 ? smartarg1->get() : 0); 
+  {
+    try {
+      (arg1)->releasePayload();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 
@@ -8187,6 +8258,28 @@ SWIGEXPORT jboolean JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_
   }
   jresult = (jboolean)result; 
   return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_webank_wedpr_sdk_jni_generated_wedpr_1java_1transportJNI_MessagePayload_1releasePayload(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  ppc::protocol::MessagePayload *arg1 = (ppc::protocol::MessagePayload *) 0 ;
+  std::shared_ptr< ppc::protocol::MessagePayload > *smartarg1 = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  
+  smartarg1 = *(std::shared_ptr<  ppc::protocol::MessagePayload > **)&jarg1;
+  arg1 = (ppc::protocol::MessagePayload *)(smartarg1 ? smartarg1->get() : 0); 
+  {
+    try {
+      (arg1)->releasePayload();
+    }
+    catch (const std::exception& e) {
+      SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, std::string(boost::diagnostic_information(e)).c_str());
+      return ;
+    }
+  }
 }
 
 

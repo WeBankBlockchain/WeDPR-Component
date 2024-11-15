@@ -33,16 +33,12 @@ public class GrpcServerConfig {
         return ptr;
     }
 
-    @SuppressWarnings({"deprecation", "removal"})
-    protected void finalize() {
-        delete();
-    }
-
     public synchronized void delete() {
         if (swigCPtr != 0) {
             if (swigCMemOwn) {
                 swigCMemOwn = false;
-                wedpr_java_transportJNI.delete_GrpcServerConfig(swigCPtr);
+                throw new UnsupportedOperationException(
+                        "C++ destructor does not have public access");
             }
             swigCPtr = 0;
         }
@@ -85,5 +81,10 @@ public class GrpcServerConfig {
 
     public boolean enableHealthCheck() {
         return wedpr_java_transportJNI.GrpcServerConfig_enableHealthCheck(swigCPtr, this);
+    }
+
+    public GrpcConfig grpcConfig() {
+        long cPtr = wedpr_java_transportJNI.GrpcServerConfig_grpcConfig(swigCPtr, this);
+        return (cPtr == 0) ? null : new GrpcConfig(cPtr, true);
     }
 }

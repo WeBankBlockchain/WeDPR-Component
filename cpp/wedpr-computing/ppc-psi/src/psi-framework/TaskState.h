@@ -50,7 +50,7 @@ public:
 
     virtual ~TaskState()
     {
-        PSI_LOG(INFO) << LOG_DESC("TaskState Destructor") << LOG_KV("task", m_task->id());
+        PSI_LOG(INFO) << LOG_DESC("** TaskState Destructor") << LOG_KV("task", m_task->id());
     }
 
     ppc::task::TaskResponseCallback const& callback() { return m_callback; }
@@ -368,8 +368,9 @@ public:
         m_writer->writeLine(dataBatch, ppc::io::DataSchema::Bytes);
         m_writer->flush();
         PSI_LOG(INFO) << LOG_DESC("**** storePSIResult success ****")
-                      << LOG_KV("*task", m_task->id()) << LOG_KV("*IntersectionCount", _data.size())
-                      << LOG_KV("TaskTimecost", taskPendingTime());
+                      << LOG_KV("* task", m_task->id())
+                      << LOG_KV("* IntersectionCount", _data.size())
+                      << LOG_KV("* TaskTimecost", taskPendingTime());
     }
 
     std::function<void()> takeFinalizeHandler() { return std::move(m_finalizeHandler); }
