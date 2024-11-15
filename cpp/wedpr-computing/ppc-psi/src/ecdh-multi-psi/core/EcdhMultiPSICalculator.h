@@ -28,7 +28,7 @@ public:
 protected:
     virtual bcos::bytes generateRandomA(std::string _taskID);
     virtual void initTask(ppc::protocol::Task::ConstPtr _task);
-    virtual void loadAndEncrypt(std::string _taskID, bcos::bytes _randA);
+    virtual void blindData(std::string _taskID, bcos::bytes _randA);
     virtual void onTaskError(std::string&& _error);
     void ConcurrentSTLToCommon(
         tbb::concurrent_map<uint32_t, bcos::bytes> _cMap, std::map<uint32_t, bcos::bytes>& result)

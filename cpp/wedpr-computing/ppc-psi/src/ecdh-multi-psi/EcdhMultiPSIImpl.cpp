@@ -1,5 +1,6 @@
 #include "EcdhMultiPSIImpl.h"
 #include "Common.h"
+#include <gperftools/malloc_extension.h>
 
 using namespace ppc::psi;
 using namespace ppc::protocol;
@@ -313,6 +314,14 @@ void EcdhMultiPSIImpl::executeWorker()
         psiMsg->setUUID(pop_msg->uuid());
         ECDH_MULTI_LOG(TRACE) << LOG_DESC("onReceiveMessage") << printPSIMessage(psiMsg)
                               << LOG_KV("uuid", psiMsg->uuid());
+        // release the larger payload immediately
+        if (payLoad->size() >= ppc::protocol::Message::LARGER_MSG_THRESHOLD)
+        {
+            ECDH_MULTI_LOG(INFO) << LOG_DESC("Release larger message payload")
+                                 << LOG_KV("size", payLoad->size());
+            pop_msg->releasePayload();
+            MallocExtension::instance()->ReleaseFreeMemory();
+        }
         handlerPSIReceiveMessage(psiMsg);
         return;
     }
@@ -321,8 +330,6 @@ void EcdhMultiPSIImpl::executeWorker()
 
 void EcdhMultiPSIImpl::onReceiveRandomA(PSIMessageInterface::Ptr _msg)
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveRandomA") << printPSIMessage(_msg);
-    auto startT = utcSteadyTime();
     auto partner = findPartner(_msg->taskID());
     if (partner)
     {
@@ -337,8 +344,6 @@ void EcdhMultiPSIImpl::onReceiveRandomA(PSIMessageInterface::Ptr _msg)
 
 void EcdhMultiPSIImpl::onReceiveCalCipher(PSIMessageInterface::Ptr _msg)
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveCalCipher") << printPSIMessage(_msg);
-    auto startT = utcSteadyTime();
     auto master = findMaster(_msg->taskID());
     if (master)
     {
@@ -348,8 +353,6 @@ void EcdhMultiPSIImpl::onReceiveCalCipher(PSIMessageInterface::Ptr _msg)
 
 void EcdhMultiPSIImpl::onReceiveCipherFromPartner(PSIMessageInterface::Ptr _msg)
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveCipherFromPartner") << printPSIMessage(_msg);
-    auto startT = utcSteadyTime();
     auto master = findMaster(_msg->taskID());
     if (master)
     {
@@ -359,8 +362,6 @@ void EcdhMultiPSIImpl::onReceiveCipherFromPartner(PSIMessageInterface::Ptr _msg)
 
 void EcdhMultiPSIImpl::onReceiveIntersecCipher(PSIMessageInterface::Ptr _msg)
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveIntersecCipher") << printPSIMessage(_msg);
-    auto startT = utcSteadyTime();
     auto calculator = findCalculator(_msg->taskID());
     if (calculator)
     {
@@ -370,8 +371,6 @@ void EcdhMultiPSIImpl::onReceiveIntersecCipher(PSIMessageInterface::Ptr _msg)
 
 void EcdhMultiPSIImpl::onReceiveMasterCipher(PSIMessageInterface::Ptr _msg)
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceiveMasterCipher") << printPSIMessage(_msg);
-    auto startT = utcSteadyTime();
     auto calculator = findCalculator(_msg->taskID());
     if (calculator)
     {

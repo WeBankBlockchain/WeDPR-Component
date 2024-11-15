@@ -75,6 +75,8 @@ public:
     virtual bool response() const = 0;
     // set the message to be response
     virtual void setResponse() = 0;
+
+    virtual void releasePayload() {}
 };
 
 class PPCMessageFaceFactory

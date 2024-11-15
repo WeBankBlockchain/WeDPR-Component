@@ -27,6 +27,12 @@ using namespace bcos;
 void MasterCache::addCalculatorCipher(std::string _peerId,
     std::map<uint32_t, bcos::bytes>&& _cipherData, uint32_t seq, uint32_t dataBatchCount)
 {
+    auto peerIndex = getPeerIndex(_peerId);
+    if (peerIndex == -1)
+    {
+        ECDH_MULTI_LOG(WARNING) << LOG_DESC("Invalid calculator") << LOG_KV("peer", _peerId);
+        return;
+    }
     bcos::Guard l(m_mutex);
     m_calculatorCipherSeqs.insert(seq);
     if (dataBatchCount)
@@ -35,7 +41,7 @@ void MasterCache::addCalculatorCipher(std::string _peerId,
     }
     for (auto&& it : _cipherData)
     {
-        updateMasterDataRef(_peerId, std::move(it.second), it.first);
+        updateMasterDataRef(peerIndex, std::move(it.second), it.first);
     }
     // try to merge the
     if (m_calculatorDataBatchCount > 0 &&
@@ -46,7 +52,7 @@ void MasterCache::addCalculatorCipher(std::string _peerId,
                              << LOG_KV("masterData", m_masterDataRef.size()) << printCacheState();
         m_finishedPartners.insert(_peerId);
         // try to merge
-        mergeMasterCipher(_peerId);
+        mergeMasterCipher(_peerId, peerIndex);
     }
     ECDH_MULTI_LOG(INFO) << LOG_DESC(
                                 "addCalculatorCipher: master receive cipher data from calculator")
@@ -54,10 +60,14 @@ void MasterCache::addCalculatorCipher(std::string _peerId,
                          << LOG_KV("receivedSize", _cipherData.size())
                          << LOG_KV("masterData", m_masterDataRef.size())
                          << LOG_KV("dataBatchCount", m_calculatorDataBatchCount);
+    // release the cipherData
+    _cipherData.clear();
+    std::map<uint32_t, bcos::bytes>().swap(_cipherData);
+    MallocExtension::instance()->ReleaseFreeMemory();
 }
 
 void MasterCache::updateMasterDataRef(
-    std::string const& _peerId, bcos::bytes&& data, int32_t dataIndex)
+    unsigned short _peerIndex, bcos::bytes&& data, int32_t dataIndex)
 {
     // not merged case
     if (!m_peerMerged)
@@ -66,21 +76,21 @@ void MasterCache::updateMasterDataRef(
         if (!m_masterDataRef.count(data))
         {
             MasterCipherRef ref;
-            ref.refInfo.insert(_peerId);
+            ref.refInfo.insert(_peerIndex);
             ref.updateDataIndex(dataIndex);
             m_masterDataRef.insert(std::make_pair(std::move(data), ref));
             return;
         }
         // existed data case
-        m_masterDataRef[data].refInfo.insert(_peerId);
+        m_masterDataRef[data].refInfo.insert(_peerIndex);
         m_masterDataRef[data].updateDataIndex(dataIndex);
         return;
     }
 
-    // merged case, only record the intersection case
+    // merged case, only record the intersection case, increase the refCount
     if (m_masterDataRef.count(data))
     {
-        m_masterDataRef[data].refInfo.insert(_peerId);
+        m_masterDataRef[data].refCount += 1;
         m_masterDataRef[data].updateDataIndex(dataIndex);
     }
 }
@@ -89,11 +99,17 @@ void MasterCache::updateMasterDataRef(
 void MasterCache::addPartnerCipher(std::string _peerId, std::vector<bcos::bytes>&& _cipherData,
     uint32_t seq, uint32_t parternerDataCount)
 {
+    auto peerIndex = getPeerIndex(_peerId);
+    if (peerIndex == -1)
+    {
+        ECDH_MULTI_LOG(WARNING) << LOG_DESC("Invalid peerId") << LOG_KV("peer", _peerId);
+        return;
+    }
     bcos::Guard lock(m_mutex);
     // record the data-ref-count
     for (auto&& data : _cipherData)
     {
-        updateMasterDataRef(_peerId, std::move(data), -1);
+        updateMasterDataRef(peerIndex, std::move(data), -1);
     }
     m_partnerCipherSeqs[_peerId].insert(seq);
     ECDH_MULTI_LOG(INFO) << LOG_DESC("addPartnerCipher") << LOG_KV("partner", _peerId)
@@ -101,6 +117,9 @@ void MasterCache::addPartnerCipher(std::string _peerId, std::vector<bcos::bytes>
                          << LOG_KV("cipherDataSize", _cipherData.size())
                          << LOG_KV("masterDataSize", m_masterDataRef.size())
                          << LOG_KV("parternerDataCount", parternerDataCount) << printCacheState();
+    _cipherData.clear();
+    std::vector<bcos::bytes>().swap(_cipherData);
+    MallocExtension::instance()->ReleaseFreeMemory();
     if (parternerDataCount > 0)
     {
         m_parternerDataCount.insert(std::make_pair(_peerId, parternerDataCount));
@@ -114,11 +133,11 @@ void MasterCache::addPartnerCipher(std::string _peerId, std::vector<bcos::bytes>
     {
         m_finishedPartners.insert(_peerId);
         // merge when find the send-finished peer
-        mergeMasterCipher(_peerId);
+        mergeMasterCipher(_peerId, peerIndex);
     }
 }
 
-void MasterCache::mergeMasterCipher(std::string const& peer)
+void MasterCache::mergeMasterCipher(std::string const& peerId, unsigned short peerIndex)
 {
     if (m_peerMerged)
     {
@@ -131,22 +150,28 @@ void MasterCache::mergeMasterCipher(std::string const& peer)
     }
     ECDH_MULTI_LOG(INFO) << LOG_DESC("Receive whole data from peer, mergeMasterCipher")
                          << LOG_KV("distinct-masterDataSize-before-merge", m_masterDataRef.size())
-                         << LOG_KV("finishedPeer", peer) << LOG_KV("partnerCount", m_peerCount);
+                         << LOG_KV("finishedPeer", peerId) << LOG_KV("partnerCount", m_peerCount);
     auto startT = utcSteadyTime();
     for (auto it = m_masterDataRef.begin(); it != m_masterDataRef.end();)
     {
         // not has intersect-element with the finished peer
-        if (!it->second.refInfo.count(peer))
+        if (!it->second.refInfo.count(peerIndex))
         {
             it = m_masterDataRef.erase(it);
             continue;
         }
+        // set the refCount
+        it->second.refCount = it->second.refInfo.size();
+        // release the refInfo
+        std::set<unsigned short>().swap(it->second.refInfo);
         it++;
     }
     m_peerMerged = true;
+    // release the free memory after merged
+    MallocExtension::instance()->ReleaseFreeMemory();
     ECDH_MULTI_LOG(INFO) << LOG_DESC("mergeMasterCipher finished")
                          << LOG_KV("distinct-masterDataSize-after-merge", m_masterDataRef.size())
-                         << LOG_KV("finishedPeer", peer)
+                         << LOG_KV("finishedPeer", peerId) << LOG_KV("peerIndex", peerIndex)
                          << LOG_KV("timecost", (utcSteadyTime() - startT));
 }
 
@@ -169,7 +194,7 @@ bool MasterCache::tryToIntersection()
         {
             continue;
         }
-        if (m_masterDataRef.at(it.first).refInfo.size() != m_peerCount)
+        if (m_masterDataRef.at(it.first).refCount != m_peerCount)
         {
             continue;
         }
@@ -366,7 +391,10 @@ bool CalculatorCache::appendMasterCipher(
     }
     ECDH_MULTI_LOG(INFO) << LOG_DESC("appendMasterCipher") << LOG_KV("dataSize", _cipherData.size())
                          << LOG_KV("cipherRefSize", m_cipherRef.size()) << printCacheState();
-
+    // release the cipherData
+    _cipherData.clear();
+    std::vector<bcos::bytes>().swap(_cipherData);
+    MallocExtension::instance()->ReleaseFreeMemory();
     return m_receiveAllMasterCipher;
 }
 
@@ -383,4 +411,8 @@ void CalculatorCache::setIntersectionCipher(std::map<uint32_t, bcos::bytes>&& _c
     m_receiveIntersection = true;
     ECDH_MULTI_LOG(INFO) << LOG_DESC("setIntersectionCipher finshed")
                          << LOG_KV("cipherRefSize", m_cipherRef.size()) << printCacheState();
+    // release the cipherData
+    _cipherData.clear();
+    std::map<uint32_t, bcos::bytes>().swap(_cipherData);
+    MallocExtension::instance()->ReleaseFreeMemory();
 }

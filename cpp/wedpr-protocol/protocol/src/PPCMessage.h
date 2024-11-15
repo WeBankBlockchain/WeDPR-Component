@@ -87,6 +87,16 @@ public:
 
     bcos::bytes const& senderNode() const override { return m_senderNode; }
 
+    void releasePayload() override
+    {
+        if (!m_data)
+        {
+            return;
+        }
+        m_data->clear();
+        bcos::bytes().swap(*m_data);
+    }
+
 protected:
     std::string encodeMap(const std::map<std::string, std::string>& _map);
     std::map<std::string, std::string> decodeMap(const std::string& _encval);

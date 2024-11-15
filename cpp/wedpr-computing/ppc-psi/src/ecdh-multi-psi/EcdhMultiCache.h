@@ -30,7 +30,8 @@ namespace ppc::psi
 {
 struct MasterCipherRef
 {
-    std::set<std::string> refInfo;
+    std::set<unsigned short> refInfo;
+    unsigned short refCount = 0;
     int32_t dataIndex = -1;
 
     void updateDataIndex(int32_t index)
@@ -51,7 +52,13 @@ public:
       : m_taskState(taskState),
         m_config(config),
         m_peerCount(m_taskState->task()->getAllPeerParties().size())
-    {}
+    {
+        for (auto const& it : m_taskState->task()->getAllPeerParties())
+        {
+            m_peers.emplace_back(it.first);
+        }
+    }
+
     virtual ~MasterCache()
     {
         releaseItersection();
@@ -126,13 +133,27 @@ private:
                              << LOG_KV("taskID", m_taskState->task()->id());
     }
 
-    void mergeMasterCipher(std::string const& peer);
-    void updateMasterDataRef(std::string const& _peerId, bcos::bytes&& data, int32_t dataIndex);
+    void mergeMasterCipher(std::string const& peerId, unsigned short peerIndex);
+    void updateMasterDataRef(unsigned short _peerIndex, bcos::bytes&& data, int32_t dataIndex);
+
+    signed short getPeerIndex(std::string const& peer)
+    {
+        for (unsigned short i = 0; i < m_peers.size(); i++)
+        {
+            if (m_peers[i] == peer)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 
 private:
     TaskState::Ptr m_taskState;
     EcdhMultiPSIConfig::Ptr m_config;
     unsigned short m_peerCount;
+    std::vector<std::string> m_peers;
+
     CacheState m_cacheState = CacheState::Evaluating;
 
     // the intersection cipher data of the master

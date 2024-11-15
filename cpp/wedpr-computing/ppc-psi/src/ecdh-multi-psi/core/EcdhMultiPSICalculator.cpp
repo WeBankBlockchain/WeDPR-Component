@@ -34,7 +34,7 @@ void EcdhMultiPSICalculator::asyncStartRunTask(ppc::protocol::Task::ConstPtr _ta
             return;
         }
         ECDH_CAL_LOG(INFO) << LOG_DESC("Calculator asyncStartRunTask as calculator");
-        calculator->loadAndEncrypt(_task->id(), randA);
+        calculator->blindData(_task->id(), randA);
     });
 }
 
@@ -74,11 +74,11 @@ bcos::bytes EcdhMultiPSICalculator::generateRandomA(std::string _taskID)
 }
 
 // PART2: Calculator -> Master H(X)*A
-void EcdhMultiPSICalculator::loadAndEncrypt(std::string _taskID, bcos::bytes _randA)
+void EcdhMultiPSICalculator::blindData(std::string _taskID, bcos::bytes _randA)
 {
     try
     {
-        ECDH_CAL_LOG(INFO) << LOG_DESC("loadAndEncrypt") << LOG_KV("task", _taskID);
+        ECDH_CAL_LOG(INFO) << LOG_DESC("blindData") << LOG_KV("task", _taskID);
         auto reader = m_taskState->reader();
         uint64_t dataOffset = 0;
         do
@@ -96,7 +96,7 @@ void EcdhMultiPSICalculator::loadAndEncrypt(std::string _taskID, bcos::bytes _ra
                     m_taskState->reader()->next(m_taskState->readerParam(), DataSchema::Bytes);
                 if (!dataBatch)
                 {
-                    ECDH_CAL_LOG(INFO) << LOG_DESC("loadAndEncrypt return for all data loaded")
+                    ECDH_CAL_LOG(INFO) << LOG_DESC("blindData return for all data loaded")
                                        << LOG_KV("task", _taskID);
                     m_taskState->setFinished(true);
                     break;
@@ -123,11 +123,11 @@ void EcdhMultiPSICalculator::loadAndEncrypt(std::string _taskID, bcos::bytes _ra
                         encryptedData[i] = m_config->eccCrypto()->ecMultiply(point, _randA);
                     }
                 });
-            ECDH_CAL_LOG(INFO) << LOG_DESC("loadAndEncrypt encrypt success")
+            ECDH_CAL_LOG(INFO) << LOG_DESC("blindData encrypt success")
                                << LOG_KV("dataSize", encryptedData.size())
                                << LOG_KV("task", m_taskState->task()->id()) << LOG_KV("seq", seq)
                                << LOG_KV("timecost", (utcSteadyTime() - startT));
-            ECDH_CAL_LOG(INFO) << LOG_DESC("loadAndEncrypt: send cipher to the master")
+            ECDH_CAL_LOG(INFO) << LOG_DESC("blindData: send cipher to the master")
                                << LOG_KV("masterSize", m_masterParties.size())
                                << LOG_KV("dataSize", encryptedData.size())
                                << LOG_KV("task", m_taskState->task()->id());
@@ -155,7 +155,7 @@ void EcdhMultiPSICalculator::loadAndEncrypt(std::string _taskID, bcos::bytes _ra
                         if (!_error)
                         {
                             ECDH_CAL_LOG(INFO)
-                                << LOG_KV("loadAndEncrypt success to Master: ", master.first);
+                                << LOG_KV("blindData success to Master: ", master.first);
                             return;
                         }
                         auto psi = self.lock();
@@ -171,7 +171,7 @@ void EcdhMultiPSICalculator::loadAndEncrypt(std::string _taskID, bcos::bytes _ra
     }
     catch (std::exception& e)
     {
-        ECDH_CAL_LOG(WARNING) << LOG_DESC("Exception in loadAndEncrypt:")
+        ECDH_CAL_LOG(WARNING) << LOG_DESC("Exception in blindData:")
                               << boost::diagnostic_information(e);
         onTaskError(boost::diagnostic_information(e));
     }

@@ -77,6 +77,12 @@ public:
 
     virtual bool isRespPacket() { return m_ext &= (uint16_t)FrontMsgExtFlag::Response; }
 
+    void releasePayload()
+    {
+        m_data.clear();
+        bcos::bytes().swap(m_data);
+    }
+
 protected:
     // the front payload version, used to support compatibility
     // Note: must init here to 0, otherwise, it will be unexpected value in some other platform

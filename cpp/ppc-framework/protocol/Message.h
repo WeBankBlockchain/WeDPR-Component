@@ -187,6 +187,8 @@ protected:
 class Message
 {
 public:
+    const static size_t LARGER_MSG_THRESHOLD = 30 * 1024 * 1024;
+
     using Ptr = std::shared_ptr<Message>;
     Message() = default;
     virtual ~Message() {}
@@ -233,6 +235,19 @@ public:
     }
 
     virtual std::shared_ptr<bcos::bytes> payload() const { return m_payload; }
+
+    void releasePayload()
+    {
+        if (m_payload)
+        {
+            m_payload->clear();
+            bcos::bytes().swap(*m_payload);
+        }
+        if (m_frontMessage)
+        {
+            m_frontMessage->releasePayload();
+        }
+    }
 
 protected:
     MessageHeader::Ptr m_header;

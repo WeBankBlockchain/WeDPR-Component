@@ -47,7 +47,7 @@ void EcdhMultiPSIPartner::onReceiveRandomA(bcos::bytesPointer _randA)
 {
     try
     {
-        ECDH_PARTNER_LOG(INFO) << LOG_DESC("onReceiveRandomA and load Data")
+        ECDH_PARTNER_LOG(INFO) << LOG_DESC("onReceiveRandomA and blindData")
                                << printTaskInfo(m_taskState->task());
         auto reader = m_taskState->reader();
         uint64_t dataOffset = 0;
@@ -67,7 +67,7 @@ void EcdhMultiPSIPartner::onReceiveRandomA(bcos::bytesPointer _randA)
                 if (!dataBatch)
                 {
                     ECDH_PARTNER_LOG(INFO)
-                        << LOG_DESC("encode partner cipher return for all data loaded")
+                        << LOG_DESC("blindData: encode partner cipher return for all data loaded")
                         << LOG_KV("task", m_taskID);
                     m_taskState->setFinished(true);
                     break;
@@ -80,8 +80,8 @@ void EcdhMultiPSIPartner::onReceiveRandomA(bcos::bytesPointer _randA)
                 }
             }
             ECDH_PARTNER_LOG(INFO)
-                << LOG_DESC("Encode parterner cipher") << LOG_KV("size", dataBatch->size())
-                << printTaskInfo(m_taskState->task());
+                << LOG_DESC("blindData: encode parterner cipher")
+                << LOG_KV("size", dataBatch->size()) << printTaskInfo(m_taskState->task());
             auto startT = utcSteadyTime();
             std::vector<bcos::bytes> cipherData(dataBatch->size());
             tbb::parallel_for(
@@ -95,13 +95,13 @@ void EcdhMultiPSIPartner::onReceiveRandomA(bcos::bytesPointer _randA)
                         cipherData[i] = m_config->eccCrypto()->ecMultiply(point, *_randA);
                     }
                 });
-            ECDH_PARTNER_LOG(INFO)
-                << LOG_DESC("Encode parterner cipher success") << LOG_KV("size", dataBatch->size())
-                << LOG_KV("timecost", (utcSteadyTime() - startT))
-                << printTaskInfo(m_taskState->task());
+            ECDH_PARTNER_LOG(INFO) << LOG_DESC("blindData: encode parterner cipher success")
+                                   << LOG_KV("size", dataBatch->size())
+                                   << LOG_KV("timecost", (utcSteadyTime() - startT))
+                                   << printTaskInfo(m_taskState->task());
 
             ECDH_PARTNER_LOG(INFO)
-                << LOG_DESC("onReceiveRandomA: send cipher data to master")
+                << LOG_DESC("blindData: send cipher data to master")
                 << LOG_KV("size", dataBatch->size()) << printTaskInfo(m_taskState->task());
             auto message = m_config->psiMsgFactory()->createPSIMessage(
                 uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_SET_TO_MASTER_FROM_PARTNER));
@@ -134,16 +134,15 @@ void EcdhMultiPSIPartner::onReceiveRandomA(bcos::bytesPointer _randA)
                     },
                     seq);
             }
-            ECDH_PARTNER_LOG(INFO)
-                << LOG_DESC("onReceiveRandomA: send cipher data to master success")
-                << LOG_KV("size", dataBatch->size()) << printTaskInfo(m_taskState->task())
-                << LOG_KV("seq", seq);
+            ECDH_PARTNER_LOG(INFO) << LOG_DESC("blindData: send cipher data to master success")
+                                   << LOG_KV("size", dataBatch->size())
+                                   << printTaskInfo(m_taskState->task()) << LOG_KV("seq", seq);
             dataBatch->release();
         } while (!m_taskState->sqlReader());
     }
     catch (std::exception& e)
     {
-        ECDH_PARTNER_LOG(WARNING) << LOG_DESC("Exception in onReceiveRandomA:")
+        ECDH_PARTNER_LOG(WARNING) << LOG_DESC("onReceiveRandomA exception")
                                   << boost::diagnostic_information(e);
         onTaskError(boost::diagnostic_information(e));
     }

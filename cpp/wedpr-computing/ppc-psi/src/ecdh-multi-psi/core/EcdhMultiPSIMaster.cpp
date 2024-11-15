@@ -162,7 +162,7 @@ void EcdhMultiPSIMaster::blindData()
                     m_taskState->reader()->next(m_taskState->readerParam(), DataSchema::Bytes);
                 if (!dataBatch)
                 {
-                    ECDH_CAL_LOG(INFO) << LOG_DESC("loadAndEncrypt return for all data loaded")
+                    ECDH_CAL_LOG(INFO) << LOG_DESC("blindData return for all data loaded")
                                        << LOG_KV("task", m_taskState->task()->id());
                     m_taskState->setFinished(true);
                     break;
@@ -175,7 +175,7 @@ void EcdhMultiPSIMaster::blindData()
                 }
             }
             auto startT = utcSteadyTime();
-            ECDH_MASTER_LOG(INFO) << LOG_DESC("encrypt data")
+            ECDH_MASTER_LOG(INFO) << LOG_DESC("blindData: encrypt data")
                                   << LOG_KV("dataSize", dataBatch->size());
             std::vector<bcos::bytes> cipher(dataBatch->size());
             tbb::parallel_for(
@@ -191,11 +191,11 @@ void EcdhMultiPSIMaster::blindData()
                 });
             // can release databatch after encrypted
             dataBatch->release();
-            ECDH_MASTER_LOG(INFO) << LOG_DESC("encrypt data success")
+            ECDH_MASTER_LOG(INFO) << LOG_DESC("blindData: encrypt data success")
                                   << LOG_KV("dataSize", cipher.size()) << LOG_KV("task", m_taskID)
                                   << LOG_KV("timecost", (utcSteadyTime() - startT));
 
-            ECDH_MASTER_LOG(INFO) << LOG_DESC("send encrypted data to all calculator")
+            ECDH_MASTER_LOG(INFO) << LOG_DESC("blindData: send encrypted data to all calculator")
                                   << LOG_KV("task", m_taskID)
                                   << LOG_KV("calculators", m_calculatorParties.size());
             auto message = m_config->psiMsgFactory()->createPSIMessage(
@@ -228,7 +228,7 @@ void EcdhMultiPSIMaster::blindData()
     }
     catch (std::exception& e)
     {
-        ECDH_MASTER_LOG(WARNING) << LOG_DESC("Exception in blindData")
+        ECDH_MASTER_LOG(WARNING) << LOG_DESC("blindData exception")
                                  << boost::diagnostic_information(e);
         onTaskError(boost::diagnostic_information(e));
     }

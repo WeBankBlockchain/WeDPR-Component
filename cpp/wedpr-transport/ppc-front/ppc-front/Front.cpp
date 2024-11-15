@@ -20,6 +20,7 @@
 #include "Front.h"
 #include "FrontImpl.h"
 #include "ppc-utilities/Utilities.h"
+#include <gperftools/malloc_extension.h>
 
 using namespace ppc;
 using namespace bcos;
@@ -187,6 +188,16 @@ void Front::registerMessageHandler(uint8_t _taskType, uint8_t _algorithmType,
                     return;
                 }
                 _handler(front->m_messageFactory->decodePPCMessage(msg));
+                auto length = msg->length();
+                // release the payload of the larger packet after the msg decoded
+                if (length >= ppc::protocol::Message::LARGER_MSG_THRESHOLD)
+                {
+                    FRONT_LOG(INFO) << LOG_DESC("Release larger payload for node after used")
+                                    << LOG_KV("msgSize", length);
+                    // release the payload
+                    msg->releasePayload();
+                    MallocExtension::instance()->ReleaseFreeMemory();
+                }
             }
             catch (std::exception const& e)
             {
