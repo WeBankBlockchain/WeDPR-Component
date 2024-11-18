@@ -123,12 +123,12 @@ void EcdhMultiPSICalculator::blindData(std::string _taskID, bcos::bytes _randA)
                         encryptedData[i] = m_config->eccCrypto()->ecMultiply(point, _randA);
                     }
                 });
-            ECDH_CAL_LOG(INFO) << LOG_DESC("blindData encrypt success")
+            ECDH_CAL_LOG(INFO) << LOG_DESC("blindData encrypt success") << LOG_KV("seq", seq)
                                << LOG_KV("dataSize", encryptedData.size())
-                               << LOG_KV("task", m_taskState->task()->id()) << LOG_KV("seq", seq)
+                               << LOG_KV("task", m_taskState->task()->id())
                                << LOG_KV("timecost", (utcSteadyTime() - startT));
             ECDH_CAL_LOG(INFO) << LOG_DESC("blindData: send cipher to the master")
-                               << LOG_KV("masterSize", m_masterParties.size())
+                               << LOG_KV("seq", seq) << LOG_KV("masterSize", m_masterParties.size())
                                << LOG_KV("dataSize", encryptedData.size())
                                << LOG_KV("task", m_taskState->task()->id());
             auto message = m_config->psiMsgFactory()->createPSIMessage(

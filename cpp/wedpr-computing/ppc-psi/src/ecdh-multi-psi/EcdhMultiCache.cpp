@@ -328,7 +328,7 @@ bool CalculatorCache::tryToFinalize()
                          << LOG_KV("* intersectionSize", m_intersectionResult.size())
                          << LOG_KV("* timecost", (utcSteadyTime() - startT));
 
-    releaseDataAfterFinalize();
+    releaseCipherCache();
     ECDH_MULTI_LOG(INFO) << LOG_DESC("* tryToFinalize: syncIntersections") << printCacheState();
     m_cacheState = CacheState::Syncing;
     syncIntersections();
@@ -472,8 +472,9 @@ void CalculatorCache::addIntersectionCipher(std::vector<bcos::bytes>&& _cipherDa
     {
         m_receiveAllIntersection = true;
     }
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("addIntersectionCipher finshed")
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("addIntersectionCipher success")
                          << LOG_KV("timecost", utcSteadyTime() - startT) << LOG_KV("seq", seq)
+                         << LOG_KV("dataSize", _cipherData.size())
                          << LOG_KV("receiveAll", m_receiveAllIntersection)
                          << LOG_KV("cipherRefSize", m_cipherRef.size()) << printCacheState();
     // release the cipherData

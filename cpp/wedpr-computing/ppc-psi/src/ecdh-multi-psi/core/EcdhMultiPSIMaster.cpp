@@ -147,7 +147,8 @@ void EcdhMultiPSIMaster::blindData()
                 }
             }
             auto startT = utcSteadyTime();
-            ECDH_MASTER_LOG(INFO) << LOG_DESC("blindData: encrypt data")
+            ECDH_MASTER_LOG(INFO) << LOG_DESC("blindData: encrypt data") << LOG_KV("seq", seq)
+                                  << LOG_KV("task", m_taskState->task()->id())
                                   << LOG_KV("dataSize", dataBatch->size());
             std::vector<bcos::bytes> cipher(dataBatch->size());
             tbb::parallel_for(
@@ -169,7 +170,7 @@ void EcdhMultiPSIMaster::blindData()
                                   << LOG_KV("timecost", (utcSteadyTime() - startT));
 
             ECDH_MASTER_LOG(INFO) << LOG_DESC("blindData: send encrypted data to all calculator")
-                                  << LOG_KV("task", m_taskID)
+                                  << LOG_KV("seq", seq) << LOG_KV("task", m_taskID)
                                   << LOG_KV("calculators", m_calculatorParties.size());
             auto message = m_config->psiMsgFactory()->createPSIMessage(
                 uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_SET_TO_CALCULATOR));

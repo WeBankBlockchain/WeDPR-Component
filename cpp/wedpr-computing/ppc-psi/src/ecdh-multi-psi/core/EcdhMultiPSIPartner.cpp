@@ -95,14 +95,14 @@ void EcdhMultiPSIPartner::onReceiveRandomA(bcos::bytesPointer _randA)
                         cipherData[i] = m_config->eccCrypto()->ecMultiply(point, *_randA);
                     }
                 });
-            ECDH_PARTNER_LOG(INFO) << LOG_DESC("blindData: encode parterner cipher success")
-                                   << LOG_KV("size", dataBatch->size())
-                                   << LOG_KV("timecost", (utcSteadyTime() - startT))
-                                   << printTaskInfo(m_taskState->task());
+            ECDH_PARTNER_LOG(INFO)
+                << LOG_DESC("blindData: encode parterner cipher success") << LOG_KV("seq", seq)
+                << LOG_KV("task", m_taskState->task()->id()) << LOG_KV("size", dataBatch->size())
+                << LOG_KV("timecost", (utcSteadyTime() - startT));
 
             ECDH_PARTNER_LOG(INFO)
-                << LOG_DESC("blindData: send cipher data to master")
-                << LOG_KV("size", dataBatch->size()) << printTaskInfo(m_taskState->task());
+                << LOG_DESC("blindData: send cipher data to master") << LOG_KV("seq", seq)
+                << LOG_KV("size", dataBatch->size()) << LOG_KV("task", m_taskState->task()->id());
             auto message = m_config->psiMsgFactory()->createPSIMessage(
                 uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_SET_TO_MASTER_FROM_PARTNER));
             message->setData(std::move(cipherData));

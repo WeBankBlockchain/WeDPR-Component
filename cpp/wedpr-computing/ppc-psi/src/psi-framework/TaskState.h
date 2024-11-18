@@ -74,115 +74,13 @@ public:
     int64_t readerParam() const { return m_readerParam; }
     bool sqlReader() const { return m_sqlReader; }
 
-    io::DataBatch::Ptr loadAllData()
-    {
-        io::DataBatch::Ptr results;
-        auto originData = m_task->selfParty()->dataResource()->rawData();
-        if (!originData.empty())
-        {
-            results = std::make_shared<ppc::io::DataBatch>();
-            results->setDataSchema(ppc::io::DataSchema::Bytes);
+    io::DataBatch::Ptr loadAllData();
+    void writeLines(const io::DataBatch::Ptr& _data, io::DataSchema _schema);
+    void writeBytes(bcos::bytesConstRef _data);
 
-            std::vector<bcos::bytes> data;
-            for (auto& line : originData[0])
-            {
-                data.emplace_back(bcos::bytes(line.begin(), line.end()));
-            }
-            results->setData<bcos::bytes>(std::move(data));
-        }
-        else
-        {
-            if (m_reader)
-            {
-                int64_t nextParam = m_sqlReader ? 0 : -1;
-                results = m_reader->next(nextParam, io::DataSchema::Bytes);
-            }
-        }
-        if (!results)
-        {
-            results = std::make_shared<ppc::io::DataBatch>();
-        }
-        return results;
-    }
+    int32_t allocateSeq();
 
-    void writeLines(const io::DataBatch::Ptr& _data, io::DataSchema _schema)
-    {
-        if (m_writer)
-        {
-            m_writer->writeLine(_data, _schema);
-            m_writer->flush();
-            m_writer->close();
-            m_writer->upload();
-            m_uploaded = true;
-        }
-    }
-
-    void writeBytes(bcos::bytesConstRef _data)
-    {
-        if (m_writer)
-        {
-            m_writer->writeBytes(_data);
-            m_writer->flush();
-            m_writer->close();
-            m_writer->upload();
-            m_uploaded = true;
-        }
-    }
-
-    int32_t allocateSeq()
-    {
-        bcos::RecursiveGuard l(m_mutex);
-        m_currentSeq.store(m_currentSeq.load() + 1);
-        {
-            bcos::WriteGuard l(x_seqList);
-            m_seqList.insert(m_currentSeq.load());
-        }
-        return m_currentSeq;
-    }
-
-    void eraseFinishedTaskSeq(uint32_t _seq, bool _success)
-    {
-        {
-            bcos::UpgradableGuard l(x_seqList);
-            auto it = m_seqList.find(_seq);
-            if (it == m_seqList.end())
-            {
-                return;
-            }
-            bcos::UpgradeGuard ul(l);
-            m_seqList.erase(it);
-            if (_success)
-            {
-                m_successCount++;
-            }
-            else
-            {
-                m_failedCount++;
-            }
-        }
-        try
-        {
-            // trigger the callback when the sub-task finished
-            // Note: the subTaskHandler may go wrong
-            if (m_onSubTaskFinished)
-            {
-                m_onSubTaskFinished();
-            }
-            PSI_LOG(INFO) << LOG_DESC("eraseFinishedTaskSeq") << LOG_KV("task", m_task->id())
-                          << LOG_KV("seq", _seq) << LOG_KV("success", _success)
-                          << LOG_KV("seqs", m_seqList.size())
-                          << LOG_KV("successCount", m_successCount)
-                          << LOG_KV("failedCount", m_failedCount);
-        }
-        catch (std::exception const& e)
-        {
-            PSI_LOG(WARNING) << LOG_DESC(
-                                    "eraseFinishedTaskSeq error for calls the sub-task-finalize "
-                                    "handler exception")
-                             << LOG_KV("msg", boost::diagnostic_information(e));
-            onTaskException(boost::diagnostic_information(e));
-        }
-    }
+    void eraseFinishedTaskSeq(uint32_t _seq, bool _success);
 
     virtual void setFinished(bool _finished) { m_finished.store(_finished); }
 
@@ -199,129 +97,11 @@ public:
     }
 
     // trigger the callback to response
-    virtual void onTaskFinished()
-    {
-        // avoid repeated calls
-        if (m_taskDone.exchange(true))
-        {
-            return;
-        }
-        PSI_LOG(INFO) << LOG_DESC("* onTaskFinished") << LOG_KV("task", m_task->id())
-                      << LOG_KV("success", m_successCount) << LOG_KV("failed", m_failedCount)
-                      << LOG_KV("loadFinished", m_finished.load())
-                      << LOG_KV("callback", m_callback ? "withCallback" : "emptyCallback")
-                      << LOG_KV("taskTimecost", taskPendingTime());
-        auto result = std::make_shared<ppc::protocol::TaskResult>(m_task->id());
-        try
-        {
-            // upload the psi-result
-            if (m_writer && !m_uploaded)
-            {
-                m_writer->upload();
-                m_uploaded = true;
-            }
-            if (m_finalizeHandler)
-            {
-                m_finalizeHandler();
-            }
-            if (m_failedCount > 0)
-            {
-                auto error = std::make_shared<bcos::Error>(
-                    -1, "task " + m_task->id() + " failed for " +
-                            boost::lexical_cast<std::string>(m_failedCount) + " error!");
-                result->setError(std::move(error));
-                result->setStatus(ppc::protocol::toString(ppc::protocol::TaskStatus::FAILED));
-            }
-            else
-            {
-                result->setStatus(ppc::protocol::toString(ppc::protocol::TaskStatus::COMPLETED));
-            }
+    virtual void onTaskFinished();
 
-            // clear file
-            if (m_reader)
-            {
-                m_reader->clean();
-            }
-        }
-        catch (std::exception const& e)
-        {
-            PSI_LOG(WARNING) << LOG_DESC("* onTaskFinished exception")
-                             << LOG_KV("taskTimeCost", taskPendingTime())
-                             << LOG_KV("msg", boost::diagnostic_information(e));
-            auto error = std::make_shared<bcos::Error>(-1, boost::diagnostic_information(e));
-            result->setError(std::move(error));
-            result->setStatus(ppc::protocol::toString(ppc::protocol::TaskStatus::FAILED));
-        }
-        if (m_callback)
-        {
-            m_callback(std::move(result));
-        }
-    }
+    virtual void onTaskFinished(ppc::protocol::TaskResult::Ptr _result, bool _noticePeer);
 
-    virtual void onTaskFinished(ppc::protocol::TaskResult::Ptr _result, bool _noticePeer)
-    {
-        // avoid repeated calls
-        if (m_taskDone.exchange(true))
-        {
-            return;
-        }
-        PSI_LOG(INFO) << LOG_DESC("onTaskFinished") << LOG_KV("task", m_task->id())
-                      << LOG_KV("success", m_successCount) << LOG_KV("onlySelfRun", m_onlySelfRun)
-                      << LOG_KV("finished", m_finished.load()) << LOG_KV("noticePeer", _noticePeer);
-        if (!_result)
-        {
-            _result = std::make_shared<ppc::protocol::TaskResult>(m_task->id());
-        }
-        try
-        {
-            _result->setStatus(ppc::protocol::toString(ppc::protocol::TaskStatus::COMPLETED));
-            if (_result->error() && _result->error()->errorCode() != 0)
-            {
-                _result->setStatus(ppc::protocol::toString(ppc::protocol::TaskStatus::FAILED));
-            }
-            // Note: we consider that the task success even if the handler exception
-            if (_noticePeer && !m_onlySelfRun && _result->error() &&
-                _result->error()->errorCode() && m_notifyPeerFinishHandler)
-            {
-                m_notifyPeerFinishHandler();
-            }
-
-            if (m_finalizeHandler)
-            {
-                m_finalizeHandler();
-            }
-
-            m_finished.exchange(true);
-
-            // clear file
-            if (m_reader)
-            {
-                m_reader->clean();
-            }
-        }
-        catch (std::exception const& e)
-        {
-            PSI_LOG(WARNING) << LOG_DESC("onTaskFinished exception")
-                             << LOG_KV("msg", boost::diagnostic_information(e));
-            auto error = std::make_shared<bcos::Error>(-1, boost::diagnostic_information(e));
-            _result->setError(std::move(error));
-            _result->setStatus(ppc::protocol::toString(ppc::protocol::TaskStatus::FAILED));
-        }
-        if (m_callback)
-        {
-            m_callback(std::move(_result));
-        }
-    }
-
-    virtual void onPeerNotifyFinish()
-    {
-        PSI_LOG(WARNING) << LOG_BADGE("onReceivePeerError") << LOG_KV("taskID", m_task->id());
-        auto tesult = std::make_shared<protocol::TaskResult>(task()->id());
-        tesult->setError(std::make_shared<bcos::Error>(
-            (int)PSIRetCode::PeerNotifyFinish, "job participant sent an error"));
-        onTaskFinished(std::move(tesult), false);
-    }
-
+    virtual void onPeerNotifyFinish();
     void setWorker(std::function<void()> const& _worker) { m_worker = _worker; }
     void executeWork()
     {
@@ -351,88 +131,15 @@ public:
 
     // Note: must store the result serially
     void storePSIResult(ppc::io::DataResourceLoader::Ptr const& _resourceLoader,
-        std::vector<bcos::bytes> const& _data)
-    {
-        bcos::RecursiveGuard l(m_mutex);
-        // try to generate-default-output-desc to make sure the server output exists even if not
-        // specified
-        tryToGenerateDefaultOutputDesc();
-        auto dataResource = m_task->selfParty()->dataResource();
-        // load the writer
-        if (!m_writer)
-        {
-            m_writer = _resourceLoader->loadWriter(dataResource->outputDesc());
-        }
-        auto dataBatch = std::make_shared<ppc::io::DataBatch>();
-        dataBatch->setData(_data);
-        m_writer->writeLine(dataBatch, ppc::io::DataSchema::Bytes);
-        m_writer->flush();
-        PSI_LOG(INFO) << LOG_DESC("**** storePSIResult success ****")
-                      << LOG_KV("* task", m_task->id())
-                      << LOG_KV("* IntersectionCount", _data.size())
-                      << LOG_KV("* TaskTimecost", taskPendingTime());
-    }
+        std::vector<bcos::bytes> const& _data);
 
     std::function<void()> takeFinalizeHandler() { return std::move(m_finalizeHandler); }
 
-    void onTaskException(std::string const& _errorMsg)
-    {
-        // set the task finished
-        setFinished(true);
-        {
-            bcos::WriteGuard l(x_seqList);
-            m_seqList.clear();
-        }
-        if (!m_callback)
-        {
-            return;
-        }
-        // should been called even when exception
-        if (m_finalizeHandler)
-        {
-            try
-            {
-                m_finalizeHandler();
-            }
-            catch (std::exception const& e)
-            {
-                PSI_LOG(WARNING) << LOG_DESC("finalize task exception")
-                                 << LOG_KV("taskID", m_task->id())
-                                 << LOG_KV("msg", boost::diagnostic_information(e));
-            }
-        }
-        auto taskResult = std::make_shared<ppc::protocol::TaskResult>(m_task->id());
-        auto msg = "Task " + m_task->id() + " exception, error : " + _errorMsg;
-        auto error = std::make_shared<bcos::Error>(-1, msg);
-        taskResult->setError(std::move(error));
-        m_callback(std::move(taskResult));
-        PSI_LOG(WARNING) << LOG_DESC(msg);
-    }
-
+    void onTaskException(std::string const& _errorMsg);
     bool loadFinished() const { return m_finished.load(); }
 
     // generate default output-desc for given task
-    void tryToGenerateDefaultOutputDesc()
-    {
-        auto dataResource = m_task->selfParty()->mutableDataResource();
-        if (!dataResource)
-        {
-            dataResource = std::make_shared<ppc::protocol::DataResource>();
-            m_task->mutableSelfParty()->setDataResource(dataResource);
-        }
-        if (dataResource->outputDesc())
-        {
-            return;
-        }
-        auto outputDesc = std::make_shared<ppc::protocol::DataResourceDesc>();
-        auto dstPath = c_resultPath + "/" + m_task->id() + ".result";
-        outputDesc->setPath(dstPath);
-        outputDesc->setType((uint16_t)(ppc::protocol::DataResourceType::FILE));
-        dataResource->setOutputDesc(outputDesc);
-        PSI_LOG(INFO) << LOG_DESC("GenerateDefaultOutputDesc for the output-desc not specified")
-                      << LOG_KV("task", m_task->id()) << LOG_KV("path", dstPath);
-    }
-
+    void tryToGenerateDefaultOutputDesc();
     uint64_t taskPendingTime() { return (bcos::utcSteadyTime() - m_taskStartTime); }
 
     uint32_t sendedDataBatchSize() const { return m_seqList.size(); }

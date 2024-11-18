@@ -221,7 +221,7 @@ public:
     {}
     virtual ~CalculatorCache()
     {
-        releaseDataAfterFinalize();
+        releaseCipherCache();
 
         m_intersectionResult.clear();
         std::vector<bcos::bytes>().swap(m_intersectionResult);
@@ -275,7 +275,7 @@ private:
 
     void syncIntersections();
 
-    void releaseDataAfterFinalize()
+    void releaseCipherCache()
     {
         for (auto const& it : m_plainData)
         {
@@ -284,7 +284,7 @@ private:
         m_cipherRef.clear();
         std::map<bcos::bytes, CipherRefDetail>().swap(m_cipherRef);
         MallocExtension::instance()->ReleaseFreeMemory();
-        ECDH_MULTI_LOG(INFO) << LOG_DESC("releaseDataAfterFinalize")
+        ECDH_MULTI_LOG(INFO) << LOG_DESC("releaseCipherCache")
                              << LOG_KV("taskID", m_taskState->task()->id());
     }
 
