@@ -25,8 +25,6 @@ public:
     const std::string& taskID() const { return m_taskID; }
 
 protected:
-    virtual void encAndSendIntersectionData();
-
     virtual void initTask(ppc::protocol::Task::ConstPtr _task);
     virtual void onTaskError(std::string&& _error);
 

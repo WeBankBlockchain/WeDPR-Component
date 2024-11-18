@@ -78,38 +78,13 @@ void EcdhMultiPSIMaster::onReceiveCalCipher(PSIMessageInterface::Ptr _msg)
         {
             return;
         }
-        encAndSendIntersectionData();
+        m_masterCache->encryptIntersection(*m_randomB, m_calculatorParties);
     }
     catch (std::exception& e)
     {
         ECDH_MASTER_LOG(WARNING) << LOG_DESC("Exception in onReceiveCalCipher:")
                                  << boost::diagnostic_information(e);
         onTaskError(boost::diagnostic_information(e));
-    }
-}
-
-
-void EcdhMultiPSIMaster::encAndSendIntersectionData()
-{
-    ECDH_MASTER_LOG(INFO) << LOG_DESC("encAndSendIntersectionData") << LOG_KV("taskID", m_taskID);
-    auto message = m_masterCache->encryptIntersection(*m_randomB);
-    ECDH_MASTER_LOG(INFO) << LOG_DESC("send intersection cipher to calculator")
-                          << LOG_KV("taskID", m_taskState->task()->id())
-                          << LOG_KV("intersectionSize", message->getDataCount());
-    for (auto const& calcultor : m_calculatorParties)
-    {
-        m_config->generateAndSendPPCMessage(calcultor.first, m_taskID, message,
-            [self = weak_from_this()](bcos::Error::Ptr&& _error) {
-                if (!_error)
-                {
-                    return;
-                }
-                auto psi = self.lock();
-                if (!psi)
-                {
-                    return;
-                }
-            });
     }
 }
 
@@ -126,7 +101,7 @@ void EcdhMultiPSIMaster::onReceiveCipherFromPartner(PSIMessageInterface::Ptr _ms
         {
             return;
         }
-        encAndSendIntersectionData();
+        m_masterCache->encryptIntersection(*m_randomB, m_calculatorParties);
     }
     catch (std::exception& e)
     {

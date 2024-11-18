@@ -22,6 +22,7 @@
 #include <tbb/parallel_for_each.h>
 
 using namespace ppc::psi;
+using namespace ppc::protocol;
 using namespace bcos;
 
 void MasterCache::addCalculatorCipher(std::string _peerId, std::vector<bcos::bytes>&& _cipherData,
@@ -163,6 +164,8 @@ void MasterCache::mergeMasterCipher(std::string const& peerId, unsigned short pe
             it = m_masterDataRef.erase(it);
             continue;
         }
+        // reset the refCount
+        it->second.resetRefCount();
         it++;
     }
     m_peerMerged = true;
@@ -213,30 +216,72 @@ bool MasterCache::tryToIntersection()
     return true;
 }
 
-PSIMessageInterface::Ptr MasterCache::encryptIntersection(bcos::bytes const& randomKey)
+void MasterCache::encryptAndSendIntersection(uint64_t dataBatchIdx, bcos::bytes const& randomKey,
+    std::map<std::string, PartyResource::Ptr> const& calculators)
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("encryptIntersection")
-                         << LOG_KV("cipherCount", m_intersecCipher.size()) << printCacheState();
     auto startT = utcSteadyTime();
     auto message = m_config->psiMsgFactory()->createPSIMessage(
         uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_INTERSECTION_SET_TO_CALCULATOR));
     message->setFrom(m_taskState->task()->selfParty()->id());
-    message->resizeData(m_intersecCipher.size());
-    tbb::parallel_for(
-        tbb::blocked_range<size_t>(0U, m_intersecCipher.size()), [&](auto const& range) {
-            for (auto i = range.begin(); i < range.end(); i++)
-            {
-                auto cipherValue =
-                    m_config->eccCrypto()->ecMultiply(m_intersecCipher[i], randomKey);
-                message->setDataPair(i, m_intersecCipherIndex[i], cipherValue);
-            }
-        });
+    size_t startIndex = dataBatchIdx * m_config->dataBatchSize();
+    size_t endIndex = std::min(startIndex + m_config->dataBatchSize(), m_intersecCipher.size());
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("encryptAndSendIntersection")
+                         << LOG_KV("cipherCount", m_intersecCipher.size())
+                         << LOG_KV("dataBatchIdx", dataBatchIdx) << LOG_KV("start", startIndex)
+                         << LOG_KV("end", endIndex) << printCacheState();
+    message->resizeData(endIndex - startIndex);
+    if (endIndex >= m_intersecCipher.size())
+    {
+        message->setDataBatchCount(dataBatchIdx + 1);
+    }
+    tbb::parallel_for(tbb::blocked_range<size_t>(startIndex, endIndex), [&](auto const& range) {
+        for (auto i = range.begin(); i < range.end(); i++)
+        {
+            auto cipherValue = m_config->eccCrypto()->ecMultiply(m_intersecCipher[i], randomKey);
+            message->setDataPair(
+                i - startIndex, m_intersecCipherIndex[i - startIndex], cipherValue);
+        }
+    });
+    auto taskID = m_taskState->task()->id();
+    auto self = weak_from_this();
+    for (auto const& calcultor : calculators)
+    {
+        m_config->generateAndSendPPCMessage(
+            calcultor.first, taskID, message,
+            [self](bcos::Error::Ptr&& _error) {
+                if (!_error)
+                {
+                    return;
+                }
+            },
+            dataBatchIdx);
+    }
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("encryptAndSendIntersection success")
+                         << LOG_KV("cipherCount", m_intersecCipher.size())
+                         << LOG_KV("dataBatchIdx", dataBatchIdx)
+                         << LOG_KV("timecost", utcSteadyTime() - startT) << printCacheState();
+}
+
+void MasterCache::encryptIntersection(
+    bcos::bytes const& randomKey, std::map<std::string, PartyResource::Ptr> const& calculators)
+{
+    auto dataBatchCount =
+        std::max((uint64_t)(m_intersecCipher.size() + m_config->dataBatchSize() - 1) /
+                     (uint64_t)m_config->dataBatchSize(),
+            (uint64_t)1);
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("encryptIntersection")
+                         << LOG_KV("cipherCount", m_intersecCipher.size())
+                         << LOG_KV("dataBatchCount", dataBatchCount) << printCacheState();
+    auto startT = utcSteadyTime();
+    for (uint64_t i = 0; i < dataBatchCount; i++)
+    {
+        encryptAndSendIntersection(i, randomKey, calculators);
+    }
     ECDH_MULTI_LOG(INFO) << LOG_DESC("encryptIntersection success")
                          << LOG_KV("timecost", (utcSteadyTime() - startT))
                          << LOG_KV("cipherCount", m_intersecCipher.size()) << printCacheState();
     // Note: release the m_intersecCipher, make share it not been used after released
     releaseIntersection();
-    return message;
 }
 
 bcos::bytes CalculatorCache::getPlainDataByIndex(uint64_t index)
@@ -355,7 +400,7 @@ void CalculatorCache::syncIntersections()
 void CalculatorCache::updateCipherRef(bcos::bytes&& data, int32_t index)
 {
     // case that receive at least one completed data, only record the intersection data
-    if (m_receiveAllMasterCipher || m_receiveIntersection)
+    if (m_receiveAllMasterCipher || m_receiveAllIntersection)
     {
         if (!m_cipherRef.count(data))
         {
@@ -403,12 +448,14 @@ bool CalculatorCache::appendMasterCipher(
     return m_receiveAllMasterCipher;
 }
 
-void CalculatorCache::setIntersectionCipher(
-    std::vector<bcos::bytes>&& _cipherData, std::vector<long> const& dataIndex)
+void CalculatorCache::addIntersectionCipher(std::vector<bcos::bytes>&& _cipherData,
+    std::vector<long> const& dataIndex, uint32_t seq, uint64_t dataBatchCount)
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("setIntersectionCipher")
+    auto startT = utcSteadyTime();
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("addIntersectionCipher") << LOG_KV("seq", seq)
                          << LOG_KV("dataSize", _cipherData.size())
-                         << LOG_KV("cipherRefSize", m_cipherRef.size()) << printCacheState();
+                         << LOG_KV("cipherRefSize", m_cipherRef.size()) << printCacheState()
+                         << LOG_KV("dataBatchCount", dataBatchCount);
     bcos::Guard lock(m_mutex);
     uint64_t i = 0;
     for (auto&& it : _cipherData)
@@ -416,8 +463,18 @@ void CalculatorCache::setIntersectionCipher(
         updateCipherRef(std::move(it), dataIndex[i]);
         i++;
     }
-    m_receiveIntersection = true;
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("setIntersectionCipher finshed")
+    m_receivedIntersections.insert(seq);
+    if (dataBatchCount > 0)
+    {
+        m_intersectionBatchCount = dataBatchCount;
+    }
+    if (m_intersectionBatchCount > 0 && m_receivedIntersections.size() >= m_intersectionBatchCount)
+    {
+        m_receiveAllIntersection = true;
+    }
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("addIntersectionCipher finshed")
+                         << LOG_KV("timecost", utcSteadyTime() - startT) << LOG_KV("seq", seq)
+                         << LOG_KV("receiveAll", m_receiveAllIntersection)
                          << LOG_KV("cipherRefSize", m_cipherRef.size()) << printCacheState();
     // release the cipherData
     _cipherData.clear();

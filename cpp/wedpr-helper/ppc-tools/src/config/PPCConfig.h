@@ -70,7 +70,8 @@ struct GatewayConfig
     // the boostssl limit is 32MBytes
     constexpr static uint64_t DefaultMaxAllowedMsgSize = 100;
     constexpr static uint64_t MinMsgSize = 10 * 1024 * 1024;
-    constexpr static uint64_t MaxMsgSize = 1024 * 1024 * 1024;
+    // set the max msg size to 2GB
+    constexpr static uint64_t MaxMsgSize = uint64_t(1 << 31);
     constexpr static int MinUnreachableDistance = 2;
 
     NetworkConfig networkConfig;

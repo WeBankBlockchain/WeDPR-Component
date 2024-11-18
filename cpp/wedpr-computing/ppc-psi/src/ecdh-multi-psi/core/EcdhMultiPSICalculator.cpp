@@ -208,7 +208,8 @@ void EcdhMultiPSICalculator::onReceiveIntersecCipher(PSIMessageInterface::Ptr _m
                        << LOG_KV("dataSize", cipherData.size());
     try
     {
-        m_calculatorCache->setIntersectionCipher(std::move(cipherData), dataIndex);
+        m_calculatorCache->addIntersectionCipher(
+            std::move(cipherData), dataIndex, _msg->seq(), _msg->dataBatchCount());
         auto message = m_config->psiMsgFactory()->createPSIMessage(uint32_t(
             EcdhMultiPSIMessageType::RETURN_ENCRYPTED_INTERSECTION_SET_FROM_CALCULATOR_TO_MASTER));
         message->setFrom(m_taskState->task()->selfParty()->id());

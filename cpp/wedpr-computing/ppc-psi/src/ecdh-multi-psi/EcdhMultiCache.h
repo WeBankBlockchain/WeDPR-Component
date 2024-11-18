@@ -35,6 +35,18 @@ struct MasterCipherRef
     unsigned short refCount = 0;
     int32_t dataIndex = -1;
 
+    void resetRefCount()
+    {
+        auto ref = refInfo;
+        do
+        {
+            if (ref & 0x1)
+            {
+                refCount++;
+            }
+            ref >>= 1;
+        } while (ref > 0);
+    }
     void updateDataIndex(int32_t index)
     {
         if (index == -1)
@@ -45,7 +57,7 @@ struct MasterCipherRef
     }
 };
 /// the master data-cache
-class MasterCache
+class MasterCache : public std::enable_shared_from_this<MasterCache>
 {
 public:
     using Ptr = std::shared_ptr<MasterCache>;
@@ -84,9 +96,13 @@ public:
         return stringstream.str();
     }
 
-    PSIMessageInterface::Ptr encryptIntersection(bcos::bytes const& randomKey);
+    void encryptIntersection(bcos::bytes const& randomKey,
+        std::map<std::string, ppc::protocol::PartyResource::Ptr> const& calculators);
 
 private:
+    void encryptAndSendIntersection(uint64_t dataBatchIdx, bcos::bytes const& randomKey,
+        std::map<std::string, ppc::protocol::PartyResource::Ptr> const& calculators);
+
     bool shouldIntersection()
     {
         // only evaluating state should intersection
@@ -195,7 +211,7 @@ struct CipherRefDetail
     }
 };
 
-class CalculatorCache
+class CalculatorCache : public std::enable_shared_from_this<CalculatorCache>
 {
 public:
     using Ptr = std::shared_ptr<CalculatorCache>;
@@ -219,8 +235,8 @@ public:
     bool appendMasterCipher(
         std::vector<bcos::bytes>&& _cipherData, uint32_t seq, uint32_t dataBatchSize);
 
-    void setIntersectionCipher(
-        std::vector<bcos::bytes>&& _cipherData, std::vector<long> const& dataIndex);
+    void addIntersectionCipher(std::vector<bcos::bytes>&& _cipherData,
+        std::vector<long> const& dataIndex, uint32_t seq, uint64_t dataBatchCount);
 
     void appendPlainData(ppc::io::DataBatch::Ptr const& data)
     {
@@ -246,7 +262,7 @@ private:
         {
             return false;
         }
-        if (!m_receiveIntersection)
+        if (!m_receiveAllIntersection)
         {
             return false;
         }
@@ -292,7 +308,9 @@ private:
     mutable bcos::Mutex m_mutex;
 
     // the intersection cipher received from master
-    bool m_receiveIntersection = false;
+    std::set<uint32_t> m_receivedIntersections;
+    bool m_receiveAllIntersection = false;
+    uint32_t m_intersectionBatchCount = 0;
 
     // the final result
     std::vector<bcos::bytes> m_intersectionResult;
