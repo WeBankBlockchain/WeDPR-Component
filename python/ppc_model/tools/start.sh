@@ -11,6 +11,10 @@ LOG_INFO() {
 }
 binary_path=${SHELL_FOLDER}/ppc_model_app.py
 cd ${SHELL_FOLDER}
+log_dir=logs
+if [ ! -f ${log_dir} ];then
+   mkdir -p logs
+fi
 node=$(basename ${SHELL_FOLDER})
 node_pid=$(ps aux|grep ${binary_path}|grep -v grep|awk '{print $2}')
 
@@ -18,7 +22,8 @@ if [ ! -z ${node_pid} ];then
     echo " ${node} is running, pid is $node_pid."
     exit 0
 else
-    nohup python ${binary_path} > start.out 2>&1 &
+    # -u means Force the stdout and stderr streams to be unbuffered
+    nohup python -u ${binary_path} > start.out 2>&1 &
     sleep 1.5
 fi
 try_times=4

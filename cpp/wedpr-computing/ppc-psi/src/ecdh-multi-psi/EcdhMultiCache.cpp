@@ -328,9 +328,15 @@ bool CalculatorCache::tryToFinalize()
         {
             continue;
         }
-        if (it.second.plainDataIndex >= 0)
+        if (it.second.plainDataIndex > 0)
         {
             m_intersectionResult.emplace_back(getPlainDataByIndex(it.second.plainDataIndex));
+        }
+        // means the header field, swap with the first element
+        if (it.second.plainDataIndex == 0)
+        {
+            m_intersectionResult.emplace_back(m_intersectionResult[0]);
+            m_intersectionResult[0] = getPlainDataByIndex(it.second.plainDataIndex);
         }
     }
     m_cacheState = CacheState::Finalized;

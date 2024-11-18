@@ -68,7 +68,7 @@ if __name__ == '__main__':
                         TransLogger(app, setup_console_handler=False), numthreads=2)
 
     protocol = 'http'
-    message = f"Starting ppc model server at {protocol}://{app.config['HOST']}:{app.config['HTTP_PORT']} successfully"
+    message = f"* Starting ppc model server at {protocol}://{app.config['HOST']}:{app.config['HTTP_PORT']} successfully"
     print(message)
     components.logger().info(message)
     server.start()

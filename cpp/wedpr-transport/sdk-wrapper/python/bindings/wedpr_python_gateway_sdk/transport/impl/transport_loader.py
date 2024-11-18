@@ -47,6 +47,7 @@ class TransportConfigObject(BaseObject):
 
 class TransportLoader:
     transport_builder = TransportBuilder()
+    transport_builder.initLog("conf/wedpr_sdk_log_config.ini")
 
     @staticmethod
     def load(transport_config: TransportConfig) -> Transport:

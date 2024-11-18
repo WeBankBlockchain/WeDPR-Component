@@ -244,8 +244,8 @@ class TaskManager:
         with self._rw_lock.gen_rlock():
             for task_id, value in self._tasks.items():
                 alive_time = (datetime.datetime.now() -
-                              value[1]).total_seconds()
-                if alive_time >= self._task_timeout_s and value[0] == TaskStatus.RUNNING.value:
+                              value.start_time).total_seconds()
+                if alive_time >= self._task_timeout_s and value.task_status == TaskStatus.RUNNING.value:
                     tasks_to_kill.append(task_id)
 
         for task_id in tasks_to_kill:
@@ -257,9 +257,9 @@ class TaskManager:
         with self._rw_lock.gen_rlock():
             for task_id, value in self._tasks.items():
                 alive_time = (datetime.datetime.now() -
-                              value[1]).total_seconds()
+                              value.start_time).total_seconds()
                 if alive_time >= self._task_timeout_s + 3600:
-                    tasks_to_cleanup.append((task_id, value[3]))
+                    tasks_to_cleanup.append((task_id, value.job_id))
         with self._rw_lock.gen_wlock():
             for task_id, job_id in tasks_to_cleanup:
                 if task_id in self._tasks:
