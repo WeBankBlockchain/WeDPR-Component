@@ -43,7 +43,8 @@ public:
 
     using Ptr = std::shared_ptr<PPCMessage>;
     PPCMessage() { m_data = std::make_shared<bcos::bytes>(); }
-    ~PPCMessage() override { releasePayload(); }
+    // Note: the payload passed in by the upper layer cannot be released at will
+    ~PPCMessage() override = default;
 
     uint8_t version() const override { return m_version; }
     void setVersion(uint8_t _version) override { m_version = _version; }

@@ -209,6 +209,8 @@ void CM2020PSISender::onReceiverSizeReceived(front::PPCMessageFace::Ptr _message
     {
         decodeUnsignedNum(m_rInputSize, _message->data());
         m_progress->mark<std::string>("RECEIVE_SIZE");
+        CM2020_PSI_LOG(INFO) << LOG_BADGE("onReceiverSizeReceived") << LOG_KV("taskID", m_taskID)
+                             << LOG_KV("inputSize", m_rInputSize);
     }
     catch (const std::exception& e)
     {
@@ -238,6 +240,10 @@ void CM2020PSISender::onPointAReceived(front::PPCMessageFace::Ptr _message)
 
         auto retPair = m_ot->receiverGeneratePointsB(m_otChoices, pointA);
 
+        CM2020_PSI_LOG(INFO) << LOG_BADGE("onPointAReceived and send pointB")
+                             << LOG_KV("taskID", m_taskID)
+                             << LOG_KV("dataSize", retPair.first->size())
+                             << LOG_KV("otNumber", m_otChoices->size());
         // send batch point B to ot sender
         auto message = m_config->ppcMsgFactory()->buildPPCMessage(uint8_t(TaskType::PSI),
             uint8_t(TaskAlgorithmType::CM_PSI_2PC), m_taskID, retPair.first);

@@ -306,6 +306,19 @@ void TaskState::onTaskException(std::string const& _errorMsg)
                              << LOG_KV("msg", boost::diagnostic_information(e));
         }
     }
+    if (m_notifyPeerFinishHandler)
+    {
+        try
+        {
+            m_notifyPeerFinishHandler();
+        }
+        catch (std::exception const& e)
+        {
+            PSI_LOG(WARNING) << LOG_DESC("notifyPeerFinish exception")
+                             << LOG_KV("taskID", m_task->id())
+                             << LOG_KV("msg", boost::diagnostic_information(e));
+        }
+    }
     auto taskResult = std::make_shared<TaskResult>(m_task->id());
     auto msg = "Task " + m_task->id() + " exception, error : " + _errorMsg;
     auto error = std::make_shared<bcos::Error>(-1, msg);

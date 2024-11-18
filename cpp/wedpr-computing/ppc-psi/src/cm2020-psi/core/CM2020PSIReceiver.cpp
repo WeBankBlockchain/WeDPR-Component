@@ -170,7 +170,8 @@ void CM2020PSIReceiver::prepareInputs()
         m_originLocations.resize(m_rInputSize);
         m_oprfOutputs.reserve(m_rInputSize);
         m_oprfOutputs.resize(m_rInputSize);
-
+        CM2020_PSI_LOG(INFO) << LOG_BADGE("prepareInputs success") << LOG_KV("taskID", m_taskID)
+                             << LOG_KV("inputSize", m_rInputSize);
         syncInputsSize();
     }
     catch (const std::exception& e)
@@ -187,7 +188,7 @@ void CM2020PSIReceiver::syncInputsSize()
     encodeUnsignedNum(data, m_rInputSize);
     CM2020_PSI_LOG(TRACE) << LOG_BADGE("syncInputsSize") << LOG_KV("taskID", m_taskID)
                           << LOG_KV("data", *bcos::toHexString(*data))
-                          << LOG_KV("m_rInputSize", m_rInputSize);
+                          << LOG_KV("inputSize", m_rInputSize);
     auto message = m_config->ppcMsgFactory()->buildPPCMessage(
         uint8_t(TaskType::PSI), uint8_t(TaskAlgorithmType::CM_PSI_2PC), m_taskID, data);
     message->setMessageType(uint8_t(CM2020PSIMessageType::RECEIVER_SIZE));
@@ -242,7 +243,8 @@ void CM2020PSIReceiver::onBatchPointBReceived(PPCMessageFace::Ptr _message)
     {
         return;
     }
-    CM2020_PSI_LOG(INFO) << LOG_BADGE("handleBatchPointB") << LOG_KV("taskID", m_taskID);
+    CM2020_PSI_LOG(INFO) << LOG_BADGE("handleBatchPointB") << LOG_KV("taskID", m_taskID)
+                         << LOG_KV("payloadSize", _message->data()->size());
 
     try
     {
@@ -261,7 +263,8 @@ void CM2020PSIReceiver::onSenderSizeReceived(front::PPCMessageFace::Ptr _message
     {
         return;
     }
-    CM2020_PSI_LOG(INFO) << LOG_BADGE("onSenderSizeReceived") << LOG_KV("taskID", m_taskID);
+    CM2020_PSI_LOG(INFO) << LOG_BADGE("onSenderSizeReceived") << LOG_KV("taskID", m_taskID)
+                         << LOG_KV("payloadSize", _message->data()->size());
     try
     {
         decodeUnsignedNum(m_sInputSize, _message->data());

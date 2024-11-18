@@ -185,16 +185,28 @@ void EcdhMultiPSIMaster::blindData()
                 message->setDataBatchCount(0);
             }
             message->setFrom(m_taskState->task()->selfParty()->id());
+            auto self = weak_from_this();
             for (auto const& calcultor : m_calculatorParties)
             {
-                // TODO: handle the send failed case
                 m_config->generateAndSendPPCMessage(
                     calcultor.first, m_taskID, message,
-                    [](bcos::Error::Ptr&& _error) {
-                        if (_error)
+                    [self, seq, calcultor](bcos::Error::Ptr&& _error) {
+                        if (!_error || _error->errorCode() == 0)
                         {
                             return;
                         }
+                        auto psi = self.lock();
+                        if (!psi)
+                        {
+                            return;
+                        }
+                        ECDH_MASTER_LOG(WARNING)
+                            << LOG_DESC("send blindedData to calculator failed")
+                            << LOG_KV("calculator", calcultor.first) << LOG_KV("seq", seq)
+                            << LOG_KV("task", psi->m_taskState->task()->id())
+                            << LOG_KV("code", _error->errorCode())
+                            << LOG_KV("msg", _error->errorMessage());
+                        psi->m_taskState->onTaskException(_error->errorMessage());
                     },
                     seq);
             }

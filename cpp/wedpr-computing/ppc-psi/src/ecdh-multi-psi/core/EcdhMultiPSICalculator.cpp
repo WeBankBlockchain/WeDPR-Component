@@ -49,17 +49,20 @@ bcos::bytes EcdhMultiPSICalculator::generateRandomA(std::string _taskID)
     message->setData(std::vector<bcos::bytes>{randomValue});
     message->setDataBatchCount(randomValue.size());
     message->setFrom(m_taskState->task()->selfParty()->id());
+    auto self = weak_from_this();
     for (auto const& partner : m_partnerParties)
     {
-        ECDH_CAL_LOG(INFO) << LOG_KV("PART1: Calculator generateRandomA to ", partner.first)
+        ECDH_CAL_LOG(INFO) << LOG_DESC("send generateRandomA to partner")
+                           << LOG_KV("partner", partner.first)
                            << LOG_KV(" Random: ", *toHexString(randomValue));
         m_config->generateAndSendPPCMessage(
             partner.first, _taskID, message,
-            [self = weak_from_this(), partner](bcos::Error::Ptr&& _error) {
-                if (!_error)
+            [self, _taskID, partner](bcos::Error::Ptr&& _error) {
+                if (!_error || _error->errorCode() == 0)
                 {
                     ECDH_CAL_LOG(INFO)
-                        << LOG_KV("PART1: Calculator generateRandomA success to ", partner.first);
+                        << LOG_DESC("send generated randomA to partner success")
+                        << LOG_KV("task", _taskID) << LOG_KV("partner", partner.first);
                     return;
                 }
                 auto psi = self.lock();
@@ -67,6 +70,15 @@ bcos::bytes EcdhMultiPSICalculator::generateRandomA(std::string _taskID)
                 {
                     return;
                 }
+                if (!psi->m_taskState)
+                {
+                    return;
+                }
+                ECDH_CAL_LOG(WARNING)
+                    << LOG_DESC("send generated randomA to partner failed")
+                    << LOG_KV("task", _taskID) << LOG_KV("partner", partner.first)
+                    << LOG_KV("code", _error->errorCode()) << LOG_KV("msg", _error->errorMessage());
+                psi->m_taskState->onTaskException(_error->errorMessage());
             },
             0);
     }
@@ -147,12 +159,13 @@ void EcdhMultiPSICalculator::blindData(std::string _taskID, bcos::bytes _randA)
                 message->setDataBatchCount(0);
             }
             // send cipher
+            auto self = weak_from_this();
             for (auto const& master : m_masterParties)
             {
                 m_config->generateAndSendPPCMessage(
                     master.first, _taskID, message,
-                    [self = weak_from_this(), master](bcos::Error::Ptr&& _error) {
-                        if (!_error)
+                    [self, _taskID, master](bcos::Error::Ptr&& _error) {
+                        if (!_error || _error->errorCode() == 0)
                         {
                             return;
                         }
@@ -161,6 +174,12 @@ void EcdhMultiPSICalculator::blindData(std::string _taskID, bcos::bytes _randA)
                         {
                             return;
                         }
+                        ECDH_CAL_LOG(WARNING)
+                            << LOG_DESC("send blindedData to master failed")
+                            << LOG_KV("task", _taskID) << LOG_KV("master", master.first)
+                            << LOG_KV("code", _error->errorCode())
+                            << LOG_KV("msg", _error->errorMessage());
+                        psi->m_taskState->onTaskException(_error->errorMessage());
                     },
                     seq);
                 dataOffset += dataBatch->size();
@@ -215,22 +234,23 @@ void EcdhMultiPSICalculator::onReceiveIntersecCipher(PSIMessageInterface::Ptr _m
         message->setFrom(m_taskState->task()->selfParty()->id());
         // try to finalize
         auto ret = m_calculatorCache->tryToFinalize();
+        auto taskID = m_taskID;
         for (auto const& master : m_masterParties)
         {
             ECDH_CAL_LOG(INFO) << LOG_DESC("onReceiveIntersecCipher: send response to the master")
                                << LOG_KV("master", master.first) << printPSIMessage(_msg);
+            // no any bad influences when send response failed
             m_config->generateAndSendPPCMessage(
-                master.first, m_taskID, message,
-                [self = weak_from_this()](bcos::Error::Ptr&& _error) {
-                    if (!_error)
+                master.first, taskID, message,
+                [taskID](bcos::Error::Ptr&& _error) {
+                    if (!_error || _error->errorCode() == 0)
                     {
                         return;
                     }
-                    auto psi = self.lock();
-                    if (!psi)
-                    {
-                        return;
-                    }
+                    ECDH_CAL_LOG(WARNING)
+                        << LOG_DESC("onReceiveIntersecCipher: send response to the master failed")
+                        << LOG_KV("task", taskID) << LOG_KV("code", _error->errorCode())
+                        << LOG_KV("msg", _error->errorMessage());
                 },
                 0);
         }

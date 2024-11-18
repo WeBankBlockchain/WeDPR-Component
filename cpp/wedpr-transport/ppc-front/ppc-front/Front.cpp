@@ -139,6 +139,8 @@ void Front::asyncSendMessage(const std::string& _agencyID, front::PPCMessageFace
     m_front->asyncSendMessage((uint16_t)RouteType::ROUTE_THROUGH_TOPIC, routeInfo,
         bcos::bytesConstRef((bcos::byte*)data.data(), data.size()), _message->seq(), _timeout,
         _callback, msgCallback);
+    // release the data
+    bcos::bytes().swap(data);
 }
 
 // send response when receiving message from given agencyID

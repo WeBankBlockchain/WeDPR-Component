@@ -117,12 +117,13 @@ void EcdhMultiPSIPartner::onReceiveRandomA(bcos::bytesPointer _randA)
                 message->setDataBatchCount(0);
             }
             // generate and send encryptedHashSet
+            auto self = weak_from_this();
             for (auto const& master : m_masterParties)
             {
                 m_config->generateAndSendPPCMessage(
                     master.first, m_taskState->task()->id(), message,
-                    [self = weak_from_this()](bcos::Error::Ptr&& _error) {
-                        if (!_error)
+                    [self, master, seq](bcos::Error::Ptr&& _error) {
+                        if (!_error || _error->errorCode() == 0)
                         {
                             return;
                         }
@@ -131,6 +132,13 @@ void EcdhMultiPSIPartner::onReceiveRandomA(bcos::bytesPointer _randA)
                         {
                             return;
                         }
+                        ECDH_PARTNER_LOG(WARNING)
+                            << LOG_DESC("send blinded data to master failed") << LOG_KV("seq", seq)
+                            << LOG_KV("master", master.first)
+                            << LOG_KV("task", psi->m_taskState->task()->id())
+                            << LOG_KV("code", _error->errorCode())
+                            << LOG_KV("msg", _error->errorMessage());
+                        psi->m_taskState->onTaskException(_error->errorMessage());
                     },
                     seq);
             }

@@ -244,15 +244,26 @@ void MasterCache::encryptAndSendIntersection(uint64_t dataBatchIdx, bcos::bytes 
     });
     auto taskID = m_taskState->task()->id();
     auto self = weak_from_this();
-    for (auto const& calcultor : calculators)
+    for (auto const& calculator : calculators)
     {
         m_config->generateAndSendPPCMessage(
-            calcultor.first, taskID, message,
-            [self](bcos::Error::Ptr&& _error) {
-                if (!_error)
+            calculator.first, taskID, message,
+            [self, calculator](bcos::Error::Ptr&& _error) {
+                if (!_error || _error->errorCode() == 0)
                 {
                     return;
                 }
+                auto cache = self.lock();
+                if (!cache)
+                {
+                    return;
+                }
+                ECDH_MULTI_LOG(WARNING)
+                    << LOG_DESC("encryptAndSendIntersection: send message to calcultor failed")
+                    << LOG_KV("task", cache->m_taskState->task()->id())
+                    << LOG_KV("calculator", calculator.first) << LOG_KV("code", _error->errorCode())
+                    << LOG_KV("msg", _error->errorMessage());
+                cache->m_taskState->onTaskException(_error->errorMessage());
             },
             dataBatchIdx);
     }
@@ -356,6 +367,7 @@ void CalculatorCache::syncIntersections()
         message->setVersion(-1);
         for (auto& peer : peers)
         {
+            // Note: sync task failed will not change the task status
             m_config->generateAndSendPPCMessage(
                 peer.first, taskID, message,
                 [taskID, peer](bcos::Error::Ptr&& _error) {
@@ -381,6 +393,7 @@ void CalculatorCache::syncIntersections()
     message->setVersion(0);
     for (auto& peer : peers)
     {
+        // Note: sync task failed will not change the task status
         m_config->generateAndSendPPCMessage(
             peer.first, taskID, message,
             [taskID, peer](bcos::Error::Ptr&& _error) {
