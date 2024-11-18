@@ -130,7 +130,15 @@ void EcdhMultiPSIImpl::asyncRunTask(
         psi->removePendingTask(taskID);
     });
     addPendingTask(taskState);
-
+    // over the peer limit
+    if (_task->getAllPeerParties().size() > c_max_peer_size)
+    {
+        auto error = std::make_shared<bcos::Error>(
+            -1, "at most support " + std::to_string(c_max_peer_size) + " peers, over the limit!");
+        ECDH_MULTI_LOG(WARNING) << LOG_DESC("asyncRunTask failed")
+                                << LOG_KV("msg", error->errorMessage());
+        onSelfError(_task->id(), error, true);
+    }
     try
     {
         auto dataResource = _task->selfParty()->dataResource();

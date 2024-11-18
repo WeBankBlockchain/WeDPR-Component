@@ -30,7 +30,8 @@ namespace ppc::psi
 {
 struct MasterCipherRef
 {
-    std::set<unsigned short> refInfo;
+    // support at least 63 peers
+    uint64_t refInfo = 0;
     unsigned short refCount = 0;
     int32_t dataIndex = -1;
 
@@ -61,8 +62,8 @@ public:
 
     virtual ~MasterCache()
     {
-        releaseItersection();
-        releaseItersection();
+        releaseCache();
+        releaseIntersection();
         ECDH_MULTI_LOG(INFO) << LOG_DESC("the master cipher datacache destroyed ")
                              << LOG_KV("taskID", m_taskState->task()->id());
     }
@@ -108,7 +109,7 @@ private:
         return false;
     }
 
-    void releaseItersection()
+    void releaseIntersection()
     {
         m_intersecCipher.clear();
         m_intersecCipherIndex.clear();
@@ -118,7 +119,7 @@ private:
         std::vector<uint32_t>().swap(m_intersecCipherIndex);
 
         MallocExtension::instance()->ReleaseFreeMemory();
-        ECDH_MULTI_LOG(INFO) << LOG_DESC("releaseItersection")
+        ECDH_MULTI_LOG(INFO) << LOG_DESC("releaseIntersection")
                              << LOG_KV("taskID", m_taskState->task()->id());
     }
 

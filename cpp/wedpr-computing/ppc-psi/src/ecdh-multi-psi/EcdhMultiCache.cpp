@@ -50,7 +50,7 @@ void MasterCache::addCalculatorCipher(std::string _peerId, std::vector<bcos::byt
         m_calculatorCipherSeqs.size() == m_calculatorDataBatchCount)
     {
         ECDH_MULTI_LOG(INFO) << LOG_DESC("The master receive all cipher data from the calculator")
-                             << LOG_KV("calculatorId", _peerId)
+                             << LOG_KV("seq", seq) << LOG_KV("calculator", _peerId)
                              << LOG_KV("masterData", m_masterDataRef.size()) << printCacheState();
         m_finishedPartners.insert(_peerId);
         // try to merge
@@ -58,7 +58,7 @@ void MasterCache::addCalculatorCipher(std::string _peerId, std::vector<bcos::byt
     }
     ECDH_MULTI_LOG(INFO) << LOG_DESC(
                                 "addCalculatorCipher: master receive cipher data from calculator")
-                         << LOG_KV("calculator", _peerId) << printCacheState()
+                         << LOG_KV("calculator", _peerId) << printCacheState() << LOG_KV("seq", seq)
                          << LOG_KV("receivedSize", _cipherData.size())
                          << LOG_KV("masterData", m_masterDataRef.size())
                          << LOG_KV("dataBatchCount", m_calculatorDataBatchCount);
@@ -78,13 +78,13 @@ void MasterCache::updateMasterDataRef(
         if (!m_masterDataRef.count(data))
         {
             MasterCipherRef ref;
-            ref.refInfo.insert(_peerIndex);
+            ref.refInfo |= (1 << _peerIndex);
             ref.updateDataIndex(dataIndex);
             m_masterDataRef.insert(std::make_pair(std::move(data), ref));
             return;
         }
         // existed data case
-        m_masterDataRef[data].refInfo.insert(_peerIndex);
+        m_masterDataRef[data].refInfo |= (1 << _peerIndex);
         m_masterDataRef[data].updateDataIndex(dataIndex);
         return;
     }
@@ -115,7 +115,8 @@ void MasterCache::addPartnerCipher(std::string _peerId, std::vector<bcos::bytes>
     }
     m_partnerCipherSeqs[_peerId].insert(seq);
     ECDH_MULTI_LOG(INFO) << LOG_DESC("addPartnerCipher") << LOG_KV("partner", _peerId)
-                         << LOG_KV("seqSize", m_partnerCipherSeqs.at(_peerId).size())
+                         << LOG_KV("seq", seq)
+                         << LOG_KV("receivedBatch", m_partnerCipherSeqs.at(_peerId).size())
                          << LOG_KV("cipherDataSize", _cipherData.size())
                          << LOG_KV("masterDataSize", m_masterDataRef.size())
                          << LOG_KV("parternerDataCount", parternerDataCount) << printCacheState();
@@ -157,15 +158,11 @@ void MasterCache::mergeMasterCipher(std::string const& peerId, unsigned short pe
     for (auto it = m_masterDataRef.begin(); it != m_masterDataRef.end();)
     {
         // not has intersect-element with the finished peer
-        if (!it->second.refInfo.count(peerIndex))
+        if (!(it->second.refInfo & (1 << peerIndex)))
         {
             it = m_masterDataRef.erase(it);
             continue;
         }
-        // set the refCount
-        it->second.refCount = it->second.refInfo.size();
-        // release the refInfo
-        std::set<unsigned short>().swap(it->second.refInfo);
         it++;
     }
     m_peerMerged = true;
@@ -218,6 +215,9 @@ bool MasterCache::tryToIntersection()
 
 PSIMessageInterface::Ptr MasterCache::encryptIntersection(bcos::bytes const& randomKey)
 {
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("encryptIntersection")
+                         << LOG_KV("cipherCount", m_intersecCipher.size()) << printCacheState();
+    auto startT = utcSteadyTime();
     auto message = m_config->psiMsgFactory()->createPSIMessage(
         uint32_t(EcdhMultiPSIMessageType::SEND_ENCRYPTED_INTERSECTION_SET_TO_CALCULATOR));
     message->setFrom(m_taskState->task()->selfParty()->id());
@@ -231,10 +231,11 @@ PSIMessageInterface::Ptr MasterCache::encryptIntersection(bcos::bytes const& ran
                 message->setDataPair(i, m_intersecCipherIndex[i], cipherValue);
             }
         });
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("encryptIntersection")
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("encryptIntersection success")
+                         << LOG_KV("timecost", (utcSteadyTime() - startT))
                          << LOG_KV("cipherCount", m_intersecCipher.size()) << printCacheState();
     // Note: release the m_intersecCipher, make share it not been used after released
-    releaseItersection();
+    releaseIntersection();
     return message;
 }
 

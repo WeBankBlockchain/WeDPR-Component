@@ -96,7 +96,7 @@ void EcdhMultiPSIMaster::encAndSendIntersectionData()
     ECDH_MASTER_LOG(INFO) << LOG_DESC("send intersection cipher to calculator")
                           << LOG_KV("taskID", m_taskState->task()->id())
                           << LOG_KV("intersectionSize", message->getDataCount());
-    for (auto& calcultor : m_calculatorParties)
+    for (auto const& calcultor : m_calculatorParties)
     {
         m_config->generateAndSendPPCMessage(calcultor.first, m_taskID, message,
             [self = weak_from_this()](bcos::Error::Ptr&& _error) {
@@ -209,7 +209,7 @@ void EcdhMultiPSIMaster::blindData()
                 message->setDataBatchCount(0);
             }
             message->setFrom(m_taskState->task()->selfParty()->id());
-            for (auto& calcultor : m_calculatorParties)
+            for (auto const& calcultor : m_calculatorParties)
             {
                 // TODO: handle the send failed case
                 m_config->generateAndSendPPCMessage(

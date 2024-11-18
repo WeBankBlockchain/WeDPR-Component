@@ -147,6 +147,10 @@ private:
     void wakeupWorker() { m_signal.notify_all(); }
 
     const int c_popWaitMs = 5;
+
+    // at most support 63 peers
+    const int c_max_peer_size = 63;
+
     EcdhMultiPSIConfig::Ptr m_config;
     TaskState::Ptr m_taskMultiState;
     EcdhMultiPSIMsgQueuePtr m_msgQueue;

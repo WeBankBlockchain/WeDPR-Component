@@ -117,7 +117,7 @@ void EcdhMultiPSIPartner::onReceiveRandomA(bcos::bytesPointer _randA)
                 message->setDataBatchCount(0);
             }
             // generate and send encryptedHashSet
-            for (auto& master : m_masterParties)
+            for (auto const& master : m_masterParties)
             {
                 m_config->generateAndSendPPCMessage(
                     master.first, m_taskState->task()->id(), message,

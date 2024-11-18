@@ -49,7 +49,7 @@ bcos::bytes EcdhMultiPSICalculator::generateRandomA(std::string _taskID)
     message->setData(std::vector<bcos::bytes>{randomValue});
     message->setDataBatchCount(randomValue.size());
     message->setFrom(m_taskState->task()->selfParty()->id());
-    for (auto& partner : m_partnerParties)
+    for (auto const& partner : m_partnerParties)
     {
         ECDH_CAL_LOG(INFO) << LOG_KV("PART1: Calculator generateRandomA to ", partner.first)
                            << LOG_KV(" Random: ", *toHexString(randomValue));
@@ -154,8 +154,6 @@ void EcdhMultiPSICalculator::blindData(std::string _taskID, bcos::bytes _randA)
                     [self = weak_from_this(), master](bcos::Error::Ptr&& _error) {
                         if (!_error)
                         {
-                            ECDH_CAL_LOG(INFO)
-                                << LOG_KV("blindData success to Master: ", master.first);
                             return;
                         }
                         auto psi = self.lock();
