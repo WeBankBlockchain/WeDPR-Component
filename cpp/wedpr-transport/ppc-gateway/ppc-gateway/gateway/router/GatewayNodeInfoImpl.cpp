@@ -99,6 +99,7 @@ bool GatewayNodeInfoImpl::tryAddNodeInfo(INodeInfo::Ptr const& info)
         // update the meta
         if (meta != existedNodeInfo->meta())
         {
+            bcos::WriteGuard l(x_nodeList);
             existedNodeInfo->setMeta(meta);
             GATEWAY_LOG(INFO) << LOG_DESC("tryAddNodeInfo, update the meta, updated nodeInfo")
                               << printNodeInfo(existedNodeInfo);
@@ -107,6 +108,7 @@ bool GatewayNodeInfoImpl::tryAddNodeInfo(INodeInfo::Ptr const& info)
         auto components = info->copiedComponents();
         if (components != existedNodeInfo->copiedComponents())
         {
+            bcos::WriteGuard l(x_nodeList);
             existedNodeInfo->setComponents(
                 std::set<std::string>(components.begin(), components.end()));
             GATEWAY_LOG(INFO) << LOG_DESC("tryAddNodeInfo, update the components, updated nodeInfo")
@@ -260,6 +262,7 @@ void GatewayNodeInfoImpl::unRegisterTopic(bcos::bytes const& nodeID, std::string
 
 void GatewayNodeInfoImpl::encode(bcos::bytes& data) const
 {
+    bcos::ReadGuard l(x_nodeList);
     encodePBObject(data, m_rawGatewayInfo);
 }
 

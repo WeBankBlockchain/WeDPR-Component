@@ -163,7 +163,7 @@ void GatewayRouterManager::onReceiveRequestNodeStatusMsg(
     }
     ROUTER_MGR_LOG(TRACE) << LOG_DESC(
                                  "onReceiveRequestNodeStatusMsg: response the latest nodeStatus")
-                          << LOG_KV("node", printP2PIDElegantly(from));
+                          << LOG_KV("to", printP2PIDElegantly(from));
     m_service->asyncSendMessageByP2PNodeID(
         (uint16_t)GatewayPacketType::ResponseNodeStatus, from, nodeStatusData);
 }
