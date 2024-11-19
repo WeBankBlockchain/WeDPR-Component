@@ -27,9 +27,8 @@ pycryptodome==3.9.9
 pyjwt
 pyyaml
 mysqlclient==2.1.0
-waitress==2.1.2
+waitress==3.0.1
 sqlparse~=0.4.1
-ecdsa==0.19.0
 toolz~=0.11.1
 tenacity==7.0.0
 coincurve~=13.0.0
@@ -47,7 +46,6 @@ requests-toolbelt==0.9.1
 hdfs
 scikit-learn~=0.24.2
 gmpy2
-openpyxl
 networkx
 pydot
 snowland-smx

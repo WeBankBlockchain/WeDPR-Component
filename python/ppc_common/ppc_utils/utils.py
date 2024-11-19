@@ -11,7 +11,6 @@ import time
 from enum import Enum, unique
 
 import jwt
-from ecdsa import SigningKey, SECP256k1, VerifyingKey
 from gmssl import func, sm2, sm3
 from google.protobuf.descriptor import FieldDescriptor
 from jsoncomment import JsonComment
@@ -324,57 +323,6 @@ def make_job_event_message(job_id, job_priority, initiator_agency_id, receiver_a
     message = '{}|{}|{}|{}|{}'.format(job_id, job_priority, initiator_agency_id, receiver_agency_id, job_algorithm_id,
                                       job_dataset)
     return message.encode('utf-8')
-
-
-def sign_with_secp256k1(message, private_key_str):
-    if isinstance(private_key_str, str):
-        private_key = SigningKey.from_string(
-            bytes().fromhex(private_key_str), curve=SECP256k1)
-    else:
-        private_key = SigningKey.from_string(private_key_str, curve=SECP256k1)
-    signature_bytes = private_key.sign(
-        make_hash(message, CryptoType.ECDSA, HashType.BYTES))
-    return str(encode(signature_bytes), 'utf-8')
-
-
-def verify_with_secp256k1(message, signature_str, public_key_str):
-    if isinstance(public_key_str, str):
-        verify_key = VerifyingKey.from_string(
-            bytes().fromhex(public_key_str), curve=SECP256k1)
-    else:
-        verify_key = VerifyingKey.from_string(
-            decode(public_key_str), curve=SECP256k1)
-    return verify_key.verify(decode(signature_str), make_hash(message, CryptoType.ECDSA, HashType.BYTES))
-
-
-def sign_with_sm2(message, private_key_str):
-    sm2_crypt = sm2.CryptSM2(private_key_str, "")
-    random_hex_str = func.random_hex(sm2_crypt.para_len)
-    message_hash = make_hash(message, CryptoType.GM).encode(encoding='utf-8')
-    signature_str = sm2_crypt.sign(message_hash, random_hex_str)
-    return signature_str
-
-
-def verify_with_sm2(message, signature_str, public_key_str):
-    sm2_crypt = sm2.CryptSM2("", public_key_str)
-    message_hash = make_hash(message, CryptoType.GM).encode(encoding='utf-8')
-    return sm2_crypt.verify(signature_str, message_hash)
-
-
-def make_signature(message, private_key_str, crypto_type):
-    if crypto_type == CryptoType.ECDSA:
-        return sign_with_secp256k1(message, private_key_str)
-
-    if crypto_type == CryptoType.GM:
-        return sign_with_sm2(message, private_key_str)
-
-
-def verify_signature(message, signature, public_key_str, crypto_type):
-    if crypto_type == CryptoType.ECDSA:
-        return verify_with_secp256k1(message, signature, public_key_str)
-
-    if crypto_type == CryptoType.GM:
-        return verify_with_sm2(message, signature, public_key_str)
 
 
 def exec_bash_command(cmd):
