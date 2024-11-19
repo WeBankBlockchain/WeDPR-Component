@@ -157,7 +157,7 @@ std::vector<ppc::front::IFrontClient::Ptr> LocalRouter::chooseReceiver(
     case (uint16_t)RouteType::ROUTE_THROUGH_NODEID:
     {
         auto gatewayInfo = m_routerInfo->nodeInfo(msg->header()->optionalField()->dstNode());
-        auto front = gatewayInfo->getFront();
+        auto front = gatewayInfo ? gatewayInfo->getFront() : nullptr;
         if (gatewayInfo != nullptr && front)
         {
             receivers.emplace_back(front);

@@ -75,6 +75,7 @@ bcos::Error::Ptr GrpcClient::broadCast(
     std::function<bcos::Error::Ptr(ChannelInfo const& channel)> callback)
 {
     auto result = std::make_shared<bcos::Error>(0, "");
+    int successCount = 0;
     for (auto const& channel : m_broadcastChannels)
     {
         try
@@ -91,6 +92,10 @@ bcos::Error::Ptr GrpcClient::broadCast(
                 result->setErrorCode(error->errorCode());
                 result->setErrorMessage(result->errorMessage() + error->errorMessage() + "; ");
             }
+            else
+            {
+                successCount++;
+            }
         }
         catch (std::exception const& e)
         {
@@ -98,6 +103,11 @@ bcos::Error::Ptr GrpcClient::broadCast(
                 << LOG_DESC("GrpcClient broadCast exception") << LOG_KV("remote", channel.endPoint)
                 << LOG_KV("error", boost::diagnostic_information(e));
         }
+    }
+    // at least one success
+    if (successCount > 0)
+    {
+        return std::make_shared<bcos::Error>(0, "success");
     }
     return result;
 }

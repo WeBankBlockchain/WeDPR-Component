@@ -103,9 +103,8 @@ void GatewayRouterManager::onReceiveNodeSeqMessage(MessageFace::Ptr msg, WsSessi
     auto statusSeq =
         boost::asio::detail::socket_ops::network_to_host_long(*((uint32_t*)msg->payload()->data()));
     auto p2pMessage = std::dynamic_pointer_cast<P2PMessage>(msg);
-    auto const& from = (p2pMessage->header()->srcGwNode().size() > 0) ?
-                           p2pMessage->header()->srcGwNode() :
-                           session->nodeId();
+    auto from = (p2pMessage->header()->srcGwNode().size() > 0) ? p2pMessage->header()->srcGwNode() :
+                                                                 session->nodeId();
     auto statusSeqChanged = statusChanged(from, statusSeq);
     if (!statusSeqChanged)
     {
@@ -151,9 +150,8 @@ void GatewayRouterManager::onReceiveRequestNodeStatusMsg(
     MessageFace::Ptr msg, WsSession::Ptr session)
 {
     auto p2pMessage = std::dynamic_pointer_cast<P2PMessage>(msg);
-    auto const& from = (!p2pMessage->header()->srcGwNode().empty()) ?
-                           p2pMessage->header()->srcGwNode() :
-                           session->nodeId();
+    auto from = (!p2pMessage->header()->srcGwNode().empty()) ? p2pMessage->header()->srcGwNode() :
+                                                               session->nodeId();
 
     auto nodeStatusData = m_localRouter->generateNodeStatus();
     if (!nodeStatusData)
