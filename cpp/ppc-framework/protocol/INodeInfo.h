@@ -57,7 +57,7 @@ public:
     virtual void decode(bcos::bytesConstRef data) = 0;
 
     virtual void setFront(std::shared_ptr<ppc::front::IFrontClient>&& front) = 0;
-    virtual std::shared_ptr<ppc::front::IFrontClient> const& getFront() const = 0;
+    virtual std::shared_ptr<ppc::front::IFrontClient> getFront() const = 0;
 
     virtual bool equal(INodeInfo::Ptr const& info)
     {

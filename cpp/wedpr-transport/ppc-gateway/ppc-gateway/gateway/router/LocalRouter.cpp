@@ -98,6 +98,10 @@ bool LocalRouter::dispatcherMessage(
         int i = 0;
         for (auto const& front : frontList)
         {
+            if (!front)
+            {
+                continue;
+            }
             if (i == 0)
             {
                 front->onReceiveMessage(msg->msg(), callback);
@@ -153,9 +157,10 @@ std::vector<ppc::front::IFrontClient::Ptr> LocalRouter::chooseReceiver(
     case (uint16_t)RouteType::ROUTE_THROUGH_NODEID:
     {
         auto gatewayInfo = m_routerInfo->nodeInfo(msg->header()->optionalField()->dstNode());
-        if (gatewayInfo != nullptr)
+        auto front = gatewayInfo->getFront();
+        if (gatewayInfo != nullptr && front)
         {
-            receivers.emplace_back(gatewayInfo->getFront());
+            receivers.emplace_back(front);
         }
         return receivers;
     }

@@ -155,9 +155,10 @@ std::vector<std::shared_ptr<ppc::front::IFrontClient>> GatewayNodeInfoImpl::choo
     bcos::ReadGuard l(x_nodeList);
     for (auto const& it : m_nodeList)
     {
-        if (it.second->components().count(component))
+        auto front = it.second->getFront();
+        if (front && it.second->components().count(component))
         {
-            result.emplace_back(it.second->getFront());
+            result.emplace_back(front);
         }
         if (!result.empty() && !selectAll)
         {
@@ -175,7 +176,11 @@ std::vector<std::shared_ptr<ppc::front::IFrontClient>> GatewayNodeInfoImpl::choo
     bcos::ReadGuard l(x_nodeList);
     for (auto const& it : m_nodeList)
     {
-        result.emplace_back(it.second->getFront());
+        auto front = it.second->getFront();
+        if (front)
+        {
+            result.emplace_back(front);
+        }
         if (!result.empty() && !selectAll)
         {
             break;
@@ -194,7 +199,11 @@ std::vector<std::shared_ptr<ppc::front::IFrontClient>> GatewayNodeInfoImpl::choo
         bcos::ReadGuard l(x_nodeList);
         for (auto const& it : m_nodeList)
         {
-            result.emplace_back(it.second->getFront());
+            auto front = it.second->getFront();
+            if (front)
+            {
+                result.emplace_back(front);
+            }
         }
         return result;
     }
@@ -210,7 +219,11 @@ std::vector<std::shared_ptr<ppc::front::IFrontClient>> GatewayNodeInfoImpl::choo
         // ignore the fromNode
         if (selectedNode != nullptr && selectedNode->nodeID().toBytes() != fromNode)
         {
-            result.emplace_back(selectedNode->getFront());
+            auto front = selectedNode->getFront();
+            if (front)
+            {
+                result.emplace_back(front);
+            }
         }
         if (!result.empty() && !selectAll)
         {
