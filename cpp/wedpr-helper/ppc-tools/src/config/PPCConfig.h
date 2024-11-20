@@ -153,12 +153,12 @@ public:
         loadRpcConfig(iniConfig);
     }
 
-    void loadGatewayConfig(std::string const& _configPath)
+    void loadGatewayConfig(std::string const& _configPath, bool requireTransport)
     {
         PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig") << LOG_KV("path", _configPath);
         boost::property_tree::ptree iniConfig;
         boost::property_tree::read_ini(_configPath, iniConfig);
-        loadGatewayConfig(iniConfig);
+        loadGatewayConfig(iniConfig, requireTransport);
     }
 
     void loadFrontConfig(bool requireTransport,
@@ -180,7 +180,7 @@ public:
         loadNetworkConfig(m_rpcConfig, _pt, "rpc", NetworkConfig::DefaultRpcListenPort, true);
     }
 
-    virtual void loadGatewayConfig(boost::property_tree::ptree const& _pt);
+    virtual void loadGatewayConfig(boost::property_tree::ptree const& _pt, bool requireTransport);
 
 
     NetworkConfig const& rpcConfig() const { return m_rpcConfig; }

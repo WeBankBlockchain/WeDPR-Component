@@ -30,10 +30,11 @@ using namespace ppc::protocol;
 using namespace ppc::storage;
 using namespace bcos;
 
-void PPCConfig::loadGatewayConfig(boost::property_tree::ptree const& _pt)
+void PPCConfig::loadGatewayConfig(boost::property_tree::ptree const& _pt, bool requireTransport)
 {
     // load the network config
-    PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig: load the network config");
+    PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig: load the network config")
+                        << LOG_KV("requireTransport", requireTransport);
     // gateway default enable-ssl
     loadNetworkConfig(
         m_gatewayConfig.networkConfig, _pt, "gateway", NetworkConfig::DefaultRpcListenPort, false);
@@ -73,11 +74,16 @@ void PPCConfig::loadGatewayConfig(boost::property_tree::ptree const& _pt)
             InvalidConfig() << errinfo_comment(
                 "The value of gateway.seq_sync_period_ms must no little than 3s"));
     }
-    // load the grpcConfig
-    m_grpcConfig = loadGrpcConfig("transport", _pt);
-    // load the GrpcServerConfig
-    loadEndpointConfig(
-        m_gatewayConfig.grpcServerConfig->mutableEndPoint(), false, "transport", _pt);
+    // only need load grpc config when requireTransport
+    if (requireTransport)
+    {
+        PPCConfig_LOG(INFO) << LOG_DESC("loadGatewayConfig: load grpc config");
+        // load the grpcConfig
+        m_grpcConfig = loadGrpcConfig("transport", _pt);
+        // load the GrpcServerConfig
+        loadEndpointConfig(
+            m_gatewayConfig.grpcServerConfig->mutableEndPoint(), false, "transport", _pt);
+    }
     // the agencyID
     m_agencyID = _pt.get<std::string>("agency.id", "");
     if (m_agencyID.empty())

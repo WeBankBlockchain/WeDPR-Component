@@ -46,7 +46,7 @@ void GatewayInitializer::init(std::string const& _configPath)
     INIT_LOG(INFO) << LOG_DESC("initGateway: ") << _configPath;
     auto config = std::make_shared<PPCConfig>();
 
-    config->loadGatewayConfig(_configPath);
+    config->loadGatewayConfig(_configPath, true);
     auto threadPool = std::make_shared<bcos::ThreadPool>(
         "gateway", config->gatewayConfig().networkConfig.threadPoolSize);
 

@@ -79,7 +79,7 @@ void AirNodeInitializer::initGateway(std::string const& _configPath)
     INIT_LOG(INFO) << LOG_DESC("initGateway: ") << _configPath;
     // not specify the certPath in air-mode
     auto config = m_nodeInitializer->config();
-    config->loadGatewayConfig(_configPath);
+    config->loadGatewayConfig(_configPath, false);
 
     auto threadPool = std::make_shared<bcos::ThreadPool>(
         "gateway", config->gatewayConfig().networkConfig.threadPoolSize);
