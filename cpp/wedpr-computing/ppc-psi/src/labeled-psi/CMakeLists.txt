@@ -27,4 +27,4 @@ add_library(${LABELED_PSI_TARGET} ${SRCS} ${OUT_TARS_H_LIST})
 target_include_directories(${LABELED_PSI_TARGET} PUBLIC
         $<BUILD_INTERFACE:${TARS_HEADER_DIR}>)
 
-target_link_libraries(${LABELED_PSI_TARGET} PUBLIC ${PSI_FRAMEWORK_TARGET} ${TARS_PROTOCOL_TARGET} apsi SEAL::seal Kuku::kuku TBB::tbb)
+target_link_libraries(${LABELED_PSI_TARGET} PUBLIC ${PSI_FRAMEWORK_TARGET} apsi SEAL::seal Kuku::kuku TBB::tbb)
