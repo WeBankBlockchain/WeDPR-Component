@@ -6,5 +6,5 @@ set(TEST_BINARY_NAME test-ppc-pir)
 add_executable(${TEST_BINARY_NAME} ${SOURCES})
 target_include_directories(${TEST_BINARY_NAME} PRIVATE .)
 
-target_link_libraries(${TEST_BINARY_NAME} PUBLIC ${PIR_TARGET} ${PROTOCOL_TARGET} ${BOOST_UNIT_TEST})
+target_link_libraries(${TEST_BINARY_NAME} PUBLIC ${PIR_TARGET} ${BOOST_UNIT_TEST})
 add_test(NAME test-pir WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND ${TEST_BINARY_NAME})

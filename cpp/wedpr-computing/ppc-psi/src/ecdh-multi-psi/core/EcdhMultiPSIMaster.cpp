@@ -164,6 +164,8 @@ void EcdhMultiPSIMaster::blindData()
                 });
             // can release databatch after encrypted
             dataBatch->release();
+            // free after release
+            MallocExtension::instance()->ReleaseFreeMemory();
             ECDH_MASTER_LOG(INFO) << LOG_DESC("blindData: encrypt data success")
                                   << LOG_KV("dataSize", cipher.size()) << LOG_KV("task", m_taskID)
                                   << LOG_KV("seq", seq)

@@ -3,7 +3,7 @@ aux_source_directory(src/config SRCS)
 
 add_library(${TOOLS_TARGET} ${SRCS})
 
-target_link_libraries(${TOOLS_TARGET} PUBLIC ${BCOS_UTILITIES_TARGET} ${BCOS_BOOSTSSL_TARGET} ${BOOST_SERIALIZATION} ${CPU_FEATURES_LIB})
+target_link_libraries(${TOOLS_TARGET} PUBLIC ${BCOS_UTILITIES_TARGET} ${BOOST_SERIALIZATION} ${CPU_FEATURES_LIB})
 
 if (TESTS)
     enable_testing()

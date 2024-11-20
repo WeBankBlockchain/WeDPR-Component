@@ -20,7 +20,6 @@
 #pragma once
 #include "../Common.h"
 #include <bcos-utilities/Common.h>
-#include <gperftools/malloc_extension.h>
 #include <boost/lexical_cast.hpp>
 #include <algorithm>
 #include <memory>
@@ -210,8 +209,6 @@ public:
         }
         m_data->clear();
         m_data.reset();
-        // free after release
-        MallocExtension::instance()->ReleaseFreeMemory();
     }
 
 private:

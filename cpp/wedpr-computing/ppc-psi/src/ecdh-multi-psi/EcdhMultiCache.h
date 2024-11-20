@@ -280,6 +280,8 @@ private:
         for (auto const& it : m_plainData)
         {
             it->release();
+            // free after release
+            MallocExtension::instance()->ReleaseFreeMemory();
         }
         m_cipherRef.clear();
         std::map<bcos::bytes, CipherRefDetail>().swap(m_cipherRef);
