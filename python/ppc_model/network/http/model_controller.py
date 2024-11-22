@@ -28,64 +28,92 @@ class ModelCollection(Resource):
         """
         Run a specific task by task_id.
         """
-        args = request.get_json()
-        task_id = model_id
-        components.logger().info(
-            f"run task request, task_id: {task_id}")
-        task_type = args['task_type']
-        components.task_manager.run_task(
-            task_id, ModelTask(task_type), (args,))
-        return utils.BASE_RESPONSE
+        try:
+            args = request.get_json()
+            task_id = model_id
+            components.logger().info(
+                f"run task request, task_id: {task_id}")
+            task_type = args['task_type']
+            components.task_manager.run_task(
+                task_id, ModelTask(task_type), (args,))
+            return utils.BASE_RESPONSE
+        except Exception as e:
+            response = {}
+            response.update({'errorCode': -1})
+            response.update(
+                {'message': f'submit task {model_id} failed for {e}'})
+            return response
 
     @api.response(200, 'Task status retrieved successfully.', response_task_status)
     def get(self, model_id):
-        """
-        Get the status of a specific task by task_id.
-        """
-        response = utils.BASE_RESPONSE
-        task_id = model_id
-        status, traffic_volume, exec_result = components.task_manager.status(
-            task_id)
-        response['data'] = {
-            'status': status,
-            'traffic_volume': traffic_volume,
-            'exec_result': exec_result,
-        }
-        return response
+        try:
+            """
+            Get the status of a specific task by task_id.
+            """
+            response = utils.BASE_RESPONSE
+            task_id = model_id
+            status, traffic_volume, exec_result = components.task_manager.status(
+                task_id)
+            response['data'] = {
+                'status': status,
+                'traffic_volume': traffic_volume,
+                'exec_result': exec_result,
+            }
+            return response
+        except Exception as e:
+            response = {}
+            response.update({'errorCode': -1})
+            response.update(
+                {'message': f'query task status for {model_id} failed for {e}'})
+            return response
 
     @api.response(200, 'Task killed successfully.', response_base)
     def delete(self, model_id):
-        """
-        Kill a specific task by job_id.
-        """
-        job_id = model_id
-        components.logger().info(f"kill request, job_id: {job_id}")
-        components.task_manager.kill_task(job_id)
-        return utils.BASE_RESPONSE
+        try:
+            """
+            Kill a specific task by job_id.
+            """
+            job_id = model_id
+            components.logger().info(f"kill request, job_id: {job_id}")
+            components.task_manager.kill_task(job_id)
+            return utils.BASE_RESPONSE
+        except Exception as e:
+            response = {}
+            response.update({'errorCode': -1})
+            response.update(
+                {'message': f'kill task {model_id} failed for {e}'})
+            return response
 
 
 @ns_get_job_result.route('/<string:task_id>')
 class ModelResultCollection(Resource):
     @api.response(201, 'Get task result successfully.', response_base)
     def post(self, task_id):
-        """
-        Get the result related to the task_id
-        """
-        start_t = time.time()
-        args = request.get_json()
-        components.logger().info(
-            f"get task result, task_id: {task_id}, args: {args}")
-        user_name = args['user']
-        task_type = args['jobType']
-        only_fetch_log = {'True': True, 'False': False}.get(
-            args['onlyFetchLog'])
-        components.logger().info(
-            f"get_job_direct_result_response, job: {task_id}")
-        task_result_request = TaskResultRequest(
-            task_id, task_type, only_fetch_log)
-        job_result_handler = TaskResultHandler(
-            task_result_request=task_result_request, components=components)
-        response = job_result_handler.get_response()
-        components.logger().info(
-            f"get_job_direct_result_response success, user: {user_name}, job: {task_id}, timecost: {time.time() - start_t}s")
-        return response
+        try:
+            """
+            Get the result related to the task_id
+            """
+            start_t = time.time()
+            args = request.get_json()
+            components.logger().info(
+                f"get task result, task_id: {task_id}, args: {args}")
+            user_name = args['user']
+            task_type = args['jobType']
+            only_fetch_log = {'True': True, 'False': False}.get(
+                args['onlyFetchLog'])
+            components.logger().info(
+                f"get_job_direct_result_response, job: {task_id}")
+            task_result_request = TaskResultRequest(
+                task_id, task_type, only_fetch_log)
+            job_result_handler = TaskResultHandler(
+                task_result_request=task_result_request, components=components)
+            response = job_result_handler.get_response()
+            components.logger().info(
+                f"get_job_direct_result_response success, user: {user_name}, job: {task_id}, timecost: {time.time() - start_t}s")
+            return response
+        except Exception as e:
+            response = {}
+            response.update({'errorCode': -1})
+            response.update(
+                {'message': f'query task log for {model_id} failed for {e}'})
+            return response
