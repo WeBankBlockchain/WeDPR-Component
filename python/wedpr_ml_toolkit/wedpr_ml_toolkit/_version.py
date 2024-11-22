@@ -1,7 +1,7 @@
 # __version__ should be updated using tbump, based on configuration in
 # pyproject.toml, according to instructions in RELEASE.md.
 #
-__version__ = "1.0.0.dev"
+__version__ = "1.0.0.dev-20241122"
 
 # version_info looks like (1, 2, 3, "dev") if __version__ is 1.2.3.dev
 version_info = tuple(int(p) if p.isdigit()
