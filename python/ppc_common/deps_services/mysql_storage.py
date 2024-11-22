@@ -16,20 +16,19 @@ class MySQLStorage(SQLStorageAPI):
             connect_args = {'schema': storage_config.db_name}
         self._mysql_engine = create_engine(self._engine_url, pool_recycle=self._storage_config.pool_recycle,
                                            pool_size=self._storage_config.pool_size, max_overflow=self._storage_config.max_overflow,
-                                           pool_timeout=self._storage_config.pool_timeout, connect_args=connect_args)
+                                           pool_timeout=self._storage_config.pool_timeout,
+                                           pool_pre_ping=self._storage_config.pool_pre_ping,
+                                           connect_args=connect_args)
         self._session_factory = sessionmaker(bind=self._mysql_engine)
-        # Note: scoped_session is threadLocal
-        self._session = scoped_session(self._session_factory)
 
     @contextmanager
     def _get_session(self):
-        session = self._session()
+        session = self._session_factory()
         try:
             yield session
             session.commit()
         except Exception:
             session.rollback()
-            self._session.remove()
             raise
         finally:
             session.close()

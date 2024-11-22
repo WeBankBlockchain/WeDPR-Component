@@ -211,8 +211,6 @@ class VerticalLGBMActiveParty(VerticalBooster):
             return weight
 
         self._leaf_id += 1
-        print('tree', self._tree_id, 'leaf', self._leaf_id, 'instance', len(instance),
-              'glist', len(glist), 'hlist', len(hlist))
         if self.params.colsample_bylevel > 0 and self.params.colsample_bylevel < 1:
             feature_select_level = sorted(np.random.choice(
                 feature_select, size=int(len(feature_select) * self.params.colsample_bylevel), replace=False))

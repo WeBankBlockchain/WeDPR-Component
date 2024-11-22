@@ -7,7 +7,7 @@ class SQLStorageConfig(ABC):
     """
     configuration for sql storage
     """
-    DEFAULT_RECYCLE = 7200
+    DEFAULT_RECYCLE = 3600
     DEFAULT_POOL_SIZE = 16
     DEFAULT_MAX_OVERFLOW = 8
     DEFAULT_POOL_TIMEOUT = 30
@@ -24,6 +24,7 @@ class SQLStorageConfig(ABC):
         self.db_type = db_type
         self.engine_url = url
         self.db_name = db_name
+        self.pool_pre_ping = True
 
 
 class SQLStorageAPI:

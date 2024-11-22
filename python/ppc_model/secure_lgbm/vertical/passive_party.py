@@ -125,8 +125,6 @@ class VerticalLGBMPassiveParty(VerticalBooster):
             return weight
 
         self._leaf_id += 1
-        print('tree', self._tree_id, 'leaf', self._leaf_id, 'instance', len(instance),
-              'ghlist', len(ghlist))
         best_split_info = self._find_best_split(instance, ghlist)
 
         if best_split_info.best_gain > 0 and best_split_info.best_gain > self.params.min_split_gain:
