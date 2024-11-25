@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 
-from wedpr_ml_toolkit.toolkit.dataset_toolkit import DatasetToolkit
+from wedpr_ml_toolkit.context.dataset_context import DatasetContext
 from wedpr_ml_toolkit.transport.storage_entrypoint import StorageEntryPoint
 from wedpr_ml_toolkit.context.data_context import DataContext
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobParam
@@ -11,6 +11,7 @@ from wedpr_ml_toolkit.transport.wedpr_remote_job_client import WeDPRRemoteJobCli
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobType, ModelType
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import ModelResult
 from wedpr_ml_toolkit.transport.wedpr_remote_dataset_client import DatasetMeta
+from wedpr_ml_toolkit.context.model_setting import ModelSetting
 
 
 class JobContext:
@@ -47,10 +48,10 @@ class JobContext:
         participant_id_list = []
         dataset_id_list = []
         for dataset in self.dataset.datasets:
-            participant_id_list.append(dataset.agency)
+            participant_id_list.append(dataset.dataset_meta.ownerAgencyName)
             dataset_id_list.append(dataset.dataset_id)
-            self.task_parties.append({'userName': dataset.dataset_owner,
-                                      'agency': dataset.agency})
+            self.task_parties.append({'userName': dataset.dataset_meta.ownerUserName,
+                                      'agency': dataset.dataset_meta.ownerAgencyName})
         self.participant_id_list = participant_id_list
         self.dataset_id_list = dataset_id_list
 
@@ -59,7 +60,7 @@ class JobContext:
         label_columns = None
         for dataset in self.dataset.datasets:
             if dataset.is_label_holder:
-                label_holder_agency = dataset.agency
+                label_holder_agency = dataset.dataset_meta.ownerAgencyName
                 label_columns = 'y'
         self.label_holder_agency = label_holder_agency
         self.label_columns = label_columns
@@ -99,7 +100,8 @@ class JobContext:
 
 
 class PSIJobContext(JobContext):
-    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint, project_id: str, dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
+    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint,
+                 project_id: str, dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
         super().__init__(remote_job_client, storage_entry_point, project_id, dataset, my_agency)
         self.merge_field = merge_field
 
@@ -121,7 +123,7 @@ class PSIJobContext(JobContext):
 
         dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user, agency=self.create_agency,
                                    file_path=result_detail.resultFileInfo['path'])
-        psi_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+        psi_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
                                     storage_workspace=None,
                                     dataset_meta=dataset_meta)
 
@@ -129,7 +131,9 @@ class PSIJobContext(JobContext):
 
 
 class PreprocessingJobContext(JobContext):
-    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint, project_id: str, model_setting, dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
+    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint,
+                 project_id: str, model_setting: ModelSetting,
+                 dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
         super().__init__(remote_job_client, storage_entry_point, project_id, dataset, my_agency)
         self.model_setting = model_setting
         self.merge_field = merge_field
@@ -141,7 +145,7 @@ class PreprocessingJobContext(JobContext):
         self.dataset_list = self.dataset.to_model_formort(
             self.merge_field, self.result_receiver_id_list)
         job_info = JobInfo(job_type=self.get_job_type(), project_id=self.project_id, param=json.dumps(
-            {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting}))
+            {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting.as_dict()}))
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
 
@@ -149,16 +153,13 @@ class PreprocessingJobContext(JobContext):
         result_detail = self.fetch_job_result(job_id, block_until_success)
 
         pre_result = result_detail
-        # pre_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
-        #                         storage_workspace=None,
-        #                         dataset_owner=self.storage_entry_point.user_config.user,
-        #                         dataset_path=result_detail.resultFileInfo['path'], agency=self.create_agency)
-
         return pre_result
 
 
 class FeatureEngineeringJobContext(JobContext):
-    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint, project_id: str, model_setting, dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
+    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint,
+                 project_id: str, model_setting: ModelSetting,
+                 dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
         super().__init__(remote_job_client, storage_entry_point, project_id, dataset, my_agency)
         self.model_setting = model_setting
         self.merge_field = merge_field
@@ -170,7 +171,7 @@ class FeatureEngineeringJobContext(JobContext):
         self.dataset_list = self.dataset.to_model_formort(
             self.merge_field, self.result_receiver_id_list)
         job_info = JobInfo(job_type=self.get_job_type(), project_id=self.project_id, param=json.dumps(
-            {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting}))
+            {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting.as_dict()}))
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
 
@@ -178,16 +179,13 @@ class FeatureEngineeringJobContext(JobContext):
         result_detail = self.fetch_job_result(job_id, block_until_success)
 
         fe_result = result_detail
-        # fe_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
-        #                         storage_workspace=None,
-        #                         dataset_owner=self.storage_entry_point.user_config.user,
-        #                         dataset_path=result_detail.resultFileInfo['path'], agency=self.create_agency)
-
         return fe_result
 
 
 class SecureLGBMTrainingJobContext(JobContext):
-    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint, project_id: str, model_setting, dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
+    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint,
+                 project_id: str, model_setting: ModelSetting,
+                 dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
         super().__init__(remote_job_client, storage_entry_point, project_id, dataset, my_agency)
         self.model_setting = model_setting
         self.merge_field = merge_field
@@ -201,7 +199,7 @@ class SecureLGBMTrainingJobContext(JobContext):
         # job_info = JobInfo(job_type=self.get_job_type(), project_id=self.project_id, param=json.dumps(
         #     {'dataSetList': self.dataset_list}).replace('"', '\\"'))
         job_info = JobInfo(job_type=self.get_job_type(), project_id=self.project_id, param=json.dumps(
-            {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting}))
+            {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting.as_dict()}))
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
 
@@ -209,13 +207,13 @@ class SecureLGBMTrainingJobContext(JobContext):
         result_detail = self.fetch_job_result(job_id, block_until_success)
         dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
                                    file_path=result_detail.modelResultDetail['ModelResult']['trainResultPath'], agency=self.create_agency)
-        train_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+        train_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
                                       storage_workspace=None,
                                       dataset_meta=dataset_meta)
 
         test_dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
                                         file_path=result_detail.modelResultDetail['ModelResult']['testResultPath'], agency=self.create_agency)
-        test_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+        test_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
                                      storage_workspace=None,
                                      dataset_meta=test_dataset_meta)
 
@@ -225,7 +223,9 @@ class SecureLGBMTrainingJobContext(JobContext):
 
 
 class SecureLGBMPredictJobContext(JobContext):
-    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint, project_id: str, model_setting, predict_algorithm, dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
+    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint,
+                 project_id: str, model_setting: ModelSetting, predict_algorithm,
+                 dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
         super().__init__(remote_job_client, storage_entry_point, project_id, dataset, my_agency)
         self.model_setting = model_setting
         self.merge_field = merge_field
@@ -240,7 +240,8 @@ class SecureLGBMPredictJobContext(JobContext):
         # job_info = JobInfo(job_type=self.get_job_type(), project_id=self.project_id, param=json.dumps(
         #     {'dataSetList': self.dataset_list}).replace('"', '\\"'))
         job_info = JobInfo(job_type=self.get_job_type(), project_id=self.project_id, param=json.dumps(
-            {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting, 'modelPredictAlgorithm': json.dumps(self.predict_algorithm)}))
+            {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting.as_dict(),
+             'modelPredictAlgorithm': json.dumps(self.predict_algorithm)}))
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
 
@@ -249,7 +250,7 @@ class SecureLGBMPredictJobContext(JobContext):
         dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
                                    file_path=result_detail.modelResultDetail['ModelResult']['testResultPath'],
                                    agency=self.create_agency)
-        test_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+        test_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
                                      dataset_meta=dataset_meta)
 
         xgb_result = ModelResult(job_id, test_result=test_result)
@@ -257,7 +258,9 @@ class SecureLGBMPredictJobContext(JobContext):
 
 
 class SecureLRTrainingJobContext(JobContext):
-    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint, project_id: str, model_setting, dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
+    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint,
+                 project_id: str, model_setting:  ModelSetting,
+                 dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
         super().__init__(remote_job_client, storage_entry_point, project_id, dataset, my_agency)
         self.model_setting = model_setting
         self.merge_field = merge_field
@@ -269,7 +272,7 @@ class SecureLRTrainingJobContext(JobContext):
         self.dataset_list = self.dataset.to_model_formort(
             self.merge_field, self.result_receiver_id_list)
         job_info = JobInfo(job_type=self.get_job_type(), project_id=self.project_id, param=json.dumps(
-            {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting}))
+            {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting.as_dict()}))
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
 
@@ -277,12 +280,12 @@ class SecureLRTrainingJobContext(JobContext):
         result_detail = self.fetch_job_result(job_id, block_until_success)
         train_dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
                                          file_path=result_detail.modelResultDetail['ModelResult']['trainResultPath'], agency=self.create_agency)
-        train_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+        train_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
                                       dataset_meta=train_dataset_meta)
 
         test_dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
                                         file_path=result_detail.modelResultDetail['ModelResult']['testResultPath'], agency=self.create_agency)
-        test_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+        test_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
                                      storage_workspace=None,
                                      dataset_meta=test_dataset_meta)
 
@@ -292,7 +295,9 @@ class SecureLRTrainingJobContext(JobContext):
 
 
 class SecureLRPredictJobContext(JobContext):
-    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint, project_id: str, model_setting, predict_algorithm, dataset: DataContext = None, my_agency=None, merge_field: str = 'id'):
+    def __init__(self, remote_job_client: WeDPRRemoteJobClient, storage_entry_point: StorageEntryPoint,
+                 project_id: str, model_setting: ModelSetting, predict_algorithm, dataset: DataContext = None,
+                 my_agency=None, merge_field: str = 'id'):
         super().__init__(remote_job_client, storage_entry_point, project_id, dataset, my_agency)
         self.model_setting = model_setting
         self.merge_field = merge_field
@@ -305,7 +310,8 @@ class SecureLRPredictJobContext(JobContext):
         self.dataset_list = self.dataset.to_model_formort(
             self.merge_field, self.result_receiver_id_list)
         job_info = JobInfo(job_type=self.get_job_type(), project_id=self.project_id, param=json.dumps(
-            {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting, 'modelPredictAlgorithm': json.dumps(self.predict_algorithm)}))
+            {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting.as_dict(),
+             'modelPredictAlgorithm': json.dumps(self.predict_algorithm)}))
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
 
@@ -313,7 +319,7 @@ class SecureLRPredictJobContext(JobContext):
         result_detail = self.fetch_job_result(job_id, block_until_success)
         dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
                                    file_path=result_detail.modelResultDetail['ModelResult']['testResultPath'], agency=self.create_agency)
-        test_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+        test_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
                                      dataset_meta=dataset_meta)
 
         lr_result = ModelResult(job_id, test_result=test_result)

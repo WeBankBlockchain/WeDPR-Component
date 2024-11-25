@@ -34,3 +34,19 @@ def delete_file(path):
         shutil.rmtree(path)
     else:
         raise (Exception(' path not exisited ! path => %s', path))
+
+
+def get_config_value(key, default_value, config_value, required):
+    if required and config_value is None:
+        raise Exception(f"Invalid config for '{key}' for not set!")
+    if config_value is None:
+        return default_value
+    value = config_value
+    if type(config_value) is dict:
+        if key in config_value:
+            value = config_value[key]
+        else:
+            value = default_value
+    if value is None:
+        return default_value
+    return value

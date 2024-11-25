@@ -159,15 +159,14 @@ class JobListResponse(BaseObject):
 
 class JobDetailResponse(BaseObject):
     def __init__(self, job: JobInfo = None, **params: Any):
-        self.job = job
-        self.job_object = None
+        self.job = None
+        self.job_object = job
         self.modelResultDetail = None
         self.resultFileInfo = None
         self.model = None
         self.set_params(**params)
-        # deserialize the job_object
-        self.job_object = JobInfo(**self.job)
-        # TODO: deserialize the result
+        if self.job_object is None and self.job is not None:
+            self.job_object = JobInfo(**self.job)
 
     def __repr__(self):
         return f"job: {self.job_object}, modelResultDetail: {self.modelResultDetail}, resultFileInfo: {self.resultFileInfo}, model: {self.model}"
@@ -205,7 +204,7 @@ class WeDPRRemoteJobClient(WeDPREntryPoint, BaseObject):
         # failed case
         if job_result == None or job_result.job_status == None or (not job_result.job_status.run_success()):
             return JobDetailResponse(job=job_result, params=None)
-        # success case
+        # success case, query the job detail
         params = {}
         params["jobID"] = job_id
         response_dict = self.execute_with_retry(self.send_request,

@@ -15,6 +15,7 @@ from wedpr_ml_toolkit.context.job_context import SecureLGBMTrainingJobContext
 from wedpr_ml_toolkit.context.job_context import SecureLRPredictJobContext
 from wedpr_ml_toolkit.context.job_context import SecureLRTrainingJobContext
 from wedpr_ml_toolkit.context.data_context import DataContext
+from wedpr_ml_toolkit.context.model_setting import ModelSetting
 
 
 class WeDPRMlToolkit:
@@ -49,7 +50,7 @@ class WeDPRMlToolkit:
     def query_job_detail(self, job_id, block_until_finish=False) -> JobDetailResponse:
         return self.remote_job_client.query_job_detail(job_id, block_until_finish)
 
-    def build_job_context(self, job_type: JobType, project_id: str, dataset: DataContext, model_setting=None,
+    def build_job_context(self, job_type: JobType, project_id: str, dataset: DataContext, model_setting: ModelSetting = None,
                           id_fields='id', predict_algorithm=None):
         if job_type == JobType.PSI:
             return PSIJobContext(self.remote_job_client, self.storage_entry_point, project_id, dataset,

@@ -5,10 +5,10 @@ import pandas as pd
 from sklearn import metrics
 from wedpr_ml_toolkit.config.wedpr_ml_config import WeDPRMlConfigBuilder
 from wedpr_ml_toolkit.wedpr_ml_toolkit import WeDPRMlToolkit
-from wedpr_ml_toolkit.toolkit.dataset_toolkit import DatasetToolkit
+from wedpr_ml_toolkit.context.dataset_context import DatasetContext
 from wedpr_ml_toolkit.context.data_context import DataContext
 from wedpr_ml_toolkit.context.job_context import JobType
-from wedpr_ml_toolkit.config.wedpr_model_setting import PreprocessingModelSetting
+from wedpr_ml_toolkit.context.model_setting import PreprocessingSetting
 
 
 class WeDPRMlToolkitTestWrapper:
@@ -25,16 +25,17 @@ class WeDPRMlToolkitTestWrapper:
             # x1到x10列，随机数
             **{f'x{i}': np.random.rand(100) for i in range(1, 11)}
         })
-        dataset1 = DatasetToolkit(storage_entrypoint=self.wedpr_ml_toolkit.get_storage_entry_point(),
+        dataset1 = DatasetContext(storage_entrypoint=self.wedpr_ml_toolkit.get_storage_entry_point(),
                                   dataset_client=self.wedpr_ml_toolkit.get_dataset_client(),
                                   storage_workspace=self.wedpr_config.user_config.get_workspace_path(),
+                                  dataset_id="d-9743660607744005",
                                   is_label_holder=True)
         dataset1.save_values(df, path='d-101')
 
         # hdfs_path
-        dataset2 = DatasetToolkit(storage_entrypoint=self.wedpr_ml_toolkit.get_storage_entry_point(),
+        dataset2 = DatasetContext(storage_entrypoint=self.wedpr_ml_toolkit.get_storage_entry_point(),
                                   dataset_client=self.wedpr_ml_toolkit.get_dataset_client(),
-                                  dataset_id="d-9606695119693829")
+                                  dataset_id="d-9743674298214405")
 
         dataset2.storage_client = None
         # dataset2.load_values()
@@ -47,7 +48,7 @@ class WeDPRMlToolkitTestWrapper:
             })
             dataset2.save_values(values=df2)
         if dataset1.storage_client is not None:
-            # save values to df
+            # save values to dataset1
             dataset1.save_values(df)
             (values, columns, shape) = dataset1.load_values()
             print(f"### values: {values}")
@@ -56,23 +57,31 @@ class WeDPRMlToolkitTestWrapper:
         dataset = DataContext(dataset1, dataset2)
 
         # init the job context
-        project_name = "1"
-
+        project_id = "9737304249804806"
+        print("* build psi job context")
         psi_job_context = self.wedpr_ml_toolkit.build_job_context(
-            JobType.PSI, project_name, dataset, None, "id")
+            JobType.PSI, project_id, dataset, None, "id")
         print(psi_job_context.participant_id_list,
               psi_job_context.result_receiver_id_list)
         # 执行psi任务
+        print("* submit psi job")
         psi_job_id = psi_job_context.submit()
+        print(f"* submit psi job success, job_id: {psi_job_id}")
         psi_result = psi_job_context.fetch_job_result(psi_job_id, True)
-
+        print(
+            f"* fetch_job_result for psi job {psi_job_id} success, result: {psi_result}")
         # 初始化
-        preprocessing_data = DataContext(dataset1)
+        print(f"* build pre-processing data-context")
+        preprocessing_data = DataContext(dataset1, dataset2)
         preprocessing_job_context = self.wedpr_ml_toolkit.build_job_context(
-            JobType.PREPROCESSING, project_name, preprocessing_data, PreprocessingModelSetting())
+            JobType.PREPROCESSING, project_id, preprocessing_data, PreprocessingSetting())
         # 执行预处理任务
-        fe_job_id = preprocessing_job_context.submit(dataset)
+        print(f"* submit pre-processing job")
+        fe_job_id = preprocessing_job_context.submit()
+        print(f"* submit pre-processing job success, job_id: {fe_job_id}")
         fe_result = preprocessing_job_context.fetch_job_result(fe_job_id, True)
+        print(
+            f"* fetch pre-processing job result success, job_id: {fe_job_id}, result: {fe_result}")
         print(preprocessing_job_context.participant_id_list,
               preprocessing_job_context.result_receiver_id_list)
 
@@ -89,14 +98,7 @@ class WeDPRMlToolkitTestWrapper:
 class TestMlToolkit(unittest.TestCase):
     def test_query_jobs(self):
         wrapper = WeDPRMlToolkitTestWrapper("config.properties")
-        # the success job case
-        success_job_id = "9630202187032582"
-        wrapper.test_query_job(success_job_id, False)
-        # wrapper.test_query_job(success_job_id, True)
-        # the fail job case
-        # failed_job_id = "9630156365047814"
-        # wrapper.test_query_job(success_job_id, False)
-        # wrapper.test_query_job(success_job_id, True)
+        job_id = wrapper.test_submit_job()
 
 
 if __name__ == '__main__':

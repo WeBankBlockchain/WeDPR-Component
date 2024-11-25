@@ -50,7 +50,7 @@ class DatasetMeta(BaseObject):
         self.set_params(**params)
         if self.datasetStoragePath is not None:
             dataset_storage_path_dict = json.loads(self.datasetStoragePath)
-            if "filePath" in self.file_path.keys():
+            if "filePath" in dataset_storage_path_dict.keys():
                 self.file_path = dataset_storage_path_dict.get("filePath")
 
     def __repr__(self):

@@ -5,7 +5,7 @@ from wedpr_ml_toolkit.transport.wedpr_remote_dataset_client import WeDPRDatasetC
 from wedpr_ml_toolkit.transport.wedpr_remote_dataset_client import DatasetMeta
 
 
-class DatasetToolkit:
+class DatasetContext:
 
     def __init__(self,
                  storage_entrypoint: StorageEntryPoint,
@@ -24,20 +24,14 @@ class DatasetToolkit:
             self.dataset_meta = self.dataset_client.query_dataset(
                 self.dataset_id)
         self.is_label_holder = is_label_holder
-        self.columns = None
-        self.shape = None
         # the storage workspace
         self.storage_workspace = storage_workspace
-
-        if self.values is not None:
-            self.columns = self.values.columns
-            self.shape = self.values.shape
 
     def load_values(self, header=None):
         # 加载hdfs的数据集
         if self.storage_client is not None:
             values = self.storage_client.download(
-                self.dataset_path, header=header)
+                self.dataset_meta.file_path, header=header)
             if values is None:
                 return values, None, None
             return values, values.columns, values.shape
@@ -49,11 +43,11 @@ class DatasetToolkit:
             target_path = path
         # add the storage_workspace
         if self.storage_workspace is not None and \
-                not self.dataset_path.startswith(self.storage_workspace):
+                not target_path.startswith(self.storage_workspace):
             target_path = os.path.join(
-                self.storage_workspace, self.dataset_path)
+                self.storage_workspace, target_path)
         if self.storage_client is not None:
-            self.storage_client.upload(values, self.dataset_path)
+            self.storage_client.upload(values, target_path)
 
     def update_path(self, path: str = None):
         # 将数据集存入hdfs相同路径，替换旧数据集
