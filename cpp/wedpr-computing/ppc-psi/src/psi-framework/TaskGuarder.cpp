@@ -199,6 +199,8 @@ void TaskGuarder::checkPeerActivity()
                         std::make_shared<bcos::Error>(
                             (int)PSIRetCode::PeerNodeDown, "peer node is down, id: " + peerID),
                         false);
+                    PSI_LOG(INFO) << LOG_DESC("checkPeerActivity: peer node-down")
+                                  << LOG_KV("peer", peerID) << LOG_KV("task", task->id());
                 },
                 nullptr);
         }

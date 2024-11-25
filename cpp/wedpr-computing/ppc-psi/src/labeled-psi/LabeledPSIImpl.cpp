@@ -220,10 +220,11 @@ void LabeledPSIImpl::stop()
     LABELED_PSI_LOG(INFO) << LOG_DESC("LabeledPSI stopped");
 }
 
-void LabeledPSIImpl::onReceivedErrorNotification(const std::string& _taskID)
+void LabeledPSIImpl::onReceivedErrorNotification(ppc::front::PPCMessageFace::Ptr const& _message)
 {
+    LABELED_PSI_LOG(WARNING) << LOG_DESC("onReceivedErrorNotification") << printPPCMsg(_message);
     // finish the task while the peer is failed
-    auto taskState = findPendingTask(_taskID);
+    auto taskState = findPendingTask(_message->taskID());
     if (taskState)
     {
         taskState->onPeerNotifyFinish();
@@ -690,7 +691,7 @@ void LabeledPSIImpl::handleReceivedMessage(const ppc::front::PPCMessageFace::Ptr
             {
             case int(CommonMessageType::ErrorNotification):
             {
-                psi->onReceivedErrorNotification(_message->taskID());
+                psi->onReceivedErrorNotification(_message);
                 break;
             }
             case int(CommonMessageType::PingPeer):

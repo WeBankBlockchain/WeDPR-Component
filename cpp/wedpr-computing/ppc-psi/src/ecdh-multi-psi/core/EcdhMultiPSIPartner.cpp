@@ -53,7 +53,7 @@ void EcdhMultiPSIPartner::onReceiveRandomA(bcos::bytesPointer _randA)
         uint64_t dataOffset = 0;
         do
         {
-            if (m_taskState->loadFinished())
+            if (m_taskState->loadFinished() || m_taskState->taskDone())
             {
                 break;
             }

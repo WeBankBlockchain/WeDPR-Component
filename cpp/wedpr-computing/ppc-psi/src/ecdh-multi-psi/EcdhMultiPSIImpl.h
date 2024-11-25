@@ -40,7 +40,7 @@ public:
     void stop() override;
 
     void checkFinishedTask();
-    void onReceivedErrorNotification(const std::string& _taskID) override;
+    void onReceivedErrorNotification(ppc::front::PPCMessageFace::Ptr const& _message) override;
     void onSelfError(
         const std::string& _taskID, bcos::Error::Ptr _error, bool _noticePeer) override;
     void executeWorker() override;

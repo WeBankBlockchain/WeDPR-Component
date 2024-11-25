@@ -44,7 +44,7 @@ public:
     }
     virtual ~TaskGuarder() = default;
 
-    virtual void onReceivedErrorNotification(const std::string& _taskID){};
+    virtual void onReceivedErrorNotification(ppc::front::PPCMessageFace::Ptr const&){};
     virtual void onSelfError(
         const std::string& _taskID, bcos::Error::Ptr _error, bool _noticePeer){};
 

@@ -121,7 +121,7 @@ void EcdhMultiPSIMaster::blindData()
         auto reader = m_taskState->reader();
         do
         {
-            if (m_taskState->loadFinished())
+            if (m_taskState->loadFinished() || m_taskState->taskDone())
             {
                 break;
             }

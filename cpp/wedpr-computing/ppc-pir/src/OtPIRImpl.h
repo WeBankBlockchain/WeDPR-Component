@@ -59,7 +59,7 @@ public:
     // register to the front to get the message related to ot-pir
     void onReceiveMessage(ppc::front::PPCMessageFace::Ptr _message) override;
 
-    void onReceivedErrorNotification(const std::string& _taskID) override;
+    void onReceivedErrorNotification(ppc::front::PPCMessageFace::Ptr const& _message) override;
     void onSelfError(
         const std::string& _taskID, bcos::Error::Ptr _error, bool _noticePeer) override;
 

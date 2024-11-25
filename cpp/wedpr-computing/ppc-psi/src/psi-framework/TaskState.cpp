@@ -210,8 +210,7 @@ void TaskState::removeGeneratedOutputFile()
     {
         return;
     }
-    PSI_LOG(INFO) << LOG_DESC("removeGeneratedFilesForFailed")
-                  << LOG_KV("task", printTaskInfo(m_task));
+    PSI_LOG(INFO) << LOG_DESC("removeGeneratedOutputFile") << LOG_KV("task", printTaskInfo(m_task));
     m_config->dataResourceLoader()->deleteResource(outputDataResource->desc());
 }
 

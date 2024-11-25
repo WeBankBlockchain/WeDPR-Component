@@ -318,11 +318,11 @@ void CM2020PSIImpl::stop()
     CM2020_PSI_LOG(INFO) << LOG_DESC("CM2020-PSI stopped");
 }
 
-void CM2020PSIImpl::onReceivedErrorNotification(const std::string& _taskID)
+void CM2020PSIImpl::onReceivedErrorNotification(ppc::front::PPCMessageFace::Ptr const& _message)
 {
-    CM2020_PSI_LOG(INFO) << LOG_DESC("onReceivedErrorNotification") << LOG_KV("taskID", _taskID);
+    CM2020_PSI_LOG(INFO) << LOG_DESC("onReceivedErrorNotification") << printPPCMsg(_message);
     // finish the task while the peer is failed
-    auto taskState = findPendingTask(_taskID);
+    auto taskState = findPendingTask(_message->taskID());
     if (taskState)
     {
         taskState->onPeerNotifyFinish();
@@ -410,7 +410,7 @@ void CM2020PSIImpl::handleReceivedMessage(const ppc::front::PPCMessageFace::Ptr&
             {
             case int(CommonMessageType::ErrorNotification):
             {
-                psi->onReceivedErrorNotification(_message->taskID());
+                psi->onReceivedErrorNotification(_message);
                 break;
             }
             case int(CommonMessageType::PingPeer):

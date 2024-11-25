@@ -149,10 +149,11 @@ void OtPIRImpl::onReceiveMessage(ppc::front::PPCMessageFace::Ptr _msg)
     }
 }
 
-void OtPIRImpl::onReceivedErrorNotification(const std::string& _taskID)
+void OtPIRImpl::onReceivedErrorNotification(ppc::front::PPCMessageFace::Ptr const& _message)
 {
+    PIR_LOG(WARNING) << LOG_DESC("onReceivedErrorNotification") << printPPCMsg(_message);
     // finish the task while the peer is failed
-    auto taskState = findPendingTask(_taskID);
+    auto taskState = findPendingTask(_message->taskID());
     if (taskState)
     {
         taskState->onPeerNotifyFinish();
@@ -242,7 +243,7 @@ void OtPIRImpl::handleReceivedMessage(const ppc::front::PPCMessageFace::Ptr& _me
             {
             case int(CommonMessageType::ErrorNotification):
             {
-                pir->onReceivedErrorNotification(_message->taskID());
+                pir->onReceivedErrorNotification(_message);
                 break;
             }
             case int(CommonMessageType::PingPeer):

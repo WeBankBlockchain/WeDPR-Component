@@ -131,7 +131,7 @@ void EcdhConnPSIImpl::stop()
     }
 }
 
-void EcdhConnPSIImpl::onReceivedErrorNotification(const std::string& _taskID) {}
+void EcdhConnPSIImpl::onReceivedErrorNotification(ppc::front::PPCMessageFace::Ptr const&) {}
 
 void EcdhConnPSIImpl::onSelfError(
     const std::string& _taskID, bcos::Error::Ptr _error, bool _noticePeer)

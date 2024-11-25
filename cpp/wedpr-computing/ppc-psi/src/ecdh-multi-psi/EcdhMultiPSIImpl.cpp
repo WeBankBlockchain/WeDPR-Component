@@ -266,11 +266,11 @@ void EcdhMultiPSIImpl::checkFinishedTask()
     }
 }
 
-void EcdhMultiPSIImpl::onReceivedErrorNotification(const std::string& _taskID)
+void EcdhMultiPSIImpl::onReceivedErrorNotification(ppc::front::PPCMessageFace::Ptr const& _message)
 {
-    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceivedErrorNotification") << LOG_KV("taskID", _taskID);
+    ECDH_MULTI_LOG(INFO) << LOG_DESC("onReceivedErrorNotification") << printPPCMsg(_message);
     // finish the task while the peer is failed
-    auto taskState = findPendingTask(_taskID);
+    auto taskState = findPendingTask(_message->taskID());
     if (taskState)
     {
         taskState->onPeerNotifyFinish();
@@ -308,7 +308,7 @@ void EcdhMultiPSIImpl::executeWorker()
         auto pop_msg = _msg.second;
         if (pop_msg->messageType() == uint8_t(CommonMessageType::ErrorNotification))
         {
-            onReceivedErrorNotification(pop_msg->taskID());
+            onReceivedErrorNotification(pop_msg);
             return;
         }
         else if (pop_msg->messageType() == uint8_t(CommonMessageType::PingPeer))
