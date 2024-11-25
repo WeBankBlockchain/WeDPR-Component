@@ -411,6 +411,8 @@ generate_node_config_ini() {
     ; data_location = data
     ; task_timeout_minutes = 180
     ; thread_count = 8
+    ; GB, reject task if available memory is less than min_needed_memory
+    ; min_needed_memory = 1
 
 [transport]
    ; the endpoint information
@@ -458,8 +460,6 @@ generate_node_config_ini() {
     ; ssl connection switch, if disable the ssl connection, default: false
     ;disable_ssl = true
     ;disable_db = true
-    ; GB, reject task if available memory is less than min_needed_memory
-    ; min_needed_memory = 5
 
 [cert]
     ; directory the certificates located in

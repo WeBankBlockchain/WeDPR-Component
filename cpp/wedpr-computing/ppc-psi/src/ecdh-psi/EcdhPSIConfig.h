@@ -36,10 +36,11 @@ public:
         ppc::front::PPCMessageFaceFactory::Ptr _ppcMsgFactory,
         PSIMessageFactory::Ptr const& _msgFactory,
         ppc::io::DataResourceLoader::Ptr const& _dataResourceLoader, uint32_t _dataBatchSize,
-        int _holdingMessageMinutes, bcos::ThreadPool::Ptr const& _threadPool = nullptr,
+        int _holdingMessageMinutes, uint32_t minNeededMemoryGB = 1,
+        bcos::ThreadPool::Ptr const& _threadPool = nullptr,
         int _threadPoolSize = std::thread::hardware_concurrency())
       : PSIConfig(ppc::protocol::TaskAlgorithmType::ECDH_PSI_2PC, _selfParty, _front,
-            _ppcMsgFactory, _dataResourceLoader, _holdingMessageMinutes),
+            _ppcMsgFactory, _dataResourceLoader, _holdingMessageMinutes, minNeededMemoryGB),
         m_msgFactory(_msgFactory),
         m_threadPool(_threadPool),
         m_ecdhCryptoFactory(_ecdhCryptoFactory),

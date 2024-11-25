@@ -37,6 +37,7 @@ public class ServiceMeta {
     public static class EntryPointMeta {
         private String serviceName;
         private String entryPoint;
+        private List<String> components = new ArrayList<>();
 
         public EntryPointMeta(String serviceName, String entryPoint) {
             this.serviceName = serviceName;
@@ -51,6 +52,13 @@ public class ServiceMeta {
                 return Common.getUrl(entryPoint + uriPath);
             }
             return Common.getUrl(entryPoint + Constant.URI_SPLITER + uriPath);
+        }
+
+        public void setComponents(List<String> components) {
+            if (components == null) {
+                return;
+            }
+            this.components = components;
         }
     }
     // Note: here can't been changed

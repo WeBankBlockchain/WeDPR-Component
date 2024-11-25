@@ -37,26 +37,31 @@ class PSIConfig
 public:
     using Ptr = std::shared_ptr<PSIConfig>;
     PSIConfig(ppc::protocol::TaskAlgorithmType _algorithmType,
-        ppc::io::DataResourceLoader::Ptr _dataResourceLoader)
-      : m_algorithmType(_algorithmType), m_dataResourceLoader(std::move(_dataResourceLoader))
+        ppc::io::DataResourceLoader::Ptr _dataResourceLoader, uint32_t minNeededMemoryGB = 1)
+      : m_algorithmType(_algorithmType),
+        m_dataResourceLoader(std::move(_dataResourceLoader)),
+        m_minNeededMemoryGB(minNeededMemoryGB)
     {}
 
     PSIConfig(ppc::protocol::TaskAlgorithmType _algorithmType, const std::string& _selfParty,
         ppc::front::FrontInterface::Ptr _front,
         ppc::front::PPCMessageFaceFactory::Ptr _ppcMsgFactory,
-        ppc::io::DataResourceLoader::Ptr _dataResourceLoader, int _holdingMessageMinutes)
+        ppc::io::DataResourceLoader::Ptr _dataResourceLoader, int _holdingMessageMinutes,
+        uint32_t minNeededMemoryGB = 1)
       : m_algorithmType(_algorithmType),
         m_selfParty(_selfParty),
         m_front(std::move(_front)),
         m_ppcMsgFactory(std::move(_ppcMsgFactory)),
         m_dataResourceLoader(std::move(_dataResourceLoader)),
         m_networkTimeout(_holdingMessageMinutes * 60 * 1000),
-        m_taskExpireTime(m_networkTimeout)
+        m_taskExpireTime(m_networkTimeout),
+        m_minNeededMemoryGB(minNeededMemoryGB)
     {
         PSI_LOG(INFO) << LOG_DESC("create PSIConfig") << LOG_KV("algorithmType", m_algorithmType)
                       << LOG_KV("holdingMessageMinutes", _holdingMessageMinutes)
                       << LOG_KV("networkTimeout", m_networkTimeout)
-                      << LOG_KV("taskExpireTime", m_taskExpireTime);
+                      << LOG_KV("taskExpireTime", m_taskExpireTime)
+                      << LOG_KV("minNeededMemoryGB", m_minNeededMemoryGB);
     }
 
     virtual ~PSIConfig() = default;
@@ -128,6 +133,8 @@ public:
 
     std::vector<std::string> agencyList() const { return m_front->agencies(); }
 
+    uint32_t minNeededMemoryGB() const { return m_minNeededMemoryGB; }
+
 protected:
     ppc::front::PPCMessageFace::Ptr generatePPCMsg(
         std::string const& _taskID, PSIMessageInterface::Ptr const& _msg, uint32_t _seq)
@@ -161,5 +168,7 @@ protected:
 
     // the task-expire time
     int m_taskExpireTime = 10000;
+
+    uint32_t m_minNeededMemoryGB = 1;
 };
 }  // namespace ppc::psi

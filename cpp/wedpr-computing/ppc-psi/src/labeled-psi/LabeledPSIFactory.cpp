@@ -26,10 +26,11 @@ using namespace ppc::front;
 
 LabeledPSIImpl::Ptr LabeledPSIFactory::buildLabeledPSI(std::string const& _selfParty,
     FrontInterface::Ptr _front, CryptoBox::Ptr _cryptoBox, bcos::ThreadPool::Ptr _threadPool,
-    DataResourceLoader::Ptr _dataResourceLoader, int _holdingMessageMinutes)
+    DataResourceLoader::Ptr _dataResourceLoader, int _holdingMessageMinutes,
+    uint32_t minNeededMemoryGB)
 {
-    auto config =
-        std::make_shared<LabeledPSIConfig>(_selfParty, std::move(_front), std::move(_cryptoBox),
-            std::move(_threadPool), std::move(_dataResourceLoader), _holdingMessageMinutes);
+    auto config = std::make_shared<LabeledPSIConfig>(_selfParty, std::move(_front),
+        std::move(_cryptoBox), std::move(_threadPool), std::move(_dataResourceLoader),
+        _holdingMessageMinutes, minNeededMemoryGB);
     return std::make_shared<LabeledPSIImpl>(config);
 }

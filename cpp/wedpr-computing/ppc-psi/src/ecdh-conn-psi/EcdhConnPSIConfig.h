@@ -42,7 +42,8 @@ public:
         ppc::io::DataResourceLoader::Ptr const& _dataResourceLoader,
         bcos::ThreadPool::Ptr _threadPool)
       : PSIConfig(ppc::protocol::TaskAlgorithmType::ECDH_PSI_CONN, _ppcConfig->agencyID(), _front,
-            _ppcMsgFactory, _dataResourceLoader, _ppcConfig->holdingMessageMinutes()),
+            _ppcMsgFactory, _dataResourceLoader, _ppcConfig->holdingMessageMinutes(),
+            _ppcConfig->minNeededMemoryGB()),
         m_msgFactory(_psiMsgFactory),
         m_threadPool(_threadPool),
         m_ecdhCryptoFactory(_ecdhCryptoFactory),

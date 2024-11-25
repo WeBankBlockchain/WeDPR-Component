@@ -351,8 +351,6 @@ generate_config_ini() {
     sm_ssl=${sm_mode}
     ; ssl connection switch, if disable the ssl connection, default: false
     ;disable_ssl = true
-    ; GB, reject task if available memory is less than min_needed_memory
-    ; min_needed_memory = 5
 
 [hdfs_storage]
     ; the hdfs configuration

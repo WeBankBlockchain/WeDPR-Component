@@ -41,11 +41,11 @@ public:
     CM2020PSIConfig(std::string const& _selfPartyID, ppc::front::FrontInterface::Ptr _front,
         ppc::crypto::CryptoBox::Ptr _cryptoBox, bcos::ThreadPool::Ptr _threadPool,
         ppc::io::DataResourceLoader::Ptr _dataResourceLoader, int _holdingMessageMinutes,
-        uint16_t _parallelism = 3,
+        uint32_t minNeededMemoryGB = 1, uint16_t _parallelism = 3,
         const front::PPCMessageFactory::Ptr& _msgFactory =
             std::make_shared<front::PPCMessageFactory>())
       : PSIConfig(ppc::protocol::TaskAlgorithmType::CM_PSI_2PC, _selfPartyID, std::move(_front),
-            _msgFactory, std::move(_dataResourceLoader), _holdingMessageMinutes),
+            _msgFactory, std::move(_dataResourceLoader), _holdingMessageMinutes, minNeededMemoryGB),
         m_cryptoBox(std::move(_cryptoBox)),
         m_threadPool(std::move(_threadPool)),
         m_parallelism(_parallelism)

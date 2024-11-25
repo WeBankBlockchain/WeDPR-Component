@@ -28,7 +28,7 @@
 
 namespace ppc::tools
 {
-bool hasAvailableMem(uint32_t _minNeedMemoryGB)
+inline bool hasAvailableMem(uint32_t _minNeedMemoryGB)
 {
     std::ifstream meminfo("/proc/meminfo");
     if (!meminfo.is_open())

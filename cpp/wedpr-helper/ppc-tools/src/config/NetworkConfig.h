@@ -31,7 +31,6 @@ struct NetworkConfig
     uint32_t threadPoolSize;
     std::string token;
     bool disableSsl;
-    uint32_t minNeededMemoryGB;
 
     bool enableSM;
     // the gateway protocol

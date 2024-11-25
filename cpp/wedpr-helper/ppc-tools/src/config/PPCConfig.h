@@ -254,6 +254,8 @@ public:
         ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
         boost::property_tree::ptree const& pt);
 
+    uint32_t minNeededMemoryGB() const { return m_minNeededMemoryGB; }
+
 private:
     virtual void loadEndpointConfig(ppc::protocol::EndPoint& endPoint, bool requireHostIp,
         std::string const& sectionName, boost::property_tree::ptree const& pt);
@@ -307,6 +309,7 @@ private:
 
     uint16_t m_seqSyncPeriod = 5000;
 
+    uint32_t m_minNeededMemoryGB;
     // the front config
     // TODO: parse the frontConfig
     ppc::front::FrontConfig::Ptr m_frontConfig;

@@ -78,13 +78,14 @@ public:
         ppc::crypto::ECDHCryptoFactory::Ptr const& _ecdhCryptoFactory,
         ppc::front::FrontInterface::Ptr _front,
         ppc::front::PPCMessageFaceFactory::Ptr _ppcMsgFactory, bcos::ThreadPool::Ptr _threadPool,
-        ppc::io::DataResourceLoader::Ptr const& _dataResourceLoader) override
+        ppc::io::DataResourceLoader::Ptr const& _dataResourceLoader,
+        uint32_t minNeededMemoryGB = 1) override
     {
         auto psiMsgFactory = std::make_shared<EcdhPSIMessageFactory>();
         auto const& ecdhParam = _ppcConfig->ecdhPSIConfig();
         auto config = std::make_shared<EcdhPSIConfig>(_ppcConfig->agencyID(), _ecdhCryptoFactory,
             _front, _ppcMsgFactory, psiMsgFactory, _dataResourceLoader, ecdhParam.dataBatchSize,
-            10000, _threadPool);
+            10000, minNeededMemoryGB, _threadPool);
         // enforce the taskExpireTime to 3000ms
         config->setTaskExpireTime(3000);
         return std::make_shared<FakeEcdhPSIImpl>(config);

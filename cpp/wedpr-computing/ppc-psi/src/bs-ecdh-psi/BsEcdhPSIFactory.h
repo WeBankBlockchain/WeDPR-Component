@@ -34,10 +34,11 @@ public:
     virtual ~BsEcdhPSIFactory() = default;
 
     virtual BsEcdhPSIImpl::Ptr buildBsEcdhPSI(bcos::ThreadPool::Ptr _threadPool,
-        ppc::io::DataResourceLoader::Ptr _dataResourceLoader, uint32_t _timeoutMinutes)
+        ppc::io::DataResourceLoader::Ptr _dataResourceLoader, uint32_t _timeoutMinutes,
+        uint32_t minNeededMemoryGB = 1)
     {
-        auto config = std::make_shared<PSIConfig>(
-            ppc::protocol::TaskAlgorithmType::BS_ECDH_PSI, std::move(_dataResourceLoader));
+        auto config = std::make_shared<PSIConfig>(ppc::protocol::TaskAlgorithmType::BS_ECDH_PSI,
+            std::move(_dataResourceLoader), minNeededMemoryGB);
         return std::make_shared<BsEcdhPSIImpl>(
             std::move(config), std::move(_threadPool), _timeoutMinutes);
     }

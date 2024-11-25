@@ -471,7 +471,10 @@ public class TransportImpl implements WeDPRTransport {
     }
 
     private void parseServiceMeta(
-            List<ServiceMeta.EntryPointMeta> entryPointInfos, String serviceName, String meta) {
+            List<ServiceMeta.EntryPointMeta> entryPointInfos,
+            String serviceName,
+            String meta,
+            StringVec componentsVec) {
         try {
             if (StringUtils.isBlank(meta)) {
                 return;
@@ -484,6 +487,10 @@ public class TransportImpl implements WeDPRTransport {
             for (ServiceMeta.EntryPointMeta entryPointMeta : serviceMeta.getServiceInfos()) {
                 if (entryPointMeta.getServiceName().equalsIgnoreCase(serviceName)) {
                     entryPointInfos.add(entryPointMeta);
+                    List<String> components = new ArrayList<>();
+                    for (int i = 0; i < componentsVec.size(); i++) {
+                        entryPointMeta.getComponents().add(componentsVec.get(i));
+                    }
                 }
             }
         } catch (Exception e) {
@@ -496,7 +503,11 @@ public class TransportImpl implements WeDPRTransport {
         NodeInfoVec nodeInfoList = this.transport.getFront().getNodeDiscovery().getAliveNodeList();
         List<ServiceMeta.EntryPointMeta> result = new ArrayList<>();
         for (int i = 0; i < nodeInfoList.size(); i++) {
-            parseServiceMeta(result, serviceName, nodeInfoList.get(i).meta());
+            parseServiceMeta(
+                    result,
+                    serviceName,
+                    nodeInfoList.get(i).meta(),
+                    nodeInfoList.get(i).copiedComponents());
         }
         return result;
     }

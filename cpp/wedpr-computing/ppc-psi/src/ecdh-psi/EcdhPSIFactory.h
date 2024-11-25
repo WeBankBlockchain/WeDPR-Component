@@ -37,6 +37,7 @@ public:
         ppc::crypto::ECDHCryptoFactory::Ptr const& _ecdhCryptoFactory,
         ppc::front::FrontInterface::Ptr _front,
         ppc::front::PPCMessageFaceFactory::Ptr _ppcMsgFactory, bcos::ThreadPool::Ptr _threadPool,
-        ppc::io::DataResourceLoader::Ptr const& _dataResourceLoader);
+        ppc::io::DataResourceLoader::Ptr const& _dataResourceLoader,
+        uint32_t minNeededMemoryGB = 1);
 };
 }  // namespace ppc::psi

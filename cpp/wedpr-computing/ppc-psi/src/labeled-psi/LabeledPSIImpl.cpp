@@ -116,7 +116,7 @@ void LabeledPSIImpl::asyncRunTask(
                 psi->noticePeerToFinish(_task);
             });
             // check the memory
-            checkHostResource();
+            checkHostResource(m_config->minNeededMemoryGB());
             addPendingTask(taskState);
 
             auto oprfClient = std::make_shared<EcdhOprfClient>(

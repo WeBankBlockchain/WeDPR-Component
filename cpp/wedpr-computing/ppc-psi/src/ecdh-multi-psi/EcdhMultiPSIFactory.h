@@ -37,6 +37,7 @@ public:
     virtual EcdhMultiPSIImpl::Ptr createEcdhMultiPSI(
         std::shared_ptr<ppc::tools::PPCConfig> const& _ppcConfig,
         ppc::front::FrontInterface::Ptr _front, ppc::crypto::CryptoBox::Ptr _cryptoBox,
-        bcos::ThreadPool::Ptr _threadPool, ppc::io::DataResourceLoader::Ptr _dataResourceLoader);
+        bcos::ThreadPool::Ptr _threadPool, ppc::io::DataResourceLoader::Ptr _dataResourceLoader,
+        uint32_t minNeededMemoryGB = 1);
 };
 }  // namespace ppc::psi

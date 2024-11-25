@@ -34,11 +34,11 @@ public:
     virtual CM2020PSIImpl::Ptr buildCM2020PSI(std::string const& _selfParty,
         ppc::front::FrontInterface::Ptr _front, ppc::crypto::CryptoBox::Ptr _cryptoBox,
         bcos::ThreadPool::Ptr _threadPool, ppc::io::DataResourceLoader::Ptr _dataResourceLoader,
-        int _holdingMessageMinutes, uint16_t _parallelism)
+        int _holdingMessageMinutes, uint16_t _parallelism, uint32_t minNeededMemoryGB = 1)
     {
         auto config = std::make_shared<CM2020PSIConfig>(_selfParty, std::move(_front),
             std::move(_cryptoBox), std::move(_threadPool), std::move(_dataResourceLoader),
-            _holdingMessageMinutes, _parallelism);
+            _holdingMessageMinutes, minNeededMemoryGB, _parallelism);
         return std::make_shared<CM2020PSIImpl>(config);
     }
 };

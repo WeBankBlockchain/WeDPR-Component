@@ -148,7 +148,7 @@ void BsEcdhPSIImpl::asyncRunTask(
         auto taskState = std::make_shared<BsEcdhTaskState>(
             _request->taskID, TaskStatus::PENDING, m_timeoutMinutes);
         // check the memory
-        checkHostResource();
+        checkHostResource(m_config->minNeededMemoryGB());
         // create ecdh cache
         auto cache = std::make_shared<BsEcdhCache>(
             _request->taskID, m_threadPool, m_taskGuarder, _request->dataResource,

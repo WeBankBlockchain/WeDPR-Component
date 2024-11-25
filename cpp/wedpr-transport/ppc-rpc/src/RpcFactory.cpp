@@ -41,7 +41,6 @@ Rpc::Ptr RpcFactory::buildRpc(
 
     auto rpc = std::make_shared<Rpc>(
         wsService, gateway, m_selfPartyID, _config->rpcConfig().token, _config->dataLocation());
-    rpc->setMinNeededMemory(_config->rpcConfig().minNeededMemoryGB);
     return rpc;
 }
 

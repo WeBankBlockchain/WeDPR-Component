@@ -34,6 +34,6 @@ public:
     virtual LabeledPSIImpl::Ptr buildLabeledPSI(std::string const& _selfParty,
         ppc::front::FrontInterface::Ptr _front, ppc::crypto::CryptoBox::Ptr _cryptoBox,
         bcos::ThreadPool::Ptr _threadPool, ppc::io::DataResourceLoader::Ptr _dataResourceLoader,
-        int _holdingMessageMinutes);
+        int _holdingMessageMinutes, uint32_t minNeededMemoryGB = 1);
 };
 }  // namespace ppc::psi

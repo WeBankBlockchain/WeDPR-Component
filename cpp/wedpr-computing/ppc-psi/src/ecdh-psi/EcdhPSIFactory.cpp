@@ -31,12 +31,12 @@ using namespace ppc::io;
 EcdhPSIImpl::Ptr EcdhPSIFactory::createEcdhPSI(PPCConfig::Ptr const& _ppcConfig,
     ECDHCryptoFactory::Ptr const& _ecdhCryptoFactory, FrontInterface::Ptr _front,
     PPCMessageFaceFactory::Ptr _ppcMsgFactory, bcos::ThreadPool::Ptr _threadPool,
-    DataResourceLoader::Ptr const& _dataResourceLoader)
+    DataResourceLoader::Ptr const& _dataResourceLoader, uint32_t minNeededMemoryGB)
 {
     auto psiMsgFactory = std::make_shared<EcdhPSIMessageFactory>();
     auto const& ecdhParam = _ppcConfig->ecdhPSIConfig();
     auto config = std::make_shared<EcdhPSIConfig>(_ppcConfig->agencyID(), _ecdhCryptoFactory,
         _front, _ppcMsgFactory, psiMsgFactory, _dataResourceLoader, ecdhParam.dataBatchSize,
-        _ppcConfig->holdingMessageMinutes(), _threadPool);
+        _ppcConfig->holdingMessageMinutes(), minNeededMemoryGB, _threadPool);
     return std::make_shared<EcdhPSIImpl>(config);
 }

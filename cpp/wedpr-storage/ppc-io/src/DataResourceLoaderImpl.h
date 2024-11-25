@@ -51,10 +51,11 @@ public:
         ppc::storage::FileStorage::Ptr const& _storage = nullptr) override;
 
     void deleteResource(ppc::protocol::DataResourceDesc::ConstPtr _desc,
-        ppc::storage::FileStorage::Ptr const& _storage = nullptr);
+        ppc::storage::FileStorage::Ptr const& _storage = nullptr) override;
 
     void renameResource(ppc::protocol::DataResourceDesc::ConstPtr _desc,
-        std::string const& _new_path, ppc::storage::FileStorage::Ptr const& _storage = nullptr);
+        std::string const& _new_path,
+        ppc::storage::FileStorage::Ptr const& _storage = nullptr) override;
 
 protected:
     virtual LineReader::Ptr loadSQLResource(ppc::protocol::DataResourceDesc::ConstPtr _desc,

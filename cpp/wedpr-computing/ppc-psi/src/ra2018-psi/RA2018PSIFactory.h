@@ -39,6 +39,7 @@ public:
         ppc::crypto::RA2018OprfInterface::Ptr const& _oprf, ppc::crypto::Hash::Ptr _binHashImpl,
         ppc::front::PPCMessageFaceFactory::Ptr _ppcMsgFactory,
         ppc::storage::SQLStorage::Ptr _storage, ppc::storage::FileStorage::Ptr _fileStorage,
-        bcos::ThreadPool::Ptr _threadPool, ppc::io::DataResourceLoader::Ptr _dataResourceLoader);
+        bcos::ThreadPool::Ptr _threadPool, ppc::io::DataResourceLoader::Ptr _dataResourceLoader,
+        uint32_t minNeededMemoryGB = 1);
 };
 }  // namespace ppc::psi

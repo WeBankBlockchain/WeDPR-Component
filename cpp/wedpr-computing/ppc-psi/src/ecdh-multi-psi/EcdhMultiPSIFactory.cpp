@@ -28,7 +28,7 @@ using namespace ppc::crypto;
 
 EcdhMultiPSIImpl::Ptr EcdhMultiPSIFactory::createEcdhMultiPSI(PPCConfig::Ptr const& _ppcConfig,
     FrontInterface::Ptr _front, CryptoBox::Ptr _cryptoBox, bcos::ThreadPool::Ptr _threadPool,
-    DataResourceLoader::Ptr _dataResourceLoader)
+    DataResourceLoader::Ptr _dataResourceLoader, uint32_t minNeededMemoryGB)
 {
     auto psiMsgFactory = std::make_shared<EcdhMultiPSIMessageFactory>();
     auto const& ecdhParam = _ppcConfig->ecdhMultiPSIConfig();
@@ -36,6 +36,6 @@ EcdhMultiPSIImpl::Ptr EcdhMultiPSIFactory::createEcdhMultiPSI(PPCConfig::Ptr con
     int _holdingMessageMinutes = _ppcConfig->holdingMessageMinutes();
     auto config = std::make_shared<EcdhMultiPSIConfig>(_selfParty, std::move(_front),
         std::move(_cryptoBox), std::move(_threadPool), std::move(_dataResourceLoader),
-        ecdhParam.dataBatchSize, _holdingMessageMinutes, psiMsgFactory);
+        ecdhParam.dataBatchSize, _holdingMessageMinutes, minNeededMemoryGB, psiMsgFactory);
     return std::make_shared<EcdhMultiPSIImpl>(config);
 }

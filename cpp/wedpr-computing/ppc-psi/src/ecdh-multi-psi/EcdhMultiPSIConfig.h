@@ -17,11 +17,13 @@ public:
     EcdhMultiPSIConfig(std::string const& _selfPartyID, ppc::front::FrontInterface::Ptr _front,
         ppc::crypto::CryptoBox::Ptr _cryptoBox, bcos::ThreadPool::Ptr _threadPool,
         ppc::io::DataResourceLoader::Ptr _dataResourceLoader, uint32_t _dataBatchSize,
-        int _holdingMessageMinutes, EcdhMultiPSIMessageFactory::Ptr const& _psiMsgFactory,
+        int _holdingMessageMinutes, uint32_t minNeededMemoryGB,
+        EcdhMultiPSIMessageFactory::Ptr const& _psiMsgFactory,
         const front::PPCMessageFactory::Ptr& _ppcMsgFactory =
             std::make_shared<front::PPCMessageFactory>())
       : PSIConfig(ppc::protocol::TaskAlgorithmType::ECDH_PSI_MULTI, _selfPartyID, std::move(_front),
-            _ppcMsgFactory, std::move(_dataResourceLoader), _holdingMessageMinutes),
+            _ppcMsgFactory, std::move(_dataResourceLoader), _holdingMessageMinutes,
+            minNeededMemoryGB),
         m_threadPool(std::move(_threadPool)),
         m_cryptoBox(std::move(_cryptoBox)),
         m_psiMsgFactory(std::move(_psiMsgFactory)),

@@ -254,14 +254,12 @@ void PPCConfig::loadNetworkConfig(NetworkConfig& _config, boost::property_tree::
     {
         _config.url = _pt.get<std::string>(_sectionName + ".url", "/api/v1/interconn/invoke");
     }
-    _config.minNeededMemoryGB = _pt.get<uint32_t>(_sectionName + ".min_needed_memory", 1);
     PPCConfig_LOG(INFO) << LOG_BADGE("loadNetworkConfig") << LOG_KV("section", _sectionName)
                         << LOG_KV("listenIp", _config.listenIp)
                         << LOG_KV("listenPort", _config.listenPort)
                         << LOG_KV("threadCount", _config.threadPoolSize)
                         << LOG_KV("disableSsl", _config.disableSsl)
-                        << LOG_KV("protocol", _config.protocol) << LOG_KV("url", _config.url)
-                        << LOG_KV("minNeededMemory", _config.minNeededMemoryGB);
+                        << LOG_KV("protocol", _config.protocol) << LOG_KV("url", _config.url);
     // no need to load the certificate when disable-ssl
     if (_config.disableSsl)
     {
@@ -530,11 +528,18 @@ void PPCConfig::loadCommonNodeConfig(boost::property_tree::ptree const& _pt)
     m_threadPoolSize = _pt.get<uint32_t>(
         "agency.thread_count", static_cast<uint32_t>(std::thread::hardware_concurrency() * 0.75));
 
+    m_minNeededMemoryGB = _pt.get<uint32_t>("agency.min_needed_memory", 1);
+    if (m_minNeededMemoryGB == 0)
+    {
+        BOOST_THROW_EXCEPTION(InvalidConfig() << bcos::errinfo_comment(
+                                  "Invalid agency.min_needed_memory, must larger than 0"));
+    }
     PPCConfig_LOG(INFO) << LOG_DESC("loadCommonNodeConfig success")
                         << LOG_KV("agencyID", m_agencyID) << LOG_KV("dataLocation", m_dataLocation)
                         << LOG_KV("smCrypto", m_smCrypto)
                         << LOG_KV("taskTimeoutMinutes", m_taskTimeoutMinutes)
-                        << LOG_KV("threadPoolSize", m_threadPoolSize);
+                        << LOG_KV("threadPoolSize", m_threadPoolSize)
+                        << LOG_KV("minNeededMemoryGB", m_minNeededMemoryGB);
 }
 
 void PPCConfig::loadHDFSConfig(boost::property_tree::ptree const& _pt)

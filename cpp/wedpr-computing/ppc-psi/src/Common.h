@@ -18,6 +18,7 @@
  * @date 2022-12-26
  */
 #pragma once
+#include "ppc-framework/Common.h"
 #include "ppc-tools/src/common/MemInfo.h"
 #include <cstdint>
 #include <sstream>
@@ -151,13 +152,14 @@ inline std::ostream& operator<<(std::ostream& _out, CacheState const& _state)
     return _out;
 }
 
-inline void checkHostResource()
+inline void checkHostResource(uint64_t minNeededMemoryGB)
 {
 #ifdef __linux__
-    if (!hasAvailableMem(m_minNeededMemoryGB))
+    if (!ppc::tools::hasAvailableMem(minNeededMemoryGB))
     {
-        BOOST_THROW_EXCEPTION(
-            BCOS_ERROR((int64_t)RpcError::LackOfMemory, "Lack of memory, please try again later."));
+        BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
+                                  "Lack of memory, please try again later. minNeededMemoryGB: " +
+                                  std::to_string(minNeededMemoryGB)));
     }
 #endif
 }

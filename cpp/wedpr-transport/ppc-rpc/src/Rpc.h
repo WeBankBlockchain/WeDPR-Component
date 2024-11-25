@@ -100,8 +100,6 @@ public:
 
     void setBsEcdhPSI(psi::BsEcdhPSIInterface::Ptr _psi) { m_bsEcdhPSI = std::move(_psi); }
 
-    void setMinNeededMemory(uint32_t _minNeededMemory) { m_minNeededMemoryGB = _minNeededMemory; }
-
 protected:
     virtual void onRPCRequest(bcos::boostssl::http::HttpRequest&& _request,
         std::function<void(bcos::bytes)> _responseHandler);
@@ -155,7 +153,5 @@ private:
     mutable bcos::SharedMutex x_taskHandlers;
 
     psi::BsEcdhPSIInterface::Ptr m_bsEcdhPSI;
-
-    uint32_t m_minNeededMemoryGB;
 };
 }  // namespace ppc::rpc

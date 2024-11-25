@@ -149,7 +149,8 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
     auto labeledPSIFactory = std::make_shared<LabeledPSIFactory>();
     m_labeledPSI = labeledPSIFactory->buildLabeledPSI(m_config->agencyID(), m_ppcFront, cryptoBox,
         std::make_shared<bcos::ThreadPool>("t_labeled-psi", m_config->threadPoolSize()),
-        m_protocolInitializer->dataResourceLoader(), m_config->holdingMessageMinutes());
+        m_protocolInitializer->dataResourceLoader(), m_config->holdingMessageMinutes(),
+        m_config->minNeededMemoryGB());
     INIT_LOG(INFO) << LOG_DESC("init the labeled-psi success");
 
     // init the cm2020-psi
@@ -158,7 +159,7 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
     m_cm2020PSI = cm2020PSIFactory->buildCM2020PSI(m_config->agencyID(), m_ppcFront, cryptoBox,
         std::make_shared<bcos::ThreadPool>("t_cm2020-psi", m_config->threadPoolSize()),
         m_protocolInitializer->dataResourceLoader(), m_config->holdingMessageMinutes(),
-        m_config->cm2020PSIConfig().parallelism);
+        m_config->cm2020PSIConfig().parallelism, m_config->minNeededMemoryGB());
     INIT_LOG(INFO) << LOG_DESC("init the cm2020-psi success");
 
     // init the ecdh-psi
@@ -167,7 +168,7 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
     auto ecdhCryptoFactory = std::make_shared<ECDHCryptoFactoryImpl>(m_config->privateKey());
     m_ecdhPSI = ecdhPSIFactory->createEcdhPSI(m_config, ecdhCryptoFactory, m_ppcFront,
         m_protocolInitializer->ppcMsgFactory(), nullptr,
-        m_protocolInitializer->dataResourceLoader());
+        m_protocolInitializer->dataResourceLoader(), m_config->minNeededMemoryGB());
     INIT_LOG(INFO) << LOG_DESC("create ecdh-psi success");
 
 #if 0
@@ -186,7 +187,7 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
     auto ecdhMultiPSIFactory = std::make_shared<EcdhMultiPSIFactory>();
     m_ecdhMultiPSI = ecdhMultiPSIFactory->createEcdhMultiPSI(m_config, m_ppcFront, cryptoBox,
         std::make_shared<bcos::ThreadPool>("t_ecdh-multi-psi", std::thread::hardware_concurrency()),
-        m_protocolInitializer->dataResourceLoader());
+        m_protocolInitializer->dataResourceLoader(), m_config->minNeededMemoryGB());
     INIT_LOG(INFO) << LOG_DESC("create ecdh-multi-psi success");
 
     // init the ot-pir
@@ -203,7 +204,8 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
     auto bsEcdhPSIFactory = std::make_shared<BsEcdhPSIFactory>();
     m_bsEcdhPSI = bsEcdhPSIFactory->buildBsEcdhPSI(
         std::make_shared<bcos::ThreadPool>("t_bs-ecdh-psi", m_config->threadPoolSize()),
-        m_protocolInitializer->dataResourceLoader(), m_config->taskTimeoutMinutes());
+        m_protocolInitializer->dataResourceLoader(), m_config->taskTimeoutMinutes(),
+        m_config->minNeededMemoryGB());
     INIT_LOG(INFO) << LOG_DESC("create bs mode ecdh psi success");
 
     initMsgHandlers();

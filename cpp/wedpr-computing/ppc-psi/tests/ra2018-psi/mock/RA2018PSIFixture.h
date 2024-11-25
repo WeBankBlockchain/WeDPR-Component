@@ -83,14 +83,14 @@ public:
         ppc::crypto::RA2018OprfInterface::Ptr const& _oprf, ppc::crypto::Hash::Ptr _binHashImpl,
         ppc::front::PPCMessageFaceFactory::Ptr _ppcMsgFactory,
         ppc::storage::SQLStorage::Ptr _storage, ppc::storage::FileStorage::Ptr _fileStorage,
-        bcos::ThreadPool::Ptr _threadPool,
-        ppc::io::DataResourceLoader::Ptr _dataResourceLoader) override
+        bcos::ThreadPool::Ptr _threadPool, ppc::io::DataResourceLoader::Ptr _dataResourceLoader,
+        uint32_t minNeededMemoryGB = 1) override
     {
         auto const& ra2018Config = _config->ra2018PSIConfig();
         auto config = std::make_shared<RA2018PSIConfig>(_selfParty, _front, _oprf, _binHashImpl,
             _ppcMsgFactory, ra2018Config.cuckooFilterOption, _threadPool, _storage, _fileStorage,
-            _dataResourceLoader, 10000, ra2018Config.dbName, ra2018Config.cuckooFilterCacheSize,
-            ra2018Config.cacheSize, ra2018Config.dataBatchSize);
+            _dataResourceLoader, 10000, minNeededMemoryGB, ra2018Config.dbName,
+            ra2018Config.cuckooFilterCacheSize, ra2018Config.cacheSize, ra2018Config.dataBatchSize);
         // enforce the taskExpireTime to 3000ms
         config->setTaskExpireTime(3000);
         // use the FakeRA2018PSIStorage

@@ -132,7 +132,7 @@ void EcdhMultiPSIImpl::asyncRunTask(
             psi->removePendingTask(taskID);
         });
         // check the memory
-        checkHostResource();
+        checkHostResource(m_config->minNeededMemoryGB());
         addPendingTask(taskState);
         // over the peer limit
         if (_task->getAllPeerParties().size() > c_max_peer_size)

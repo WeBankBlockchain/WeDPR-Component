@@ -32,14 +32,15 @@ RA2018PSIImpl::Ptr RA2018PSIFactory::createRA2018PSI(std::string const& _selfPar
     RA2018OprfInterface::Ptr const& _oprf, Hash::Ptr _binHashImpl,
     PPCMessageFaceFactory::Ptr _ppcMsgFactory, SQLStorage::Ptr _storage,
     FileStorage::Ptr _fileStorage, bcos::ThreadPool::Ptr _threadPool,
-    DataResourceLoader::Ptr _dataResourceLoader)
+    DataResourceLoader::Ptr _dataResourceLoader, uint32_t minNeededMemoryGB)
 {
     auto const& ra2018Config = _config->ra2018PSIConfig();
 
     auto config = std::make_shared<RA2018PSIConfig>(_selfParty, _front, _oprf, _binHashImpl,
         _ppcMsgFactory, ra2018Config.cuckooFilterOption, _threadPool, _storage, _fileStorage,
-        _dataResourceLoader, _config->holdingMessageMinutes(), ra2018Config.dbName,
-        ra2018Config.cuckooFilterCacheSize, ra2018Config.cacheSize, ra2018Config.dataBatchSize);
+        _dataResourceLoader, _config->holdingMessageMinutes(), minNeededMemoryGB,
+        ra2018Config.dbName, ra2018Config.cuckooFilterCacheSize, ra2018Config.cacheSize,
+        ra2018Config.dataBatchSize);
 
     RA2018PSIStorage::Ptr psiStorage = nullptr;
     if (!_config->disableRA2018())
