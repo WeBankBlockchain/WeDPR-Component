@@ -254,7 +254,7 @@ void PPCConfig::loadNetworkConfig(NetworkConfig& _config, boost::property_tree::
     {
         _config.url = _pt.get<std::string>(_sectionName + ".url", "/api/v1/interconn/invoke");
     }
-    _config.minNeededMemoryGB = _pt.get<uint32_t>(_sectionName + ".min_needed_memory", 5);
+    _config.minNeededMemoryGB = _pt.get<uint32_t>(_sectionName + ".min_needed_memory", 1);
     PPCConfig_LOG(INFO) << LOG_BADGE("loadNetworkConfig") << LOG_KV("section", _sectionName)
                         << LOG_KV("listenIp", _config.listenIp)
                         << LOG_KV("listenPort", _config.listenPort)
