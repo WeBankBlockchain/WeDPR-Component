@@ -47,7 +47,6 @@ public:
 
 
 protected:
-    bool m_enableOutputExists = false;
     virtual void onReceiveRandomA(PSIMessageInterface::Ptr _msg);
     virtual void onReceiveCalCipher(PSIMessageInterface::Ptr _msg);
     virtual void handlerPSIReceiveMessage(PSIMessageInterface::Ptr _msg);

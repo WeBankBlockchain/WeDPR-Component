@@ -207,7 +207,7 @@ bool EcdhPSIImpl::initTaskState(TaskState::Ptr const& _taskState)
         if (!server)
         {
             m_cache->insertServerCipherCache(task->id(), _taskState);
-            if (!m_enableOutputExists)
+            if (!_taskState->task()->enableOutputExists())
             {
                 // Note: if the output-resource already exists, will throw exception
                 m_config->dataResourceLoader()->checkResourceExists(dataResource->outputDesc());

@@ -155,7 +155,7 @@ void EcdhMultiPSIImpl::asyncRunTask(
                              << LOG_KV("roleId", role);
         if (role == uint16_t(PartiesType::Calculator))
         {
-            auto writer = loadWriter(_task->id(), dataResource, m_enableOutputExists);
+            auto writer = loadWriter(_task->id(), dataResource, _task->enableOutputExists());
             taskState->setWriter(writer);
             ECDH_MULTI_LOG(INFO) << LOG_DESC("Calculator do the Task")
                                  << LOG_KV("taskID", _task->id());
@@ -170,7 +170,7 @@ void EcdhMultiPSIImpl::asyncRunTask(
             if (_task->syncResultToPeer() && std::find(receivers.begin(), receivers.end(),
                                                  m_config->selfParty()) != receivers.end())
             {
-                auto writer = loadWriter(_task->id(), dataResource, m_enableOutputExists);
+                auto writer = loadWriter(_task->id(), dataResource, _task->enableOutputExists());
                 taskState->setWriter(writer);
             }
             auto partner = std::make_shared<EcdhMultiPSIPartner>(m_config, taskState);
@@ -183,7 +183,7 @@ void EcdhMultiPSIImpl::asyncRunTask(
             if (_task->syncResultToPeer() && std::find(receivers.begin(), receivers.end(),
                                                  m_config->selfParty()) != receivers.end())
             {
-                auto writer = loadWriter(_task->id(), dataResource, m_enableOutputExists);
+                auto writer = loadWriter(_task->id(), dataResource, _task->enableOutputExists());
                 taskState->setWriter(writer);
             }
             auto master = std::make_shared<EcdhMultiPSIMaster>(m_config, taskState);

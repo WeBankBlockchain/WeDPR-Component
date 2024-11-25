@@ -46,9 +46,7 @@ public:
     using Ptr = std::shared_ptr<FakeOtPIRImpl>;
     FakeOtPIRImpl(OtPIRConfig::Ptr const& _config, unsigned _idleTimeMs = 0)
       : OtPIRImpl(_config, _idleTimeMs)
-    {
-        m_enableOutputExists = true;
-    }
+    {}
     ~FakeOtPIRImpl() override = default;
 };
 

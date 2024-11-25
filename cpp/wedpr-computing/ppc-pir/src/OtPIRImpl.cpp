@@ -445,7 +445,8 @@ void OtPIRImpl::asyncRunTask()
                            << LOG_KV("requestAgencyDataset", taskMessage.requestAgencyDataset)
                            << LOG_KV("prefixLength", taskMessage.prefixLength)
                            << LOG_KV("searchId", taskMessage.searchId);
-            auto writer = loadWriter(task->id(), dataResource, m_enableOutputExists);
+            auto writer =
+                loadWriter(task->id(), dataResource, m_taskState->task()->enableOutputExists());
             m_taskState->setWriter(writer);
             runSenderGenerateCipher(taskMessage);
         }

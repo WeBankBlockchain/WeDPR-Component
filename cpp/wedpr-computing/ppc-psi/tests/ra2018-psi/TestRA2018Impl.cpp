@@ -105,6 +105,7 @@ void testRA2018PSIImplFunc(int _dataBatchSize, CuckoofilterOption::Ptr option,
     auto offlineFullEvaluateTask = std::make_shared<JsonTaskImpl>(serverAgencyName);
     offlineFullEvaluateTask->setId("offlineFullEvaluate");
     offlineFullEvaluateTask->setSelf(serverParty);
+    offlineFullEvaluateTask->setEnableOutputExists(true);
     // insert operation
     std::string param = "[\"data_preprocessing\", 0]";
     offlineFullEvaluateTask->setParam(param);
@@ -127,6 +128,7 @@ void testRA2018PSIImplFunc(int _dataBatchSize, CuckoofilterOption::Ptr option,
     auto clientPSITask = std::make_shared<JsonTaskImpl>(clientAgencyName);
     std::string taskID = "runPSI";
     clientPSITask->setId(taskID);
+    clientPSITask->setEnableOutputExists(true);
     clientPSITask->setSelf(clientParty);
     clientPSITask->addParty(serverParty);
     param = "[\"ra2018_psi\"]";
@@ -135,6 +137,7 @@ void testRA2018PSIImplFunc(int _dataBatchSize, CuckoofilterOption::Ptr option,
     // the server task
     auto serverPSITask = std::make_shared<JsonTaskImpl>(serverAgencyName);
     serverPSITask->setSelf(serverParty);
+    serverPSITask->setEnableOutputExists(true);
     serverPSITask->setId(taskID);
     serverPSITask->setParam(param);
     serverPSITask->addParty(clientParty);

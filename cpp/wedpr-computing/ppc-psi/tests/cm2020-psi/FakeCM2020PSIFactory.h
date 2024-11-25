@@ -43,9 +43,7 @@ public:
     using Ptr = std::shared_ptr<FakeCM2020PSIImpl>;
     FakeCM2020PSIImpl(CM2020PSIConfig::Ptr const& _config, unsigned _idleTimeMs = 0)
       : CM2020PSIImpl(_config, _idleTimeMs)
-    {
-        m_enableOutputExists = true;
-    }
+    {}
     ~FakeCM2020PSIImpl() override = default;
 };
 

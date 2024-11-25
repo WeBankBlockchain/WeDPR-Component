@@ -51,7 +51,6 @@ public:
     {
         // set the m_started flag to be true
         m_started = true;
-        m_enableOutputExists = true;
         m_taskSyncTimer->registerTimeoutHandler([this]() { syncTaskInfo(); });
         m_taskSyncTimer->start();
     }

@@ -119,6 +119,10 @@ private:
 
 inline std::string printDataResourceInfo(DataResource::ConstPtr _dataResource)
 {
+    if (!_dataResource)
+    {
+        return "empty";
+    }
     std::ostringstream stringstream;
     stringstream << LOG_KV("dataResource", _dataResource->resourceID());
     if (_dataResource->desc())

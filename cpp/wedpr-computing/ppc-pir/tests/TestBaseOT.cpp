@@ -194,6 +194,7 @@ void testOTPIRImplFunc(const std::string& _taskID, const std::string& _params, b
     auto senderPIRTask = std::make_shared<JsonTaskImpl>(senderAgencyName);
     senderPIRTask->setId(_taskID);
     senderPIRTask->setParam(_params);
+    senderPIRTask->setEnableOutputExists(true);
     senderPIRTask->setSelf(_senderParty);
     senderPIRTask->addParty(_receiverParty);
     senderPIRTask->setSyncResultToPeer(_syncResults);
@@ -203,6 +204,7 @@ void testOTPIRImplFunc(const std::string& _taskID, const std::string& _params, b
     auto receiverPIRTask = std::make_shared<JsonTaskImpl>(receiverAgencyName);
     receiverPIRTask->setId(_taskID);
     receiverPIRTask->setParam(_params);
+    receiverPIRTask->setEnableOutputExists(true);
     receiverPIRTask->setSelf(_receiverParty);
     receiverPIRTask->addParty(_senderParty);
     receiverPIRTask->setSyncResultToPeer(_syncResults);

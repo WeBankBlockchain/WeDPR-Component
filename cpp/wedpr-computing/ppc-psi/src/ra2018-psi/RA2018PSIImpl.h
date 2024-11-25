@@ -179,8 +179,5 @@ protected:
     bcos::ThreadPool::Ptr m_worker;
     // the flag means that response to the sdk once handling the task or after the task completed
     bool m_waitResult;
-
-    // allow the output-path exists, for ut
-    bool m_enableOutputExists = false;
 };
 }  // namespace ppc::psi

@@ -554,7 +554,7 @@ void LabeledPSIImpl::saveSenderCache(const ppc::protocol::Task::ConstPtr& _task)
         auto dataResource = _task->selfParty()->dataResource();
 
         LineWriter::Ptr writer;
-        if (!m_enableOutputExists)
+        if (!_task->enableOutputExists())
         {
             // Note: if the output-resource already exists, will throw exception
             m_config->dataResourceLoader()->checkResourceExists(dataResource->outputDesc());

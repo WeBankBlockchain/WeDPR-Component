@@ -59,6 +59,7 @@ void runSetup(LabeledPSIImpl::Ptr _sender)
 
     auto senderPSITask = std::make_shared<JsonTaskImpl>(senderAgencyName);
     senderPSITask->setId("0x00000000");
+    senderPSITask->setEnableOutputExists(true);
     senderPSITask->setParam(R"(["setup_sender_db","32"])");
     senderPSITask->setSelf(senderParty);
     senderPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::LABELED_PSI_2PC);
@@ -95,6 +96,7 @@ void saveCache(LabeledPSIImpl::Ptr _sender)
 
     auto senderPSITask = std::make_shared<JsonTaskImpl>(senderAgencyName);
     senderPSITask->setId("0x00000012");
+    senderPSITask->setEnableOutputExists(true);
     senderPSITask->setParam(R"(["save_sender_cache"])");
     senderPSITask->setSelf(senderParty);
     senderPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::LABELED_PSI_2PC);
@@ -234,6 +236,7 @@ void testLabeledPSIImplFunc(const std::string& _taskID, const std::string& _para
     // trigger the psi task
     auto senderPSITask = std::make_shared<JsonTaskImpl>(senderAgencyName);
     senderPSITask->setId(_taskID);
+    senderPSITask->setEnableOutputExists(true);
     senderPSITask->setParam(_params);
     senderPSITask->setSelf(_senderParty);
     senderPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::LABELED_PSI_2PC);
@@ -241,6 +244,7 @@ void testLabeledPSIImplFunc(const std::string& _taskID, const std::string& _para
 
     auto receiverPSITask = std::make_shared<JsonTaskImpl>(receiverAgencyName);
     receiverPSITask->setId(_taskID);
+    receiverPSITask->setEnableOutputExists(true);
     receiverPSITask->setSelf(_receiverParty);
     receiverPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::LABELED_PSI_2PC);
     receiverPSITask->addParty(_senderParty);

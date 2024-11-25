@@ -150,8 +150,6 @@ protected:
             m_senders.erase(it);
         }
     }
-    // allow the output-path exists, for ut
-    bool m_enableOutputExists = false;
     // 为true时启动时会从配置中加载文件作为匹配源
     bool m_enableMemoryFile = false;
     ppc::protocol::DataResource m_resource;

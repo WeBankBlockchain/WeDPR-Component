@@ -168,7 +168,7 @@ void CM2020PSIImpl::asyncRunTask()
         auto role = task->selfParty()->partyIndex();
         if (role == uint16_t(PartyType::Client) || task->syncResultToPeer())
         {
-            auto writer = loadWriter(task->id(), dataResource, m_enableOutputExists);
+            auto writer = loadWriter(task->id(), dataResource, task->enableOutputExists());
             taskState->setWriter(writer);
         }
 

@@ -40,8 +40,6 @@ public:
     bcos::Error::Ptr insertTask(protocol::Task::Ptr _task) override;
     bcos::Error::Ptr updateTaskStatus(protocol::TaskResult::Ptr _taskResult) override;
     protocol::TaskResult::Ptr getTaskStatus(const std::string& _taskID) override;
-    bcos::Error::Ptr deleteGateway(const std::string& _agencyID) override;
-    std::vector<protocol::GatewayInfo> listGateway() override;
 
 protected:
     void cleanTask();

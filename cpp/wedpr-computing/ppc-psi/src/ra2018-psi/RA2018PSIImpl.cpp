@@ -646,7 +646,7 @@ void RA2018PSIImpl::runClientPSI(TaskState::Ptr const& _taskState)
     {
         return;
     }
-    if (!m_enableOutputExists)
+    if (!_taskState->task()->enableOutputExists())
     {
         // Note: if the output-resource already exists, will throw exception
         m_config->dataResourceLoader()->checkResourceExists(dataResource->outputDesc());

@@ -153,6 +153,7 @@ void testCM2020PSIImplFunc(const std::string& _taskID, const std::string& _param
     senderPSITask->setId(_taskID);
     senderPSITask->setParam(_params);
     senderPSITask->setSelf(_senderParty);
+    senderPSITask->setEnableOutputExists(true);
     senderPSITask->addParty(_receiverParty);
     senderPSITask->setSyncResultToPeer(_syncResults);
     senderPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::CM_PSI_2PC);
@@ -161,6 +162,7 @@ void testCM2020PSIImplFunc(const std::string& _taskID, const std::string& _param
     receiverPSITask->setId(_taskID);
     receiverPSITask->setParam(_params);
     receiverPSITask->setSelf(_receiverParty);
+    receiverPSITask->setEnableOutputExists(true);
     receiverPSITask->addParty(_senderParty);
     receiverPSITask->setSyncResultToPeer(_syncResults);
     receiverPSITask->setAlgorithm((uint8_t)TaskAlgorithmType::CM_PSI_2PC);

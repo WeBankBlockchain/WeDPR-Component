@@ -67,6 +67,10 @@ using ConstParties = std::vector<PartyResource::ConstPtr>;
 
 inline std::string printPartyInfo(PartyResource::ConstPtr _party)
 {
+    if (!_party)
+    {
+        return "empty";
+    }
     std::ostringstream stringstream;
     stringstream << LOG_KV("partyId", _party->id()) << LOG_KV("partyIndex", _party->partyIndex())
                  << LOG_KV("desc", _party->desc());

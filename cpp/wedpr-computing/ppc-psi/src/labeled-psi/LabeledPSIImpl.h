@@ -116,9 +116,6 @@ protected:
         }
     }
 
-protected:
-    // allow the output-path exists, for ut
-    bool m_enableOutputExists = false;
 
 private:
     void waitSignal()

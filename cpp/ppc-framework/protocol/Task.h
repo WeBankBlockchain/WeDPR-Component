@@ -143,6 +143,15 @@ public:
     // decode the task
     virtual void decode(std::string_view _taskData) = 0;
     virtual std::string encode() const = 0;
+
+    virtual bool enableOutputExists() const { return m_enableOutputExists; }
+    virtual void setEnableOutputExists(bool enableOutputExists)
+    {
+        m_enableOutputExists = enableOutputExists;
+    }
+
+protected:
+    bool m_enableOutputExists = false;
 };
 
 class TaskFactory
@@ -160,9 +169,14 @@ public:
 inline std::string printTaskInfo(Task::ConstPtr _task)
 {
     std::ostringstream stringstream;
+    if (!_task)
+    {
+        return "empty";
+    }
     stringstream << LOG_KV("id", _task->id())
                  << LOG_KV("type", (ppc::protocol::TaskType)_task->type())
                  << LOG_KV("algorithm", (ppc::protocol::TaskAlgorithmType)_task->algorithm())
+                 << LOG_KV("enableOutputExists", _task->enableOutputExists())
                  << LOG_KV("taskPtr", _task);
     if (_task->selfParty())
     {

@@ -43,9 +43,7 @@ public:
     using Ptr = std::shared_ptr<FakeLabeledPSIImpl>;
     FakeLabeledPSIImpl(LabeledPSIConfig::Ptr const& _config, unsigned _idleTimeMs = 0)
       : LabeledPSIImpl(_config, _idleTimeMs)
-    {
-        m_enableOutputExists = true;
-    }
+    {}
     ~FakeLabeledPSIImpl() override = default;
 };
 

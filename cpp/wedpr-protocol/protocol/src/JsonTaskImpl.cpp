@@ -54,6 +54,10 @@ void JsonTaskImpl::decodeJsonValue(Json::Value const& root)
     {
         BOOST_THROW_EXCEPTION(InvalidParameter() << errinfo_comment("Must specify the taskType"));
     }
+    if (root.isMember("enableOutputExists"))
+    {
+        m_enableOutputExists = root["enableOutputExists"].asBool();
+    }
     checkNull(root["type"], "taskType");
     m_type = root["type"].asUInt();
     // the taskAlgorithm
@@ -309,6 +313,7 @@ std::string JsonTaskImpl::encode() const
     // sync-result or not
     taskInfo["syncResult"] = m_syncResultToPeer;
     taskInfo["lowBandwidth"] = m_lowBandwidth;
+    taskInfo["enableOutputExists"] = m_enableOutputExists;
 
     Json::Value receiverList;
     for (auto const& it : m_receiverLists)

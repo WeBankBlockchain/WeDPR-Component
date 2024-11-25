@@ -85,8 +85,5 @@ protected:
 protected:
     EcdhPSIConfig::Ptr m_config;
     EcdhCache::Ptr m_cache;
-
-    // allow the output-path exists, for ut
-    bool m_enableOutputExists = false;
 };
 }  // namespace ppc::psi

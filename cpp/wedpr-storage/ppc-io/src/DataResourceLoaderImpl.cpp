@@ -213,7 +213,7 @@ void DataResourceLoaderImpl::deleteResource(
     {
         BOOST_THROW_EXCEPTION(
             UnSupportedDataResource() << errinfo_comment(
-                "checkResourceExists: Only support File/HDFS now, passed in resource type: " +
+                "deleteResource: Only support File/HDFS now, passed in resource type: " +
                 std::to_string(_desc->type())));
     }
     }
@@ -264,7 +264,7 @@ void DataResourceLoaderImpl::renameResource(ppc::protocol::DataResourceDesc::Con
     {
         BOOST_THROW_EXCEPTION(
             UnSupportedDataResource() << errinfo_comment(
-                "checkResourceExists: Only support File/HDFS now, passed in resource type: " +
+                "renameResource: Only support File/HDFS now, passed in resource type: " +
                 std::to_string(_desc->type())));
     }
     }
