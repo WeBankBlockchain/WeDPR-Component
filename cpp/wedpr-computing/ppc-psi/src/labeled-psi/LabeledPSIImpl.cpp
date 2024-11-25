@@ -82,69 +82,83 @@ void LabeledPSIImpl::asyncRunTask(
         }
     };
 
-
-    // there is always a self-help party
-    auto role = _task->selfParty()->partyIndex();
-    if (role == uint16_t(PartyType::Client))
+    try
     {
-        auto error = checkTask(_task, 2, true, true, false);
-        if (error)
+        // there is always a self-help party
+        auto role = _task->selfParty()->partyIndex();
+        if (role == uint16_t(PartyType::Client))
         {
-            LABELED_PSI_LOG(WARNING) << LOG_DESC("failed to check task, " + error->errorMessage())
-                                     << printTaskInfo(_task);
+            auto error = checkTask(_task, 2, true, true, false);
+            if (error)
+            {
+                LABELED_PSI_LOG(WARNING)
+                    << LOG_DESC("failed to check task, " + error->errorMessage())
+                    << printTaskInfo(_task);
+                // notice peer to cancel task
+                noticePeerToFinish(_task);
+
+                auto result = std::make_shared<TaskResult>(_task->id());
+                result->setError(std::move(error));
+                onTaskFinished(std::move(result));
+                return;
+            }
+
+            // add pending task
+            auto taskState = m_taskStateFactory->createTaskState(_task, std::move(onTaskFinished));
+            taskState->setPeerID(getPeerID(_task));
+            taskState->registerNotifyPeerFinishHandler([self = weak_from_this(), _task]() {
+                auto psi = self.lock();
+                if (!psi)
+                {
+                    return;
+                }
+
+                psi->noticePeerToFinish(_task);
+            });
+            // check the memory
+            checkHostResource();
+            addPendingTask(taskState);
+
+            auto oprfClient = std::make_shared<EcdhOprfClient>(
+                sizeof(apsi::Item::value_type) + sizeof(apsi::LabelKey), m_config->hash(),
+                m_config->eccCrypto());
+            auto receiver = std::make_shared<LabeledPSIReceiver>(m_config, taskState, oprfClient);
+            receiver->asyncRunTask();
+            addReceiver(receiver);
+
+            // notify the taskInfo to the front
+            error = m_config->front()->notifyTaskInfo(_task->id());
+            if (error && error->errorCode())
+            {
+                onSelfError(_task->id(), error, true);
+            }
+        }
+        else if (role == uint16_t(PartyType::Server))
+        {
+            asyncRunSenderTask(_task, std::move(onTaskFinished));
+        }
+        else
+        {
+            LABELED_PSI_LOG(WARNING) << LOG_DESC("undefined task role") << unsigned(role);
             // notice peer to cancel task
             noticePeerToFinish(_task);
 
             auto result = std::make_shared<TaskResult>(_task->id());
-            result->setError(std::move(error));
+            result->setError(std::make_shared<bcos::Error>(
+                (int)LabeledPSIRetCode::UNDEFINED_TASK_ROLE, "undefined task role"));
             onTaskFinished(std::move(result));
+            noticePeerToFinish(_task);
             return;
         }
-
-        // add pending task
-        auto taskState = m_taskStateFactory->createTaskState(_task, std::move(onTaskFinished));
-        taskState->setPeerID(getPeerID(_task));
-        taskState->registerNotifyPeerFinishHandler([self = weak_from_this(), _task]() {
-            auto psi = self.lock();
-            if (!psi)
-            {
-                return;
-            }
-
-            psi->noticePeerToFinish(_task);
-        });
-        addPendingTask(taskState);
-
-        auto oprfClient = std::make_shared<EcdhOprfClient>(
-            sizeof(apsi::Item::value_type) + sizeof(apsi::LabelKey), m_config->hash(),
-            m_config->eccCrypto());
-        auto receiver = std::make_shared<LabeledPSIReceiver>(m_config, taskState, oprfClient);
-        receiver->asyncRunTask();
-        addReceiver(receiver);
-
-        // notify the taskInfo to the front
-        error = m_config->front()->notifyTaskInfo(_task->id());
-        if (error && error->errorCode())
-        {
-            onSelfError(_task->id(), error, true);
-        }
     }
-    else if (role == uint16_t(PartyType::Server))
+    catch (std::exception const& e)
     {
-        asyncRunSenderTask(_task, std::move(onTaskFinished));
-    }
-    else
-    {
-        LABELED_PSI_LOG(WARNING) << LOG_DESC("undefined task role") << unsigned(role);
-        // notice peer to cancel task
-        noticePeerToFinish(_task);
-
-        auto result = std::make_shared<TaskResult>(_task->id());
-        result->setError(std::make_shared<bcos::Error>(
-            (int)LabeledPSIRetCode::UNDEFINED_TASK_ROLE, "undefined task role"));
-        onTaskFinished(std::move(result));
-        noticePeerToFinish(_task);
-        return;
+        LABELED_PSI_LOG(WARNING) << LOG_DESC("asyncRunTask exception")
+                                 << LOG_KV("task", printTaskInfo(_task))
+                                 << LOG_KV("error", boost::diagnostic_information(e));
+        auto error = std::make_shared<bcos::Error>(
+            -1, "asyncRunTask failed for " + boost::diagnostic_information(e));
+        onSelfError(_task->id(), error, true);
     }
 }
 

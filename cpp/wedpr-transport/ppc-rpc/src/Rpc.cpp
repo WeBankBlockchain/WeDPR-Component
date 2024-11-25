@@ -22,7 +22,6 @@
 #include "JsonResponse.h"
 #include "ppc-framework/protocol/Protocol.h"
 #include "ppc-framework/rpc/RpcTypeDef.h"
-#include "ppc-tools/src/common/MemInfo.h"
 #include "ppc-tools/src/config/ParamChecker.h"
 #include <bcos-utilities/Error.h>
 
@@ -180,8 +179,6 @@ void Rpc::runTask(Json::Value const& _req, RespFunc _respFunc)
         BOOST_THROW_EXCEPTION(
             BCOS_ERROR((int64_t)RpcError::StorageNotSet, "storage for rpc not set"));
     }
-    checkHostResource();
-
     auto task = m_taskFactory->createTask(_req);
     auto taskHandler = getTaskHandler(task->type(), task->algorithm());
     // not find the handler
@@ -237,8 +234,6 @@ void Rpc::asyncRunTask(Json::Value const& _req, RespFunc _respFunc)
         BOOST_THROW_EXCEPTION(
             BCOS_ERROR((int64_t)RpcError::StorageNotSet, "storage for rpc not set"));
     }
-    checkHostResource();
-
     auto task = m_taskFactory->createTask(_req);
     auto taskHandler = getTaskHandler(task->type(), task->algorithm());
     // not find the handler
@@ -312,8 +307,6 @@ void Rpc::asyncRunBsModeTask(Json::Value const& _req, RespFunc _respFunc)
         BOOST_THROW_EXCEPTION(
             BCOS_ERROR((int64_t)RpcError::BsModePsiNotSet, "bs psi for rpc not set"));
     }
-    checkHostResource();
-
     auto request = std::make_shared<psi::RunTaskRequest>(_req, m_prePath);
     m_bsEcdhPSI->asyncRunTask(request, [&](psi::BsEcdhResult::Ptr&& _result) {
         _respFunc(_result->error(), _result->serializeToJson());
@@ -422,15 +415,4 @@ void Rpc::updateBsModeTaskStatus(Json::Value const& _req, RespFunc _respFunc)
     auto request = std::make_shared<psi::UpdateTaskStatusRequest>(_req);
     auto result = m_bsEcdhPSI->updateTaskStatus(request);
     _respFunc(result->error(), result->serializeToJson());
-}
-
-void Rpc::checkHostResource()
-{
-#ifdef __linux__
-    if (!hasAvailableMem(m_minNeededMemoryGB))
-    {
-        BOOST_THROW_EXCEPTION(
-            BCOS_ERROR((int64_t)RpcError::LackOfMemory, "Lack of memory, please try again later."));
-    }
-#endif
 }

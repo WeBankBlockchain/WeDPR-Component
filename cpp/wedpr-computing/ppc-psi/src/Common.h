@@ -18,6 +18,7 @@
  * @date 2022-12-26
  */
 #pragma once
+#include "ppc-tools/src/common/MemInfo.h"
 #include <cstdint>
 #include <sstream>
 #define PSI_LOG(LEVEL) BCOS_LOG(LEVEL) << LOG_BADGE("PSI")
@@ -149,4 +150,16 @@ inline std::ostream& operator<<(std::ostream& _out, CacheState const& _state)
     }
     return _out;
 }
+
+inline void checkHostResource()
+{
+#ifdef __linux__
+    if (!hasAvailableMem(m_minNeededMemoryGB))
+    {
+        BOOST_THROW_EXCEPTION(
+            BCOS_ERROR((int64_t)RpcError::LackOfMemory, "Lack of memory, please try again later."));
+    }
+#endif
+}
+
 }  // namespace ppc::psi

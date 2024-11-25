@@ -104,43 +104,46 @@ void EcdhMultiPSIImpl::handlerPSIReceiveMessage(PSIMessageInterface::Ptr _msg)
 void EcdhMultiPSIImpl::asyncRunTask(
     ppc::protocol::Task::ConstPtr _task, ppc::task::TaskResponseCallback&& _onTaskFinished)
 {
-    auto taskID = _task->id();
-    auto taskState =
-        m_taskStateFactory->createTaskState(_task, std::move(_onTaskFinished), false, m_config);
-    auto self = weak_from_this();
-    taskState->registerNotifyPeerFinishHandler([self, _task]() {
-        auto psi = self.lock();
-        if (!psi)
-        {
-            return;
-        }
-        psi->noticePeerToFinish(_task);
-    });
-    taskState->registerFinalizeHandler([self, taskID]() {
-        auto psi = self.lock();
-        if (!psi)
-        {
-            return;
-        }
-        // erase the taskInfo from the gateway
-        psi->m_config->front()->eraseTaskInfo(taskID);
-        psi->removeCalculator(taskID);
-        psi->removeMaster(taskID);
-        psi->removePartner(taskID);
-        psi->removePendingTask(taskID);
-    });
-    addPendingTask(taskState);
-    // over the peer limit
-    if (_task->getAllPeerParties().size() > c_max_peer_size)
-    {
-        auto error = std::make_shared<bcos::Error>(
-            -1, "at most support " + std::to_string(c_max_peer_size) + " peers, over the limit!");
-        ECDH_MULTI_LOG(WARNING) << LOG_DESC("asyncRunTask failed")
-                                << LOG_KV("msg", error->errorMessage());
-        onSelfError(_task->id(), error, true);
-    }
     try
     {
+        auto taskID = _task->id();
+        auto taskState =
+            m_taskStateFactory->createTaskState(_task, std::move(_onTaskFinished), false, m_config);
+        auto self = weak_from_this();
+        taskState->registerNotifyPeerFinishHandler([self, _task]() {
+            auto psi = self.lock();
+            if (!psi)
+            {
+                return;
+            }
+            psi->noticePeerToFinish(_task);
+        });
+        taskState->registerFinalizeHandler([self, taskID]() {
+            auto psi = self.lock();
+            if (!psi)
+            {
+                return;
+            }
+            // erase the taskInfo from the gateway
+            psi->m_config->front()->eraseTaskInfo(taskID);
+            psi->removeCalculator(taskID);
+            psi->removeMaster(taskID);
+            psi->removePartner(taskID);
+            psi->removePendingTask(taskID);
+        });
+        // check the memory
+        checkHostResource();
+        addPendingTask(taskState);
+        // over the peer limit
+        if (_task->getAllPeerParties().size() > c_max_peer_size)
+        {
+            auto error = std::make_shared<bcos::Error>(-1,
+                "at most support " + std::to_string(c_max_peer_size) + " peers, over the limit!");
+            ECDH_MULTI_LOG(WARNING)
+                << LOG_DESC("asyncRunTask failed") << LOG_KV("msg", error->errorMessage());
+            onSelfError(_task->id(), error, true);
+        }
+
         auto dataResource = _task->selfParty()->dataResource();
         auto reader = loadReader(_task->id(), dataResource, DataSchema::Bytes);
         auto sqlReader = (reader->type() == ppc::protocol::DataResourceType::MySQL);

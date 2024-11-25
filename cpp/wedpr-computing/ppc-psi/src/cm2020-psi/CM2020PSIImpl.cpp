@@ -155,6 +155,8 @@ void CM2020PSIImpl::asyncRunTask()
 
         psi->noticePeerToFinish(task);
     });
+    // check the memory
+    checkHostResource();
     addPendingTask(taskState);
 
     try

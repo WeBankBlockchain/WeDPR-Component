@@ -135,8 +135,6 @@ protected:
 
     virtual void getPeers(Json::Value const& _req, RespFunc _respFunc);
 
-    void checkHostResource();
-
 private:
     std::string m_prePath;
     std::shared_ptr<bcos::boostssl::ws::WsService> m_wsService;
