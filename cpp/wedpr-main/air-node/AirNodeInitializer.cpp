@@ -62,7 +62,8 @@ void AirNodeInitializer::init(std::string const& _configPath)
 
     INIT_LOG(INFO) << LOG_DESC("init the rpc");
     // init RpcStatusInterface
-    RpcStatusInterface::Ptr rpcStatusInterface = std::make_shared<ppc::rpc::RpcMemory>();
+    RpcStatusInterface::Ptr rpcStatusInterface =
+        std::make_shared<ppc::rpc::RpcMemory>(m_nodeInitializer->ppcFront());
 
 
     auto rpcFactory = std::make_shared<RpcFactory>(m_nodeInitializer->config()->agencyID());

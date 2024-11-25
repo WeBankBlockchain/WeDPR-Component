@@ -81,6 +81,17 @@ bcos::Error::Ptr RpcMemory::insertTask(protocol::Task::Ptr _task)
         {
             return std::make_shared<bcos::Error>(PPCRetCode::WRITE_RPC_STATUS_ERROR, "task exists");
         }
+        if (taskResult)
+        {
+            RPC_STATUS_LOG(INFO) << LOG_DESC("find the existed not running-task")
+                                 << LOG_KV("task", _task->id())
+                                 << LOG_KV("status", taskResult->status());
+            if (taskResult->status() != toString(TaskState::COMPLETED))
+            {
+                // erase the task_id
+                m_front->eraseTaskInfo(_task->id());
+            }
+        }
     }
     auto taskResult = std::make_shared<TaskResult>(_task->id());
     taskResult->setStatus(toString(TaskStatus::RUNNING));
