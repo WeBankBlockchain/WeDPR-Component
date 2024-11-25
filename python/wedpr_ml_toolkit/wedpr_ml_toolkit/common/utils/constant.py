@@ -7,6 +7,7 @@ class Constant:
     DEFAULT_SUBMIT_JOB_URI = f'{WEDPR_API_PREFIX}project/submitJob'
     DEFAULT_QUERY_JOB_STATUS_URL = f'{WEDPR_API_PREFIX}project/queryJobByCondition'
     DEFAULT_QUERY_JOB_DETAIL_URL = f'{WEDPR_API_PREFIX}scheduler/queryJobDetail'
+    DEFAULT_QUERY_DATASET_URL = f'{WEDPR_API_PREFIX}dataset/queryDataset'
     PSI_RESULT_FILE = "psi_result.csv"
 
     FEATURE_BIN_FILE = "feature_bin.json"

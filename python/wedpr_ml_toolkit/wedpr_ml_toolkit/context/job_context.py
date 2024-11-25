@@ -10,6 +10,7 @@ from abc import abstractmethod
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import WeDPRRemoteJobClient
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobType, ModelType
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import ModelResult
+from wedpr_ml_toolkit.transport.wedpr_remote_dataset_client import DatasetMeta
 
 
 class JobContext:
@@ -92,7 +93,8 @@ class JobContext:
         # ...
 
         # query_job_detail
-        result_detail = self.remote_job_client.query_job_detail(job_id, block_until_success)
+        result_detail = self.remote_job_client.query_job_detail(
+            job_id, block_until_success)
         return result_detail
 
 
@@ -117,10 +119,11 @@ class PSIJobContext(JobContext):
     def parse_result(self, job_id, block_until_success):
         result_detail = self.fetch_job_result(job_id, block_until_success)
 
-        psi_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point, 
-                                storage_workspace=None, 
-                                dataset_owner=self.storage_entry_point.user_config.user,
-                                dataset_path=result_detail.resultFileInfo['path'], agency=self.create_agency)
+        dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user, agency=self.create_agency,
+                                   file_path=result_detail.resultFileInfo['path'])
+        psi_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+                                    storage_workspace=None,
+                                    dataset_meta=dataset_meta)
 
         return psi_result
 
@@ -146,8 +149,8 @@ class PreprocessingJobContext(JobContext):
         result_detail = self.fetch_job_result(job_id, block_until_success)
 
         pre_result = result_detail
-        # pre_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point, 
-        #                         storage_workspace=None, 
+        # pre_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+        #                         storage_workspace=None,
         #                         dataset_owner=self.storage_entry_point.user_config.user,
         #                         dataset_path=result_detail.resultFileInfo['path'], agency=self.create_agency)
 
@@ -175,8 +178,8 @@ class FeatureEngineeringJobContext(JobContext):
         result_detail = self.fetch_job_result(job_id, block_until_success)
 
         fe_result = result_detail
-        # fe_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point, 
-        #                         storage_workspace=None, 
+        # fe_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+        #                         storage_workspace=None,
         #                         dataset_owner=self.storage_entry_point.user_config.user,
         #                         dataset_path=result_detail.resultFileInfo['path'], agency=self.create_agency)
 
@@ -204,17 +207,20 @@ class SecureLGBMTrainingJobContext(JobContext):
 
     def parse_result(self, job_id, block_until_success):
         result_detail = self.fetch_job_result(job_id, block_until_success)
-        # result_detail.modelResultDetail['ModelResult']
-        train_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point, 
-                                    storage_workspace=None, 
-                                    dataset_owner=self.storage_entry_point.user_config.user,
-                                    dataset_path=result_detail.modelResultDetail['ModelResult']['trainResultPath'], agency=self.create_agency)
-        test_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point, 
-                                    storage_workspace=None, 
-                                    dataset_owner=self.storage_entry_point.user_config.user,
-                                    dataset_path=result_detail.modelResultDetail['ModelResult']['testResultPath'], agency=self.create_agency)
+        dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
+                                   file_path=result_detail.modelResultDetail['ModelResult']['trainResultPath'], agency=self.create_agency)
+        train_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+                                      storage_workspace=None,
+                                      dataset_meta=dataset_meta)
 
-        xgb_result = ModelResult(job_id, train_result, test_result, result_detail.model, ModelType.XGB_MODEL_SETTING.name)
+        test_dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
+                                        file_path=result_detail.modelResultDetail['ModelResult']['testResultPath'], agency=self.create_agency)
+        test_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+                                     storage_workspace=None,
+                                     dataset_meta=test_dataset_meta)
+
+        xgb_result = ModelResult(job_id, train_result, test_result,
+                                 result_detail.model, ModelType.XGB_MODEL_SETTING.name)
         return xgb_result
 
 
@@ -240,10 +246,11 @@ class SecureLGBMPredictJobContext(JobContext):
 
     def parse_result(self, job_id, block_until_success):
         result_detail = self.fetch_job_result(job_id, block_until_success)
-        test_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point, 
-                                    storage_workspace=None, 
-                                    dataset_owner=self.storage_entry_point.user_config.user,
-                                    dataset_path=result_detail.modelResultDetail['ModelResult']['testResultPath'], agency=self.create_agency)
+        dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
+                                   file_path=result_detail.modelResultDetail['ModelResult']['testResultPath'],
+                                   agency=self.create_agency)
+        test_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+                                     dataset_meta=dataset_meta)
 
         xgb_result = ModelResult(job_id, test_result=test_result)
         return xgb_result
@@ -268,17 +275,19 @@ class SecureLRTrainingJobContext(JobContext):
 
     def parse_result(self, job_id, block_until_success):
         result_detail = self.fetch_job_result(job_id, block_until_success)
-        # result_detail.modelResultDetail['ModelResult']
-        train_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point, 
-                                    storage_workspace=None, 
-                                    dataset_owner=self.storage_entry_point.user_config.user,
-                                    dataset_path=result_detail.modelResultDetail['ModelResult']['trainResultPath'], agency=self.create_agency)
-        test_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point, 
-                                    storage_workspace=None, 
-                                    dataset_owner=self.storage_entry_point.user_config.user,
-                                    dataset_path=result_detail.modelResultDetail['ModelResult']['testResultPath'], agency=self.create_agency)
+        train_dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
+                                         file_path=result_detail.modelResultDetail['ModelResult']['trainResultPath'], agency=self.create_agency)
+        train_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+                                      dataset_meta=train_dataset_meta)
 
-        lr_result = ModelResult(job_id, train_result, test_result, result_detail.model, ModelType.LR_MODEL_SETTING.name)
+        test_dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
+                                        file_path=result_detail.modelResultDetail['ModelResult']['testResultPath'], agency=self.create_agency)
+        test_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+                                     storage_workspace=None,
+                                     dataset_meta=test_dataset_meta)
+
+        lr_result = ModelResult(job_id, train_result, test_result,
+                                result_detail.model, ModelType.LR_MODEL_SETTING.name)
         return lr_result
 
 
@@ -302,10 +311,10 @@ class SecureLRPredictJobContext(JobContext):
 
     def parse_result(self, job_id, block_until_success):
         result_detail = self.fetch_job_result(job_id, block_until_success)
-        test_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point, 
-                                    storage_workspace=None, 
-                                    dataset_owner=self.storage_entry_point.user_config.user,
-                                    dataset_path=result_detail.modelResultDetail['ModelResult']['testResultPath'], agency=self.create_agency)
+        dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
+                                   file_path=result_detail.modelResultDetail['ModelResult']['testResultPath'], agency=self.create_agency)
+        test_result = DatasetToolkit(storage_entrypoint=self.storage_entry_point,
+                                     dataset_meta=dataset_meta)
 
         lr_result = ModelResult(job_id, test_result=test_result)
         return lr_result

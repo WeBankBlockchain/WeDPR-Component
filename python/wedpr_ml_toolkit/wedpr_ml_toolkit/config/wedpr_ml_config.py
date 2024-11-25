@@ -31,6 +31,11 @@ class JobConfig(BaseObject):
         self.query_job_detail_uri = query_job_detail_uri
 
 
+class DatasetConfig(BaseObject):
+    def __init__(self, query_dataset_uri=Constant.DEFAULT_QUERY_DATASET_URL):
+        self.query_dataset_uri = query_dataset_uri
+
+
 class StorageConfig(BaseObject):
     def __init__(self, storage_endpoint: str = None):
         self.storage_endpoint = storage_endpoint
@@ -70,6 +75,7 @@ class WeDPRMlConfig:
         self.http_config.set_params(**config_dict)
         self.agency_config = AgencyConfig()
         self.agency_config.set_params(**config_dict)
+        self.dataset_config = DatasetConfig()
 
 
 class WeDPRMlConfigBuilder:

@@ -86,7 +86,7 @@ class JobInfo(BaseObject):
 
 class ModelInfo(BaseObject):
     def __init__(self, model, model_type, **params: Any):
-        
+
         self.type = model_type
         # self.setting = json.loads(model)
         self.setting = model
@@ -102,7 +102,7 @@ class ModelInfo(BaseObject):
 
 
 class ModelResult:
-    def __init__(self, job_id: str, train_result = None, test_result = None, model = None, model_type = None):
+    def __init__(self, job_id: str, train_result=None, test_result=None, model=None, model_type=None):
         self.job_id = job_id
         self.train_result = train_result
         self.test_result = test_result

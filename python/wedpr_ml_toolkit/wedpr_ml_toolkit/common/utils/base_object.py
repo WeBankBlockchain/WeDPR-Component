@@ -26,3 +26,14 @@ class BaseObject:
                     time.sleep(retry_wait_seconds)
                 else:
                     raise e
+
+
+class WeDPRResponse(BaseObject):
+    def __init__(self, **params: Any):
+        self.code = None
+        self.msg = None
+        self.data = None
+        self.set_params(**params)
+
+    def success(self):
+        return self.code is not None and self.code == 0

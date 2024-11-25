@@ -25,17 +25,16 @@ class WeDPRMlToolkitTestWrapper:
             # x1到x10列，随机数
             **{f'x{i}': np.random.rand(100) for i in range(1, 11)}
         })
-
         dataset1 = DatasetToolkit(storage_entrypoint=self.wedpr_ml_toolkit.get_storage_entry_point(),
+                                  dataset_client=self.wedpr_ml_toolkit.get_dataset_client(),
                                   storage_workspace=self.wedpr_config.user_config.get_workspace_path(),
-                                  agency=self.wedpr_config.user_config.agency_name,
-                                  values=df,
                                   is_label_holder=True)
-        dataset1.save_values(path='d-101')
+        dataset1.save_values(df, path='d-101')
 
         # hdfs_path
         dataset2 = DatasetToolkit(storage_entrypoint=self.wedpr_ml_toolkit.get_storage_entry_point(),
-                                  dataset_path="d-9606695119693829", agency="WeBank")
+                                  dataset_client=self.wedpr_ml_toolkit.get_dataset_client(),
+                                  dataset_id="d-9606695119693829")
 
         dataset2.storage_client = None
         # dataset2.load_values()
@@ -46,11 +45,12 @@ class WeDPRMlToolkitTestWrapper:
                 # x1到x10列，随机数
                 **{f'z{i}': np.random.rand(100) for i in range(1, 11)}
             })
-            dataset2.update_values(values=df2)
+            dataset2.save_values(values=df2)
         if dataset1.storage_client is not None:
-            dataset1.update_values(
-                path='/user/ppc/milestone2/sgd/flyhuang1/d-9606704699156485')
-            dataset1.load_values()
+            # save values to df
+            dataset1.save_values(df)
+            (values, columns, shape) = dataset1.load_values()
+            print(f"### values: {values}")
 
         # 构建 dataset context
         dataset = DataContext(dataset1, dataset2)
