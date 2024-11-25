@@ -201,6 +201,10 @@ void TaskState::removeGeneratedOutputFile()
     {
         return;
     }
+    if (!m_writer)
+    {
+        return;
+    }
     auto outputDataResource = m_task->selfParty()->dataResource();
     if (!outputDataResource->desc())
     {
@@ -271,10 +275,11 @@ void TaskState::onTaskFinished(TaskResult::Ptr _result, bool _noticePeer)
 void TaskState::onPeerNotifyFinish()
 {
     PSI_LOG(WARNING) << LOG_BADGE("onReceivePeerError") << LOG_KV("taskID", m_task->id());
-    auto tesult = std::make_shared<TaskResult>(task()->id());
-    tesult->setError(std::make_shared<bcos::Error>(
+    auto result = std::make_shared<TaskResult>(task()->id());
+    result->setError(std::make_shared<bcos::Error>(
         (int)PSIRetCode::PeerNotifyFinish, "job participant sent an error"));
-    onTaskFinished(std::move(tesult), false);
+    onTaskFinished(std::move(result), false);
+    removeGeneratedOutputFile();
 }
 
 // Note: must store the result serially

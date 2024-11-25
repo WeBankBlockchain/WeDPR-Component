@@ -152,15 +152,14 @@ void CM2020PSIImpl::asyncRunTask()
         {
             return;
         }
-
+        CM2020_PSI_LOG(INFO) << LOG_DESC("noticePeerToFinish") << printTaskInfo(task);
         psi->noticePeerToFinish(task);
     });
-    // check the memory
-    checkHostResource(m_config->minNeededMemoryGB());
-    addPendingTask(taskState);
-
     try
     {
+        addPendingTask(taskState);
+        // check the memory
+        checkHostResource(m_config->minNeededMemoryGB());
         // prepare reader and writer
         auto dataResource = task->selfParty()->dataResource();
         auto reader = loadReader(task->id(), dataResource, DataSchema::Bytes);
@@ -321,6 +320,7 @@ void CM2020PSIImpl::stop()
 
 void CM2020PSIImpl::onReceivedErrorNotification(const std::string& _taskID)
 {
+    CM2020_PSI_LOG(INFO) << LOG_DESC("onReceivedErrorNotification") << LOG_KV("taskID", _taskID);
     // finish the task while the peer is failed
     auto taskState = findPendingTask(_taskID);
     if (taskState)
