@@ -98,6 +98,8 @@ class Initializer:
         transport = TransportLoader.load(transport_config)
         self.logger(
             f"Create transport success, config: {transport.get_config().desc()}, access_entrypoint: {access_entrypoint}")
+        # the configuration used to distinguish different wedpr-privacy-zone
+        transport.register_component(self.config_data['WEDPR_ZONE'])
         # start the transport
         transport.start()
         self.logger().info(

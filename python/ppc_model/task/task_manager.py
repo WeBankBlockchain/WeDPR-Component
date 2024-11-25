@@ -83,7 +83,7 @@ class TaskPersistent:
         worker_recorder = self.query_task(task_result.task_id)
         if worker_recorder is None:
             self.logger.warn(
-                f"TaskPersistent error, the task not found! task_result: {task_result}")
+                f"TaskPersistent error, the task {task_result.task_id} not found! task_result: {task_result}")
             return
         # update the task result
         worker_recorder.status = task_result.task_status
