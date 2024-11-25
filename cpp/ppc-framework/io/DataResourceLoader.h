@@ -50,5 +50,11 @@ public:
 
     virtual void checkResourceExists(ppc::protocol::DataResourceDesc::ConstPtr _desc,
         ppc::storage::FileStorage::Ptr const& _storage = nullptr) = 0;
+
+    virtual void deleteResource(ppc::protocol::DataResourceDesc::ConstPtr _desc,
+        ppc::storage::FileStorage::Ptr const& _storage = nullptr) = 0;
+
+    virtual void renameResource(ppc::protocol::DataResourceDesc::ConstPtr _desc,
+        std::string const& _new_path, ppc::storage::FileStorage::Ptr const& _storage = nullptr) = 0;
 };
 }  // namespace ppc::io

@@ -144,6 +144,9 @@ public:
 
     uint32_t sendedDataBatchSize() const { return m_seqList.size(); }
 
+private:
+    void removeGeneratedOutputFile();
+
 protected:
     ppc::protocol::Task::ConstPtr m_task;
     ppc::task::TaskResponseCallback m_callback;

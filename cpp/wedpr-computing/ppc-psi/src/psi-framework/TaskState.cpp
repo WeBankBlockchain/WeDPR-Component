@@ -166,6 +166,8 @@ void TaskState::onTaskFinished()
                         boost::lexical_cast<std::string>(m_failedCount) + " error!");
             result->setError(std::move(error));
             result->setStatus(toString(TaskStatus::FAILED));
+            // remove the generated output files if run failed
+            removeGeneratedOutputFile();
         }
         else
         {
@@ -193,6 +195,22 @@ void TaskState::onTaskFinished()
     }
 }
 
+void TaskState::removeGeneratedOutputFile()
+{
+    if (!m_task || !m_task->selfParty() || !m_task->selfParty()->dataResource())
+    {
+        return;
+    }
+    auto outputDataResource = m_task->selfParty()->dataResource();
+    if (!outputDataResource->desc())
+    {
+        return;
+    }
+    PSI_LOG(INFO) << LOG_DESC("removeGeneratedFilesForFailed")
+                  << LOG_KV("task", printTaskInfo(m_task));
+    m_config->dataResourceLoader()->deleteResource(outputDataResource);
+}
+
 void TaskState::onTaskFinished(TaskResult::Ptr _result, bool _noticePeer)
 {
     // avoid repeated calls
@@ -213,6 +231,8 @@ void TaskState::onTaskFinished(TaskResult::Ptr _result, bool _noticePeer)
         if (_result->error() && _result->error()->errorCode() != 0)
         {
             _result->setStatus(toString(TaskStatus::FAILED));
+            // remove the generated output files if run failed
+            removeGeneratedOutputFile();
         }
         // Note: we consider that the task success even if the handler exception
         if (_noticePeer && !m_onlySelfRun && _result->error() && _result->error()->errorCode() &&
