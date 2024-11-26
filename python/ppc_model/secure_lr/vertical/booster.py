@@ -145,12 +145,12 @@ class VerticalBooster(SecureModelBooster):
             deriv_x_i = np.frombuffer(self._receive_byte_data(
                 self.ctx, f'{LRMessage.D_MATMUL.value}_{self._iter_id}', partner_index), dtype=np.float)
             self.logger.info(
-                f'{self.ctx.components.config_data["AGENCY_ID"]}, deriv: {deriv}.')
+                f'{self.ctx.components.config_data["AGENCY_ID"]}, deriv size: {deriv.size}.')
             self.logger.info(
-                f'{self.ctx.components.config_data["AGENCY_ID"]}, deriv_x_i: {deriv_x_i}.')
+                f'{self.ctx.components.config_data["AGENCY_ID"]}, deriv_x_i size: {deriv_x_i.size}.')
             deriv += deriv_x_i
         self.logger.info(
-            f'{self.ctx.components.config_data["AGENCY_ID"]}, deriv: {deriv}.')
+            f'{self.ctx.components.config_data["AGENCY_ID"]}, merged deriv size: {deriv.size}.')
         return deriv
 
     def _calculate_deriv1(self, x_, d, partner_index_list, d_other_list):
