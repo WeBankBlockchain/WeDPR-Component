@@ -211,8 +211,6 @@ class SecureDataset:
         if self.algorithm_type == AlgorithmType.Predict.name \
                 and not os.path.exists(self.selected_col_file):
             try:
-                self.ctx.remote_selected_col_file = os.path.join(
-                    self.ctx.model_params.training_job_id, self.ctx.SELECTED_COL_FILE)
                 ResultFileHandling._download_file(self.ctx.components.storage_client,
                                                   self.selected_col_file, self.ctx.remote_selected_col_file)
                 self._dataset_fe_selected(self.selected_col_file, 'id')

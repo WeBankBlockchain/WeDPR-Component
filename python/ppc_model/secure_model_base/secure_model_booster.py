@@ -11,12 +11,8 @@ class SecureModelBooster(VerticalModel):
         super().__init__(ctx)
         self.logger = self.ctx.components.logger()
 
-    def save_model(self, file_path=None, model_type=None):
-        if file_path is not None:
-            self.ctx.model_data_file = os.path.join(
-                file_path, self.ctx.MODEL_DATA_FILE)
-
-        self.save_model_hook(file_path)
+    def save_model(self, model_type=None):
+        self.save_model_hook()
         model = {}
         model['model_type'] = model_type
         model['label_provider'] = self.ctx.participant_id_list[0]
@@ -36,5 +32,5 @@ class SecureModelBooster(VerticalModel):
         pass
 
     @abstractmethod
-    def save_model_hook(self, model_file_path):
+    def save_model_hook(self):
         pass

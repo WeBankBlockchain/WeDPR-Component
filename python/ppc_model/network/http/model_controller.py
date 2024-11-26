@@ -79,10 +79,9 @@ class ModelCollection(Resource):
             Kill a specific task by job_id.
             """
             job_id = model_id
-            user = request.values.get("user")
             components.logger().info(
-                f"kill request, job_id: {job_id}, user: {user}")
-            components.task_manager.kill_task(job_id=job_id, user=user)
+                f"kill request, job_id: {job_id}")
+            components.task_manager.kill_task(job_id=job_id)
             return utils.BASE_RESPONSE
         except Exception as e:
             response = {}

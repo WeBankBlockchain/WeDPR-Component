@@ -148,34 +148,39 @@ class TaskManager:
         self._async_executor.execute(
             args[0]['job_id'], task_id, self._handlers[task_type.value], self._on_task_finish, args)
 
-    def kill_task(self, user, job_id: str):
+    def kill_task(self, job_id: str):
         """
         终止任务
         """
         tasks = self.task_persistent.query_tasks(job_id)
+        user = None
         for task in tasks:
-            self.kill_one_task(task.worker_id)
+            user = self.kill_one_task(task.worker_id)
+        self.logger.info(f"kill_task, job {job_id} killed, upload the log")
+        if user is None:
+            return
         self.logger.info(LOG_END_FLAG_FORMATTER.format(
             job_id=job_id))
         # upload the log
-        self.logger.info(f"kill_task, job {job_id} killed, upload the log")
         self.log_retriever.upload_log(job_id, user)
 
     def kill_one_task(self, task_id: str):
         task_result = None
         with self._rw_lock.gen_rlock():
             if task_id not in self._tasks.keys() or self._tasks[task_id].task_status != TaskStatus.RUNNING.value:
-                return
+                return None
             task_result = self._tasks[task_id]
         self.logger.info(f"Kill task, task_id: {task_id}")
         self._async_executor.kill(task_id)
-
+        user = task_result.user
         # persistent the status to killed
         with self._rw_lock.gen_wlock():
             task_result.task_status = TaskStatus.KILLED.value
             self.task_persistent.on_task_finished(task_result)
             self._tasks.pop(task_id)
-        self.logger.info(f"Kill task success, task_id: {task_id}")
+        self.logger.info(
+            f"Kill task success, task_id: {task_id}, user: {user}")
+        return user
 
     def task_finished(self, task_id: str) -> bool:
         (status, _, _) = self.status(task_id)

@@ -188,14 +188,11 @@ class VerticalBooster(SecureModelBooster):
         feat_bin = FeatureBinning(ctx)
         return feat_bin.data_binning(test_X, X_split)[0]
 
-    def save_model(self, file_path=None):
-        super().save_model(file_path, "lgbm_model")
+    def save_model(self):
+        super().save_model("lgbm_model")
 
-    def save_model_hook(self, file_path):
+    def save_model_hook(self):
         # save the feature_bin
-        if file_path is not None:
-            self.ctx.feature_bin_file = os.path.join(
-                file_path, self.ctx.FEATURE_BIN_FILE)
         if self._X_split is not None and not os.path.exists(self.ctx.feature_bin_file):
             X_split_dict = {k: v for k, v in zip(
                 self.dataset.feature_name, self._X_split)}
@@ -206,7 +203,7 @@ class VerticalBooster(SecureModelBooster):
                                             self.ctx.remote_feature_bin_file,
                                             self.ctx.user)
             self.logger.info(
-                f"task {self.ctx.task_id}: Saved x_split to {self.ctx.feature_bin_file} finished.")
+                f"task {self.ctx.task_id}: Saved x_split to {self.ctx.feature_bin_file} finished, split size: {len(X_split_dict.keys())}")
         if not os.path.exists(self.ctx.model_data_file):
             serial_trees = [self._serial_tree(tree) for tree in self._trees]
             with open(self.ctx.model_data_file, 'w') as f:

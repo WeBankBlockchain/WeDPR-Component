@@ -58,7 +58,7 @@ class LogRetriever:
                                       self._get_remote_log_size_path(ctx))
         # store the log path
         self.storage_client.upload_file(self._get_local_job_log_path(
-            job_id), self._get_remote_log_path(ctx))
+            job_id), self._get_remote_log_path(ctx), user)
 
     def _make_local_log_dir(self, job_id):
         local_log_path = self._get_local_job_log_path(job_id)

@@ -8,12 +8,12 @@
 ```
 access_key_id=
 access_key_secret=
-remote_entrypoints=http://139.159.202.235:8005,http://139.159.202.235:8006
+remote_entrypoints=http://127.0.0.1:8005,http://127.0.0.1:8006
 
-agency_name=SGD
-workspace_path=/user/ppc/milestone2/sgd/
+agency_name=WeBank
+workspace_path=/user/ppc/webank/
 user=test_user
-storage_endpoint=http://192.168.0.18:50070
+storage_endpoint=http://127.0.0.1:50070
 ```
 
 3. 通过前端页面登录，例如：http://139.159.202.235:8005/
