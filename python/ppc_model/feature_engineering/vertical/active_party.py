@@ -174,7 +174,8 @@ class VerticalFeatureEngineeringActiveParty(VerticalModel):
         self.iv_selected_df.to_csv(
             self.ctx.iv_selected_file, sep=',', header=True, index=None)
         self.ctx.components.storage_client.upload_file(self.ctx.woe_iv_file,
-                                                       self.ctx.job_id + os.sep + self.ctx.WOE_IV_FILE)
+                                                       self.ctx.remote_woe_iv_file,
+                                                       self.ctx.user)
         log.info(f"Saving fe results finished, task_id: {task_id}")
         with open(self.ctx.woe_iv_file, 'rb') as f:
             woe_iv = f.read()

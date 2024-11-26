@@ -28,22 +28,24 @@ class LocalProcessingParty(ABC):
         job_algorithm_type = self.ctx.job_algorithm_type
         psi_result_path = self.ctx.psi_result_path
         model_prepare_file = self.ctx.model_prepare_file
+
         storage_client.download_file(dataset_path, dataset_file_path)
         if need_psi and (not utils.file_exists(psi_result_path)):
             storage_client.download_file(
                 self.ctx.remote_psi_result_path, psi_result_path)
-            log.info(
-                f"prepare_xgb_after_psi, make_dataset_to_xgb_data_plus_psi_data, dataset_file_path={dataset_file_path}, "
-                f"psi_result_path={psi_result_path}, model_prepare_file={model_prepare_file}, "
-                f"remote_psi_result_path: {self.ctx.remote_psi_result_path}")
+
+        log.info(
+            f"prepare_xgb_after_psi, make_dataset_to_xgb_data_plus_psi_data, local_dataset_file_path={dataset_file_path}, "
+            f"remote_dataset_path={dataset_path}, model_prepare_file={model_prepare_file}, "
+            f"remote_psi_result_path: {self.ctx.remote_psi_result_path}")
         self.make_dataset_to_xgb_data()
         storage_client.upload_file(
-            model_prepare_file, job_id + os.sep + BaseContext.MODEL_PREPARE_FILE)
+            model_prepare_file, self.ctx.remote_model_prepare_file, self.ctx.user)
         log.info(f"upload model_prepare_file to hdfs, job_id={job_id}")
         if job_algorithm_type == utils.AlgorithmType.Train.name:
             log.info(f"upload column_info to hdfs, job_id={job_id}")
             storage_client.upload_file(self.ctx.preprocessing_result_file,
-                                       job_id + os.sep + self.ctx.PREPROCESSING_RESULT_FILE)
+                                       self.ctx.remote_preprocessing_file, self.ctx.user)
         log.info(
             f"call prepare_xgb_after_psi success, job_id={job_id}, timecost: {time.time() - start}")
 
@@ -61,11 +63,12 @@ class LocalProcessingParty(ABC):
                 f"dataset_file_path not found: {dataset_file_path}")
         dataset_df = pd.read_csv(dataset_file_path)
         if need_run_psi:
-            log.info(f"psi_result_file_path:{psi_result_file_path}")
             psi_data = pd.read_csv(psi_result_file_path,
                                    delimiter=utils.CSV_SEP)
             dataset_df = pd.merge(dataset_df, psi_data, on=[
                                   'id']).sort_values(by='id', ascending=True)
+            log.info(
+                f"psi_result_file_path:{psi_result_file_path}, dataset_columns: {dataset_df.columns}")
 
         ppc_job_type = self.ctx.job_algorithm_type
         column_info = process_dataframe(

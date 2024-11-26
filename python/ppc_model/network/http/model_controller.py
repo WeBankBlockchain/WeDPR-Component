@@ -34,6 +34,11 @@ class ModelCollection(Resource):
             components.logger().info(
                 f"run task request, task_id: {task_id}")
             task_type = args['task_type']
+            if 'user' not in args.keys():
+                raise Exception(
+                    f"Must pass the user that trigger the job, task_id: {task_id}")
+            if 'job_id' not in args.keys():
+                raise Exception(f"Must pass the job_id, task_id: {task_id}")
             components.task_manager.run_task(
                 task_id, ModelTask(task_type), (args,))
             return utils.BASE_RESPONSE
@@ -74,8 +79,10 @@ class ModelCollection(Resource):
             Kill a specific task by job_id.
             """
             job_id = model_id
-            components.logger().info(f"kill request, job_id: {job_id}")
-            components.task_manager.kill_task(job_id)
+            user = request.values.get("user")
+            components.logger().info(
+                f"kill request, job_id: {job_id}, user: {user}")
+            components.task_manager.kill_task(job_id=job_id, user=user)
             return utils.BASE_RESPONSE
         except Exception as e:
             response = {}
@@ -104,7 +111,7 @@ class ModelResultCollection(Resource):
             components.logger().info(
                 f"get_job_direct_result_response, job: {task_id}")
             task_result_request = TaskResultRequest(
-                task_id, task_type, only_fetch_log)
+                task_id, task_type, only_fetch_log, user_name)
             job_result_handler = TaskResultHandler(
                 task_result_request=task_result_request, components=components)
             response = job_result_handler.get_response()
@@ -115,5 +122,5 @@ class ModelResultCollection(Resource):
             response = {}
             response.update({'errorCode': -1})
             response.update(
-                {'message': f'query task log for {model_id} failed for {e}'})
+                {'message': f'query task log for {task_id} failed for {e}'})
             return response

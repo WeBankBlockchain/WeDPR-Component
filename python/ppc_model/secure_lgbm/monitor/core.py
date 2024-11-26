@@ -1,6 +1,6 @@
 import collections
 from typing import Dict, Any, Union, Tuple, List, Callable
-
+from ppc_model.common.base_context import BaseContext
 import numpy as np
 from sklearn import metrics
 
@@ -28,11 +28,13 @@ class Booster:
             self,
             y_true: np.ndarray,
             test_y_true: np.ndarray,
+            ctx: BaseContext = None,
             workspace: str = None,
             job_id: str = None,
             storage_client: str = None
     ) -> None:
         self.params: _BoosterParams = {}
+        self.ctx = ctx
         self.y_true = y_true
         self.test_y_true = test_y_true
         self.y_pred = None
@@ -41,6 +43,7 @@ class Booster:
         self.epoch = 0
         self.workspace = workspace
         self.job_id = job_id
+
         self.storage_client = storage_client
         self.history: _EvalsLog = collections.OrderedDict()
 

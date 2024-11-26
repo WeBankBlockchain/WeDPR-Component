@@ -227,7 +227,7 @@ class FeatureImportanceStore(ReadOnlyFeatureImportanceStore):
             self.feature_importance_dict[importance_type][fid_key].inc(
                 gain_list[importance_type])
 
-    def store(self, serialize_type: SerializeType, local_file_path, remote_file_path, storage_client):
+    def store(self, serialize_type: SerializeType, local_file_path, remote_file_path, storage_client, user=None):
         """store the feature importance into file, upload using storage_client
 
         Args:
@@ -241,6 +241,6 @@ class FeatureImportanceStore(ReadOnlyFeatureImportanceStore):
         self.logger.info(
             f"Store feature_importance to {local_file_path}, file type: {serialize_type}")
         if storage_client is not None:
-            storage_client.upload_file(local_file_path, remote_file_path)
+            storage_client.upload_file(local_file_path, remote_file_path, user)
             self.logger.info(
                 f"Upload feature_importance to {local_file_path} success, file type: {serialize_type}")

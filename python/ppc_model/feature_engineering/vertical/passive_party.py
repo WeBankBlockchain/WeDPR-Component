@@ -160,7 +160,8 @@ class VerticalFeatureEngineeringPassiveParty(VerticalModel):
             with open(self.ctx.woe_iv_file, 'wb') as f:
                 f.write(data)
             self.ctx.components.storage_client.upload_file(self.ctx.woe_iv_file,
-                                                           self.ctx.job_id + os.sep + self.ctx.WOE_IV_FILE)
+                                                           self.ctx.remote_woe_iv_file,
+                                                           self.ctx.user)
 
         # 保存来自标签方的iv筛选结果
         data = self.ctx.model_router.pop(

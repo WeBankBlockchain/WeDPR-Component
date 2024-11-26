@@ -24,8 +24,6 @@ class HdfsStorage(StorageApi):
                 HdfsStorage.DEFAULT_HDFS_USER_PATH, self._user)
 
         self.client = InsecureClient(endpoint, user=self._user)
-        # print(self.client.list('/'))
-        # print(self.client.list('/user/root/'))
 
     def get_home_path(self):
         return self._hdfs_storage_path
@@ -46,10 +44,22 @@ class HdfsStorage(StorageApi):
                              hdfs_path), local_file_path)
         return
 
-    def upload_file(self, local_file_path, hdfs_path):
+    def upload_file(self, local_file_path, hdfs_path, owner=None, group=None):
         self.make_file_path(hdfs_path)
-        self.client.upload(os.path.join(self._hdfs_storage_path, hdfs_path),
+        hdfs_abs_path = os.path.join(self._hdfs_storage_path, hdfs_path)
+        self.client.upload(hdfs_abs_path,
                            local_file_path, overwrite=True)
+        if owner is None and group is None:
+            return
+        group_info = group
+        if group is None:
+            group_info = self._user
+        owner_info = group_info
+        if owner is not None:
+            owner_info = owner
+        # set the permission information
+        self.client.set_owner(hdfs_path=hdfs_abs_path,
+                              owner=owner_info, group=group_info)
         return
 
     def make_file_path(self, hdfs_path):

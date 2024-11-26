@@ -25,8 +25,9 @@ class BaseContext:
     MODEL_FILE = "model.kpl"
     MODEL_ENC_FILE = "model_enc.kpl"
 
-    def __init__(self, job_id: str, job_temp_dir: str):
+    def __init__(self, job_id: str, job_temp_dir: str, user: str):
         self.job_id = job_id
+        self.user = user
         self.workspace = os.path.join(job_temp_dir, self.job_id)
         if not os.path.exists(self.workspace):
             os.makedirs(self.workspace)
@@ -43,25 +44,6 @@ class BaseContext:
             self.workspace, self.IV_SELECTED_FILE)
         self.selected_col_file = os.path.join(
             self.workspace, self.SELECTED_COL_FILE)
-        self.remote_selected_col_file = os.path.join(
-            self.job_id, self.SELECTED_COL_FILE)
-
-        self.summary_evaluation_file = os.path.join(
-            self.workspace, utils.MPC_XGB_EVALUATION_TABLE)
-        self.feature_importance_file = os.path.join(
-            self.workspace, utils.XGB_FEATURE_IMPORTANCE_TABLE)
-        self.feature_bin_file = os.path.join(
-            self.workspace, self.FEATURE_BIN_FILE)
-        self.model_data_file = os.path.join(
-            self.workspace, self.MODEL_DATA_FILE)
-        self.test_model_result_file = os.path.join(
-            self.workspace, self.TEST_MODEL_RESULT_FILE)
-        self.test_model_output_file = os.path.join(
-            self.workspace, self.TEST_MODEL_OUTPUT_FILE)
-        self.train_model_result_file = os.path.join(
-            self.workspace, self.TRAIN_MODEL_RESULT_FILE)
-        self.train_model_output_file = os.path.join(
-            self.workspace, self.TRAIN_MODEL_OUTPUT_FILE)
 
         self.train_metric_roc_file = os.path.join(
             self.workspace, utils.MPC_TRAIN_SET_METRIC_ROC_FILE)
@@ -92,62 +74,98 @@ class BaseContext:
             self.workspace, self.MODEL_FILE)
         self.model_enc_file = os.path.join(
             self.workspace, self.MODEL_ENC_FILE)
+        self.summary_evaluation_file = os.path.join(
+            self.workspace, utils.MPC_XGB_EVALUATION_TABLE)
+        self.feature_importance_file = os.path.join(
+            self.workspace, utils.XGB_FEATURE_IMPORTANCE_TABLE)
+        self.feature_bin_file = os.path.join(
+            self.workspace, self.FEATURE_BIN_FILE)
+        self.model_data_file = os.path.join(
+            self.workspace, self.MODEL_DATA_FILE)
+        self.test_model_result_file = os.path.join(
+            self.workspace, self.TEST_MODEL_RESULT_FILE)
+        self.test_model_output_file = os.path.join(
+            self.workspace, self.TEST_MODEL_OUTPUT_FILE)
+        self.train_model_result_file = os.path.join(
+            self.workspace, self.TRAIN_MODEL_RESULT_FILE)
+        self.train_model_output_file = os.path.join(
+            self.workspace, self.TRAIN_MODEL_OUTPUT_FILE)
 
-        self.remote_summary_evaluation_file = os.path.join(
-            self.job_id, utils.MPC_XGB_EVALUATION_TABLE)
-        self.remote_feature_importance_file = os.path.join(
-            self.job_id, utils.XGB_FEATURE_IMPORTANCE_TABLE)
-        self.remote_feature_bin_file = os.path.join(
-            self.job_id, self.FEATURE_BIN_FILE)
-        self.remote_model_data_file = os.path.join(
-            self.job_id, self.MODEL_DATA_FILE)
-        self.remote_test_model_output_file = os.path.join(
-            self.job_id, self.TEST_MODEL_OUTPUT_FILE)
-        self.remote_train_model_output_file = os.path.join(
-            self.job_id, self.TRAIN_MODEL_OUTPUT_FILE)
+        # the remote path
+        self.remote_base_dir = os.path.join(
+            self.user, "share", "jobs", "model")
+        self.remote_selected_col_file = os.path.join(self.remote_base_dir,
+                                                     self.job_id, self.SELECTED_COL_FILE)
+        self.remote_preprocessing_file = os.path.join(self.remote_base_dir,
+                                                      self.job_id, self.PREPROCESSING_RESULT_FILE)
 
-        self.remote_train_metric_roc_file = os.path.join(
-            self.job_id, utils.MPC_TRAIN_SET_METRIC_ROC_FILE)
-        self.remote_train_metric_ks_file = os.path.join(
-            self.job_id, utils.MPC_TRAIN_SET_METRIC_KS_FILE)
-        self.remote_train_metric_pr_file = os.path.join(
-            self.job_id, utils.MPC_TRAIN_SET_METRIC_PR_FILE)
-        self.remote_train_metric_acc_file = os.path.join(
-            self.job_id, utils.MPC_TRAIN_SET_METRIC_ACCURACY_FILE)
-        self.remote_test_metric_roc_file = os.path.join(
-            self.job_id, utils.MPC_TRAIN_METRIC_ROC_FILE)
-        self.remote_test_metric_ks_file = os.path.join(
-            self.job_id, utils.MPC_TRAIN_METRIC_KS_FILE)
-        self.remote_test_metric_pr_file = os.path.join(
-            self.job_id, utils.MPC_TRAIN_METRIC_PR_FILE)
-        self.remote_test_metric_acc_file = os.path.join(
-            self.job_id, utils.MPC_TRAIN_METRIC_ACCURACY_FILE)
-        self.remote_train_metric_ks_table = os.path.join(
-            self.job_id, utils.MPC_TRAIN_SET_METRIC_KS_TABLE)
-        self.remote_test_metric_ks_table = os.path.join(
-            self.job_id, utils.MPC_TRAIN_METRIC_KS_TABLE)
-        self.remote_model_tree_prefix = os.path.join(
-            self.job_id, utils.XGB_TREE_PERFIX)
-        self.remote_metrics_iteration_file = os.path.join(
-            self.job_id, utils.METRICS_OVER_ITERATION_FILE)
+        self.remote_woe_iv_file = os.path.join(self.remote_base_dir,
+                                               self.job_id, self.WOE_IV_FILE)
+        self.remote_eval_column_file = os.path.join(self.remote_base_dir,
+                                                    self.job_id, self.EVAL_COLUMN_FILE)
+        self.remote_model_prepare_file = os.path.join(
+            self.remote_base_dir, self.job_id, self.MODEL_PREPARE_FILE)
+        self.remote_summary_evaluation_file = os.path.join(self.remote_base_dir,
+                                                           self.job_id, utils.MPC_XGB_EVALUATION_TABLE)
+        self.remote_feature_importance_file = os.path.join(self.remote_base_dir,
+                                                           self.job_id, utils.XGB_FEATURE_IMPORTANCE_TABLE)
+        self.remote_feature_bin_file = os.path.join(self.remote_base_dir,
+                                                    self.job_id, self.FEATURE_BIN_FILE)
+        self.remote_model_data_file = os.path.join(self.remote_base_dir,
+                                                   self.job_id, self.MODEL_DATA_FILE)
+        self.remote_test_model_output_file = os.path.join(self.remote_base_dir,
+                                                          self.job_id, self.TEST_MODEL_OUTPUT_FILE)
+        self.remote_train_model_output_file = os.path.join(self.remote_base_dir,
+                                                           self.job_id, self.TRAIN_MODEL_OUTPUT_FILE)
 
-        self.remote_model_file = os.path.join(
-            self.job_id, self.MODEL_FILE)
-        self.remote_model_enc_file = os.path.join(
-            self.job_id, self.MODEL_ENC_FILE)
+        self.remote_train_metric_roc_file = os.path.join(self.remote_base_dir,
+                                                         self.job_id, utils.MPC_TRAIN_SET_METRIC_ROC_FILE)
+        self.remote_train_metric_ks_file = os.path.join(self.remote_base_dir,
+                                                        self.job_id, utils.MPC_TRAIN_SET_METRIC_KS_FILE)
+        self.remote_train_metric_pr_file = os.path.join(self.remote_base_dir,
+                                                        self.job_id, utils.MPC_TRAIN_SET_METRIC_PR_FILE)
+        self.remote_train_metric_acc_file = os.path.join(self.remote_base_dir,
+                                                         self.job_id, utils.MPC_TRAIN_SET_METRIC_ACCURACY_FILE)
+        self.remote_test_metric_roc_file = os.path.join(self.remote_base_dir,
+                                                        self.job_id, utils.MPC_TRAIN_METRIC_ROC_FILE)
+        self.remote_test_metric_ks_file = os.path.join(self.remote_base_dir,
+                                                       self.job_id, utils.MPC_TRAIN_METRIC_KS_FILE)
+        self.remote_test_metric_pr_file = os.path.join(self.remote_base_dir,
+                                                       self.job_id, utils.MPC_TRAIN_METRIC_PR_FILE)
+        self.remote_test_metric_acc_file = os.path.join(self.remote_base_dir,
+                                                        self.job_id, utils.MPC_TRAIN_METRIC_ACCURACY_FILE)
+        self.remote_train_metric_ks_table = os.path.join(self.remote_base_dir,
+                                                         self.job_id, utils.MPC_TRAIN_SET_METRIC_KS_TABLE)
+        self.remote_test_metric_ks_table = os.path.join(self.remote_base_dir,
+                                                        self.job_id, utils.MPC_TRAIN_METRIC_KS_TABLE)
+        self.remote_model_tree_prefix = os.path.join(self.remote_base_dir,
+                                                     self.job_id, utils.XGB_TREE_PERFIX)
+        self.remote_metrics_iteration_file = os.path.join(self.remote_base_dir,
+                                                          self.job_id, utils.METRICS_OVER_ITERATION_FILE)
 
+        self.remote_model_file = os.path.join(self.remote_base_dir,
+                                              self.job_id, self.MODEL_FILE)
+        self.remote_model_enc_file = os.path.join(self.remote_base_dir,
+                                                  self.job_id, self.MODEL_ENC_FILE)
+
+        self.remote_log_path = os.path.join(self.remote_base_dir,
+                                            self.job_id, f"{job_id}.log")
+        self.remote_log_size_path = f"{self.remote_log_path}.size"
         # self.get_key_pair()
         self.load_key('aes_key.bin')
+
+    def get_remote_file_path(self, file_path):
+        return os.path.join(self.remote_base_dir,
+                            self.job_id, file_path)
+
+    def get_local_file_path(self, file_path):
+        return os.path.join(self.workspace, file_path)
 
     @staticmethod
     def load_file(storage_client, remote_path, local_path, logger):
         if not os.path.exists(local_path):
             logger.info(f"Download file from: {remote_path} to {local_path}")
             storage_client.download_file(remote_path, local_path)
-
-    @staticmethod
-    def feature_engineering_input_path(job_id: str, job_temp_dir: str):
-        return os.path.join(job_temp_dir, job_id, BaseContext.MODEL_PREPARE_FILE)
 
     def get_key_pair(self):
         with open('public_key.pem', 'rb') as f:

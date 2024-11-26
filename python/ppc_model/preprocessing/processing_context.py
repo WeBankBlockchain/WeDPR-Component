@@ -11,10 +11,11 @@ class ProcessingContext(Context):
                  task_id,
                  args,
                  components: Initializer):
-        super().__init__(args['job_id'],
-                         task_id,
-                         components,
-                         role=None)
+        super().__init__(job_id=args['job_id'],
+                         task_id=task_id,
+                         components=components,
+                         role=None,
+                         user=args["user"])
         self.dataset_path = args['dataset_path']
         self.dataset_file_path = os.path.join(
             self.workspace, args['dataset_id'])

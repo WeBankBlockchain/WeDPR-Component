@@ -1,7 +1,5 @@
 import datetime
 import json
-import logging
-import os
 import threading
 import time
 from typing import Callable, Union
@@ -10,7 +8,6 @@ from readerwriterlock import rwlock
 
 from ppc_common.ppc_async_executor.async_thread_executor import AsyncThreadExecutor
 from ppc_common.ppc_async_executor.thread_event_manager import ThreadEventManager
-from ppc_common.ppc_utils.exception import PpcException, PpcErrorCode
 from ppc_common.deps_services.sql_storage_api import SQLStorageAPI
 from ppc_model.common.protocol import ModelTask, TaskStatus, LOG_START_FLAG_FORMATTER, LOG_END_FLAG_FORMATTER
 from ppc_model.db.job_worker_record import JobWorkerRecord
@@ -18,11 +15,12 @@ from ppc_model.log.log_retriever import LogRetriever
 
 
 class TaskResult:
-    def __init__(self, job_id, task_id):
+    def __init__(self, job_id, task_id, user):
         self.task_status = TaskStatus.RUNNING.value
         self.start_time = datetime.datetime.now()
         self.job_id = job_id
         self.task_id = task_id
+        self.user = user
         self.diagnosis_msg = ""
         self.exec_result = None
 
@@ -34,6 +32,7 @@ class TaskResult:
         exec_result_dict = {}
         exec_result_dict.update({"timecost": self.get_timecost()})
         exec_result_dict.update({"diagnosis_msg": self.diagnosis_msg})
+        exec_result_dict.update({"user": self.user})
         self.exec_result = json.dumps(exec_result_dict)
 
     def __repr__(self):
@@ -143,13 +142,13 @@ class TaskManager:
                     f"Task already exists, task_id: {task_id}, status: {self._tasks[task_id].task_id}")
                 return
             self._tasks[task_id] = TaskResult(
-                job_id=args[0]['job_id'], task_id=task_id)
+                job_id=args[0]['job_id'], task_id=task_id, user=args[0]['user'])
         self.logger.info(LOG_START_FLAG_FORMATTER.format(job_id=job_id))
         self.logger.info(f"Run task, job_id: {job_id}, task_id: {task_id}")
         self._async_executor.execute(
             args[0]['job_id'], task_id, self._handlers[task_type.value], self._on_task_finish, args)
 
-    def kill_task(self, job_id: str):
+    def kill_task(self, user, job_id: str):
         """
         终止任务
         """
@@ -160,7 +159,7 @@ class TaskManager:
             job_id=job_id))
         # upload the log
         self.logger.info(f"kill_task, job {job_id} killed, upload the log")
-        self.log_retriever.upload_log(job_id)
+        self.log_retriever.upload_log(job_id, user)
 
     def kill_one_task(self, task_id: str):
         task_result = None
@@ -234,7 +233,8 @@ class TaskManager:
             if self.task_persistent.job_finished(task_result.job_id):
                 self.logger.info(
                     f"_on_task_finish: all sub tasks finished, upload the log, task_info: {task_result}")
-                self.log_retriever.upload_log(task_result.job_id)
+                self.log_retriever.upload_log(
+                    task_result.job_id, task_result.user)
         finally:
             for handler in self._task_clear_handler:
                 handler(task_id)

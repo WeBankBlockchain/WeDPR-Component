@@ -26,10 +26,11 @@ class FeatureEngineeringContext(Context):
                  feature: np.ndarray,
                  feature_name_list: list,
                  label: np.ndarray = None):
-        super().__init__(args['job_id'],
-                         task_id,
-                         components,
-                         role)
+        super().__init__(job_id=args['job_id'],
+                         task_id=task_id,
+                         components=components,
+                         role=role,
+                         user=args['user'])
         self.feature_name_list = feature_name_list
         self.participant_id_list = args['participant_id_list']
         self.result_receiver_id_list = args['result_receiver_id_list']

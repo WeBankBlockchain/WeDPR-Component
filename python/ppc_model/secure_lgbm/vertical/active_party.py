@@ -431,6 +431,7 @@ class VerticalLGBMActiveParty(VerticalBooster):
 
         model = Booster(y_true=self.dataset.train_y, test_y_true=self.dataset.test_y,
                         workspace=self.ctx.workspace, job_id=self.ctx.job_id,
+                        ctx=self.ctx,
                         storage_client=self.storage_client)
 
         if callback_container:
@@ -475,7 +476,8 @@ class VerticalLGBMActiveParty(VerticalBooster):
         if is_train:
             self.feature_importance_store.store(
                 serialize_type=SerializeType.CSV, local_file_path=self.ctx.feature_importance_file,
-                remote_file_path=self.ctx.remote_feature_importance_file, storage_client=self.storage_client)
+                remote_file_path=self.ctx.remote_feature_importance_file, storage_client=self.storage_client,
+                user=self.ctx.user)
 
             if self.callback_container:
                 with self.ctx.components.plot_lock:

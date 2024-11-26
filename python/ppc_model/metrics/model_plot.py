@@ -63,7 +63,8 @@ class ModelPlot:
                         time.sleep(random.uniform(0.1, 3))
 
                 ResultFileHandling._upload_file(
-                    self.storage_client, tree_file_path, remote_tree_file_path)
+                    self.storage_client, tree_file_path,
+                    remote_tree_file_path, self.ctx.user)
 
     def _graph_gtree(self, tree, leaf_id=0, depth=0, orient=None, split_info=None):
         self._leaf_id += 1

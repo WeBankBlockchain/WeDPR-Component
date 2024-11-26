@@ -83,8 +83,8 @@ class FeatureEvaluationResult:
         return pd.DataFrame(rows, columns=columns)
 
     @staticmethod
-    def store_and_upload_summary(evaluation_result_list, local_file_path, remote_file_path, storage_client):
+    def store_and_upload_summary(evaluation_result_list, local_file_path, remote_file_path, storage_client, user=None):
         df = FeatureEvaluationResult.summary(evaluation_result_list)
         df.to_csv(local_file_path, index=False)
         if storage_client is not None:
-            storage_client.upload_file(local_file_path, remote_file_path)
+            storage_client.upload_file(local_file_path, remote_file_path, user)

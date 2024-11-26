@@ -37,8 +37,7 @@ class SecureDataset:
         if model_data is None:
             # try to download the model_prepare_file
             BaseContext.load_file(ctx.components.storage_client,
-                                  os.path.join(
-                                      ctx.job_id, BaseContext.MODEL_PREPARE_FILE),
+                                  ctx.remote_model_prepare_file,
                                   ctx.model_prepare_file, ctx.components.logger())
             self.model_data = pd.read_csv(
                 ctx.model_prepare_file, header=0, delimiter=delimiter)

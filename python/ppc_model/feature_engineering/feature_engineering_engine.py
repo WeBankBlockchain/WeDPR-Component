@@ -6,7 +6,6 @@ from ppc_model.feature_engineering.feature_engineering_context import FeatureEng
 from ppc_model.feature_engineering.vertical.active_party import VerticalFeatureEngineeringActiveParty
 from ppc_model.feature_engineering.vertical.passive_party import VerticalFeatureEngineeringPassiveParty
 from ppc_model.interface.task_engine import TaskEngine
-import os
 
 
 class FeatureEngineeringEngine(TaskEngine):
@@ -14,16 +13,16 @@ class FeatureEngineeringEngine(TaskEngine):
 
     @staticmethod
     def run(task_id, args):
-        input_path = BaseContext.feature_engineering_input_path(
-            args['job_id'], components.config_data['JOB_TEMP_DIR'])
+        base_ctx = BaseContext(
+            job_id=args['job_id'], user=args["user"], job_temp_dir=components.config_data['JOB_TEMP_DIR'])
         # try to download the model_prepare_file
         BaseContext.load_file(components.storage_client,
-                              os.path.join(
-                                  args['job_id'], BaseContext.MODEL_PREPARE_FILE),
-                              input_path, components.logger())
+                              remote_path=base_ctx.remote_model_prepare_file,
+                              local_path=base_ctx.model_prepare_file, logger=components.logger())
+
         if args['is_label_holder']:
             field_list, label, feature = SecureDataset.read_dataset(
-                input_path, True)
+                base_ctx.model_prepare_file, True)
             context = FeatureEngineeringContext(
                 task_id=task_id,
                 args=args,
@@ -36,7 +35,7 @@ class FeatureEngineeringEngine(TaskEngine):
             vfe = VerticalFeatureEngineeringActiveParty(context)
         else:
             field_list, _, feature = SecureDataset.read_dataset(
-                input_path, False)
+                base_ctx.model_prepare_file, False)
             context = FeatureEngineeringContext(
                 task_id=task_id,
                 args=args,

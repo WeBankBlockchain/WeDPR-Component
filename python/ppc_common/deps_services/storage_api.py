@@ -13,7 +13,7 @@ class StorageApi(ABC):
         pass
 
     @abstractmethod
-    def upload_file(self, local_file_path: str, storage_path: str):
+    def upload_file(self, local_file_path: str, storage_path: str, owner=None, group=None):
         pass
 
     @abstractmethod

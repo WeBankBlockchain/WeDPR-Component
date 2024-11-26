@@ -9,6 +9,7 @@ from ppc_common.ppc_utils.utils import AlgorithmType
 from ppc_model.common.context import Context
 from ppc_model.common.protocol import TaskRole
 from ppc_model.network.wedpr_model_transport import ModelRouter
+from ppc_model.common.base_context import BaseContext
 
 
 class ResultFileHandling:
@@ -45,7 +46,9 @@ class ResultFileHandling:
                              sep=utils.CSV_SEP, header=True, index_label='id')
             # 存储column_info到hdfs给前端展示
             self._upload_file(self.ctx.components.storage_client,
-                              self.ctx.selected_col_file, self.ctx.remote_selected_col_file)
+                              self.ctx.selected_col_file,
+                              self.ctx.remote_selected_col_file,
+                              self.ctx.user)
 
     @staticmethod
     def union_column_info(column_info1: pd.DataFrame, column_info2: pd.DataFrame):
@@ -70,9 +73,11 @@ class ResultFileHandling:
         return column_info_conbine
 
     @staticmethod
-    def _upload_file(storage_client, local_file, remote_file):
+    def _upload_file(storage_client, local_file,
+                     remote_file, owner=None,
+                     group=None):
         if storage_client is not None:
-            storage_client.upload_file(local_file, remote_file)
+            storage_client.upload_file(local_file, remote_file, owner, group)
 
     @staticmethod
     def _download_file(storage_client, local_file, remote_file):
@@ -80,12 +85,12 @@ class ResultFileHandling:
             storage_client.download_file(remote_file, local_file)
 
     @staticmethod
-    def make_graph_data(components, job_id, graph_file_name):
+    def make_graph_data(components, ctx: BaseContext, graph_file_name):
         graph_format = 'svg+xml'
         # download with cache
-        remote_file_path = os.path.join(job_id, graph_file_name)
-        local_file_path = os.path.join(
-            components.job_cache_dir, remote_file_path)
+        remote_file_path = ctx.get_remote_file_path(graph_file_name)
+
+        local_file_path = ctx.get_local_file_path(graph_file_name)
         components.storage_client.download_file(
             remote_file_path, local_file_path, True)
         file_bytes = None
@@ -98,27 +103,24 @@ class ResultFileHandling:
         time.sleep(0.1)
         return f"data:image/{graph_format};base64,{encoded_data}"
 
-    def get_remote_path(components, job_id, csv_file_name):
+    def get_remote_path(components, ctx: BaseContext, csv_file_name):
+        remote_file_path = ctx.get_remote_file_path(csv_file_name)
         if components.storage_client.get_home_path() is None:
-            return os.path.join(job_id, csv_file_name)
-        return os.path.join(components.storage_client.get_home_path(), job_id, csv_file_name)
+            return remote_file_path
+        return os.path.join(components.storage_client.get_home_path(), remote_file_path)
 
     @staticmethod
-    def make_csv_data(components, job_id, csv_file_name):
+    def make_csv_data(components, ctx: BaseContext, csv_file_name):
         import pandas as pd
         from io import StringIO
-        remote_file_path = os.path.join(job_id, csv_file_name)
-        local_file_path = os.path.join(
-            components.job_cache_dir, remote_file_path)
+        remote_file_path = ctx.get_remote_file_path(csv_file_name)
+        local_file_path = ctx.get_local_file_path(csv_file_name)
         components.storage_client.download_file(
             remote_file_path, local_file_path, True)
         file_bytes = None
         with open(local_file_path, 'r') as file:
             file_content = file.read()
             file_bytes = file_content.encode('utf-8')
-        # encoded_data = base64.b64encode(data).decode('ascii')
-        # csv_data = np.genfromtxt(data.decode(), delimiter=',')
-        # csv_data = np.genfromtxt(StringIO(data.decode()), delimiter=',')
         csv_data = ""
         if file_bytes is not None:
             csv_data = pd.read_csv(StringIO(file_bytes.decode())).astype('str')
@@ -136,10 +138,10 @@ class ResultFileHandling:
     def _sync_result_files(self):
         for key, value in self.ctx.sync_file_list.items():
             self.sync_result_file(
-                self.ctx, self.ctx.model_router, value[0], value[1], key)
+                self.ctx, self.ctx.model_router, value[0], value[1], key, self.ctx.user)
 
     @staticmethod
-    def sync_result_file(ctx, model_router: ModelRouter, local_file, remote_file, key_file):
+    def sync_result_file(ctx, model_router: ModelRouter, local_file, remote_file, key_file, user):
         if ctx.role == TaskRole.ACTIVE_PARTY:
             with open(local_file, 'rb') as f:
                 byte_data = f.read()
@@ -154,7 +156,8 @@ class ResultFileHandling:
                 with open(local_file, 'wb') as f:
                     f.write(byte_data)
                 ResultFileHandling._upload_file(
-                    ctx.components.storage_client, local_file, remote_file)
+                    ctx.components.storage_client,
+                    local_file, remote_file, user)
 
 
 class CommonMessage(Enum):

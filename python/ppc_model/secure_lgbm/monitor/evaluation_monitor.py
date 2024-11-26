@@ -38,19 +38,24 @@ def _draw_figure(model: _Model):
         plt.xticks(range(0, len(iterations), 5), fontsize=10, rotation=45)
     plt.yticks(fontsize=12)
 
-    file_path = os.path.join(path, METRICS_OVER_ITERATION_FILE)
-    plt.savefig(file_path, format='svg', dpi=300)
+    plt.savefig(model.ctx.get_local_file_path(
+        METRICS_OVER_ITERATION_FILE), format='svg', dpi=300)
     plt.close('all')
 
 
 def _upload_figure(model: _Model):
     storage_client = model.get_storage_client()
     if storage_client is not None:
-        path = model.get_workspace()
         job_id = model.get_job_id()
-        metrics_file_path = os.path.join(path, METRICS_OVER_ITERATION_FILE)
-        unique_file_path = os.path.join(job_id, METRICS_OVER_ITERATION_FILE)
-        storage_client.upload_file(metrics_file_path, unique_file_path)
+        local_metrics_file_path = model.ctx.get_local_file_path(
+            METRICS_OVER_ITERATION_FILE)
+        remote_unique_file_path = model.ctx.get_remote_file_path(
+            METRICS_OVER_ITERATION_FILE)
+        user = None
+        if model.ctx is not None:
+            user = model.ctx.user
+        storage_client.upload_file(
+            local_metrics_file_path, remote_unique_file_path, user)
 
 
 def _fmt_metric(

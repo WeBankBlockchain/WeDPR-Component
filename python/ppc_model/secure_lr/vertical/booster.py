@@ -234,7 +234,9 @@ class VerticalBooster(SecureModelBooster):
             with open(self.ctx.model_data_file, 'w') as f:
                 json.dump(serial_weight, f)
             ResultFileHandling._upload_file(self.ctx.components.storage_client,
-                                            self.ctx.model_data_file, self.ctx.remote_model_data_file)
+                                            self.ctx.model_data_file,
+                                            self.ctx.remote_model_data_file,
+                                            self.ctx.user)
             self.logger.info(
                 f"task {self.ctx.task_id}: Saved serial_weight to {self.ctx.model_data_file} finished.")
 
@@ -267,7 +269,9 @@ class VerticalBooster(SecureModelBooster):
         with open(self.ctx.model_enc_file, 'w') as f:
             json.dump(lr_model, f)
         ResultFileHandling._upload_file(self.ctx.components.storage_client,
-                                        self.ctx.model_enc_file, self.ctx.remote_model_enc_file)
+                                        self.ctx.model_enc_file,
+                                        self.ctx.remote_model_enc_file,
+                                        self.ctx.user)
         self.logger.info(
             f"task {self.ctx.task_id}: Saved enc model to {self.ctx.model_enc_file} finished.")
 

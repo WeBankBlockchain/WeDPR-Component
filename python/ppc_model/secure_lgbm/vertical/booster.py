@@ -202,7 +202,9 @@ class VerticalBooster(SecureModelBooster):
             with open(self.ctx.feature_bin_file, 'w') as f:
                 json.dump(X_split_dict, f)
             ResultFileHandling._upload_file(self.ctx.components.storage_client,
-                                            self.ctx.feature_bin_file, self.ctx.remote_feature_bin_file)
+                                            self.ctx.feature_bin_file,
+                                            self.ctx.remote_feature_bin_file,
+                                            self.ctx.user)
             self.logger.info(
                 f"task {self.ctx.task_id}: Saved x_split to {self.ctx.feature_bin_file} finished.")
         if not os.path.exists(self.ctx.model_data_file):
@@ -210,7 +212,9 @@ class VerticalBooster(SecureModelBooster):
             with open(self.ctx.model_data_file, 'w') as f:
                 json.dump(serial_trees, f)
             ResultFileHandling._upload_file(self.ctx.components.storage_client,
-                                            self.ctx.model_data_file, self.ctx.remote_model_data_file)
+                                            self.ctx.model_data_file,
+                                            self.ctx.remote_model_data_file,
+                                            self.ctx.user)
             self.logger.info(
                 f"task {self.ctx.task_id}: Saved serial_trees to {self.ctx.model_data_file} finished.")
 
@@ -252,7 +256,9 @@ class VerticalBooster(SecureModelBooster):
         with open(self.ctx.model_enc_file, 'w') as f:
             json.dump(lgbm_model, f)
         ResultFileHandling._upload_file(self.ctx.components.storage_client,
-                                        self.ctx.model_enc_file, self.ctx.remote_model_enc_file)
+                                        self.ctx.model_enc_file,
+                                        self.ctx.remote_model_enc_file,
+                                        self.ctx.user)
         self.logger.info(
             f"task {self.ctx.task_id}: Saved enc model to {self.ctx.model_enc_file} finished.")
 

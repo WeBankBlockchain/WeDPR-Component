@@ -28,7 +28,7 @@ class Evaluation:
                  dataset: SecureDataset,
                  train_praba: np.ndarray = None,
                  test_praba: np.ndarray = None) -> None:
-
+        self.ctx = ctx
         self.job_id = ctx.job_id
         self.storage_client = ctx.components.storage_client
         self.summary_evaluation_file = ctx.summary_evaluation_file
@@ -93,7 +93,7 @@ class Evaluation:
         FeatureEvaluationResult.store_and_upload_summary(
             [train_evaluation, test_evaluation],
             self.summary_evaluation_file, self.remote_summary_evaluation_file,
-            self.storage_client)
+            self.storage_client, self.ctx.user)
 
     @staticmethod
     def calculate_ks_and_stats(predicted_proba, actual_label, num_buckets=10):
@@ -170,26 +170,26 @@ class Evaluation:
                     time.sleep(random.uniform(0.1, 3))
 
             ResultFileHandling._upload_file(
-                self.storage_client, self.metric_roc_file, self.remote_metric_roc_file)
+                self.storage_client, self.metric_roc_file, self.remote_metric_roc_file, ctx.user)
             ResultFileHandling._upload_file(
-                self.storage_client, self.metric_ks_file, self.remote_metric_ks_file)
+                self.storage_client, self.metric_ks_file, self.remote_metric_ks_file, ctx.user)
             ResultFileHandling._upload_file(
-                self.storage_client, self.metric_pr_file, self.remote_metric_pr_file)
+                self.storage_client, self.metric_pr_file, self.remote_metric_pr_file, ctx.user)
             ResultFileHandling._upload_file(
-                self.storage_client, self.metric_acc_file, self.remote_metric_acc_file)
+                self.storage_client, self.metric_acc_file, self.remote_metric_acc_file, ctx.user)
 
             # ks table
             ks_table = self.calculate_ks_and_stats(y_praba, y_true)
             ks_table.to_csv(self.metric_ks_table, header=True, index=None)
             ResultFileHandling._upload_file(
-                self.storage_client, self.metric_ks_table, self.remote_metric_ks_table)
+                self.storage_client, self.metric_ks_table, self.remote_metric_ks_table, ctx.user)
         else:
             ks_value = auc_value = None
 
         # predict result
         self._parse_model_result(data_index, y_true, y_praba)
         ResultFileHandling._upload_file(
-            self.storage_client, self.model_output_file, self.remote_model_output_file)
+            self.storage_client, self.model_output_file, self.remote_model_output_file, ctx.user)
 
         return ks_value, auc_value
 

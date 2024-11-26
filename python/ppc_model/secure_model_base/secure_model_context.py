@@ -108,10 +108,11 @@ class SecureModelContext(Context):
         else:
             role = TaskRole.PASSIVE_PARTY
 
-        super().__init__(args['job_id'],
-                         task_id,
-                         components,
-                         role)
+        super().__init__(job_id=args['job_id'],
+                         task_id=task_id,
+                         components=components,
+                         role=role,
+                         user=args['user'])
         self.is_label_holder = args['is_label_holder']
         self.result_receiver_id_list = args['result_receiver_id_list']
         self.participant_id_list = args['participant_id_list']
