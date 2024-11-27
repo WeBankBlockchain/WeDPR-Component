@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
-import os
-
 from wedpr_ml_toolkit.context.job_context import JobContext
-from wedpr_ml_toolkit.context.data_context import DataContext
-from wedpr_ml_toolkit.common.utils.constant import Constant
+from wedpr_ml_toolkit.context.dataset_context import DatasetContext
 from wedpr_ml_toolkit.context.result.result_context import ResultContext
+from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobDetailResponse
 
 
 class PSIResultContext(ResultContext):
-    def __init__(self, job_context: JobContext, job_id: str):
-        super().__init__(job_context, job_id)
+    def __init__(self, job_context: JobContext, job_result_detail: JobDetailResponse):
+        self.result_dataset: DatasetContext = None
+        super().__init__(job_context, job_result_detail)
+
+    def __repr__(self):
+        return f"result_dataset: {self.result_dataset}"
 
     def parse_result(self):
-        result_list = []
-        for dataset in self.job_context.dataset.datasets:
-            dataset.update_path(self.psi_result_file_path)
-            result_list.append(dataset)
-
-        self.psi_result = DataContext(*result_list)
+        self.result_dataset = self._generate_result_dataset_(
+            self.job_result_detail.resultFileInfo['path'])

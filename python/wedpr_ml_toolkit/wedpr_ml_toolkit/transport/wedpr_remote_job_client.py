@@ -60,16 +60,18 @@ class JobStatus(Enum):
 
 
 class JobInfo(BaseObject):
-    def __init__(self, job_id: str = None, job_type: JobType = None, project_id: str = None, param: str = None, **params: Any):
+    def __init__(self, job_id: str = None,
+                 job_type: JobType = None,
+                 project_id: str = None,
+                 param: str = None, **params: Any):
         if job_id is not None:
             self.id = job_id
         self.name = None
         self.owner = None
         self.ownerAgency = None
+        self.jobType: str = None
         if job_type is not None:
             self.jobType = job_type.name
-        else:
-            self.jobType = None
         self.parties = None
         self.projectId = project_id
         self.param = param
@@ -78,35 +80,11 @@ class JobInfo(BaseObject):
         self.createTime = None
         self.lastUpdateTime = None
         self.set_params(**params)
-        self.job_status = JobStatus.get_job_status(self.status)
+        self.job_status: JobStatus = JobStatus.get_job_status(self.status)
 
     def __repr__(self):
-        return f"job_id: {self.id}, owner: {self.owner}, ownerAgency: {self.ownerAgency}, jobType: {self.jobType}, status: {self.status}"
-
-
-class ModelInfo(BaseObject):
-    def __init__(self, model, model_type, **params: Any):
-
-        self.type = model_type
-        # self.setting = json.loads(model)
-        self.setting = model
-        self.startTime = None
-        self.endTime = None
-        self.step = None
-        self.id = None
-        self.name = None
-        self.agency = None
-        self.owner = None
-
-        self.set_params(**params)
-
-
-class ModelResult:
-    def __init__(self, job_id: str, train_result=None, test_result=None, model=None, model_type=None):
-        self.job_id = job_id
-        self.train_result = train_result
-        self.test_result = test_result
-        self.model = ModelInfo(model, model_type).__dict__
+        return f"job_id: {self.id}, owner: {self.owner}, ownerAgency: {self.ownerAgency}, " \
+               f"jobType: {self.jobType}, status: {self.status}"
 
 
 class JobParam:
@@ -128,7 +106,7 @@ class WeDPRResponse(BaseObject):
 
 
 class QueryJobRequest(BaseObject):
-    def __init__(self, job_info):
+    def __init__(self, job_info: JobInfo):
         self.job = job_info
 
     def as_dict(self):
@@ -151,25 +129,26 @@ class JobListResponse(BaseObject):
         for job_item in self.jobs:
             self.job_object_list.append(JobInfo(**job_item))
 
-    def get_queried_job(self):
+    def get_queried_job(self) -> JobInfo:
         if len(self.job_object_list) == 0:
             return None
         return self.job_object_list[0]
 
 
 class JobDetailResponse(BaseObject):
-    def __init__(self, job: JobInfo = None, **params: Any):
-        self.job = None
-        self.job_object = job
-        self.modelResultDetail = None
-        self.resultFileInfo = None
-        self.model = None
+    def __init__(self, job_info: JobInfo = None, **params: Any):
+        self.job: dict = None
+        self.job_object: JobInfo = job_info
+        self.modelResultDetail: dict = None
+        self.resultFileInfo: dict = None
+        self.model: dict = None
         self.set_params(**params)
         if self.job_object is None and self.job is not None:
             self.job_object = JobInfo(**self.job)
 
     def __repr__(self):
-        return f"job: {self.job_object}, modelResultDetail: {self.modelResultDetail}, resultFileInfo: {self.resultFileInfo}, model: {self.model}"
+        return f"job: {self.job_object}, modelResultDetail: {self.modelResultDetail}, " \
+               f"resultFileInfo: {self.resultFileInfo}, model: {self.model}"
 
 
 class WeDPRRemoteJobClient(WeDPREntryPoint, BaseObject):
@@ -202,8 +181,9 @@ class WeDPRRemoteJobClient(WeDPREntryPoint, BaseObject):
     def query_job_detail(self, job_id, block_until_finish) -> JobDetailResponse:
         job_result = self.poll_job_result(job_id, block_until_finish)
         # failed case
-        if job_result == None or job_result.job_status == None or (not job_result.job_status.run_success()):
-            return JobDetailResponse(job=job_result, params=None)
+        if job_result == None or job_result.job_status == None \
+                or (not job_result.job_status.run_success()):
+            return JobDetailResponse(job_info=job_result, params=None)
         # success case, query the job detail
         params = {}
         params["jobID"] = job_id
@@ -228,7 +208,8 @@ class WeDPRRemoteJobClient(WeDPREntryPoint, BaseObject):
                                                     self.job_config.retry_delay_s,
                                                     True,
                                                     self.job_config.query_job_status_uri,
-                                                    None, None, json.dumps(QueryJobRequest(job_info=query_condition).as_dict()))
+                                                    None, None,
+                                                    json.dumps(QueryJobRequest(job_info=query_condition).as_dict()))
             wedpr_response = WeDPRResponse(**response_dict)
             if not wedpr_response.success():
                 raise Exception(

@@ -3,6 +3,7 @@ import pandas as pd
 from wedpr_ml_toolkit.transport.storage_entrypoint import StorageEntryPoint
 from wedpr_ml_toolkit.transport.wedpr_remote_dataset_client import WeDPRDatasetClient
 from wedpr_ml_toolkit.transport.wedpr_remote_dataset_client import DatasetMeta
+import io
 
 
 class DatasetContext:
@@ -27,6 +28,10 @@ class DatasetContext:
         # the storage workspace
         self.storage_workspace = storage_workspace
 
+    def __repr__(self):
+        return f"dataset_id: {self.dataset_id}, " \
+               f"dataset_meta: {self.dataset_meta}"
+
     def load_values(self, header=None):
         # 加载hdfs的数据集
         if self.storage_client is not None:
@@ -40,11 +45,15 @@ class DatasetContext:
         # no values to save
         if values is None:
             return
+        csv_buffer = io.StringIO()
+        values.to_csv(csv_buffer, index=False)
+        value_bytes = csv_buffer.getvalue()
         # update the meta firstly
         if path is None and self.dataset_meta is not None and self.dataset_meta.datasetId is not None:
             columns = values.columns.to_list()
             dataset_meta = DatasetMeta(dataset_id=self.dataset_meta.datasetId,
                                        dataset_fields=','.join(columns),
+                                       dataset_size=len(value_bytes),
                                        dataset_record_count=len(values),
                                        dataset_column_count=len(columns))
             self.dataset_client.update_dataset(dataset_meta)
@@ -62,7 +71,7 @@ class DatasetContext:
             target_path = os.path.join(
                 self.storage_workspace, target_path)
         if self.storage_client is not None:
-            self.storage_client.upload(values, target_path)
+            self.storage_client.upload_bytes(value_bytes, target_path)
 
     def update_path(self, path: str = None):
         # 将数据集存入hdfs相同路径，替换旧数据集

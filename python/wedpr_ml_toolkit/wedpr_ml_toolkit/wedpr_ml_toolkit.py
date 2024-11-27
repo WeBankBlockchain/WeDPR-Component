@@ -3,7 +3,6 @@
 from wedpr_ml_toolkit.config.wedpr_ml_config import WeDPRMlConfig
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import WeDPRRemoteJobClient
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobInfo
-from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobDetailResponse
 from wedpr_ml_toolkit.transport.storage_entrypoint import StorageEntryPoint
 from wedpr_ml_toolkit.transport.wedpr_remote_dataset_client import WeDPRDatasetClient
 from wedpr_ml_toolkit.context.job_context import JobType
@@ -14,8 +13,16 @@ from wedpr_ml_toolkit.context.job_context import SecureLGBMPredictJobContext
 from wedpr_ml_toolkit.context.job_context import SecureLGBMTrainingJobContext
 from wedpr_ml_toolkit.context.job_context import SecureLRPredictJobContext
 from wedpr_ml_toolkit.context.job_context import SecureLRTrainingJobContext
+from wedpr_ml_toolkit.context.job_context import JobContext
 from wedpr_ml_toolkit.context.data_context import DataContext
 from wedpr_ml_toolkit.context.model_setting import ModelSetting
+from wedpr_ml_toolkit.context.result.result_context import ResultContext
+from wedpr_ml_toolkit.context.result.psi_result_context import PSIResultContext
+from wedpr_ml_toolkit.context.result.fe_result_context import FeResultContext
+from wedpr_ml_toolkit.context.result.fe_result_context import PreprocessingResultContext
+from wedpr_ml_toolkit.context.result.model_result_context import TrainResultContext
+from wedpr_ml_toolkit.context.result.model_result_context import PredictResultContext
+from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobDetailResponse
 
 
 class WeDPRMlToolkit:
@@ -50,6 +57,21 @@ class WeDPRMlToolkit:
     def query_job_detail(self, job_id, block_until_finish=False) -> JobDetailResponse:
         return self.remote_job_client.query_job_detail(job_id, block_until_finish)
 
+    def build_result_context(self, job_context: JobContext, job_result_detail: JobDetailResponse):
+        job_type = ResultContext.check_and_get_job_type(
+            job_context, job_result_detail)
+        if job_type == JobType.PSI.name:
+            return PSIResultContext(job_context, job_result_detail)
+        if job_type == JobType.PREPROCESSING.name:
+            return PreprocessingResultContext(job_context, job_result_detail)
+        if job_type == JobType.FEATURE_ENGINEERING.name:
+            return FeResultContext(job_context, job_result_detail)
+        if job_type == JobType.XGB_TRAINING.name or job_type == JobType.LR_TRAINING.name:
+            return TrainResultContext(job_context, job_result_detail)
+        if job_type == JobType.XGB_PREDICTING.name or job_type == JobType.LR_PREDICTING.name:
+            return PredictResultContext(job_context, job_result_detail)
+        raise Exception(f"Unsupported job type: {job_type}")
+
     def build_job_context(self, job_type: JobType, project_id: str, dataset: DataContext, model_setting: ModelSetting = None,
                           id_fields='id', predict_algorithm=None):
         if job_type == JobType.PSI:
@@ -73,3 +95,4 @@ class WeDPRMlToolkit:
         if job_type == JobType.LR_PREDICTING:
             return SecureLRPredictJobContext(self.remote_job_client, self.storage_entry_point, project_id,
                                              model_setting, predict_algorithm, dataset, self.config.user_config, id_fields)
+        raise Exception(f"Unsupported job type: {job_type}")

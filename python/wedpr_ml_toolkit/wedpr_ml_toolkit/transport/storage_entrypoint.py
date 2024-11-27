@@ -13,6 +13,9 @@ class StorageEntryPoint:
         self.storage_client = HdfsStorageImpl(
             self.storage_config.storage_endpoint, self.user_config.user, self.user_config.get_workspace_path())
 
+    def upload_bytes(self, data, hdfs_path):
+        self.storage_client.save_data(data, hdfs_path)
+
     def upload(self, dataframe, hdfs_path):
         """
         上传Pandas DataFrame到HDFS

@@ -9,23 +9,6 @@ class DataContext:
     def __init__(self, *datasets):
         self.datasets = list(datasets)
 
-        self._check_datasets()
-
-    def _save_dataset(self, dataset: DatasetContext):
-        file_path = dataset.dataset_meta.file_path
-        if file_path is None:
-            dataset.dataset_id = utils.make_id(
-                utils.IdPrefixEnum.DATASET.value)
-            file_path = os.path.join(
-                dataset.storage_workspace, dataset.dataset_id)
-            if dataset.storage_client is not None:
-                dataset.storage_client.upload(
-                    dataset.values, file_path)
-
-    def _check_datasets(self):
-        for dataset in self.datasets:
-            self._save_dataset(dataset)
-
     def to_psi_format(self, merge_filed, result_receiver_id_list):
         dataset_psi = []
         for dataset in self.datasets:

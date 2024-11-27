@@ -13,9 +13,11 @@ class Constant:
     PSI_RESULT_FILE = "psi_result.csv"
 
     FEATURE_BIN_FILE = "feature_bin.json"
-    TEST_MODEL_OUTPUT_FILE = "test_output.csv"
-    TRAIN_MODEL_OUTPUT_FILE = "train_output.csv"
-
-    FE_RESULT_FILE = "fe_result.csv"
     XGB_TREE_PREFIX = "xgb_tree"
-    MODEL_DATA_FILE = XGB_TREE_PREFIX + '.json'
+    MODEL_RESULT_FILE = XGB_TREE_PREFIX + '.json'
+    PREPROCESSING_RESULT_FILE = "preprocessing_result.csv"
+    EVALUATION_TABLE_FILE = "mpc_xgb_evaluation_table.csv"
+    FEATURE_IMPORTANCE_FILE = "xgb_result_feature_importance_table.csv"
+    FEATURE_SELECTION_FILE = "xgb_result_column_info_selected.csv"
+    MODEL_FILE = "model_enc.kpl"
+    WOE_IV_FILE = "woe_iv.csv"

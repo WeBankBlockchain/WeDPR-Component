@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
 
-from wedpr_ml_toolkit.context.dataset_context import DatasetContext
 from wedpr_ml_toolkit.transport.storage_entrypoint import StorageEntryPoint
 from wedpr_ml_toolkit.context.data_context import DataContext
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobParam
@@ -9,7 +8,6 @@ from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobInfo
 from abc import abstractmethod
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import WeDPRRemoteJobClient
 from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobType, ModelType
-from wedpr_ml_toolkit.transport.wedpr_remote_job_client import ModelResult
 from wedpr_ml_toolkit.transport.wedpr_remote_dataset_client import DatasetMeta
 from wedpr_ml_toolkit.context.model_setting import ModelSetting
 from wedpr_ml_toolkit.config.wedpr_ml_config import UserConfig
@@ -83,23 +81,7 @@ class JobContext:
     def submit(self):
         return self.remote_job_client.submit_job(self.build())
 
-    @abstractmethod
-    def parse_result(self, job_id, block_until_success):
-        pass
-
     def fetch_job_result(self, job_id, block_until_success):
-        # job_result = self.query_job_status(job_id, block_until_success)
-        # # TODO: determine success or not here
-        # return self.parse_result(self.remote_job_client.query_job_detail(job_id, block_until_success))
-
-        # # query_job_status
-        # job_result = self.remote_job_client.poll_job_result(job_id, block_until_success)
-        # # failed case
-        # if job_result == None or job_result.job_status == None or (not job_result.job_status.run_success()):
-        #     raise Exception(f'job {job_id} running failed!')
-        # # success case
-        # ...
-
         # query_job_detail
         result_detail = self.remote_job_client.query_job_detail(
             job_id, block_until_success)
@@ -130,18 +112,6 @@ class PSIJobContext(JobContext):
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
 
-    def parse_result(self, job_id, block_until_success):
-        result_detail = self.fetch_job_result(job_id, block_until_success)
-
-        dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
-                                   agency=self.user_config.agency_name,
-                                   file_path=result_detail.resultFileInfo['path'])
-        psi_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
-                                    storage_workspace=None,
-                                    dataset_meta=dataset_meta)
-
-        return psi_result
-
 
 class PreprocessingJobContext(JobContext):
     def __init__(self, remote_job_client: WeDPRRemoteJobClient,
@@ -165,12 +135,6 @@ class PreprocessingJobContext(JobContext):
                            param=json.dumps({'dataSetList': self.dataset_list, 'modelSetting': self.model_setting.as_dict()}))
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
-
-    def parse_result(self, job_id, block_until_success):
-        result_detail = self.fetch_job_result(job_id, block_until_success)
-
-        pre_result = result_detail
-        return pre_result
 
 
 class FeatureEngineeringJobContext(JobContext):
@@ -198,12 +162,6 @@ class FeatureEngineeringJobContext(JobContext):
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
 
-    def parse_result(self, job_id, block_until_success):
-        result_detail = self.fetch_job_result(job_id, block_until_success)
-
-        fe_result = result_detail
-        return fe_result
-
 
 class SecureLGBMTrainingJobContext(JobContext):
     def __init__(self,
@@ -230,27 +188,6 @@ class SecureLGBMTrainingJobContext(JobContext):
                            param=json.dumps({'dataSetList': self.dataset_list, 'modelSetting': self.model_setting.as_dict()}))
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
-
-    def parse_result(self, job_id, block_until_success):
-        result_detail = self.fetch_job_result(job_id, block_until_success)
-        dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
-                                   file_path=result_detail.modelResultDetail['ModelResult']['trainResultPath'],
-                                   agency=self.user_config.agency_name)
-        train_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
-                                      storage_workspace=None,
-                                      dataset_meta=dataset_meta)
-
-        test_dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
-                                        file_path=result_detail.modelResultDetail[
-                                            'ModelResult']['testResultPath'],
-                                        agency=self.user_config.agency_name)
-        test_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
-                                     storage_workspace=None,
-                                     dataset_meta=test_dataset_meta)
-
-        xgb_result = ModelResult(job_id, train_result, test_result,
-                                 result_detail.model, ModelType.XGB_MODEL_SETTING.name)
-        return xgb_result
 
 
 class SecureLGBMPredictJobContext(JobContext):
@@ -281,17 +218,6 @@ class SecureLGBMPredictJobContext(JobContext):
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
 
-    def parse_result(self, job_id, block_until_success):
-        result_detail = self.fetch_job_result(job_id, block_until_success)
-        dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
-                                   file_path=result_detail.modelResultDetail['ModelResult']['testResultPath'],
-                                   agency=self.user_config.agency_name)
-        test_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
-                                     dataset_meta=dataset_meta)
-
-        xgb_result = ModelResult(job_id, test_result=test_result)
-        return xgb_result
-
 
 class SecureLRTrainingJobContext(JobContext):
     def __init__(self,
@@ -318,27 +244,6 @@ class SecureLRTrainingJobContext(JobContext):
             {'dataSetList': self.dataset_list, 'modelSetting': self.model_setting.as_dict()}))
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
-
-    def parse_result(self, job_id, block_until_success):
-        result_detail = self.fetch_job_result(job_id, block_until_success)
-        train_dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
-                                         file_path=result_detail.modelResultDetail[
-                                             'ModelResult']['trainResultPath'],
-                                         agency=self.user_config.agency_name)
-        train_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
-                                      dataset_meta=train_dataset_meta)
-
-        test_dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
-                                        file_path=result_detail.modelResultDetail[
-                                            'ModelResult']['testResultPath'],
-                                        agency=self.user_config.agency_name)
-        test_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
-                                     storage_workspace=None,
-                                     dataset_meta=test_dataset_meta)
-
-        lr_result = ModelResult(job_id, train_result, test_result,
-                                result_detail.model, ModelType.LR_MODEL_SETTING.name)
-        return lr_result
 
 
 class SecureLRPredictJobContext(JobContext):
@@ -369,14 +274,3 @@ class SecureLRPredictJobContext(JobContext):
              'modelPredictAlgorithm': json.dumps(self.predict_algorithm)}))
         job_param = JobParam(job_info, self.task_parties, self.dataset_id_list)
         return job_param
-
-    def parse_result(self, job_id, block_until_success):
-        result_detail = self.fetch_job_result(job_id, block_until_success)
-        dataset_meta = DatasetMeta(user=self.storage_entry_point.user_config.user,
-                                   file_path=result_detail.modelResultDetail['ModelResult']['testResultPath'],
-                                   agency=self.user_config.agency_name)
-        test_result = DatasetContext(storage_entrypoint=self.storage_entry_point,
-                                     dataset_meta=dataset_meta)
-
-        lr_result = ModelResult(job_id, test_result=test_result)
-        return lr_result
