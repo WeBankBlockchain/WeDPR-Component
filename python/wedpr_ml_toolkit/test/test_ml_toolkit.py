@@ -25,6 +25,7 @@ class WeDPRMlToolkitTestWrapper:
             # x1到x10列，随机数
             **{f'x{i}': np.random.rand(100) for i in range(1, 11)}
         })
+        # the dataset
         dataset1 = DatasetContext(storage_entrypoint=self.wedpr_ml_toolkit.get_storage_entry_point(),
                                   dataset_client=self.wedpr_ml_toolkit.get_dataset_client(),
                                   storage_workspace=self.wedpr_config.user_config.get_workspace_path(),
@@ -32,21 +33,11 @@ class WeDPRMlToolkitTestWrapper:
                                   is_label_holder=True)
         dataset1.save_values(df, path='d-101')
 
-        # hdfs_path
+        # the dataset
         dataset2 = DatasetContext(storage_entrypoint=self.wedpr_ml_toolkit.get_storage_entry_point(),
                                   dataset_client=self.wedpr_ml_toolkit.get_dataset_client(),
                                   dataset_id="d-9743674298214405")
-
-        dataset2.storage_client = None
-        # dataset2.load_values()
-        if dataset2.storage_client is None:
-            # 支持更新dataset的values数据
-            df2 = pd.DataFrame({
-                'id': np.arange(0, 100),  # id列，顺序整数
-                # x1到x10列，随机数
-                **{f'z{i}': np.random.rand(100) for i in range(1, 11)}
-            })
-            dataset2.save_values(values=df2)
+        print(f"### dataset2 meta: {dataset2.dataset_meta}")
         if dataset1.storage_client is not None:
             # save values to dataset1
             dataset1.save_values(df)

@@ -54,7 +54,7 @@ class WeDPRMlToolkit:
                           id_fields='id', predict_algorithm=None):
         if job_type == JobType.PSI:
             return PSIJobContext(self.remote_job_client, self.storage_entry_point, project_id, dataset,
-                                 self.config.agency_config.agency_name, id_fields)
+                                 self.config.user_config, id_fields)
         if job_type == JobType.PREPROCESSING:
             return PreprocessingJobContext(self.remote_job_client, self.storage_entry_point, project_id,
                                            model_setting, dataset, self.config.user_config, id_fields)

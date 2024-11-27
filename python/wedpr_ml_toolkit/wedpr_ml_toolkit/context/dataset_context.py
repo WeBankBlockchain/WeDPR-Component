@@ -37,6 +37,21 @@ class DatasetContext:
             return values, values.columns, values.shape
 
     def save_values(self, values: pd.DataFrame = None, path=None):
+        # no values to save
+        if values is None:
+            return
+        # update the meta firstly
+        if path is None and self.dataset_meta is not None and self.dataset_meta.datasetId is not None:
+            columns = values.columns.to_list()
+            dataset_meta = DatasetMeta(dataset_id=self.dataset_meta.datasetId,
+                                       dataset_fields=','.join(columns),
+                                       dataset_record_count=len(values),
+                                       dataset_column_count=len(columns))
+            self.dataset_client.update_dataset(dataset_meta)
+            self.dataset_meta.datasetFields = ','.join(columns)
+            self.dataset_meta.dataset_record_count = len(values)
+            self.dataset_meta.columnCount = len(columns)
+        # update the content
         target_path = self.dataset_meta.file_path
         # 保存数据到hdfs目录
         if path is not None:

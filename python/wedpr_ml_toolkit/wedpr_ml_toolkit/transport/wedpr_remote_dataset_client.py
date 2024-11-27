@@ -36,8 +36,8 @@ class DatasetMeta(BaseObject):
         self.datasetFields = dataset_fields
         self.datasetHash = dataset_hash
         self.datasetSize = dataset_size
-        self.datasetRecordCount = dataset_record_count
-        self.datasetColumnCount = dataset_column_count
+        self.recordCount = dataset_record_count
+        self.columnCount = dataset_column_count
         self.datasetStorageType = dataset_storage_type
         self.datasetStoragePath = dataset_storage_path
         self.dataSourceType = datasource_type
@@ -55,8 +55,8 @@ class DatasetMeta(BaseObject):
 
     def __repr__(self):
         return f"dataset: {self.datasetId}, datasetTitle: {self.datasetTitle}, datasetFields: {self.datasetFields}, " \
-               f"datasetSize: {self.datasetSize}, datasetRecordCount: {self.datasetRecordCount}," \
-               f"datasetColumnCount: {self.datasetColumnCount}, datasetStorageType: {self.datasetStorageType}" \
+               f"datasetSize: {self.datasetSize}, recordCount: {self.recordCount}," \
+               f"columnCount: {self.columnCount}, datasetStorageType: {self.datasetStorageType}, " \
                f"ownerAgencyName: {self.ownerAgencyName}"
 
 
@@ -84,3 +84,17 @@ class WeDPRDatasetClient(WeDPREntryPoint, BaseObject):
                 f"Query dataset information failed for {wedpr_response.msg}, dataset_id: {dataset_id}")
         # query success, deserialize to DatasetMeta
         return DatasetMeta(**wedpr_response.data)
+
+    def update_dataset(self, dataset_meta: DatasetMeta):
+        if dataset_meta.datasetId is None or len(dataset_meta.datasetId) == 0:
+            raise Exception(
+                f"Invalid dataset meta {dataset_meta}, must define the datasetId")
+        response_dict = self.send_request(is_post=True,
+                                          uri=self.dataset_config.update_dataset_uri,
+                                          headers=None,
+                                          params=None,
+                                          data=json.dumps(dataset_meta.as_dict()))
+        wedpr_response = WeDPRResponse(**response_dict)
+        if wedpr_response.success() is False:
+            raise Exception(
+                f"Update dataset meta {dataset_meta} failed, msg: {wedpr_response.msg}")
