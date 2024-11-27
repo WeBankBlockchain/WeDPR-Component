@@ -14,8 +14,7 @@ class FeResultContext(ResultContext):
     def parse_result(self):
         result_list = []
         for dataset in self.job_context.dataset.datasets:
-            dataset.update_path(os.path.join(
-                self.job_id, Constant.FE_RESULT_FILE))
+            dataset.update_path(self.fe_result_file_path)
             result_list.append(dataset)
 
         fe_result = DataContext(*result_list)

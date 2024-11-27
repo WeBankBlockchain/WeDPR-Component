@@ -40,14 +40,10 @@ class DataContext:
 
     def __generate_dataset_info__(self, id_field: str, receive_result: bool, label_provider: bool, dataset: DatasetContext):
         return {"idFields": [id_field],
-                "dataset": {"owner": dataset.dataset_meta.ownerUserName,
-                            "ownerAgency": dataset.dataset_meta.ownerAgencyName,
-                            "path": dataset.dataset_meta.file_path,
-                            "storageTypeStr": "HDFS",
+                "dataset": {"ownerAgency": dataset.dataset_meta.ownerAgencyName,
                             "datasetID": dataset.dataset_id},
                 "receiveResult": receive_result,
-                "labelProvider": label_provider
-                }
+                "labelProvider": label_provider}
 
     def to_model_formort(self, merge_filed, result_receiver_id_list):
         dataset_model = []

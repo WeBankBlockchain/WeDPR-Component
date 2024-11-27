@@ -57,19 +57,19 @@ class WeDPRMlToolkit:
                                  self.config.agency_config.agency_name, id_fields)
         if job_type == JobType.PREPROCESSING:
             return PreprocessingJobContext(self.remote_job_client, self.storage_entry_point, project_id,
-                                           model_setting, dataset, self.config.agency_config.agency_name, id_fields)
+                                           model_setting, dataset, self.config.user_config, id_fields)
         if job_type == JobType.FEATURE_ENGINEERING:
             return FeatureEngineeringJobContext(self.remote_job_client, self.storage_entry_point, project_id,
-                                                model_setting, dataset, self.config.agency_config.agency_name, id_fields)
+                                                model_setting, dataset, self.config.user_config, id_fields)
         if job_type == JobType.XGB_TRAINING:
             return SecureLGBMTrainingJobContext(self.remote_job_client, self.storage_entry_point, project_id,
-                                                model_setting, dataset, self.config.agency_config.agency_name, id_fields)
+                                                model_setting, dataset, self.config.user_config, id_fields)
         if job_type == JobType.XGB_PREDICTING:
             return SecureLGBMPredictJobContext(self.remote_job_client, self.storage_entry_point, project_id,
-                                               model_setting, predict_algorithm, dataset, self.config.agency_config.agency_name, id_fields)
+                                               model_setting, predict_algorithm, dataset, self.config.user_config, id_fields)
         if job_type == JobType.LR_TRAINING:
             return SecureLRTrainingJobContext(self.remote_job_client, self.storage_entry_point, project_id,
-                                              model_setting, dataset, self.config.agency_config.agency_name, id_fields)
+                                              model_setting, dataset, self.config.user_config, id_fields)
         if job_type == JobType.LR_PREDICTING:
             return SecureLRPredictJobContext(self.remote_job_client, self.storage_entry_point, project_id,
-                                             model_setting, predict_algorithm, dataset, self.config.agency_config.agency_name, id_fields)
+                                             model_setting, predict_algorithm, dataset, self.config.user_config, id_fields)
