@@ -60,10 +60,13 @@ class DatasetMeta(BaseObject):
                 self.file_path = dataset_storage_path_dict.get("filePath")
 
     def __repr__(self):
-        return f"dataset: {self.datasetId}, datasetTitle: {self.datasetTitle}, datasetFields: {self.datasetFields}, " \
+        return f"id: {self.datasetId}, " \
+               f"file_path, {self.file_path}, " \
+               f"datasetTitle: {self.datasetTitle}, datasetFields: {self.datasetFields}, " \
                f"datasetSize: {self.datasetSize}, recordCount: {self.recordCount}," \
                f"columnCount: {self.columnCount}, datasetStorageType: {self.datasetStorageType}, " \
-               f"ownerAgencyName: {self.ownerAgencyName}"
+               f"user: {self.ownerUserName}, " \
+               f"agency: {self.ownerAgencyName}"
 
 
 class WeDPRDatasetClient(WeDPREntryPoint, BaseObject):

@@ -7,12 +7,9 @@ from wedpr_ml_toolkit.transport.wedpr_remote_job_client import JobDetailResponse
 
 class PSIResultContext(ResultContext):
     def __init__(self, job_context: JobContext, job_result_detail: JobDetailResponse):
-        self.result_dataset: DatasetContext = None
         super().__init__(job_context, job_result_detail)
+        self.result_dataset = self._generate_result_dataset_(
+            self.job_result_detail.resultFileInfo['path'])
 
     def __repr__(self):
         return f"result_dataset: {self.result_dataset}"
-
-    def parse_result(self):
-        self.result_dataset = self._generate_result_dataset_(
-            self.job_result_detail.resultFileInfo['path'])

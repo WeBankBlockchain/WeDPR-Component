@@ -119,6 +119,7 @@ class SecureModelContext(Context):
 
         model_predict_algorithm_str = common_func.get_config_value(
             "model_predict_algorithm", None, args, False)
+        self.model_predict_algorithm = None
         if model_predict_algorithm_str is not None:
             self.model_predict_algorithm = json.loads(
                 model_predict_algorithm_str)

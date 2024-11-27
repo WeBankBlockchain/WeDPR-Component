@@ -32,7 +32,7 @@ class DatasetContext:
         return f"dataset_id: {self.dataset_id}, " \
                f"dataset_meta: {self.dataset_meta}"
 
-    def load_values(self, header=None):
+    def load_values(self, header=0):
         # 加载hdfs的数据集
         if self.storage_client is not None:
             values = self.storage_client.download(
@@ -40,6 +40,7 @@ class DatasetContext:
             if values is None:
                 return values, None, None
             return values, values.columns, values.shape
+        raise Exception("Must set the storage client to load data!")
 
     def save_values(self, values: pd.DataFrame = None, path=None):
         # no values to save
@@ -59,8 +60,9 @@ class DatasetContext:
             self.dataset_client.update_dataset(dataset_meta)
         # update the dataset meta
         if self.dataset_meta is not None:
+            self.dataset_meta.datasetSize = len(value_bytes)
             self.dataset_meta.datasetFields = ','.join(columns)
-            self.dataset_meta.dataset_record_count = len(values)
+            self.dataset_meta.recordCount = len(values)
             self.dataset_meta.columnCount = len(columns)
         # update the content
         target_path = self.dataset_meta.file_path

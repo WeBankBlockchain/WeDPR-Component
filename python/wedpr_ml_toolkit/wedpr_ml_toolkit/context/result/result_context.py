@@ -40,8 +40,6 @@ class ResultContext:
         self.psi_result_file_path = os.path.join(
             self.job_context.user_config.user, "share", "psi", f"psi-{self.job_id}")
 
-        self.parse_result()
-
     @staticmethod
     def check_and_get_job_type(job_context: JobContext, job_result_detail: JobDetailResponse):
         if job_context is None:
@@ -52,6 +50,9 @@ class ResultContext:
         if job_result_detail.job_object is None:
             raise Exception(
                 "Invalid job result: must contain the job information!")
+        if job_result_detail.job_object.job_status.run_failed():
+            raise Exception(
+                f"RunFailed job can't construct the result context!")
         return job_result_detail.job_object.jobType
 
     def _generate_result_dataset_(self, dataset_file_path):
@@ -61,7 +62,3 @@ class ResultContext:
         return DatasetContext(storage_entrypoint=self.job_context.storage_entry_point,
                               storage_workspace=None,
                               dataset_meta=dataset_meta)
-
-    @abstractmethod
-    def parse_result(self):
-        pass

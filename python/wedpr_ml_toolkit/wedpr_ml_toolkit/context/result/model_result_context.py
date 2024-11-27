@@ -8,7 +8,6 @@ from wedpr_ml_toolkit.context.dataset_context import DatasetContext
 
 class ModelResultContext(PreprocessingResultContext, FeResultContext):
     def __init__(self, job_context: JobContext, job_result_detail: JobDetailResponse):
-        super().__init__(job_context, job_result_detail)
         PreprocessingResultContext.__init__(
             self, job_context, job_result_detail)
         FeResultContext.__init__(self, job_context, job_result_detail)
@@ -16,28 +15,7 @@ class ModelResultContext(PreprocessingResultContext, FeResultContext):
 
 class TrainResultContext(ModelResultContext):
     def __init__(self, job_context: JobContext, job_result_detail: JobDetailResponse):
-        self.train_result_dataset: DatasetContext = None
-        self.test_result_dataset: DatasetContext = None
-        self.model_result_dataset: DatasetContext = None
-        self.model_dataset: DatasetContext = None
-        self.evaluation_dataset: DatasetContext = None
-        self.feature_selection_dataset: DatasetContext = None
-        self.feature_importance_dataset: DatasetContext = None
-        super().__init__(job_context, job_result_detail)
-
-    def __repr__(self):
-        return f"train_result_dataset: {self.train_result_dataset}," \
-               f"test_result_dataset: {self.test_result_dataset}," \
-               f"model_result_dataset: {self.model_result_dataset}," \
-               f"model_dataset: {self.model_dataset}," \
-               f"evaluation_dataset: {self.evaluation_dataset}," \
-               f"feature_selection_dataset: {self.feature_selection_dataset}," \
-               f"feature_importance_dataset: {self.feature_importance_dataset}," \
-               f"preprocessing_dataset: {self.preprocessing_dataset}," \
-               f"fe_dataset: {self.fe_dataset}," \
-               f"psi_dataset: {self.psi_result_file_path}"
-
-    def parse_result(self):
+        ModelResultContext.__init__(self, job_context, job_result_detail)
         # train_model_output
         self.train_result_dataset = self._generate_result_dataset_(
             self.job_result_detail.modelResultDetail['ModelResult']['trainResultPath'])
@@ -59,15 +37,24 @@ class TrainResultContext(ModelResultContext):
         self.feature_importance_dataset = self._generate_result_dataset_(
             self.feature_importance_result_path)
 
+    def __repr__(self):
+        return f"train_result_dataset: {self.train_result_dataset}," \
+               f"test_result_dataset: {self.test_result_dataset}," \
+               f"model_result_dataset: {self.model_result_dataset}," \
+               f"model_dataset: {self.model_dataset}," \
+               f"evaluation_dataset: {self.evaluation_dataset}," \
+               f"feature_selection_dataset: {self.feature_selection_dataset}," \
+               f"feature_importance_dataset: {self.feature_importance_dataset}," \
+               f"preprocessing_dataset: {self.preprocessing_dataset}," \
+               f"fe_dataset: {self.fe_dataset}," \
+               f"psi_dataset: {self.psi_result_file_path}"
+
 
 class PredictResultContext(ResultContext):
     def __init__(self, job_context: JobContext, job_result_detail: JobDetailResponse):
-        self.model_result_dataset: DatasetContext = None
         super().__init__(job_context, job_result_detail)
+        self.model_result_dataset = self._generate_result_dataset_(
+            self.job_result_detail.modelResultDetail['ModelResult']['testResultPath'])
 
     def __repr__(self):
         return f"model_result_dataset: {self.model_result_dataset}"
-
-    def parse_result(self):
-        self.model_result_dataset = self._generate_result_dataset_(
-            self.job_result_detail.modelResultDetail['ModelResult']['testResultPath'])

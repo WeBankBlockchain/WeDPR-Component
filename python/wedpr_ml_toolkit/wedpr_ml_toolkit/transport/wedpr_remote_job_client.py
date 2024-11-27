@@ -142,9 +142,13 @@ class JobDetailResponse(BaseObject):
         self.modelResultDetail: dict = None
         self.resultFileInfo: dict = None
         self.model: dict = None
+        self.model_predict_algorithm = {}
         self.set_params(**params)
         if self.job_object is None and self.job is not None:
             self.job_object = JobInfo(**self.job)
+        # generate the model_predict algorithm
+        if self.model is not None:
+            self.model_predict_algorithm.update({"setting": self.model})
 
     def __repr__(self):
         return f"job: {self.job_object}, modelResultDetail: {self.modelResultDetail}, " \
