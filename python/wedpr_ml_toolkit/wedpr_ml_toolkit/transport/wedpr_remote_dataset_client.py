@@ -5,6 +5,7 @@ from wedpr_ml_toolkit.transport.wedpr_entrypoint import WeDPREntryPoint
 from wedpr_ml_toolkit.config.wedpr_ml_config import DatasetConfig
 from wedpr_ml_toolkit.config.wedpr_ml_config import HttpConfig
 from wedpr_ml_toolkit.config.wedpr_ml_config import AuthConfig
+from wedpr_ml_toolkit.config.wedpr_ml_config import UserConfig
 from typing import Any
 import json
 
@@ -28,6 +29,7 @@ class DatasetMeta(BaseObject):
                  status: str = None,
                  status_desc: str = None,
                  file_path: str = None,
+                 user_config: UserConfig = None,
                  **params: Any):
         self.datasetId = dataset_id
         self.datasetLabel = dataset_label
@@ -44,6 +46,10 @@ class DatasetMeta(BaseObject):
         self.dataSourceMeta = datasource_meta
         self.ownerAgencyName = agency
         self.ownerUserName = user
+        self.user_config = user_config
+        if self.user_config is not None:
+            self.ownerAgencyName = self.user_config.agency_name
+            self.ownerUserName = self.user_config.user
         self.status = status
         self.statusDesc = status_desc
         self.file_path = file_path
