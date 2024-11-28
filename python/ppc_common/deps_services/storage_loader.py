@@ -1,14 +1,21 @@
 from ppc_common.deps_services.storage_api import StorageType
+from ppc_common.deps_services.storage_api import HDFSStorageConfig
 from ppc_common.deps_services.hdfs_storage import HdfsStorage
-from ppc_common.ppc_utils import common_func
+from ppc_common.deps_services.krb5_hdfs_storage import Krb5HdfsStorage
+
+
+class HDFSStorageLoader:
+    @staticmethod
+    def load(hdfs_config: HDFSStorageConfig):
+        if hdfs_config.enable_krb5_auth is False:
+            return HdfsStorage(hdfs_config)
+        return Krb5HdfsStorage(hdfs_config)
 
 
 def load(config: dict, logger):
     if config['STORAGE_TYPE'] == StorageType.HDFS.value:
-        hdfs_user = common_func.get_config_value(
-            'HDFS_USER', None, config, False)
-        hdfs_home = common_func.get_config_value(
-            "HDFS_HOME", None, config, False)
-        return HdfsStorage(config['HDFS_URL'],  hdfs_user, hdfs_home)
+        hdfs_config = HDFSStorageConfig()
+        hdfs_config.load_config(config, logger)
+        return HDFSStorageLoader.load(hdfs_config)
     else:
         raise Exception('unsupported storage type')
