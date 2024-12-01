@@ -191,8 +191,14 @@ class PPCNodeConfigGenerator:
         config_content[section_name]["name_node_port"] = str(
             hdfs_storage_config.name_node_port)
         config_content[section_name]["token"] = hdfs_storage_config.token
+        config_content[section_name]["enable_krb5_auth"] = hdfs_storage_config.enable_krb5_auth_str
+        config_content[section_name]["auth_principal"] = hdfs_storage_config.auth_principal
+        config_content[section_name]["auth_password"] = hdfs_storage_config.auth_password
+        config_content[section_name]["ccache_path"] = hdfs_storage_config.ccache_path
 
-    def __generate_transport_config__(self, config_content, node_config, node_id, deploy_ip, node_index):
+    def __generate_transport_config__(self, config_content,
+                                      node_config, node_id,
+                                      deploy_ip, node_index):
         """_summary_
 
         Args:

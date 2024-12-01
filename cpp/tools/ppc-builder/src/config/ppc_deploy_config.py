@@ -116,6 +116,24 @@ class HDFSStorageConfig:
             self.config, "name_node_port", None, must_exist, config_section)
         self.token = utilities.get_item_value(
             self.config, "token", "", False, config_section)
+        # enable auth or not
+        enable_krb5_auth = utilities.get_item_value(
+            self.config, "enable_krb5_auth", "",
+            False, config_section)
+        self.enable_krb5_auth_str = utilities.convert_bool_to_str(
+            enable_krb5_auth)
+        # auth principal
+        self.auth_principal = utilities.get_item_value(
+            self.config, "auth_principal",
+            "", enable_krb5_auth, config_section)
+        # auth password
+        self.auth_password = utilities.get_item_value(
+            self.config, "auth_password",
+            "", enable_krb5_auth, config_section)
+        # cacche path
+        self.ccache_path = utilities.get_item_value(
+            self.config, "ccache_path",
+            "", enable_krb5_auth, config_section)
 
 
 class RA2018PSIConfig:

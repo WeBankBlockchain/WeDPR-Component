@@ -362,6 +362,14 @@ generate_config_ini() {
     replace-datanode-on-failure = false
     ; the connection-timeout, in ms, default is 1000ms
     connection-timeout = 2000
+    ; enable auth or not, default is false
+    ; enable_krb5_auth = false
+    ; the hdfs kerberos auth principal, used when enable_krb5_auth
+    ; auth_principal =
+    ; the hdfs kerberos auth password, used when enable_krb5_auth
+    ; auth_password =
+    ; the ccache path, used when enable_krb5_auth
+    ; ccache_path = /tmp/krb5cc_ppc_node
 
 [cert]
     ; directory the certificates located in

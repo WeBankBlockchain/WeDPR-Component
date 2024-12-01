@@ -94,6 +94,15 @@ holding_msg_minutes = 30
             name_node = "127.0.0.1"
             name_node_port = 9000
             token = ""
+            # enable auth or not, default is false
+            enable_krb5_auth = false
+            # the hdfs kerberos auth principal, used when enable_krb5_auth
+            auth_principal = ""
+            # the hdfs kerberos auth password, used when enable_krb5_auth
+            auth_password = ""
+            # the ccache path, used when enable_krb5_auth
+            ccache_path = "/tmp/krb5cc_ppc_node"
+
         # the gateway config
         [agency.node.gateway]
             gateway_grpc_target = ["127.0.0.1:40600", "127.0.0.1:40601"]
@@ -179,6 +188,14 @@ holding_msg_minutes = 30
             name_node = "127.0.0.1"
             name_node_port = 9000
             token = ""
+            # enable auth or not, default is false
+            enable_krb5_auth = false
+            # the hdfs kerberos auth principal, used when enable_krb5_auth
+            auth_principal = ""
+            # the hdfs kerberos auth password, used when enable_krb5_auth
+            auth_password = ""
+            # the ccache path, used when enable_krb5_auth
+            ccache_path = "/tmp/krb5cc_ppc_node"
         # the gateway config
         [agency.node.gateway]
             gateway_grpc_target = ["127.0.0.1:40620", "127.0.0.1:40621"]
