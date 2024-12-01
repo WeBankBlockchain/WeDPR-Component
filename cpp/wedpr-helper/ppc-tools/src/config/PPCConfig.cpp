@@ -580,8 +580,27 @@ void PPCConfig::loadHDFSConfig(boost::property_tree::ptree const& _pt)
     // connection-timeout
     option->connectionTimeout = _pt.get<uint16_t>("hdfs_storage.connection-timeout", 1000);
     m_storageConfig.fileStorageConnectionOpt = option;
+    auto enableAuth = _pt.get<bool>("hdfs_storage.enable_krb5_auth", false);
+    if (enableAuth)
+    {
+        loadKrb5AuthConfig(_pt);
+    }
     PPCConfig_LOG(INFO) << LOG_DESC("loadStorageConfig: load hdfs connection option success")
-                        << option->desc();
+                        << LOG_KV("enableAuth", enableAuth) << option->desc();
+}
+
+void PPCConfig::loadKrb5AuthConfig(boost::property_tree::ptree const& pt)
+{
+    auto authConfig = std::make_shared<Krb5AuthConfig>();
+    // the principal
+    authConfig->principal = pt.get<std::string>("hdfs_storage.auth_principal", "");
+    // the password
+    authConfig->password = pt.get<std::string>("hdfs_storage.auth_password", "");
+    // the ccachePath
+    authConfig->ccachePath =
+        pt.get<std::string>("hdfs_storage.ccache_path", "/tmp/krb5cc_ppc_node");
+    m_storageConfig.fileStorageConnectionOpt->authConfig = authConfig;
+    PPCConfig_LOG(INFO) << LOG_DESC("loadKrb5AuthConfig") << LOG_KV("config", authConfig->desc());
 }
 
 void PPCConfig::loadSQLConfig(boost::property_tree::ptree const& _pt)
@@ -633,6 +652,5 @@ void PPCConfig::loadMPCConfig(boost::property_tree::ptree const& _pt)
     {
         m_mpcConfig.threadPoolSize = std::thread::hardware_concurrency();
     }
-
     loadHDFSConfig(_pt);
 }

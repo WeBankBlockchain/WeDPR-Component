@@ -23,6 +23,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
+#include "Krb5AuthConfig.h"
 #include "ppc-framework/Common.h"
 #include <bcos-utilities/Log.h>
 #include <map>
@@ -452,6 +453,7 @@ struct FileStorageConnectionOption
     bool replaceDataNodeOnFailure = false;
     // the default connection-timeout for the hdfs is 1000ms
     uint16_t connectionTimeout = 1000;
+    Krb5AuthConfig::Ptr authConfig;
 
     void check() const
     {
@@ -470,6 +472,10 @@ struct FileStorageConnectionOption
             BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
                                       "Invalid HDFS Option, Must set valid namenodeport!"));
         }
+        if (authConfig)
+        {
+            authConfig->check();
+        }
     }
     inline std::string desc() const
     {
@@ -477,7 +483,8 @@ struct FileStorageConnectionOption
         oss << LOG_KV("nameNode", nameNode) << LOG_KV("nameNodePort", nameNodePort)
             << LOG_KV("user", userName) << LOG_KV("token", token)
             << LOG_KV("replace-datanode-on-failure", replaceDataNodeOnFailure)
-            << LOG_KV("connectionTimeout", connectionTimeout);
+            << LOG_KV("connectionTimeout", connectionTimeout)
+            << LOG_KV("authInfo", authConfig ? authConfig->desc() : "null");
         return oss.str();
     }
 };

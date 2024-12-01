@@ -18,6 +18,7 @@
  * @date 2022-11-30
  */
 #include "HDFSStorage.h"
+#include "auth/Krb5CredLoader.h"
 #include <hdfs/hdfs.h>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -65,6 +66,16 @@ HDFSStorage::HDFSStorage(FileStorageConnectionOption::Ptr const& _option)
     if (!_option->token.empty())
     {
         hdfsBuilderSetToken(m_builder.get(), _option->token.c_str());
+    }
+    // init the auth information
+    if (_option->authConfig)
+    {
+        // init and store the auth information into the cache
+        auto ctx = std::make_shared<Krb5Context>(_option->authConfig);
+        ctx->init();
+        HDFS_STORAGE_LOG(INFO) << LOG_DESC("SetKerbTicketCachePath")
+                               << LOG_KV("ccachePath", _option->authConfig->ccachePath);
+        hdfsBuilderSetKerbTicketCachePath(m_builder.get(), _option->authConfig->ccachePath.c_str());
     }
     // connect to the hdfs, Note: the m_fs is a pointer
     m_fs = std::shared_ptr<HdfsFileSystemInternalWrapper>(

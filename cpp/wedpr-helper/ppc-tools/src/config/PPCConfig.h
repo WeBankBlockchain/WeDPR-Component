@@ -264,7 +264,7 @@ private:
         std::string const& sectionName, boost::property_tree::ptree const& pt);
 
     virtual void loadHDFSConfig(boost::property_tree::ptree const& _pt);
-
+    virtual void loadKrb5AuthConfig(boost::property_tree::ptree const& pt);
     virtual void loadSQLConfig(boost::property_tree::ptree const& _pt);
 
 

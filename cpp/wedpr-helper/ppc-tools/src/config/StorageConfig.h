@@ -18,6 +18,7 @@
  * @date 2022-11-4
  */
 #pragma once
+#include "ppc-framework/protocol/Krb5AuthConfig.h"
 #include <ppc-framework/protocol/Protocol.h>
 #include <memory>
 #include <string>

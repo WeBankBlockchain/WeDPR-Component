@@ -20,7 +20,7 @@
 #pragma once
 #include "../Common.h"
 #define HDFS_STORAGE_LOG(LEVEL) BCOS_LOG(LEVEL) << LOG_BADGE("HDFS_STORAGE")
-
+#define HDFS_AUTH_LOG(LEVEL) BCOS_LOG(LEVEL) << LOG_BADGE("HDFS_STORAGE_AUTH")
 namespace ppc::storage
 {
 DERIVE_PPC_EXCEPTION(ConnectToHDFSFailed);
