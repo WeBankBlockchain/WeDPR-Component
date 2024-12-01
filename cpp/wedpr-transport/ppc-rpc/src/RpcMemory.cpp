@@ -86,7 +86,7 @@ bcos::Error::Ptr RpcMemory::insertTask(protocol::Task::Ptr _task)
             RPC_STATUS_LOG(INFO) << LOG_DESC("find the existed not running-task")
                                  << LOG_KV("task", _task->id())
                                  << LOG_KV("status", taskResult->status());
-            if (taskResult->status() != toString(TaskState::COMPLETED))
+            if (taskResult->status() != toString(TaskStatus::COMPLETED))
             {
                 // erase the task_id
                 m_front->eraseTaskInfo(_task->id());

@@ -1,8 +1,8 @@
 {
-  "name": "fiscobcos",
-  "version-string": "3.7.3",
+  "name": "wedpr-component",
+  "version-string": "3.0.0",
   "homepage": "https://github.com/WeBankBlockchain/WeDPR-Component",
-  "description": "FISCO BCOS",
+  "description": "wedpr component",
   "dependencies": [
     {
       "name": "vcpkg-cmake",
@@ -30,7 +30,7 @@
     },
     { 
       "name": "libhdfs3", 
-      "version": "2024-04-27#1"
+      "version": "2024-11-29#0"
     },
     {
       "name": "tbb",

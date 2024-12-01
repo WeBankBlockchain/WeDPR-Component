@@ -14,6 +14,7 @@ class Krb5HdfsStorage(HdfsStorage):
             using_keytab=True,
             principal=self.hdfs_config.hdfs_auth_principal,
             keytab_file=self.hdfs_config.hdfs_auth_secret_file_path)
+
         self.client = KerberosClient(self.hdfs_config.hdfs_url)
         self.client = KerberosClient(
             krb_principal=self.hdfs_config.hdfs_auth_principal,

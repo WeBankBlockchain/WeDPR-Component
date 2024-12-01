@@ -87,7 +87,7 @@ set(AIR_BINARY_NAME ppc-air-node)
 set(CEM_BINARY_NAME wedpr-cem)
 set(MPC_BINARY_NAME wedpr-mpc)
 
-set(HDFS_LIB libhdfs3-static)
+set(HDFS_LIB libhdfs3)
 
 # set cpu-info
 set(CPU_FEATURES_LIB "")
