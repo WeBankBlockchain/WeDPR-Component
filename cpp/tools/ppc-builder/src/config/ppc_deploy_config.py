@@ -134,6 +134,10 @@ class HDFSStorageConfig:
         self.ccache_path = utilities.get_item_value(
             self.config, "ccache_path",
             "", enable_krb5_auth, config_section)
+        # the krb5.conf
+        self.krb5_conf_path = utilities.get_item_value(
+            self.config, "krb5_conf_path",
+            "conf/krb5.conf", enable_krb5_auth, config_section)
 
 
 class RA2018PSIConfig:

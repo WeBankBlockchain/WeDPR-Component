@@ -599,6 +599,16 @@ void PPCConfig::loadKrb5AuthConfig(boost::property_tree::ptree const& pt)
     // the ccachePath
     authConfig->ccachePath =
         pt.get<std::string>("hdfs_storage.ccache_path", "/tmp/krb5cc_ppc_node");
+    // the krb5.conf path
+    authConfig->authConfigFilePath =
+        pt.get<std::string>("hdfs_storage.krb5_conf_path", "./conf/krb5.conf");
+    // relative path case
+    if (!authConfig->authConfigFilePath.starts_with("/"))
+    {
+        auto joinedPath =
+            boost::filesystem::absolute(boost::filesystem::path(authConfig->authConfigFilePath));
+        authConfig->authConfigFilePath = joinedPath.string();
+    }
     m_storageConfig.fileStorageConnectionOpt->authConfig = authConfig;
     PPCConfig_LOG(INFO) << LOG_DESC("loadKrb5AuthConfig") << LOG_KV("config", authConfig->desc());
 }

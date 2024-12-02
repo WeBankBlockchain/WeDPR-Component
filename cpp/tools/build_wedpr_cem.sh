@@ -354,7 +354,7 @@ generate_config_ini() {
 
 [hdfs_storage]
     ; the hdfs configuration
-    user = ppc
+    user = root
     name_node = 127.0.0.1
     name_node_port = 9900
     token =
@@ -365,11 +365,13 @@ generate_config_ini() {
     ; enable auth or not, default is false
     ; enable_krb5_auth = false
     ; the hdfs kerberos auth principal, used when enable_krb5_auth
-    ; auth_principal =
+    ; auth_principal = root@NODE.DC1.CONSUL
     ; the hdfs kerberos auth password, used when enable_krb5_auth
     ; auth_password =
     ; the ccache path, used when enable_krb5_auth
     ; ccache_path = /tmp/krb5cc_ppc_node
+    ; the krb5.conf path
+    ; krb5_conf_path  = conf/krb5.conf
 
 [cert]
     ; directory the certificates located in

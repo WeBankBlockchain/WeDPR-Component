@@ -109,8 +109,8 @@ class PPCNodeConfigGenerator:
         self.__generate_storage_config__(
             config_content, node_config.storage_config)
         # load the hdfs_storage_config
-        self.__generate_hdfs_storage_config__(
-            config_content, node_config.hdfs_storage_config)
+        self.__generate_hdfs_storage_config__(node_path, utilities.ConfigInfo.krb5_config_tpl_path,
+                                              config_content, node_config.hdfs_storage_config)
         # load the ra2018psi config
         self.__generate_ra2018psi_config__(
             config_content, node_config.ra2018psi_config)
@@ -182,7 +182,7 @@ class PPCNodeConfigGenerator:
         config_content[section_name]["password"] = storage_config.password
         config_content[section_name]["database"] = storage_config.database
 
-    def __generate_hdfs_storage_config__(self, config_content, hdfs_storage_config):
+    def __generate_hdfs_storage_config__(self, node_path, krb5_tpl_file_path, config_content, hdfs_storage_config):
         if hdfs_storage_config is None:
             return
         section_name = "hdfs_storage"
@@ -195,6 +195,18 @@ class PPCNodeConfigGenerator:
         config_content[section_name]["auth_principal"] = hdfs_storage_config.auth_principal
         config_content[section_name]["auth_password"] = hdfs_storage_config.auth_password
         config_content[section_name]["ccache_path"] = hdfs_storage_config.ccache_path
+        config_content[section_name]["krb5_conf_path"] = hdfs_storage_config.krb5_conf_path
+        # copy krb5.conf to krb5_conf_path specified path
+        dst_path = os.path.join(node_path, hdfs_storage_config.krb5_conf_path)
+        if hdfs_storage_config.krb5_conf_path.startswith("/"):
+            dst_path = hdfs_storage_config.krb5_conf_path
+        command = "cp %s %s" % (krb5_tpl_file_path, dst_path)
+        (ret, output) = utilities.execute_command_and_getoutput(command)
+        if ret is False:
+            utilities.log_error("copy krb5 configuration from %s to %s failed, error: %s") % (
+                krb5_tpl_file_path, dst_path, output)
+            return False
+        return True
 
     def __generate_transport_config__(self, config_content,
                                       node_config, node_id,

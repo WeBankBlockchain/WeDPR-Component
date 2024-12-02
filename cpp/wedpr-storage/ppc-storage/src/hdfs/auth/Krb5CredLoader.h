@@ -20,6 +20,7 @@
 #pragma once
 #include "ppc-framework/protocol/Krb5AuthConfig.h"
 #include <krb5.h>
+#include <profile.h>
 #include <memory>
 
 namespace ppc::storage
@@ -44,6 +45,10 @@ public:
         {
             krb5_free_context(m_ctx);
         }
+        if (m_profilePtr)
+        {
+            profile_release(m_profile);
+        }
     }
 
     virtual void init();
@@ -54,6 +59,8 @@ private:
 protected:
     ppc::protocol::Krb5AuthConfig::Ptr m_config;
     krb5_context m_ctx = NULL;
+    profile_t m_profile;
+    profile_t* m_profilePtr = NULL;
     krb5_principal m_principal = NULL;
     krb5_creds m_credsObj;
     krb5_creds* m_creds = NULL;

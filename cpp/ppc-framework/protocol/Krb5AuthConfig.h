@@ -31,6 +31,7 @@ struct Krb5AuthConfig
     std::string principal;
     std::string password;
     std::string ccachePath;
+    std::string authConfigFilePath = "./conf/krb5.conf";
     void check() const
     {
         if (principal.size() == 0)
@@ -48,12 +49,19 @@ struct Krb5AuthConfig
             BOOST_THROW_EXCEPTION(WeDPRException() << bcos::errinfo_comment(
                                       "Invalid krb5 auth config: Must set the ccachePath!"));
         }
+        if (authConfigFilePath.size() == 0)
+        {
+            BOOST_THROW_EXCEPTION(
+                WeDPRException() << bcos::errinfo_comment(
+                    "Invalid krb5 auth config: Must set the authConfigFilePath!"));
+        }
     }
 
     inline std::string desc() const
     {
         std::stringstream oss;
-        oss << LOG_KV("principal", principal) << LOG_KV("ccachePath", ccachePath);
+        oss << LOG_KV("principal", principal) << LOG_KV("ccachePath", ccachePath)
+            << LOG_KV("authConfigFilePath", authConfigFilePath);
         return oss.str();
     }
 };

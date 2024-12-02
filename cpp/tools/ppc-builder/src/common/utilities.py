@@ -29,6 +29,8 @@ class ConfigInfo:
         pwd_path, tpl_abs_path, "config.ini.node")
     gateway_config_tpl_path = os.path.join(
         pwd_path, tpl_abs_path, "config.ini.gateway")
+    krb5_config_tpl_path = os.path.join(
+        pwd_path, tpl_abs_path, "krb5.conf")
 
     ppc_gateway_binary_name = "ppc-gateway-service"
     ppc_node_binary_name = "ppc-pro-node"

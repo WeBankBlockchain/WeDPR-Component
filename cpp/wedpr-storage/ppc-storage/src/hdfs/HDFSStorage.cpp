@@ -42,6 +42,8 @@ HDFSStorage::HDFSStorage(FileStorageConnectionOption::Ptr const& _option)
     // the default 'rpc.client.connect.retry' is 10
     auto connectTimeout =
         std::to_string(_option->connectionTimeout);  // set 1s as the connectTimeout
+    HDFS_STORAGE_LOG(INFO) << LOG_DESC("create HDFSStorage") << _option->desc()
+                           << LOG_KV("connectTimeout", connectTimeout);
     hdfsBuilderConfSetStr(m_builder.get(), "rpc.client.connect.timeout", connectTimeout.c_str());
 
     // default disable output.replace-datanode-on-failure, set to false to resolve append data error
@@ -54,8 +56,6 @@ HDFSStorage::HDFSStorage(FileStorageConnectionOption::Ptr const& _option)
         hdfsBuilderConfSetStr(m_builder.get(), "output.replace-datanode-on-failure", "false");
     }
 
-    HDFS_STORAGE_LOG(INFO) << LOG_DESC("create HDFSStorage") << _option->desc()
-                           << LOG_KV("connectTimeout", connectTimeout);
     // set name node
     hdfsBuilderSetNameNode(m_builder.get(), _option->nameNode.c_str());
     hdfsBuilderSetNameNodePort(m_builder.get(), _option->nameNodePort);
@@ -77,6 +77,7 @@ HDFSStorage::HDFSStorage(FileStorageConnectionOption::Ptr const& _option)
         ctx->init();
         HDFS_STORAGE_LOG(INFO) << LOG_DESC("SetKerbTicketCachePath")
                                << LOG_KV("ccachePath", _option->authConfig->ccachePath);
+        // set the ccache file path
         hdfsBuilderSetKerbTicketCachePath(m_builder.get(), _option->authConfig->ccachePath.c_str());
     }
     // connect to the hdfs, Note: the m_fs is a pointer
@@ -88,6 +89,8 @@ HDFSStorage::HDFSStorage(FileStorageConnectionOption::Ptr const& _option)
             ConnectToHDFSFailed() << errinfo_comment(
                 "Connect to hdfs failed! error: " + std::string(hdfsGetLastError())));
     }
+    HDFS_STORAGE_LOG(INFO) << LOG_DESC("create HDFSStorage success") << _option->desc()
+                           << LOG_KV("connectTimeout", connectTimeout);
 }
 
 

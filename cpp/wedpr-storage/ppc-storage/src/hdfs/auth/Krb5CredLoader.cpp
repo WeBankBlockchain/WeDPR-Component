@@ -28,9 +28,18 @@ using namespace bcos;
 void Krb5Context::init()
 {
     HDFS_AUTH_LOG(INFO) << LOG_DESC("init Krb5Context") << m_config->desc();
+
+    // init the profile
+    auto ret = profile_init_path(m_config->authConfigFilePath.c_str(), &m_profile);
+    if (ret)
+    {
+        BOOST_THROW_EXCEPTION(WeDPRException() << errinfo_comment(
+                                  "load Krb5Context failed for profile_init_path failed!"));
+    }
+    m_profilePtr = &m_profile;
     // load krb5 ctx
-    auto error = krb5_init_context(&m_ctx);
-    checkResult(error, "krb5_init_context");
+    auto error = krb5_init_context_profile(m_profile, 1, &m_ctx);
+    checkResult(error, "krb5_init_context_profile");
 
     // init the principal
     error = krb5_parse_name(m_ctx, m_config->principal.c_str(), &m_principal);

@@ -101,6 +101,13 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE make test ARGS="--output-on-failure"
+      - name: Publish Error
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-x64-linux-dbg-err.log
+          path: /home/runner/work/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/gsasl/build-x64-linux-dbg-err.log
+        
 
   build_centos:
     name: build_centos full node
@@ -115,10 +122,6 @@ jobs:
       volumes:
         - /usr/local/share/vcpkg:/usr/local/share/vcpkg
     steps:
-      - name: Set up Node.js 16.x
-        uses: actions/setup-node@v2
-        with:
-            node-version: "16.x"
       - uses: actions/checkout@v3
         with:
           clean: false
