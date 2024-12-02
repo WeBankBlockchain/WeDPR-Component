@@ -120,7 +120,7 @@ jobs:
       steps:
         - name: replace nodes
           run: |
-            rm -rf /__e/node20
+            sudo rm -rf /__e/node20
             echo "#### nodes list: "`ls /__e/node*`
             cd  /__e/ ln -s /__e/node16 node20
         - uses: actions/checkout@v3

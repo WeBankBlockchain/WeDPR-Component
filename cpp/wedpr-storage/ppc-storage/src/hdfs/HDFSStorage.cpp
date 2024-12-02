@@ -71,7 +71,7 @@ HDFSStorage::HDFSStorage(FileStorageConnectionOption::Ptr const& _option)
     if (_option->authConfig)
     {
         // set auth type to Kerberos
-        hdfsBuilderConfSetStr(m_builder.get(), "hadoop.security.authentication", "Kerberos");
+        hdfsBuilderConfSetStr(m_builder.get(), "hadoop.security.authentication", "kerberos");
         // init and store the auth information into the cache
         auto ctx = std::make_shared<Krb5Context>(_option->authConfig);
         ctx->init();

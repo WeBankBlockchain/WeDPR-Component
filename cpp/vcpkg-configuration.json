@@ -2,8 +2,8 @@
   "registries": [
     {
       "kind": "git",
-      "repository": "https://mirror.ghproxy.com/github.com/FISCO-BCOS/registry",
-      "baseline": "45b6c6312e9a0feeb1ff408b8ebcddcfd160614b",
+      "repository": "https://github.com/FISCO-BCOS/registry",
+      "baseline": "535c4fc74badd509b94e8a736452fa8a76bff944",
       "packages": [
         "openssl",
         "bcos-utilities",
