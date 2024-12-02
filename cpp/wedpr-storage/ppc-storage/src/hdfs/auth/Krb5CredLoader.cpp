@@ -37,8 +37,9 @@ void Krb5Context::init()
     checkResult(error, "krb5_parse_name");
     // init credential
     error = krb5_get_init_creds_password(
-        m_ctx, m_creds, m_principal, m_config->password.c_str(), NULL, NULL, 0, NULL, NULL);
+        m_ctx, &m_credsObj, m_principal, m_config->password.c_str(), NULL, NULL, 0, NULL, NULL);
     checkResult(error, "krb5_get_init_creds_password");
+    m_creds = &m_credsObj;
     // init the ccache
     error = krb5_cc_resolve(m_ctx, m_config->ccachePath.c_str(), &m_ccache);
     checkResult(error, "krb5_cc_resolve");
@@ -54,6 +55,7 @@ void Krb5Context::checkResult(krb5_error_code const& error, std::string const& m
 {
     if (!error)
     {
+        HDFS_AUTH_LOG(INFO) << LOG_DESC("init Krb5Context: ") << method << " success";
         return;
     }
     auto msg = krb5_get_error_message(m_ctx, error);

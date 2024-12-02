@@ -55,6 +55,7 @@ protected:
     ppc::protocol::Krb5AuthConfig::Ptr m_config;
     krb5_context m_ctx = NULL;
     krb5_principal m_principal = NULL;
+    krb5_creds m_credsObj;
     krb5_creds* m_creds = NULL;
     krb5_ccache m_ccache = NULL;
 };
