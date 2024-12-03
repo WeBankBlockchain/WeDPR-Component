@@ -107,25 +107,27 @@ jobs:
 
   build_centos_for_sdk:
       name: build_centos_for_sdk
-      runs-on: ${{ matrix.os }}
+      runs-on: ubuntu-latest
       continue-on-error: true
       strategy:
         fail-fast: false
         matrix:
-          os: [ubuntu-latest]
+          container:
+            - centos-7.9
       container:
         image: docker.io/centos:7
         volumes:
           - /usr/local/share/vcpkg:/usr/local/share/vcpkg
+          - /node20217:/node20217:rw,rshared
+          - ${{ matrix.container == 'centos-7.9' && '/node20217:/__e/node20:ro,rshared' || ' ' }}
       steps:
-        - name: replace nodes
+        - name: install nodejs20glibc2.17
+          if: ${{ matrix.container == 'centos-7.9' }}
           run: |
-            sudo rm -rf /__e/node20
-            echo "#### nodes list: "`ls /__e/node*`
-            cd  /__e/ ln -s /__e/node16 node20
-        - uses: actions/checkout@v3
-          with:
-            clean: false
+            curl -LO https://unofficial-builds.nodejs.org/download/release/v20.9.0/node-v20.9.0-linux-x64-glibc-217.tar.xz
+            tar -xf node-v20.9.0-linux-x64-glibc-217.tar.xz --strip-components 1 -C /node20217
+        - name: Check out the repo
+          uses: actions/checkout@v4
         - uses: actions/cache@v3
           id: deps_cache
           with:
@@ -156,11 +158,15 @@ jobs:
             yum install -y java-11-openjdk-devel git make gcc gcc-c++ glibc-static glibc-devel openssl cmake3 ccache devtoolset-11 llvm-toolset-7.0 rh-perl530-perl libzstd-devel zlib-devel flex bison python-devel python3-devel
             yum install -y rh-perl530-perl cmake3 zlib-devel ccache lcov python-devel python3-devel
             yum install -y git
+        - name: Prepare vcpkg
+          if: runner.os != 'Windows'
+          uses: friendlyanon/setup-vcpkg@v1
+          with: { committish: 51b14cd4e1230dd51c11ffeff6f7d53c61cc5297 }
         - name: Build
           run: |
             alias cmake='cmake3'
             . /opt/rh/devtoolset-11/enable
             mkdir -p cpp/build
             cd cpp/build
-            cmake3 -DCMAKE_BUILD_TYPE=Release -DBUILD_SDK=ON -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake ../
+            cmake3 -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SDK=ON -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake ../
             cmake3 --build . --parallel 3
