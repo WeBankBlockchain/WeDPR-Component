@@ -54,7 +54,7 @@ class StorageConfig(BaseObject):
     def __init__(self,
                  user_config: UserConfig,
                  storage_endpoint: str = None,
-                 enable_krb5_auth: bool = False,
+                 enable_krb5_auth: str = "False",
                  hdfs_auth_principal: str = None,
                  hdfs_auth_password: str = None,
                  hdfs_hostname_override: str = None):
