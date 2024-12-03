@@ -3,25 +3,27 @@ from typing import AnyStr
 
 from hdfs.client import InsecureClient
 from wedpr_ml_toolkit.common.utils import utils
+from wedpr_ml_toolkit.config.wedpr_ml_config import StorageConfig
+from hdfs.ext.kerberos import KerberosClient
 
 
 class HdfsStorageImpl:
-
-    DEFAULT_HDFS_USER = "ppc"
-    DEFAULT_HDFS_USER_PATH = "/user/"
-
     # endpoint: http://127.0.0.1:50070
-    def __init__(self, endpoint, hdfs_user, hdfs_home=None):
-        self.endpoint = endpoint
-        self._user = hdfs_user
-        self._hdfs_storage_path = hdfs_home
-        if hdfs_home is None:
-            self._hdfs_storage_path = os.path.join(
-                HdfsStorage.DEFAULT_HDFS_USER_PATH, self._user)
-
-        self.client = InsecureClient(endpoint, user=self._user)
-        # print(self.client.list('/'))
-        # print(self.client.list('/user/root/'))
+    def __init__(self, storage_config: StorageConfig):
+        self.hdfs_config = storage_config
+        self._hdfs_storage_path = self.hdfs_config.user_config.get_workspace_path()
+        self.client = None
+        if self.hdfs_config.get_enable_krb5_auth() is True:
+            self.client = KerberosClient(
+                url=self.hdfs_config.storage_endpoint,
+                principal=self.hdfs_config.hdfs_auth_principal,
+                hostname_override=self.hdfs_config.hdfs_hostname_override,
+                password=self.hdfs_config.hdfs_auth_password,
+                timeout=10000)
+        else:
+            self.client = InsecureClient(
+                self.hdfs_config.storage_endpoint,
+                user=self.hdfs_config.user_config.user)
 
     def get_home_path(self):
         return self._hdfs_storage_path

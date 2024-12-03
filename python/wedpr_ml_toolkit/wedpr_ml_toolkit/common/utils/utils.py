@@ -50,3 +50,9 @@ def get_config_value(key, default_value, config_value, required):
     if value is None:
         return default_value
     return value
+
+
+def str_to_bool(str_value):
+    if str_value.lower() == "true":
+        return True
+    return False

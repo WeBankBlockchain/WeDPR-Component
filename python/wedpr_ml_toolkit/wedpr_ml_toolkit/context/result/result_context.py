@@ -56,7 +56,7 @@ class ResultContext:
         return job_result_detail.job_object.jobType
 
     def _generate_result_dataset_(self, dataset_file_path):
-        dataset_meta = DatasetMeta(user=self.job_context.storage_entry_point.user_config.user,
+        dataset_meta = DatasetMeta(user=self.job_context.user_config.user,
                                    agency=self.job_context.user_config.agency_name,
                                    file_path=dataset_file_path)
         return DatasetContext(storage_entrypoint=self.job_context.storage_entry_point,

@@ -7,11 +7,9 @@ from wedpr_ml_toolkit.config.wedpr_ml_config import UserConfig
 
 
 class StorageEntryPoint:
-    def __init__(self, user_config: UserConfig, storage_config: StorageConfig):
+    def __init__(self, storage_config: StorageConfig):
         self.storage_config = storage_config
-        self.user_config = user_config
-        self.storage_client = HdfsStorageImpl(
-            self.storage_config.storage_endpoint, self.user_config.user, self.user_config.get_workspace_path())
+        self.storage_client = HdfsStorageImpl(self.storage_config)
 
     def upload_bytes(self, data, hdfs_path):
         self.storage_client.save_data(data, hdfs_path)

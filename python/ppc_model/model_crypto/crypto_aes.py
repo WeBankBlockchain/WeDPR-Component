@@ -23,17 +23,16 @@ def load_key_from_file(filename):
         key = file.read()
     return key
 
-
-# key = load_key_from_file('aes_key.bin')
-
-
 # AES加密函数
+
+
 def encrypt_data(key, plaintext):
     # 使用随机生成的初始向量 (IV)
     iv = os.urandom(16)  # AES块大小为128位（16字节）
-    
+
     # 创建AES加密器
-    cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv),
+                    backend=default_backend())
     encryptor = cipher.encryptor()
 
     # 对数据进行填充（AES要求输入的块大小为128位）
@@ -54,11 +53,13 @@ def decrypt_data(key, ciphertext):
     actual_ciphertext = ciphertext[16:]
 
     # 创建AES解密器
-    cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv),
+                    backend=default_backend())
     decryptor = cipher.decryptor()
 
     # 解密数据
-    decrypted_padded_data = decryptor.update(actual_ciphertext) + decryptor.finalize()
+    decrypted_padded_data = decryptor.update(
+        actual_ciphertext) + decryptor.finalize()
 
     # 去除填充
     unpadder = padding.PKCS7(128).unpadder()

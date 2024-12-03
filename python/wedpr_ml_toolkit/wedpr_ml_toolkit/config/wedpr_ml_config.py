@@ -3,6 +3,7 @@ import os
 from wedpr_ml_toolkit.common.utils.base_object import BaseObject
 from wedpr_ml_toolkit.common.utils.constant import Constant
 from wedpr_ml_toolkit.common.utils.properies_parser import Properties
+from wedpr_ml_toolkit.common.utils import utils
 
 
 class AuthConfig(BaseObject):
@@ -39,11 +40,6 @@ class DatasetConfig(BaseObject):
         self.update_dataset_uri = update_dataset_uri
 
 
-class StorageConfig(BaseObject):
-    def __init__(self, storage_endpoint: str = None):
-        self.storage_endpoint = storage_endpoint
-
-
 class UserConfig(BaseObject):
     def __init__(self, agency_name: str = None, workspace_path: str = None, user_name: str = None):
         self.agency_name = agency_name
@@ -52,6 +48,31 @@ class UserConfig(BaseObject):
 
     def get_workspace_path(self):
         return os.path.join(self.workspace_path, self.user)
+
+
+class StorageConfig(BaseObject):
+    def __init__(self,
+                 user_config: UserConfig,
+                 storage_endpoint: str = None,
+                 enable_krb5_auth: bool = False,
+                 hdfs_auth_principal: str = None,
+                 hdfs_auth_password: str = None,
+                 hdfs_hostname_override: str = None):
+        self.user_config = user_config
+        self.storage_endpoint = storage_endpoint
+        self.enable_krb5_auth = enable_krb5_auth
+        self.hdfs_auth_principal = hdfs_auth_principal
+        self.hdfs_auth_password = hdfs_auth_password
+        self.hdfs_hostname_override = hdfs_hostname_override
+
+    def get_enable_krb5_auth(self) -> bool:
+        if self.enable_krb5_auth is None or len(self.enable_krb5_auth) == 0:
+            return False
+        return utils.str_to_bool(self.enable_krb5_auth)
+
+    def __repr__(self):
+        return f"hdfs_user: {self.hdfs_user}, hdfs_home: {self.hdfs_home}, hdfs_url: {self.hdfs_url}, " \
+            f"enable_krb5_auth: {self.enable_krb5_auth}, hdfs_auth_principal: {self.hdfs_auth_principal}"
 
 
 class HttpConfig(BaseObject):
@@ -65,13 +86,13 @@ class WeDPRMlConfig:
         self.auth_config.set_params(**config_dict)
         self.job_config = JobConfig()
         self.job_config.set_params(**config_dict)
-        self.storage_config = StorageConfig()
-        self.storage_config.set_params(**config_dict)
         self.user_config = UserConfig()
         self.user_config.set_params(**config_dict)
         self.http_config = HttpConfig()
         self.http_config.set_params(**config_dict)
         self.dataset_config = DatasetConfig()
+        self.storage_config = StorageConfig(self.user_config)
+        self.storage_config.set_params(**config_dict)
 
 
 class WeDPRMlConfigBuilder:

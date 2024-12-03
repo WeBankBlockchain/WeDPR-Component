@@ -33,8 +33,8 @@ class WeDPRMlToolkit:
         self.dataset_client = WeDPRDatasetClient(http_config=self.config.http_config,
                                                  auth_config=self.config.auth_config,
                                                  dataset_config=self.config.dataset_config)
-        self.storage_entry_point = StorageEntryPoint(self.config.user_config,
-                                                     self.config.storage_config)
+        self.storage_entry_point = StorageEntryPoint(
+            self.config.storage_config)
 
     def get_config(self) -> WeDPRMlConfig:
         return self.config
