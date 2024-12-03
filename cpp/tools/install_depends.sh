@@ -78,9 +78,9 @@ install_centos_depends()
     sudo yum install -y lcov bison flex epel-release centos-release-scl flex bison patch devtoolset-11 rh-perl530-perl cmake3 zlib-devel ccache lcov python-devel python3-devel krb5-devel autoconf
     LOG_INFO "install basic-package-depends for centos success..."
     
-    LOG_INFO "install gsasl ... "
-    install_gsasl_depend "centos"
-    LOG_INFO "install gsasl success!"
+    #LOG_INFO "install gsasl ... "
+    #install_gsasl_depend "centos"
+    #LOG_INFO "install gsasl success!"
 
     LOG_INFO "install nasm ... "
     install_nasm_depend
@@ -96,9 +96,9 @@ install_ubuntu_depends()
     sudo apt install -y lcov bison flex g++ libssl-dev openssl cmake git build-essential autoconf texinfo flex patch bison libgmp-dev zlib1g-dev automake pkg-config libtool wget libkrb5-dev autoconf
     LOG_INFO "install basic-package-depends for ubuntu success..."
    
-    LOG_INFO "install gsasl ... "
-    install_gsasl_depend "ubuntu"
-    LOG_INFO "install gsasl success!"
+    #LOG_INFO "install gsasl ... "
+    #install_gsasl_depend "ubuntu"
+    #LOG_INFO "install gsasl success!"
 
     LOG_INFO "install nasm ... "
     install_nasm_depend
@@ -125,9 +125,9 @@ install_iconv_depend()
 install_macos_depends()
 {
     LOG_INFO "install depends for macos ..."
-    brew install autoconf nasm lcov iconv
-    install_gsasl_depend "macos"
-    install_iconv_depend
+    brew install autoconf nasm lcov
+    #install_gsasl_depend "macos"
+    #install_iconv_depend
     LOG_INFO "install depends for macos success ..."
 }
 
