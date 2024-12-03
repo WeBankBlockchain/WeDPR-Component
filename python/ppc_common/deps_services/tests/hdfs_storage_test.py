@@ -2,23 +2,26 @@
 import unittest
 from ppc_common.deps_services.storage_api import HDFSStorageConfig
 from ppc_common.deps_services.storage_loader import HDFSStorageLoader
+import logging
 
 
 class HDFSStorageWrapper:
     def __init__(self):
+        self.logger = logging.getLogger("HDFSStorageWrapper")
         # use the default config
         hdfs_url = "hdfs://127.0.0.1:9900"
         hdfs_user = "wedpr"
         hdfs_home = "/user/ppc"
-        enable_krb5_auth = False
-        hdfs_auth_principal = ""
-        hdfs_auth_secret_file_path = ""
+        enable_krb5_auth = True
+        hdfs_auth_principal = "root@NODE.DC1.CONSUL"
+        hdfs_auth_secret_file_path = "./root.keytab"
         self.hdfs_config = HDFSStorageConfig(
             hdfs_url=hdfs_url, hdfs_user=hdfs_user,
             hdfs_home=hdfs_home, enable_krb5_auth=enable_krb5_auth,
             hdfs_auth_principal=hdfs_auth_principal,
             hdfs_auth_secret_file_path=hdfs_auth_secret_file_path)
-        self.hdfs_storage = HDFSStorageLoader.load(self.hdfs_config)
+        self.hdfs_storage = HDFSStorageLoader.load(
+            self.hdfs_config, self.logger)
 
     def test_file_op(self, file_path):
         hdfs_file_path = f"test/{file_path}"

@@ -26,3 +26,8 @@ def get_file_encoding(file_path):
             raise Exception(f"Unknown File Encoding, file: {file_path}")
         encoding = file_chardet["encoding"]
     return encoding
+
+
+def require_non_empty(value_property, value):
+    if value is None or len(value) == 0:
+        raise Exception(f"the ${value_property} must non-empty!")

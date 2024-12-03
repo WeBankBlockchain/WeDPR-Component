@@ -56,5 +56,5 @@ MarkupSafe>=2.1.1
 urllib3==1.26.18
 phe
 chardet
-krbcontext
-requests_kerberos
+krbcontext>=0.10
+pyarrow>=17.0.0
