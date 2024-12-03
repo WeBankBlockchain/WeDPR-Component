@@ -22,8 +22,10 @@ HDFS_HOME: "/user/ppc/model/webank"
 HDFS_ENABLE_AUTH: False
 # the hdfs auth principal
 HDFS_AUTH_PRINCIPAL: "root@NODE.DC1.CONSUL"
-# the auth key-tab path
-HDFS_AUTH_KEYTAB_PATH: "./hdfs-wedpr.keytab"
+# the auth password
+HDFS_AUTH_PASSWORD: ""
+# the host name override
+HDFS_HOSTNAME_OVERRIDE: "wedpr-0001"
 
 JOB_TEMP_DIR: ".cache/job"
 

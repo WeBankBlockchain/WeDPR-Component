@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from krbcontext.context import krbContext
 from hdfs.ext.kerberos import KerberosClient
 from ppc_common.deps_services.hdfs_storage import HdfsStorage
 from ppc_common.deps_services.storage_api import HDFSStorageConfig
@@ -9,16 +8,9 @@ class Krb5HdfsStorage(HdfsStorage):
     def __init__(self, hdfs_config: HDFSStorageConfig, logger):
         super().__init__(hdfs_config, False)
         self.hdfs_config = hdfs_config
-        self.krb5_ctx = krbContext(
-            using_keytab=True,
-            principal=self.hdfs_config.hdfs_auth_principal,
-            keytab_file=self.hdfs_config.hdfs_auth_secret_file_path,
-            ccache_file=self.hdfs_config.hdfs_krb5_ccache_path)
-
-        self.client = KerberosClient(self.hdfs_config.hdfs_url)
         self.client = KerberosClient(
-            krb_principal=self.hdfs_config.hdfs_auth_principal,
-            krb_keytab=self.hdfs_config.hdfs_auth_secret_file_path,
-            krb_ccache_path=self.hdfs_config.hdfs_krb5_ccache_path,
-            hdfs_namenode_address=self.hdfs_config.hdfs_url,
+            url=self.hdfs_config.hdfs_url,
+            principal=self.hdfs_config.hdfs_auth_principal,
+            hostname_override=self.hdfs_config.hdfs_hostname_override,
+            password=self.hdfs_config.hdfs_auth_password,
             timeout=10000)

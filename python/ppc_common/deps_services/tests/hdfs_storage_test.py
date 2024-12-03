@@ -9,17 +9,19 @@ class HDFSStorageWrapper:
     def __init__(self):
         self.logger = logging.getLogger("HDFSStorageWrapper")
         # use the default config
-        hdfs_url = "hdfs://127.0.0.1:9900"
-        hdfs_user = "wedpr"
+        hdfs_url = "http://127.0.0.1:50070"
+        hdfs_user = "root"
         hdfs_home = "/user/ppc"
         enable_krb5_auth = True
         hdfs_auth_principal = "root@NODE.DC1.CONSUL"
-        hdfs_auth_secret_file_path = "./root.keytab"
+        hdfs_auth_password = "root"
+        hdfs_hostname_override = "wedpr-0001"
         self.hdfs_config = HDFSStorageConfig(
             hdfs_url=hdfs_url, hdfs_user=hdfs_user,
             hdfs_home=hdfs_home, enable_krb5_auth=enable_krb5_auth,
             hdfs_auth_principal=hdfs_auth_principal,
-            hdfs_auth_secret_file_path=hdfs_auth_secret_file_path)
+            hdfs_auth_password=hdfs_auth_password,
+            hdfs_hostname_override=hdfs_hostname_override)
         self.hdfs_storage = HDFSStorageLoader.load(
             self.hdfs_config, self.logger)
 
