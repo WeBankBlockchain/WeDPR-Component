@@ -40,6 +40,7 @@
 #include "ppc-psi/src/labeled-psi/LabeledPSIFactory.h"
 #include "ppc-psi/src/ra2018-psi/RA2018PSIFactory.h"
 #include "ppc-tools/src/config/PPCConfig.h"
+#include "wedpr-helper/ppc-utilities/Utilities.h"
 #include <tbb/tbb.h>
 #include <thread>
 
@@ -86,8 +87,9 @@ void Initializer::init(ppc::gateway::IGateway::Ptr const& gateway)
     TransportBuilder transportBuilder;
     // register the serviceInfo
     auto serviceConfig = m_serviceConfigBuilder.buildServiceConfig();
-    auto entryPoint =
-        m_serviceConfigBuilder.buildEntryPoint(PSI_SERVICE_TYPE, m_config->accessEntrypoint());
+    auto entryPoint = m_serviceConfigBuilder.buildEntryPoint(
+        getServiceName(m_config->agencyID(), PSI_SERVICE_TYPE), m_config->accessEntrypoint());
+
     serviceConfig.addEntryPoint(entryPoint);
     auto serviceMeta = serviceConfig.encode();
     m_config->frontConfig()->setMeta(serviceMeta);

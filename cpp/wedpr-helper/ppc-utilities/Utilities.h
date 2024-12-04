@@ -64,6 +64,11 @@ inline std::string generateUUID()
     static thread_local auto uuid_gen = boost::uuids::basic_random_generator<std::random_device>();
     return boost::uuids::to_string(uuid_gen());
 }
+
+inline std::string getServiceName(std::string const& agencyID, std::string const& serviceID)
+{
+    return agencyID + "_" + serviceID;
+}
 template <typename T>
 inline std::string printVector(T const& list)
 {

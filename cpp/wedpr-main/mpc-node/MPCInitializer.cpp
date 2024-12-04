@@ -22,6 +22,7 @@
 #include "ppc-framework/protocol/Constant.h"
 #include "ppc-mpc/src/MPCService.h"
 #include "ppc-tools/src/config/PPCConfig.h"
+#include "wedpr-helper/ppc-utilities/Utilities.h"
 #include "wedpr-protocol/protocol/src/ServiceConfig.h"
 #include "wedpr-transport/sdk/src/TransportBuilder.h"
 
@@ -61,7 +62,7 @@ void MPCInitializer::init(std::string const& _configPath)
     auto threadPool = std::make_shared<bcos::ThreadPool>("mpc-pool", threadPoolSize);
 
     INIT_LOG(INFO) << LOG_DESC("init the mpc threadpool")
-        << LOG_KV("threadPoolSize", threadPoolSize);
+                   << LOG_KV("threadPoolSize", threadPoolSize);
 
     auto mpcService = std::make_shared<MPCService>();
     mpcService->setMPCConfig(mpcConfig);
@@ -71,11 +72,11 @@ void MPCInitializer::init(std::string const& _configPath)
     m_rpc->registerHandler("run", std::bind(&MPCService::runMpcRpc, mpcService,
                                       std::placeholders::_1, std::placeholders::_2));
     m_rpc->registerHandler("asyncRun", std::bind(&MPCService::asyncRunMpcRpc, mpcService,
-                                      std::placeholders::_1, std::placeholders::_2));
+                                           std::placeholders::_1, std::placeholders::_2));
     m_rpc->registerHandler("kill", std::bind(&MPCService::killMpcRpc, mpcService,
                                        std::placeholders::_1, std::placeholders::_2));
     m_rpc->registerHandler("query", std::bind(&MPCService::queryMpcRpc, mpcService,
-                                       std::placeholders::_1, std::placeholders::_2));
+                                        std::placeholders::_1, std::placeholders::_2));
     INIT_LOG(INFO) << LOG_DESC("init the mpc rpc success");
     // init the transport
     initTransport(pt);
@@ -89,8 +90,8 @@ void MPCInitializer::initTransport(boost::property_tree::ptree const& property)
 
     // add the service meta
     ServiceConfigBuilder serviceConfigBuilder;
-    auto entryPoint =
-        serviceConfigBuilder.buildEntryPoint(MPC_SERVICE_TYPE, m_config->accessEntrypoint());
+    auto entryPoint = serviceConfigBuilder.buildEntryPoint(
+        getServiceName(m_config->agencyID(), MPC_SERVICE_TYPE), m_config->accessEntrypoint());
     auto serviceConfig = serviceConfigBuilder.buildServiceConfig();
     serviceConfig.addEntryPoint(entryPoint);
     auto serviceMeta = serviceConfig.encode();
