@@ -11,10 +11,13 @@ from enum import Enum
 
 
 class TaskResultRequest:
-    def __init__(self, job_id, task_type, only_fetch_log, user):
+    def __init__(self, job_id, task_type,
+                 fetch_log: bool,
+                 fetch_result: bool, user):
         self.job_id = job_id
         self.task_type = task_type
-        self.only_fetch_log = only_fetch_log
+        self.fetch_log = fetch_log
+        self.fetch_result = fetch_result
         self.user = user
 
 
@@ -346,7 +349,7 @@ class TaskResultHandler:
 
     def get_response(self):
         response = dict()
-        if not self.task_result_request.only_fetch_log:
+        if self.task_result_request.fetch_result is True:
             merged_result = dict()
             for result in self.result_list:
                 merged_result.update(result.to_dict())
@@ -356,13 +359,14 @@ class TaskResultHandler:
                 response = {"jobPlanetResult":  merged_result,
                             "modelData": self.model_data}
         # record the log
-        log_size, log_path, log_content = self.components.log_retriever.retrieve_log(
-            self.task_result_request.job_id, self.task_result_request.user)
-        log_result = {}
-        log_result.update({"logSize": log_size})
-        log_result.update({"logPath": log_path})
-        log_result.update({"logContent": log_content})
-        response.update({"logDetail": log_result})
+        if self.task_result_request.fetch_log is True:
+            log_size, log_path, log_content = self.components.log_retriever.retrieve_log(
+                self.task_result_request.job_id, self.task_result_request.user)
+            log_result = {}
+            log_result.update({"logSize": log_size})
+            log_result.update({"logPath": log_path})
+            log_result.update({"logContent": log_content})
+            response.update({"logDetail": log_result})
         return utils.make_response(PpcErrorCode.SUCCESS.get_code(), PpcErrorCode.SUCCESS.get_msg(), response)
 
     def _get_evaluation_result(self):
