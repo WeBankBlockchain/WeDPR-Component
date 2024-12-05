@@ -62,4 +62,5 @@ void NodeInfoImpl::toJson(Json::Value& jsonObject) const
         componentsInfo.append(it);
     }
     jsonObject["components"] = componentsInfo;
+    jsonObject["meta"] = meta();
 }
