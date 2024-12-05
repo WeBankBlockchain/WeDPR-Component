@@ -30,5 +30,8 @@ struct MPCConfig
     std::string mpcRootPathNoGateway;
     uint64_t readPerBatchLines;
     int threadPoolSize;
+
+    std::string spdzConnectedIP;
+    int spdzConnectedPort;
 };
 }  // namespace ppc::tools

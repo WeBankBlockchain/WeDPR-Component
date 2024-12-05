@@ -90,10 +90,16 @@ void MPCInitializer::initTransport(boost::property_tree::ptree const& property)
 
     // add the service meta
     ServiceConfigBuilder serviceConfigBuilder;
-    auto entryPoint = serviceConfigBuilder.buildEntryPoint(
-        getServiceName(m_config->agencyID(), MPC_SERVICE_TYPE), m_config->accessEntrypoint());
     auto serviceConfig = serviceConfigBuilder.buildServiceConfig();
-    serviceConfig.addEntryPoint(entryPoint);
+    
+    auto mpcEntryPoint =
+    serviceConfigBuilder.buildEntryPoint(getServiceName(m_config->agencyID(), MPC_SERVICE_TYPE), m_config->accessEntrypoint());
+    serviceConfig.addEntryPoint(mpcEntryPoint);
+
+    auto spdzEntryPoint =
+    serviceConfigBuilder.buildEntryPoint(getServiceName(m_config->agencyID(), SPDZ_SERVICE_TYPE), m_config->spdzConnectedEndPoint());
+    serviceConfig.addEntryPoint(spdzEntryPoint);
+
     auto serviceMeta = serviceConfig.encode();
     m_config->frontConfig()->setMeta(serviceMeta);
     INIT_LOG(INFO) << LOG_DESC("initTransport: register serviceMeta")

@@ -26,5 +26,6 @@ namespace ppc::protocol
 {
 const static std::string PSI_SERVICE_TYPE = "PSI";
 const static std::string MPC_SERVICE_TYPE = "MPC";
+const static std::string SPDZ_SERVICE_TYPE = "SPDZ";
 const static size_t LARGE_MSG_THRESHOLD = 30 * 1024 * 1024;
 }  // namespace ppc::protocol

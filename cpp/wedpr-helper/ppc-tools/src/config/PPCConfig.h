@@ -249,6 +249,11 @@ public:
         return m_frontConfig->selfEndPoint().host() + ":" + std::to_string(m_rpcConfig.listenPort);
     }
 
+    std::string spdzConnectedEndPoint() const // for mpc
+    {
+        return m_mpcConfig.spdzConnectedIP + ":" + std::to_string(m_mpcConfig.spdzConnectedPort);
+    }
+
     // load the front config
     virtual void loadFrontConfig(bool requireTransport,
         ppc::front::FrontConfigBuilder::Ptr const& frontConfigBuilder,
