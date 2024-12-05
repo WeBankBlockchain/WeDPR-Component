@@ -653,6 +653,15 @@ void PPCConfig::loadCEMConfig(boost::property_tree::ptree const& _pt)
 
 void PPCConfig::loadMPCConfig(boost::property_tree::ptree const& _pt)
 {
+    // the agencyID
+    m_agencyID = _pt.get<std::string>("agency.id", "");
+    if (m_agencyID.empty())
+    {
+        BOOST_THROW_EXCEPTION(InvalidConfig() << errinfo_comment("Must set agency.id"));
+    }
+
+    PPCConfig_LOG(INFO) << LOG_DESC("load agency id") << LOG_KV("agencyID", m_agencyID);
+
     m_mpcConfig.jobPath = _pt.get<std::string>("mpc.job_path", "./");
     m_mpcConfig.mpcRootPath = _pt.get<std::string>("mpc.mpc_root_path", "./");
     m_mpcConfig.mpcRootPathNoGateway = _pt.get<std::string>("mpc.mpc_root_path_no_gateway", "./");
