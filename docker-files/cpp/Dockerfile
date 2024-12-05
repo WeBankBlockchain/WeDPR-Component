@@ -29,16 +29,48 @@ RUN git clone https://github.com/WeBankBlockchain/WeDPR-Component.git --recursiv
     && cmake .. -DBUILD_STATIC=ON && make -j8 && cat /WeDPR-Component/cpp/build/*.log
 
 
-FROM ubuntu:18.04
+FROM ubuntu:18.04 as wedpr-gateway-service
 LABEL maintainer service@webank.com
     
-RUN apt-get -q update && apt-get install -qy --no-install-recommends vim libkrb5-dev krb5-user pkg-config default-libmysqlclient-dev \
+RUN apt-get -q update && apt-get install -qy --no-install-recommends vim \
         && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
         && apt-get install -qy --no-install-recommends tzdata \
         && dpkg-reconfigure --frontend noninteractive tzdata \
-        && rm -rf /var/lib/apt/lists/*
-    
-COPY --from=builder /WeDPR-Component/cpp/build/bin/ppc-gateway-service /usr/local/bin/ppc-gateway-service
-COPY --from=builder /WeDPR-Component/cpp/build/bin/ppc-pro-node /usr/local/bin/ppc-pro-node
-COPY --from=builder /WeDPR-Component/cpp/build/bin/ppc-air-node /usr/local/bin/ppc-air-node
-COPY --from=builder /WeDPR-Component/cpp/build/bin/wedpr-mpc /usr/local/bin/wedpr-mpc
+        && rm -rf /var/lib/apt/lists/* \
+
+RUN mkdir -p /data/home/wedpr/wedpr-gateway-service
+
+COPY --from=builder /WeDPR-Component/cpp/build/bin/ppc-gateway-service /data/home/wedpr/wedpr-gateway-service/ppc-gateway-service
+
+ENTRYPOINT ["/data/home/wedpr/wedpr-gateway-service/ppc-gateway-service", "-c", "config.ini"]
+
+
+FROM ubuntu:18.04 as wedpr-pro-node-service
+LABEL maintainer service@webank.com
+
+RUN apt-get -q update && apt-get install -qy --no-install-recommends vim libkrb5-dev krb5-user \
+        && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+        && apt-get install -qy --no-install-recommends tzdata \
+        && dpkg-reconfigure --frontend noninteractive tzdata \
+        && rm -rf /var/lib/apt/lists/* \
+
+RUN mkdir -p /data/home/wedpr/wedpr-pro-node-service
+
+COPY --from=builder /WeDPR-Component/cpp/build/bin/ppc-pro-node /data/home/wedpr/wedpr-pro-node-service/ppc-pro-node
+
+ENTRYPOINT ["/data/home/wedpr/wedpr-pro-node-service/ppc-pro-node", "-c", "config.ini"]
+
+FROM ubuntu:18.04 as wedpr-mpc-service
+LABEL maintainer service@webank.com
+
+RUN apt-get -q update && apt-get install -qy --no-install-recommends vim libkrb5-dev krb5-user \
+        && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+        && apt-get install -qy --no-install-recommends tzdata \
+        && dpkg-reconfigure --frontend noninteractive tzdata \
+        && rm -rf /var/lib/apt/lists/* \
+
+RUN mkdir -p /data/home/wedpr/wedpr-mpc-service
+
+COPY --from=builder /WeDPR-Component/cpp/build/bin/wedpr-mpc /data/home/wedpr/wedpr-mpc-service/wedpr-mpc
+
+ENTRYPOINT ["/data/home/wedpr/wedpr-mpc-service/wedpr-mpc", "-c", "config.ini"]
