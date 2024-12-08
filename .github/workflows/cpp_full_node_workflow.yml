@@ -69,21 +69,24 @@ jobs:
           export CXX='g++-10'
           sudo bash -x cpp/tools/install_depends.sh -o ubuntu
           mkdir -p cpp/build && cd cpp/build && cmake -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
-          df -lh
+          echo "Disk usage before delete files: "`df -lh`
           du -sch ${{ env.VCPKG_ROOT }}/buildtrees/*
           du -sch ${{ env.VCPKG_ROOT }}/buildtrees/grpc/src/*
           rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/grpc/src
           rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/grpc/*-dbg
+          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/krb5/src
+          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/gsasl/src
+          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/protobuf/src
+          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/wedprcrypto/src
           rm -rf ${{ env.VCPKG_ROOT }}buildtrees/openssl/src
-          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/openssl/*-dbg
           rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/*/*-dbg
-          df -lh
+          echo "Disk usage after delete files: "`df -lh`
           make -j3
       - name: Build for macOS
         if: runner.os == 'macOS'
         run: |
           bash -x cpp/tools/install_depends.sh -o macos
-          mkdir -p cpp/build && cd cpp/build && cmake -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          mkdir -p cpp/build && cd cpp/build && cmake -DCMAKE_PREFIX_PATH=/opt/local -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
       - name: Publish Error
         if: always()
@@ -120,8 +123,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: autoconf-x64-osx-err.log
-          path:  /Users/runner/work/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/gsasl/autoconf-x64-osx-err.log
+          name: build-x64-osx-dbg-err.log
+          path: /Users/runner/work/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/gsasl/build-x64-osx-dbg-err.log
               
 
   build_centos:
@@ -179,6 +182,10 @@ jobs:
         with:
           toolchain: nightly-2022-07-28
           override: true
+      - name: Prepare vcpkg
+        if: runner.os != 'Windows'
+        uses: friendlyanon/setup-vcpkg@v1
+        with: { committish: 51b14cd4e1230dd51c11ffeff6f7d53c61cc5297 }
       - name: Check disk space
         run: df . -h
       - name: Free disk space
@@ -200,7 +207,7 @@ jobs:
           rm -rf python 
           mkdir -p cpp/build
           cd cpp/build
-          cmake3 -DBUILD_STATIC=ON -DCMAKE_BUILD_TYPE=Release -DTESTS=ON ../
+          cmake3  -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake -DBUILD_STATIC=ON -DCMAKE_BUILD_TYPE=Release -DTESTS=ON ../
       - name: FreeDiskSpace
         run: |
           df -lh
@@ -233,3 +240,9 @@ jobs:
         with:
           name: ppc-gateway-service-x64
           path: ./cpp/build/bin/ppc-gateway-service
+      - name: Publish Error macos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vcpkg-manifest-install.log
+          path: /__w/WeDPR-Component/WeDPR-Component/cpp/build/vcpkg-manifest-install.log

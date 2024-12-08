@@ -1,4 +1,4 @@
 #!/bin/bash
-echo "* build image: wedpr_component_vcpkg_cache, branch: ${1}"
-docker build --build-arg SOURCE_BRANCH=${1} -t wedpr_component_vcpkg_cache .
-echo "* build image: wedpr_component_vcpkg_cache success, branch: ${1}"
+echo "* build image: wedpr-component-vcpkg-cache, branch: ${1}"
+docker build --build-arg SOURCE_BRANCH=${1} -t wedpr-component-vcpkg-cache .
+echo "* build image: wedpr-component-vcpkg-cache success, branch: ${1}"

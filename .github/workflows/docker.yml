@@ -1,0 +1,91 @@
+name: WeDPR-Component  docker ci
+on:
+  push:
+    paths-ignore:
+      - "docs/**"
+      - "Changelog.md"
+      - "README.md"
+    tags:
+      - 'v3.*.*'
+    branches:
+      - main
+      - feature-milestone2-gateway
+  release:
+    types: [prereleased]
+    
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  RUST_BACKTRACE: 1
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+  ACTIONS_RUNNER_FORCED_INTERNAL_NODE_VERSION: node16
+  ACTIONS_RUNNER_FORCE_ACTIONS_NODE_VERSION: node16
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get branch name
+        uses: nelonoel/branch-name@v1.0.1
+      - name: Fetch tag
+        run: |
+          git fetch --tags --force
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_FISCOPR_USER }}
+          password: ${{ secrets.DOCKER_FISCOPR_TOKEN }}
+      - name: Get git tag
+        uses: little-core-labs/get-git-tag@v3.0.1
+        id: tag_data
+        with:
+          tagRegex: (.*)  # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.
+          tagRegexGroup: 1 # Optional. Default is 1.
+      # the model image
+      - name: Build and Push model images
+        run: |
+          [[ ${{github.ref}} == */tags/* ]] && MODEL_DOCKER_TAG="${GIT_TAG_NAME}" || MODEL_DOCKER_TAG="${BRANCH_NAME}"
+          MODEL_DOCKER_TAG="fiscoorg/wedpr-model-service:${MODEL_DOCKER_TAG}"
+          echo "* Begin to build model docker: ${MODEL_DOCKER_TAG}"
+          cd docker-files/model/model 
+          docker build --build-arg SOURCE_BRANCH=${BRANCH_NAME} -t ${MODEL_DOCKER_TAG} .
+          echo "* Build model docker: ${MODEL_DOCKER_TAG} success"
+          docker push ${MODEL_DOCKER_TAG}
+          echo "* Push model docker: ${MODEL_DOCKER_TAG} success"
+      # the wedpr-gateway-service image
+      - name: Build and Push wedpr-gateway-service images
+        run: |
+          [[ ${{github.ref}} == */tags/* ]] && GW_DOCKER_TAG="${GIT_TAG_NAME}" || GW_DOCKER_TAG="${BRANCH_NAME}"
+          GW_DOCKER_TAG="fiscoorg/wedpr-gateway-service:${GW_DOCKER_TAG}"
+          echo "* Begin to build wedpr-gateway-service docker: ${GW_DOCKER_TAG}"
+          cd docker-files/cpp/
+          docker build --build-arg SOURCE_BRANCH=${BRANCH_NAME} --target wedpr-gateway-service -t ${GW_DOCKER_TAG} .
+          echo "* Build wedpr-gateway-service docker: ${GW_DOCKER_TAG} success"
+          docker push ${GW_DOCKER_TAG}
+          echo "* Push wedpr-gateway-service docker: ${GW_DOCKER_TAG} success"
+      # the wedpr-pro-node-service image
+      - name: Build and Push wedpr-pro-node-service images
+        run: |
+          [[ ${{github.ref}} == */tags/* ]] && NODE_DOCKER_TAG="${GIT_TAG_NAME}" || NODE_DOCKER_TAG="${BRANCH_NAME}"
+          NODE_DOCKER_TAG="fiscoorg/wedpr-pro-node-service:${NODE_DOCKER_TAG}"
+          echo "* Begin to build wedpr-pro-node-service docker: ${NODE_DOCKER_TAG}"
+          cd docker-files/cpp/
+          docker build --build-arg SOURCE_BRANCH=${BRANCH_NAME} --target wedpr-pro-node-service -t ${NODE_DOCKER_TAG} .
+          echo "* Build wedpr-pro-node-service docker: ${NODE_DOCKER_TAG} success"
+          docker push ${NODE_DOCKER_TAG}
+          echo "* Push wedpr-pro-node-service docker: ${NODE_DOCKER_TAG} success"
+      # the wedpr-mpc-service image
+      - name: Build and Push wedpr-mpc-service images
+        run: |
+          [[ ${{github.ref}} == */tags/* ]] && MPC_DOCKER_TAG="${GIT_TAG_NAME}" || MPC_DOCKER_TAG="${BRANCH_NAME}"
+          MPC_DOCKER_TAG="fiscoorg/wedpr-mpc-service:${MPC_DOCKER_TAG}"
+          echo "* Begin to build wedpr-mpc-service docker: ${MPC_DOCKER_TAG}"
+          cd docker-files/cpp/
+          docker build --build-arg SOURCE_BRANCH=${BRANCH_NAME} --target wedpr-mpc-service -t ${MPC_DOCKER_TAG} .
+          echo "* Build wedpr-mpc-service docker: ${MPC_DOCKER_TAG} success"
+          docker push ${MPC_DOCKER_TAG}
+          echo "* Push wedpr-mpc-service docker: ${MPC_DOCKER_TAG} success"

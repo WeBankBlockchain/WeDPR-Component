@@ -51,6 +51,14 @@
     {
       "name": "jsoncpp",
       "version": "1.9.5"
+    },
+    {
+      "name":"gsasl",
+      "version":  "2.2.1-no-gssapi#0"
+    },
+    {
+      "name": "libxml2",
+      "version": "2.11.5#1"
     }
   ],
   "features": {
@@ -116,10 +124,15 @@
           "name": "bcos-boostssl",
           "version>=": "3.2.3"
         },
+        {
+          "name": "libxml2",
+          "version>=": "2.11.5#1",
+          "features": ["lzma", "zlib"]
+        },
         "tarscpp",
         "tbb",
-        "libxml2",
-        "libiconv"
+        "libiconv",
+        "gsasl"
       ]
     },
     "sdk": {
