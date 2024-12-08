@@ -125,7 +125,7 @@ install_iconv_depend()
 install_macos_depends()
 {
     LOG_INFO "install depends for macos ..."
-    brew install autoconf nasm lcov
+    brew install autoconf nasm lcov automake
     #install_gsasl_depend "macos"
     #install_iconv_depend
     LOG_INFO "install depends for macos success ..."
