@@ -38,3 +38,9 @@ jobs:
           echo "* Build ${DOCKER_TAG} success"
           docker push ${DOCKER_TAG}
           echo "* Push ${DOCKER_TAG} success"
+      - name: Publish Error
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: autoconf-x64-linux-err.log
+          path: /WeDPR-Component/cpp/vcpkg/buildtrees/gsasl/autoconf-x64-linux-err.log

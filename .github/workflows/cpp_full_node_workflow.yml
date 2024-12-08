@@ -86,7 +86,8 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           bash -x cpp/tools/install_depends.sh -o macos
-          mkdir -p cpp/build && cd cpp/build && cmake -DCMAKE_PREFIX_PATH=/opt/local -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          mkdir -p cpp/build && cd cpp/build 
+          export SDKROOT=$(xcrun --sdk macosx --show-sdk-path) && cmake -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
       - name: Publish Error
         if: always()
@@ -177,7 +178,7 @@ jobs:
           yum update -y
           yum install -y epel-release centos-release-scl centos-release-scl-rh
           yum install -y https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo.x86_64.rpm
-          yum install -y wget java-11-openjdk-devel git make gcc gcc-c++ glibc-static glibc-devel cmake3 ccache devtoolset-11 libzstd-devel zlib-devel flex bison python-devel python3-devel
+          yum install -y wget java-11-openjdk-devel git autoconf automake make gcc gcc-c++ glibc-static glibc-devel cmake3 ccache devtoolset-11 libzstd-devel zlib-devel flex bison python-devel python3-devel
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly-2022-07-28

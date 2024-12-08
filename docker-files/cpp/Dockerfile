@@ -1,6 +1,6 @@
 FROM fiscoorg/wedpr-component-vcpkg-cache:v3.0.0 as builder
 
-LABEL maintainer service@webank.com
+LABEL maintainer=service@webank.com
 
 WORKDIR /
 
@@ -16,7 +16,7 @@ RUN cd WeDPR-Component/cpp && rm -rf vcpkg && ln -s /vcpkg  \
     && make -j8
 
 FROM ubuntu:22.04 as wedpr-gateway-service
-LABEL maintainer service@webank.com
+LABEL maintainer=service@webank.com
     
 RUN apt-get -q update && apt-get install -qy --no-install-recommends vim \
         && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
@@ -31,7 +31,7 @@ COPY --from=builder /WeDPR-Component/cpp/build/bin/ppc-gateway-service /data/hom
 ENTRYPOINT ["/data/home/wedpr/wedpr-gateway-service/ppc-gateway-service", "-c", "config.ini"]
 
 FROM ubuntu:22.04 as wedpr-pro-node-service
-LABEL maintainer service@webank.com
+LABEL maintainer=service@webank.com
 
 RUN apt-get -q update && apt-get install -qy --no-install-recommends vim libkrb5-dev krb5-user \
         && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
@@ -46,7 +46,7 @@ COPY --from=builder /WeDPR-Component/cpp/build/bin/ppc-pro-node /data/home/wedpr
 ENTRYPOINT ["/data/home/wedpr/wedpr-pro-node-service/ppc-pro-node", "-c", "config.ini"]
 
 FROM ubuntu:22.04 as wedpr-mpc-service
-LABEL maintainer service@webank.com
+LABEL maintainer=service@webank.com
 
 RUN apt-get -q update && apt-get install -qy --no-install-recommends vim libkrb5-dev krb5-user \
         && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \

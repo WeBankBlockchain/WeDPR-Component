@@ -1,6 +1,6 @@
 FROM fiscoorg/wedpr-image:v3.0.0 as wedpr-model-service-base-image
 
-LABEL maintainer service@webank.com
+LABEL maintainer=service@webank.com
 
 RUN apt-get install -qy --no-install-recommends pkg-config default-libmysqlclient-dev
 RUN mkdir -p /data/home/wedpr

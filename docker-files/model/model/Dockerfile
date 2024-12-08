@@ -1,5 +1,5 @@
 FROM wedpr-model-service-base-image:v3.0.0 as wedpr-model-service
-LABEL maintainer service@webank.com
+LABEL maintainer=service@webank.com
 
 ENV LANG zh_CN.UTF-8
 ENV LANGUAGE zh_CN.UTF-8
