@@ -32,3 +32,6 @@ RUN git clone https://github.com/cyjseagull/WeDPR-Component --recursive --depth=
 # move the vcpkg dependecies to /vcpkg
 RUN mv /WeDPR-Component/cpp/vcpkg /
 
+# remove the WeDPR-Component
+RUN rm -rf /WeDPR-Component/
+
