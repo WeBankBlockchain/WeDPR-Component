@@ -8,11 +8,14 @@ ARG SOURCE_BRANCH
 ENV DEBIAN_FRONTEND=noninteractive \
     SOURCE=${SOURCE_BRANCH:-main}
 
+# free the diskspace
+RUN rm -rf /vcpkg/buildtrees/*/*dbg && rm -rf /vcpkg/buildtrees/*/*src
+
 RUN git clone https://github.com/WeBankBlockchain/WeDPR-Component --recursive --depth=1 -b ${SOURCE}  \
 # ln the cached vcpkg and compile
 RUN cd WeDPR-Component/cpp && rm -rf vcpkg && ln -s /vcpkg  \
     && mkdir -p build && cd build  \
-    && cmake .. -DBUILD_STATIC=ON  \
+    && cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_STATIC=ON  \
     && make -j8
 
 FROM ubuntu:22.04 as wedpr-gateway-service

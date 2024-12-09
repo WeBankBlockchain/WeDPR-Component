@@ -247,3 +247,9 @@ jobs:
         with:
           name: vcpkg-manifest-install.log
           path: /__w/WeDPR-Component/WeDPR-Component/cpp/build/vcpkg-manifest-install.log
+      - name: Publish Error macos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: autoconf-x64-linux-err.log
+          path: /__w/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/gsasl/autoconf-x64-linux-err.log
