@@ -1,4 +1,4 @@
-FROM fiscoorg/wedpr-component-vcpkg-cache:v3.0.0 as builder
+FROM ubuntu:22.04 as builder
 
 LABEL maintainer=service@webank.com
 
@@ -8,16 +8,31 @@ ARG SOURCE_BRANCH
 ENV DEBIAN_FRONTEND=noninteractive \
     SOURCE=${SOURCE_BRANCH:-main}
 
-# free the diskspace
-RUN rm -rf /vcpkg/buildtrees/*/*dbg && rm -rf /vcpkg/buildtrees/*/*src
+# Note: depends on python3; default jdk for jni
+RUN apt-get -q update && apt-get install -qy --no-install-recommends \
+    vim curl lcov git make nasm build-essential cmake wget libtool ca-certificates python3.11 python3-dev \
+    libgmp-dev flex bison patch libzstd-dev unzip ninja-build pkg-config zip tar ccache uuid-runtime automake autoconf \
+    m4 tcpdump net-tools gcc g++ default-jdk \
+    && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && apt-get install -qy --no-install-recommends tzdata \
+    && dpkg-reconfigure --frontend noninteractive tzdata \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/WeBankBlockchain/WeDPR-Component --recursive --depth=1 -b ${SOURCE}  \
+# install rust
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+ENV VCPKG_FORCE_SYSTEM_BINARIES=1
+
+RUN git clone https://github.com/WeBankBlockchain/WeDPR-Component --recursive --depth=1 -b ${SOURCE} 
+
 # ln the cached vcpkg and compile
-RUN cd WeDPR-Component/cpp && rm -rf vcpkg && ln -s /vcpkg  \
+RUN cd WeDPR-Component/cpp  \
     && mkdir -p build && cd build  \
     && cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_STATIC=ON  \
     && make -j8
-
+    
 FROM ubuntu:22.04 as wedpr-gateway-service
 LABEL maintainer=service@webank.com
     

@@ -69,7 +69,7 @@ jobs:
           GW_DOCKER_TAG="fiscoorg/wedpr-gateway-service:${GW_DOCKER_TAG}"
           echo "* Begin to build wedpr-gateway-service docker: ${GW_DOCKER_TAG}"
           cd docker-files/cpp/
-          docker build --build-arg SOURCE_BRANCH=${BRANCH_NAME} --target wedpr-gateway-service -t ${GW_DOCKER_TAG} .
+          docker build --no-cache --build-arg SOURCE_BRANCH=${BRANCH_NAME} --target wedpr-gateway-service -t ${GW_DOCKER_TAG} .
           echo "* Build wedpr-gateway-service docker: ${GW_DOCKER_TAG} success"
           docker push ${GW_DOCKER_TAG}
           echo "* Push wedpr-gateway-service docker: ${GW_DOCKER_TAG} success"

@@ -86,8 +86,13 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           bash -x cpp/tools/install_depends.sh -o macos
+          brew install libiconv m4 automake autoconf libtool
+          echo "## m4:"`which m4`
+          export DYLD_LIBRARY_PATH=/usr/local/opt/libiconv/lib:${DYLD_LIBRARY_PATH}
+          export LDFLAGS="-L/usr/local/opt/libiconv/lib"
+          export CPPFLAGS="-I/usr/local/opt/libiconv/include"
           mkdir -p cpp/build && cd cpp/build 
-          export SDKROOT=$(xcrun --sdk macosx --show-sdk-path) && cmake -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          cmake -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
       - name: Publish Error
         if: always()
@@ -125,9 +130,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-x64-osx-dbg-err.log
-          path: /Users/runner/work/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/gsasl/build-x64-osx-dbg-err.log
+          path: /Users/runner/work/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/gsasl/build-x64-osx-dbg-err.log     
+      - name: Publish Error macos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: autoconf-x64-osx-err.log
+          path: /Users/runner/work/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/gsasl/autoconf-x64-osx-err.log
               
-
   build_centos:
     name: build_centos full node
     runs-on: ubuntu-latest
@@ -200,6 +210,13 @@ jobs:
           df /tmp
           du /tmp | sort -n
           ls -lh /tmp
+      - name: upgradeDepends
+        run: |  
+          wget http://ftp.gnu.org/gnu/automake/automake-1.14.1.tar.gz
+          tar -xf automake-1.14.1.tar.gz
+          cd automake-1.14.1
+          ./configure && make -j4 && make install
+          cd ..
       - name: DependenciesBuild
         run: |
           bash -x cpp/tools/install_depends.sh -o centos
@@ -212,13 +229,13 @@ jobs:
       - name: FreeDiskSpace
         run: |
           df -lh
-          du -sch /usr/local/share/vcpkg/buildtrees/*
-          du -sch /usr/local/share/vcpkg/buildtrees/grpc/src/*
-          rm -rf /usr/local/share/vcpkg/buildtrees/grpc/src
-          rm -rf /usr/local/share/vcpkg/buildtrees/grpc/*-dbg
-          rm -rf /usr/local/share/vcpkg/buildtrees/openssl/src
-          rm -rf /usr/local/share/vcpkg/buildtrees/openssl/*-dbg
-          rm -rf /usr/local/share/vcpkg/buildtrees/*/*-dbg
+          du -sch /__w/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/*
+          du -sch /__w/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/grpc/src/*
+          rm -rf /__w/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/grpc/src
+          rm -rf /__w/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/grpc/*-dbg
+          rm -rf /__w/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/openssl/src
+          rm -rf /__w/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/openssl/*-dbg
+          rm -rf /__w/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/*/*-dbg
           df -lh
       - name: Compile
         run: |   

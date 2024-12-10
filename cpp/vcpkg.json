@@ -127,7 +127,6 @@
         {
           "name": "libxml2",
           "version>=": "2.11.5#1",
-           "default-features": false,
           "features": ["lzma", "zlib"]
         },
         "tarscpp",

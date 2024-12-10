@@ -328,15 +328,23 @@ bool CalculatorCache::tryToFinalize()
         {
             continue;
         }
+        auto data = getPlainDataByIndex(it.second.plainDataIndex);
         if (it.second.plainDataIndex > 0)
         {
-            m_intersectionResult.emplace_back(getPlainDataByIndex(it.second.plainDataIndex));
+            m_intersectionResult.emplace_back(data);
         }
-        // means the header field, swap with the first element
         if (it.second.plainDataIndex == 0)
         {
-            m_intersectionResult.emplace_back(m_intersectionResult[0]);
-            m_intersectionResult[0] = getPlainDataByIndex(it.second.plainDataIndex);
+            // means the header field, swap with the first element
+            if (m_intersectionResult.size() > 0)
+            {
+                m_intersectionResult.emplace_back(m_intersectionResult[0]);
+                m_intersectionResult[0] = data;
+            }
+            else
+            {
+                m_intersectionResult.emplace_back(data);
+            }
         }
     }
     m_cacheState = CacheState::Finalized;
