@@ -33,5 +33,5 @@ RUN git clone https://github.com/cyjseagull/WeDPR-Component --recursive --depth=
 RUN mv /WeDPR-Component/cpp/vcpkg /
 
 # remove the WeDPR-Component
-RUN rm -rf /WeDPR-Component/
+RUN rm -rf /WeDPR-Component/ && rm -rf /vcpkg/buildtrees/*/src && rm -rf /vcpkg/buildtrees/*/*-dbg
 
