@@ -91,6 +91,7 @@ jobs:
           export DYLD_LIBRARY_PATH=/usr/local/opt/libiconv/lib:${DYLD_LIBRARY_PATH}
           export LDFLAGS="-L/usr/local/opt/libiconv/lib"
           export CPPFLAGS="-I/usr/local/opt/libiconv/include"
+          export PATH="/usr/bin:${PATH}"
           mkdir -p cpp/build && cd cpp/build 
           cmake -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
