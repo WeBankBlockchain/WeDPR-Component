@@ -72,21 +72,17 @@ jobs:
           echo "Disk usage before delete files: "`df -lh`
           du -sch ${{ env.VCPKG_ROOT }}/buildtrees/*
           du -sch ${{ env.VCPKG_ROOT }}/buildtrees/grpc/src/*
-          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/grpc/src
-          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/grpc/*-dbg
-          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/krb5/src
-          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/gsasl/src
-          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/protobuf/src
-          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/wedprcrypto/src
-          rm -rf ${{ env.VCPKG_ROOT }}buildtrees/openssl/src
+          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/*/src
           rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/*/*-dbg
+          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/*/*-rel
           echo "Disk usage after delete files: "`df -lh`
           make -j3
       - name: Build for macOS
         if: runner.os == 'macOS'
         run: |
           bash -x cpp/tools/install_depends.sh -o macos
-          brew install libiconv m4 automake autoconf libtool
+          brew install libiconv  
+          brew reinstall m4 autoconf libtool automake
           echo "## m4:"`which m4`
           export DYLD_LIBRARY_PATH=/usr/local/opt/libiconv/lib:${DYLD_LIBRARY_PATH}
           export LDFLAGS="-L/usr/local/opt/libiconv/lib"
