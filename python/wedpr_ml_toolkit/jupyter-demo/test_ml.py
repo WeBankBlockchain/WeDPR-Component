@@ -4,6 +4,8 @@
 # In[1]:
 
 
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, accuracy_score, f1_score, precision_score, recall_score
 import sys
 import numpy as np
 import pandas as pd
@@ -22,7 +24,8 @@ from wedpr_ml_toolkit.context.result.model_result_context import PreprocessingRe
 
 
 # 读取配置文件
-wedpr_config = WeDPRMlConfigBuilder.build_from_properties_file('config.properties')
+wedpr_config = WeDPRMlConfigBuilder.build_from_properties_file(
+    'config.properties')
 wedpr_ml_toolkit = WeDPRMlToolkit(wedpr_config)
 
 
@@ -32,7 +35,7 @@ wedpr_ml_toolkit = WeDPRMlToolkit(wedpr_config)
 # dataset1
 dataset1 = DatasetContext(storage_entrypoint=wedpr_ml_toolkit.get_storage_entry_point(),
                           dataset_client=wedpr_ml_toolkit.dataset_client,
-                          dataset_id = 'd-9743660607744005',
+                          dataset_id='d-9743660607744005',
                           is_label_holder=True)
 print(f"* load dataset1: {dataset1}")
 (values, cols, shapes) = dataset1.load_values()
@@ -45,8 +48,8 @@ print(f"* dataset1 value: {values}")
 
 # dataset2
 dataset2 = DatasetContext(storage_entrypoint=wedpr_ml_toolkit.get_storage_entry_point(),
-                          dataset_client = wedpr_ml_toolkit.dataset_client,
-                          dataset_id = "d-9743674298214405")
+                          dataset_client=wedpr_ml_toolkit.dataset_client,
+                          dataset_id="d-9743674298214405")
 print(f"* dataset2: {dataset2}")
 
 # 构建 dataset context
@@ -60,11 +63,10 @@ project_id = "9737304249804806"
 model_setting = ModelSetting()
 model_setting.use_psi = True
 xgb_job_context = wedpr_ml_toolkit.build_job_context(
-    job_type = JobType.XGB_TRAINING, 
-    project_id = project_id, 
-    dataset = dataset, 
-    model_setting = model_setting, 
-    id_fields = "id")
+    job_type=JobType.XGB_TRAINING,
+    project_id=project_id,
+    dataset=dataset,
+    model_setting=model_setting)
 print(f"* build xgb job context: {xgb_job_context}")
 
 
@@ -81,7 +83,7 @@ print(xgb_job_id)
 
 # 获取xgb任务结果
 print(xgb_job_id)
-#xgb_job_id = "9868279583877126"
+# xgb_job_id = "9868279583877126"
 xgb_result_detail = xgb_job_context.fetch_job_result(xgb_job_id, True)
 # load the result context
 xgb_result_context = wedpr_ml_toolkit.build_result_context(job_context=xgb_job_context,
@@ -89,10 +91,12 @@ xgb_result_context = wedpr_ml_toolkit.build_result_context(job_context=xgb_job_c
 print(f"* xgb job result ctx: {xgb_result_context}")
 
 xgb_test_dataset = xgb_result_context.test_result_dataset
-print(f"* xgb_test_dataset: {xgb_test_dataset}, file_path: {xgb_test_dataset.dataset_meta.file_path}")
+print(
+    f"* xgb_test_dataset: {xgb_test_dataset}, file_path: {xgb_test_dataset.dataset_meta.file_path}")
 
 (data, cols, shapes) = xgb_test_dataset.load_values()
-print(f"* test dataset detail, columns: {cols}, shape: {shapes}, value: {data}")
+print(
+    f"* test dataset detail, columns: {cols}, shape: {shapes}, value: {data}")
 
 
 # In[8]:
@@ -102,17 +106,19 @@ print(f"* test dataset detail, columns: {cols}, shape: {shapes}, value: {data}")
 result_context: TrainResultContext = xgb_result_context
 evaluation_result_dataset = result_context.evaluation_dataset
 (eval_data, cols, shape) = evaluation_result_dataset.load_values(header=0)
-print(f"* evaluation detail, col: {cols}, shape: {shape}, eval_data: {eval_data}")
+print(
+    f"* evaluation detail, col: {cols}, shape: {shape}, eval_data: {eval_data}")
 
 
 # In[9]:
 
 
-# feature importance 
+# feature importance
 feature_importance_dataset = result_context.feature_importance_dataset
 (feature_importance_data, cols, shape) = feature_importance_dataset.load_values()
 
-print(f"* feature_importance detail, col: {cols}, shape: {shape}, feature_importance_data: {feature_importance_data}")
+print(
+    f"* feature_importance detail, col: {cols}, shape: {shape}, feature_importance_data: {feature_importance_data}")
 
 
 # In[10]:
@@ -122,7 +128,8 @@ print(f"* feature_importance detail, col: {cols}, shape: {shape}, feature_import
 preprocessing_dataset = result_context.preprocessing_dataset
 (preprocessing_data, cols, shape) = preprocessing_dataset.load_values()
 
-print(f"* preprocessing detail, col: {cols}, shape: {shape}, preprocessing_data: {preprocessing_data}")
+print(
+    f"* preprocessing detail, col: {cols}, shape: {shape}, preprocessing_data: {preprocessing_data}")
 
 
 # In[11]:
@@ -132,15 +139,14 @@ print(f"* preprocessing detail, col: {cols}, shape: {shape}, preprocessing_data:
 model_result_dataset = result_context.model_result_dataset
 (model_result, cols, shape) = model_result_dataset.load_values()
 
-print(f"* model_result detail, col: {cols}, shape: {shape}, model_result: {model_result}")
+print(
+    f"* model_result detail, col: {cols}, shape: {shape}, model_result: {model_result}")
 
 
 # In[12]:
 
 
 # 明文处理预测结果
-from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, accuracy_score, f1_score, precision_score, recall_score
-import matplotlib.pyplot as plt
 
 # 提取真实标签和预测概率
 y_true = data['class_label']
@@ -191,15 +197,14 @@ plt.show()
 # 构造xgb预测任务配置
 predict_setting = ModelSetting()
 predict_setting.use_psi = True
-#model_predict_algorithm = {}
-#model_predict_algorithm.update({"setting": xgb_result_context.job_result_detail.model})
+# model_predict_algorithm = {}
+# model_predict_algorithm.update({"setting": xgb_result_context.job_result_detail.model})
 predict_xgb_job_context = wedpr_ml_toolkit.build_job_context(
-    job_type=JobType.XGB_PREDICTING, 
-    project_id = project_id, 
-    dataset= dataset, 
-    model_setting= predict_setting, 
-    id_fields = "id", 
-    predict_algorithm = xgb_result_context.job_result_detail.model_predict_algorithm)
+    job_type=JobType.XGB_PREDICTING,
+    project_id=project_id,
+    dataset=dataset,
+    model_setting=predict_setting,
+    predict_algorithm=xgb_result_context.job_result_detail.model_predict_algorithm)
 print(f"* predict_xgb_job_context: {predict_xgb_job_context}")
 
 
@@ -218,13 +223,14 @@ print(xgb_predict_job_id)
 # query the job detail
 print(f"* xgb_predict_job_id: {xgb_predict_job_id}")
 
-predict_xgb_job_result = predict_xgb_job_context.fetch_job_result(xgb_predict_job_id, True)
+predict_xgb_job_result = predict_xgb_job_context.fetch_job_result(
+    xgb_predict_job_id, True)
 
 # generate the result context
-result_context = wedpr_ml_toolkit.build_result_context(job_context=predict_xgb_job_context, 
+result_context = wedpr_ml_toolkit.build_result_context(job_context=predict_xgb_job_context,
                                                        job_result_detail=predict_xgb_job_result)
 
-xgb_predict_result_context : PredictResultContext = result_context 
+xgb_predict_result_context: PredictResultContext = result_context
 print(f"* result_context is {xgb_predict_result_context}")
 
 
@@ -232,11 +238,9 @@ print(f"* result_context is {xgb_predict_result_context}")
 
 
 # 明文处理预测结果
-from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, accuracy_score, f1_score, precision_score, recall_score
-import matplotlib.pyplot as plt
 
 
-(data, cols, shapes) = xgb_predict_result_context.model_result_dataset.load_values(header = 0)
+(data, cols, shapes) = xgb_predict_result_context.model_result_dataset.load_values(header=0)
 
 # 提取真实标签和预测概率
 y_true = data['class_label']
@@ -282,7 +286,3 @@ plt.show()
 
 
 # In[ ]:
-
-
-
-

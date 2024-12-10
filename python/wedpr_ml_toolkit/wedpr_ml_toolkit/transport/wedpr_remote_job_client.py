@@ -155,6 +155,17 @@ class JobDetailResponse(BaseObject):
                f"resultFileInfo: {self.resultFileInfo}, model: {self.model}"
 
 
+class JobDetailRequest(BaseObject):
+    def __init__(self, job_id=None,
+                 fetch_job_detail=True,
+                 fetch_job_result=True,
+                 fetch_log=False):
+        self.jobID = job_id
+        self.fetchJobDetail = fetch_job_detail
+        self.fetchJobResult = fetch_job_result
+        self.fetchLog = fetch_log
+
+
 class WeDPRRemoteJobClient(WeDPREntryPoint, BaseObject):
     def __init__(self, http_config: HttpConfig, auth_config: AuthConfig, job_config: JobConfig):
         if auth_config is None:
@@ -189,19 +200,19 @@ class WeDPRRemoteJobClient(WeDPREntryPoint, BaseObject):
                 or (not job_result.job_status.run_success()):
             return JobDetailResponse(job_info=job_result, params=None)
         # success case, query the job detail
-        params = {}
-        params["jobID"] = job_id
+        job_detail_requests = JobDetailRequest(job_id)
         response_dict = self.execute_with_retry(self.send_request,
                                                 self.job_config.max_retries,
                                                 self.job_config.retry_delay_s,
-                                                False,
+                                                True,
                                                 self.job_config.query_job_detail_uri,
-                                                params,
-                                                None, None)
+                                                None,
+                                                None, json.dumps(job_detail_requests.as_dict()))
         wedpr_response = WeDPRResponse(**response_dict)
         if not wedpr_response.success():
             raise Exception(
-                f"query_job_detail exception, job: {job_id}, code: {wedpr_response.code}, msg: {wedpr_response.msg}")
+                f"query_job_detail exception, job: {job_id}, "
+                f"code: {wedpr_response.code}, msg: {wedpr_response.msg}")
         return JobDetailResponse(**(wedpr_response.data))
 
     def poll_job_result(self, job_id, block_until_finish) -> JobInfo:
