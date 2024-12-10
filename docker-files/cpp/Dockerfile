@@ -63,7 +63,7 @@ COPY --from=builder /WeDPR-Component/cpp/build/bin/ppc-pro-node /data/home/wedpr
 
 ENTRYPOINT ["/data/home/wedpr/wedpr-pro-node-service/ppc-pro-node", "-c", "config.ini"]
 
-FROM ubuntu:22.04 as wedpr-mpc-service
+FROM fiscoorg:wedpr-mpc-base-ubuntu:v3.0.0 as wedpr-mpc-service
 LABEL maintainer=service@webank.com
 
 RUN apt-get -q update && apt-get install -qy --no-install-recommends vim libkrb5-dev krb5-user \
