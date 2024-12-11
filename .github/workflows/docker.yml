@@ -8,13 +8,7 @@ on:
     tags:
       - 'v3.*.*'
     branches:
-      - feature-milestone2-gateway
-  pull_request:
-    paths-ignore:
-      - "docs/**"
-      - "python/**"
-      - "Changelog.md"
-      - "README.md"
+      - main
   release:
     types: [prereleased]
     
@@ -30,7 +24,6 @@ env:
 
 jobs:
   build-docker:
-    if: github.event.pull_request.merged == true || github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
