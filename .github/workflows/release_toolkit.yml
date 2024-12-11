@@ -1,0 +1,192 @@
+name: Build and Publish Binary
+on:
+  push:
+    branches-ignore:
+      - "**"
+  release:
+    types: [published, created]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  RUST_BACKTRACE: 1
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+  ACTIONS_RUNNER_FORCED_INTERNAL_NODE_VERSION: node16
+  ACTIONS_RUNNER_FORCE_ACTIONS_NODE_VERSION: node16
+
+
+jobs:
+  release_wedpr_toolkit:
+    name: release wedpr toolkit
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2019, macos-13]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 5
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly-2022-07-28
+          override: true
+      - name: Prepare python
+        if: runner.os == 'Windows'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+      - name: Prepare vcpkg
+        if: runner.os != 'Windows'
+        uses: friendlyanon/setup-vcpkg@v1
+        with: { committish: 51b14cd4e1230dd51c11ffeff6f7d53c61cc5297 }
+      - uses: actions/cache@v2
+        id: deps_cache
+        with:
+          path: |
+            deps/
+            ${{ env.VCPKG_ROOT }}
+            ${{ env.VCPKG_ROOT }}/.git
+            ${{ env.VCPKG_ROOT }}/buildtrees
+            ${{ env.VCPKG_ROOT }}/packages
+            ${{ env.VCPKG_ROOT }}/downloads
+          key: release-toolkit-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/release_toolkit.yml') }}
+          restore-keys: |
+            release-toolkit-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/release_toolkit.yml') }}
+            release-toolkit-${{ matrix.os }}-${{ github.base_ref }}-
+            release-toolkit-${{ matrix.os }}-
+      - name: Add MSbuild to PATH
+        if: runner.os == 'Windows'
+        uses: microsoft/setup-msbuild@v1.1
+      - name: Build for windows
+        if: runner.os == 'Windows'
+        run: |
+          mkdir -p cpp/build && cd cpp/build && cmake -G "Visual Studio 16 2019" -A x64 -DBUILD_PYTHON=OFF -DCMAKE_BUILD_TYPE=Release -DTESTS=OFF -DBUILD_WEDPR_TOOLKIT=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static  -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake .. && MSBuild /version && MSBuild WeDPR-Component.sln /p:Configuration=Release /p:Platform=x64
+      - name: Build for macos
+        if: runner.os == 'macOS'
+        run: |
+          brew install lcov
+          bash cpp/tools/install_depends.sh -o macos
+          mkdir -p cpp/build && cd cpp/build && cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_WEDPR_TOOLKIT=ON -DBUILD_PYTHON=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          make -j3
+      - name: Upload libwedpr_java_transport_jni.dylib
+        uses: svenstaro/upload-release-action@v1-release
+        if: runner.os == 'macos'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./cpp/wedpr-transport/sdk-wrapper/java/bindings/src/main/resources/META-INF/native/libwedpr_java_transport_jni.dylib
+          asset_name: libwedpr_java_transport_jni.dylib
+          tag: ${{ github.ref }}
+          overwrite: true
+      - name: Upload libwedpr_java_transport_jni.dll
+        uses: svenstaro/upload-release-action@v1-release
+        if: runner.os == 'Windows'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: D:\a\WeDPR-Component\WeDPR-Component\cpp\wedpr-transport\sdk-wrapper\java\bindings\src\main\resources\META-INF\native\Release\wedpr_java_transport_jni.dll
+          asset_name: libwedpr_java_transport_jni.dll
+          tag: ${{ github.ref }}
+          overwrite: true
+      - name: Upload libwedpr_python_transport.dylib
+        uses: svenstaro/upload-release-action@v1-release
+        if: runner.os == 'macos'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./cpp/wedpr-transport/sdk-wrapper/python/bindings/wedpr_python_gateway_sdk/libs/libwedpr_python_transport.dylib
+          asset_name: libwedpr_python_transport.dylib
+          tag: ${{ github.ref }}
+          overwrite: true
+      - name: Upload libwedpr_python_transport.dll
+        uses: svenstaro/upload-release-action@v1-release
+        if: runner.os == 'Windows'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: D:\a\WeDPR-Component\WeDPR-Component\cpp\wedpr-transport\sdk-wrapper\python\bindings\wedpr_python_gateway_sdk\libs\Release\wedpr_python_transport.dll
+          asset_name: libwedpr_python_transport.dll
+          tag: ${{ github.ref }}
+          overwrite: true
+
+  release_centos_for_toolkit:
+    name: release_centos_for_toolkit
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - centos-7.9
+    container:
+      image: docker.io/centos:7
+      volumes:
+        - /usr/local/share/vcpkg:/usr/local/share/vcpkg
+        - /node20217:/node20217:rw,rshared
+        - ${{ matrix.container == 'centos-7.9' && '/node20217:/__e/node20:ro,rshared' || ' ' }}
+    steps:
+      - name: install nodejs20glibc2.17
+        if: ${{ matrix.container == 'centos-7.9' }}
+        run: |
+          curl -LO https://unofficial-builds.nodejs.org/download/release/v20.9.0/node-v20.9.0-linux-x64-glibc-217.tar.xz
+          tar -xf node-v20.9.0-linux-x64-glibc-217.tar.xz --strip-components 1 -C /node20217
+      - name: Check out the repo
+        uses: actions/checkout@v4
+      - uses: actions/cache@v3
+        id: deps_cache
+        with:
+          path: |
+            deps/
+            /usr/local/share/vcpkg/buildtrees
+            /usr/local/share/vcpkg/packages
+            /home/runner/.ccache
+            /Users/runner/.ccache/
+          key: release-centos-toolkit-notest-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/release_toolkit.yml') }}
+          restore-keys: |
+            release-centos-toolkit-notest-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/release_toolkit.yml') }}
+            release-centos-toolkit-notest-all-${{ matrix.os }}-${{ github.base_ref }}-
+            release-centos-toolkit-notest-all-${{ matrix.os }}-
+      - name: Prepare centos tools
+        run: |
+          rpm -ivh https://cbs.centos.org/kojifiles/packages/centos-release-scl-rh/2/3.el7.centos/noarch/centos-release-scl-rh-2-3.el7.centos.noarch.rpm
+          rpm -ivh https://cbs.centos.org/kojifiles/packages/centos-release-scl/2/3.el7.centos/noarch/centos-release-scl-2-3.el7.centos.noarch.rpm
+          sed -i s/mirror.centos.org/mirrors.aliyun.com/g /etc/yum.repos.d/*.repo
+          sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo
+          sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
+          cat /etc/yum.repos.d/*.repo
+          yum clean all
+          yum makecache
+          yum update -y
+          yum install -y epel-release centos-release-scl centos-release-scl-rh
+          yum install -y https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo.x86_64.rpm
+          yum install -y java-11-openjdk-devel git make gcc gcc-c++ glibc-static glibc-devel openssl cmake3 ccache devtoolset-11 llvm-toolset-7.0 rh-perl530-perl libzstd-devel zlib-devel flex bison python-devel python3-devel
+          yum install -y rh-perl530-perl cmake3 zlib-devel ccache lcov python-devel python3-devel
+          yum install -y git
+      - name: Prepare vcpkg
+        if: runner.os != 'Windows'
+        uses: friendlyanon/setup-vcpkg@v1
+        with: { committish: 51b14cd4e1230dd51c11ffeff6f7d53c61cc5297 }
+      - name: Build
+        run: |
+          alias cmake='cmake3'
+          . /opt/rh/devtoolset-11/enable
+          mkdir -p cpp/build
+          cd cpp/build
+          cmake3 -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_WEDPR_TOOLKIT=ON -DBUILD_PYTHON=ON -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake ../
+          cmake3 --build . --parallel 3
+      - name: Upload flibwedpr_java_transport_jni.so
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./cpp/wedpr-transport/sdk-wrapper/java/bindings/src/main/resources/META-INF/native/libwedpr_java_transport_jni.so
+          asset_name: libwedpr_java_transport_jni.so
+          tag: ${{ github.ref }}
+          overwrite: true
+      - name: Upload libwedpr_python_transport.so
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./cpp/wedpr-transport/sdk-wrapper/python/bindings/wedpr_python_gateway_sdk/libs/libwedpr_python_transport.so
+          asset_name: libwedpr_python_transport.so
+          tag: ${{ github.ref }}
+          overwrite: true

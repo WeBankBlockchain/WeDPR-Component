@@ -1,20 +1,11 @@
-name: WeDPR-Component ci for full node
+name: Build and Publish Binary
 on:
   push:
-    paths-ignore:
-      - "docs/**"
-      - "python/**"
-      - "cpp/wedpr-transport/sdk-wrapper/python/bindings/**"
-      - "Changelog.md"
-      - "README.md"
-  pull_request:
-    paths-ignore:
-      - "docs/**"
-      - "python/**"
-      - "Changelog.md"
-      - "README.md"
+    branches-ignore:
+      - "**"
   release:
-    types: [published, push]
+    types: [published, created]
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -26,14 +17,14 @@ env:
   ACTIONS_RUNNER_FORCE_ACTIONS_NODE_VERSION: node16
 
 jobs:
-  build:
-    name: build all
+  full_node_macos_release:
+    name: full_node_macos_release
     runs-on: ${{ matrix.os }}
     continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13, ubuntu-20.04]
+        os: [macos-13]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -56,27 +47,11 @@ jobs:
             !c:/vcpkg/buildtrees
             !c:/vcpkg/packages
             !c:/vcpkg/downloads
-          key: build-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/cpp_full_node_workflow.yml') }}
+          key: build-macos-release-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/release_full_node.yml') }}
           restore-keys: |
-            build-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/cpp_full_node_workflow.yml') }}
-            build-all-${{ matrix.os }}-${{ github.base_ref }}-
-            build-all-${{ matrix.os }}-
-      - name: Build for linux
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt install -y lcov ccache wget libgmp-dev python3-dev
-          export GCC='gcc-10'
-          export CXX='g++-10'
-          sudo bash -x cpp/tools/install_depends.sh -o ubuntu
-          mkdir -p cpp/build && cd cpp/build && cmake -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
-          echo "Disk usage before delete files: "`df -lh`
-          du -sch ${{ env.VCPKG_ROOT }}/buildtrees/*
-          du -sch ${{ env.VCPKG_ROOT }}/buildtrees/grpc/src/*
-          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/*/src
-          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/*/*-dbg
-          rm -rf ${{ env.VCPKG_ROOT }}/buildtrees/*/*-rel
-          echo "Disk usage after delete files: "`df -lh`
-          make -j3
+            build-macos-release-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/release_full_node.yml') }}
+            build-macos-release-${{ matrix.os }}-${{ github.base_ref }}-
+            build-macos-release-${{ matrix.os }}-
       - name: Build for macOS
         if: runner.os == 'macOS'
         run: |
@@ -89,49 +64,51 @@ jobs:
           export CPPFLAGS="-I/usr/local/opt/libiconv/include"
           export PATH="/usr/bin:${PATH}"
           mkdir -p cpp/build && cd cpp/build 
-          cmake -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
+          cmake -DBUILD_STATIC=ON -DTESTS=OFF -DCOVERAGE=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
-      - uses: actions/upload-artifact@v4
-        if: runner.os == 'macOS'      
+          cd bin && tar -cvzf ppc-air-node.tar.gz ppc-air-node && tar -cvzf ppc-pro-node.tar.gz ppc-pro-node && tar -cvzf ppc-gateway-service.tar.gz ppc-gateway-service && tar -cvzf wedpr-mpc.tar.gz wedpr-mpc
+      - name: Upload ppc-air-node binary to release
+        uses: svenstaro/upload-release-action@v1-release
         with:
-          name: ppc-air-node-macOS
-          path: ./cpp/build/bin/ppc-air-node
-      - uses: actions/upload-artifact@v4
-        if: runner.os == 'macOS'
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./cpp/build/bin/ppc-air-node.tar.gz
+          asset_name: ppc-air-node-macOS-x86_64.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
+      - name: Upload ppc-pro-node binary to release
+        uses: svenstaro/upload-release-action@v1-release
         with:
-          name: ppc-pro-node-macOS
-          path: ./cpp/build/bin/ppc-pro-node
-      - uses: actions/upload-artifact@v4
-        if: runner.os == 'macOS'
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./cpp/build/bin/ppc-pro-node.tar.gz
+          asset_name: ppc-pro-node-macOS-x86_64.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
+      - name: Upload ppc-gateway-service binary to release
+        uses: svenstaro/upload-release-action@v1-release
         with:
-          name: ppc-gateway-service-macOS
-          path: ./cpp/build/bin/ppc-gateway-service
-      - name: Test
-        if: runner.os != 'Windows'
-        run: |
-          cd cpp/build && CTEST_OUTPUT_ON_FAILURE=TRUE make test ARGS="--output-on-failure"
-      - name: Publish Error macos
-        if: always()
-        uses: actions/upload-artifact@v4
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./cpp/build/bin/ppc-gateway-service.tar.gz
+          asset_name: ppc-gateway-service-macOS-x86_64.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
+      - name: Upload wedpr-mpc binary to release
+        uses: svenstaro/upload-release-action@v1-release
         with:
-          name: build-x64-osx-dbg-err.log
-          path: /Users/runner/work/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/gsasl/build-x64-osx-dbg-err.log     
-      - name: Publish Error macos
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: autoconf-x64-osx-err.log
-          path: /Users/runner/work/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/gsasl/autoconf-x64-osx-err.log
-              
-  build_centos:
-    name: build_centos full node
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./cpp/build/bin/wedpr-mpc.tar.gz
+          asset_name: wedpr-mpc-macOS-x86_64.tar.gzf
+          tag: ${{ github.ref }}
+          overwrite: true
+
+  full_node_centos_release:
+    name: full_node_centos_release
     runs-on: ubuntu-latest
     continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
-          container:
-            - centos-7.9
+        container:
+          - centos-7.9
     container:
       image: docker.io/centos:7
       volumes:
@@ -155,11 +132,11 @@ jobs:
             /usr/local/share/vcpkg/packages
             /home/runner/.ccache
             /Users/runner/.ccache/
-          key: centos-notest-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/cpp_full_node_workflow.yml') }}
+          key: centos-release-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/cpp_full_node_workflow.yml') }}
           restore-keys: |
-            centos-notest-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/cpp_full_node_workflow.yml') }}
-            centos-notest-all-${{ matrix.os }}-${{ github.base_ref }}-
-            centos-notest-all-${{ matrix.os }}-
+            centos-release-all-${{ matrix.os }}-${{ github.base_ref }}-${{ hashFiles('.github/workflows/cpp_full_node_workflow.yml') }}
+            centos-release-all-${{ matrix.os }}-${{ github.base_ref }}-
+            centos-release-all-${{ matrix.os }}-
       - name: Prepare centos tools
         run: |
           rpm -ivh https://cbs.centos.org/kojifiles/packages/centos-release-scl-rh/2/3.el7.centos/noarch/centos-release-scl-rh-2-3.el7.centos.noarch.rpm
@@ -196,7 +173,7 @@ jobs:
           du /tmp | sort -n
           ls -lh /tmp
       - name: upgradeDepends
-        run: |  
+        run: |
           wget http://ftp.gnu.org/gnu/automake/automake-1.14.1.tar.gz
           tar -xf automake-1.14.1.tar.gz
           cd automake-1.14.1
@@ -210,7 +187,7 @@ jobs:
           rm -rf python 
           mkdir -p cpp/build
           cd cpp/build
-          cmake3  -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake -DBUILD_STATIC=ON -DCMAKE_BUILD_TYPE=Release -DTESTS=ON ../
+          cmake3  -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake -DBUILD_STATIC=ON -DCMAKE_BUILD_TYPE=Release -DTESTS=OFF ../
       - name: FreeDiskSpace
         run: |
           df -lh
@@ -223,23 +200,39 @@ jobs:
           rm -rf /__w/WeDPR-Component/WeDPR-Component/vcpkg/buildtrees/*/*-dbg
           df -lh
       - name: Compile
-        run: |   
+        run: |
           alias cmake='cmake3'
           . /opt/rh/devtoolset-11/enable       
           cd cpp/build && cmake3 --build . --parallel 3
-      #- name: Test
-      #  run: |
-      #    export OMP_NUM_THREADS=1
-      #    cd build && CTEST_OUTPUT_ON_FAILURE=TRUE make test
-      - uses: actions/upload-artifact@v3
+      - name: Upload ppc-air-node
+        uses: svenstaro/upload-release-action@v1-release
         with:
-          name: ppc-air-node-x64
-          path: ./cpp/build/bin/ppc-air-node
-      - uses: actions/upload-artifact@v3
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./cpp/build/bin/ppc-air-node.tar.gz
+          asset_name: ppc-air-node-linux-x86_64.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
+      - name: Upload ppc-pro-node
+        uses: svenstaro/upload-release-action@v1-release
         with:
-          name: ppc-pro-node-x64
-          path: ./cpp/build/bin/ppc-pro-node
-      - uses: actions/upload-artifact@v3
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./cpp/build/bin/ppc-pro-node.tar.gz
+          asset_name: ppc-pro-node-linux-x86_64.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
+      - name: Upload ppc-gateway-service
+        uses: svenstaro/upload-release-action@v1-release
         with:
-          name: ppc-gateway-service-x64
-          path: ./cpp/build/bin/ppc-gateway-service
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./cpp/build/bin/ppc-gateway-service.tar.gz
+          asset_name: ppc-gateway-service-linux-x86_64.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
+      - name: Upload wedpr-mpc
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./cpp/build/bin/wedpr-mpc.tar.gz
+          asset_name: wedpr-mpc-linux-x86_64.tar.gz
+          tag: ${{ github.ref }}
+          overwrite: true
