@@ -45,11 +45,10 @@ RUN apt-get -q update && apt-get install -qy --no-install-recommends vim \
         && dpkg-reconfigure --frontend noninteractive tzdata \
         && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /data/home/wedpr/wedpr-gateway-service
+COPY --from=builder /WeDPR-Component/cpp/build/bin/ppc-gateway-service /usr/local/bin/ppc-gateway-service
 
-COPY --from=builder /WeDPR-Component/cpp/build/bin/ppc-gateway-service /data/home/wedpr/wedpr-gateway-service/ppc-gateway-service
-
-ENTRYPOINT ["/data/home/wedpr/wedpr-gateway-service/ppc-gateway-service", "-c", "config.ini"]
+ENTRYPOINT ["/usr/local/bin/ppc-gateway-service"]
+CMD ["--version"]
 
 FROM ubuntu:22.04 as wedpr-pro-node-service
 LABEL maintainer=service@webank.com
@@ -60,11 +59,10 @@ RUN apt-get -q update && apt-get install -qy --no-install-recommends vim libkrb5
         && dpkg-reconfigure --frontend noninteractive tzdata \
         && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /data/home/wedpr/wedpr-pro-node-service
+COPY --from=builder /WeDPR-Component/cpp/build/bin/ppc-pro-node /usr/local/bin/ppc-pro-node
 
-COPY --from=builder /WeDPR-Component/cpp/build/bin/ppc-pro-node /data/home/wedpr/wedpr-pro-node-service/ppc-pro-node
-
-ENTRYPOINT ["/data/home/wedpr/wedpr-pro-node-service/ppc-pro-node", "-c", "config.ini"]
+ENTRYPOINT ["/usr/local/bin/ppc-pro-node"]
+CMD ["--version"]
 
 FROM fiscoorg/wedpr-mpc-base-ubuntu:v3.0.0 as wedpr-mpc-service
 LABEL maintainer=service@webank.com
@@ -75,8 +73,8 @@ RUN apt-get -q update && apt-get install -qy --no-install-recommends vim libkrb5
         && dpkg-reconfigure --frontend noninteractive tzdata \
         && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /data/home/wedpr/wedpr-mpc-service
 
-COPY --from=builder /WeDPR-Component/cpp/build/bin/wedpr-mpc /data/home/wedpr/wedpr-mpc-service/wedpr-mpc
+COPY --from=builder /WeDPR-Component/cpp/build/bin/wedpr-mpc /usr/local/bin/wedpr-mpc
 
-ENTRYPOINT ["/data/home/wedpr/wedpr-mpc-service/wedpr-mpc", "-c", "config.ini"]
+ENTRYPOINT ["/usr/local/bin/wedpr-mpc"]
+CMD ["--version"]
