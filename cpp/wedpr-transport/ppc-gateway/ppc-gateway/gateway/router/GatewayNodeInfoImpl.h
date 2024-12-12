@@ -56,7 +56,7 @@ public:
     void encode(bcos::bytes& data) const override;
     void decode(bcos::bytesConstRef data) override;
 
-    bool tryAddNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo) override;
+    bool tryAddNodeInfo(ppc::protocol::INodeInfo::Ptr const& nodeInfo, bool& updated) override;
     void removeNodeInfo(bcos::bytes const& nodeID) override;
 
     std::vector<std::shared_ptr<ppc::front::IFrontClient>> chooseRouteByComponent(

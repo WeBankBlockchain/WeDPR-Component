@@ -88,8 +88,9 @@ void GatewayNodeInfoImpl::updateNodeList()
 }
 
 // Note: this is wrappered with lock
-bool GatewayNodeInfoImpl::tryAddNodeInfo(INodeInfo::Ptr const& info)
+bool GatewayNodeInfoImpl::tryAddNodeInfo(INodeInfo::Ptr const& info, bool& updated)
 {
+    updated = false;
     auto nodeID = info->nodeID().toBytes();
     auto existedNodeInfo = nodeInfo(nodeID);
     // the node info has not been updated
@@ -101,6 +102,7 @@ bool GatewayNodeInfoImpl::tryAddNodeInfo(INodeInfo::Ptr const& info)
         {
             bcos::WriteGuard l(x_nodeList);
             existedNodeInfo->setMeta(meta);
+            updated = true;
             GATEWAY_LOG(INFO) << LOG_DESC("tryAddNodeInfo, update the meta, updated nodeInfo")
                               << printNodeInfo(existedNodeInfo);
         }
@@ -111,6 +113,7 @@ bool GatewayNodeInfoImpl::tryAddNodeInfo(INodeInfo::Ptr const& info)
             bcos::WriteGuard l(x_nodeList);
             existedNodeInfo->setComponents(
                 std::set<std::string>(components.begin(), components.end()));
+            updated = true;
             GATEWAY_LOG(INFO) << LOG_DESC("tryAddNodeInfo, update the components, updated nodeInfo")
                               << printNodeInfo(existedNodeInfo);
         }
