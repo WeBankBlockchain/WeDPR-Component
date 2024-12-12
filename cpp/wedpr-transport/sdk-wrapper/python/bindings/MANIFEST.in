@@ -1,3 +1,4 @@
 include CHANGELOG.md
 include *requirements.txt
-include ./wedpr_python_gateway_sdk/libs/libwedpr_python_transport*
+include wedpr_python_gateway_sdk/libs/libwedpr_python_transport.dylib
+include wedpr_python_gateway_sdk/libs/libwedpr_python_transport.so

@@ -20,7 +20,7 @@ class bdist_egg_disabled(bdist_egg):
 setup_args = dict(
     name='wedpr-python-gateway-sdk',
     packages=find_packages(),
-    version="3.0.0-20241018",
+    version="3.0.0-20241019",
     description="wedpr-python-gateway-sdk: The gateway sdk for WeDPR",
     long_description_content_type="text/markdown",
     author="WeDPR Development Team",
