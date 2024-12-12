@@ -32,7 +32,10 @@ RUN cd WeDPR-Component/cpp  \
     && mkdir -p build && cd build  \
     && cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_STATIC=ON  \
     && make -j8
-    
+
+# remove the vcpkg
+RUN rm -rf /WeDPR-Component/cpp/vcpkg
+
 FROM ubuntu:22.04 as wedpr-gateway-service
 LABEL maintainer=service@webank.com
     
