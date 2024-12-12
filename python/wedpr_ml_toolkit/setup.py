@@ -20,7 +20,7 @@ class bdist_egg_disabled(bdist_egg):
 setup_args = dict(
     name='wedpr_ml_toolkit',
     packages=find_packages(),
-    version="1.0.0.dev-20241201",
+    version="3.0.0-20241201",
     description="wedpr-ml-toolkit: The ML toolkit for WeDPR",
     long_description_content_type="text/markdown",
     author="WeDPR Development Team",
