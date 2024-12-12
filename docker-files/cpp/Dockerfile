@@ -54,7 +54,7 @@ ENTRYPOINT ["/data/home/wedpr/wedpr-gateway-service/ppc-gateway-service", "-c", 
 FROM ubuntu:22.04 as wedpr-pro-node-service
 LABEL maintainer=service@webank.com
 
-RUN apt-get -q update && apt-get install -qy --no-install-recommends vim libkrb5-dev krb5-user \
+RUN apt-get -q update && apt-get install -qy --no-install-recommends vim libkrb5-dev \
         && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
         && apt-get install -qy --no-install-recommends tzdata \
         && dpkg-reconfigure --frontend noninteractive tzdata \
@@ -69,7 +69,7 @@ ENTRYPOINT ["/data/home/wedpr/wedpr-pro-node-service/ppc-pro-node", "-c", "confi
 FROM fiscoorg/wedpr-mpc-base-ubuntu:v3.0.0 as wedpr-mpc-service
 LABEL maintainer=service@webank.com
 
-RUN apt-get -q update && apt-get install -qy --no-install-recommends vim libkrb5-dev krb5-user \
+RUN apt-get -q update && apt-get install -qy --no-install-recommends vim libkrb5-dev \
         && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
         && apt-get install -qy --no-install-recommends tzdata \
         && dpkg-reconfigure --frontend noninteractive tzdata \
