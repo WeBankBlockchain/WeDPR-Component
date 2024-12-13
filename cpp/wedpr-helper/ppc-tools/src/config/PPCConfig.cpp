@@ -668,7 +668,7 @@ void PPCConfig::loadMPCConfig(boost::property_tree::ptree const& _pt)
     m_mpcConfig.readPerBatchLines = _pt.get<std::uint64_t>("mpc.read_per_batch_lines", 100000);
     m_mpcConfig.spdzConnectedPort = _pt.get<int>("spdz.connected_port", 5894);
     
-    m_mpcConfig.spdzConnectedIP = _pt.get<std::string>("transport.connected_external_ip", "");
+    m_mpcConfig.spdzConnectedIP = _pt.get<std::string>("spdz.connected_external_ip", "");
     if (m_mpcConfig.spdzConnectedIP.empty()) {
         m_mpcConfig.spdzConnectedIP = _pt.get<std::string>("transport.host_ip", "");
     }
