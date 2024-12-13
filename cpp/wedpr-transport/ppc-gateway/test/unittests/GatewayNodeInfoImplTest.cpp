@@ -77,7 +77,8 @@ void registerNode(GatewayNodeInfoImpl::Ptr gatewayNodeInfo, int nodeSize)
         auto populatedNodeID = nodeID + std::to_string(i);
         auto nodeInfo = fakeNodeInfo(nodeInfoFactory, populatedNodeID, endPoint, components);
         testNodeInfoEncodeDecode(nodeInfoFactory, nodeInfo);
-        gatewayNodeInfo->tryAddNodeInfo(nodeInfo);
+        bool updated = false;
+        gatewayNodeInfo->tryAddNodeInfo(nodeInfo, updated);
     }
 }
 

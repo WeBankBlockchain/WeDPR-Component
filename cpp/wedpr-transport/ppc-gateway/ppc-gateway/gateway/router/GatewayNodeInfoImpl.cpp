@@ -117,6 +117,12 @@ bool GatewayNodeInfoImpl::tryAddNodeInfo(INodeInfo::Ptr const& info, bool& updat
             GATEWAY_LOG(INFO) << LOG_DESC("tryAddNodeInfo, update the components, updated nodeInfo")
                               << printNodeInfo(existedNodeInfo);
         }
+        // the existed node re-encode
+        if (updated)
+        {
+            auto nodeInfo = std::dynamic_pointer_cast<NodeInfoImpl>(existedNodeInfo);
+            nodeInfo->encodeFields();
+        }
         return false;
     }
     {

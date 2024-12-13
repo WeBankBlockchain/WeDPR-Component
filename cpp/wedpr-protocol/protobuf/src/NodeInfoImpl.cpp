@@ -32,6 +32,7 @@ void NodeInfoImpl::encode(bcos::bytes& data) const
 void NodeInfoImpl::encodeFields() const
 {
     bcos::ReadGuard l(x_components);
+    m_rawNodeInfo->clear_components();
     // set the components
     for (auto const& component : m_components)
     {

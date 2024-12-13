@@ -30,7 +30,7 @@ bool LocalRouter::registerNodeInfo(ppc::protocol::INodeInfo::Ptr nodeInfo,
     std::function<void()> onUnHealthHandler, bool removeHandlerOnUnhealth)
 {
     bool updated = false;
-    auto ret = m_routerInfo->tryAddNodeInfo(nodeInfo, &updated);
+    auto ret = m_routerInfo->tryAddNodeInfo(nodeInfo, updated);
     LOCAL_ROUTER_LOG(DEBUG) << LOG_DESC("registerNodeInfo") << printNodeInfo(nodeInfo)
                             << LOG_KV("updated", updated);
     if (ret)
