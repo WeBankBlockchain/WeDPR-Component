@@ -204,6 +204,7 @@ jobs:
           alias cmake='cmake3'
           . /opt/rh/devtoolset-11/enable       
           cd cpp/build && cmake3 --build . --parallel 3
+          cd bin && tar -cvzf ppc-air-node.tar.gz ppc-air-node && tar -cvzf ppc-pro-node.tar.gz ppc-pro-node && tar -cvzf ppc-gateway-service.tar.gz ppc-gateway-service && tar -cvzf wedpr-mpc.tar.gz wedpr-mpc
       - name: Upload ppc-air-node
         uses: svenstaro/upload-release-action@v1-release
         with:
