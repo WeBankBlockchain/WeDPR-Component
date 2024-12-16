@@ -81,8 +81,8 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           bash -x cpp/tools/install_depends.sh -o macos
-          brew install libiconv  
-          brew reinstall m4 autoconf libtool automake
+          brew install libiconv
+          brew rm autoconf && brew install autoconf m4 libtool automake
           echo "## m4:"`which m4`
           export DYLD_LIBRARY_PATH=/usr/local/opt/libiconv/lib:${DYLD_LIBRARY_PATH}
           export LDFLAGS="-L/usr/local/opt/libiconv/lib"
