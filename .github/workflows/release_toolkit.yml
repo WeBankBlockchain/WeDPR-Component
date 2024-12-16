@@ -1,4 +1,4 @@
-name: Build and Publish Binary
+name: Build and Publish Binary Toolkit
 on:
   push:
     branches-ignore:

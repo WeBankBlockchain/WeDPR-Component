@@ -1,4 +1,4 @@
-name: Build and Publish Binary
+name: Build and Publish Binary Full Node
 on:
   push:
     branches-ignore:
