@@ -87,19 +87,13 @@ public class TransportImpl implements WeDPRTransport {
         this.transport.stop();
     }
 
-    /**
-     * @param component the component used to router
-     * @throws Exception failed case
-     */
+    /** @param component the component used to router */
     @Override
     public void registerComponent(String component) {
         this.transport.getFront().registerComponent(component);
     }
 
-    /**
-     * @param component the component used to route
-     * @throws Exception failed case
-     */
+    /** @param component the component used to route */
     @Override
     public void unRegisterComponent(String component) {
         this.transport.getFront().unRegisterComponent(component);

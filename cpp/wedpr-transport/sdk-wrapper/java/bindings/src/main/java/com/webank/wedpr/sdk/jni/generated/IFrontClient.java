@@ -40,12 +40,7 @@ public class IFrontClient {
         }
     }
 
-    /**
-     * : receive message from gateway, call by gateway<br>
-     * <br>
-     *
-     * @return void
-     */
+    /** receive message from gateway, call by gateway<br> */
     public void onReceiveMessage(
             Message _msg,
             SWIGTYPE_p_std__functionT_void_fstd__shared_ptrT_bcos__Error_tF_t _callback) {

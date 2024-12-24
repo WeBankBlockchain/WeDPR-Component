@@ -82,12 +82,13 @@ jobs:
         run: |
           bash -x cpp/tools/install_depends.sh -o macos
           brew install libiconv
-          brew rm autoconf && brew install autoconf m4 libtool automake
+          brew rm autoconf && brew rm m4 && brew install autoconf m4 libtool automake
+          brew link m4
           echo "## m4:"`which m4`
           export DYLD_LIBRARY_PATH=/usr/local/opt/libiconv/lib:${DYLD_LIBRARY_PATH}
           export LDFLAGS="-L/usr/local/opt/libiconv/lib"
           export CPPFLAGS="-I/usr/local/opt/libiconv/include"
-          export PATH="/usr/bin:${PATH}"
+          export PATH="/usr/bin:/usr/local/opt/m4/bin:${PATH}"
           mkdir -p cpp/build && cd cpp/build 
           cmake -DBUILD_STATIC=ON -DTESTS=ON -DCOVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake ../
           make -j3
