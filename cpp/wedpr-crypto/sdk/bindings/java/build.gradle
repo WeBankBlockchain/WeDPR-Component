@@ -158,7 +158,7 @@ publishing {
             pom {
                 name = 'wedpr'
                 description = 'wedpr ppc-crypto-sdk-jni'
-                url = 'http://www.fisco-bcos.org'
+                url = 'https://github.com/WeBankBlockchain/WeDPR-Component'
 
                 licenses {
                     license {
