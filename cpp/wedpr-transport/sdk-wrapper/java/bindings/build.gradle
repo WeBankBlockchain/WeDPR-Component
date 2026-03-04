@@ -173,7 +173,7 @@ publishing {
             pom {
                 name = 'wedpr'
                 description = 'wedpr java gateway sdk'
-                url = 'http://www.fisco-bcos.org'
+                url = 'https://github.com/WeBankBlockchain/WeDPR-Component'
 
                 licenses {
                     license {
