@@ -120,7 +120,7 @@ publishing {
             pom {
                 name = 'wedpr'
                 description = 'wedpr ppc-hive-udf'
-                url = 'http://www.fisco-bcos.org'
+                url = 'https://github.com/WeBankBlockchain/WeDPR-Component'
 
                 licenses {
                     license {
